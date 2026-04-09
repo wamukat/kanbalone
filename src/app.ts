@@ -341,6 +341,22 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     return ticket;
   });
 
+  app.get("/api/tickets/:ticketId/comments", async (request, reply) => {
+    try {
+      return { comments: db.listComments(getIdParam(request.params, "ticketId")) };
+    } catch {
+      return reply.code(404).send({ error: "ticket not found" });
+    }
+  });
+
+  app.get("/api/tickets/:ticketId/relations", async (request, reply) => {
+    try {
+      return db.getTicketRelations(getIdParam(request.params, "ticketId"));
+    } catch {
+      return reply.code(404).send({ error: "ticket not found" });
+    }
+  });
+
   app.post("/api/tickets/:ticketId/comments", async (request, reply) => {
     const body = request.body as { bodyMarkdown?: string };
     const bodyMarkdown = body?.bodyMarkdown?.trim();
@@ -388,6 +404,27 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
       return ticket;
     } catch (error) {
       const message = error instanceof Error ? error.message : "ticket update failed";
+      const code = message === "Ticket not found" ? 404 : 400;
+      return reply.code(code).send({ error: message.toLowerCase() });
+    }
+  });
+
+  app.patch("/api/tickets/:ticketId/transition", async (request, reply) => {
+    const body = request.body as { laneName?: string; isCompleted?: boolean };
+    const laneName = body?.laneName?.trim();
+    if (!laneName) {
+      return reply.code(400).send({ error: "lanename is required" });
+    }
+    try {
+      const ticket = db.transitionTicket(
+        getIdParam(request.params, "ticketId"),
+        laneName,
+        body.isCompleted,
+      );
+      publishBoardEvent(ticket.boardId);
+      return ticket;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "ticket transition failed";
       const code = message === "Ticket not found" ? 404 : 400;
       return reply.code(code).send({ error: message.toLowerCase() });
     }

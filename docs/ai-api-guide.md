@@ -1,20 +1,23 @@
 # SoloBoard AI API Guide
 
-この API は、ローカル環境で動作する単一ユーザー向けの SoloBoard API です。  
+この API は、ローカル環境で動作する単一ユーザー向けの SoloBoard API です。
 ベース URL は通常 `http://127.0.0.1:3000` です。
 
 ## Recommended Workflow
 
-1. まずボード一覧を取得する。  
+1. まずボード一覧を取得する。
    `GET /api/boards`
-2. 操作対象ボードの詳細を取る。  
+2. 操作対象ボードの詳細を取る。
    `GET /api/boards/:boardId`
-3. チケット操作前に、必要ならチケット一覧または単票を取得する。  
-   `GET /api/boards/:boardId/tickets`  
+3. チケット操作前に、必要ならチケット一覧または単票を取得する。
+   `GET /api/boards/:boardId/tickets`
    `GET /api/tickets/:ticketId`
-4. 更新は最小差分で `PATCH /api/tickets/:ticketId` を使う。  
-   並び替えだけは専用の reorder API を使う。
-5. Kanban 画面の自動更新が必要なら `GET /api/boards/:boardId/events` を購読する。
+4. コメントや relation を個別取得したい場合は専用 endpoint を使う。
+   `GET /api/tickets/:ticketId/comments`
+   `GET /api/tickets/:ticketId/relations`
+5. 更新は最小差分で `PATCH /api/tickets/:ticketId` を使う。
+   lane 名ベース遷移は `PATCH /api/tickets/:ticketId/transition` を使う。
+6. Kanban 画面の自動更新が必要なら `GET /api/boards/:boardId/events` を購読する。
 
 ## Important Semantics
 
@@ -43,10 +46,16 @@
 - ラベルはボードごとに独立しています。
 - チケット更新時は `labelIds` に、そのボード内のラベル ID を指定してください。
 
-### 5. コメントは追記のみ
+### 5. コメントは一覧取得と追記ができる
 
-- 現状 API はコメントの追加のみ対応しています。
+- `GET /api/tickets/:ticketId/comments` で一覧取得できます。
+- `POST /api/tickets/:ticketId/comments` で追記できます。
 - 編集・削除 API はありません。
+
+### 6. canonical ref が返る
+
+- ticket 系レスポンスには `ref` と `shortRef` が含まれます。
+- 形式は `BoardName#TicketId` と `#TicketId` です。
 
 ## Common Patterns
 
@@ -61,14 +70,27 @@
 
 ### チケットをレーン移動したい
 
-単一チケット:
+ID ベース:
 
 - `PATCH /api/tickets/:ticketId`
 - body に `laneId` を入れる
 
+名前ベース:
+
+- `PATCH /api/tickets/:ticketId/transition`
+- body に `laneName` を入れる
+- 必要なら `isCompleted` も同時指定する
+
 複数チケットや順序込みの移動:
 
 - `POST /api/boards/:boardId/tickets/reorder`
+
+### relation を取得したい
+
+- `GET /api/tickets/:ticketId/relations`
+- `parent`, `children`, `blockers`, `blockedBy` が返る
+- `blockers` は「このチケットが block している相手」
+- `blockedBy` は「このチケットを block している相手」
 
 ### チケットを完了にしたい
 
@@ -103,6 +125,9 @@
 - Resolve board IDs and lane IDs before updating tickets.
 - Treat laneId and isCompleted as separate fields.
 - blockerIds means "this ticket is blocked by these tickets".
+- Use GET /api/tickets/:ticketId/relations when you need both forward and reverse dependency edges.
+- Use PATCH /api/tickets/:ticketId/transition for lane-name-based transitions.
+- Prefer ref and shortRef for logs, diagnostics, and summaries.
 - Never create reciprocal blockers.
 - Parent-child depth is one level only.
 - Use PATCH /api/tickets/:ticketId for normal ticket edits.

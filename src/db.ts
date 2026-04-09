@@ -13,6 +13,7 @@ import {
   type LaneRow,
   type LaneView,
   type TicketBlockerView,
+  type TicketRelationsView,
   type TicketRelationView,
   type TicketRow,
   type TicketView,
@@ -357,9 +358,11 @@ export class KanbanDb {
     const blockersByTicket = this.getBlockersForTicketIds(ticketIds);
     const parentsByTicket = this.getParentsForTicketIds(ticketIds);
     const childrenByTicket = this.getChildrenForTicketIds(ticketIds);
+    const board = this.getBoard(boardId);
     return rows.map((row) =>
       mapTicket(
         row,
+        board?.name ?? "",
         labelsByTicket.get(row.id) ?? [],
         commentsByTicket.get(row.id) ?? [],
         blockersByTicket.get(row.id) ?? [],
@@ -379,8 +382,10 @@ export class KanbanDb {
     const blockersByTicket = this.getBlockersForTicketIds([ticketId]);
     const parentsByTicket = this.getParentsForTicketIds([ticketId]);
     const childrenByTicket = this.getChildrenForTicketIds([ticketId]);
+    const board = this.getBoard(row.board_id);
     return mapTicket(
       row,
+      board?.name ?? "",
       labelsByTicket.get(ticketId) ?? [],
       commentsByTicket.get(ticketId) ?? [],
       blockersByTicket.get(ticketId) ?? [],
@@ -497,6 +502,44 @@ export class KanbanDb {
     });
   }
 
+  listComments(ticketId: Id): CommentView[] {
+    const ticket = this.getTicket(ticketId);
+    if (!ticket) {
+      throw new Error("Ticket not found");
+    }
+    return this.getCommentsForTicketIds([ticketId]).get(ticketId) ?? [];
+  }
+
+  getTicketRelations(ticketId: Id): TicketRelationsView {
+    const ticket = this.getTicket(ticketId);
+    if (!ticket) {
+      throw new Error("Ticket not found");
+    }
+    return {
+      parent: ticket.parent,
+      children: ticket.children,
+      blockers: this.getBlockedTicketsForTicketIds([ticketId]).get(ticketId) ?? [],
+      blockedBy: this.getBlockersForTicketIds([ticketId]).get(ticketId) ?? [],
+    };
+  }
+
+  transitionTicket(ticketId: Id, laneName: string, isCompleted?: boolean): TicketView {
+    const ticket = this.getTicket(ticketId);
+    if (!ticket) {
+      throw new Error("Ticket not found");
+    }
+    const lane = this.sqlite
+      .prepare("SELECT * FROM lanes WHERE board_id = ? AND name = ?")
+      .get(ticket.boardId, laneName) as LaneRow | undefined;
+    if (!lane) {
+      throw new Error("Lane not found");
+    }
+    return this.updateTicket(ticketId, {
+      laneId: lane.id,
+      isCompleted,
+    });
+  }
+
   reorderTickets(boardId: Id, items: ReorderTicketInput[]): TicketView[] {
     const tickets = this.listTickets(boardId);
     if (tickets.length !== items.length || tickets.some((ticket) => !items.find((item) => item.ticketId === ticket.id))) {
@@ -524,7 +567,7 @@ export class KanbanDb {
       board: detail.board,
       lanes: detail.lanes,
       labels: detail.labels,
-      tickets: detail.tickets.map(({ bodyHtml: _bodyHtml, blockers: _blockers, ...ticket }) => ticket),
+      tickets: detail.tickets.map(({ bodyHtml: _bodyHtml, blockers: _blockers, parent: _parent, children: _children, ref: _ref, shortRef: _shortRef, ...ticket }) => ticket),
     };
   }
 
@@ -756,9 +799,10 @@ export class KanbanDb {
     const rows = this.sqlite
       .prepare(
         `
-        SELECT child.id AS ticket_id, parent.id, parent.title, parent.is_completed, parent.priority
+        SELECT child.id AS ticket_id, parent.id, parent.title, parent.lane_id, parent.is_completed, parent.priority, board.name AS board_name
         FROM tickets child
         INNER JOIN tickets parent ON parent.id = child.parent_ticket_id
+        INNER JOIN boards board ON board.id = parent.board_id
         WHERE child.id IN (${placeholders})
         `,
       )
@@ -766,17 +810,14 @@ export class KanbanDb {
       ticket_id: Id;
       id: Id;
       title: string;
+      lane_id: Id;
       is_completed: number;
       priority: number;
+      board_name: string;
     }>;
 
     rows.forEach((row) => {
-      parentsByTicket.set(row.ticket_id, {
-        id: row.id,
-        title: row.title,
-        isCompleted: Boolean(row.is_completed),
-        priority: row.priority,
-      });
+      parentsByTicket.set(row.ticket_id, mapRelation(row, row.board_name));
     });
     return parentsByTicket;
   }
@@ -790,28 +831,26 @@ export class KanbanDb {
     const rows = this.sqlite
       .prepare(
         `
-        SELECT parent_ticket_id AS ticket_id, id, title, is_completed, priority
+        SELECT parent_ticket_id AS ticket_id, tickets.id, tickets.title, tickets.lane_id, tickets.is_completed, tickets.priority, board.name AS board_name
         FROM tickets
+        INNER JOIN boards board ON board.id = tickets.board_id
         WHERE parent_ticket_id IN (${placeholders})
-        ORDER BY priority DESC, id ASC
+        ORDER BY tickets.priority DESC, tickets.id ASC
         `,
       )
       .all(...ticketIds) as Array<{
       ticket_id: Id;
       id: Id;
       title: string;
+      lane_id: Id;
       is_completed: number;
       priority: number;
+      board_name: string;
     }>;
 
     rows.forEach((row) => {
       const entry = childrenByTicket.get(row.ticket_id) ?? [];
-      entry.push({
-        id: row.id,
-        title: row.title,
-        isCompleted: Boolean(row.is_completed),
-        priority: row.priority,
-      });
+      entry.push(mapRelation(row, row.board_name));
       childrenByTicket.set(row.ticket_id, entry);
     });
     return childrenByTicket;
@@ -826,9 +865,10 @@ export class KanbanDb {
     const rows = this.sqlite
       .prepare(
         `
-        SELECT tb.ticket_id, t.id, t.title, t.is_completed, t.priority
+        SELECT tb.ticket_id, t.id, t.title, t.lane_id, t.is_completed, t.priority, board.name AS board_name
         FROM ticket_blockers tb
         INNER JOIN tickets t ON t.id = tb.blocker_ticket_id
+        INNER JOIN boards board ON board.id = t.board_id
         WHERE tb.ticket_id IN (${placeholders})
         ORDER BY t.priority DESC, t.id ASC
         `,
@@ -837,21 +877,53 @@ export class KanbanDb {
       ticket_id: Id;
       id: Id;
       title: string;
+      lane_id: Id;
       is_completed: number;
       priority: number;
+      board_name: string;
     }>;
 
     rows.forEach((row) => {
       const entry = blockersByTicket.get(row.ticket_id) ?? [];
-      entry.push({
-        id: row.id,
-        title: row.title,
-        isCompleted: Boolean(row.is_completed),
-        priority: row.priority,
-      });
+      entry.push(mapRelation(row, row.board_name));
       blockersByTicket.set(row.ticket_id, entry);
     });
     return blockersByTicket;
+  }
+
+  private getBlockedTicketsForTicketIds(ticketIds: Id[]): Map<Id, TicketRelationView[]> {
+    const blockedTicketsByTicket = new Map<Id, TicketRelationView[]>();
+    if (ticketIds.length === 0) {
+      return blockedTicketsByTicket;
+    }
+    const placeholders = ticketIds.map(() => "?").join(", ");
+    const rows = this.sqlite
+      .prepare(
+        `
+        SELECT tb.blocker_ticket_id AS ticket_id, t.id, t.title, t.lane_id, t.is_completed, t.priority, board.name AS board_name
+        FROM ticket_blockers tb
+        INNER JOIN tickets t ON t.id = tb.ticket_id
+        INNER JOIN boards board ON board.id = t.board_id
+        WHERE tb.blocker_ticket_id IN (${placeholders})
+        ORDER BY t.priority DESC, t.id ASC
+        `,
+      )
+      .all(...ticketIds) as Array<{
+      ticket_id: Id;
+      id: Id;
+      title: string;
+      lane_id: Id;
+      is_completed: number;
+      priority: number;
+      board_name: string;
+    }>;
+
+    rows.forEach((row) => {
+      const entry = blockedTicketsByTicket.get(row.ticket_id) ?? [];
+      entry.push(mapRelation(row, row.board_name));
+      blockedTicketsByTicket.set(row.ticket_id, entry);
+    });
+    return blockedTicketsByTicket;
   }
 
 }
@@ -885,6 +957,7 @@ function mapLabel(row: LabelRow): LabelView {
 
 function mapTicket(
   row: TicketRow,
+  boardName: string,
   labels: LabelView[],
   comments: CommentView[],
   blockers: TicketBlockerView[],
@@ -910,6 +983,8 @@ function mapTicket(
     blockers,
     parent,
     children,
+    ref: formatTicketRef(boardName, row.id),
+    shortRef: formatShortRef(row.id),
   };
 }
 
@@ -928,4 +1003,33 @@ function sanitizePriority(value: number | undefined): number {
     return 0;
   }
   return Math.trunc(value);
+}
+
+function mapRelation(
+  row: {
+    id: Id;
+    title: string;
+    lane_id: Id;
+    is_completed: number;
+    priority: number;
+  },
+  boardName: string,
+): TicketRelationView {
+  return {
+    id: row.id,
+    title: row.title,
+    laneId: row.lane_id,
+    isCompleted: Boolean(row.is_completed),
+    priority: row.priority,
+    ref: formatTicketRef(boardName, row.id),
+    shortRef: formatShortRef(row.id),
+  };
+}
+
+function formatTicketRef(boardName: string, ticketId: Id): string {
+  return `${boardName}#${ticketId}`;
+}
+
+function formatShortRef(ticketId: Id): string {
+  return `#${ticketId}`;
 }

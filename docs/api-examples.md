@@ -155,3 +155,26 @@ curl -N http://127.0.0.1:3000/api/boards/3/events
 ```text
 data: {"boardId":3,"event":"board_updated","sentAt":"2026-04-10T00:00:00.000Z"}
 ```
+
+## List Comments
+
+```bash
+curl -s http://127.0.0.1:3000/api/tickets/6/comments
+```
+
+## Get Relations
+
+```bash
+curl -s http://127.0.0.1:3000/api/tickets/6/relations
+```
+
+## Transition By Lane Name
+
+```bash
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6/transition \
+  -H 'content-type: application/json' \
+  --data '{
+    "laneName": "Done",
+    "isCompleted": true
+  }'
+```

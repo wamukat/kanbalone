@@ -62,15 +62,28 @@ export type LabelView = {
 export type TicketBlockerView = {
   id: Id;
   title: string;
+  laneId: Id;
   isCompleted: boolean;
   priority: number;
+  ref: string;
+  shortRef: string;
 };
 
 export type TicketRelationView = {
   id: Id;
   title: string;
+  laneId: Id;
   isCompleted: boolean;
   priority: number;
+  ref: string;
+  shortRef: string;
+};
+
+export type TicketRelationsView = {
+  parent: TicketRelationView | null;
+  children: TicketRelationView[];
+  blockers: TicketRelationView[];
+  blockedBy: TicketRelationView[];
 };
 
 export type TicketView = {
@@ -92,6 +105,8 @@ export type TicketView = {
   blockers: TicketBlockerView[];
   parent: TicketRelationView | null;
   children: TicketRelationView[];
+  ref: string;
+  shortRef: string;
 };
 
 export type CommentView = {
@@ -127,5 +142,5 @@ export type BoardExport = {
   board: BoardView;
   lanes: LaneView[];
   labels: LabelView[];
-  tickets: Array<Omit<TicketView, "bodyHtml" | "blockers" | "parent" | "children">>;
+  tickets: Array<Omit<TicketView, "bodyHtml" | "blockers" | "parent" | "children" | "ref" | "shortRef">>;
 };

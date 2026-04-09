@@ -536,7 +536,72 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/transition:
+    patch:
+      summary: Transition ticket by lane name
+      operationId: transitionTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                laneName: { type: string }
+                isCompleted: { type: boolean }
+              required: [laneName]
+      responses:
+        "200":
+          description: Transitioned ticket
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
+
+  /api/tickets/{ticketId}/relations:
+    get:
+      summary: Get ticket relations
+      operationId: getTicketRelations
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Ticket relations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketRelations"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/tickets/{ticketId}/comments:
+    get:
+      summary: List comments
+      operationId: listComments
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Comment list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Comment"
+                required: [comments]
+        "404":
+          $ref: "#/components/responses/Error"
     post:
       summary: Add comment
       operationId: addComment
@@ -640,9 +705,32 @@ components:
       properties:
         id: { type: integer }
         title: { type: string }
+        laneId: { type: integer }
         isCompleted: { type: boolean }
         priority: { type: integer }
-      required: [id, title, isCompleted, priority]
+        ref: { type: string }
+        shortRef: { type: string }
+      required: [id, title, laneId, isCompleted, priority, ref, shortRef]
+    TicketRelations:
+      type: object
+      properties:
+        parent:
+          oneOf:
+            - $ref: "#/components/schemas/TicketRelation"
+            - type: "null"
+        children:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketRelation"
+        blockers:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketRelation"
+        blockedBy:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketRelation"
+      required: [parent, children, blockers, blockedBy]
     Ticket:
       type: object
       properties:
@@ -683,8 +771,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TicketRelation"
+        ref: { type: string }
+        shortRef: { type: string }
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isCompleted, priority, position, createdAt, updatedAt, labels, comments, blockerIds, blockers, parent, children]
+        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isCompleted, priority, position, createdAt, updatedAt, labels, comments, blockerIds, blockers, parent, children, ref, shortRef]
     TicketUpsert:
       type: object
       properties:

@@ -115,7 +115,9 @@ Main endpoints:
 - `PATCH/DELETE /api/labels/:labelId`
 - `GET/POST /api/boards/:boardId/tickets`
 - `GET/PATCH/DELETE /api/tickets/:ticketId`
-- `POST /api/tickets/:ticketId/comments`
+- `GET/POST /api/tickets/:ticketId/comments`
+- `GET /api/tickets/:ticketId/relations`
+- `PATCH /api/tickets/:ticketId/transition`
 - `POST /api/boards/:boardId/tickets/reorder`
 - `GET /api/boards/:boardId/export`
 - `POST /api/boards/import`
@@ -124,6 +126,7 @@ Main endpoints:
 ## Data Semantics
 
 - `laneId` and `isCompleted` are separate fields.
+- Tickets include canonical refs: `ref` and `shortRef`.
 - A blocker means "this ticket is blocked by these tickets".
 - Reciprocal blockers are not allowed.
 - Parent/child depth is limited to one level.
