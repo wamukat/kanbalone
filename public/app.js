@@ -525,6 +525,8 @@ const {
   createLabel,
   renameLane,
   deleteLane,
+  exportBoard,
+  importBoard,
   toggleSidebar,
   syncSidebar,
 } = boardModule;

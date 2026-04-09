@@ -582,6 +582,48 @@ export function createBoardModule(ctx) {
     });
   }
 
+  async function exportBoard() {
+    if (!state.activeBoardId) {
+      return;
+    }
+    const payload = await ctx.api(`/api/boards/${state.activeBoardId}/export`);
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${payload.board.name.replace(/\s+/g, "-").toLowerCase() || "board"}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function importBoard(event) {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const payload = JSON.parse(await file.text());
+    const imported = await ctx.api("/api/boards/import", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    state.activeBoardId = imported.board.id;
+    event.target.value = "";
+    await ctx.refreshBoards();
+    ctx.syncBoardUrl();
+  }
+
+  function toggleSidebar() {
+    state.sidebarCollapsed = !state.sidebarCollapsed;
+    localStorage.setItem("soloboard:sidebar-collapsed", String(state.sidebarCollapsed));
+    syncSidebar();
+  }
+
+  function syncSidebar() {
+    elements.shell.classList.toggle("sidebar-collapsed", state.sidebarCollapsed);
+    elements.sidebarReopenButton.hidden = !state.sidebarCollapsed;
+    elements.sidebarToggleButton.textContent = state.sidebarCollapsed ? "☰" : "⟨";
+  }
+
   function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll(".ticket-card:not(.dragging)")];
     return draggableElements.reduce(
@@ -624,6 +666,10 @@ export function createBoardModule(ctx) {
     createLabel,
     renameLane,
     deleteLane,
+    exportBoard,
+    importBoard,
+    toggleSidebar,
+    syncSidebar,
     syncListActionButtons: ctx.syncListActionButtons,
   };
 }

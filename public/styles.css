@@ -604,6 +604,7 @@ button:hover,
 .lane {
   width: 320px;
   min-width: 320px;
+  max-width: 320px;
   padding: 0.9rem;
   border-radius: 0;
 }
@@ -657,6 +658,7 @@ button:hover,
 }
 
 .ticket-card {
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -681,11 +683,16 @@ button:hover,
 }
 
 .ticket-head {
+  width: 100%;
+  min-width: 0;
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 0.45rem;
+  flex-wrap: nowrap;
 }
 
 .ticket-id {
+  flex: 0 0 auto;
   font-size: 0.82rem;
   color: var(--muted);
   font-weight: 600;
@@ -705,6 +712,9 @@ button:hover,
   border: none;
   background: transparent;
   text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 1rem;
   font-weight: 700;
 }
