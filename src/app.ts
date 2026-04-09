@@ -19,7 +19,7 @@ type TicketMutationBody = {
   bodyMarkdown?: string;
   isCompleted?: boolean;
   priority?: number;
-  labelIds?: number[];
+  tagIds?: number[];
   blockerIds?: number[];
 };
 
@@ -77,7 +77,7 @@ const laneViewSchema = {
   },
 } as const;
 
-const labelViewSchema = {
+const tagViewSchema = {
   type: "object",
   required: ["id", "boardId", "name", "color"],
   additionalProperties: false,
@@ -126,14 +126,14 @@ const lanesResponseSchema = {
   },
 } as const;
 
-const labelsResponseSchema = {
+const tagsResponseSchema = {
   type: "object",
-  required: ["labels"],
+  required: ["tags"],
   additionalProperties: false,
   properties: {
-    labels: {
+    tags: {
       type: "array",
-      items: labelViewSchema,
+      items: tagViewSchema,
     },
   },
 } as const;
@@ -229,7 +229,7 @@ const reorderLanesBodySchema = {
   },
 } as const;
 
-const labelCreateBodySchema = {
+const tagCreateBodySchema = {
   type: "object",
   required: ["name"],
   additionalProperties: false,
@@ -239,7 +239,7 @@ const labelCreateBodySchema = {
   },
 } as const;
 
-const labelUpdateBodySchema = {
+const tagUpdateBodySchema = {
   type: "object",
   additionalProperties: false,
   minProperties: 1,
@@ -261,7 +261,7 @@ const ticketMutationBodySchema = {
     bodyMarkdown: { type: "string" },
     isCompleted: { type: "boolean" },
     priority: { type: "number" },
-    labelIds: optionalPositiveIntegerArraySchema,
+    tagIds: optionalPositiveIntegerArraySchema,
     blockerIds: optionalPositiveIntegerArraySchema,
   },
 } as const;
@@ -300,7 +300,7 @@ const ticketListQuerySchema = {
   additionalProperties: false,
   properties: {
     lane_id: positiveIntegerSchema,
-    label: { type: "string" },
+    tag: { type: "string" },
     completed: { type: "string", enum: ["true", "false"] },
     q: { type: "string" },
   },
@@ -637,11 +637,11 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     }
   });
 
-  app.get("/api/boards/:boardId/labels", {
+  app.get("/api/boards/:boardId/tags", {
     schema: {
       params: idParamsSchema("boardId"),
       response: {
-        200: labelsResponseSchema,
+        200: tagsResponseSchema,
         404: errorSchema,
       },
     },
@@ -650,15 +650,15 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     if (!db.getBoard(boardId)) {
       return reply.code(404).send({ error: "board not found" });
     }
-    return { labels: db.listLabels(boardId) };
+    return { tags: db.listTags(boardId) };
   });
 
-  app.post("/api/boards/:boardId/labels", {
+  app.post("/api/boards/:boardId/tags", {
     schema: {
       params: idParamsSchema("boardId"),
-      body: labelCreateBodySchema,
+      body: tagCreateBodySchema,
       response: {
-        201: labelViewSchema,
+        201: tagViewSchema,
         400: errorSchema,
         404: errorSchema,
         409: errorSchema,
@@ -675,20 +675,20 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
       return reply.code(400).send({ error: "name is required" });
     }
     try {
-      const label = db.createLabel({ boardId, name, color: body?.color?.trim() });
+      const tag = db.createTag({ boardId, name, color: body?.color?.trim() });
       publishBoardEvent(boardId);
-      return reply.code(201).send(label);
+      return reply.code(201).send(tag);
     } catch {
-      return reply.code(409).send({ error: "label already exists" });
+      return reply.code(409).send({ error: "tag already exists" });
     }
   });
 
-  app.patch("/api/labels/:labelId", {
+  app.patch("/api/tags/:tagId", {
     schema: {
-      params: idParamsSchema("labelId"),
-      body: labelUpdateBodySchema,
+      params: idParamsSchema("tagId"),
+      body: tagUpdateBodySchema,
       response: {
-        200: labelViewSchema,
+        200: tagViewSchema,
         400: errorSchema,
         404: errorSchema,
       },
@@ -696,37 +696,37 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
   }, async (request, reply) => {
     const body = request.body as { name?: string; color?: string };
     try {
-      const label = db.updateLabel(getIdParam(request.params, "labelId"), {
+      const tag = db.updateTag(getIdParam(request.params, "tagId"), {
         name: body?.name?.trim(),
         color: body?.color?.trim(),
       });
-      publishBoardEvent(label.boardId);
-      return label;
+      publishBoardEvent(tag.boardId);
+      return tag;
     } catch {
-      return reply.code(404).send({ error: "label not found" });
+      return reply.code(404).send({ error: "tag not found" });
     }
   });
 
-  app.delete("/api/labels/:labelId", {
+  app.delete("/api/tags/:tagId", {
     schema: {
-      params: idParamsSchema("labelId"),
+      params: idParamsSchema("tagId"),
       response: {
         204: { type: "null" },
         404: errorSchema,
       },
     },
   }, async (request, reply) => {
-    const labelId = getIdParam(request.params, "labelId");
-    const label = db.getLabel(labelId);
-    if (!label) {
-      return reply.code(404).send({ error: "label not found" });
+    const tagId = getIdParam(request.params, "tagId");
+    const tag = db.getTag(tagId);
+    if (!tag) {
+      return reply.code(404).send({ error: "tag not found" });
     }
     try {
-      db.deleteLabel(labelId);
-      publishBoardEvent(label.boardId);
+      db.deleteTag(tagId);
+      publishBoardEvent(tag.boardId);
       return reply.code(204).send();
     } catch {
-      return reply.code(404).send({ error: "label not found" });
+      return reply.code(404).send({ error: "tag not found" });
     }
   });
 
@@ -746,14 +746,14 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     }
     const query = request.query as {
       lane_id?: string;
-      label?: string;
+      tag?: string;
       completed?: string;
       q?: string;
     };
     return {
       tickets: db.listTickets(boardId, {
         laneId: query.lane_id ? Number(query.lane_id) : undefined,
-        label: query.label?.trim() || undefined,
+        tag: query.tag?.trim() || undefined,
         completed:
           query.completed === "true" ? true : query.completed === "false" ? false : undefined,
         q: query.q?.trim() || undefined,
@@ -792,7 +792,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
           bodyMarkdown: body.bodyMarkdown ?? "",
           isCompleted: Boolean(body.isCompleted),
           priority: typeof body.priority === "number" ? body.priority : 0,
-          labelIds: Array.isArray(body.labelIds) ? body.labelIds : [],
+          tagIds: Array.isArray(body.tagIds) ? body.tagIds : [],
           blockerIds: Array.isArray(body.blockerIds) ? body.blockerIds : [],
         });
       publishBoardEvent(boardId);
@@ -911,7 +911,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
         bodyMarkdown: body.bodyMarkdown,
         isCompleted: body.isCompleted,
         priority: typeof body.priority === "number" ? body.priority : undefined,
-        labelIds: Array.isArray(body.labelIds) ? body.labelIds : undefined,
+        tagIds: Array.isArray(body.tagIds) ? body.tagIds : undefined,
         blockerIds: Array.isArray(body.blockerIds) ? body.blockerIds : undefined,
       });
       publishBoardEvent(ticket.boardId);
@@ -1028,7 +1028,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
 
   app.post("/api/boards/import", async (request, reply) => {
     const body = request.body as BoardExport | undefined;
-    if (!body?.board || !Array.isArray(body.lanes) || !Array.isArray(body.labels) || !Array.isArray(body.tickets)) {
+    if (!body?.board || !Array.isArray(body.lanes) || !Array.isArray(body.tags) || !Array.isArray(body.tickets)) {
       return reply.code(400).send({ error: "invalid import payload" });
     }
     try {
@@ -1102,7 +1102,7 @@ function parseTicketMutationBody(body: TicketMutationBody): TicketMutationBody {
     bodyMarkdown: body?.bodyMarkdown,
     isCompleted: body?.isCompleted,
     priority: typeof body?.priority === "number" ? body.priority : undefined,
-    labelIds: Array.isArray(body?.labelIds) ? body.labelIds : undefined,
+    tagIds: Array.isArray(body?.tagIds) ? body.tagIds : undefined,
     blockerIds: Array.isArray(body?.blockerIds) ? body.blockerIds : undefined,
   };
 }

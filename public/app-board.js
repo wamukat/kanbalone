@@ -18,9 +18,9 @@ export function createBoardModule(ctx) {
     const detail = state.boardDetail;
     if (!detail) {
       elements.boardTitle.textContent = "No board selected";
-      elements.sidebarLabelSection.hidden = true;
+      elements.sidebarTagSection.hidden = true;
       elements.sidebarBoardSection.hidden = true;
-      elements.labelFilter.innerHTML = '<option value="">All labels</option>';
+      elements.tagFilter.innerHTML = '<option value="">All tags</option>';
       elements.laneFilter.innerHTML = '<option value="">All lanes</option>';
       elements.laneBoard.className = "lane-board empty";
       elements.laneBoard.innerHTML = '<div class="empty-state"><p>Create a board to start tracking tasks.</p></div>';
@@ -32,15 +32,15 @@ export function createBoardModule(ctx) {
     }
 
     elements.boardTitle.textContent = detail.board.name;
-    elements.sidebarLabelSection.hidden = false;
+    elements.sidebarTagSection.hidden = false;
     elements.sidebarBoardSection.hidden = false;
-    renderSidebarLabels();
-    elements.labelFilter.innerHTML =
-      '<option value="">All labels</option>' +
-      detail.labels
+    renderSidebarTags();
+    elements.tagFilter.innerHTML =
+      '<option value="">All tags</option>' +
+      detail.tags
         .map(
-          (label) =>
-            `<option value="${ctx.escapeHtml(label.name)}" ${state.filters.label === label.name ? "selected" : ""}>${ctx.escapeHtml(label.name)}</option>`,
+          (tag) =>
+            `<option value="${ctx.escapeHtml(tag.name)}" ${state.filters.tag === tag.name ? "selected" : ""}>${ctx.escapeHtml(tag.name)}</option>`,
         )
         .join("");
     elements.laneFilter.innerHTML =
@@ -132,7 +132,7 @@ export function createBoardModule(ctx) {
         <div><input type="checkbox" id="list-select-all" ${allSelected ? "checked" : ""} /></div>
         <div>ID / Title</div>
         <div>Blockers</div>
-        <div>Labels</div>
+        <div>Tags</div>
         <div>Priority</div>
         <div>Status</div>
       </div>
@@ -188,8 +188,8 @@ export function createBoardModule(ctx) {
 
   function renderListRow(entry) {
     const { ticket, indent } = entry;
-    const labels = ticket.labels
-      .map((label) => `<span class="label" style="background:${ctx.escapeHtml(label.color)}">${ctx.escapeHtml(label.name)}</span>`)
+    const tags = ticket.tags
+      .map((tag) => `<span class="tag" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>`)
       .join("");
     const blockedBy = ticket.blockers.length
       ? `blocked by ${ticket.blockers.map((blocker) => `#${blocker.id}`).join(", ")}`
@@ -203,17 +203,17 @@ export function createBoardModule(ctx) {
     ].filter(Boolean).join(" · ");
     const lane = state.boardDetail.lanes.find((item) => item.id === ticket.laneId);
     return `
-      <label class="list-row ${ticket.isCompleted ? "completed" : ""}">
+      <div class="list-row ${ticket.isCompleted ? "completed" : ""}">
         <input type="checkbox" data-list-ticket-id="${ticket.id}" ${state.selectedListTicketIds.includes(ticket.id) ? "checked" : ""} />
         <button type="button" class="list-ticket-link indent-${indent}" data-open-ticket-id="${ticket.id}">
           <span class="ticket-id">#${ticket.id}</span>
           <span>${ctx.escapeHtml(ticket.title)}</span>
         </button>
         <div class="list-cell muted">${relations || "-"}</div>
-        <div class="label-list">${labels || '<span class="muted">-</span>'}</div>
+        <div class="tag-list">${tags || '<span class="muted">-</span>'}</div>
         <div class="list-cell">P${ticket.priority}</div>
         <div class="list-cell muted">${ticket.isCompleted ? "Done" : ctx.escapeHtml(lane?.name || "Open")}</div>
-      </label>
+      </div>
     `;
   }
 
@@ -275,8 +275,8 @@ export function createBoardModule(ctx) {
         <span class="ticket-id">#${ticket.id}</span>
         <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
       </div>
-      <div class="label-list">
-        ${ticket.labels.map((label) => `<span class="label" style="background:${ctx.escapeHtml(label.color)}">${ctx.escapeHtml(label.name)}</span>`).join("")}
+      <div class="tag-list">
+        ${ticket.tags.map((tag) => `<span class="tag" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>`).join("")}
       </div>
     `;
 
@@ -466,69 +466,69 @@ export function createBoardModule(ctx) {
     });
   }
 
-  async function createLabel() {
+  async function createTag() {
     if (!state.activeBoardId) {
       return;
     }
     const values = await ctx.requestFields({
-      title: "New Label",
+      title: "New Tag",
       submitLabel: "Create",
       fields: [
-        { id: "name", label: "Label name", value: "", required: true },
+        { id: "name", label: "Tag name", value: "", required: true },
         { id: "color", label: "Color", value: "#1f6f5f", required: true, type: "color" },
       ],
     });
     if (!values) {
       return;
     }
-    const created = await ctx.sendJson(`/api/boards/${state.activeBoardId}/labels`, {
+    const created = await ctx.sendJson(`/api/boards/${state.activeBoardId}/tags`, {
       method: "POST",
       body: { name: values.name, color: values.color },
     });
     await ctx.refreshBoardDetail();
-    state.editorLabelIds = [...new Set([...state.editorLabelIds, created.id])];
-    ctx.syncTicketLabelOptions();
+    state.editorTagIds = [...new Set([...state.editorTagIds, created.id])];
+    ctx.syncTicketTagOptions();
   }
 
-  function renderSidebarLabels() {
-    const labels = state.boardDetail?.labels ?? [];
-    if (labels.length === 0) {
-      elements.sidebarLabelList.innerHTML = '<p class="label-manager-empty muted">No labels yet.</p>';
+  function renderSidebarTags() {
+    const tags = state.boardDetail?.tags ?? [];
+    if (tags.length === 0) {
+      elements.sidebarTagList.innerHTML = '<p class="tag-manager-empty muted">No tags yet.</p>';
       return;
     }
 
-    elements.sidebarLabelList.innerHTML = "";
-    for (const label of labels) {
+    elements.sidebarTagList.innerHTML = "";
+    for (const tag of tags) {
       const row = document.createElement("div");
-      row.className = "label-manager-row";
+      row.className = "tag-manager-row";
       row.innerHTML = `
-        <input type="text" value="${ctx.escapeHtml(label.name)}" aria-label="Label name" />
-        <input type="color" value="${ctx.escapeHtml(label.color)}" aria-label="Label color" />
-        <button type="button" class="icon-button" title="Save label">✓</button>
-        <button type="button" class="icon-button danger" title="Delete label">×</button>
+        <input type="text" value="${ctx.escapeHtml(tag.name)}" aria-label="Tag name" />
+        <input type="color" value="${ctx.escapeHtml(tag.color)}" aria-label="Tag color" />
+        <button type="button" class="icon-button" title="Save tag">✓</button>
+        <button type="button" class="icon-button danger" title="Delete tag">×</button>
       `;
 
       const nameInput = row.querySelector('input[type="text"]');
       const colorInput = row.querySelector('input[type="color"]');
-      const saveButton = row.querySelector('button[title="Save label"]');
-      const deleteButton = row.querySelector('button[title="Delete label"]');
+      const saveButton = row.querySelector('button[title="Save tag"]');
+      const deleteButton = row.querySelector('button[title="Delete tag"]');
 
       saveButton.addEventListener("click", async () => {
         const name = nameInput.value.trim();
         if (!name) {
-          ctx.showToast("Label name is required", "error");
+          ctx.showToast("Tag name is required", "error");
           nameInput.focus();
           return;
         }
         try {
-          await ctx.sendJson(`/api/labels/${label.id}`, {
+          await ctx.sendJson(`/api/tags/${tag.id}`, {
             method: "PATCH",
             body: { name, color: colorInput.value },
           });
           await ctx.refreshBoardDetail();
-          ctx.syncTicketLabelOptions();
-          renderSidebarLabels();
-          ctx.showToast("Label updated");
+          ctx.syncTicketTagOptions();
+          renderSidebarTags();
+          ctx.showToast("Tag updated");
         } catch (error) {
           ctx.showToast(error.message, "error");
         }
@@ -536,21 +536,21 @@ export function createBoardModule(ctx) {
 
       deleteButton.addEventListener("click", async () => {
         const deleted = await ctx.confirmAndRun({
-          title: "Delete Label",
-          message: `Delete label "${label.name}"?`,
+          title: "Delete Tag",
+          message: `Delete tag "${tag.name}"?`,
           submitLabel: "Delete",
           run: async () => {
-            await ctx.api(`/api/labels/${label.id}`, { method: "DELETE" });
+            await ctx.api(`/api/tags/${tag.id}`, { method: "DELETE" });
             await ctx.refreshBoardDetail();
-            ctx.syncTicketLabelOptions();
+            ctx.syncTicketTagOptions();
           },
         });
         if (deleted) {
-          renderSidebarLabels();
+          renderSidebarTags();
         }
       });
 
-      elements.sidebarLabelList.append(row);
+      elements.sidebarTagList.append(row);
     }
   }
 
@@ -657,13 +657,13 @@ export function createBoardModule(ctx) {
   return {
     renderBoards,
     renderBoardDetail,
-    renderSidebarLabels,
+    renderSidebarTags,
     handleLaneDragOver,
     createBoard,
     createLane,
     renameBoard,
     deleteBoard,
-    createLabel,
+    createTag,
     renameLane,
     deleteLane,
     exportBoard,

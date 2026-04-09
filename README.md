@@ -15,7 +15,7 @@ It is designed for one user, one machine, and fast local operation. It provides 
 - Custom status lanes
 - Independent completion flag separate from lane
 - Markdown ticket body
-- Multiple labels with custom colors
+- Multiple tags with custom colors
 - Numeric priority
 - Blocker relationships
 - One-level parent/child relationships
@@ -111,8 +111,8 @@ Main endpoints:
 - `GET/POST/PATCH/DELETE /api/boards`, `/api/boards/:boardId`
 - `GET/POST /api/boards/:boardId/lanes`
 - `PATCH/DELETE /api/lanes/:laneId`
-- `GET/POST /api/boards/:boardId/labels`
-- `PATCH/DELETE /api/labels/:labelId`
+- `GET/POST /api/boards/:boardId/tags`
+- `PATCH/DELETE /api/tags/:tagId`
 - `GET/POST /api/boards/:boardId/tickets`
 - `GET/PATCH/DELETE /api/tickets/:ticketId`
 - `GET/POST /api/tickets/:ticketId/comments`
@@ -130,7 +130,7 @@ Main endpoints:
 - A blocker means "this ticket is blocked by these tickets".
 - Reciprocal blockers are not allowed.
 - Parent/child depth is limited to one level.
-- Labels are scoped to a board.
+- Tags are scoped to a board.
 
 ## Testing
 

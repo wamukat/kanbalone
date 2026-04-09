@@ -7,7 +7,7 @@ import path from "node:path";
 import { buildApp } from "../src/app.js";
 
 function createDbFile(): string {
-  return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "kanban-test-")), "test.sqlite");
+  return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "soloboard-test-")), "test.sqlite");
 }
 
 test("board lifecycle, ticket filters, reorder, and export/import", async () => {
@@ -26,20 +26,20 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   const boardId = createdBoard.board.id;
   const [todoLane, doingLane] = createdBoard.lanes;
 
-  const bugLabelResponse = await app.inject({
+  const bugTagResponse = await app.inject({
     method: "POST",
-    url: `/api/boards/${boardId}/labels`,
+    url: `/api/boards/${boardId}/tags`,
     payload: { name: "bug", color: "#ff0000" },
   });
-  assert.equal(bugLabelResponse.statusCode, 201);
-  const bugLabel = bugLabelResponse.json();
+  assert.equal(bugTagResponse.statusCode, 201);
+  const bugTag = bugTagResponse.json();
 
-  const docsLabelResponse = await app.inject({
+  const docsTagResponse = await app.inject({
     method: "POST",
-    url: `/api/boards/${boardId}/labels`,
+    url: `/api/boards/${boardId}/tags`,
     payload: { name: "docs", color: "#00aa00" },
   });
-  const docsLabel = docsLabelResponse.json();
+  const docsTag = docsTagResponse.json();
 
   const firstTicketResponse = await app.inject({
     method: "POST",
@@ -49,7 +49,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
       title: "Fix parser",
       bodyMarkdown: "Needs **attention**",
       priority: 5,
-      labelIds: [bugLabel.id],
+      tagIds: [bugTag.id],
       isCompleted: false,
     },
   });
@@ -65,7 +65,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
       title: "Write docs",
       bodyMarkdown: "Link [guide](https://example.com)",
       priority: 2,
-      labelIds: [docsLabel.id],
+      tagIds: [docsTag.id],
       isCompleted: true,
     },
   });
@@ -76,7 +76,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
 
   const filteredResponse = await app.inject({
     method: "GET",
-    url: `/api/boards/${boardId}/tickets?label=bug&completed=false&q=parser`,
+    url: `/api/boards/${boardId}/tickets?tag=bug&completed=false&q=parser`,
   });
   assert.equal(filteredResponse.statusCode, 200);
   const filtered = filteredResponse.json();
@@ -148,7 +148,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   });
   assert.equal(importResponse.statusCode, 201);
   const imported = importResponse.json();
-  assert.equal(imported.labels.length, 2);
+  assert.equal(imported.tags.length, 2);
   assert.equal(imported.tickets.length, 2);
   assert.equal(imported.tickets.find((ticket: { title: string }) => ticket.title === "Fix parser").comments.length, 1);
   assert.equal(imported.tickets.find((ticket: { title: string }) => ticket.title === "Fix parser").priority, 7);

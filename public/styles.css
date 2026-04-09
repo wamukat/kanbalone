@@ -145,7 +145,7 @@ button:hover,
   font-size: 0.95rem;
 }
 
-.sidebar-label-list {
+.sidebar-tag-list {
   display: grid;
   gap: 0.55rem;
 }
@@ -219,7 +219,7 @@ button:hover,
 }
 
 #lane-filter,
-#label-filter {
+#tag-filter {
   width: 132px;
 }
 
@@ -295,7 +295,7 @@ button:hover,
   cursor: default;
 }
 
-.ticket-label-summary {
+.ticket-tag-summary {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
@@ -344,7 +344,7 @@ button:hover,
   color: var(--muted);
 }
 
-.ticket-label-options {
+.ticket-tag-options {
   position: absolute;
   top: calc(100% + 0.35rem);
   left: 0;
@@ -361,13 +361,13 @@ button:hover,
   box-shadow: var(--shadow);
 }
 
-.label-picker-empty {
+.tag-picker-empty {
   color: var(--muted);
   font-size: 0.9rem;
   padding: 0.35rem 0.4rem;
 }
 
-.label-picker-item {
+.tag-picker-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -381,17 +381,17 @@ button:hover,
   text-align: left;
 }
 
-.label-picker-item:hover,
-.label-picker-item.selected {
+.tag-picker-item:hover,
+.tag-picker-item.selected {
   background: rgba(31, 111, 95, 0.08);
 }
 
-.label-picker-item:focus-visible {
+.tag-picker-item:focus-visible {
   outline: 2px solid rgba(31, 111, 95, 0.35);
   outline-offset: 1px;
 }
 
-.label-picker-swatch {
+.tag-picker-swatch {
   display: inline-flex;
   width: 0.85rem;
   height: 0.85rem;
@@ -399,13 +399,13 @@ button:hover,
   border: 1px solid rgba(28, 28, 23, 0.14);
 }
 
-.label-picker-text {
+.tag-picker-text {
   display: inline-flex;
   align-items: center;
   min-width: 0;
 }
 
-.label-picker-check {
+.tag-picker-check {
   color: var(--accent);
   font-weight: 700;
 }
@@ -421,19 +421,19 @@ button:hover,
   white-space: nowrap;
 }
 
-.label-manager-list {
+.tag-manager-list {
   display: grid;
   gap: 0.8rem;
 }
 
-.label-manager-row {
+.tag-manager-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto auto;
   gap: 0.6rem;
   align-items: center;
 }
 
-.label-manager-row input[type="text"] {
+.tag-manager-row input[type="text"] {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -441,7 +441,7 @@ button:hover,
   padding: 0.55rem 0.7rem;
 }
 
-.label-manager-row input[type="color"] {
+.tag-manager-row input[type="color"] {
   width: 2.4rem;
   height: 2.4rem;
   padding: 0.15rem;
@@ -450,7 +450,7 @@ button:hover,
   background: rgba(255, 253, 247, 0.92);
 }
 
-.label-manager-empty {
+.tag-manager-empty {
   padding: 0.6rem 0;
 }
 
@@ -583,8 +583,8 @@ button:hover,
   font-size: 0.9rem;
 }
 
-.list-cell .label-list,
-.list-row .label-list {
+.list-cell .tag-list,
+.list-row .tag-list {
   display: flex;
   flex-wrap: wrap;
 }
@@ -675,7 +675,7 @@ button:hover,
 
 .ticket-head,
 .ticket-meta,
-.label-list {
+.tag-list {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
@@ -723,11 +723,11 @@ button:hover,
   text-decoration: underline;
 }
 
-.ticket-head + .label-list {
+.ticket-head + .tag-list {
   margin-top: 0.55rem;
 }
 
-.label {
+.tag {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;

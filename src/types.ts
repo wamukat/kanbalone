@@ -14,7 +14,7 @@ export type LaneRow = {
   position: number;
 };
 
-export type LabelRow = {
+export type TagRow = {
   id: Id;
   board_id: Id;
   name: string;
@@ -35,9 +35,9 @@ export type TicketRow = {
   updated_at: string;
 };
 
-export type TicketLabelRow = {
+export type TicketTagRow = {
   ticket_id: Id;
-  label_id: Id;
+  tag_id: Id;
 };
 
 export type TicketBlockerRow = {
@@ -52,7 +52,7 @@ export type CommentRow = {
   created_at: string;
 };
 
-export type LabelView = {
+export type TagView = {
   id: Id;
   boardId: Id;
   name: string;
@@ -99,7 +99,7 @@ export type TicketView = {
   position: number;
   createdAt: string;
   updatedAt: string;
-  labels: LabelView[];
+  tags: TagView[];
   comments: CommentView[];
   blockerIds: Id[];
   blockers: TicketBlockerView[];
@@ -134,13 +134,13 @@ export type BoardView = {
 export type BoardDetailView = {
   board: BoardView;
   lanes: LaneView[];
-  labels: LabelView[];
+  tags: TagView[];
   tickets: TicketView[];
 };
 
 export type BoardExport = {
   board: BoardView;
   lanes: LaneView[];
-  labels: LabelView[];
+  tags: TagView[];
   tickets: Array<Omit<TicketView, "bodyHtml" | "blockers" | "parent" | "children" | "ref" | "shortRef">>;
 };

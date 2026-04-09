@@ -8,8 +8,8 @@ import {
   type CommentRow,
   type CommentView,
   type Id,
-  type LabelRow,
-  type LabelView,
+  type TagRow,
+  type TagView,
   type LaneRow,
   type LaneView,
   type TicketBlockerView,
@@ -22,7 +22,7 @@ import { renderMarkdown } from "./markdown.js";
 
 type ListTicketsFilters = {
   laneId?: number;
-  label?: string;
+  tag?: string;
   completed?: boolean;
   q?: string;
 };
@@ -37,7 +37,7 @@ type CreateLaneInput = {
   name: string;
 };
 
-type CreateLabelInput = {
+type CreateTagInput = {
   boardId: Id;
   name: string;
   color?: string;
@@ -51,7 +51,7 @@ type CreateTicketInput = {
   isCompleted?: boolean;
   priority?: number;
   parentTicketId?: Id | null;
-  labelIds?: Id[];
+  tagIds?: Id[];
   blockerIds?: Id[];
 };
 
@@ -81,7 +81,7 @@ type TicketRelationRow = {
 };
 
 const DEFAULT_LANES = ["todo", "doing", "done"];
-const DEFAULT_LABEL_COLOR = "#6b7280";
+const DEFAULT_TAG_COLOR = "#6b7280";
 
 export class KanbanDb {
   readonly sqlite: Database.Database;
@@ -113,15 +113,15 @@ export class KanbanDb {
         position INTEGER NOT NULL
       );
 
-      CREATE TABLE IF NOT EXISTS labels (
+      CREATE TABLE IF NOT EXISTS tags (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         board_id INTEGER NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
         name TEXT NOT NULL,
         color TEXT NOT NULL
       );
 
-      CREATE UNIQUE INDEX IF NOT EXISTS labels_board_name_idx
-      ON labels(board_id, name);
+      CREATE UNIQUE INDEX IF NOT EXISTS tags_board_name_idx
+      ON tags(board_id, name);
 
       CREATE TABLE IF NOT EXISTS tickets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -144,10 +144,10 @@ export class KanbanDb {
         created_at TEXT NOT NULL
       );
 
-      CREATE TABLE IF NOT EXISTS ticket_labels (
+      CREATE TABLE IF NOT EXISTS ticket_tags (
         ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
-        label_id INTEGER NOT NULL REFERENCES labels(id) ON DELETE CASCADE,
-        PRIMARY KEY (ticket_id, label_id)
+        tag_id INTEGER NOT NULL REFERENCES tags(id) ON DELETE CASCADE,
+        PRIMARY KEY (ticket_id, tag_id)
       );
 
       CREATE TABLE IF NOT EXISTS ticket_blockers (
@@ -211,7 +211,7 @@ export class KanbanDb {
     return {
       board,
       lanes: this.listLanes(boardId),
-      labels: this.listLabels(boardId),
+      tags: this.listTags(boardId),
       tickets: this.listTickets(boardId),
     };
   }
@@ -290,40 +290,40 @@ export class KanbanDb {
     return this.listLanes(boardId);
   }
 
-  listLabels(boardId: Id): LabelView[] {
+  listTags(boardId: Id): TagView[] {
     const rows = this.sqlite
-      .prepare("SELECT * FROM labels WHERE board_id = ? ORDER BY name ASC, id ASC")
-      .all(boardId) as LabelRow[];
-    return rows.map(mapLabel);
+      .prepare("SELECT * FROM tags WHERE board_id = ? ORDER BY name ASC, id ASC")
+      .all(boardId) as TagRow[];
+    return rows.map(mapTag);
   }
 
-  createLabel(input: CreateLabelInput): LabelView {
+  createTag(input: CreateTagInput): TagView {
     const result = this.sqlite
-      .prepare("INSERT INTO labels (board_id, name, color) VALUES (?, ?, ?)")
-      .run(input.boardId, input.name, input.color ?? DEFAULT_LABEL_COLOR);
-    return this.getLabel(Number(result.lastInsertRowid))!;
+      .prepare("INSERT INTO tags (board_id, name, color) VALUES (?, ?, ?)")
+      .run(input.boardId, input.name, input.color ?? DEFAULT_TAG_COLOR);
+    return this.getTag(Number(result.lastInsertRowid))!;
   }
 
-  getLabel(labelId: Id): LabelView | null {
-    const row = this.sqlite.prepare("SELECT * FROM labels WHERE id = ?").get(labelId) as LabelRow | undefined;
-    return row ? mapLabel(row) : null;
+  getTag(tagId: Id): TagView | null {
+    const row = this.sqlite.prepare("SELECT * FROM tags WHERE id = ?").get(tagId) as TagRow | undefined;
+    return row ? mapTag(row) : null;
   }
 
-  updateLabel(labelId: Id, input: { name?: string; color?: string }): LabelView {
-    const current = this.getLabel(labelId);
+  updateTag(tagId: Id, input: { name?: string; color?: string }): TagView {
+    const current = this.getTag(tagId);
     if (!current) {
-      throw new Error("Label not found");
+      throw new Error("Tag not found");
     }
     this.sqlite
-      .prepare("UPDATE labels SET name = ?, color = ? WHERE id = ?")
-      .run(input.name ?? current.name, input.color ?? current.color, labelId);
-    return this.getLabel(labelId)!;
+      .prepare("UPDATE tags SET name = ?, color = ? WHERE id = ?")
+      .run(input.name ?? current.name, input.color ?? current.color, tagId);
+    return this.getTag(tagId)!;
   }
 
-  deleteLabel(labelId: Id): void {
-    const result = this.sqlite.prepare("DELETE FROM labels WHERE id = ?").run(labelId);
+  deleteTag(tagId: Id): void {
+    const result = this.sqlite.prepare("DELETE FROM tags WHERE id = ?").run(tagId);
     if (result.changes === 0) {
-      throw new Error("Label not found");
+      throw new Error("Tag not found");
     }
   }
 
@@ -347,23 +347,23 @@ export class KanbanDb {
       sql += " AND (t.title LIKE ? OR t.body_markdown LIKE ?)";
       params.push(`%${filters.q}%`, `%${filters.q}%`);
     }
-    if (filters.label) {
+    if (filters.tag) {
       sql += `
         AND EXISTS (
           SELECT 1
-          FROM ticket_labels tl
-          INNER JOIN labels l ON l.id = tl.label_id
+          FROM ticket_tags tl
+          INNER JOIN tags l ON l.id = tl.tag_id
           WHERE tl.ticket_id = t.id
             AND l.name = ?
         )
       `;
-      params.push(filters.label);
+      params.push(filters.tag);
     }
     sql += " ORDER BY t.lane_id ASC, t.position ASC, t.id ASC";
 
     const rows = this.sqlite.prepare(sql).all(...params) as TicketRow[];
     const ticketIds = rows.map((row) => row.id);
-    const labelsByTicket = this.getLabelsForTicketIds(ticketIds);
+    const tagsByTicket = this.getTagsForTicketIds(ticketIds);
     const commentsByTicket = this.getCommentsForTicketIds(ticketIds);
     const blockersByTicket = this.getBlockersForTicketIds(ticketIds);
     const parentsByTicket = this.getParentsForTicketIds(ticketIds);
@@ -373,7 +373,7 @@ export class KanbanDb {
       mapTicket(
         row,
         board?.name ?? "",
-        labelsByTicket.get(row.id) ?? [],
+        tagsByTicket.get(row.id) ?? [],
         commentsByTicket.get(row.id) ?? [],
         blockersByTicket.get(row.id) ?? [],
         parentsByTicket.get(row.id) ?? null,
@@ -387,7 +387,7 @@ export class KanbanDb {
     if (!row) {
       return null;
     }
-    const labelsByTicket = this.getLabelsForTicketIds([ticketId]);
+    const tagsByTicket = this.getTagsForTicketIds([ticketId]);
     const commentsByTicket = this.getCommentsForTicketIds([ticketId]);
     const blockersByTicket = this.getBlockersForTicketIds([ticketId]);
     const parentsByTicket = this.getParentsForTicketIds([ticketId]);
@@ -396,7 +396,7 @@ export class KanbanDb {
     return mapTicket(
       row,
       board?.name ?? "",
-      labelsByTicket.get(ticketId) ?? [],
+      tagsByTicket.get(ticketId) ?? [],
       commentsByTicket.get(ticketId) ?? [],
       blockersByTicket.get(ticketId) ?? [],
       parentsByTicket.get(ticketId) ?? null,
@@ -430,7 +430,7 @@ export class KanbanDb {
           now,
         );
       const ticketId = Number(result.lastInsertRowid);
-      this.replaceTicketLabels(ticketId, input.labelIds ?? []);
+      this.replaceTicketTags(ticketId, input.tagIds ?? []);
       this.replaceTicketBlockers(ticketId, input.blockerIds ?? [], input.boardId);
       this.touchBoard(input.boardId);
       return ticketId;
@@ -465,8 +465,8 @@ export class KanbanDb {
           this.now(),
           ticketId,
         );
-      if (input.labelIds) {
-        this.replaceTicketLabels(ticketId, input.labelIds);
+      if (input.tagIds) {
+        this.replaceTicketTags(ticketId, input.tagIds);
       }
       if (input.blockerIds) {
         this.replaceTicketBlockers(ticketId, input.blockerIds, nextBoardId);
@@ -576,7 +576,7 @@ export class KanbanDb {
     return {
       board: detail.board,
       lanes: detail.lanes,
-      labels: detail.labels,
+      tags: detail.tags,
       tickets: detail.tickets.map(({ bodyHtml: _bodyHtml, blockers: _blockers, parent: _parent, children: _children, ref: _ref, shortRef: _shortRef, ...ticket }) => ticket),
     };
   }
@@ -588,15 +588,15 @@ export class KanbanDb {
         laneNames: payload.lanes.map((lane) => lane.name),
       });
       const laneByName = new Map(created.lanes.map((lane) => [lane.name, lane.id]));
-      const labelByName = new Map<string, Id>();
+      const tagByName = new Map<string, Id>();
       const createdTicketIds = new Map<Id, Id>();
-      payload.labels.forEach((label) => {
-        const createdLabel = this.createLabel({
+      payload.tags.forEach((tag) => {
+        const createdTag = this.createTag({
           boardId: created.board.id,
-          name: label.name,
-          color: label.color,
+          name: tag.name,
+          color: tag.color,
         });
-        labelByName.set(createdLabel.name, createdLabel.id);
+        tagByName.set(createdTag.name, createdTag.id);
       });
 
       const sortedTickets = [...payload.tickets].sort((a, b) => a.position - b.position || a.id - b.id);
@@ -612,8 +612,8 @@ export class KanbanDb {
           bodyMarkdown: ticket.bodyMarkdown,
           isCompleted: ticket.isCompleted,
           priority: ticket.priority,
-          labelIds: ticket.labels
-            .map((label) => labelByName.get(label.name))
+          tagIds: ticket.tags
+            .map((tag) => tagByName.get(tag.name))
             .filter((value): value is number => typeof value === "number"),
         });
         createdTicketIds.set(ticket.id, createdTicket.id);
@@ -705,10 +705,10 @@ export class KanbanDb {
     return parentTicketId;
   }
 
-  private replaceTicketLabels(ticketId: Id, labelIds: Id[]): void {
-    this.sqlite.prepare("DELETE FROM ticket_labels WHERE ticket_id = ?").run(ticketId);
-    const insert = this.sqlite.prepare("INSERT INTO ticket_labels (ticket_id, label_id) VALUES (?, ?)");
-    labelIds.forEach((labelId) => insert.run(ticketId, labelId));
+  private replaceTicketTags(ticketId: Id, tagIds: Id[]): void {
+    this.sqlite.prepare("DELETE FROM ticket_tags WHERE ticket_id = ?").run(ticketId);
+    const insert = this.sqlite.prepare("INSERT INTO ticket_tags (ticket_id, tag_id) VALUES (?, ?)");
+    tagIds.forEach((tagId) => insert.run(ticketId, tagId));
   }
 
   private replaceTicketBlockers(ticketId: Id, blockerIds: Id[], boardId: Id): void {
@@ -749,30 +749,30 @@ export class KanbanDb {
     nextBlockerIds.forEach((blockerId) => insert.run(ticketId, blockerId));
   }
 
-  private getLabelsForTicketIds(ticketIds: Id[]): Map<Id, LabelView[]> {
-    const labelsByTicket = new Map<Id, LabelView[]>();
+  private getTagsForTicketIds(ticketIds: Id[]): Map<Id, TagView[]> {
+    const tagsByTicket = new Map<Id, TagView[]>();
     if (ticketIds.length === 0) {
-      return labelsByTicket;
+      return tagsByTicket;
     }
     const placeholders = ticketIds.map(() => "?").join(", ");
     const rows = this.sqlite
       .prepare(
         `
         SELECT tl.ticket_id, l.*
-        FROM ticket_labels tl
-        INNER JOIN labels l ON l.id = tl.label_id
+        FROM ticket_tags tl
+        INNER JOIN tags l ON l.id = tl.tag_id
         WHERE tl.ticket_id IN (${placeholders})
         ORDER BY l.name ASC, l.id ASC
         `,
       )
-      .all(...ticketIds) as Array<{ ticket_id: Id } & LabelRow>;
+      .all(...ticketIds) as Array<{ ticket_id: Id } & TagRow>;
 
     rows.forEach((row) => {
-      const entry = labelsByTicket.get(row.ticket_id) ?? [];
-      entry.push(mapLabel(row));
-      labelsByTicket.set(row.ticket_id, entry);
+      const entry = tagsByTicket.get(row.ticket_id) ?? [];
+      entry.push(mapTag(row));
+      tagsByTicket.set(row.ticket_id, entry);
     });
-    return labelsByTicket;
+    return tagsByTicket;
   }
 
   private getCommentsForTicketIds(ticketIds: Id[]): Map<Id, CommentView[]> {
@@ -900,7 +900,7 @@ function mapLane(row: LaneRow): LaneView {
   };
 }
 
-function mapLabel(row: LabelRow): LabelView {
+function mapTag(row: TagRow): TagView {
   return {
     id: row.id,
     boardId: row.board_id,
@@ -912,7 +912,7 @@ function mapLabel(row: LabelRow): LabelView {
 function mapTicket(
   row: TicketRow,
   boardName: string,
-  labels: LabelView[],
+  tags: TagView[],
   comments: CommentView[],
   blockers: TicketBlockerView[],
   parent: TicketRelationView | null,
@@ -931,7 +931,7 @@ function mapTicket(
     position: row.position,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-    labels,
+    tags,
     comments,
     blockerIds: blockers.map((blocker) => blocker.id),
     blockers,

@@ -278,30 +278,30 @@ paths:
         "409":
           $ref: "#/components/responses/Error"
 
-  /api/boards/{boardId}/labels:
+  /api/boards/{boardId}/tags:
     get:
-      summary: List labels
-      operationId: listLabels
+      summary: List tags
+      operationId: listTags
       parameters:
         - $ref: "#/components/parameters/BoardId"
       responses:
         "200":
-          description: Label list
+          description: Tag list
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  labels:
+                  tags:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Label"
-                required: [labels]
+                      $ref: "#/components/schemas/Tag"
+                required: [tags]
         "404":
           $ref: "#/components/responses/Error"
     post:
-      summary: Create label
-      operationId: createLabel
+      summary: Create tag
+      operationId: createTag
       parameters:
         - $ref: "#/components/parameters/BoardId"
       requestBody:
@@ -318,11 +318,11 @@ paths:
               required: [name]
       responses:
         "201":
-          description: Created label
+          description: Created tag
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Label"
+                $ref: "#/components/schemas/Tag"
         "400":
           $ref: "#/components/responses/Error"
         "404":
@@ -330,12 +330,12 @@ paths:
         "409":
           $ref: "#/components/responses/Error"
 
-  /api/labels/{labelId}:
+  /api/tags/{tagId}:
     patch:
-      summary: Update label
-      operationId: updateLabel
+      summary: Update tag
+      operationId: updateTag
       parameters:
-        - $ref: "#/components/parameters/LabelId"
+        - $ref: "#/components/parameters/TagId"
       requestBody:
         required: true
         content:
@@ -349,18 +349,18 @@ paths:
                   type: string
       responses:
         "200":
-          description: Updated label
+          description: Updated tag
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Label"
+                $ref: "#/components/schemas/Tag"
         "404":
           $ref: "#/components/responses/Error"
     delete:
-      summary: Delete label
-      operationId: deleteLabel
+      summary: Delete tag
+      operationId: deleteTag
       parameters:
-        - $ref: "#/components/parameters/LabelId"
+        - $ref: "#/components/parameters/TagId"
       responses:
         "204":
           description: Deleted
@@ -377,7 +377,7 @@ paths:
           in: query
           schema:
             type: integer
-        - name: label
+        - name: tag
           in: query
           schema:
             type: string
@@ -643,8 +643,8 @@ components:
       required: true
       schema:
         type: integer
-    LabelId:
-      name: labelId
+    TagId:
+      name: tagId
       in: path
       required: true
       schema:
@@ -683,7 +683,7 @@ components:
         name: { type: string }
         position: { type: integer }
       required: [id, boardId, name, position]
-    Label:
+    Tag:
       type: object
       properties:
         id: { type: integer }
@@ -747,10 +747,10 @@ components:
         position: { type: integer }
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
-        labels:
+        tags:
           type: array
           items:
-            $ref: "#/components/schemas/Label"
+            $ref: "#/components/schemas/Tag"
         comments:
           type: array
           items:
@@ -774,7 +774,7 @@ components:
         ref: { type: string }
         shortRef: { type: string }
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isCompleted, priority, position, createdAt, updatedAt, labels, comments, blockerIds, blockers, parent, children, ref, shortRef]
+        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isCompleted, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, parent, children, ref, shortRef]
     TicketUpsert:
       type: object
       properties:
@@ -785,7 +785,7 @@ components:
         bodyMarkdown: { type: string }
         isCompleted: { type: boolean }
         priority: { type: integer }
-        labelIds:
+        tagIds:
           type: array
           items:
             type: integer
@@ -802,15 +802,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Lane"
-        labels:
+        tags:
           type: array
           items:
-            $ref: "#/components/schemas/Label"
+            $ref: "#/components/schemas/Tag"
         tickets:
           type: array
           items:
             $ref: "#/components/schemas/Ticket"
-      required: [board, lanes, labels, tickets]
+      required: [board, lanes, tags, tickets]
     BoardExport:
       type: object
       properties:
@@ -820,12 +820,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Lane"
-        labels:
+        tags:
           type: array
           items:
-            $ref: "#/components/schemas/Label"
+            $ref: "#/components/schemas/Tag"
         tickets:
           type: array
           items:
             type: object
-      required: [board, lanes, labels, tickets]
+      required: [board, lanes, tags, tickets]

@@ -31,10 +31,10 @@ curl -s -X POST http://127.0.0.1:3000/api/boards \
   }'
 ```
 
-## Create Label
+## Create Tag
 
 ```bash
-curl -s -X POST http://127.0.0.1:3000/api/boards/3/labels \
+curl -s -X POST http://127.0.0.1:3000/api/boards/3/tags \
   -H 'content-type: application/json' \
   --data '{
     "name": "frontend",
@@ -52,7 +52,7 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets \
     "title": "Draft API usage guide",
     "bodyMarkdown": "Document the most common ticket operations.",
     "priority": 4,
-    "labelIds": [3],
+    "tagIds": [3],
     "blockerIds": []
   }'
 ```
@@ -114,7 +114,7 @@ curl -s -X POST http://127.0.0.1:3000/api/tickets/6/comments \
 ```bash
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?completed=false'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?lane_id=11'
-curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?label=frontend'
+curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?tag=frontend'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=sidebar'
 ```
 

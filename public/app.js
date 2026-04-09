@@ -17,7 +17,7 @@ const state = {
     q: "",
     lane: "",
     completed: "",
-    label: "",
+    tag: "",
   },
   editingTicketId: null,
   activeLaneDragId: null,
@@ -26,11 +26,11 @@ const state = {
   toastTimer: null,
   uxResolver: null,
   uxMode: "form",
-  editorLabelIds: [],
+  editorTagIds: [],
   editorBlockerIds: [],
   editorChildIds: [],
   editorOriginalChildIds: [],
-  labelQuery: "",
+  tagQuery: "",
   blockerQuery: "",
   childQuery: "",
 };
@@ -39,9 +39,9 @@ const elements = {
   shell: document.querySelector(".shell"),
   sidebar: document.querySelector("#sidebar"),
   boardList: document.querySelector("#board-list"),
-  sidebarLabelSection: document.querySelector("#sidebar-label-section"),
-  sidebarLabelList: document.querySelector("#sidebar-label-list"),
-  newSidebarLabelButton: document.querySelector("#new-sidebar-label-button"),
+  sidebarTagSection: document.querySelector("#sidebar-tag-section"),
+  sidebarTagList: document.querySelector("#sidebar-tag-list"),
+  newSidebarTagButton: document.querySelector("#new-sidebar-tag-button"),
   sidebarBoardSection: document.querySelector("#sidebar-board-section"),
   renameBoardButton: document.querySelector("#rename-board-button"),
   deleteBoardButton: document.querySelector("#delete-board-button"),
@@ -56,7 +56,7 @@ const elements = {
   viewModeButtons: [...document.querySelectorAll("#view-mode-toggle button")],
   completedFilter: document.querySelector("#completed-filter"),
   completedFilterButtons: [...document.querySelectorAll("#completed-filter button")],
-  labelFilter: document.querySelector("#label-filter"),
+  tagFilter: document.querySelector("#tag-filter"),
   exportBoardButton: document.querySelector("#export-board-button"),
   importBoardInput: document.querySelector("#import-board-input"),
   editorDialog: document.querySelector("#editor-dialog"),
@@ -78,10 +78,10 @@ const elements = {
   ticketParent: document.querySelector("#ticket-parent"),
   ticketPriority: document.querySelector("#ticket-priority"),
   ticketCompleted: document.querySelector("#ticket-completed"),
-  ticketLabelToggle: document.querySelector("#ticket-label-toggle"),
-  ticketLabelSummary: document.querySelector("#ticket-label-summary"),
-  ticketLabelSearch: document.querySelector("#ticket-label-search"),
-  ticketLabelOptions: document.querySelector("#ticket-label-options"),
+  ticketTagToggle: document.querySelector("#ticket-tag-toggle"),
+  ticketTagSummary: document.querySelector("#ticket-tag-summary"),
+  ticketTagSearch: document.querySelector("#ticket-tag-search"),
+  ticketTagOptions: document.querySelector("#ticket-tag-options"),
   ticketBlockerToggle: document.querySelector("#ticket-blocker-toggle"),
   ticketBlockerSummary: document.querySelector("#ticket-blocker-summary"),
   ticketBlockerSearch: document.querySelector("#ticket-blocker-search"),
@@ -138,13 +138,13 @@ function bindEvents() {
   elements.sidebarToggleButton.addEventListener("click", toggleSidebar);
   elements.sidebarReopenButton.addEventListener("click", toggleSidebar);
   elements.newBoardButton.addEventListener("click", createBoard);
-  elements.newSidebarLabelButton.addEventListener("click", createLabel);
+  elements.newSidebarTagButton.addEventListener("click", createTag);
   elements.renameBoardButton.addEventListener("click", renameBoard);
   elements.deleteBoardButton.addEventListener("click", deleteBoard);
-  elements.ticketLabelToggle.addEventListener("click", handleTicketTagFieldClick);
-  elements.ticketLabelSearch.addEventListener("focus", openTicketLabelOptions);
-  elements.ticketLabelSearch.addEventListener("input", handleTicketLabelSearchInput);
-  elements.ticketLabelSearch.addEventListener("keydown", handleTicketLabelSearchKeydown);
+  elements.ticketTagToggle.addEventListener("click", handleTicketTagFieldClick);
+  elements.ticketTagSearch.addEventListener("focus", openTicketTagOptions);
+  elements.ticketTagSearch.addEventListener("input", handleTicketTagSearchInput);
+  elements.ticketTagSearch.addEventListener("keydown", handleTicketTagSearchKeydown);
   elements.ticketBlockerToggle.addEventListener("click", handleBlockerFieldClick);
   elements.ticketBlockerSearch.addEventListener("focus", openBlockerOptions);
   elements.ticketBlockerSearch.addEventListener("input", handleBlockerSearchInput);
@@ -177,8 +177,8 @@ function bindEvents() {
       await refreshBoardDetail();
     });
   });
-  elements.labelFilter.addEventListener("change", async (event) => {
-    state.filters.label = event.target.value;
+  elements.tagFilter.addEventListener("change", async (event) => {
+    state.filters.tag = event.target.value;
     await refreshBoardDetail();
   });
   elements.editorForm.addEventListener("submit", saveTicket);
@@ -222,11 +222,11 @@ async function refreshBoards() {
 }
 
 function resetBoardFilters() {
-  state.filters = { q: "", lane: "", completed: "", label: "" };
+  state.filters = { q: "", lane: "", completed: "", tag: "" };
   elements.searchInput.value = "";
   elements.laneFilter.value = "";
   syncCompletedFilter("");
-  elements.labelFilter.value = "";
+  elements.tagFilter.value = "";
 }
 
 async function selectBoard(boardId) {
@@ -260,7 +260,7 @@ async function refreshBoardDetail() {
   state.boardDetail = {
     board: detail.board,
     lanes: detail.lanes,
-    labels: detail.labels,
+    tags: detail.tags,
     tickets: tickets.tickets,
   };
   syncBoardEvents();
@@ -479,19 +479,19 @@ const {
   handleDocumentClick,
   handleEditorDialogClose,
   handleParentChange,
-  handleTicketLabelSearchInput,
-  handleTicketLabelSearchKeydown,
+  handleTicketTagSearchInput,
+  handleTicketTagSearchKeydown,
   handleTicketTagFieldClick,
   handleUxSubmit,
   openBlockerOptions,
   openChildOptions,
   openEditor,
-  openTicketLabelOptions,
+  openTicketTagOptions,
   requestFields,
   saveTicket,
   setDialogMode,
   showToast,
-  syncTicketLabelOptions,
+  syncTicketTagOptions,
 } = editorModule;
 
 const boardModule = createBoardModule({
@@ -509,20 +509,20 @@ const boardModule = createBoardModule({
   showToast,
   syncBoardUrl,
   syncListActionButtons,
-  syncTicketLabelOptions,
+  syncTicketTagOptions,
   syncViewMode,
 });
 
 const {
   renderBoards,
   renderBoardDetail,
-  renderSidebarLabels,
+  renderSidebarTags,
   handleLaneDragOver,
   createBoard,
   createLane,
   renameBoard,
   deleteBoard,
-  createLabel,
+  createTag,
   renameLane,
   deleteLane,
   exportBoard,
