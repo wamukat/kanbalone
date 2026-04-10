@@ -337,6 +337,16 @@ button:hover,
   position: relative;
 }
 
+.editor-field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.editor-field-label {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
 .ticket-tag-input {
   display: flex;
   flex-wrap: wrap;
@@ -406,6 +416,11 @@ button:hover,
   background: transparent;
   padding: 0.2rem 0.15rem;
   outline: none;
+}
+
+#ticket-new-tag-button {
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .ticket-tag-search::placeholder,
@@ -1112,12 +1127,6 @@ button:hover,
   min-height: 2.75rem;
   justify-content: flex-start;
   padding-bottom: 0.45rem;
-}
-
-.ticket-tag-field-head {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.28rem;
 }
 
 .preview-head {

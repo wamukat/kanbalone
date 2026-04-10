@@ -53,6 +53,25 @@ export function createEditorModule(ctx) {
     `;
   }
 
+  function selectFirstOption(optionContainer, selector, onSelect, event) {
+    const firstOption = optionContainer.querySelector(selector);
+    if (!firstOption) {
+      return false;
+    }
+    event?.preventDefault?.();
+    onSelect(firstOption);
+    return true;
+  }
+
+  function handlePickerOptionClick(event, optionContainer, selector, onSelect) {
+    const option = event.target.closest?.(selector);
+    if (!option || !optionContainer.contains(option)) {
+      return false;
+    }
+    onSelect(option);
+    return true;
+  }
+
   function syncTicketTagOptions() {
     if (!state.boardDetail) {
       return;
@@ -170,11 +189,7 @@ export function createEditorModule(ctx) {
       return;
     }
     if (event.key === "Enter") {
-      const firstOption = elements.ticketParentOptions.querySelector("[data-parent-id]");
-      if (firstOption) {
-        event.preventDefault();
-        setParent(Number(firstOption.dataset.parentId));
-      }
+      selectFirstOption(elements.ticketParentOptions, "[data-parent-id]", (option) => setParent(Number(option.dataset.parentId)), event);
       return;
     }
     if (event.key === "Escape") {
@@ -248,11 +263,7 @@ export function createEditorModule(ctx) {
       return;
     }
     if (event.key === "Enter") {
-      const firstOption = elements.ticketBlockerOptions.querySelector("[data-blocker-id]");
-      if (firstOption) {
-        event.preventDefault();
-        toggleBlocker(Number(firstOption.dataset.blockerId));
-      }
+      selectFirstOption(elements.ticketBlockerOptions, "[data-blocker-id]", (option) => toggleBlocker(Number(option.dataset.blockerId)), event);
       return;
     }
     if (event.key === "Escape") {
@@ -361,11 +372,7 @@ export function createEditorModule(ctx) {
       return;
     }
     if (event.key === "Enter") {
-      const firstOption = elements.ticketChildOptions.querySelector("[data-child-id]");
-      if (firstOption) {
-        event.preventDefault();
-        toggleChild(Number(firstOption.dataset.childId));
-      }
+      selectFirstOption(elements.ticketChildOptions, "[data-child-id]", (option) => toggleChild(Number(option.dataset.childId)), event);
       return;
     }
     if (event.key === "Escape") {
@@ -430,11 +437,7 @@ export function createEditorModule(ctx) {
       return;
     }
     if (event.key === "Enter") {
-      const firstOption = elements.ticketTagOptions.querySelector("[data-tag-id]");
-      if (firstOption) {
-        event.preventDefault();
-        toggleTicketTag(Number(firstOption.dataset.tagId));
-      }
+      selectFirstOption(elements.ticketTagOptions, "[data-tag-id]", (option) => toggleTicketTag(Number(option.dataset.tagId)), event);
       return;
     }
     if (event.key === "Escape") {
@@ -805,24 +808,16 @@ export function createEditorModule(ctx) {
     if (!elements.editorDialog.open) {
       return;
     }
-    const tagOption = event.target.closest?.("[data-tag-id]");
-    if (tagOption && elements.ticketTagOptions.contains(tagOption)) {
-      toggleTicketTag(Number(tagOption.dataset.tagId));
+    if (handlePickerOptionClick(event, elements.ticketTagOptions, "[data-tag-id]", (option) => toggleTicketTag(Number(option.dataset.tagId)))) {
       return;
     }
-    const blockerOption = event.target.closest?.("[data-blocker-id]");
-    if (blockerOption && elements.ticketBlockerOptions.contains(blockerOption)) {
-      toggleBlocker(Number(blockerOption.dataset.blockerId));
+    if (handlePickerOptionClick(event, elements.ticketBlockerOptions, "[data-blocker-id]", (option) => toggleBlocker(Number(option.dataset.blockerId)))) {
       return;
     }
-    const childOption = event.target.closest?.("[data-child-id]");
-    if (childOption && elements.ticketChildOptions.contains(childOption)) {
-      toggleChild(Number(childOption.dataset.childId));
+    if (handlePickerOptionClick(event, elements.ticketChildOptions, "[data-child-id]", (option) => toggleChild(Number(option.dataset.childId)))) {
       return;
     }
-    const parentOption = event.target.closest?.("[data-parent-id]");
-    if (parentOption && elements.ticketParentOptions.contains(parentOption)) {
-      setParent(Number(parentOption.dataset.parentId));
+    if (handlePickerOptionClick(event, elements.ticketParentOptions, "[data-parent-id]", (option) => setParent(Number(option.dataset.parentId)))) {
       return;
     }
     if (

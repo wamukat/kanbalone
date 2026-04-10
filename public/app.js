@@ -148,7 +148,11 @@ function bindEvents() {
   elements.renameBoardButton.addEventListener("click", renameBoard);
   elements.deleteBoardButton.addEventListener("click", deleteBoard);
   elements.ticketTagToggle.addEventListener("click", handleTicketTagFieldClick);
-  elements.ticketNewTagButton.addEventListener("click", createTagFromEditor);
+  elements.ticketNewTagButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    createTagFromEditor();
+  });
   elements.ticketTagSearch.addEventListener("focus", openTicketTagOptions);
   elements.ticketTagSearch.addEventListener("input", handleTicketTagSearchInput);
   elements.ticketTagSearch.addEventListener("keydown", handleTicketTagSearchKeydown);
