@@ -64,6 +64,7 @@
 `GET /api/boards/:boardId/tickets` に query を付けます。
 
 - この endpoint は軽量 summary 用です。
+- 大きい board の描画、filter、検索、automation scan ではまずこの endpoint を使います。
 - `bodyHtml`, `comments`, `parent`, `children`, 展開済み `blockers` は含みません。
 - 詳細が必要なら `GET /api/tickets/:ticketId` を使います。
 - `lane_id`
@@ -107,6 +108,12 @@ ID ベース:
 - `GET /api/boards/:boardId/events` を `SSE` で購読する
 - 更新時には短い `data: {...}` イベントが流れる
 - UI 側はイベント受信後に `GET /api/boards/:boardId` と `GET /api/boards/:boardId/tickets` を再取得する
+
+### 大量データを board ごと投入したい
+
+- `POST /api/boards/import` を使う
+- local-only 運用を前提に、大きめの board export/import payload も扱える
+- 大量データの一括投入後は、一覧確認に `GET /api/boards/:boardId/tickets`、個票確認に `GET /api/tickets/:ticketId` を使い分ける
 
 ## Error Handling
 

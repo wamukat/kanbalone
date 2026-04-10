@@ -69,6 +69,7 @@ paths:
   /api/boards/import:
     post:
       summary: Import a board
+      description: Supports local board import payloads, including larger seed datasets used for bulk local setup and performance testing.
       operationId: importBoard
       requestBody:
         required: true
@@ -370,6 +371,7 @@ paths:
   /api/boards/{boardId}/tickets:
     get:
       summary: List ticket summaries
+      description: Lightweight summary endpoint for board rendering, filtering, search, and automation on large boards. Fetch individual ticket detail separately when body, comments, or expanded relations are needed.
       operationId: listTickets
       parameters:
         - $ref: "#/components/parameters/BoardId"

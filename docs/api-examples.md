@@ -146,6 +146,23 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/import \
   --data @board-3.json
 ```
 
+## Import Large Local Seed Data
+
+`/api/boards/import` は local-only の大きめ payload も扱えます。
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/api/boards/import \
+  -H 'content-type: application/json' \
+  --data @perf-5000-board.json
+```
+
+投入後は軽量 summary route で一覧確認します。
+
+```bash
+curl -s 'http://127.0.0.1:3000/api/boards/6/tickets?completed=false'
+curl -s 'http://127.0.0.1:3000/api/boards/6/tickets?lane_id=20'
+```
+
 ## Subscribe To Board Updates With SSE
 
 ```bash
