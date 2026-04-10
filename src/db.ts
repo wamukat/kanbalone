@@ -565,7 +565,11 @@ export class KanbanDb {
         .run(
           nextBoardId,
           nextLaneId,
-          this.validateParentTicket(ticketId, input.parentTicketId ?? current.parentTicketId, nextBoardId),
+          this.validateParentTicket(
+            ticketId,
+            input.parentTicketId !== undefined ? input.parentTicketId : current.parentTicketId,
+            nextBoardId,
+          ),
           input.title ?? current.title,
           input.bodyMarkdown ?? current.bodyMarkdown,
           typeof input.isCompleted === "boolean" ? Number(input.isCompleted) : Number(current.isCompleted),

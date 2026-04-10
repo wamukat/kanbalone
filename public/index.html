@@ -92,7 +92,6 @@
               <span id="editor-header-state" class="ticket-state-pill ticket-state-pill-open" hidden>Open</span>
               <span id="editor-header-id" class="muted"></span>
             </div>
-            <h3 id="editor-title" class="editor-dialog-title">New Ticket</h3>
             <div id="editor-save-state" class="editor-save-state" hidden>Saved</div>
           </div>
           <div class="editor-header-actions">
@@ -129,10 +128,9 @@
         </section>
 
         <form id="editor-form" method="dialog" class="editor-mode" hidden>
-           <label>
-            Title
-            <input id="ticket-title" name="title" required />
-          </label>
+          <div class="editor-title-field">
+            <input id="ticket-title" name="title" required placeholder="Title" />
+          </div>
 
            <label>
             Markdown
@@ -170,39 +168,30 @@
             </div>
           </div>
 
-           <label>
-            Blockers
-            <div class="ticket-tag-field">
-              <div id="ticket-blocker-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
-                <div id="ticket-blocker-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-blocker-search" type="text" class="ticket-tag-search" placeholder="Add blockers by ID or title" autocomplete="off" />
-              </div>
-              <div id="ticket-blocker-options" class="ticket-tag-options" hidden></div>
+          <div class="ticket-tag-field">
+            <div id="ticket-blocker-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+              <div id="ticket-blocker-summary" class="ticket-tag-summary"></div>
+              <input id="ticket-blocker-search" type="text" class="ticket-tag-search" placeholder="Add blockers by ID or title" autocomplete="off" />
             </div>
-          </label>
+            <div id="ticket-blocker-options" class="ticket-tag-options" hidden></div>
+          </div>
 
-           <label>
-            Parent
-            <div class="ticket-tag-field">
-              <div id="ticket-parent-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
-                <div id="ticket-parent-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-parent-search" type="text" class="ticket-tag-search" placeholder="Set parent by ID or title" autocomplete="off" />
-              </div>
-              <div id="ticket-parent-options" class="ticket-tag-options" hidden></div>
-              <input id="ticket-parent" name="parentTicketId" type="hidden" value="" />
+          <div class="ticket-tag-field">
+            <div id="ticket-parent-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+              <div id="ticket-parent-summary" class="ticket-tag-summary"></div>
+              <input id="ticket-parent-search" type="text" class="ticket-tag-search" placeholder="Set parent by ID or title" autocomplete="off" />
             </div>
-          </label>
+            <div id="ticket-parent-options" class="ticket-tag-options" hidden></div>
+            <input id="ticket-parent" name="parentTicketId" type="hidden" value="" />
+          </div>
 
-           <label id="ticket-children-row">
-            Children
-            <div class="ticket-tag-field">
-              <div id="ticket-child-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
-                <div id="ticket-child-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-child-search" type="text" class="ticket-tag-search" placeholder="Add children by ID or title" autocomplete="off" />
-              </div>
-              <div id="ticket-child-options" class="ticket-tag-options" hidden></div>
+          <div id="ticket-children-row" class="ticket-tag-field">
+            <div id="ticket-child-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+              <div id="ticket-child-summary" class="ticket-tag-summary"></div>
+              <input id="ticket-child-search" type="text" class="ticket-tag-search" placeholder="Add children by ID or title" autocomplete="off" />
             </div>
-          </label>
+            <div id="ticket-child-options" class="ticket-tag-options" hidden></div>
+          </div>
 
           <div class="editor-actions">
             <button id="delete-ticket-button" type="button" class="danger">Delete</button>

@@ -73,7 +73,6 @@ const elements = {
   headerEditButton: document.querySelector("#header-edit-button"),
   ticketView: document.querySelector("#ticket-view"),
   editorForm: document.querySelector("#editor-form"),
-  editorTitle: document.querySelector("#editor-title"),
   ticketViewMeta: document.querySelector("#ticket-view-meta"),
   ticketRelations: document.querySelector("#ticket-relations"),
   ticketViewBody: document.querySelector("#ticket-view-body"),

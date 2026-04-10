@@ -330,6 +330,21 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(reverseRelationsResponse.json().blockedBy.length, 1);
   assert.equal(reverseRelationsResponse.json().blockedBy[0].id, parent.id);
 
+  const clearParentResponse = await app.inject({
+    method: "PATCH",
+    url: `/api/tickets/${child.id}`,
+    payload: { parentTicketId: null },
+  });
+  assert.equal(clearParentResponse.statusCode, 200);
+  assert.equal(clearParentResponse.json().parentTicketId, null);
+
+  const parentRelationsAfterClearResponse = await app.inject({
+    method: "GET",
+    url: `/api/tickets/${parent.id}/relations`,
+  });
+  assert.equal(parentRelationsAfterClearResponse.statusCode, 200);
+  assert.equal(parentRelationsAfterClearResponse.json().children.length, 0);
+
   const transitionResponse = await app.inject({
     method: "PATCH",
     url: `/api/tickets/${parent.id}/transition`,

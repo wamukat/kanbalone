@@ -630,7 +630,6 @@ export function createEditorModule(ctx) {
     if (!ticket) {
       elements.editorHeaderState.hidden = true;
       elements.editorHeaderId.textContent = "";
-      elements.editorTitle.textContent = "New Ticket";
       elements.headerEditButton.hidden = true;
       elements.archiveTicketButton.hidden = true;
       return;
@@ -639,7 +638,6 @@ export function createEditorModule(ctx) {
     elements.editorHeaderState.textContent = ticket.isCompleted ? "Completed" : "Open";
     elements.editorHeaderState.className = `ticket-state-pill ${ticket.isCompleted ? "ticket-state-pill-completed" : "ticket-state-pill-open"}`;
     elements.editorHeaderId.textContent = `#${ticket.id}`;
-    elements.editorTitle.textContent = ticket.title;
     elements.headerEditButton.hidden = state.dialogMode !== "view";
     elements.archiveTicketButton.hidden = state.dialogMode !== "edit";
     elements.archiveTicketButton.textContent = ticket.isArchived ? "Restore" : "Archive";

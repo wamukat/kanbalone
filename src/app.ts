@@ -1386,9 +1386,10 @@ function sanitizeStringArray(values: unknown): string[] | undefined {
 }
 
 function parseTicketMutationBody(body: TicketMutationBody): TicketMutationBody {
+  const hasParentTicketId = Object.prototype.hasOwnProperty.call(body ?? {}, "parentTicketId");
   return {
     laneId: body?.laneId,
-    parentTicketId: body?.parentTicketId,
+    parentTicketId: hasParentTicketId ? body?.parentTicketId ?? null : undefined,
     title: typeof body?.title === "string" ? body.title.trim() : undefined,
     bodyMarkdown: body?.bodyMarkdown,
     isCompleted: body?.isCompleted,
