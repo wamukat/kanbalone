@@ -7,7 +7,7 @@ const execFileAsync = promisify(execFile);
 const BASE_URL = process.env.SOLOBOARD_BASE_URL ?? "http://127.0.0.1:3000";
 const BOARD_NAME = process.env.SOLOBOARD_PERF_BOARD ?? "Perf 1000";
 const RUNS = Number(process.env.SOLOBOARD_PERF_RUNS ?? "5");
-const AGENT_BROWSER = process.env.AGENT_BROWSER_BIN ?? "/Users/takuma/.volta/bin/agent-browser";
+const AGENT_BROWSER = process.env.AGENT_BROWSER_BIN ?? "agent-browser";
 const AGENT_BROWSER_SESSION = process.env.AGENT_BROWSER_SESSION ?? "soloboard-ui";
 
 async function api(path, options = {}) {

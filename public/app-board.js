@@ -1,9 +1,12 @@
+import { calculateVisibleWindow, takeRoundRobinBatch } from "./app-board-utils.js";
+
 export function createBoardModule(ctx) {
   const { state, elements } = ctx;
   const LIST_ROW_HEIGHT = 44;
   const LIST_OVERSCAN = 12;
   let listModel = null;
   let kanbanRenderToken = 0;
+  let kanbanNextLaneIndex = 0;
 
   function renderBoards() {
     elements.boardList.innerHTML = "";
@@ -32,6 +35,7 @@ export function createBoardModule(ctx) {
       elements.listBoard.innerHTML = '<div class="empty-state"><p>Create a board to start tracking tasks.</p></div>';
       state.selectedListTicketIds = [];
       kanbanRenderToken += 1;
+      kanbanNextLaneIndex = 0;
       listModel = null;
       ctx.syncViewMode();
       return;
@@ -69,6 +73,7 @@ export function createBoardModule(ctx) {
 
   function renderKanbanBoard(detail) {
     const renderToken = ++kanbanRenderToken;
+    kanbanNextLaneIndex = 0;
     elements.laneBoard.className = "lane-board";
     elements.laneBoard.innerHTML = "";
     const laneQueues = [];
@@ -244,10 +249,13 @@ export function createBoardModule(ctx) {
     if (!viewport || !windowEl) {
       return;
     }
-    const viewportHeight = Math.max(viewport.clientHeight, LIST_ROW_HEIGHT * 8);
-    const startIndex = Math.max(0, Math.floor(viewport.scrollTop / listModel.rowHeight) - listModel.overscan);
-    const visibleCount = Math.ceil(viewportHeight / listModel.rowHeight) + listModel.overscan * 2;
-    const endIndex = Math.min(listModel.orderedTickets.length, startIndex + visibleCount);
+    const { startIndex, endIndex } = calculateVisibleWindow(
+      listModel.orderedTickets.length,
+      listModel.rowHeight,
+      listModel.overscan,
+      viewport.scrollTop,
+      viewport.clientHeight,
+    );
     const visibleEntries = listModel.orderedTickets.slice(startIndex, endIndex);
     windowEl.style.transform = `translateY(${startIndex * listModel.rowHeight}px)`;
     windowEl.innerHTML = visibleEntries.map(renderListRow).join("");
@@ -309,21 +317,17 @@ export function createBoardModule(ctx) {
       if (renderToken !== kanbanRenderToken) {
         return;
       }
-      let remaining = batchSize;
-      for (const queue of laneQueues) {
-        if (queue.index >= queue.tickets.length) {
-          continue;
-        }
-        const fragment = document.createDocumentFragment();
-        while (queue.index < queue.tickets.length && remaining > 0) {
-          fragment.append(createTicketCard(queue.tickets[queue.index]));
-          queue.index += 1;
-          remaining -= 1;
-        }
-        queue.list.append(fragment);
-        if (remaining <= 0) {
-          break;
-        }
+      const { selections, nextLaneIndex } = takeRoundRobinBatch(laneQueues, kanbanNextLaneIndex, batchSize);
+      kanbanNextLaneIndex = nextLaneIndex;
+      const fragments = new Map();
+      for (const laneIndex of selections) {
+        const queue = laneQueues[laneIndex];
+        const fragment = fragments.get(laneIndex) ?? document.createDocumentFragment();
+        fragment.append(createTicketCard(queue.tickets[queue.index - 1]));
+        fragments.set(laneIndex, fragment);
+      }
+      for (const [laneIndex, fragment] of fragments.entries()) {
+        laneQueues[laneIndex].list.append(fragment);
       }
       if (laneQueues.some((queue) => queue.index < queue.tickets.length)) {
         requestAnimationFrame(step);

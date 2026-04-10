@@ -6,6 +6,7 @@ const TICKET_COUNT = Number(process.env.SOLOBOARD_PERF_TICKETS ?? "1000");
 const TAG_COUNT = Number(process.env.SOLOBOARD_PERF_TAGS ?? "20");
 const MIN_COMMENTS = Number(process.env.SOLOBOARD_PERF_MIN_COMMENTS ?? "10");
 const MAX_COMMENTS = Number(process.env.SOLOBOARD_PERF_MAX_COMMENTS ?? "50");
+const OVERWRITE = process.env.SOLOBOARD_PERF_OVERWRITE === "true";
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -131,7 +132,13 @@ async function main() {
   }
 
   const existing = await api("/api/boards");
-  for (const board of existing.boards.filter((item) => item.name === BOARD_NAME)) {
+  const matchingBoards = existing.boards.filter((item) => item.name === BOARD_NAME);
+  if (matchingBoards.length > 0 && !OVERWRITE) {
+    throw new Error(
+      `Board "${BOARD_NAME}" already exists. Re-run with SOLOBOARD_PERF_OVERWRITE=true to replace it.`,
+    );
+  }
+  for (const board of matchingBoards) {
     await api(`/api/boards/${board.id}`, { method: "DELETE" });
   }
 
