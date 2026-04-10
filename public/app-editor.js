@@ -1,3 +1,5 @@
+import { icon } from "./icons.js";
+
 export function createEditorModule(ctx) {
   const { state, elements } = ctx;
   let saveStateTimer = null;
@@ -47,11 +49,11 @@ export function createEditorModule(ctx) {
   }
 
   function renderTagSummaryChip(tag) {
-    return `<button type="button" class="ticket-tag-chip" data-remove-tag-id="${tag.id}" style="background:${ctx.escapeHtml(tag.color)}" title="Remove ${ctx.escapeHtml(tag.name)}">${ctx.escapeHtml(tag.name)} <span aria-hidden="true">×</span></button>`;
+    return `<button type="button" class="ticket-tag-chip" data-remove-tag-id="${tag.id}" style="background:${ctx.escapeHtml(tag.color)}" title="Remove ${ctx.escapeHtml(tag.name)}">${ctx.escapeHtml(tag.name)} ${icon("x")}</button>`;
   }
 
   function renderTicketSummaryChip(ticket, removeAttr) {
-    return `<button type="button" class="ticket-tag-chip ticket-ref-chip" ${removeAttr}="${ticket.id}" title="Remove ${ctx.escapeHtml(formatTicketChoice(ticket))}"><span class="ticket-ref-chip-id">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span><span aria-hidden="true">×</span></button>`;
+    return `<button type="button" class="ticket-tag-chip ticket-ref-chip" ${removeAttr}="${ticket.id}" title="Remove ${ctx.escapeHtml(formatTicketChoice(ticket))}"><span class="ticket-ref-chip-id">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span>${icon("x")}</button>`;
   }
 
   function renderTicketOption(ticket, attrName, isSelected) {
@@ -118,7 +120,7 @@ export function createEditorModule(ctx) {
               <button type="button" class="tag-picker-item ${isSelected ? "selected" : ""}" data-tag-id="${tag.id}" role="option" aria-selected="${isSelected}">
                 <span class="tag-picker-swatch" style="background:${ctx.escapeHtml(tag.color)}"></span>
                 <span class="tag-picker-text">${ctx.escapeHtml(tag.name)}</span>
-                <span class="tag-picker-check" aria-hidden="true">${isSelected ? "✓" : ""}</span>
+                <span class="tag-picker-check" aria-hidden="true">${isSelected ? icon("check") : ""}</span>
               </button>
             `;
           })
@@ -585,8 +587,8 @@ export function createEditorModule(ctx) {
             <div class="comment-meta muted">
               <span>#${comment.id} ${new Date(comment.createdAt).toLocaleString()}</span>
               <span class="comment-actions">
-                <button type="button" class="ghost icon-button" data-edit-comment-id="${comment.id}" title="Edit comment">✎</button>
-                <button type="button" class="ghost icon-button danger" data-delete-comment-id="${comment.id}" title="Delete comment">×</button>
+                <button type="button" class="ghost icon-button" data-edit-comment-id="${comment.id}" title="Edit comment" aria-label="Edit comment">${icon("pencil")}</button>
+                <button type="button" class="ghost icon-button danger" data-delete-comment-id="${comment.id}" title="Delete comment" aria-label="Delete comment">${icon("trash-2")}</button>
               </span>
             </div>
             <div class="markdown">${comment.bodyHtml}</div>
@@ -746,6 +748,7 @@ export function createEditorModule(ctx) {
     setDialogMode(ticketId ? mode : "edit");
     setDetailTab("comments");
     elements.editorDialog.showModal();
+    ctx.syncDialogScrollLock?.();
     ctx.ensureEditorDialogPosition?.();
     if (ticketId) {
       ctx.syncTicketUrl(ticketId);
@@ -1095,6 +1098,7 @@ export function createEditorModule(ctx) {
         .join("");
 
       elements.uxDialog.showModal();
+      ctx.syncDialogScrollLock?.();
       const firstInput = elements.uxFields.querySelector("input, textarea");
       firstInput?.focus();
     });
@@ -1120,6 +1124,7 @@ export function createEditorModule(ctx) {
       elements.uxError.hidden = true;
       elements.uxFields.innerHTML = "";
       elements.uxDialog.showModal();
+      ctx.syncDialogScrollLock?.();
     });
   }
 

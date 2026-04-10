@@ -1,4 +1,5 @@
 import { calculateVisibleWindow, takeRoundRobinBatch } from "./app-board-utils.js";
+import { icon } from "./icons.js";
 
 export function createBoardModule(ctx) {
   const { state, elements } = ctx;
@@ -92,8 +93,8 @@ export function createBoardModule(ctx) {
           <span class="lane-count">${laneTickets.length}</span>
         </div>
         <div class="lane-actions">
-          <button type="button" class="icon-button" data-action="rename-lane" title="Rename lane">✎</button>
-          <button type="button" class="icon-button danger" data-action="delete-lane" title="Delete lane">×</button>
+          <button type="button" class="icon-button" data-action="rename-lane" title="Rename lane" aria-label="Rename lane">${icon("pencil")}</button>
+          <button type="button" class="icon-button danger" data-action="delete-lane" title="Delete lane" aria-label="Delete lane">${icon("trash-2")}</button>
         </div>
       `;
 
@@ -105,8 +106,9 @@ export function createBoardModule(ctx) {
       const addTicketButton = document.createElement("button");
       addTicketButton.type = "button";
       addTicketButton.className = "add-ticket-button icon-button";
-      addTicketButton.textContent = "+";
+      addTicketButton.innerHTML = icon("plus");
       addTicketButton.title = "New ticket";
+      addTicketButton.setAttribute("aria-label", "New ticket");
       addTicketButton.addEventListener("click", () => ctx.openEditor(null, "edit", lane.id));
 
       header.querySelector("[data-action='rename-lane']").addEventListener("click", () => renameLane(lane));
@@ -121,8 +123,9 @@ export function createBoardModule(ctx) {
     const addLaneButton = document.createElement("button");
     addLaneButton.type = "button";
     addLaneButton.className = "add-lane-button icon-button";
-    addLaneButton.textContent = "+";
+    addLaneButton.innerHTML = icon("plus");
     addLaneButton.title = "New lane";
+    addLaneButton.setAttribute("aria-label", "New lane");
     addLaneButton.addEventListener("click", createLane);
     elements.laneBoard.append(addLaneButton);
 
@@ -588,7 +591,7 @@ export function createBoardModule(ctx) {
       row.className = "sidebar-tag-row";
       row.innerHTML = `
         <span class="sidebar-tag-badge" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>
-        <button type="button" class="icon-button" title="Edit tag">✎</button>
+        <button type="button" class="icon-button" title="Edit tag" aria-label="Edit tag">${icon("pencil")}</button>
       `;
       row.querySelector('button[title="Edit tag"]').addEventListener("click", async () => {
         const result = await ctx.requestFieldsAction({
@@ -693,7 +696,7 @@ export function createBoardModule(ctx) {
   function syncSidebar() {
     elements.shell.classList.toggle("sidebar-collapsed", state.sidebarCollapsed);
     elements.sidebarReopenButton.hidden = !state.sidebarCollapsed;
-    elements.sidebarToggleButton.textContent = state.sidebarCollapsed ? "☰" : "⟨";
+    elements.sidebarToggleButton.innerHTML = icon(state.sidebarCollapsed ? "menu" : "chevron-left");
   }
 
   function getDragAfterElement(container, y) {

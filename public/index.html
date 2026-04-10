@@ -10,22 +10,16 @@
     <div class="shell">
       <aside class="sidebar" id="sidebar">
         <div id="board-list" class="board-list"></div>
-        <button id="new-board-button" type="button" class="board-add-button icon-button" title="New board">+</button>
-
-        <section id="sidebar-view-section" class="sidebar-section">
-          <div class="sidebar-section-head">
-            <h3>View</h3>
-          </div>
-          <div id="view-mode-toggle" class="filter-toggle sidebar-toggle" role="group" aria-label="View mode">
-            <button type="button" data-view-mode="kanban" class="active">Kanban</button>
-            <button type="button" data-view-mode="list">List</button>
-          </div>
-        </section>
+        <button id="new-board-button" type="button" class="board-add-button icon-button" title="New board" aria-label="New board">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
+        </button>
 
         <section id="sidebar-tag-section" class="sidebar-section" hidden>
           <div class="sidebar-section-head">
             <h3>Tags</h3>
-            <button id="new-sidebar-tag-button" type="button" class="icon-button" title="New tag">+</button>
+            <button id="new-sidebar-tag-button" type="button" class="icon-button" title="New tag" aria-label="New tag">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
+            </button>
           </div>
           <div id="sidebar-tag-list" class="sidebar-tag-list"></div>
         </section>
@@ -47,28 +41,50 @@
           </div>
         </section>
       </aside>
-      <button id="sidebar-toggle-button" type="button" class="sidebar-edge-toggle icon-button ghost" title="Toggle sidebar">⟨</button>
+      <button id="sidebar-toggle-button" type="button" class="sidebar-edge-toggle icon-button ghost" title="Toggle sidebar" aria-label="Toggle sidebar">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-left"></use></svg>
+      </button>
 
       <main class="main">
         <header class="toolbar">
           <div class="board-title-row">
-            <button id="sidebar-reopen-button" type="button" class="icon-button ghost" title="Open sidebar" hidden>☰</button>
+            <button id="sidebar-reopen-button" type="button" class="icon-button ghost" title="Open sidebar" aria-label="Open sidebar" hidden>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#menu"></use></svg>
+            </button>
             <h2 id="board-title" class="collapsed-board-title">No board selected</h2>
           </div>
           <div class="toolbar-actions">
-            <input id="search-input" type="search" placeholder="Search tickets" />
-            <select id="lane-filter" hidden>
-              <option value="">All lanes</option>
-            </select>
-            <button id="archived-filter-button" type="button" class="ghost">Archived</button>
-            <div id="completed-filter" class="filter-toggle" role="group" aria-label="Completion filter">
-              <button type="button" data-value="" class="active">All</button>
-              <button type="button" data-value="false">Open</button>
-              <button type="button" data-value="true">Done</button>
+            <label class="toolbar-search" for="search-input">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#search"></use></svg>
+              <input id="search-input" type="search" placeholder="Search tickets" />
+            </label>
+            <div class="toolbar-filters">
+              <div id="view-mode-toggle" class="filter-toggle view-toggle" role="group" aria-label="View mode">
+                <button type="button" data-view-mode="kanban" class="active">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#columns-3"></use></svg>
+                  <span>Kanban</span>
+                </button>
+                <button type="button" data-view-mode="list">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#list"></use></svg>
+                  <span>List</span>
+                </button>
+              </div>
+              <select id="lane-filter" hidden>
+                <option value="">All lanes</option>
+              </select>
+              <button id="archived-filter-button" type="button" class="ghost toolbar-utility-button">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
+                <span>Archived</span>
+              </button>
+              <div id="completed-filter" class="filter-toggle" role="group" aria-label="Completion filter">
+                <button type="button" data-value="" class="active">All</button>
+                <button type="button" data-value="false">Open</button>
+                <button type="button" data-value="true">Done</button>
+              </div>
+              <select id="tag-filter">
+                <option value="">All tags</option>
+              </select>
             </div>
-            <select id="tag-filter">
-              <option value="">All tags</option>
-            </select>
           </div>
         </header>
 
@@ -95,7 +111,9 @@
             <div id="editor-save-state" class="editor-save-state" hidden>Saved</div>
           </div>
           <div class="editor-header-actions">
-            <button id="header-edit-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Edit ticket" title="Edit" hidden>✎</button>
+            <button id="header-edit-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Edit ticket" title="Edit" hidden>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#pencil"></use></svg>
+            </button>
           </div>
         </div>
 
@@ -162,7 +180,9 @@
               <div id="ticket-tag-toggle" class="ticket-tag-input" aria-expanded="false" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-tag-summary" class="ticket-tag-summary"></div>
                 <input id="ticket-tag-search" type="text" class="ticket-tag-search" placeholder="Add tags" autocomplete="off" />
-                <button id="ticket-new-tag-button" type="button" class="icon-button ghost" title="New tag">+</button>
+                <button id="ticket-new-tag-button" type="button" class="icon-button ghost" title="New tag" aria-label="New tag">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
+                </button>
               </div>
               <div id="ticket-tag-options" class="ticket-tag-options" hidden></div>
             </div>
@@ -210,7 +230,9 @@
       <form id="ux-form" class="ux-form" method="dialog">
         <div class="editor-header">
           <h3 id="ux-title">Action</h3>
-          <button id="ux-cancel-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Close dialog" title="Close">×</button>
+          <button id="ux-cancel-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Close dialog" title="Close">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
+          </button>
         </div>
         <p id="ux-message" class="muted" hidden></p>
         <div id="ux-fields" class="ux-fields"></div>

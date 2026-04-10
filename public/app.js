@@ -231,11 +231,17 @@ function bindEvents() {
     }
     closeEditor();
   });
-  elements.editorDialog.addEventListener("close", handleEditorDialogClose);
+  elements.editorDialog.addEventListener("close", () => {
+    handleEditorDialogClose();
+    syncDialogScrollLock();
+  });
   elements.editorDialog.addEventListener("click", handleDialogBackdropClick);
   elements.uxCancelButton.addEventListener("click", () => finishUxDialog(null));
   elements.uxDismissButton.addEventListener("click", () => finishUxDialog(null));
-  elements.uxDialog.addEventListener("close", () => finishUxDialog(null));
+  elements.uxDialog.addEventListener("close", () => {
+    finishUxDialog(null);
+    syncDialogScrollLock();
+  });
   elements.uxDialog.addEventListener("click", handleDialogBackdropClick);
   elements.exportBoardButton.addEventListener("click", exportBoard);
   elements.importBoardInput.addEventListener("change", importBoard);
@@ -341,6 +347,12 @@ function handleDialogBackdropClick(event) {
     return;
   }
   finishUxDialog(null);
+}
+
+function syncDialogScrollLock() {
+  const isDialogOpen = elements.editorDialog.open || elements.uxDialog.open;
+  document.documentElement.classList.toggle("dialog-scroll-locked", isDialogOpen);
+  document.body.classList.toggle("dialog-scroll-locked", isDialogOpen);
 }
 
 async function refreshBoards() {
@@ -609,6 +621,7 @@ const editorModule = createEditorModule({
   elements,
   api,
   ensureEditorDialogPosition,
+  syncDialogScrollLock,
   escapeHtml,
   refreshBoardDetail,
   sendJson,

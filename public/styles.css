@@ -28,6 +28,18 @@ body {
   color: var(--text);
 }
 
+html.dialog-scroll-locked,
+body.dialog-scroll-locked {
+  overflow: hidden;
+}
+
+body.dialog-scroll-locked .main,
+body.dialog-scroll-locked .lane-board,
+body.dialog-scroll-locked .list-board,
+body.dialog-scroll-locked .list-viewport {
+  overflow: hidden;
+}
+
 button,
 input,
 select,
@@ -270,16 +282,48 @@ button:hover,
 }
 
 .toolbar {
-  justify-content: flex-start;
+  justify-content: space-between;
   padding-bottom: 1rem;
   align-items: center;
+  gap: 1rem;
 }
 
 .toolbar-actions {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  align-items: center;
+  justify-content: stretch;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.toolbar-search {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  height: 2.45rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(104, 99, 85, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 247, 0.9);
+  color: var(--muted);
+}
+
+.toolbar-search:focus-within {
+  border-color: rgba(31, 111, 95, 0.42);
+  box-shadow: 0 0 0 3px rgba(31, 111, 95, 0.1);
+  color: var(--accent);
+}
+
+.toolbar-filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  min-width: 0;
 }
 
 .toolbar input,
@@ -294,14 +338,23 @@ button:hover,
   padding: 0.65rem 0.8rem;
 }
 
+.toolbar .toolbar-search input {
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+}
 
 #search-input {
-  width: 220px;
+  width: 100%;
 }
 
 #lane-filter,
 #tag-filter {
-  width: 132px;
+  width: 126px;
+  height: 2.45rem;
+  padding: 0 0.65rem;
 }
 
 .filter-toggle {
@@ -310,13 +363,18 @@ button:hover,
   border-radius: 8px;
   overflow: hidden;
   background: rgba(255, 253, 247, 0.92);
+  min-height: 2.45rem;
 }
 
 .filter-toggle button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   border: none;
   border-right: 1px solid var(--line);
   border-radius: 0;
-  padding: 0.45rem 0.7rem;
+  padding: 0.45rem 0.72rem;
   min-width: 52px;
 }
 
@@ -326,6 +384,24 @@ button:hover,
 
 .filter-toggle button.active {
   background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.view-toggle button {
+  min-width: 86px;
+}
+
+.toolbar-utility-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.45rem;
+  padding: 0 0.75rem;
+  color: var(--muted);
+}
+
+.toolbar-utility-button.active {
   color: var(--accent);
 }
 
@@ -343,6 +419,43 @@ button:hover,
   height: 2rem;
   padding: 0;
   line-height: 1;
+}
+
+.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.icon-button .icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.ticket-tag-chip .icon {
+  width: 0.82rem;
+  height: 0.82rem;
+  stroke-width: 2.4;
+}
+
+.tag-picker-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+}
+
+.tag-picker-check .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  stroke-width: 2.4;
 }
 
 .ticket-tag-field {
@@ -1348,6 +1461,21 @@ button:hover,
   .sidebar {
     border-right: none;
     border-bottom: 1px solid rgba(104, 99, 85, 0.18);
+  }
+
+  .toolbar,
+  .toolbar-actions {
+    align-items: stretch;
+  }
+
+  .toolbar-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.1rem;
   }
 }
 
