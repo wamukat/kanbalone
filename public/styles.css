@@ -76,6 +76,41 @@ button:hover,
   color: var(--danger);
 }
 
+.primary-action {
+  border-color: rgba(31, 111, 95, 0.8);
+  background: var(--accent);
+  color: #fffdf7;
+}
+
+.primary-action:hover {
+  border-color: #18594d;
+  background: #185f52;
+}
+
+.action-with-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.action-with-icon .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.danger-confirm-action {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #fffdf7;
+}
+
+.danger-confirm-action:hover {
+  border-color: #8f2a1c;
+  background: #8f2a1c;
+  color: #fffdf7;
+}
+
 .shell {
   position: relative;
   display: grid;
@@ -1137,12 +1172,23 @@ button:hover,
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-left: auto;
 }
 
 .editor-dialog-heading {
   display: grid;
   gap: 0.15rem;
   min-width: 0;
+}
+
+.editor-header-title {
+  margin: 0;
+  max-width: 38rem;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 1.08rem;
+  line-height: 1.25;
 }
 
 .editor-save-state {

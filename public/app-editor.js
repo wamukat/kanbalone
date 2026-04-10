@@ -476,7 +476,7 @@ export function createEditorModule(ctx) {
     if (!state.activeBoardId) {
       return;
     }
-    const values = await requestFields({
+    const values = await ctx.requestFields({
       title: "New Tag",
       submitLabel: "Create",
       fields: [
@@ -494,7 +494,7 @@ export function createEditorModule(ctx) {
     await ctx.refreshBoardDetail();
     state.editorTagIds = [...new Set([...state.editorTagIds, created.id])];
     syncTicketTagOptions();
-    showToast("Tag created");
+    ctx.showToast("Tag created");
   }
 
   function setDialogMode(mode) {
@@ -502,6 +502,7 @@ export function createEditorModule(ctx) {
     elements.ticketView.hidden = mode !== "view";
     elements.editorForm.hidden = mode !== "edit";
     elements.headerEditButton.hidden = mode !== "view" || !state.editingTicketId;
+    elements.editorHeaderTitle.hidden = mode !== "view" || !state.editingTicketId;
     elements.archiveTicketButton.hidden = mode !== "edit" || !state.editingTicketId;
     elements.commentsTabButton.hidden = mode !== "view";
     elements.activityTabButton.hidden = mode !== "view";
@@ -632,6 +633,8 @@ export function createEditorModule(ctx) {
     if (!ticket) {
       elements.editorHeaderState.hidden = true;
       elements.editorHeaderId.textContent = "";
+      elements.editorHeaderTitle.hidden = true;
+      elements.editorHeaderTitle.textContent = "";
       elements.headerEditButton.hidden = true;
       elements.archiveTicketButton.hidden = true;
       return;
@@ -640,6 +643,8 @@ export function createEditorModule(ctx) {
     elements.editorHeaderState.textContent = ticket.isCompleted ? "Completed" : "Open";
     elements.editorHeaderState.className = `ticket-state-pill ${ticket.isCompleted ? "ticket-state-pill-completed" : "ticket-state-pill-open"}`;
     elements.editorHeaderId.textContent = `#${ticket.id}`;
+    elements.editorHeaderTitle.textContent = ticket.title;
+    elements.editorHeaderTitle.hidden = state.dialogMode !== "view";
     elements.headerEditButton.hidden = state.dialogMode !== "view";
     elements.archiveTicketButton.hidden = state.dialogMode !== "edit";
     elements.archiveTicketButton.textContent = ticket.isArchived ? "Restore" : "Archive";
@@ -819,13 +824,13 @@ export function createEditorModule(ctx) {
         setSaveState("saved", "Saved");
       } else {
         closeEditor();
-        showToast("Saved");
+        ctx.showToast("Saved");
       }
       await ctx.refreshBoardDetail();
       return savedTicket;
     } catch (error) {
       setSaveState("error", "Save failed");
-      showToast(error.message, "error");
+      ctx.showToast(error.message, "error");
       return null;
     }
   }
@@ -844,14 +849,14 @@ export function createEditorModule(ctx) {
       await ctx.refreshBoardDetail();
       if (!current.isArchived && state.filters.archived !== "all") {
         closeEditor();
-        showToast("Archived");
+        ctx.showToast("Archived");
         return;
       }
       await refreshDialogTicket(state.editingTicketId);
       setSaveState("saved", current.isArchived ? "Restored" : "Archived");
     } catch (error) {
       setSaveState("error", "Save failed");
-      showToast(error.message, "error");
+      ctx.showToast(error.message, "error");
     }
   }
 
@@ -865,7 +870,7 @@ export function createEditorModule(ctx) {
         if (!current) {
           throw new Error("Comment not found");
         }
-        const values = await requestFields({
+        const values = await ctx.requestFields({
           title: "Edit Comment",
           submitLabel: "Save",
           fields: [
@@ -885,7 +890,7 @@ export function createEditorModule(ctx) {
         setSaveState("saved", "Saved");
       } catch (error) {
         setSaveState("error", "Save failed");
-        showToast(error.message, "error");
+        ctx.showToast(error.message, "error");
       }
       return;
     }
@@ -895,7 +900,7 @@ export function createEditorModule(ctx) {
       return;
     }
     const commentId = Number(deleteButton.dataset.deleteCommentId);
-    await confirmAndRun({
+    await ctx.confirmAndRun({
       title: "Delete Comment",
       message: "Delete this comment?",
       submitLabel: "Delete",
@@ -946,7 +951,7 @@ export function createEditorModule(ctx) {
       return;
     }
     const ticketId = state.editingTicketId;
-    await confirmAndRun({
+    await ctx.confirmAndRun({
       title: "Delete Ticket",
       message: "Delete this ticket?",
       submitLabel: "Delete",
@@ -965,7 +970,7 @@ export function createEditorModule(ctx) {
     }
     const bodyMarkdown = elements.commentBody.value.trim();
     if (!bodyMarkdown) {
-      showToast("Comment is required", "error");
+      ctx.showToast("Comment is required", "error");
       return;
     }
     try {
@@ -981,7 +986,7 @@ export function createEditorModule(ctx) {
       setSaveState("saved", "Comment saved");
     } catch (error) {
       setSaveState("error", "Save failed");
-      showToast(error.message, "error");
+      ctx.showToast(error.message, "error");
     } finally {
       elements.saveCommentButton.disabled = false;
     }
@@ -1021,146 +1026,11 @@ export function createEditorModule(ctx) {
     closeChildOptions();
   }
 
-  function handleUxSubmit(event) {
-    event.preventDefault();
-    if (state.uxMode === "confirm") {
-      finishUxDialog(true);
-      return;
-    }
-    const fields = [...elements.uxFields.querySelectorAll("[data-field-id]")];
-    const values = Object.fromEntries(fields.map((input) => [input.dataset.fieldId, input.value.trim()]));
-    const missing = fields.find((input) => input.required && !input.value.trim());
-    if (missing) {
-      const label = missing.closest("label")?.childNodes?.[0]?.textContent?.trim() ?? "Field";
-      elements.uxError.hidden = false;
-      elements.uxError.textContent = `${label} is required`;
-      return;
-    }
-    finishUxDialog({ action: "submit", values });
-  }
-
-  function handleUxDanger() {
-    finishUxDialog({ action: "danger" });
-  }
-
-  function finishUxDialog(value) {
-    const resolver = state.uxResolver;
-    if (!resolver) {
-      return;
-    }
-    state.uxResolver = null;
-    if (elements.uxDialog.open) {
-      elements.uxDialog.close();
-    }
-    resolver(value);
-  }
-
-  function openUxDialog({ title, message = "", submitLabel, fields, dangerLabel = "" }) {
-    return new Promise((resolve) => {
-      state.uxResolver = resolve;
-      state.uxMode = "form";
-      elements.uxTitle.textContent = title;
-      elements.uxMessage.hidden = !message;
-      elements.uxMessage.textContent = message;
-      elements.uxSubmitButton.textContent = submitLabel;
-      elements.uxDangerButton.hidden = !dangerLabel;
-      elements.uxDangerButton.textContent = dangerLabel || "Delete";
-      elements.uxError.hidden = true;
-      elements.uxError.textContent = "";
-      elements.uxFields.innerHTML = fields
-        .map(
-          (field) => {
-            if (field.type === "textarea") {
-              return `
-                <label>
-                  ${ctx.escapeHtml(field.label)}
-                  <textarea
-                    data-field-id="${ctx.escapeHtml(field.id)}"
-                    rows="${ctx.escapeHtml(field.rows ?? 6)}"
-                    ${field.required ? "required" : ""}
-                  >${ctx.escapeHtml(field.value ?? "")}</textarea>
-                </label>
-              `;
-            }
-            return `
-              <label>
-                ${ctx.escapeHtml(field.label)}
-                <input
-                  data-field-id="${ctx.escapeHtml(field.id)}"
-                  type="${ctx.escapeHtml(field.type ?? "text")}"
-                  value="${ctx.escapeHtml(field.value ?? "")}"
-                  ${field.required ? "required" : ""}
-                />
-              </label>
-            `;
-          },
-        )
-        .join("");
-
-      elements.uxDialog.showModal();
-      ctx.syncDialogScrollLock?.();
-      const firstInput = elements.uxFields.querySelector("input, textarea");
-      firstInput?.focus();
-    });
-  }
-
-  function requestFields(config) {
-    return openUxDialog(config).then((result) => (result?.action === "submit" ? result.values : null));
-  }
-
-  function requestFieldsAction(config) {
-    return openUxDialog(config);
-  }
-
-  function openConfirmDialog({ title, message, submitLabel }) {
-    return new Promise((resolve) => {
-      state.uxResolver = resolve;
-      state.uxMode = "confirm";
-      elements.uxTitle.textContent = title;
-      elements.uxMessage.hidden = false;
-      elements.uxMessage.textContent = message;
-      elements.uxSubmitButton.textContent = submitLabel;
-      elements.uxDangerButton.hidden = true;
-      elements.uxError.hidden = true;
-      elements.uxFields.innerHTML = "";
-      elements.uxDialog.showModal();
-      ctx.syncDialogScrollLock?.();
-    });
-  }
-
-  async function confirmAndRun({ title, message, submitLabel, run }) {
-    const confirmed = await openConfirmDialog({ title, message, submitLabel });
-    if (!confirmed) {
-      return false;
-    }
-    try {
-      await run();
-      return true;
-    } catch (error) {
-      showToast(error.message, "error");
-      return false;
-    }
-  }
-
-  function showToast(message, kind = "info") {
-    elements.toast.textContent = message;
-    elements.toast.dataset.kind = kind;
-    elements.toast.hidden = false;
-    if (state.toastTimer) {
-      clearTimeout(state.toastTimer);
-    }
-    state.toastTimer = window.setTimeout(() => {
-      elements.toast.hidden = true;
-    }, 2800);
-  }
-
   return {
     addComment,
     closeEditor,
-    confirmAndRun,
     createTagFromEditor,
     deleteTicket,
-    finishUxDialog,
     handleCommentAction,
     handleBlockerFieldClick,
     handleBlockerSearchInput,
@@ -1177,19 +1047,14 @@ export function createEditorModule(ctx) {
     handleTicketTagSearchInput,
     handleTicketTagSearchKeydown,
     handleTicketTagFieldClick,
-    handleUxDanger,
-    handleUxSubmit,
     openBlockerOptions,
     openChildOptions,
     openEditor,
     openParentOptions,
     openTicketTagOptions,
-    requestFields,
-    requestFieldsAction,
     saveTicket,
     setDetailTab,
     setDialogMode,
-    showToast,
     syncTicketTagOptions,
     toggleTicketArchive,
   };

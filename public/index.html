@@ -108,6 +108,7 @@
               <span id="editor-header-state" class="ticket-state-pill ticket-state-pill-open" hidden>Open</span>
               <span id="editor-header-id" class="muted"></span>
             </div>
+            <h2 id="editor-header-title" class="editor-header-title" hidden></h2>
             <div id="editor-save-state" class="editor-save-state" hidden>Saved</div>
           </div>
           <div class="editor-header-actions">
@@ -139,7 +140,9 @@
                 <textarea id="comment-body" rows="5"></textarea>
               </label>
               <div class="editor-actions">
-                <button id="save-comment-button" type="button">Add Comment</button>
+                <div class="editor-actions-right">
+                  <button id="save-comment-button" type="button" class="primary-action">Add Comment</button>
+                </div>
               </div>
             </form>
           </section>
@@ -214,10 +217,13 @@
           </div>
 
           <div class="editor-actions">
-            <button id="delete-ticket-button" type="button" class="danger">Delete</button>
+            <button id="delete-ticket-button" type="button" class="danger action-with-icon">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
+              <span>Delete</span>
+            </button>
             <div class="editor-actions-right">
               <button id="cancel-edit-button" type="button" class="ghost">Cancel</button>
-              <button id="save-ticket-button" type="submit">Save</button>
+              <button id="save-ticket-button" type="submit" class="primary-action">Save</button>
             </div>
           </div>
         </form>
@@ -238,9 +244,14 @@
         <div id="ux-fields" class="ux-fields"></div>
         <div id="ux-error" class="danger" hidden></div>
         <div class="editor-actions">
-          <button id="ux-danger-button" type="button" class="danger" hidden>Delete</button>
-          <button id="ux-dismiss-button" type="button" class="ghost">Cancel</button>
-          <button id="ux-submit-button" type="submit">Save</button>
+          <button id="ux-danger-button" type="button" class="danger action-with-icon" hidden>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
+            <span>Delete</span>
+          </button>
+          <div class="editor-actions-right">
+            <button id="ux-dismiss-button" type="button" class="ghost">Cancel</button>
+            <button id="ux-submit-button" type="submit" class="primary-action">Save</button>
+          </div>
         </div>
       </form>
     </dialog>

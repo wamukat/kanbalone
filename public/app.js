@@ -1,5 +1,6 @@
 import { createBoardModule } from "./app-board.js";
 import { createEditorModule } from "./app-editor.js";
+import { createUxModule } from "./app-ux.js";
 
 const state = {
   boards: [],
@@ -68,6 +69,7 @@ const elements = {
   editorHeader: document.querySelector(".editor-header"),
   editorHeaderState: document.querySelector("#editor-header-state"),
   editorHeaderId: document.querySelector("#editor-header-id"),
+  editorHeaderTitle: document.querySelector("#editor-header-title"),
   editorSaveState: document.querySelector("#editor-save-state"),
   archiveTicketButton: document.querySelector("#archive-ticket-button"),
   headerEditButton: document.querySelector("#header-edit-button"),
@@ -616,16 +618,27 @@ async function api(url, init = {}) {
   return response.json();
 }
 
+const uxModule = createUxModule({
+  state,
+  elements,
+  syncDialogScrollLock,
+  escapeHtml,
+});
+
+const { confirmAndRun, finishUxDialog, handleUxDanger, handleUxSubmit, requestFields, requestFieldsAction, showToast } = uxModule;
+
 const editorModule = createEditorModule({
   state,
   elements,
   api,
+  confirmAndRun,
   ensureEditorDialogPosition,
-  syncDialogScrollLock,
-  escapeHtml,
+  requestFields,
   refreshBoardDetail,
   sendJson,
+  showToast,
   syncBoardUrl,
+  syncDialogScrollLock,
   syncTicketUrl,
 });
 
@@ -633,10 +646,8 @@ const {
   addComment,
   handleCommentAction,
   closeEditor,
-  confirmAndRun,
   createTagFromEditor,
   deleteTicket,
-  finishUxDialog,
   handleBlockerFieldClick,
   handleBlockerSearchInput,
   handleBlockerSearchKeydown,
@@ -652,19 +663,14 @@ const {
   handleTicketTagSearchInput,
   handleTicketTagSearchKeydown,
   handleTicketTagFieldClick,
-  handleUxDanger,
-  handleUxSubmit,
   openBlockerOptions,
   openChildOptions,
   openEditor,
   openParentOptions,
   openTicketTagOptions,
-  requestFields,
-  requestFieldsAction,
   saveTicket,
   setDetailTab,
   setDialogMode,
-  showToast,
   syncTicketTagOptions,
   toggleTicketArchive,
 } = editorModule;
