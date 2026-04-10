@@ -164,11 +164,17 @@ export class KanbanDb {
       CREATE INDEX IF NOT EXISTS tickets_board_lane_position_idx
       ON tickets(board_id, lane_id, position, id);
 
+      CREATE INDEX IF NOT EXISTS tickets_board_completed_lane_position_idx
+      ON tickets(board_id, is_completed, lane_id, position, id);
+
       CREATE INDEX IF NOT EXISTS tickets_parent_ticket_idx
       ON tickets(parent_ticket_id);
 
       CREATE INDEX IF NOT EXISTS comments_ticket_created_idx
       ON comments(ticket_id, created_at, id);
+
+      CREATE INDEX IF NOT EXISTS ticket_tags_tag_ticket_idx
+      ON ticket_tags(tag_id, ticket_id);
 
       CREATE INDEX IF NOT EXISTS ticket_blockers_blocker_ticket_idx
       ON ticket_blockers(blocker_ticket_id, ticket_id);

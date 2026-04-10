@@ -372,7 +372,7 @@ const reorderTicketsBodySchema = {
 } as const;
 
 export function buildApp(options: BuildAppOptions): FastifyInstance {
-  const app = fastify({ logger: false });
+  const app = fastify({ logger: false, bodyLimit: 64 * 1024 * 1024 });
   const db = new KanbanDb(options.dbFile);
   const staticDir = options.staticDir ?? path.join(process.cwd(), "public");
   const boardEventClients = new Map<Id, Set<ServerResponse>>();

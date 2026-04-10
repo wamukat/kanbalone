@@ -1,5 +1,9 @@
 export function createBoardModule(ctx) {
   const { state, elements } = ctx;
+  const LIST_ROW_HEIGHT = 44;
+  const LIST_OVERSCAN = 12;
+  let listModel = null;
+  let kanbanRenderToken = 0;
 
   function renderBoards() {
     elements.boardList.innerHTML = "";
@@ -27,6 +31,8 @@ export function createBoardModule(ctx) {
       elements.listBoard.className = "list-board empty";
       elements.listBoard.innerHTML = '<div class="empty-state"><p>Create a board to start tracking tasks.</p></div>';
       state.selectedListTicketIds = [];
+      kanbanRenderToken += 1;
+      listModel = null;
       ctx.syncViewMode();
       return;
     }
@@ -52,14 +58,20 @@ export function createBoardModule(ctx) {
         )
         .join("");
 
-    renderKanbanBoard(detail);
-    renderListBoard(detail);
+    if (state.viewMode === "kanban") {
+      renderKanbanBoard(detail);
+    } else {
+      kanbanRenderToken += 1;
+      renderListBoard(detail);
+    }
     ctx.syncViewMode();
   }
 
   function renderKanbanBoard(detail) {
+    const renderToken = ++kanbanRenderToken;
     elements.laneBoard.className = "lane-board";
     elements.laneBoard.innerHTML = "";
+    const laneQueues = [];
 
     for (const lane of detail.lanes.sort((a, b) => a.position - b.position)) {
       const laneTickets = detail.tickets.filter((item) => item.laneId === lane.id).sort((a, b) => a.position - b.position);
@@ -85,10 +97,6 @@ export function createBoardModule(ctx) {
       list.dataset.laneId = String(lane.id);
       bindDropZone(list);
 
-      for (const ticket of laneTickets) {
-        list.append(createTicketCard(ticket));
-      }
-
       const addTicketButton = document.createElement("button");
       addTicketButton.type = "button";
       addTicketButton.className = "add-ticket-button icon-button";
@@ -102,6 +110,7 @@ export function createBoardModule(ctx) {
 
       laneElement.append(header, list, addTicketButton);
       elements.laneBoard.append(laneElement);
+      laneQueues.push({ list, tickets: laneTickets, index: 0 });
     }
 
     const addLaneButton = document.createElement("button");
@@ -111,6 +120,8 @@ export function createBoardModule(ctx) {
     addLaneButton.title = "New lane";
     addLaneButton.addEventListener("click", createLane);
     elements.laneBoard.append(addLaneButton);
+
+    renderKanbanTicketsInBatches(renderToken, laneQueues);
   }
 
   function renderListBoard(detail) {
@@ -118,12 +129,14 @@ export function createBoardModule(ctx) {
     if (detail.tickets.length === 0) {
       elements.listBoard.className = "list-board empty";
       elements.listBoard.innerHTML = '<div class="empty-state"><p>No tickets match the current filters.</p></div>';
+      listModel = null;
       return;
     }
     elements.listBoard.className = "list-board";
     const orderedTickets = getListTickets(detail.tickets);
     const visibleTicketIds = orderedTickets.map(({ ticket }) => ticket.id);
     const allSelected = visibleTicketIds.length > 0 && visibleTicketIds.every((ticketId) => state.selectedListTicketIds.includes(ticketId));
+    const previousScrollTop = elements.listBoard.querySelector(".list-viewport")?.scrollTop ?? 0;
     const doneButton = `<button type="button" class="list-action-button" data-bulk-complete="true" ${state.selectedListTicketIds.length === 0 ? "disabled" : ""}>Mark Done</button>`;
     const openButton = `<button type="button" class="list-action-button" data-bulk-complete="false" ${state.selectedListTicketIds.length === 0 ? "disabled" : ""}>Mark Open</button>`;
     elements.listBoard.innerHTML = `
@@ -136,28 +149,24 @@ export function createBoardModule(ctx) {
         <div>Priority</div>
         <div>Status</div>
       </div>
-      ${orderedTickets.map(renderListRow).join("")}
+      <div class="list-viewport">
+        <div class="list-spacer" style="height:${orderedTickets.length * LIST_ROW_HEIGHT}px">
+          <div class="list-window"></div>
+        </div>
+      </div>
       <div class="list-actions">${doneButton}${openButton}</div>
     `;
-    elements.listBoard.querySelectorAll("input[data-list-ticket-id]").forEach((input) => {
-      input.addEventListener("change", handleListTicketSelection);
-    });
+    listModel = { orderedTickets, visibleTicketIds, rowHeight: LIST_ROW_HEIGHT, overscan: LIST_OVERSCAN };
+    const viewport = elements.listBoard.querySelector(".list-viewport");
+    if (viewport) {
+      viewport.scrollTop = previousScrollTop;
+    }
     const selectAll = elements.listBoard.querySelector("#list-select-all");
     if (selectAll) {
       const selectedCount = visibleTicketIds.filter((ticketId) => state.selectedListTicketIds.includes(ticketId)).length;
       selectAll.indeterminate = selectedCount > 0 && selectedCount < visibleTicketIds.length;
-      selectAll.addEventListener("change", (event) => {
-        handleListSelectAll(event, visibleTicketIds);
-      });
     }
-    elements.listBoard.querySelectorAll("button[data-open-ticket-id]").forEach((button) => {
-      button.addEventListener("click", () => ctx.openEditor(Number(button.dataset.openTicketId), "view"));
-    });
-    elements.listBoard.querySelectorAll(".list-action-button").forEach((button) => {
-      button.addEventListener("click", async () => {
-        await updateSelectedListTickets(button.dataset.bulkComplete === "true");
-      });
-    });
+    paintVisibleListRows();
   }
 
   function getListTickets(tickets) {
@@ -212,7 +221,7 @@ export function createBoardModule(ctx) {
     ].filter(Boolean).join(" · ");
     const lane = state.boardDetail.lanes.find((item) => item.id === ticket.laneId);
     return `
-      <div class="list-row ${ticket.isCompleted ? "completed" : ""}">
+      <div class="list-row ${ticket.isCompleted ? "completed" : ""}" style="height:${LIST_ROW_HEIGHT}px">
         <input type="checkbox" data-list-ticket-id="${ticket.id}" ${state.selectedListTicketIds.includes(ticket.id) ? "checked" : ""} />
         <button type="button" class="list-ticket-link indent-${indent}" data-open-ticket-id="${ticket.id}">
           <span class="ticket-id">#${ticket.id}</span>
@@ -224,6 +233,24 @@ export function createBoardModule(ctx) {
         <div class="list-cell muted">${ticket.isCompleted ? "Done" : ctx.escapeHtml(lane?.name || "Open")}</div>
       </div>
     `;
+  }
+
+  function paintVisibleListRows() {
+    if (!listModel) {
+      return;
+    }
+    const viewport = elements.listBoard.querySelector(".list-viewport");
+    const windowEl = elements.listBoard.querySelector(".list-window");
+    if (!viewport || !windowEl) {
+      return;
+    }
+    const viewportHeight = Math.max(viewport.clientHeight, LIST_ROW_HEIGHT * 8);
+    const startIndex = Math.max(0, Math.floor(viewport.scrollTop / listModel.rowHeight) - listModel.overscan);
+    const visibleCount = Math.ceil(viewportHeight / listModel.rowHeight) + listModel.overscan * 2;
+    const endIndex = Math.min(listModel.orderedTickets.length, startIndex + visibleCount);
+    const visibleEntries = listModel.orderedTickets.slice(startIndex, endIndex);
+    windowEl.style.transform = `translateY(${startIndex * listModel.rowHeight}px)`;
+    windowEl.innerHTML = visibleEntries.map(renderListRow).join("");
   }
 
   async function updateSelectedListTickets(isCompleted) {
@@ -250,6 +277,7 @@ export function createBoardModule(ctx) {
     }
     ctx.syncListActionButtons();
     syncListSelectAllState();
+    paintVisibleListRows();
   }
 
   function handleListSelectAll(event, visibleTicketIds) {
@@ -259,19 +287,50 @@ export function createBoardModule(ctx) {
       const visibleSet = new Set(visibleTicketIds);
       state.selectedListTicketIds = state.selectedListTicketIds.filter((ticketId) => !visibleSet.has(ticketId));
     }
-    renderListBoard(state.boardDetail);
     ctx.syncListActionButtons();
+    syncListSelectAllState();
+    paintVisibleListRows();
   }
 
   function syncListSelectAllState() {
     const selectAll = elements.listBoard.querySelector("#list-select-all");
-    if (!selectAll || !state.boardDetail) {
+    if (!selectAll || !listModel) {
       return;
     }
-    const visibleTicketIds = state.boardDetail.tickets.map((ticket) => ticket.id);
+    const visibleTicketIds = listModel.visibleTicketIds;
     const selectedCount = visibleTicketIds.filter((ticketId) => state.selectedListTicketIds.includes(ticketId)).length;
     selectAll.checked = visibleTicketIds.length > 0 && selectedCount === visibleTicketIds.length;
     selectAll.indeterminate = selectedCount > 0 && selectedCount < visibleTicketIds.length;
+  }
+
+  function renderKanbanTicketsInBatches(renderToken, laneQueues) {
+    const batchSize = 120;
+    function step() {
+      if (renderToken !== kanbanRenderToken) {
+        return;
+      }
+      let remaining = batchSize;
+      for (const queue of laneQueues) {
+        if (queue.index >= queue.tickets.length) {
+          continue;
+        }
+        const fragment = document.createDocumentFragment();
+        while (queue.index < queue.tickets.length && remaining > 0) {
+          fragment.append(createTicketCard(queue.tickets[queue.index]));
+          queue.index += 1;
+          remaining -= 1;
+        }
+        queue.list.append(fragment);
+        if (remaining <= 0) {
+          break;
+        }
+      }
+      if (laneQueues.some((queue) => queue.index < queue.tickets.length)) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    requestAnimationFrame(step);
   }
 
   function createTicketCard(ticket) {
@@ -649,6 +708,42 @@ export function createBoardModule(ctx) {
       { offset: Number.NEGATIVE_INFINITY, element: null },
     ).element;
   }
+
+  function handleListBoardClick(event) {
+    const openButton = event.target.closest("[data-open-ticket-id]");
+    if (openButton && elements.listBoard.contains(openButton)) {
+      ctx.openEditor(Number(openButton.dataset.openTicketId), "view");
+      return;
+    }
+    const bulkButton = event.target.closest(".list-action-button");
+    if (bulkButton && elements.listBoard.contains(bulkButton) && !bulkButton.disabled) {
+      updateSelectedListTickets(bulkButton.dataset.bulkComplete === "true");
+    }
+  }
+
+  function handleListBoardChange(event) {
+    const ticketCheckbox = event.target.closest("[data-list-ticket-id]");
+    if (ticketCheckbox && elements.listBoard.contains(ticketCheckbox)) {
+      handleListTicketSelection({ target: ticketCheckbox });
+      return;
+    }
+    const selectAll = event.target.closest("#list-select-all");
+    if (selectAll && listModel) {
+      handleListSelectAll({ target: selectAll }, listModel.visibleTicketIds);
+    }
+  }
+
+  elements.listBoard.addEventListener("click", handleListBoardClick);
+  elements.listBoard.addEventListener("change", handleListBoardChange);
+  elements.listBoard.addEventListener(
+    "scroll",
+    (event) => {
+      if (event.target?.classList?.contains("list-viewport")) {
+        paintVisibleListRows();
+      }
+    },
+    true,
+  );
 
   return {
     renderBoards,

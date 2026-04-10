@@ -579,6 +579,7 @@ button:hover,
 .list-board {
   flex: 1 1 auto;
   display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: 0;
   align-content: start;
   border: 1px solid rgba(104, 99, 85, 0.16);
@@ -586,6 +587,7 @@ button:hover,
   box-shadow: var(--shadow);
   overflow-x: auto;
   overflow-y: hidden;
+  min-height: 0;
 }
 
 .list-board.empty {
@@ -623,6 +625,22 @@ button:hover,
   padding: 0.5rem 0.7rem;
 }
 
+.list-viewport {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+.list-spacer {
+  position: relative;
+}
+
+.list-window {
+  position: absolute;
+  inset: 0 0 auto 0;
+  will-change: transform;
+}
+
 .list-actions {
   grid-template-columns: repeat(2, minmax(0, 12rem));
   justify-content: start;
@@ -643,6 +661,8 @@ button:hover,
 
 .list-row {
   border-top: 1px solid rgba(104, 99, 85, 0.12);
+  min-height: 44px;
+  overflow: hidden;
 }
 
 .list-row.completed {
@@ -659,11 +679,19 @@ button:hover,
   align-items: center;
   gap: 0.4rem;
   min-width: 0;
+  overflow: hidden;
   padding: 0;
   border: none;
   background: transparent;
   text-align: left;
   font-weight: 700;
+}
+
+.list-ticket-link span:last-child,
+.list-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .list-ticket-link:hover {
@@ -692,8 +720,9 @@ button:hover,
 .list-cell .tag-list,
 .list-row .tag-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.3rem;
+  overflow: hidden;
 }
 
 .list-row .tag {
