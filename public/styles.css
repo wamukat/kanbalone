@@ -814,6 +814,10 @@ button:hover,
   border-style: dashed;
 }
 
+.ticket-card.completed .ticket-link {
+  color: rgba(28, 28, 23, 0.58);
+}
+
 .ticket-head,
 .ticket-meta,
 .tag-list {
