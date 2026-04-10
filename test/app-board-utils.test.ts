@@ -17,7 +17,13 @@ test("takeRoundRobinBatch distributes work across lanes", () => {
 
   const result = takeRoundRobinBatch(queues, 0, 5);
 
-  assert.deepEqual(result.selections, [0, 1, 2, 0, 1]);
+  assert.deepEqual(result.selections, [
+    { laneIndex: 0, ticketIndex: 0 },
+    { laneIndex: 1, ticketIndex: 0 },
+    { laneIndex: 2, ticketIndex: 0 },
+    { laneIndex: 0, ticketIndex: 1 },
+    { laneIndex: 1, ticketIndex: 1 },
+  ]);
   assert.equal(result.nextLaneIndex, 2);
   assert.deepEqual(queues.map((queue) => queue.index), [2, 2, 1]);
 });

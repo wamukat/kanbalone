@@ -320,11 +320,11 @@ export function createBoardModule(ctx) {
       const { selections, nextLaneIndex } = takeRoundRobinBatch(laneQueues, kanbanNextLaneIndex, batchSize);
       kanbanNextLaneIndex = nextLaneIndex;
       const fragments = new Map();
-      for (const laneIndex of selections) {
-        const queue = laneQueues[laneIndex];
-        const fragment = fragments.get(laneIndex) ?? document.createDocumentFragment();
-        fragment.append(createTicketCard(queue.tickets[queue.index - 1]));
-        fragments.set(laneIndex, fragment);
+      for (const selection of selections) {
+        const queue = laneQueues[selection.laneIndex];
+        const fragment = fragments.get(selection.laneIndex) ?? document.createDocumentFragment();
+        fragment.append(createTicketCard(queue.tickets[selection.ticketIndex]));
+        fragments.set(selection.laneIndex, fragment);
       }
       for (const [laneIndex, fragment] of fragments.entries()) {
         laneQueues[laneIndex].list.append(fragment);

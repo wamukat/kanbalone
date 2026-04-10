@@ -10,4 +10,7 @@ export function takeRoundRobinBatch(
   laneQueues: Array<{ index: number; tickets: unknown[] }>,
   startLaneIndex: number,
   batchSize: number,
-): { selections: number[]; nextLaneIndex: number };
+): {
+  selections: Array<{ laneIndex: number; ticketIndex: number }>;
+  nextLaneIndex: number;
+};

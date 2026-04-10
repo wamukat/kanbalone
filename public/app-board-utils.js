@@ -17,7 +17,7 @@ export function takeRoundRobinBatch(laneQueues, startLaneIndex, batchSize) {
   while (selections.length < batchSize && checked < laneQueues.length) {
     const queue = laneQueues[cursor];
     if (queue.index < queue.tickets.length) {
-      selections.push(cursor);
+      selections.push({ laneIndex: cursor, ticketIndex: queue.index });
       queue.index += 1;
       checked = 0;
     } else {
