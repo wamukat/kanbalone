@@ -191,8 +191,9 @@ export function createBoardModule(ctx) {
     const tags = ticket.tags
       .map((tag) => `<span class="tag" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>`)
       .join("");
-    const blockedBy = ticket.blockers.length
-      ? `blocked by ${ticket.blockers
+    const blockedByTickets = state.boardTickets.filter((candidate) => ticket.blockerIds.includes(candidate.id));
+    const blockedBy = blockedByTickets.length
+      ? `blocked by ${blockedByTickets
           .map(
             (blocker) =>
               `<span class="ticket-ref-inline${blocker.isCompleted ? " ticket-ref-completed" : ""}">#${blocker.id}</span>`,

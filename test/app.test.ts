@@ -74,6 +74,23 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   assert.equal(secondTicket.parentTicketId, firstTicket.id);
   assert.deepEqual(secondTicket.blockerIds, []);
 
+  const boardShellResponse = await app.inject({
+    method: "GET",
+    url: `/api/boards/${boardId}`,
+  });
+  assert.equal(boardShellResponse.statusCode, 200);
+  assert.ok(!("tickets" in boardShellResponse.json()));
+
+  const summaryResponse = await app.inject({
+    method: "GET",
+    url: `/api/boards/${boardId}/tickets`,
+  });
+  assert.equal(summaryResponse.statusCode, 200);
+  const summaryTicket = summaryResponse.json().tickets.find((ticket: { id: number }) => ticket.id === firstTicket.id);
+  assert.ok(!("comments" in summaryTicket));
+  assert.ok(!("bodyHtml" in summaryTicket));
+  assert.equal(summaryTicket.ref, `Ops Board#${firstTicket.id}`);
+
   const filteredResponse = await app.inject({
     method: "GET",
     url: `/api/boards/${boardId}/tickets?tag=bug&completed=false&q=parser`,
@@ -85,7 +102,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   assert.equal(filtered.tickets[0].id, firstTicket.id);
   assert.equal(filtered.tickets[0].ref, `Ops Board#${firstTicket.id}`);
   assert.equal(filtered.tickets[0].shortRef, `#${firstTicket.id}`);
-  assert.match(filtered.tickets[0].bodyHtml, /<strong>attention<\/strong>/);
+  assert.ok(!("bodyHtml" in filtered.tickets[0]));
 
   const commentResponse = await app.inject({
     method: "POST",

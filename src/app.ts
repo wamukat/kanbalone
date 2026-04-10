@@ -138,6 +138,23 @@ const tagsResponseSchema = {
   },
 } as const;
 
+const boardShellResponseSchema = {
+  type: "object",
+  required: ["board", "lanes", "tags"],
+  additionalProperties: false,
+  properties: {
+    board: boardViewSchema,
+    lanes: {
+      type: "array",
+      items: laneViewSchema,
+    },
+    tags: {
+      type: "array",
+      items: tagViewSchema,
+    },
+  },
+} as const;
+
 const commentsResponseSchema = {
   type: "object",
   required: ["comments"],
@@ -152,15 +169,42 @@ const commentsResponseSchema = {
 
 const ticketSummarySchema = {
   type: "object",
-  additionalProperties: true,
-  required: ["id", "boardId", "laneId", "title", "isCompleted", "priority", "ref", "shortRef"],
+  additionalProperties: false,
+  required: [
+    "id",
+    "boardId",
+    "laneId",
+    "parentTicketId",
+    "title",
+    "isCompleted",
+    "priority",
+    "position",
+    "createdAt",
+    "updatedAt",
+    "tags",
+    "blockerIds",
+    "ref",
+    "shortRef",
+  ],
   properties: {
     id: positiveIntegerSchema,
     boardId: positiveIntegerSchema,
     laneId: positiveIntegerSchema,
+    parentTicketId: { anyOf: [positiveIntegerSchema, { type: "null" }] },
     title: { type: "string" },
     isCompleted: { type: "boolean" },
     priority: { type: "number" },
+    position: { type: "integer", minimum: 0 },
+    createdAt: { type: "string" },
+    updatedAt: { type: "string" },
+    tags: {
+      type: "array",
+      items: tagViewSchema,
+    },
+    blockerIds: {
+      type: "array",
+      items: positiveIntegerSchema,
+    },
     ref: { type: "string" },
     shortRef: { type: "string" },
   },
@@ -461,16 +505,13 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     schema: {
       params: idParamsSchema("boardId"),
       response: {
-        200: {
-          type: "object",
-          additionalProperties: true,
-        },
+        200: boardShellResponseSchema,
         404: errorSchema,
       },
     },
   }, async (request, reply) => {
     try {
-      return db.getBoardDetail(getIdParam(request.params, "boardId"));
+      return db.getBoardShell(getIdParam(request.params, "boardId"));
     } catch {
       return reply.code(404).send({ error: "board not found" });
     }
@@ -751,7 +792,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
       q?: string;
     };
     return {
-      tickets: db.listTickets(boardId, {
+      tickets: db.listTicketSummaries(boardId, {
         laneId: query.lane_id ? Number(query.lane_id) : undefined,
         tag: query.tag?.trim() || undefined,
         completed:

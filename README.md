@@ -109,11 +109,13 @@ Main endpoints:
 
 - `GET /api/health`
 - `GET/POST/PATCH/DELETE /api/boards`, `/api/boards/:boardId`
+  - board route returns board shell only (`board`, `lanes`, `tags`)
 - `GET/POST /api/boards/:boardId/lanes`
 - `PATCH/DELETE /api/lanes/:laneId`
 - `GET/POST /api/boards/:boardId/tags`
 - `PATCH/DELETE /api/tags/:tagId`
 - `GET/POST /api/boards/:boardId/tickets`
+  - ticket list route returns lightweight summaries
 - `GET/PATCH/DELETE /api/tickets/:ticketId`
 - `GET/POST /api/tickets/:ticketId/comments`
 - `GET /api/tickets/:ticketId/relations`
@@ -127,6 +129,8 @@ Main endpoints:
 
 - `laneId` and `isCompleted` are separate fields.
 - Tickets include canonical refs: `ref` and `shortRef`.
+- `GET /api/boards/:boardId` returns board shell only; tickets are fetched separately.
+- `GET /api/boards/:boardId/tickets` returns lightweight ticket summaries; use `GET /api/tickets/:ticketId` for full detail.
 - A blocker means "this ticket is blocked by these tickets".
 - Reciprocal blockers are not allowed.
 - Parent/child depth is limited to one level.

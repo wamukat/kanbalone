@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 
 import {
   type BoardDetailView,
+  type BoardShellView,
   type BoardExport,
   type BoardRow,
   type BoardView,
@@ -16,6 +17,7 @@ import {
   type TicketRelationsView,
   type TicketRelationView,
   type TicketRow,
+  type TicketSummaryView,
   type TicketView,
 } from "./types.js";
 import { renderMarkdown } from "./markdown.js";
@@ -123,6 +125,9 @@ export class KanbanDb {
       CREATE UNIQUE INDEX IF NOT EXISTS tags_board_name_idx
       ON tags(board_id, name);
 
+      CREATE INDEX IF NOT EXISTS lanes_board_position_idx
+      ON lanes(board_id, position, id);
+
       CREATE TABLE IF NOT EXISTS tickets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         board_id INTEGER NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
@@ -155,6 +160,18 @@ export class KanbanDb {
         blocker_ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
         PRIMARY KEY (ticket_id, blocker_ticket_id)
       );
+
+      CREATE INDEX IF NOT EXISTS tickets_board_lane_position_idx
+      ON tickets(board_id, lane_id, position, id);
+
+      CREATE INDEX IF NOT EXISTS tickets_parent_ticket_idx
+      ON tickets(parent_ticket_id);
+
+      CREATE INDEX IF NOT EXISTS comments_ticket_created_idx
+      ON comments(ticket_id, created_at, id);
+
+      CREATE INDEX IF NOT EXISTS ticket_blockers_blocker_ticket_idx
+      ON ticket_blockers(blocker_ticket_id, ticket_id);
     `);
 
     const ticketColumns = this.sqlite.prepare("PRAGMA table_info(tickets)").all() as Array<{ name: string }>;
@@ -202,7 +219,7 @@ export class KanbanDb {
     return row ? mapBoard(row) : null;
   }
 
-  getBoardDetail(boardId: Id): BoardDetailView {
+  getBoardShell(boardId: Id): BoardShellView {
     const board = this.getBoard(boardId);
     if (!board) {
       throw new Error("Board not found");
@@ -212,6 +229,13 @@ export class KanbanDb {
       board,
       lanes: this.listLanes(boardId),
       tags: this.listTags(boardId),
+    };
+  }
+
+  getBoardDetail(boardId: Id): BoardDetailView {
+    const shell = this.getBoardShell(boardId);
+    return {
+      ...shell,
       tickets: this.listTickets(boardId),
     };
   }
@@ -327,41 +351,24 @@ export class KanbanDb {
     }
   }
 
+  listTicketSummaries(boardId: Id, filters: ListTicketsFilters = {}): TicketSummaryView[] {
+    const rows = this.listTicketRows(boardId, filters);
+    const ticketIds = rows.map((row) => row.id);
+    const tagsByTicket = this.getTagsForTicketIds(ticketIds);
+    const blockerIdsByTicket = this.getBlockerIdsForTicketIds(ticketIds);
+    const board = this.getBoard(boardId);
+    return rows.map((row) =>
+      mapTicketSummary(
+        row,
+        board?.name ?? "",
+        tagsByTicket.get(row.id) ?? [],
+        blockerIdsByTicket.get(row.id) ?? [],
+      ),
+    );
+  }
+
   listTickets(boardId: Id, filters: ListTicketsFilters = {}): TicketView[] {
-    let sql = `
-      SELECT t.*
-      FROM tickets t
-      WHERE t.board_id = ?
-    `;
-    const params: Array<string | number> = [boardId];
-
-    if (typeof filters.laneId === "number") {
-      sql += " AND t.lane_id = ?";
-      params.push(filters.laneId);
-    }
-    if (typeof filters.completed === "boolean") {
-      sql += " AND t.is_completed = ?";
-      params.push(filters.completed ? 1 : 0);
-    }
-    if (filters.q) {
-      sql += " AND (t.title LIKE ? OR t.body_markdown LIKE ?)";
-      params.push(`%${filters.q}%`, `%${filters.q}%`);
-    }
-    if (filters.tag) {
-      sql += `
-        AND EXISTS (
-          SELECT 1
-          FROM ticket_tags tl
-          INNER JOIN tags l ON l.id = tl.tag_id
-          WHERE tl.ticket_id = t.id
-            AND l.name = ?
-        )
-      `;
-      params.push(filters.tag);
-    }
-    sql += " ORDER BY t.lane_id ASC, t.position ASC, t.id ASC";
-
-    const rows = this.sqlite.prepare(sql).all(...params) as TicketRow[];
+    const rows = this.listTicketRows(boardId, filters);
     const ticketIds = rows.map((row) => row.id);
     const tagsByTicket = this.getTagsForTicketIds(ticketIds);
     const commentsByTicket = this.getCommentsForTicketIds(ticketIds);
@@ -383,7 +390,7 @@ export class KanbanDb {
   }
 
   getTicket(ticketId: Id): TicketView | null {
-    const row = this.sqlite.prepare("SELECT * FROM tickets WHERE id = ?").get(ticketId) as TicketRow | undefined;
+    const row = this.getTicketRow(ticketId);
     if (!row) {
       return null;
     }
@@ -495,15 +502,15 @@ export class KanbanDb {
   }
 
   addComment(input: CreateCommentInput): CommentView {
-    const ticket = this.getTicket(input.ticketId);
-    if (!ticket) {
+    const boardId = this.getTicketBoardId(input.ticketId);
+    if (!boardId) {
       throw new Error("Ticket not found");
     }
     const now = this.now();
     const result = this.sqlite
       .prepare("INSERT INTO comments (ticket_id, body_markdown, created_at) VALUES (?, ?, ?)")
       .run(input.ticketId, input.bodyMarkdown, now);
-    this.touchBoard(ticket.boardId);
+    this.touchBoard(boardId);
     return mapComment({
       id: Number(result.lastInsertRowid),
       ticket_id: input.ticketId,
@@ -513,21 +520,21 @@ export class KanbanDb {
   }
 
   listComments(ticketId: Id): CommentView[] {
-    const ticket = this.getTicket(ticketId);
-    if (!ticket) {
+    if (!this.hasTicket(ticketId)) {
       throw new Error("Ticket not found");
     }
     return this.getCommentsForTicketIds([ticketId]).get(ticketId) ?? [];
   }
 
   getTicketRelations(ticketId: Id): TicketRelationsView {
-    const ticket = this.getTicket(ticketId);
-    if (!ticket) {
+    const row = this.getTicketRow(ticketId);
+    if (!row) {
       throw new Error("Ticket not found");
     }
+    const parent = row.parent_ticket_id == null ? null : this.getParentsForTicketIds([ticketId]).get(ticketId) ?? null;
     return {
-      parent: ticket.parent,
-      children: ticket.children,
+      parent,
+      children: this.getChildrenForTicketIds([ticketId]).get(ticketId) ?? [],
       blockers: this.getBlockersForTicketIds([ticketId]).get(ticketId) ?? [],
       blockedBy: this.getBlockedTicketsForTicketIds([ticketId]).get(ticketId) ?? [],
     };
@@ -647,6 +654,58 @@ export class KanbanDb {
 
   private touchBoard(boardId: Id): void {
     this.sqlite.prepare("UPDATE boards SET updated_at = ? WHERE id = ?").run(this.now(), boardId);
+  }
+
+  private hasTicket(ticketId: Id): boolean {
+    const row = this.sqlite.prepare("SELECT id FROM tickets WHERE id = ?").get(ticketId) as { id: Id } | undefined;
+    return Boolean(row);
+  }
+
+  private getTicketBoardId(ticketId: Id): Id | null {
+    const row = this.sqlite.prepare("SELECT board_id FROM tickets WHERE id = ?").get(ticketId) as { board_id: Id } | undefined;
+    return row?.board_id ?? null;
+  }
+
+  private getTicketRow(ticketId: Id): TicketRow | null {
+    const row = this.sqlite.prepare("SELECT * FROM tickets WHERE id = ?").get(ticketId) as TicketRow | undefined;
+    return row ?? null;
+  }
+
+  private listTicketRows(boardId: Id, filters: ListTicketsFilters = {}): TicketRow[] {
+    let sql = `
+      SELECT t.*
+      FROM tickets t
+      WHERE t.board_id = ?
+    `;
+    const params: Array<string | number> = [boardId];
+
+    if (typeof filters.laneId === "number") {
+      sql += " AND t.lane_id = ?";
+      params.push(filters.laneId);
+    }
+    if (typeof filters.completed === "boolean") {
+      sql += " AND t.is_completed = ?";
+      params.push(filters.completed ? 1 : 0);
+    }
+    if (filters.q) {
+      sql += " AND (t.title LIKE ? OR t.body_markdown LIKE ?)";
+      params.push(`%${filters.q}%`, `%${filters.q}%`);
+    }
+    if (filters.tag) {
+      sql += `
+        AND EXISTS (
+          SELECT 1
+          FROM ticket_tags tt
+          INNER JOIN tags tag ON tag.id = tt.tag_id
+          WHERE tt.ticket_id = t.id
+            AND tag.name = ?
+        )
+      `;
+      params.push(filters.tag);
+    }
+    sql += " ORDER BY t.lane_id ASC, t.position ASC, t.id ASC";
+
+    return this.sqlite.prepare(sql).all(...params) as TicketRow[];
   }
 
   private nextLanePosition(boardId: Id): number {
@@ -848,6 +907,31 @@ export class KanbanDb {
     );
   }
 
+  private getBlockerIdsForTicketIds(ticketIds: Id[]): Map<Id, Id[]> {
+    const blockerIdsByTicket = new Map<Id, Id[]>();
+    if (ticketIds.length === 0) {
+      return blockerIdsByTicket;
+    }
+    const placeholders = ticketIds.map(() => "?").join(", ");
+    const rows = this.sqlite
+      .prepare(
+        `
+        SELECT ticket_id, blocker_ticket_id
+        FROM ticket_blockers
+        WHERE ticket_id IN (${placeholders})
+        ORDER BY blocker_ticket_id ASC
+        `,
+      )
+      .all(...ticketIds) as Array<{ ticket_id: Id; blocker_ticket_id: Id }>;
+
+    rows.forEach((row) => {
+      const entry = blockerIdsByTicket.get(row.ticket_id) ?? [];
+      entry.push(row.blocker_ticket_id);
+      blockerIdsByTicket.set(row.ticket_id, entry);
+    });
+    return blockerIdsByTicket;
+  }
+
   private getBlockedTicketsForTicketIds(ticketIds: Id[]): Map<Id, TicketRelationView[]> {
     return this.getRelationEntriesForTicketIds(
       ticketIds,
@@ -937,6 +1021,30 @@ function mapTicket(
     blockers,
     parent,
     children,
+    ref: formatTicketRef(boardName, row.id),
+    shortRef: formatShortRef(row.id),
+  };
+}
+
+function mapTicketSummary(
+  row: TicketRow,
+  boardName: string,
+  tags: TagView[],
+  blockerIds: Id[],
+): TicketSummaryView {
+  return {
+    id: row.id,
+    boardId: row.board_id,
+    laneId: row.lane_id,
+    parentTicketId: row.parent_ticket_id,
+    title: row.title,
+    isCompleted: Boolean(row.is_completed),
+    priority: row.priority,
+    position: row.position,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    tags,
+    blockerIds,
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),
   };

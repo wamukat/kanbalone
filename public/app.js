@@ -277,12 +277,15 @@ async function refreshBoardDetail() {
     renderBoardDetail();
     return;
   }
-  const detail = await api(`/api/boards/${state.activeBoardId}`);
-  const allTickets = await api(`/api/boards/${state.activeBoardId}/tickets`);
+  const ticketListUrl = `/api/boards/${state.activeBoardId}/tickets`;
+  const [detail, allTickets] = await Promise.all([
+    api(`/api/boards/${state.activeBoardId}`),
+    api(ticketListUrl),
+  ]);
   const hasFilters = Object.values(state.filters).some((value) => value !== "");
   const tickets = hasFilters
     ? await api(
-        `/api/boards/${state.activeBoardId}/tickets?${new URLSearchParams(
+        `${ticketListUrl}?${new URLSearchParams(
           Object.entries(state.filters)
             .filter(([, value]) => value !== "")
             .map(([key, value]) => [key === "lane" ? "lane_id" : key, value]),

@@ -7,9 +7,9 @@
 
 1. まずボード一覧を取得する。
    `GET /api/boards`
-2. 操作対象ボードの詳細を取る。
+2. 操作対象ボードの shell を取る。
    `GET /api/boards/:boardId`
-3. チケット操作前に、必要ならチケット一覧または単票を取得する。
+3. チケット操作前に、必要なら軽量チケット一覧または単票を取得する。
    `GET /api/boards/:boardId/tickets`
    `GET /api/tickets/:ticketId`
 4. コメントや relation を個別取得したい場合は専用 endpoint を使う。
@@ -63,6 +63,9 @@
 
 `GET /api/boards/:boardId/tickets` に query を付けます。
 
+- この endpoint は軽量 summary 用です。
+- `bodyHtml`, `comments`, `parent`, `children`, 展開済み `blockers` は含みません。
+- 詳細が必要なら `GET /api/tickets/:ticketId` を使います。
 - `lane_id`
 - `tag`
 - `completed`
@@ -103,7 +106,7 @@ ID ベース:
 
 - `GET /api/boards/:boardId/events` を `SSE` で購読する
 - 更新時には短い `data: {...}` イベントが流れる
-- UI 側はイベント受信後に `GET /api/boards/:boardId` と必要なら `GET /api/boards/:boardId/tickets` を再取得する
+- UI 側はイベント受信後に `GET /api/boards/:boardId` と `GET /api/boards/:boardId/tickets` を再取得する
 
 ## Error Handling
 
@@ -123,6 +126,7 @@ ID ベース:
 
 ```text
 - Resolve board IDs and lane IDs before updating tickets.
+- Treat GET /api/boards/:boardId as board shell only; fetch tickets separately.
 - Treat laneId and isCompleted as separate fields.
 - blockerIds means "this ticket is blocked by these tickets".
 - Use GET /api/tickets/:ticketId/relations when you need both forward and reverse dependency edges.

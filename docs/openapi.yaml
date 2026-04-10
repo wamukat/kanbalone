@@ -88,17 +88,17 @@ paths:
 
   /api/boards/{boardId}:
     get:
-      summary: Get board detail
+      summary: Get board shell
       operationId: getBoard
       parameters:
         - $ref: "#/components/parameters/BoardId"
       responses:
         "200":
-          description: Board detail
+          description: Board shell
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BoardDetail"
+                $ref: "#/components/schemas/BoardShell"
         "404":
           $ref: "#/components/responses/Error"
     patch:
@@ -369,7 +369,7 @@ paths:
 
   /api/boards/{boardId}/tickets:
     get:
-      summary: List tickets
+      summary: List ticket summaries
       operationId: listTickets
       parameters:
         - $ref: "#/components/parameters/BoardId"
@@ -391,7 +391,7 @@ paths:
             type: string
       responses:
         "200":
-          description: Ticket list
+          description: Ticket summary list
           content:
             application/json:
               schema:
@@ -400,7 +400,7 @@ paths:
                   tickets:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Ticket"
+                      $ref: "#/components/schemas/TicketSummary"
                 required: [tickets]
         "404":
           $ref: "#/components/responses/Error"
@@ -775,6 +775,32 @@ components:
         shortRef: { type: string }
       required:
         [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isCompleted, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, parent, children, ref, shortRef]
+    TicketSummary:
+      type: object
+      properties:
+        id: { type: integer }
+        boardId: { type: integer }
+        laneId: { type: integer }
+        parentTicketId:
+          type: [integer, "null"]
+        title: { type: string }
+        isCompleted: { type: boolean }
+        priority: { type: integer }
+        position: { type: integer }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+        blockerIds:
+          type: array
+          items:
+            type: integer
+        ref: { type: string }
+        shortRef: { type: string }
+      required:
+        [id, boardId, laneId, parentTicketId, title, isCompleted, priority, position, createdAt, updatedAt, tags, blockerIds, ref, shortRef]
     TicketUpsert:
       type: object
       properties:
@@ -793,7 +819,7 @@ components:
           type: array
           items:
             type: integer
-    BoardDetail:
+    BoardShell:
       type: object
       properties:
         board:
@@ -806,11 +832,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Tag"
-        tickets:
-          type: array
-          items:
-            $ref: "#/components/schemas/Ticket"
-      required: [board, lanes, tags, tickets]
+      required: [board, lanes, tags]
     BoardExport:
       type: object
       properties:

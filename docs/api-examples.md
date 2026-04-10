@@ -14,7 +14,7 @@ curl -s http://127.0.0.1:3000/api/health
 curl -s http://127.0.0.1:3000/api/boards
 ```
 
-## Get Board Detail
+## Get Board Shell
 
 ```bash
 curl -s http://127.0.0.1:3000/api/boards/3
@@ -109,7 +109,7 @@ curl -s -X POST http://127.0.0.1:3000/api/tickets/6/comments \
   }'
 ```
 
-## Filter Tickets
+## Filter Ticket Summaries
 
 ```bash
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?completed=false'

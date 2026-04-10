@@ -109,6 +109,23 @@ export type TicketView = {
   shortRef: string;
 };
 
+export type TicketSummaryView = {
+  id: Id;
+  boardId: Id;
+  laneId: Id;
+  parentTicketId: Id | null;
+  title: string;
+  isCompleted: boolean;
+  priority: number;
+  position: number;
+  createdAt: string;
+  updatedAt: string;
+  tags: TagView[];
+  blockerIds: Id[];
+  ref: string;
+  shortRef: string;
+};
+
 export type CommentView = {
   id: Id;
   ticketId: Id;
@@ -136,6 +153,12 @@ export type BoardDetailView = {
   lanes: LaneView[];
   tags: TagView[];
   tickets: TicketView[];
+};
+
+export type BoardShellView = {
+  board: BoardView;
+  lanes: LaneView[];
+  tags: TagView[];
 };
 
 export type BoardExport = {

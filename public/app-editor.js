@@ -13,6 +13,14 @@ export function createEditorModule(ctx) {
     return getBoardTickets().find((ticket) => ticket.id === ticketId) ?? null;
   }
 
+  function hasChildOnBoard(ticketId) {
+    return getBoardTickets().some((ticket) => ticket.parentTicketId === ticketId);
+  }
+
+  function getBlockingTickets(ticketId) {
+    return getBoardTickets().filter((ticket) => ticket.id !== ticketId && ticket.blockerIds.includes(ticketId));
+  }
+
   function formatTicketChoice(ticket) {
     return `#${ticket.id} P${ticket.priority} ${ticket.title}`;
   }
@@ -272,7 +280,7 @@ export function createEditorModule(ctx) {
     }
     return getBoardTickets()
       .filter((ticket) => ticket.id !== state.editingTicketId)
-      .filter((ticket) => state.editorChildIds.includes(ticket.id) || (ticket.parentTicketId == null && ticket.children.length === 0))
+      .filter((ticket) => state.editorChildIds.includes(ticket.id) || (ticket.parentTicketId == null && !hasChildOnBoard(ticket.id)))
       .sort((a, b) => b.priority - a.priority || a.id - b.id);
   }
 
@@ -532,9 +540,7 @@ export function createEditorModule(ctx) {
       return "";
     }
     const parts = [];
-    const blocking = getBoardTickets().filter(
-      (candidate) => candidate.id !== ticket.id && candidate.blockerIds.includes(ticket.id),
-    );
+    const blocking = getBlockingTickets(ticket.id);
     if (ticket.parent) {
       parts.push(`<div><span class="muted">Parent</span> ${renderRelationChip(ticket.parent, "parent")}</div>`);
     }
