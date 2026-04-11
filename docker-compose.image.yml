@@ -1,0 +1,17 @@
+name: soloboard
+
+services:
+  soloboard:
+    image: ghcr.io/wamukat/soloboard:v0.9.0
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      SOLOBOARD_DB_FILE: /app/data/soloboard.sqlite
+    ports:
+      - "${KANBAN_PORT:-3000}:3000"
+    volumes:
+      - soloboard-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  soloboard-data:

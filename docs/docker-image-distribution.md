@@ -79,6 +79,12 @@ volumes:
   soloboard-data:
 ```
 
+For users who want to run the published image without building locally, use:
+
+```bash
+docker compose -f docker-compose.image.yml up
+```
+
 The container should keep `PORT=3000` by default. Users should usually change only the host-side port.
 
 Compose should not set `container_name`. Compose project names are the standard isolation mechanism, and users can override the project name with `docker compose -p <name> up`. With the default project name, the container appears as `soloboard-soloboard-1` instead of an opaque random name.

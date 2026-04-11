@@ -162,6 +162,7 @@ Release notes should include:
 
 - Published Docker image tags.
 - Basic `docker run` command.
+- Docker Compose command using `docker-compose.image.yml`.
 - Persistence path: `/app/data/soloboard.sqlite`.
 - Backup note.
 - No-authentication warning.
@@ -200,4 +201,3 @@ Adding `linux/arm64` requires validating native dependency behavior for `better-
 Do not move a release tag after it has been pushed and a Docker image has been published.
 
 If a release needs a follow-up fix, create a new patch release instead.
-

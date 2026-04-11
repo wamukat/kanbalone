@@ -122,6 +122,12 @@ Run with Docker Compose:
 docker compose up --build
 ```
 
+Run the published image with Docker Compose:
+
+```bash
+docker compose -f docker-compose.image.yml up
+```
+
 The Compose project name is set to `soloboard`, so the default container name is predictable:
 
 ```text
