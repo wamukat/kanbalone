@@ -1,5 +1,9 @@
 # SoloBoard
 
+<p align="center">
+  <img src="public/app-icon.svg" alt="SoloBoard app icon" width="120" height="120" />
+</p>
+
 SoloBoard is an ultra-light local personal kanban web app for human and AI collaboration.
 
 It is designed for one user, one machine, and fast local operation. It provides both a human-facing Web UI and a JSON Web API that can be used directly by agents and scripts.
@@ -84,6 +88,8 @@ http://127.0.0.1:3000
 ```
 
 ## Docker
+
+Detailed distribution plan: [docs/docker-image-distribution.md](docs/docker-image-distribution.md)
 
 Build and run with Docker Compose:
 

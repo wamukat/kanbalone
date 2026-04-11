@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#04342C"/>
+      <stop offset="100%" stop-color="#085041"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="120" height="120" rx="24" fill="url(#bg)"/>
+
+  <!-- Grid ghost cards -->
+  <rect x="14" y="18" width="40" height="36" rx="5" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="64" y="18" width="40" height="36" rx="5" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="14" y="64" width="40" height="36" rx="5" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="64" y="64" width="40" height="36" rx="5" fill="#FFFFFF" opacity="0.08"/>
+
+  <!-- Done card (bright teal) -->
+  <rect x="14" y="18" width="40" height="36" rx="5" fill="#1D9E75" opacity="0.95"/>
+  <!-- Checkmark -->
+  <path d="M22 36 L30 44 L48 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- AI text lines (top-right card) -->
+  <line x1="70" y1="28" x2="98" y2="28" stroke="#9FE1CB" stroke-width="2" stroke-linecap="round" opacity="0.90"/>
+  <line x1="70" y1="36" x2="90" y2="36" stroke="#9FE1CB" stroke-width="2" stroke-linecap="round" opacity="0.60"/>
+  <line x1="70" y1="44" x2="95" y2="44" stroke="#9FE1CB" stroke-width="2" stroke-linecap="round" opacity="0.40"/>
+
+  <!-- In-progress lines (bottom-left card) — amber accent -->
+  <line x1="20" y1="76" x2="46" y2="76" stroke="#FAC775" stroke-width="2.5" stroke-linecap="round" opacity="0.90"/>
+  <line x1="20" y1="83" x2="38" y2="83" stroke="#FAC775" stroke-width="2.5" stroke-linecap="round" opacity="0.60"/>
+  <line x1="20" y1="90" x2="43" y2="90" stroke="#FAC775" stroke-width="2.5" stroke-linecap="round" opacity="0.40"/>
+
+  <!-- Pending circle (bottom-right card) -->
+  <circle cx="84" cy="82" r="8" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.22"/>
+</svg>
