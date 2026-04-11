@@ -1008,8 +1008,16 @@ button:hover,
   background: rgba(104, 99, 85, 0.04);
 }
 
+.list-header > :first-child {
+  display: flex;
+  align-items: center;
+}
+
+.list-header input[type="checkbox"],
 .list-row input[type="checkbox"] {
-  width: auto;
+  justify-self: start;
+  width: 1rem;
+  height: 1rem;
   margin: 0;
 }
 

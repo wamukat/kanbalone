@@ -175,6 +175,28 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".list-header")).toContainText("Status");
     await expect(page.locator(".list-actions").first()).toContainText("Select tickets to edit in bulk");
     await expect(page.locator(".list-action-button")).toHaveCount(0);
+    const smokeTicketPriorityCell = page.getByRole("button", { name: "Smoke ticket" }).locator("..").locator(".list-cell").nth(1);
+    await expect(smokeTicketPriorityCell).toHaveText("3");
+    const listCheckboxAlignment = await page.evaluate(() => {
+      const headerCheckbox = document.querySelector("#list-select-all");
+      const rowCheckbox = document.querySelector("[data-list-ticket-id]");
+      const header = document.querySelector(".list-header");
+      const row = document.querySelector(".list-row");
+      if (!headerCheckbox || !rowCheckbox || !header || !row) {
+        return null;
+      }
+      const headerBox = headerCheckbox.getBoundingClientRect();
+      const rowBox = rowCheckbox.getBoundingClientRect();
+      return {
+        leftOffset: Math.abs(headerBox.left - header.getBoundingClientRect().left - (rowBox.left - row.getBoundingClientRect().left)),
+        centerOffset: Math.abs(headerBox.left + headerBox.width / 2 - (rowBox.left + rowBox.width / 2)),
+        widthOffset: Math.abs(headerBox.width - rowBox.width),
+      };
+    });
+    expect(listCheckboxAlignment).not.toBeNull();
+    expect(listCheckboxAlignment?.leftOffset).toBeLessThan(1);
+    expect(listCheckboxAlignment?.centerOffset).toBeLessThan(1);
+    expect(listCheckboxAlignment?.widthOffset).toBeLessThan(1);
     const emptyListActionsHeight = await page.locator(".list-actions").first().evaluate((element) => element.getBoundingClientRect().height);
     await page.getByRole("button", { name: "Smoke ticket" }).locator("..").locator("[data-list-ticket-id]").check();
     await expect(page.locator(".list-actions").first()).toContainText("1 selected");
@@ -182,6 +204,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect(Math.abs(selectedListActionsHeight - emptyListActionsHeight)).toBeLessThan(1);
     await expect(page.locator("[data-bulk-complete='true'] use[href='/icons.svg#check']").first()).toHaveCount(1);
     await expect(page.locator("[data-bulk-archive='true'] use[href='/icons.svg#archive']").first()).toHaveCount(1);
+    await expect(page.locator("[data-bulk-delete='true'] use[href='/icons.svg#trash-2']").first()).toHaveCount(1);
     await expect(page.locator("[data-bulk-complete='false']")).toHaveCount(0);
     await expect(page.locator("[data-bulk-archive='false']")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Parent candidate" }).locator("..").locator(".list-status-cell .ticket-status-icon-done use[href='/icons.svg#check']")).toHaveCount(1);
@@ -205,6 +228,31 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await page.locator("#archived-filter-button").click();
     await expect(page.locator(".ticket-card")).toHaveCount(4);
+
+    const bulkDeleteTicketResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
+      data: {
+        laneId: todoLane.id,
+        title: "Bulk delete candidate",
+        priority: 2,
+      },
+    });
+    expect(bulkDeleteTicketResponse.status()).toBe(201);
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
+    await expect(page.locator("#list-board")).toBeVisible();
+    const bulkDeleteCandidateRow = page.getByRole("button", { name: "Bulk delete candidate" }).locator("..");
+    await expect(bulkDeleteCandidateRow).toBeVisible();
+    await bulkDeleteCandidateRow.locator("[data-list-ticket-id]").check();
+    const bulkDeleteButton = page.locator(".list-actions [data-bulk-delete='true']").first();
+    await expect(bulkDeleteButton).toBeVisible();
+    await bulkDeleteButton.click();
+    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ux-submit-button")).toHaveText("Delete");
+    const bulkDeleteResponse = page.waitForResponse((response) => response.url().includes("/api/tickets/") && response.request().method() === "DELETE");
+    await page.locator("#ux-submit-button").click();
+    expect((await bulkDeleteResponse).status()).toBe(204);
+    await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
+    await expect(page.getByRole("button", { name: "Bulk delete candidate" })).toHaveCount(0);
+    await page.locator("#completed-filter [data-value='']").click();
 
     await page.getByRole("button", { name: "Smoke ticket" }).click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
@@ -327,6 +375,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-tag-options")).toBeHidden();
 
     await page.locator("#ticket-parent-search").fill("Parent");
+    await expect(page.locator("#ticket-parent-options .ticket-picker-meta").first()).toHaveText("Done");
     await page.locator("#ticket-parent-search").press("Enter");
     await expect(page.locator("#ticket-parent-summary")).toContainText("Parent candidate");
     await expect(page.locator("#ticket-child-summary")).toContainText("Clear parent to edit children");

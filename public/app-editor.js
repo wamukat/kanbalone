@@ -29,7 +29,7 @@ export function createEditorModule(ctx) {
   }
 
   function formatTicketChoice(ticket) {
-    return `#${ticket.id} P${ticket.priority} ${ticket.title}`;
+    return `#${ticket.id} ${ticket.title}`;
   }
 
   function matchTicketQuery(ticket, query) {
@@ -47,11 +47,12 @@ export function createEditorModule(ctx) {
   }
 
   function renderTicketOption(ticket, attrName, isSelected) {
+    const meta = ticket.isCompleted ? '<span class="ticket-picker-meta">Done</span>' : "";
     return `
       <button type="button" class="tag-picker-item ${isSelected ? "selected" : ""}" ${attrName}="${ticket.id}" role="option" aria-selected="${isSelected}">
         <span class="ticket-picker-id">#${ticket.id}</span>
         <span class="tag-picker-text">${ctx.escapeHtml(ticket.title)}</span>
-        <span class="ticket-picker-meta">P${ticket.priority}${ticket.isCompleted ? " Done" : ""}</span>
+        ${meta}
       </button>
     `;
   }

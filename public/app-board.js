@@ -309,6 +309,7 @@ export function createBoardModule(ctx) {
     if (selectedTickets.some((ticket) => ticket.isArchived)) {
       buttons.push(`<button type="button" class="list-action-button action-with-icon" data-bulk-archive="false">${icon("rotate-ccw")}<span>Restore</span></button>`);
     }
+    buttons.push(`<button type="button" class="list-action-button action-with-icon danger" data-bulk-delete="true">${icon("trash-2")}<span>Delete</span></button>`);
     return `
       <div class="list-actions">
         <span class="list-selection-count">${selectedTickets.length} selected</span>
@@ -378,7 +379,7 @@ export function createBoardModule(ctx) {
         </button>
         <div class="list-cell muted">${relations || "-"}</div>
         <div class="tag-list">${tags || '<span class="muted">-</span>'}</div>
-        <div class="list-cell">P${ticket.priority}</div>
+        <div class="list-cell">${ticket.priority}</div>
         <div class="list-cell muted">${ctx.escapeHtml(lane?.name || "Open")}</div>
         <div class="list-cell list-status-cell">${statusIcons || '<span class="muted">-</span>'}</div>
       </div>
@@ -430,6 +431,25 @@ export function createBoardModule(ctx) {
     });
     state.selectedListTicketIds = [];
     await ctx.refreshBoardDetail();
+  }
+
+  async function deleteSelectedListTickets() {
+    const ticketIds = [...state.selectedListTicketIds];
+    if (ticketIds.length === 0) {
+      return;
+    }
+    await ctx.confirmAndRun({
+      title: "Delete Tickets",
+      message: `Delete ${ticketIds.length} selected ticket${ticketIds.length === 1 ? "" : "s"}?`,
+      submitLabel: "Delete",
+      run: async () => {
+        for (const ticketId of ticketIds) {
+          await ctx.api(`/api/tickets/${ticketId}`, { method: "DELETE" });
+        }
+        state.selectedListTicketIds = [];
+        await ctx.refreshBoardDetail();
+      },
+    });
   }
 
   function handleListTicketSelection(event) {
@@ -940,6 +960,10 @@ export function createBoardModule(ctx) {
     }
     const bulkButton = event.target.closest(".list-action-button");
     if (bulkButton && elements.listBoard.contains(bulkButton) && !bulkButton.disabled) {
+      if (bulkButton.dataset.bulkDelete) {
+        deleteSelectedListTickets();
+        return;
+      }
       if (bulkButton.dataset.bulkArchive) {
         updateSelectedListArchive(bulkButton.dataset.bulkArchive === "true");
         return;
