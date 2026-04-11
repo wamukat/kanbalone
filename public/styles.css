@@ -598,6 +598,11 @@ button:hover,
   margin-top: 0.2rem;
 }
 
+.editor-relations-content {
+  display: grid;
+  gap: 0.55rem;
+}
+
 .editor-mode > .ticket-tag-field {
   margin-top: -0.1rem;
 }
@@ -1707,7 +1712,7 @@ button:hover,
 
 .editor-inline-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr) minmax(0, 0.9fr) auto;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.7rem;
   align-items: center;
 }
@@ -1716,17 +1721,32 @@ button:hover,
   min-width: 0;
 }
 
+.editor-form .editor-compact-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.editor-form .editor-compact-label > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.editor-form .editor-compact-label > select,
+.editor-form .editor-compact-label > input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
 .completion-toggle {
   position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.completion-toggle-label {
-  color: var(--text);
-  font-size: 0.95rem;
-  font-weight: 400;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
 }
 
 .completion-toggle input {
@@ -1740,8 +1760,10 @@ button:hover,
 .completion-toggle-control {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.55rem;
+  flex: 1 1 auto;
+  min-width: 0;
   width: 100%;
   min-height: 2.75rem;
   padding: 0.55rem 0.7rem;
@@ -1756,7 +1778,7 @@ button:hover,
 .completion-switch {
   position: relative;
   flex: 0 0 auto;
-  width: 2.35rem;
+  width: 3rem;
   height: 1.25rem;
   border: 1px solid rgba(104, 99, 85, 0.28);
   border-radius: 999px;
@@ -1794,7 +1816,7 @@ button:hover,
 }
 
 .completion-toggle input:checked + .completion-toggle-control .completion-switch::after {
-  transform: translateX(1.1rem);
+  transform: translateX(1.75rem);
 }
 
 .archive-ticket-button {
@@ -1868,6 +1890,17 @@ button:hover,
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 0.1rem;
+  }
+
+}
+
+@media (max-width: 680px) {
+  .editor-inline-row {
+    grid-template-columns: 1fr;
+  }
+
+  .completion-toggle {
+    justify-content: flex-start;
   }
 }
 
