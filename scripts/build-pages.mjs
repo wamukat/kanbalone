@@ -41,7 +41,9 @@ function renderPage({ lang, title, body, switchLabel, switchHref }) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#1f6f5f" />
     <title>${title}</title>
-    <link rel="icon" href="${BASE_PATH}/assets/app-icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="${BASE_PATH}/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="${BASE_PATH}/assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="${BASE_PATH}/assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="${BASE_PATH}/assets/pages.css" />
   </head>
   <body>
@@ -56,6 +58,9 @@ function renderPage({ lang, title, body, switchLabel, switchHref }) {
       </nav>
     </header>
     <main class="content">
+      <div class="guide-hero">
+        <img src="${BASE_PATH}/assets/app-icon.svg" alt="" width="96" height="96" />
+      </div>
       ${body}
     </main>
     <footer class="site-footer">
@@ -143,8 +148,23 @@ a {
   padding: 2rem 1rem 3rem;
 }
 
+.guide-hero {
+  display: flex;
+  justify-content: center;
+  margin: 0.4rem 0 1.2rem;
+}
+
+.guide-hero img {
+  width: 6rem;
+  height: 6rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
 .content h1 {
   margin: 0 0 1rem;
+  text-align: center;
   font-size: 2rem;
 }
 
@@ -208,6 +228,9 @@ await rm(OUT_DIR, { recursive: true, force: true });
 await mkdir(ASSET_DIR, { recursive: true });
 await cp(path.join(ROOT, "docs/assets"), ASSET_DIR, { recursive: true });
 await cp(path.join(ROOT, "public/app-icon.svg"), path.join(ASSET_DIR, "app-icon.svg"));
+await cp(path.join(ROOT, "public/favicon.svg"), path.join(ASSET_DIR, "favicon.svg"));
+await cp(path.join(ROOT, "public/favicon-32.png"), path.join(ASSET_DIR, "favicon-32.png"));
+await cp(path.join(ROOT, "public/apple-touch-icon.png"), path.join(ASSET_DIR, "apple-touch-icon.png"));
 await writeFile(path.join(ASSET_DIR, "pages.css"), css, "utf8");
 
 for (const page of pages) {
