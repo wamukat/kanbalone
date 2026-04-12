@@ -38,6 +38,12 @@ Open:
 http://127.0.0.1:3000
 ```
 
+User guide:
+
+```text
+https://wamukat.github.io/SoloBoard/
+```
+
 Use `ghcr.io/wamukat/soloboard:latest` when you want the newest released image instead of a pinned version.
 
 ## Docker Compose

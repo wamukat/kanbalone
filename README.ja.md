@@ -39,6 +39,12 @@ docker run --rm \
 http://127.0.0.1:3000
 ```
 
+ユーザーガイド:
+
+```text
+https://wamukat.github.io/SoloBoard/
+```
+
 固定バージョンではなく、最新リリースの Image を使いたい場合は `ghcr.io/wamukat/soloboard:latest` を指定してください。
 
 ## Docker Compose
