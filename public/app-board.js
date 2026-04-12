@@ -1,5 +1,6 @@
 import { calculateVisibleWindow, takeRoundRobinBatch } from "./app-board-utils.js";
 import { icon } from "./icons.js";
+import { tagBackgroundStyle, tagToneClass } from "./app-tags.js";
 
 export function createBoardModule(ctx) {
   const { state, elements } = ctx;
@@ -347,7 +348,7 @@ export function createBoardModule(ctx) {
   function renderListRow(entry) {
     const { ticket, indent } = entry;
     const tags = ticket.tags
-      .map((tag) => `<span class="tag" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>`)
+      .map((tag) => `<span class="tag${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)}>${ctx.escapeHtml(tag.name)}</span>`)
       .join("");
     const blockedByTickets = state.boardTickets.filter((candidate) => ticket.blockerIds.includes(candidate.id));
     const blockedBy = blockedByTickets.length
@@ -522,7 +523,7 @@ export function createBoardModule(ctx) {
         <span class="ticket-status-icons">${statusIcons}</span>
       </div>
       <div class="tag-list">
-        ${ticket.tags.map((tag) => `<span class="tag" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>`).join("")}
+        ${ticket.tags.map((tag) => `<span class="tag${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)}>${ctx.escapeHtml(tag.name)}</span>`).join("")}
       </div>
     `;
 
@@ -770,7 +771,7 @@ export function createBoardModule(ctx) {
       submitLabel: "Create",
       fields: [
         { id: "name", label: "Tag name", value: "", required: true },
-        { id: "color", label: "Color", value: "#1f6f5f", required: true, type: "color" },
+        { id: "color", label: "Color", value: "#1f6f5f", required: true, type: "color", allowNone: true, enabled: false },
       ],
     });
     if (!values) {
@@ -797,7 +798,7 @@ export function createBoardModule(ctx) {
       const row = document.createElement("div");
       row.className = "sidebar-tag-row";
       row.innerHTML = `
-        <button type="button" class="sidebar-tag-badge" style="background:${ctx.escapeHtml(tag.color)}" title="Edit tag: ${ctx.escapeHtml(tag.name)}" aria-label="Edit tag: ${ctx.escapeHtml(tag.name)}">
+        <button type="button" class="sidebar-tag-badge${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)} title="Edit tag: ${ctx.escapeHtml(tag.name)}" aria-label="Edit tag: ${ctx.escapeHtml(tag.name)}">
           <span>${ctx.escapeHtml(tag.name)}</span>
           ${icon("pencil")}
         </button>
@@ -815,7 +816,7 @@ export function createBoardModule(ctx) {
       dangerLabel: "Delete",
       fields: [
         { id: "name", label: "Tag name", value: tag.name, required: true },
-        { id: "color", label: "Color", value: tag.color, required: true, type: "color" },
+        { id: "color", label: "Color", value: tag.color, required: true, type: "color", allowNone: true },
       ],
     });
     if (!result) {

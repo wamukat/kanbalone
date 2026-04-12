@@ -336,6 +336,12 @@ button:hover,
   opacity: 0.8;
 }
 
+.sidebar-tag-badge.tag-no-color {
+  border-color: rgba(104, 99, 85, 0.42);
+  background: transparent;
+  color: var(--text);
+}
+
 .sidebar-board-actions {
   display: grid;
   gap: 0.5rem;
@@ -647,7 +653,7 @@ button:hover,
   gap: 0.28rem;
   min-height: 1.6rem;
   padding: 0.1rem 0.5rem;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 999px;
   color: #fff;
   font-size: 0.8rem;
@@ -755,6 +761,11 @@ button:hover,
   height: 0.85rem;
   border-radius: 999px;
   border: 1px solid rgba(28, 28, 23, 0.14);
+}
+
+.tag-picker-swatch.tag-no-color {
+  border-color: rgba(104, 99, 85, 0.42);
+  background: transparent;
 }
 
 .tag-picker-text {
@@ -1314,9 +1325,16 @@ button:hover,
   align-items: center;
   gap: 0.35rem;
   border-radius: 999px;
+  border: 1px solid transparent;
   padding: 0.15rem 0.55rem;
   color: #fff;
   font-size: 0.8rem;
+}
+
+.tag-no-color {
+  border-color: rgba(104, 99, 85, 0.38);
+  background: transparent;
+  color: var(--text);
 }
 
 .muted {
@@ -1397,6 +1415,11 @@ button:hover,
   gap: 0.8rem;
 }
 
+.ux-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
 .ux-fields input {
   width: 100%;
   border: 1px solid var(--line);
@@ -1408,6 +1431,51 @@ button:hover,
 .ux-fields input[type="color"] {
   padding: 0.2rem;
   min-height: 2.5rem;
+}
+
+.ux-color-row {
+  display: grid;
+  grid-template-columns: minmax(3rem, 1fr) minmax(0, 2fr) minmax(0, 2fr);
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ux-color-enable-switch {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.ux-color-row input[type="color"] {
+  width: 100%;
+  height: 2.5rem;
+}
+
+.ux-color-picker-cell {
+  display: block;
+  position: relative;
+  min-width: 0;
+}
+
+.ux-color-none-preview {
+  display: none;
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 253, 247, 0.38);
+}
+
+.ux-color-picker-cell.is-color-none input[type="color"] {
+  display: none;
+}
+
+.ux-color-picker-cell.is-color-none .ux-color-none-preview {
+  display: block;
 }
 
 .editor-mode,
@@ -1757,6 +1825,7 @@ button:hover,
   gap: 0.5rem;
 }
 
+.toggle-switch-input,
 .completion-toggle input {
   position: absolute;
   width: 1px;
@@ -1765,6 +1834,7 @@ button:hover,
   pointer-events: none;
 }
 
+.toggle-switch-control,
 .completion-toggle-control {
   display: inline-flex;
   align-items: center;
@@ -1783,6 +1853,14 @@ button:hover,
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
+.ux-color-enable-switch .toggle-switch-control {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.55rem;
+}
+
+.toggle-switch-knob,
 .completion-switch {
   position: relative;
   flex: 0 0 auto;
@@ -1794,6 +1872,7 @@ button:hover,
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
+.toggle-switch-knob::after,
 .completion-switch::after {
   position: absolute;
   top: 0.15rem;
@@ -1807,22 +1886,26 @@ button:hover,
   transition: transform 0.15s ease;
 }
 
+.toggle-switch-input:focus-visible + .toggle-switch-control,
 .completion-toggle input:focus-visible + .completion-toggle-control {
   outline: 2px solid rgba(31, 111, 95, 0.28);
   outline-offset: 2px;
 }
 
+.toggle-switch-input:checked + .toggle-switch-control,
 .completion-toggle input:checked + .completion-toggle-control {
   border-color: rgba(31, 111, 95, 0.7);
   background: rgba(31, 111, 95, 0.08);
   color: var(--accent);
 }
 
+.toggle-switch-input:checked + .toggle-switch-control .toggle-switch-knob,
 .completion-toggle input:checked + .completion-toggle-control .completion-switch {
   border-color: rgba(31, 111, 95, 0.75);
   background: var(--accent);
 }
 
+.toggle-switch-input:checked + .toggle-switch-control .toggle-switch-knob::after,
 .completion-toggle input:checked + .completion-toggle-control .completion-switch::after {
   transform: translateX(1.75rem);
 }

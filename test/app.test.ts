@@ -774,3 +774,27 @@ test("lane deletion rejects non-empty lane", async () => {
 
   await app.close();
 });
+
+test("tags can use no color", async () => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+
+  const createdBoardResponse = await app.inject({
+    method: "POST",
+    url: "/api/boards",
+    payload: { name: "Board" },
+  });
+  const board = createdBoardResponse.json();
+
+  const tagResponse = await app.inject({
+    method: "POST",
+    url: `/api/boards/${board.board.id}/tags`,
+    payload: { name: "outline", color: "" },
+  });
+  assert.equal(tagResponse.statusCode, 201);
+  assert.equal(tagResponse.json().color, "");
+
+  await app.close();
+});

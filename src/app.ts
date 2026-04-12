@@ -427,7 +427,7 @@ const tagCreateBodySchema = {
   additionalProperties: false,
   properties: {
     name: { type: "string", minLength: 1 },
-    color: { type: "string", minLength: 1 },
+    color: { type: "string" },
   },
 } as const;
 
@@ -437,7 +437,7 @@ const tagUpdateBodySchema = {
   minProperties: 1,
   properties: {
     name: { type: "string", minLength: 1 },
-    color: { type: "string", minLength: 1 },
+    color: { type: "string" },
   },
 } as const;
 

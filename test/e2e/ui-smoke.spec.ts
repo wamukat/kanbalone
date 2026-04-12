@@ -350,18 +350,58 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator("#ticket-new-tag-button").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
     await page.locator('[data-field-id="name"]').fill("smoke-tag");
+    await expect(page.locator(".ux-color-row [data-field-id='color']")).toBeVisible();
+    await expect(page.locator("[data-color-enabled-for='color']")).not.toBeChecked();
+    await expect(page.locator('[data-field-id="color"]')).toBeDisabled();
+    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#1f6f5f");
+    await expect(page.locator("[data-color-picker-for='color']")).toHaveValue("#1f6f5f");
+    await expect(page.locator(".ux-color-row [data-color-picker-for='color']")).toBeHidden();
+    await expect(page.locator(".ux-color-none-preview")).toBeVisible();
+    const colorInputWidths = await page.locator(".ux-color-row").evaluate((row) => {
+      const [switchCell, hexInput, colorCell] = row.children;
+      return {
+        switch: switchCell.getBoundingClientRect().width,
+        hex: hexInput.getBoundingClientRect().width,
+        color: colorCell.getBoundingClientRect().width,
+      };
+    });
+    expect(Math.abs(colorInputWidths.hex - colorInputWidths.switch * 2)).toBeLessThan(2);
+    expect(Math.abs(colorInputWidths.color - colorInputWidths.hex)).toBeLessThan(1);
+    await page.locator(".ux-color-enable-switch").click();
+    await expect(page.locator("[data-color-enabled-for='color']")).toBeChecked();
+    await expect(page.locator('[data-field-id="color"]')).toBeEnabled();
+    await expect(page.locator(".ux-color-row [data-color-picker-for='color']")).toBeVisible();
+    await expect(page.locator("[data-color-picker-for='color']")).toHaveValue("#1f6f5f");
     await page.locator('[data-field-id="color"]').fill("#336699");
+    await expect(page.locator("[data-color-picker-for='color']")).toHaveValue("#336699");
+    await page.locator("[data-color-picker-for='color']").fill("#445566");
+    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#445566");
+    await expect(page.locator("[data-color-enabled-for='color']")).toBeChecked();
+    await page.locator(".ux-color-enable-switch").click();
+    await expect(page.locator('[data-field-id="color"]')).toBeDisabled();
+    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#445566");
+    await expect(page.locator("[data-color-picker-for='color']")).toBeDisabled();
+    await expect(page.locator("[data-color-picker-for='color']")).toBeHidden();
+    await expect(page.locator(".ux-color-none-preview")).toBeVisible();
+    await page.locator(".ux-color-enable-switch").click();
+    await expect(page.locator("[data-color-picker-for='color']")).toBeVisible();
+    await page.locator(".ux-color-enable-switch").click();
+    await expect(page.locator("[data-color-enabled-for='color']")).not.toBeChecked();
+    await expect(page.locator('[data-field-id="color"]')).not.toBeFocused();
+    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#445566");
     await page.locator("#ux-submit-button").click();
     await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
     await expect(page.locator("#ticket-tag-summary")).toContainText("smoke-tag");
+    await expect(page.locator("#ticket-tag-summary .ticket-tag-chip")).toHaveClass(/tag-no-color/);
     await expect(page.locator("#ticket-tag-options [data-tag-id]")).toHaveCount(1);
     const sidebarTagBadge = page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "smoke-tag" });
     await expect(sidebarTagBadge).toBeVisible();
+    await expect(sidebarTagBadge).toHaveClass(/tag-no-color/);
     await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Edit tag: smoke-tag");
     await expect(sidebarTagBadge.locator("use[href='/icons.svg#pencil']")).toHaveCount(1);
     await expect(page.locator("#sidebar-tag-list .icon-button")).toHaveCount(0);
 
-    await page.locator("[data-remove-tag-id]").click();
+    await page.locator("[data-remove-tag-id]", { hasText: "smoke-tag" }).click();
     await expect(page.locator("#ticket-tag-summary")).not.toContainText("smoke-tag");
 
     await page.locator("#ticket-tag-search").fill("smoke");

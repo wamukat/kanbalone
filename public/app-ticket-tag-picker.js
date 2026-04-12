@@ -1,10 +1,11 @@
 import { icon } from "./icons.js";
+import { tagBackgroundStyle, tagToneClass } from "./app-tags.js";
 
 export function createTicketTagPicker(ctx) {
   const { state, elements } = ctx;
 
   function renderTagSummaryChip(tag) {
-    return `<button type="button" class="ticket-tag-chip" data-remove-tag-id="${tag.id}" style="background:${ctx.escapeHtml(tag.color)}" title="Remove ${ctx.escapeHtml(tag.name)}">${ctx.escapeHtml(tag.name)} ${icon("x")}</button>`;
+    return `<button type="button" class="ticket-tag-chip${tagToneClass(tag)}" data-remove-tag-id="${tag.id}"${tagBackgroundStyle(tag, ctx.escapeHtml)} title="Remove ${ctx.escapeHtml(tag.name)}">${ctx.escapeHtml(tag.name)} ${icon("x")}</button>`;
   }
 
   function syncOptions() {
@@ -40,7 +41,7 @@ export function createTicketTagPicker(ctx) {
             const isSelected = state.editorTagIds.includes(tag.id);
             return `
               <button type="button" class="tag-picker-item ${isSelected ? "selected" : ""}" data-tag-id="${tag.id}" role="option" aria-selected="${isSelected}">
-                <span class="tag-picker-swatch" style="background:${ctx.escapeHtml(tag.color)}"></span>
+                <span class="tag-picker-swatch${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)}></span>
                 <span class="tag-picker-text">${ctx.escapeHtml(tag.name)}</span>
                 <span class="tag-picker-check" aria-hidden="true">${isSelected ? icon("check") : ""}</span>
               </button>
@@ -140,7 +141,7 @@ export function createTicketTagPicker(ctx) {
       submitLabel: "Create",
       fields: [
         { id: "name", label: "Name", required: true },
-        { id: "color", label: "Color", type: "color", value: "#2f7f6f", required: true },
+        { id: "color", label: "Color", type: "color", value: "#1f6f5f", required: true, allowNone: true, enabled: false },
       ],
     });
     if (!values) {

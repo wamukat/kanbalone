@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { calculateVisibleWindow, takeRoundRobinBatch } from "../public/app-board-utils.js";
+import { tagTextColor } from "../public/app-tags.js";
 
 test("calculateVisibleWindow returns a bounded overscanned range", () => {
   const window = calculateVisibleWindow(5000, 44, 12, 4400, 600);
@@ -26,6 +27,11 @@ test("takeRoundRobinBatch distributes work across lanes", () => {
   ]);
   assert.equal(result.nextLaneIndex, 2);
   assert.deepEqual(queues.map((queue) => queue.index), [2, 2, 1]);
+});
+
+test("tagTextColor selects readable foreground colors", () => {
+  assert.equal(tagTextColor("#eeeeee"), "#1c1c17");
+  assert.equal(tagTextColor("#1f6f5f"), "#fffdf7");
 });
 
 test("perf seed requires overwrite flag when board already exists", async () => {

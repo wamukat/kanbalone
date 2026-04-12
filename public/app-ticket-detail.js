@@ -1,4 +1,5 @@
 import { icon } from "./icons.js";
+import { tagBackgroundStyle, tagToneClass } from "./app-tags.js";
 
 export function createTicketDetailModule(ctx) {
   const { state, elements } = ctx;
@@ -51,7 +52,7 @@ export function createTicketDetailModule(ctx) {
     const priority = `<span class="ticket-priority-label">Priority: ${ticket.priority}</span>`;
     const archived = ticket.isArchived ? '<span class="ticket-archived-label">Archived</span>' : "";
     const tags = ticket.tags
-      .map((tag) => `<span class="tag" style="background:${ctx.escapeHtml(tag.color)}">${ctx.escapeHtml(tag.name)}</span>`)
+      .map((tag) => `<span class="tag${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)}>${ctx.escapeHtml(tag.name)}</span>`)
       .join("");
     return `
       <div class="ticket-meta-row">${archived}${priority}${tags}</div>
