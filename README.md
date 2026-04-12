@@ -1,22 +1,25 @@
 # SoloBoard
 
+[日本語](README.ja.md)
+
 <p align="center">
   <img src="public/app-icon.svg" alt="SoloBoard app icon" width="120" height="120" />
 </p>
 
-SoloBoard is a small local kanban app for personal work, release planning, and AI-assisted development.
+SoloBoard is a small local kanban app optimized for individuals who develop together with AI.
 
-It runs as a single process, stores data in SQLite, and exposes both a web UI and a JSON API for scripts or agents.
+You can start it quickly with Docker and use it right away. In addition to a browser-based web UI for humans, it also provides a JSON API that is easy for scripts and AI agents to use.
 
 ![SoloBoard kanban screenshot](docs/assets/soloboard-kanban.png)
 
 ## Why SoloBoard
 
-- Local-first board for one person and one machine.
-- Kanban and list views over the same tickets.
-- Tags, comments, blockers, parent/child links, done state, and archive state.
-- JSON API designed to be usable by automation and AI agents.
-- Docker image available from GitHub Container Registry.
+- Optimized for one person and one machine working with AI, without user or permission management.
+- All data is stored locally.
+- Multiple boards for different work categories.
+- Tags, comments, and ticket dependencies: blockers and parent/child tickets.
+- Lightweight JSON API designed for automation and AI agents.
+- Create the first board and start managing tasks immediately without extra setup.
 
 ## Quick Start
 
@@ -78,14 +81,21 @@ http://127.0.0.1:3000
 
 ## Documentation
 
-- [Development](docs/development.md)
-- [Data model and concepts](docs/concepts.md)
-- [Docker image distribution](docs/docker-image-distribution.md)
-- [Release process](docs/release.md)
-- [Performance tooling](docs/performance.md)
+For users and API clients:
+
+- [User guide](docs/en/user-guide.md)
+- [Data model and concepts](docs/en/concepts.md)
+- [AI API guide](docs/en/ai-api-guide.md)
+- [API examples](docs/en/api-examples.md)
 - [OpenAPI](docs/openapi.yaml)
-- [AI API guide](docs/ai-api-guide.md)
-- [API examples](docs/api-examples.md)
+
+For developers and maintainers:
+
+- [Development](docs/en/developer/development.md)
+- [Docker image distribution](docs/en/developer/docker-image-distribution.md)
+- [Release process](docs/en/developer/release.md)
+- [Performance tooling](docs/en/developer/performance.md)
+- [Dialog button policy](docs/en/developer/dialog-button-policy.md)
 
 ## Tech Stack
 

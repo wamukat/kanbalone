@@ -6,6 +6,7 @@ import path from "node:path";
 
 import { buildApp } from "../src/app.js";
 import { KanbanDb } from "../src/db.js";
+import packageJson from "../package.json" with { type: "json" };
 
 function createDbFile(): string {
   return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "soloboard-test-")), "test.sqlite");
@@ -22,6 +23,27 @@ test("migration creates archive-aware ticket indexes", () => {
     assert.ok(indexNames.has("tickets_lane_archived_position_idx"));
   } finally {
     db.close();
+  }
+});
+
+test("meta endpoint exposes app name and package version", async () => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+
+  try {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/meta",
+    });
+    assert.equal(response.statusCode, 200);
+    assert.deepEqual(response.json(), {
+      name: "SoloBoard",
+      version: packageJson.version,
+    });
+  } finally {
+    await app.close();
   }
 });
 

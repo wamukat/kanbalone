@@ -47,6 +47,17 @@ pnpm test
 docker build -t soloboard:release-check .
 ```
 
+Verify that version numbers match the release tag.
+
+```bash
+node -p "require('./package.json').version"
+rg -n "version: " docs/openapi.yaml
+```
+
+`package.json` `version` is used by the app footer and `/api/meta`. When releasing `vX.Y.Z`, update `package.json` to `X.Y.Z` before creating the tag.
+
+`docs/openapi.yaml` `info.version` is the API version shown in the OpenAPI document. If the project keeps the API document version aligned with the app release, update it to the same `X.Y.Z`.
+
 Optionally verify runtime behavior:
 
 ```bash
@@ -76,6 +87,12 @@ with:
 
 ```text
 ghcr.io/wamukat/soloboard:vX.Y.Z
+```
+
+Also check files that may reference the release version:
+
+```bash
+rg -n "v[0-9]+\\.[0-9]+\\.[0-9]+|version" README.md README.ja.md docs package.json
 ```
 
 Commit and push documentation changes before tagging.

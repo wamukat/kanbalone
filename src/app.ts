@@ -1,4 +1,5 @@
 import type { ServerResponse } from "node:http";
+import fs from "node:fs";
 import path from "node:path";
 
 import fastify, { type FastifyInstance } from "fastify";
@@ -60,6 +61,16 @@ const healthResponseSchema = {
   additionalProperties: false,
   properties: {
     ok: { type: "boolean" },
+  },
+} as const;
+
+const metaResponseSchema = {
+  type: "object",
+  required: ["name", "version"],
+  additionalProperties: false,
+  properties: {
+    name: { type: "string" },
+    version: { type: "string" },
   },
 } as const;
 
@@ -619,10 +630,25 @@ function serializeBoardDetail(detail: BoardDetailView): Omit<BoardDetailView, "t
   return { ...detail, tickets: detail.tickets.map(serializeTicket) };
 }
 
+function readPackageMeta(): { name: string; version: string } {
+  const fallback = { name: "SoloBoard", version: "0.0.0" };
+  try {
+    const raw = fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8");
+    const parsed = JSON.parse(raw) as { name?: string; version?: string };
+    return {
+      name: "SoloBoard",
+      version: typeof parsed.version === "string" ? parsed.version : fallback.version,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
 export function buildApp(options: BuildAppOptions): FastifyInstance {
   const app = fastify({ logger: false, bodyLimit: 64 * 1024 * 1024 });
   const db = new KanbanDb(options.dbFile);
   const staticDir = options.staticDir ?? path.join(process.cwd(), "public");
+  const appMeta = readPackageMeta();
   const boardEventClients = new Map<Id, Set<ServerResponse>>();
 
   function addBoardEventClient(boardId: Id, response: ServerResponse): void {
@@ -681,6 +707,14 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
       },
     },
   }, async () => ({ ok: true }));
+
+  app.get("/api/meta", {
+    schema: {
+      response: {
+        200: metaResponseSchema,
+      },
+    },
+  }, async () => appMeta);
 
   app.get("/api/boards", {
     schema: {

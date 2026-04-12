@@ -1,10 +1,14 @@
 openapi: 3.1.0
 info:
   title: SoloBoard API
-  version: 0.1.0
+  version: 0.9.2
   summary: Ultra-light local personal kanban API for human and AI collaboration
+  license:
+    name: MIT
+    identifier: MIT
 servers:
   - url: http://127.0.0.1:3000
+security: []
 paths:
   /api/health:
     get:
@@ -21,6 +25,10 @@ paths:
                   ok:
                     type: boolean
                 required: [ok]
+        "400":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
 
   /api/boards:
     get:
@@ -39,6 +47,10 @@ paths:
                     items:
                       $ref: "#/components/schemas/Board"
                 required: [boards]
+        "400":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
     post:
       summary: Create board
       operationId: createBoard
@@ -383,8 +395,14 @@ paths:
           in: query
           schema:
             type: string
+        - name: resolved
+          in: query
+          schema:
+            type: boolean
         - name: completed
           in: query
+          deprecated: true
+          description: Legacy alias for resolved.
           schema:
             type: boolean
         - name: archived
@@ -394,6 +412,7 @@ paths:
             enum: ["true", "false", "all"]
         - name: q
           in: query
+          description: Search title, body Markdown, numeric ticket ID, or #ticketId. Use priority:N for exact priority filtering.
           schema:
             type: string
       responses:
@@ -439,8 +458,8 @@ paths:
 
   /api/boards/{boardId}/tickets/bulk-complete:
     post:
-      summary: Bulk update completion state
-      operationId: bulkCompleteTickets
+      summary: Bulk update resolved state
+      operationId: bulkResolveTickets
       parameters:
         - $ref: "#/components/parameters/BoardId"
       requestBody:
@@ -454,9 +473,14 @@ paths:
                   type: array
                   items:
                     type: integer
+                isResolved:
+                  type: boolean
+                  description: Canonical resolved state. Use this instead of isCompleted.
                 isCompleted:
                   type: boolean
-              required: [ticketIds, isCompleted]
+                  deprecated: true
+                  description: Legacy alias for isResolved. Use isResolved for new clients.
+              required: [ticketIds]
       responses:
         "200":
           description: Updated ticket summaries
@@ -494,8 +518,13 @@ paths:
                     type: integer
                 laneName:
                   type: string
+                isResolved:
+                  type: boolean
+                  description: Canonical resolved state. Use this instead of isCompleted.
                 isCompleted:
                   type: boolean
+                  deprecated: true
+                  description: Legacy alias for isResolved. Use isResolved for new clients.
               required: [ticketIds, laneName]
       responses:
         "200":
@@ -635,7 +664,13 @@ paths:
               type: object
               properties:
                 laneName: { type: string }
-                isCompleted: { type: boolean }
+                isResolved:
+                  type: boolean
+                  description: Canonical resolved state. Use this instead of isCompleted.
+                isCompleted:
+                  type: boolean
+                  deprecated: true
+                  description: Legacy alias for isResolved. Use isResolved for new clients.
               required: [laneName]
       responses:
         "200":
@@ -878,11 +913,17 @@ components:
         id: { type: integer }
         title: { type: string }
         laneId: { type: integer }
-        isCompleted: { type: boolean }
+        isResolved:
+          type: boolean
+          description: Canonical resolved state. Use this instead of isCompleted.
+        isCompleted:
+          type: boolean
+          deprecated: true
+          description: Legacy alias for isResolved. Use isResolved for new clients.
         priority: { type: integer }
         ref: { type: string }
         shortRef: { type: string }
-      required: [id, title, laneId, isCompleted, priority, ref, shortRef]
+      required: [id, title, laneId, isResolved, isCompleted, priority, ref, shortRef]
     TicketRelations:
       type: object
       properties:
@@ -914,7 +955,13 @@ components:
         title: { type: string }
         bodyMarkdown: { type: string }
         bodyHtml: { type: string }
-        isCompleted: { type: boolean }
+        isResolved:
+          type: boolean
+          description: Canonical resolved state. Use this instead of isCompleted.
+        isCompleted:
+          type: boolean
+          deprecated: true
+          description: Legacy alias for isResolved. Use isResolved for new clients.
         isArchived: { type: boolean }
         priority: { type: integer }
         position: { type: integer }
@@ -951,7 +998,7 @@ components:
         ref: { type: string }
         shortRef: { type: string }
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, blockedBy, parent, children, ref, shortRef]
+        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, blockedBy, parent, children, ref, shortRef]
     TicketSummary:
       type: object
       properties:
@@ -961,7 +1008,13 @@ components:
         parentTicketId:
           type: [integer, "null"]
         title: { type: string }
-        isCompleted: { type: boolean }
+        isResolved:
+          type: boolean
+          description: Canonical resolved state. Use this instead of isCompleted.
+        isCompleted:
+          type: boolean
+          deprecated: true
+          description: Legacy alias for isResolved. Use isResolved for new clients.
         isArchived: { type: boolean }
         priority: { type: integer }
         position: { type: integer }
@@ -978,7 +1031,7 @@ components:
         ref: { type: string }
         shortRef: { type: string }
       required:
-        [id, boardId, laneId, parentTicketId, title, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, ref, shortRef]
+        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, ref, shortRef]
     TicketUpsert:
       type: object
       properties:
@@ -987,7 +1040,13 @@ components:
           type: [integer, "null"]
         title: { type: string }
         bodyMarkdown: { type: string }
-        isCompleted: { type: boolean }
+        isResolved:
+          type: boolean
+          description: Canonical resolved state. Use this instead of isCompleted.
+        isCompleted:
+          type: boolean
+          deprecated: true
+          description: Legacy alias for isResolved. Use isResolved for new clients.
         isArchived: { type: boolean }
         priority: { type: integer }
         tagIds:
@@ -1012,6 +1071,16 @@ components:
           items:
             $ref: "#/components/schemas/Tag"
       required: [board, lanes, tags]
+    BoardDetail:
+      allOf:
+        - $ref: "#/components/schemas/BoardShell"
+        - type: object
+          properties:
+            tickets:
+              type: array
+              items:
+                $ref: "#/components/schemas/Ticket"
+          required: [tickets]
     BoardExport:
       type: object
       properties:

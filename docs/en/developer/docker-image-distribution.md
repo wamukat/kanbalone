@@ -213,7 +213,6 @@ pnpm test:e2e
 - Do not run multiple SoloBoard containers against the same SQLite file.
 - Do not expose the app directly to the public internet; SoloBoard currently has no authentication.
 
-## Remaining Work
+## Platform Follow-Up
 
-1. Confirm the first GHCR package visibility is public after the first publish.
-2. Add `linux/arm64` after native dependency compatibility is verified.
+The published image is pullable from GHCR. The current publishing workflow builds `linux/amd64` only. Add `linux/arm64` after verifying native dependency compatibility for `better-sqlite3` on the ARM64 runtime image.

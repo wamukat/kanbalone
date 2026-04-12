@@ -132,16 +132,27 @@ const elements = {
   uxDismissButton: document.querySelector("#ux-dismiss-button"),
   uxCancelButton: document.querySelector("#ux-cancel-button"),
   toast: document.querySelector("#toast"),
+  footerAppLabel: document.querySelector("#footer-app-label"),
 };
 
 async function main() {
   bindEvents();
+  await loadAppMeta();
   syncSidebar();
   syncResolvedFilter();
   syncArchivedFilter();
   syncViewMode();
   await refreshBoards();
   await applyRouteFromLocation({ replace: true });
+}
+
+async function loadAppMeta() {
+  try {
+    const meta = await api("/api/meta");
+    elements.footerAppLabel.textContent = `${meta.name} (v${meta.version})`;
+  } catch (error) {
+    console.warn("Failed to load app metadata", error);
+  }
 }
 
 function syncViewMode() {

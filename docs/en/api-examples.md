@@ -1,6 +1,6 @@
 # API Examples
 
-すべて `http://127.0.0.1:3000` 前提です。
+All examples assume `http://127.0.0.1:3000`.
 
 ## Health Check
 
@@ -57,14 +57,14 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets \
   }'
 ```
 
-## Move Ticket To Done And Mark Completed
+## Move Ticket To Done And Mark Resolved
 
 ```bash
 curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6 \
   -H 'content-type: application/json' \
   --data '{
     "laneId": 11,
-    "isCompleted": true
+    "isResolved": true
   }'
 ```
 
@@ -75,18 +75,18 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6 \
   -H 'content-type: application/json' \
   --data '{
     "laneId": 9,
-    "isCompleted": false
+    "isResolved": false
   }'
 ```
 
-## Bulk Mark Done
+## Bulk Mark Resolved
 
 ```bash
 curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/bulk-complete \
   -H 'content-type: application/json' \
   --data '{
     "ticketIds": [4, 5, 6],
-    "isCompleted": true
+    "isResolved": true
   }'
 ```
 
@@ -98,7 +98,7 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/bulk-transition \
   --data '{
     "ticketIds": [4, 5, 6],
     "laneName": "Done",
-    "isCompleted": true
+    "isResolved": true
   }'
 ```
 
@@ -161,11 +161,13 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6 \
 ## Filter Ticket Summaries
 
 ```bash
-curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?completed=false'
+curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?resolved=false'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?lane_id=11'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?tag=frontend'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?archived=all'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=sidebar'
+curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=%23123'
+curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=priority%3A3'
 ```
 
 ## Reorder Tickets
@@ -198,7 +200,7 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/import \
 
 ## Import Large Local Seed Data
 
-`/api/boards/import` は local-only の大きめ payload も扱えます。
+`/api/boards/import` can also handle larger local-only payloads.
 
 ```bash
 curl -s -X POST http://127.0.0.1:3000/api/boards/import \
@@ -206,10 +208,10 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/import \
   --data @perf-5000-board.json
 ```
 
-投入後は軽量 summary route で一覧確認します。
+After import, check the list through the lightweight summary route.
 
 ```bash
-curl -s 'http://127.0.0.1:3000/api/boards/6/tickets?completed=false'
+curl -s 'http://127.0.0.1:3000/api/boards/6/tickets?resolved=false'
 curl -s 'http://127.0.0.1:3000/api/boards/6/tickets?lane_id=20'
 ```
 
@@ -248,6 +250,6 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6/transition \
   -H 'content-type: application/json' \
   --data '{
     "laneName": "Done",
-    "isCompleted": true
+    "isResolved": true
   }'
 ```

@@ -1,9 +1,9 @@
-# SoloBoard AI API Guide
+# SoloBoard AI API ガイド
 
 この API は、ローカル環境で動作する単一ユーザー向けの SoloBoard API です。
 ベース URL は通常 `http://127.0.0.1:3000` です。
 
-## Recommended Workflow
+## 推奨ワークフロー
 
 1. まずボード一覧を取得する。
    `GET /api/boards`
@@ -21,15 +21,15 @@
    複数チケットをまとめて扱うときは board 単位の bulk endpoint を使う。
 6. Kanban 画面の自動更新が必要なら `GET /api/boards/:boardId/events` を購読する。
 
-## Important Semantics
+## 重要な意味論
 
-### 1. `laneId` と `isCompleted` は独立
+### 1. `laneId` と `isResolved` は独立
 
-- レーン名が `done` でも、完了状態は `isCompleted` で別管理です。
-- `done` レーンに移すだけでは完了になりません。
-- 完了にしたいなら、必要に応じて `laneId` と `isCompleted: true` を両方更新してください。
+- レーン名が `done` でも、Resolved 状態は `isResolved` で別管理です。
+- `done` レーンに移すだけでは Resolved にはなりません。
+- Resolved にしたいなら、必要に応じて `laneId` と `isResolved: true` を両方更新してください。
 
-### 2. blocker は「このチケットが依存している相手」
+### 2. Blocker は「このチケットが依存している相手」
 
 - `ticket.blockerIds = [6]` は「このチケットは `#6` に blocked される」を意味します。
 - 自分自身は blocker にできません。
@@ -55,18 +55,18 @@
 - `PATCH /api/comments/:commentId` で編集できます。
 - `DELETE /api/comments/:commentId` で削除できます。
 
-### 6. archive は完了状態と独立
+### 6. Archive はResolved 状態と独立
 
-- `isArchived` は `isCompleted` と独立です。
+- `isArchived` は `isResolved` と独立です。
 - archived ticket は board 一覧からは通常隠れます。
 - 一覧に含めたいときは `GET /api/boards/:boardId/tickets?archived=all` を使います。
 
-### 7. canonical ref が返る
+### 7. 正規参照が返る
 
 - ticket 系レスポンスには `ref` と `shortRef` が含まれます。
 - 形式は `BoardName#TicketId` と `#TicketId` です。
 
-## Common Patterns
+## よくある操作パターン
 
 ### ボード内のチケットを検索したい
 
@@ -78,9 +78,11 @@
 - 詳細が必要なら `GET /api/tickets/:ticketId` を使います。
 - `lane_id`
 - `tag`
-- `completed`
+- `resolved`
 - `archived`
 - `q`
+  - title / body Markdown / ticket ID / `#ticketId` を検索します。
+  - `priority:3` のように書くと priority の完全一致で絞り込みます。
 
 ### チケットをレーン移動したい
 
@@ -93,24 +95,24 @@ ID ベース:
 
 - `PATCH /api/tickets/:ticketId/transition`
 - body に `laneName` を入れる
-- 必要なら `isCompleted` も同時指定する
+- 必要なら `isResolved` も同時指定する
 
 複数チケットや順序込みの移動:
 
 - `POST /api/boards/:boardId/tickets/reorder`
 
-複数チケットをまとめて完了/未完了にしたい:
+複数チケットをまとめて Resolved / Unresolved にしたい:
 
 - `POST /api/boards/:boardId/tickets/bulk-complete`
-- body に `ticketIds` と `isCompleted` を入れる
+- body に `ticketIds` と `isResolved` を入れる
 
 複数チケットを lane 名でまとめて遷移したい:
 
 - `POST /api/boards/:boardId/tickets/bulk-transition`
 - body に `ticketIds` と `laneName` を入れる
-- 必要なら `isCompleted` も同時指定する
+- 必要なら `isResolved` も同時指定する
 
-### relation を取得したい
+### Relation を取得したい
 
 - `GET /api/tickets/:ticketId/relations`
 - `parent`, `children`, `blockers`, `blockedBy` が返る
@@ -118,16 +120,16 @@ ID ベース:
 - `blockedBy` は「このチケットに block されている相手」
 - `GET /api/tickets/:ticketId` の詳細にも同じ relation フィールドが含まれる
 
-### activity を取得したい
+### Activity を取得したい
 
 - `GET /api/tickets/:ticketId/activity`
 - comment 追加/更新/削除、ticket 更新、transition、archive などの履歴が返る
 - 返却順は新しい activity が先です。
 
-### チケットを完了にしたい
+### チケットを Resolved にしたい
 
 - `PATCH /api/tickets/:ticketId`
-- body に `isCompleted: true`
+- body に `isResolved: true`
 
 必要なら `laneId` も同時に更新します。
 
@@ -143,7 +145,7 @@ ID ベース:
 - local-only 運用を前提に、大きめの board export/import payload も扱える
 - 大量データの一括投入後は、一覧確認に `GET /api/boards/:boardId/tickets`、個票確認に `GET /api/tickets/:ticketId` を使い分ける
 
-## Error Handling
+## エラーハンドリング
 
 エラー時は基本的に次の形式です。
 
@@ -156,20 +158,3 @@ ID ベース:
 - `400`: 入力不正
 - `404`: 対象が存在しない
 - `409`: 状態競合
-
-## Minimal Tool Contract For AI
-
-```text
-- Resolve board IDs and lane IDs before updating tickets.
-- Treat GET /api/boards/:boardId as board shell only; fetch tickets separately.
-- Treat laneId and isCompleted as separate fields.
-- blockerIds means "this ticket is blocked by these tickets".
-- Use GET /api/tickets/:ticketId/relations when you need both forward and reverse dependency edges.
-- Use PATCH /api/tickets/:ticketId/transition for lane-name-based transitions.
-- Use board-scoped bulk endpoints when you are updating multiple tickets at once.
-- Prefer ref and shortRef for logs, diagnostics, and summaries.
-- Never create reciprocal blockers.
-- Parent-child depth is one level only.
-- Use PATCH /api/tickets/:ticketId for normal ticket edits.
-- Use reorder endpoints only for explicit sorting or drag-and-drop persistence.
-```
