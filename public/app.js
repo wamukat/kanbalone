@@ -196,8 +196,15 @@ function bindEvents() {
   elements.viewModeButtons.forEach((button) => {
     button.addEventListener("click", () => {
       state.viewMode = button.dataset.viewMode || "kanban";
+      if (state.viewMode !== "list") {
+        state.filters.lane = "";
+        elements.laneFilter.value = "";
+      }
       syncViewMode();
-      renderBoardDetail();
+      refreshBoardDetail().catch((error) => {
+        console.error(error);
+        showToast(error.message, "error");
+      });
       syncBoardUrl();
     });
   });
@@ -443,8 +450,9 @@ async function refreshBoardDetail() {
     if (archived === "all") {
       params.set("archived", "all");
     }
-    if (filters.lane ?? state.filters.lane) {
-      params.set("lane_id", String(filters.lane ?? state.filters.lane));
+    const lane = filters.lane ?? (state.viewMode === "list" ? state.filters.lane : "");
+    if (lane) {
+      params.set("lane_id", String(lane));
     }
     if (filters.resolved ?? state.filters.resolved) {
       params.set("resolved", String(filters.resolved ?? state.filters.resolved));
@@ -463,7 +471,7 @@ async function refreshBoardDetail() {
     api(`/api/boards/${state.activeBoardId}`),
     api(ticketListUrl),
   ]);
-  const hasFilters = Object.entries(state.filters).some(([key, value]) => key !== "archived" && value !== "");
+  const hasFilters = Object.entries(state.filters).some(([key, value]) => key !== "archived" && (key !== "lane" || state.viewMode === "list") && value !== "");
   const tickets = hasFilters
     ? await api(buildTicketListUrl())
     : allTickets;

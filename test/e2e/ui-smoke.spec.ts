@@ -672,3 +672,46 @@ test("long tag labels remain safe without Intl.Segmenter", async ({ page }) => {
     await app.close();
   }
 });
+
+test("lane filter does not leak from List view into Kanban view", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Lane Filter Board", laneNames: ["todo", "review"] },
+    });
+    expect(boardResponse.status()).toBe(201);
+    const boardPayload = await boardResponse.json();
+    const [todoLane, reviewLane] = boardPayload.lanes;
+    for (const ticket of [
+      { laneId: todoLane.id, title: "Todo ticket" },
+      { laneId: reviewLane.id, title: "Review ticket" },
+    ]) {
+      const response = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
+        data: ticket,
+      });
+      expect(response.status()).toBe(201);
+    }
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    await page.locator("#lane-filter").selectOption(String(reviewLane.id));
+    await expect(page.locator(".list-row")).toHaveCount(1);
+    await expect(page.locator(".list-row")).toContainText("Review ticket");
+
+    await page.getByRole("button", { name: "Kanban" }).click();
+    await expect(page.locator("#lane-filter")).toBeHidden();
+    await expect(page.locator("#lane-filter")).toHaveValue("");
+    await expect(page.locator(".ticket-card")).toHaveCount(2);
+    await expect(page.locator(".ticket-card")).toContainText(["Todo ticket", "Review ticket"]);
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});
