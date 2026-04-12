@@ -29,7 +29,7 @@ Run the published Docker image:
 docker run --rm \
   -p 3000:3000 \
   -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.2
+  ghcr.io/wamukat/soloboard:v0.9.3
 ```
 
 Open:
@@ -80,6 +80,10 @@ http://127.0.0.1:3000
 ```
 
 ## Documentation
+
+Published user guide:
+
+- <https://wamukat.github.io/SoloBoard/>
 
 For users and API clients:
 

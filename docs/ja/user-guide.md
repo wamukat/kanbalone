@@ -146,7 +146,7 @@ List 表示でチェックを入れると、選択したチケットに対する
 docker run --rm \
   -p 3000:3000 \
   -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.2
+  ghcr.io/wamukat/soloboard:v0.9.3
 ```
 
 ブラウザで開きます。

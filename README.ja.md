@@ -30,7 +30,7 @@ Dockerでサクッと起動してすぐ使えます。
 docker run --rm \
   -p 3000:3000 \
   -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.2
+  ghcr.io/wamukat/soloboard:v0.9.3
 ```
 
 ブラウザで開きます。
@@ -80,6 +80,10 @@ http://127.0.0.1:3000
 ```
 
 ## Documentation
+
+公開ユーザーガイド:
+
+- <https://wamukat.github.io/SoloBoard/>
 
 利用者・API クライアント向け:
 

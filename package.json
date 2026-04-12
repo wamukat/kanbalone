@@ -1,6 +1,6 @@
 {
   "name": "soloboard",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "SoloBoard: ultra-light local personal kanban for human and AI collaboration",
   "type": "module",
   "main": "dist/src/server.js",
@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.json",
     "lint": "pnpm lint:openapi",
     "lint:openapi": "redocly lint docs/openapi.yaml",
-    "check": "pnpm lint && pnpm test && pnpm build",
+    "docs:build": "node scripts/build-pages.mjs",
+    "check": "pnpm lint && pnpm test && pnpm build && pnpm docs:build",
     "start": "node dist/src/server.js",
     "test": "node --import tsx --test test/**/*.test.ts",
     "test:e2e": "playwright test",
