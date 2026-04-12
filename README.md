@@ -29,7 +29,7 @@ Run the published Docker image:
 docker run --rm \
   -p 3000:3000 \
   -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.4
+  ghcr.io/wamukat/soloboard:v0.9.5
 ```
 
 Open:
