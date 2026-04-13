@@ -1,6 +1,7 @@
 import { calculateVisibleWindow } from "./app-board-utils.js";
 import { renderListActions } from "./app-board-list-actions.js";
 import { renderListRow } from "./app-board-list-row.js";
+import { createListSelectionModule } from "./app-board-list-selection.js";
 
 export { renderListActions } from "./app-board-list-actions.js";
 
@@ -36,6 +37,7 @@ export function getListTickets(tickets) {
 export function createListBoardModule(ctx, options) {
   const { state, elements } = ctx;
   const { hasUserTicketFilters, renderEmptyState, renderTicketStatusIcons } = options;
+  const listSelection = createListSelectionModule(ctx);
   let listModel = null;
 
   function reset() {
@@ -130,71 +132,6 @@ export function createListBoardModule(ctx, options) {
     })).join("");
   }
 
-  async function updateSelectedListTickets(isResolved) {
-    const ticketIds = [...state.selectedListTicketIds];
-    if (ticketIds.length === 0) {
-      return;
-    }
-    await ctx.sendJson(`/api/boards/${state.activeBoardId}/tickets/bulk-complete`, {
-      method: "POST",
-      body: { ticketIds, isResolved },
-    });
-    state.selectedListTicketIds = [];
-    await ctx.refreshBoardDetail();
-  }
-
-  async function updateSelectedListArchive(isArchived) {
-    const ticketIds = [...state.selectedListTicketIds];
-    if (ticketIds.length === 0) {
-      return;
-    }
-    await ctx.sendJson(`/api/boards/${state.activeBoardId}/tickets/bulk-archive`, {
-      method: "POST",
-      body: { ticketIds, isArchived },
-    });
-    state.selectedListTicketIds = [];
-    await ctx.refreshBoardDetail();
-  }
-
-  async function deleteSelectedListTickets() {
-    const ticketIds = [...state.selectedListTicketIds];
-    if (ticketIds.length === 0) {
-      return;
-    }
-    await ctx.confirmAndRun({
-      title: "Delete Tickets",
-      message: `Delete ${ticketIds.length} selected ticket${ticketIds.length === 1 ? "" : "s"}?`,
-      submitLabel: "Delete",
-      run: async () => {
-        for (const ticketId of ticketIds) {
-          await ctx.api(`/api/tickets/${ticketId}`, { method: "DELETE" });
-        }
-        state.selectedListTicketIds = [];
-        await ctx.refreshBoardDetail();
-      },
-    });
-  }
-
-  function handleListTicketSelection(event) {
-    const ticketId = Number(event.target.dataset.listTicketId);
-    if (event.target.checked) {
-      state.selectedListTicketIds = [...new Set([...state.selectedListTicketIds, ticketId])];
-    } else {
-      state.selectedListTicketIds = state.selectedListTicketIds.filter((id) => id !== ticketId);
-    }
-    ctx.renderBoardDetail();
-  }
-
-  function handleListSelectAll(event, visibleTicketIds) {
-    if (event.target.checked) {
-      state.selectedListTicketIds = [...new Set([...state.selectedListTicketIds, ...visibleTicketIds])];
-    } else {
-      const visibleSet = new Set(visibleTicketIds);
-      state.selectedListTicketIds = state.selectedListTicketIds.filter((ticketId) => !visibleSet.has(ticketId));
-    }
-    ctx.renderBoardDetail();
-  }
-
   function handleListBoardClick(event) {
     const createTicketButton = event.target.closest("[data-empty-create-ticket]");
     if (createTicketButton && elements.listBoard.contains(createTicketButton)) {
@@ -209,26 +146,26 @@ export function createListBoardModule(ctx, options) {
     const bulkButton = event.target.closest(".list-action-button");
     if (bulkButton && elements.listBoard.contains(bulkButton) && !bulkButton.disabled) {
       if (bulkButton.dataset.bulkDelete) {
-        deleteSelectedListTickets();
+        listSelection.deleteSelectedListTickets();
         return;
       }
       if (bulkButton.dataset.bulkArchive) {
-        updateSelectedListArchive(bulkButton.dataset.bulkArchive === "true");
+        listSelection.updateSelectedListArchive(bulkButton.dataset.bulkArchive === "true");
         return;
       }
-      updateSelectedListTickets(bulkButton.dataset.bulkResolve === "true");
+      listSelection.updateSelectedListTickets(bulkButton.dataset.bulkResolve === "true");
     }
   }
 
   function handleListBoardChange(event) {
     const ticketCheckbox = event.target.closest("[data-list-ticket-id]");
     if (ticketCheckbox && elements.listBoard.contains(ticketCheckbox)) {
-      handleListTicketSelection({ target: ticketCheckbox });
+      listSelection.handleListTicketSelection(ticketCheckbox);
       return;
     }
     const selectAll = event.target.closest("#list-select-all");
     if (selectAll && listModel) {
-      handleListSelectAll({ target: selectAll }, listModel.visibleTicketIds);
+      listSelection.handleListSelectAll(selectAll, listModel.visibleTicketIds);
     }
   }
 
