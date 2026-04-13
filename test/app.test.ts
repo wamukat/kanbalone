@@ -688,6 +688,24 @@ test("reordering visible tickets preserves stable archived positions on restore"
   db.close();
 });
 
+test("deleting a lane compacts remaining lane positions", () => {
+  const db = new KanbanDb(createDbFile());
+  const board = db.createBoard({ name: "Lane Position Board", laneNames: ["Todo", "Doing", "Review", "Done"] });
+
+  db.deleteLane(board.lanes[1].id);
+
+  assert.deepEqual(
+    db.listLanes(board.board.id).map((lane) => ({ name: lane.name, position: lane.position })),
+    [
+      { name: "Todo", position: 0 },
+      { name: "Review", position: 1 },
+      { name: "Done", position: 2 },
+    ],
+  );
+
+  db.close();
+});
+
 test("bulk resolve and bulk transition operate on board ticket sets", async () => {
   const app = buildApp({
     dbFile: createDbFile(),

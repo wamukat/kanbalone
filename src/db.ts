@@ -12,6 +12,14 @@ import {
   sanitizePriority,
 } from "./db-mappers.js";
 import {
+  nextBoardPosition,
+  nextLanePosition,
+  nextTicketPosition,
+  normalizeBoardPositions,
+  normalizeLanePositions,
+  normalizeVisibleAndArchivedTicketPositions,
+} from "./db-ordering.js";
+import {
   type ActivityLogRow,
   type ActivityLogView,
   type BoardDetailView,
@@ -242,7 +250,7 @@ export class KanbanDb {
     const boardColumns = this.sqlite.prepare("PRAGMA table_info(boards)").all() as Array<{ name: string }>;
     if (!boardColumns.some((column) => column.name === "position")) {
       this.sqlite.exec("ALTER TABLE boards ADD COLUMN position INTEGER NOT NULL DEFAULT 0");
-      this.normalizeBoardPositions();
+      normalizeBoardPositions(this.sqlite);
     }
     if (!ticketColumns.some((column) => column.name === "priority")) {
       this.sqlite.exec("ALTER TABLE tickets ADD COLUMN priority INTEGER NOT NULL DEFAULT 0");
@@ -342,7 +350,7 @@ export class KanbanDb {
 
   createBoard(input: CreateBoardInput): BoardDetailView {
     const now = this.now();
-    const position = this.nextBoardPosition();
+    const position = nextBoardPosition(this.sqlite);
     const insertBoard = this.sqlite.prepare(
       "INSERT INTO boards (name, position, created_at, updated_at) VALUES (?, ?, ?, ?)",
     );
@@ -403,7 +411,7 @@ export class KanbanDb {
     if (result.changes === 0) {
       throw new Error("Board not found");
     }
-    this.normalizeBoardPositions();
+    normalizeBoardPositions(this.sqlite);
   }
 
   listLanes(boardId: Id): LaneView[] {
@@ -414,7 +422,7 @@ export class KanbanDb {
   }
 
   createLane(input: CreateLaneInput): LaneView {
-    const position = this.nextLanePosition(input.boardId);
+    const position = nextLanePosition(this.sqlite, input.boardId);
     const result = this.sqlite
       .prepare("INSERT INTO lanes (board_id, name, position) VALUES (?, ?, ?)")
       .run(input.boardId, input.name, position);
@@ -446,7 +454,7 @@ export class KanbanDb {
       throw new Error("Lane is not empty");
     }
     this.sqlite.prepare("DELETE FROM lanes WHERE id = ?").run(laneId);
-    this.normalizeLanePositions(lane.boardId);
+    normalizeLanePositions(this.sqlite, lane.boardId);
   }
 
   reorderLanes(boardId: Id, laneIds: Id[]): LaneView[] {
@@ -578,7 +586,7 @@ export class KanbanDb {
 
   createTicket(input: CreateTicketInput): TicketView {
     const now = this.now();
-    const position = this.nextTicketPosition(input.laneId);
+    const position = nextTicketPosition(this.sqlite, input.laneId);
     const tx = this.sqlite.transaction(() => {
       const result = this.sqlite
         .prepare(
@@ -653,14 +661,14 @@ export class KanbanDb {
       if (nextLaneId !== current.laneId) {
         this.sqlite
           .prepare("UPDATE tickets SET position = ? WHERE id = ?")
-          .run(this.nextTicketPosition(nextLaneId), ticketId);
-        this.normalizeVisibleAndArchivedTicketPositions(current.laneId);
-        this.normalizeVisibleAndArchivedTicketPositions(nextLaneId);
+          .run(nextTicketPosition(this.sqlite, nextLaneId), ticketId);
+        normalizeVisibleAndArchivedTicketPositions(this.sqlite, current.laneId);
+        normalizeVisibleAndArchivedTicketPositions(this.sqlite, nextLaneId);
       } else if (typeof input.isArchived === "boolean" && input.isArchived !== current.isArchived) {
         this.sqlite
           .prepare("UPDATE tickets SET position = ? WHERE id = ?")
-          .run(this.nextTicketPosition(nextLaneId), ticketId);
-        this.normalizeVisibleAndArchivedTicketPositions(nextLaneId);
+          .run(nextTicketPosition(this.sqlite, nextLaneId), ticketId);
+        normalizeVisibleAndArchivedTicketPositions(this.sqlite, nextLaneId);
       }
       const nextArchived = typeof input.isArchived === "boolean" ? input.isArchived : current.isArchived;
       const nextResolved = typeof input.isResolved === "boolean" ? input.isResolved : current.isResolved;
@@ -700,7 +708,7 @@ export class KanbanDb {
       });
       this.sqlite.prepare("UPDATE tickets SET parent_ticket_id = NULL WHERE parent_ticket_id = ?").run(ticketId);
       this.sqlite.prepare("DELETE FROM tickets WHERE id = ?").run(ticketId);
-      this.normalizeVisibleAndArchivedTicketPositions(ticket.laneId);
+      normalizeVisibleAndArchivedTicketPositions(this.sqlite, ticket.laneId);
       this.touchBoard(ticket.boardId);
     });
     tx();
@@ -865,7 +873,7 @@ export class KanbanDb {
           );
         }
       });
-      affectedLaneIds.forEach((laneId) => this.normalizeVisibleAndArchivedTicketPositions(laneId));
+      affectedLaneIds.forEach((laneId) => normalizeVisibleAndArchivedTicketPositions(this.sqlite, laneId));
       this.touchBoard(boardId);
     });
     tx();
@@ -916,7 +924,7 @@ export class KanbanDb {
     const now = this.now();
     const rowsById = new Map(rows.map((row) => [row.id, row]));
     const movingRows = rows.filter((row) => row.lane_id !== lane.id);
-    const nextPosition = this.nextTicketPosition(lane.id);
+    const nextPosition = nextTicketPosition(this.sqlite, lane.id);
     const updateStmt = this.sqlite.prepare(
       "UPDATE tickets SET lane_id = ?, position = ?, is_resolved = ?, updated_at = ? WHERE id = ?",
     );
@@ -938,8 +946,8 @@ export class KanbanDb {
         targetPosition += 1;
       }
       const sourceLaneIds = [...new Set(movingRows.map((row) => row.lane_id))];
-      sourceLaneIds.forEach((laneId) => this.normalizeVisibleAndArchivedTicketPositions(laneId));
-      this.normalizeVisibleAndArchivedTicketPositions(lane.id);
+      sourceLaneIds.forEach((laneId) => normalizeVisibleAndArchivedTicketPositions(this.sqlite, laneId));
+      normalizeVisibleAndArchivedTicketPositions(this.sqlite, lane.id);
       this.touchBoard(input.boardId);
     });
     tx();
@@ -962,7 +970,7 @@ export class KanbanDb {
       const affectedLaneIds = new Set<Id>();
       for (const row of rows) {
         affectedLaneIds.add(row.lane_id);
-        const nextPosition = input.isArchived ? this.nextTicketPosition(row.lane_id) : row.position;
+        const nextPosition = input.isArchived ? nextTicketPosition(this.sqlite, row.lane_id) : row.position;
         updateStmt.run(input.isArchived ? 1 : 0, nextPosition, now, row.id);
         this.addActivity(
           input.boardId,
@@ -971,7 +979,7 @@ export class KanbanDb {
           input.isArchived ? "Ticket archived" : "Ticket restored",
         );
       }
-      affectedLaneIds.forEach((laneId) => this.normalizeVisibleAndArchivedTicketPositions(laneId));
+      affectedLaneIds.forEach((laneId) => normalizeVisibleAndArchivedTicketPositions(this.sqlite, laneId));
       this.touchBoard(input.boardId);
     });
     tx();
@@ -1162,58 +1170,6 @@ export class KanbanDb {
       )
       .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
   }
-
-  private nextLanePosition(boardId: Id): number {
-    const row = this.sqlite
-      .prepare("SELECT COALESCE(MAX(position), -1) + 1 AS nextPosition FROM lanes WHERE board_id = ?")
-      .get(boardId) as { nextPosition: number };
-    return row.nextPosition;
-  }
-
-  private nextBoardPosition(): number {
-    const row = this.sqlite
-      .prepare("SELECT COALESCE(MAX(position), -1) + 1 AS nextPosition FROM boards")
-      .get() as { nextPosition: number };
-    return row.nextPosition;
-  }
-
-  private nextTicketPosition(laneId: Id): number {
-    const row = this.sqlite
-      .prepare("SELECT COALESCE(MAX(position), -1) + 1 AS nextPosition FROM tickets WHERE lane_id = ?")
-      .get(laneId) as { nextPosition: number };
-    return row.nextPosition;
-  }
-
-  private normalizeLanePositions(boardId: Id): void {
-    const lanes = this.listLanes(boardId);
-    const stmt = this.sqlite.prepare("UPDATE lanes SET position = ? WHERE id = ?");
-    lanes.forEach((lane, index) => stmt.run(index, lane.id));
-  }
-
-  private normalizeBoardPositions(): void {
-    const rows = this.sqlite
-      .prepare("SELECT id FROM boards ORDER BY updated_at DESC, id DESC")
-      .all() as Array<{ id: Id }>;
-    const stmt = this.sqlite.prepare("UPDATE boards SET position = ? WHERE id = ?");
-    rows.forEach((row, index) => stmt.run(index, row.id));
-  }
-
-  private normalizeTicketPositions(laneId: Id): void {
-    const rows = this.sqlite
-      .prepare("SELECT id FROM tickets WHERE lane_id = ? ORDER BY position ASC, id ASC")
-      .all(laneId) as Array<{ id: Id }>;
-    const stmt = this.sqlite.prepare("UPDATE tickets SET position = ? WHERE id = ?");
-    rows.forEach((row, index) => stmt.run(index, row.id));
-  }
-
-  private normalizeVisibleAndArchivedTicketPositions(laneId: Id): void {
-    const rows = this.sqlite
-      .prepare("SELECT id FROM tickets WHERE lane_id = ? ORDER BY is_archived ASC, position ASC, id ASC")
-      .all(laneId) as Array<{ id: Id }>;
-    const stmt = this.sqlite.prepare("UPDATE tickets SET position = ? WHERE id = ?");
-    rows.forEach((row, index) => stmt.run(index, row.id));
-  }
-
 
   private validateParentTicket(ticketId: Id | null, parentTicketId: Id | null | undefined, boardId: Id): Id | null {
     if (parentTicketId == null) {
