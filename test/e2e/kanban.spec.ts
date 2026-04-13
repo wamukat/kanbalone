@@ -89,14 +89,13 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
       },
     });
     expect(movingTicketResponse.status()).toBe(201);
+    const movingTicket = await movingTicketResponse.json();
     await page.reload();
     await expect(page.getByRole("button", { name: "Move between lanes" })).toBeVisible();
     await Promise.all([
       page.waitForResponse((response) => response.url().endsWith(`/api/boards/${boardPayload.board.id}/tickets/reorder`) && response.status() === 200),
-      page.evaluate((targetLaneId) => {
-        const card = [...document.querySelectorAll(".ticket-card")].find((ticketCard) =>
-          ticketCard.textContent?.includes("Move between lanes"),
-        );
+      page.evaluate(({ targetLaneId, ticketId }) => {
+        const card = document.querySelector(`.ticket-card[data-ticket-id="${ticketId}"]`);
         const targetList = document.querySelector(`.ticket-list[data-lane-id="${targetLaneId}"]`);
         if (!card || !targetList) {
           throw new Error("Ticket move fixture is missing");
@@ -114,7 +113,7 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
           }),
         );
         targetList.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer }));
-      }, deltaLane.id),
+      }, { targetLaneId: deltaLane.id, ticketId: movingTicket.id }),
     ]);
     await expect(page.locator(".lane", { has: page.getByRole("button", { name: "Move between lanes" }) }).locator(".lane-title")).toHaveText("Delta");
     await page.reload();

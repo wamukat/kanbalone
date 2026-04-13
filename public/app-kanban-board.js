@@ -1,6 +1,6 @@
 import { takeRoundRobinBatch } from "./app-board-utils.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
-import { renderTag } from "./app-tags.js";
+import { createKanbanTicketCard } from "./app-kanban-ticket-card.js";
 import { icon } from "./icons.js";
 
 export function createKanbanBoardModule(ctx, options) {
@@ -127,7 +127,7 @@ export function createKanbanBoardModule(ctx, options) {
       for (const selection of selections) {
         const queue = laneQueues[selection.laneIndex];
         const fragment = fragments.get(selection.laneIndex) ?? document.createDocumentFragment();
-        fragment.append(createTicketCard(queue.tickets[selection.ticketIndex]));
+        fragment.append(createKanbanTicketCard(ctx, queue.tickets[selection.ticketIndex]));
         fragments.set(selection.laneIndex, fragment);
       }
       for (const [laneIndex, fragment] of fragments.entries()) {
@@ -139,47 +139,6 @@ export function createKanbanBoardModule(ctx, options) {
     }
 
     requestAnimationFrame(step);
-  }
-
-  function createTicketCard(ticket) {
-    const card = document.createElement("article");
-    card.className = `ticket-card ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}`;
-    card.draggable = true;
-    card.dataset.ticketId = String(ticket.id);
-    card.innerHTML = `
-      <div class="ticket-head">
-        <span class="ticket-id">#${ticket.id}</span>
-        <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
-        <span class="ticket-status-icons">${renderTicketStatusIcons(ticket)}</span>
-      </div>
-      <div class="tag-list">
-        ${ticket.tags.map((tag) => renderTag(tag, ctx.escapeHtml)).join("")}
-      </div>
-    `;
-
-    const titleButton = card.querySelector(".ticket-link");
-    titleButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      ctx.openEditor(ticket.id, "view");
-    });
-    card.addEventListener("dragstart", () => {
-      card.classList.add("dragging");
-    });
-    card.addEventListener("dragend", () => {
-      card.classList.remove("dragging");
-    });
-    return card;
-  }
-
-  function renderTicketStatusIcons(ticket) {
-    return [
-      ticket.isResolved
-        ? `<span class="ticket-status-icon ticket-status-icon-resolved" title="Resolved" aria-label="Resolved">${icon("check")}</span>`
-        : "",
-      ticket.isArchived
-        ? `<span class="ticket-status-icon ticket-status-icon-archived" title="Archived" aria-label="Archived">${icon("archive")}</span>`
-      : "",
-    ].join("");
   }
 
   function bindDropZone(list) {
