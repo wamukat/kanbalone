@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: SoloBoard API
-  version: 0.9.6
+  version: 0.9.7
   summary: Ultra-light local personal kanban API for human and AI collaboration
   license:
     name: MIT

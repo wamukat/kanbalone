@@ -141,7 +141,7 @@ They stay hidden during everyday work so you can focus on boards and tickets. Op
 docker run --rm \
   -p 3000:3000 \
   -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.6
+  ghcr.io/wamukat/soloboard:v0.9.7
 ```
 
 Open:
