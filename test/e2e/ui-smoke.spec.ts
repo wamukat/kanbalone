@@ -741,7 +741,7 @@ test("kanban horizontal overflow stays inside the lane board", async ({ page }) 
     await page.setViewportSize({ width: 1000, height: 700 });
     const baseUrl = `http://127.0.0.1:${port}`;
     const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
-      data: { name: "Wide Kanban", laneNames: ["Backlog", "Ready", "Doing", "Review", "Waiting", "Done"] },
+      data: { name: "Wide Kanban", laneNames: ["Backlog", "To do", "In progress", "In review", "Inspection", "Merging", "Done"] },
     });
     expect(boardResponse.status()).toBe(201);
     const boardPayload = await boardResponse.json();
