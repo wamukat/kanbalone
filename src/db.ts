@@ -10,6 +10,7 @@ import {
   mapTicketSummary,
   sanitizePriority,
 } from "./db-mappers.js";
+import { importBoardPayload, toBoardExport } from "./db-board-transfer.js";
 import {
   nextBoardPosition,
   nextLanePosition,
@@ -800,88 +801,17 @@ export class KanbanDb {
   }
 
   exportBoard(boardId: Id): BoardExport {
-    const detail = this.getBoardDetail(boardId);
-    return {
-      board: detail.board,
-      lanes: detail.lanes,
-      tags: detail.tags,
-      tickets: detail.tickets.map(({
-        bodyHtml: _bodyHtml,
-        blockers: _blockers,
-        blockedBy: _blockedBy,
-        parent: _parent,
-        children: _children,
-        ref: _ref,
-        shortRef: _shortRef,
-        ...ticket
-      }) => ({ ...ticket, isCompleted: ticket.isResolved })),
-    };
+    return toBoardExport(this.getBoardDetail(boardId));
   }
 
   importBoard(payload: BoardExport): BoardDetailView {
-    const tx = this.sqlite.transaction(() => {
-      const created = this.createBoard({
-        name: payload.board.name,
-        laneNames: payload.lanes.map((lane) => lane.name),
-      });
-      const laneByName = new Map(created.lanes.map((lane) => [lane.name, lane.id]));
-      const tagByName = new Map<string, Id>();
-      const createdTicketIds = new Map<Id, Id>();
-      payload.tags.forEach((tag) => {
-        const createdTag = this.createTag({
-          boardId: created.board.id,
-          name: tag.name,
-          color: tag.color,
-        });
-        tagByName.set(createdTag.name, createdTag.id);
-      });
-
-      const sortedTickets = [...payload.tickets].sort((a, b) => a.position - b.position || a.id - b.id);
-      sortedTickets.forEach((ticket) => {
-        const laneName = payload.lanes.find((lane) => lane.id === ticket.laneId)?.name;
-        if (!laneName) {
-          throw new Error("Invalid ticket lane in import payload");
-        }
-        const createdTicket = this.createTicket({
-          boardId: created.board.id,
-          laneId: laneByName.get(laneName)!,
-          title: ticket.title,
-          bodyMarkdown: ticket.bodyMarkdown,
-          isResolved: ticket.isResolved ?? ticket.isCompleted,
-          isArchived: ticket.isArchived,
-          priority: ticket.priority,
-          tagIds: ticket.tags
-            .map((tag) => tagByName.get(tag.name))
-            .filter((value): value is number => typeof value === "number"),
-        });
-        createdTicketIds.set(ticket.id, createdTicket.id);
-        ticket.comments.forEach((comment) => {
-          this.addComment({
-            ticketId: createdTicket.id,
-            bodyMarkdown: comment.bodyMarkdown,
-          });
-        });
-      });
-
-      sortedTickets.forEach((ticket) => {
-        const ticketId = createdTicketIds.get(ticket.id);
-        if (!ticketId) {
-          return;
-        }
-        this.sqlite
-          .prepare("UPDATE tickets SET parent_ticket_id = ? WHERE id = ?")
-          .run(ticket.parentTicketId == null ? null : createdTicketIds.get(ticket.parentTicketId) ?? null, ticketId);
-        replaceTicketBlockers(
-          this.sqlite,
-          ticketId,
-          (ticket.blockerIds ?? []).map((blockerId) => createdTicketIds.get(blockerId)).filter((value): value is number => typeof value === "number"),
-          created.board.id,
-        );
-      });
-
-      return created.board.id;
+    return importBoardPayload(this.sqlite, payload, {
+      addComment: this.addComment.bind(this),
+      createBoard: this.createBoard.bind(this),
+      createTag: this.createTag.bind(this),
+      createTicket: this.createTicket.bind(this),
+      getBoardDetail: this.getBoardDetail.bind(this),
     });
-    return this.getBoardDetail(tx());
   }
 
   private touchBoard(boardId: Id): void {
