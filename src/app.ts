@@ -6,9 +6,11 @@ import fastify, { type FastifyInstance } from "fastify";
 import fastifyStatic from "@fastify/static";
 
 import { KanbanDb } from "./db.js";
+import { registerBoardRoutes } from "./routes/boards.js";
+import { registerSystemRoutes } from "./routes/system.js";
+import { registerWebRoutes } from "./routes/web.js";
 import {
   type BoardDetailView,
-  type BoardExport,
   type Id,
   type TicketRelationView,
   type TicketSummaryView,
@@ -52,25 +54,6 @@ const errorSchema = {
   additionalProperties: false,
   properties: {
     error: { type: "string" },
-  },
-} as const;
-
-const healthResponseSchema = {
-  type: "object",
-  required: ["ok"],
-  additionalProperties: false,
-  properties: {
-    ok: { type: "boolean" },
-  },
-} as const;
-
-const metaResponseSchema = {
-  type: "object",
-  required: ["name", "version"],
-  additionalProperties: false,
-  properties: {
-    name: { type: "string" },
-    version: { type: "string" },
   },
 } as const;
 
@@ -700,169 +683,25 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     prefix: "/",
   });
 
-  app.get("/api/health", {
-    schema: {
-      response: {
-        200: healthResponseSchema,
-      },
+  registerSystemRoutes(app, appMeta);
+  registerBoardRoutes(app, {
+    addBoardEventClient,
+    db,
+    getIdParam,
+    publishBoardEvent,
+    removeBoardEventClient,
+    sanitizeStringArray,
+    schemas: {
+      boardCreateBodySchema,
+      boardRenameBodySchema,
+      boardShellResponseSchema,
+      boardViewSchema,
+      boardsResponseSchema,
+      errorSchema,
+      idParamsSchema,
+      reorderBoardsBodySchema,
     },
-  }, async () => ({ ok: true }));
-
-  app.get("/api/meta", {
-    schema: {
-      response: {
-        200: metaResponseSchema,
-      },
-    },
-  }, async () => appMeta);
-
-  app.get("/api/boards", {
-    schema: {
-      response: {
-        200: boardsResponseSchema,
-      },
-    },
-  }, async () => ({ boards: db.listBoards() }));
-
-  app.get("/api/boards/:boardId/events", {
-    schema: {
-      params: idParamsSchema("boardId"),
-      response: {
-        404: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    const boardId = getIdParam(request.params, "boardId");
-    if (!db.getBoard(boardId)) {
-      return reply.code(404).send({ error: "board not found" });
-    }
-
-    reply.raw.writeHead(200, {
-      "content-type": "text/event-stream",
-      "cache-control": "no-cache, no-transform",
-      connection: "keep-alive",
-    });
-    reply.raw.write(": connected\n\n");
-    addBoardEventClient(boardId, reply.raw);
-
-    const heartbeat = setInterval(() => {
-      if (!reply.raw.destroyed && !reply.raw.writableEnded) {
-        reply.raw.write(": ping\n\n");
-      }
-    }, 15000);
-
-    const cleanup = () => {
-      clearInterval(heartbeat);
-      removeBoardEventClient(boardId, reply.raw);
-    };
-
-    request.raw.on("close", cleanup);
-    request.raw.on("end", cleanup);
-    reply.hijack();
-  });
-
-  app.post("/api/boards", {
-    schema: {
-      body: boardCreateBodySchema,
-      response: {
-        201: {
-          type: "object",
-          additionalProperties: true,
-        },
-        400: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    const body = request.body as { name?: string; laneNames?: string[] };
-    const name = body?.name?.trim();
-    if (!name) {
-      return reply.code(400).send({ error: "name is required" });
-    }
-    const board = db.createBoard({ name, laneNames: sanitizeStringArray(body.laneNames) });
-    publishBoardEvent(board.board.id, "board_created");
-    return reply.code(201).send(serializeBoardDetail(board));
-  });
-
-  app.get("/api/boards/:boardId", {
-    schema: {
-      params: idParamsSchema("boardId"),
-      response: {
-        200: boardShellResponseSchema,
-        404: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    try {
-      return db.getBoardShell(getIdParam(request.params, "boardId"));
-    } catch {
-      return reply.code(404).send({ error: "board not found" });
-    }
-  });
-
-  app.patch("/api/boards/:boardId", {
-    schema: {
-      params: idParamsSchema("boardId"),
-      body: boardRenameBodySchema,
-      response: {
-        200: boardViewSchema,
-        400: errorSchema,
-        404: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    const body = request.body as { name?: string };
-    const name = body?.name?.trim();
-    if (!name) {
-      return reply.code(400).send({ error: "name is required" });
-    }
-    try {
-      const board = db.updateBoard(getIdParam(request.params, "boardId"), name);
-      publishBoardEvent(board.id);
-      return board;
-    } catch {
-      return reply.code(404).send({ error: "board not found" });
-    }
-  });
-
-  app.delete("/api/boards/:boardId", {
-    schema: {
-      params: idParamsSchema("boardId"),
-      response: {
-        204: { type: "null" },
-        404: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    const boardId = getIdParam(request.params, "boardId");
-    try {
-      db.deleteBoard(boardId);
-      publishBoardEvent(boardId, "board_deleted");
-      return reply.code(204).send();
-    } catch {
-      return reply.code(404).send({ error: "board not found" });
-    }
-  });
-
-  app.post("/api/boards/reorder", {
-    schema: {
-      body: reorderBoardsBodySchema,
-      response: {
-        200: boardsResponseSchema,
-        400: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    const body = request.body as { boardIds?: number[] };
-    if (!Array.isArray(body?.boardIds)) {
-      return reply.code(400).send({ error: "boardIds is required" });
-    }
-    try {
-      const boards = db.reorderBoards(body.boardIds);
-      return { boards };
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "board reorder failed";
-      return reply.code(400).send({ error: message });
-    }
+    serializeBoardDetail,
   });
 
   app.get("/api/boards/:boardId/lanes", {
@@ -1534,55 +1373,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     }
   });
 
-  app.get("/api/boards/:boardId/export", {
-    schema: {
-      params: idParamsSchema("boardId"),
-      response: {
-        200: {
-          type: "object",
-          additionalProperties: true,
-        },
-        404: errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    try {
-      return db.exportBoard(getIdParam(request.params, "boardId"));
-    } catch {
-      return reply.code(404).send({ error: "board not found" });
-    }
-  });
-
-  app.post("/api/boards/import", async (request, reply) => {
-    const body = request.body as BoardExport | undefined;
-    if (!body?.board || !Array.isArray(body.lanes) || !Array.isArray(body.tags) || !Array.isArray(body.tickets)) {
-      return reply.code(400).send({ error: "invalid import payload" });
-    }
-    try {
-      const board = db.importBoard(body);
-      publishBoardEvent(board.board.id, "board_imported");
-      return reply.code(201).send(serializeBoardDetail(board));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "import failed";
-      return reply.code(400).send({ error: message });
-    }
-  });
-
-  app.get("/", async (_request, reply) => {
-    return reply.sendFile("index.html");
-  });
-
-  app.get("/boards/:boardId", async (_request, reply) => {
-    return reply.sendFile("index.html");
-  });
-
-  app.get("/boards/:boardId/list", async (_request, reply) => {
-    return reply.sendFile("index.html");
-  });
-
-  app.get("/tickets/:ticketId", async (_request, reply) => {
-    return reply.sendFile("index.html");
-  });
+  registerWebRoutes(app);
 
   setErrorHandler(app);
   return app;
