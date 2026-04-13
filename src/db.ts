@@ -1,9 +1,16 @@
 import Database from "better-sqlite3";
 
 import {
-  mapActivityLog,
+  addComment,
+  deleteComment,
+  listActivity,
+  listComments,
+  updateComment,
+  type CreateCommentInput,
+  type UpdateCommentInput,
+} from "./db-comments.js";
+import {
   mapBoard,
-  mapComment,
   mapLane,
   mapTag,
   mapTicket,
@@ -41,14 +48,12 @@ import {
   validateParentTicket,
 } from "./db-ticket-writes.js";
 import {
-  type ActivityLogRow,
   type ActivityLogView,
   type BoardDetailView,
   type BoardShellView,
   type BoardExport,
   type BoardRow,
   type BoardView,
-  type CommentRow,
   type CommentView,
   type Id,
   type TagRow,
@@ -92,16 +97,6 @@ type CreateTicketInput = {
 
 type UpdateTicketInput = Partial<CreateTicketInput> & {
   title?: string;
-};
-
-type CreateCommentInput = {
-  ticketId: Id;
-  bodyMarkdown: string;
-};
-
-type UpdateCommentInput = {
-  commentId: Id;
-  bodyMarkdown: string;
 };
 
 type ReorderTicketInput = {
@@ -525,96 +520,23 @@ export class KanbanDb {
   }
 
   addComment(input: CreateCommentInput): CommentView {
-    const boardId = this.getTicketBoardId(input.ticketId);
-    if (!boardId) {
-      throw new Error("Ticket not found");
-    }
-    const now = this.now();
-    const result = this.sqlite
-      .prepare("INSERT INTO comments (ticket_id, body_markdown, created_at) VALUES (?, ?, ?)")
-      .run(input.ticketId, input.bodyMarkdown, now);
-    this.addActivity(boardId, input.ticketId, "comment_added", "Comment added");
-    this.touchBoard(boardId);
-    return mapComment({
-      id: Number(result.lastInsertRowid),
-      ticket_id: input.ticketId,
-      body_markdown: input.bodyMarkdown,
-      created_at: now,
-    });
+    return addComment(this.sqlite, input, this.now());
   }
 
   listComments(ticketId: Id): CommentView[] {
-    if (!this.hasTicket(ticketId)) {
-      throw new Error("Ticket not found");
-    }
-    return getCommentsForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [];
+    return listComments(this.sqlite, ticketId);
   }
 
   updateComment(input: UpdateCommentInput): CommentView {
-    const current = this.sqlite
-      .prepare(
-        `
-        SELECT c.*, t.board_id
-        FROM comments c
-        INNER JOIN tickets t ON t.id = c.ticket_id
-        WHERE c.id = ?
-        `,
-      )
-      .get(input.commentId) as (CommentRow & { board_id: Id }) | undefined;
-    if (!current) {
-      throw new Error("Comment not found");
-    }
-    this.sqlite
-      .prepare("UPDATE comments SET body_markdown = ? WHERE id = ?")
-      .run(input.bodyMarkdown, input.commentId);
-    this.addActivity(current.board_id, current.ticket_id, "comment_updated", "Comment updated", {
-      commentId: current.id,
-      oldBodyMarkdown: current.body_markdown,
-      newBodyMarkdown: input.bodyMarkdown,
-    });
-    this.touchBoard(current.board_id);
-    return mapComment({
-      id: current.id,
-      ticket_id: current.ticket_id,
-      body_markdown: input.bodyMarkdown,
-      created_at: current.created_at,
-    });
+    return updateComment(this.sqlite, input, this.now());
   }
 
   deleteComment(commentId: Id): { ticketId: Id; boardId: Id } {
-    const current = this.sqlite
-      .prepare(
-        `
-        SELECT c.id, c.ticket_id, c.body_markdown, t.board_id
-        FROM comments c
-        INNER JOIN tickets t ON t.id = c.ticket_id
-        WHERE c.id = ?
-        `,
-      )
-      .get(commentId) as { id: Id; ticket_id: Id; board_id: Id; body_markdown: string } | undefined;
-    if (!current) {
-      throw new Error("Comment not found");
-    }
-    this.sqlite.prepare("DELETE FROM comments WHERE id = ?").run(commentId);
-    this.addActivity(current.board_id, current.ticket_id, "comment_deleted", "Comment deleted", {
-      commentId: current.id,
-      deletedBodyMarkdown: current.body_markdown,
-    });
-    this.touchBoard(current.board_id);
-    return { ticketId: current.ticket_id, boardId: current.board_id };
+    return deleteComment(this.sqlite, commentId, this.now());
   }
 
   listActivity(ticketId: Id): ActivityLogView[] {
-    const hasActivity = this.sqlite
-      .prepare("SELECT 1 FROM activity_logs WHERE subject_ticket_id = ? LIMIT 1")
-      .get(ticketId) != null;
-    if (!this.hasTicket(ticketId) && !hasActivity) {
-      throw new Error("Ticket not found");
-    }
-    const rows = this.sqlite
-      .prepare("SELECT * FROM activity_logs WHERE subject_ticket_id = ? ORDER BY created_at DESC, id DESC")
-      .all(ticketId) as ActivityLogRow[];
-    return rows.map(mapActivityLog);
+    return listActivity(this.sqlite, ticketId);
   }
 
   getTicketRelations(ticketId: Id): TicketRelationsView {
@@ -812,16 +734,6 @@ export class KanbanDb {
 
   private touchBoard(boardId: Id): void {
     this.sqlite.prepare("UPDATE boards SET updated_at = ? WHERE id = ?").run(this.now(), boardId);
-  }
-
-  private hasTicket(ticketId: Id): boolean {
-    const row = this.sqlite.prepare("SELECT id FROM tickets WHERE id = ?").get(ticketId) as { id: Id } | undefined;
-    return Boolean(row);
-  }
-
-  private getTicketBoardId(ticketId: Id): Id | null {
-    const row = this.sqlite.prepare("SELECT board_id FROM tickets WHERE id = ?").get(ticketId) as { board_id: Id } | undefined;
-    return row?.board_id ?? null;
   }
 
   private getTicketRow(ticketId: Id): TicketRow | null {
