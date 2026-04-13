@@ -32,8 +32,6 @@ import {
   type UpdateCommentInput,
 } from "./db-comments.js";
 import {
-  mapTicket,
-  mapTicketSummary,
   sanitizePriority,
 } from "./db-mappers.js";
 import { importBoardPayload, toBoardExport } from "./db-board-transfer.js";
@@ -43,19 +41,16 @@ import {
 } from "./db-ordering.js";
 import { migrate } from "./db-migration.js";
 import {
-  getBlockedTicketsForTicketIds,
-  getBlockerIdsForTicketIds,
-  getBlockersForTicketIds,
-  getChildrenForTicketIds,
-  getCommentsForTicketIds,
-  getParentsForTicketIds,
-  getTagsForTicketIds,
-} from "./db-ticket-loaders.js";
-import {
   getTicketRowsForBoard,
-  listTicketRows,
   type ListTicketsFilters,
 } from "./db-ticket-queries.js";
+import {
+  getTicket as getTicketRecord,
+  getTicketRelations as getTicketRelationRecords,
+  listTickets as listTicketRecords,
+  listTicketSummaries as listTicketSummaryRecords,
+  listTicketSummariesByIds,
+} from "./db-ticket-read-model.js";
 import {
   addActivity,
   replaceTicketBlockers,
@@ -74,7 +69,6 @@ import {
   type LaneRow,
   type LaneView,
   type TicketRelationsView,
-  type TicketRow,
   type TicketSummaryView,
   type TicketView,
 } from "./types.js";
@@ -229,67 +223,15 @@ export class KanbanDb {
   }
 
   listTicketSummaries(boardId: Id, filters: ListTicketsFilters = {}): TicketSummaryView[] {
-    const rows = listTicketRows(this.sqlite, boardId, filters);
-    const ticketIds = rows.map((row) => row.id);
-    const tagsByTicket = getTagsForTicketIds(this.sqlite, ticketIds);
-    const blockerIdsByTicket = getBlockerIdsForTicketIds(this.sqlite, ticketIds);
-    const board = this.getBoard(boardId);
-    return rows.map((row) =>
-      mapTicketSummary(
-        row,
-        board?.name ?? "",
-        tagsByTicket.get(row.id) ?? [],
-        blockerIdsByTicket.get(row.id) ?? [],
-      ),
-    );
+    return listTicketSummaryRecords(this.sqlite, boardId, filters);
   }
 
   listTickets(boardId: Id, filters: ListTicketsFilters = {}): TicketView[] {
-    const rows = listTicketRows(this.sqlite, boardId, filters);
-    const ticketIds = rows.map((row) => row.id);
-    const tagsByTicket = getTagsForTicketIds(this.sqlite, ticketIds);
-    const commentsByTicket = getCommentsForTicketIds(this.sqlite, ticketIds);
-    const blockersByTicket = getBlockersForTicketIds(this.sqlite, ticketIds);
-    const blockedByByTicket = getBlockedTicketsForTicketIds(this.sqlite, ticketIds);
-    const parentsByTicket = getParentsForTicketIds(this.sqlite, ticketIds);
-    const childrenByTicket = getChildrenForTicketIds(this.sqlite, ticketIds);
-    const board = this.getBoard(boardId);
-    return rows.map((row) =>
-      mapTicket(
-        row,
-        board?.name ?? "",
-        tagsByTicket.get(row.id) ?? [],
-        commentsByTicket.get(row.id) ?? [],
-        blockersByTicket.get(row.id) ?? [],
-        blockedByByTicket.get(row.id) ?? [],
-        parentsByTicket.get(row.id) ?? null,
-        childrenByTicket.get(row.id) ?? [],
-      ),
-    );
+    return listTicketRecords(this.sqlite, boardId, filters);
   }
 
   getTicket(ticketId: Id): TicketView | null {
-    const row = this.getTicketRow(ticketId);
-    if (!row) {
-      return null;
-    }
-    const tagsByTicket = getTagsForTicketIds(this.sqlite, [ticketId]);
-    const commentsByTicket = getCommentsForTicketIds(this.sqlite, [ticketId]);
-    const blockersByTicket = getBlockersForTicketIds(this.sqlite, [ticketId]);
-    const blockedByByTicket = getBlockedTicketsForTicketIds(this.sqlite, [ticketId]);
-    const parentsByTicket = getParentsForTicketIds(this.sqlite, [ticketId]);
-    const childrenByTicket = getChildrenForTicketIds(this.sqlite, [ticketId]);
-    const board = this.getBoard(row.board_id);
-    return mapTicket(
-      row,
-      board?.name ?? "",
-      tagsByTicket.get(ticketId) ?? [],
-      commentsByTicket.get(ticketId) ?? [],
-      blockersByTicket.get(ticketId) ?? [],
-      blockedByByTicket.get(ticketId) ?? [],
-      parentsByTicket.get(ticketId) ?? null,
-      childrenByTicket.get(ticketId) ?? [],
-    );
+    return getTicketRecord(this.sqlite, ticketId);
   }
 
   createTicket(input: CreateTicketInput): TicketView {
@@ -444,17 +386,7 @@ export class KanbanDb {
   }
 
   getTicketRelations(ticketId: Id): TicketRelationsView {
-    const row = this.getTicketRow(ticketId);
-    if (!row) {
-      throw new Error("Ticket not found");
-    }
-    const parent = row.parent_ticket_id == null ? null : getParentsForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? null;
-    return {
-      parent,
-      children: getChildrenForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [],
-      blockers: getBlockersForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [],
-      blockedBy: getBlockedTicketsForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [],
-    };
+    return getTicketRelationRecords(this.sqlite, ticketId);
   }
 
   transitionTicket(ticketId: Id, laneName: string, isResolved?: boolean): TicketView {
@@ -539,7 +471,7 @@ export class KanbanDb {
       this.touchBoard(input.boardId);
     });
     tx();
-    return this.listTicketSummariesByIds(input.boardId, input.ticketIds);
+    return listTicketSummariesByIds(this.sqlite, input.boardId, input.ticketIds);
   }
 
   bulkTransitionTickets(input: BulkTransitionTicketsInput): TicketSummaryView[] {
@@ -587,7 +519,7 @@ export class KanbanDb {
       this.touchBoard(input.boardId);
     });
     tx();
-    return this.listTicketSummariesByIds(input.boardId, input.ticketIds);
+    return listTicketSummariesByIds(this.sqlite, input.boardId, input.ticketIds);
   }
 
   bulkArchiveTickets(input: BulkArchiveTicketsInput): TicketSummaryView[] {
@@ -619,7 +551,7 @@ export class KanbanDb {
       this.touchBoard(input.boardId);
     });
     tx();
-    return this.listTicketSummariesByIds(input.boardId, input.ticketIds);
+    return listTicketSummariesByIds(this.sqlite, input.boardId, input.ticketIds);
   }
 
   exportBoard(boardId: Id): BoardExport {
@@ -638,29 +570,6 @@ export class KanbanDb {
 
   private touchBoard(boardId: Id): void {
     this.sqlite.prepare("UPDATE boards SET updated_at = ? WHERE id = ?").run(this.now(), boardId);
-  }
-
-  private getTicketRow(ticketId: Id): TicketRow | null {
-    const row = this.sqlite.prepare("SELECT * FROM tickets WHERE id = ?").get(ticketId) as TicketRow | undefined;
-    return row ?? null;
-  }
-
-  private listTicketSummariesByIds(boardId: Id, ticketIds: Id[]): TicketSummaryView[] {
-    const rows = getTicketRowsForBoard(this.sqlite, boardId, ticketIds);
-    const order = new Map(ticketIds.map((ticketId, index) => [ticketId, index]));
-    const tagsByTicket = getTagsForTicketIds(this.sqlite, rows.map((row) => row.id));
-    const blockerIdsByTicket = getBlockerIdsForTicketIds(this.sqlite, rows.map((row) => row.id));
-    const board = this.getBoard(boardId);
-    return rows
-      .map((row) =>
-        mapTicketSummary(
-          row,
-          board?.name ?? "",
-          tagsByTicket.get(row.id) ?? [],
-          blockerIdsByTicket.get(row.id) ?? [],
-        ),
-      )
-      .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
   }
 
   private addActivity(
