@@ -1,6 +1,7 @@
 import { api, createSendJson } from "./app-api.js";
 import { createBoardModule } from "./app-board.js";
 import { createEditorModule } from "./app-editor.js";
+import { createFiltersModule } from "./app-filters.js";
 import { createUxModule } from "./app-ux.js";
 
 const state = {
@@ -156,15 +157,6 @@ async function loadAppMeta() {
   }
 }
 
-function syncViewMode() {
-  elements.viewModeButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.viewMode === state.viewMode);
-  });
-  elements.laneBoard.hidden = state.viewMode !== "kanban";
-  elements.listBoard.hidden = state.viewMode !== "list";
-  elements.laneFilter.hidden = state.viewMode !== "list";
-}
-
 function bindEvents() {
   elements.sidebarToggleButton.addEventListener("click", toggleSidebar);
   elements.sidebarReopenButton.addEventListener("click", toggleSidebar);
@@ -194,51 +186,7 @@ function bindEvents() {
   elements.ticketParentSearch.addEventListener("focus", openParentOptions);
   elements.ticketParentSearch.addEventListener("input", handleParentSearchInput);
   elements.ticketParentSearch.addEventListener("keydown", handleParentSearchKeydown);
-  elements.viewModeButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      state.viewMode = button.dataset.viewMode || "kanban";
-      if (state.viewMode !== "list") {
-        state.filters.lane = "";
-        elements.laneFilter.value = "";
-      }
-      syncViewMode();
-      syncActiveFilterStyles();
-      refreshBoardDetail().catch((error) => {
-        console.error(error);
-        showToast(error.message, "error");
-      });
-      syncBoardUrl();
-    });
-  });
-  elements.searchInput.addEventListener("input", async (event) => {
-    state.filters.q = event.target.value.trim();
-    syncActiveFilterStyles();
-    await refreshBoardDetail();
-  });
-  elements.laneFilter.addEventListener("change", async (event) => {
-    state.filters.lane = event.target.value;
-    syncActiveFilterStyles();
-    await refreshBoardDetail();
-  });
-  elements.archivedFilterButton.addEventListener("click", async () => {
-    state.filters.archived = state.filters.archived === "all" ? "" : "all";
-    syncArchivedFilter();
-    syncActiveFilterStyles();
-    await refreshBoardDetail();
-  });
-  elements.resolvedFilterButtons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      state.filters.resolved = button.dataset.value ?? "";
-      syncResolvedFilter();
-      syncActiveFilterStyles();
-      await refreshBoardDetail();
-    });
-  });
-  elements.tagFilter.addEventListener("change", async (event) => {
-    state.filters.tag = event.target.value;
-    syncActiveFilterStyles();
-    await refreshBoardDetail();
-  });
+  bindFilterEvents();
   elements.editorForm.addEventListener("submit", saveTicket);
   elements.commentForm.addEventListener("submit", addComment);
   elements.saveCommentButton.addEventListener("click", addComment);
@@ -428,13 +376,7 @@ async function refreshBoards() {
 }
 
 function resetBoardFilters() {
-  state.filters = { q: "", lane: "", resolved: "false", tag: "", archived: "" };
-  elements.searchInput.value = "";
-  elements.laneFilter.value = "";
-  syncResolvedFilter();
-  syncArchivedFilter();
-  elements.tagFilter.value = "";
-  syncActiveFilterStyles();
+  filtersModule.resetBoardFilters();
 }
 
 async function selectBoard(boardId) {
@@ -453,35 +395,12 @@ async function refreshBoardDetail() {
     renderBoardDetail();
     return;
   }
-  const buildTicketListUrl = (filters = {}) => {
-    const params = new URLSearchParams();
-    const archived = filters.archived ?? state.filters.archived;
-    if (archived === "all") {
-      params.set("archived", "all");
-    }
-    const lane = filters.lane ?? (state.viewMode === "list" ? state.filters.lane : "");
-    if (lane) {
-      params.set("lane_id", String(lane));
-    }
-    if (filters.resolved ?? state.filters.resolved) {
-      params.set("resolved", String(filters.resolved ?? state.filters.resolved));
-    }
-    if (filters.tag ?? state.filters.tag) {
-      params.set("tag", String(filters.tag ?? state.filters.tag));
-    }
-    if (filters.q ?? state.filters.q) {
-      params.set("q", String(filters.q ?? state.filters.q));
-    }
-    const query = params.toString();
-    return `/api/boards/${state.activeBoardId}/tickets${query ? `?${query}` : ""}`;
-  };
   const ticketListUrl = buildTicketListUrl();
   const [detail, allTickets] = await Promise.all([
     api(`/api/boards/${state.activeBoardId}`),
     api(ticketListUrl),
   ]);
-  const hasFilters = Object.entries(state.filters).some(([key, value]) => key !== "archived" && (key !== "lane" || state.viewMode === "list") && value !== "");
-  const tickets = hasFilters
+  const tickets = hasActiveTicketFilters()
     ? await api(buildTicketListUrl())
     : allTickets;
   state.boardTickets = allTickets.tickets;
@@ -668,6 +587,25 @@ const uxModule = createUxModule({
 
 const { confirmAndRun, finishUxDialog, handleUxDanger, handleUxSubmit, requestFields, requestFieldsAction, showToast } = uxModule;
 
+const filtersModule = createFiltersModule(
+  { state, elements },
+  {
+    refreshBoardDetail,
+    showToast,
+    syncBoardUrl,
+  },
+);
+
+const {
+  bindFilterEvents,
+  buildTicketListUrl,
+  hasActiveTicketFilters,
+  syncActiveFilterStyles,
+  syncArchivedFilter,
+  syncResolvedFilter,
+  syncViewMode,
+} = filtersModule;
+
 const editorModule = createEditorModule({
   state,
   elements,
@@ -760,22 +698,3 @@ main().catch((error) => {
   console.error(error);
   showToast(error.message, "error");
 });
-
-function syncResolvedFilter(value = state.filters.resolved) {
-  state.filters.resolved = value;
-  elements.resolvedFilterButtons.forEach((button) => {
-    button.classList.toggle("active", (button.dataset.value ?? "") === value);
-  });
-}
-
-function syncArchivedFilter() {
-  elements.archivedFilterButton.classList.toggle("active", state.filters.archived === "all");
-}
-
-function syncActiveFilterStyles() {
-  elements.searchInput.closest(".toolbar-search")?.classList.toggle("is-filter-active", state.filters.q !== "");
-  elements.laneFilter.classList.toggle("is-filter-active", state.viewMode === "list" && state.filters.lane !== "");
-  elements.resolvedFilter.classList.toggle("is-filter-active", state.filters.resolved !== "");
-  elements.tagFilter.classList.toggle("is-filter-active", state.filters.tag !== "");
-  elements.archivedFilterButton.classList.toggle("is-filter-active", state.filters.archived === "all");
-}
