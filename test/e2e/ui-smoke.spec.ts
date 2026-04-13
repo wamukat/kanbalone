@@ -642,6 +642,144 @@ test("sidebar board list create and reorder are wired", async ({ page }) => {
   }
 });
 
+test("kanban lane create rename delete and reorder are wired", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Lane Operations", laneNames: ["Alpha", "Beta", "Gamma"] },
+    });
+    expect(boardResponse.status()).toBe(201);
+    const boardPayload = await boardResponse.json();
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator("#board-title")).toHaveText("Lane Operations");
+    await page.getByRole("button", { name: "New lane" }).click();
+    await expect(page.locator("[data-lane-create-input]")).toBeFocused();
+    await page.locator("[data-lane-create-input]").fill("Canceled Lane");
+    await page.locator("[data-lane-create-input]").press("Escape");
+    await expect(page.locator(".lane-title", { hasText: "Canceled Lane" })).toHaveCount(0);
+
+    await page.getByRole("button", { name: "New lane" }).click();
+    await page.locator("[data-lane-create-input]").fill("Delta");
+    const createResponse = page.waitForResponse(
+      (response) =>
+        response.url().endsWith(`/api/boards/${boardPayload.board.id}/lanes`) &&
+        response.request().method() === "POST",
+    );
+    await page.locator("[data-lane-create-input]").press("Enter");
+    const createResult = await createResponse;
+    expect(createResult.status()).toBe(201);
+    const deltaLane = await createResult.json();
+    await expect(page.locator(".lane-title", { hasText: "Delta" })).toBeVisible();
+
+    const betaLane = page.locator(".lane", { has: page.locator(".lane-title", { hasText: "Beta" }) });
+    await betaLane.locator("[data-action='toggle-lane-actions']").click();
+    await betaLane.locator("[data-action='rename-lane']").click();
+    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ux-title")).toHaveText("Rename Lane");
+    await page.locator('[data-field-id="name"]').fill("Review");
+    const renameResponse = page.waitForResponse(
+      (response) =>
+        response.url().includes("/api/lanes/") &&
+        response.request().method() === "PATCH",
+    );
+    await page.locator("#ux-submit-button").click();
+    expect((await renameResponse).status()).toBe(200);
+    await expect(page.locator(".lane-title", { hasText: "Review" })).toBeVisible();
+    await expect(page.locator(".lane-title", { hasText: "Beta" })).toHaveCount(0);
+
+    await Promise.all([
+      page.waitForResponse((response) => response.url().endsWith(`/api/boards/${boardPayload.board.id}/lanes/reorder`) && response.status() === 200),
+      page.evaluate(() => {
+        const laneBoard = document.querySelector("#lane-board");
+        const alphaTitle = [...document.querySelectorAll(".lane-title")].find((title) => title.textContent === "Alpha");
+        if (!laneBoard || !alphaTitle) {
+          throw new Error("Lane reorder fixture is missing");
+        }
+        const boardBox = laneBoard.getBoundingClientRect();
+        const dataTransfer = new DataTransfer();
+        alphaTitle.dispatchEvent(new DragEvent("dragstart", { bubbles: true, cancelable: true, dataTransfer }));
+        laneBoard.dispatchEvent(
+          new DragEvent("dragover", {
+            bubbles: true,
+            cancelable: true,
+            clientX: boardBox.right + 100,
+            clientY: boardBox.top + 40,
+            dataTransfer,
+          }),
+        );
+        alphaTitle.dispatchEvent(new DragEvent("dragend", { bubbles: true, cancelable: true, dataTransfer }));
+      }),
+    ]);
+    await expect(page.locator(".lane-title").first()).toHaveText("Review");
+    await page.reload();
+    await expect(page.locator(".lane-title").first()).toHaveText("Review");
+
+    const movingTicketResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
+      data: {
+        laneId: boardPayload.lanes[1].id,
+        title: "Move between lanes",
+      },
+    });
+    expect(movingTicketResponse.status()).toBe(201);
+    await page.reload();
+    await expect(page.getByRole("button", { name: "Move between lanes" })).toBeVisible();
+    await Promise.all([
+      page.waitForResponse((response) => response.url().endsWith(`/api/boards/${boardPayload.board.id}/tickets/reorder`) && response.status() === 200),
+      page.evaluate((targetLaneId) => {
+        const card = [...document.querySelectorAll(".ticket-card")].find((ticketCard) =>
+          ticketCard.textContent?.includes("Move between lanes"),
+        );
+        const targetList = document.querySelector(`.ticket-list[data-lane-id="${targetLaneId}"]`);
+        if (!card || !targetList) {
+          throw new Error("Ticket move fixture is missing");
+        }
+        const targetBox = targetList.getBoundingClientRect();
+        const dataTransfer = new DataTransfer();
+        card.dispatchEvent(new DragEvent("dragstart", { bubbles: true, cancelable: true, dataTransfer }));
+        targetList.dispatchEvent(
+          new DragEvent("dragover", {
+            bubbles: true,
+            cancelable: true,
+            clientX: targetBox.left + 8,
+            clientY: targetBox.top + 8,
+            dataTransfer,
+          }),
+        );
+        targetList.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer }));
+      }, deltaLane.id),
+    ]);
+    await expect(page.locator(".lane", { has: page.getByRole("button", { name: "Move between lanes" }) }).locator(".lane-title")).toHaveText("Delta");
+    await page.reload();
+    await expect(page.locator(".lane", { has: page.getByRole("button", { name: "Move between lanes" }) }).locator(".lane-title")).toHaveText("Delta");
+
+    const gammaLane = page.locator(".lane", { has: page.locator(".lane-title", { hasText: "Gamma" }) });
+    await gammaLane.locator("[data-action='toggle-lane-actions']").click();
+    await gammaLane.locator("[data-action='delete-lane']").click();
+    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ux-title")).toHaveText("Delete Lane");
+    const deleteResponse = page.waitForResponse(
+      (response) =>
+        response.url().includes("/api/lanes/") &&
+        response.request().method() === "DELETE",
+    );
+    await page.locator("#ux-submit-button").click();
+    expect((await deleteResponse).status()).toBe(204);
+    await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
+    await expect(page.locator(".lane-title", { hasText: "Gamma" })).toHaveCount(0);
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});
+
 test("long tag labels are constrained across ticket surfaces", async ({ page }) => {
   const app = buildApp({
     dbFile: createDbFile(),
