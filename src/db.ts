@@ -5,7 +5,6 @@ import {
   mapBoard,
   mapComment,
   mapLane,
-  mapRelation,
   mapTag,
   mapTicket,
   mapTicketSummary,
@@ -19,6 +18,15 @@ import {
   normalizeLanePositions,
   normalizeVisibleAndArchivedTicketPositions,
 } from "./db-ordering.js";
+import {
+  getBlockedTicketsForTicketIds,
+  getBlockerIdsForTicketIds,
+  getBlockersForTicketIds,
+  getChildrenForTicketIds,
+  getCommentsForTicketIds,
+  getParentsForTicketIds,
+  getTagsForTicketIds,
+} from "./db-ticket-loaders.js";
 import {
   type ActivityLogRow,
   type ActivityLogView,
@@ -34,9 +42,7 @@ import {
   type TagView,
   type LaneRow,
   type LaneView,
-  type TicketBlockerView,
   type TicketRelationsView,
-  type TicketRelationView,
   type TicketRow,
   type TicketSummaryView,
   type TicketView,
@@ -117,16 +123,6 @@ type BulkArchiveTicketsInput = {
   boardId: Id;
   ticketIds: Id[];
   isArchived: boolean;
-};
-
-type TicketRelationRow = {
-  ticket_id: Id;
-  id: Id;
-  title: string;
-  lane_id: Id;
-  is_resolved: number;
-  priority: number;
-  board_name: string;
 };
 
 const DEFAULT_LANES = ["todo", "doing", "done"];
@@ -523,8 +519,8 @@ export class KanbanDb {
   listTicketSummaries(boardId: Id, filters: ListTicketsFilters = {}): TicketSummaryView[] {
     const rows = this.listTicketRows(boardId, filters);
     const ticketIds = rows.map((row) => row.id);
-    const tagsByTicket = this.getTagsForTicketIds(ticketIds);
-    const blockerIdsByTicket = this.getBlockerIdsForTicketIds(ticketIds);
+    const tagsByTicket = getTagsForTicketIds(this.sqlite, ticketIds);
+    const blockerIdsByTicket = getBlockerIdsForTicketIds(this.sqlite, ticketIds);
     const board = this.getBoard(boardId);
     return rows.map((row) =>
       mapTicketSummary(
@@ -539,12 +535,12 @@ export class KanbanDb {
   listTickets(boardId: Id, filters: ListTicketsFilters = {}): TicketView[] {
     const rows = this.listTicketRows(boardId, filters);
     const ticketIds = rows.map((row) => row.id);
-    const tagsByTicket = this.getTagsForTicketIds(ticketIds);
-    const commentsByTicket = this.getCommentsForTicketIds(ticketIds);
-    const blockersByTicket = this.getBlockersForTicketIds(ticketIds);
-    const blockedByByTicket = this.getBlockedTicketsForTicketIds(ticketIds);
-    const parentsByTicket = this.getParentsForTicketIds(ticketIds);
-    const childrenByTicket = this.getChildrenForTicketIds(ticketIds);
+    const tagsByTicket = getTagsForTicketIds(this.sqlite, ticketIds);
+    const commentsByTicket = getCommentsForTicketIds(this.sqlite, ticketIds);
+    const blockersByTicket = getBlockersForTicketIds(this.sqlite, ticketIds);
+    const blockedByByTicket = getBlockedTicketsForTicketIds(this.sqlite, ticketIds);
+    const parentsByTicket = getParentsForTicketIds(this.sqlite, ticketIds);
+    const childrenByTicket = getChildrenForTicketIds(this.sqlite, ticketIds);
     const board = this.getBoard(boardId);
     return rows.map((row) =>
       mapTicket(
@@ -565,12 +561,12 @@ export class KanbanDb {
     if (!row) {
       return null;
     }
-    const tagsByTicket = this.getTagsForTicketIds([ticketId]);
-    const commentsByTicket = this.getCommentsForTicketIds([ticketId]);
-    const blockersByTicket = this.getBlockersForTicketIds([ticketId]);
-    const blockedByByTicket = this.getBlockedTicketsForTicketIds([ticketId]);
-    const parentsByTicket = this.getParentsForTicketIds([ticketId]);
-    const childrenByTicket = this.getChildrenForTicketIds([ticketId]);
+    const tagsByTicket = getTagsForTicketIds(this.sqlite, [ticketId]);
+    const commentsByTicket = getCommentsForTicketIds(this.sqlite, [ticketId]);
+    const blockersByTicket = getBlockersForTicketIds(this.sqlite, [ticketId]);
+    const blockedByByTicket = getBlockedTicketsForTicketIds(this.sqlite, [ticketId]);
+    const parentsByTicket = getParentsForTicketIds(this.sqlite, [ticketId]);
+    const childrenByTicket = getChildrenForTicketIds(this.sqlite, [ticketId]);
     const board = this.getBoard(row.board_id);
     return mapTicket(
       row,
@@ -737,7 +733,7 @@ export class KanbanDb {
     if (!this.hasTicket(ticketId)) {
       throw new Error("Ticket not found");
     }
-    return this.getCommentsForTicketIds([ticketId]).get(ticketId) ?? [];
+    return getCommentsForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [];
   }
 
   updateComment(input: UpdateCommentInput): CommentView {
@@ -812,12 +808,12 @@ export class KanbanDb {
     if (!row) {
       throw new Error("Ticket not found");
     }
-    const parent = row.parent_ticket_id == null ? null : this.getParentsForTicketIds([ticketId]).get(ticketId) ?? null;
+    const parent = row.parent_ticket_id == null ? null : getParentsForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? null;
     return {
       parent,
-      children: this.getChildrenForTicketIds([ticketId]).get(ticketId) ?? [],
-      blockers: this.getBlockersForTicketIds([ticketId]).get(ticketId) ?? [],
-      blockedBy: this.getBlockedTicketsForTicketIds([ticketId]).get(ticketId) ?? [],
+      children: getChildrenForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [],
+      blockers: getBlockersForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [],
+      blockedBy: getBlockedTicketsForTicketIds(this.sqlite, [ticketId]).get(ticketId) ?? [],
     };
   }
 
@@ -1156,8 +1152,8 @@ export class KanbanDb {
   private listTicketSummariesByIds(boardId: Id, ticketIds: Id[]): TicketSummaryView[] {
     const rows = this.getTicketRowsForBoard(boardId, ticketIds);
     const order = new Map(ticketIds.map((ticketId, index) => [ticketId, index]));
-    const tagsByTicket = this.getTagsForTicketIds(rows.map((row) => row.id));
-    const blockerIdsByTicket = this.getBlockerIdsForTicketIds(rows.map((row) => row.id));
+    const tagsByTicket = getTagsForTicketIds(this.sqlite, rows.map((row) => row.id));
+    const blockerIdsByTicket = getBlockerIdsForTicketIds(this.sqlite, rows.map((row) => row.id));
     const board = this.getBoard(boardId);
     return rows
       .map((row) =>
@@ -1257,162 +1253,6 @@ export class KanbanDb {
       "INSERT INTO ticket_blockers (ticket_id, blocker_ticket_id) VALUES (?, ?)",
     );
     nextBlockerIds.forEach((blockerId) => insert.run(ticketId, blockerId));
-  }
-
-  private getTagsForTicketIds(ticketIds: Id[]): Map<Id, TagView[]> {
-    const tagsByTicket = new Map<Id, TagView[]>();
-    if (ticketIds.length === 0) {
-      return tagsByTicket;
-    }
-    const placeholders = ticketIds.map(() => "?").join(", ");
-    const rows = this.sqlite
-      .prepare(
-        `
-        SELECT tl.ticket_id, l.*
-        FROM ticket_tags tl
-        INNER JOIN tags l ON l.id = tl.tag_id
-        WHERE tl.ticket_id IN (${placeholders})
-        ORDER BY l.name ASC, l.id ASC
-        `,
-      )
-      .all(...ticketIds) as Array<{ ticket_id: Id } & TagRow>;
-
-    rows.forEach((row) => {
-      const entry = tagsByTicket.get(row.ticket_id) ?? [];
-      entry.push(mapTag(row));
-      tagsByTicket.set(row.ticket_id, entry);
-    });
-    return tagsByTicket;
-  }
-
-  private getCommentsForTicketIds(ticketIds: Id[]): Map<Id, CommentView[]> {
-    const commentsByTicket = new Map<Id, CommentView[]>();
-    if (ticketIds.length === 0) {
-      return commentsByTicket;
-    }
-    const placeholders = ticketIds.map(() => "?").join(", ");
-    const rows = this.sqlite
-      .prepare(
-        `
-        SELECT *
-        FROM comments
-        WHERE ticket_id IN (${placeholders})
-        ORDER BY created_at DESC, id DESC
-        `,
-      )
-      .all(...ticketIds) as CommentRow[];
-
-    rows.forEach((row) => {
-      const entry = commentsByTicket.get(row.ticket_id) ?? [];
-      entry.push(mapComment(row));
-      commentsByTicket.set(row.ticket_id, entry);
-    });
-    return commentsByTicket;
-  }
-
-  private getParentsForTicketIds(ticketIds: Id[]): Map<Id, TicketRelationView> {
-    const parentsByTicket = new Map<Id, TicketRelationView>();
-    const relationsByTicket = this.getRelationEntriesForTicketIds(
-      ticketIds,
-      `
-        SELECT child.id AS ticket_id, parent.id, parent.title, parent.lane_id, parent.is_resolved, parent.priority, board.name AS board_name
-        FROM tickets child
-        INNER JOIN tickets parent ON parent.id = child.parent_ticket_id
-        INNER JOIN boards board ON board.id = parent.board_id
-        WHERE child.id IN ({placeholders})
-      `,
-    );
-    relationsByTicket.forEach((relations, ticketId) => {
-      const [parent] = relations;
-      if (parent) {
-        parentsByTicket.set(ticketId, parent);
-      }
-    });
-    return parentsByTicket;
-  }
-
-  private getChildrenForTicketIds(ticketIds: Id[]): Map<Id, TicketRelationView[]> {
-    return this.getRelationEntriesForTicketIds(
-      ticketIds,
-      `
-        SELECT parent_ticket_id AS ticket_id, tickets.id, tickets.title, tickets.lane_id, tickets.is_resolved, tickets.priority, board.name AS board_name
-        FROM tickets
-        INNER JOIN boards board ON board.id = tickets.board_id
-        WHERE parent_ticket_id IN ({placeholders})
-        ORDER BY tickets.priority DESC, tickets.id ASC
-      `,
-    );
-  }
-
-  private getBlockersForTicketIds(ticketIds: Id[]): Map<Id, TicketBlockerView[]> {
-    return this.getRelationEntriesForTicketIds(
-      ticketIds,
-      `
-        SELECT tb.ticket_id, t.id, t.title, t.lane_id, t.is_resolved, t.priority, board.name AS board_name
-        FROM ticket_blockers tb
-        INNER JOIN tickets t ON t.id = tb.blocker_ticket_id
-        INNER JOIN boards board ON board.id = t.board_id
-        WHERE tb.ticket_id IN ({placeholders})
-        ORDER BY t.priority DESC, t.id ASC
-      `,
-    );
-  }
-
-  private getBlockerIdsForTicketIds(ticketIds: Id[]): Map<Id, Id[]> {
-    const blockerIdsByTicket = new Map<Id, Id[]>();
-    if (ticketIds.length === 0) {
-      return blockerIdsByTicket;
-    }
-    const placeholders = ticketIds.map(() => "?").join(", ");
-    const rows = this.sqlite
-      .prepare(
-        `
-        SELECT ticket_id, blocker_ticket_id
-        FROM ticket_blockers
-        WHERE ticket_id IN (${placeholders})
-        ORDER BY blocker_ticket_id ASC
-        `,
-      )
-      .all(...ticketIds) as Array<{ ticket_id: Id; blocker_ticket_id: Id }>;
-
-    rows.forEach((row) => {
-      const entry = blockerIdsByTicket.get(row.ticket_id) ?? [];
-      entry.push(row.blocker_ticket_id);
-      blockerIdsByTicket.set(row.ticket_id, entry);
-    });
-    return blockerIdsByTicket;
-  }
-
-  private getBlockedTicketsForTicketIds(ticketIds: Id[]): Map<Id, TicketRelationView[]> {
-    return this.getRelationEntriesForTicketIds(
-      ticketIds,
-      `
-        SELECT tb.blocker_ticket_id AS ticket_id, t.id, t.title, t.lane_id, t.is_resolved, t.priority, board.name AS board_name
-        FROM ticket_blockers tb
-        INNER JOIN tickets t ON t.id = tb.ticket_id
-        INNER JOIN boards board ON board.id = t.board_id
-        WHERE tb.blocker_ticket_id IN ({placeholders})
-        ORDER BY t.priority DESC, t.id ASC
-      `,
-    );
-  }
-
-  private getRelationEntriesForTicketIds(ticketIds: Id[], query: string): Map<Id, TicketRelationView[]> {
-    const relationsByTicket = new Map<Id, TicketRelationView[]>();
-    if (ticketIds.length === 0) {
-      return relationsByTicket;
-    }
-    const placeholders = ticketIds.map(() => "?").join(", ");
-    const rows = this.sqlite
-      .prepare(query.replace("{placeholders}", placeholders))
-      .all(...ticketIds) as TicketRelationRow[];
-
-    rows.forEach((row) => {
-      const entry = relationsByTicket.get(row.ticket_id) ?? [];
-      entry.push(mapRelation(row, row.board_name));
-      relationsByTicket.set(row.ticket_id, entry);
-    });
-    return relationsByTicket;
   }
 
 }
