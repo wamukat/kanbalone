@@ -155,7 +155,6 @@ export function createBoardModule(ctx) {
     elements.laneBoard.className = "lane-board";
     elements.laneBoard.innerHTML = "";
     const laneQueues = [];
-    const hasFilter = hasUserTicketFilters();
 
     for (const lane of detail.lanes.sort((a, b) => a.position - b.position)) {
       const laneTickets = detail.tickets.filter((item) => item.laneId === lane.id).sort((a, b) => a.position - b.position);
@@ -182,14 +181,6 @@ export function createBoardModule(ctx) {
       const list = document.createElement("div");
       list.className = "ticket-list";
       list.dataset.laneId = String(lane.id);
-      if (laneTickets.length === 0 && hasFilter) {
-        list.innerHTML = `
-          <div class="lane-empty-note">
-            <span>${icon("search")}</span>
-            <p>No matching tickets</p>
-          </div>
-        `;
-      }
       bindDropZone(list);
 
       const addTicketButton = document.createElement("button");
@@ -381,9 +372,8 @@ export function createBoardModule(ctx) {
 
   function hasUserTicketFilters() {
     return state.filters.q !== ""
-      || state.filters.lane !== ""
+      || (state.viewMode === "list" && state.filters.lane !== "")
       || state.filters.tag !== ""
-      || state.filters.archived !== ""
       || (state.filters.resolved !== "" && state.filters.resolved !== "false");
   }
 

@@ -87,14 +87,17 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#resolved-filter [data-value='false']")).toHaveClass(/active/);
     await expect(page.locator(".ticket-card")).toHaveCount(3);
     await expect(page.locator("#search-input")).toHaveAttribute("placeholder", "Search keywords, #123, priority:3");
+    await expect(page.locator("#resolved-filter")).toHaveClass(/is-filter-active/);
     const smokeTicket = await ticketResponse.json();
     await page.locator("#search-input").fill(String(smokeTicket.id));
+    await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator(".ticket-card")).toContainText("Smoke ticket");
     await page.locator("#search-input").fill("priority:3");
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator(".ticket-card")).toContainText("Smoke ticket");
     await page.locator("#search-input").fill("");
+    await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(3);
     await expect(page.locator(".board-title-row")).toBeHidden();
     await page.locator("#new-board-button").click();
@@ -113,6 +116,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#board-title")).toHaveText("Inline Board");
     await page.getByRole("button", { name: "UI Smoke" }).click();
     await expect(page.locator("#board-title")).toHaveText("UI Smoke");
+    await expect(page.locator("#resolved-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator("#board-list .board-button").first()).toHaveText("UI Smoke");
     await Promise.all([
       page.waitForResponse((response) => response.url().endsWith("/api/boards/reorder") && response.status() === 200),
@@ -229,7 +234,9 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#rename-board-button use[href='/icons.svg#pencil']")).toHaveCount(1);
     await expect(page.locator("#delete-board-button use[href='/icons.svg#trash-2']")).toHaveCount(1);
     await page.locator("#archived-filter-button").click();
+    await expect(page.locator("#archived-filter-button")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(5);
+    await expect(page.locator("#lane-board")).not.toContainText("No matching tickets");
     await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='list']").click();
     await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".list-status-cell .ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
@@ -237,6 +244,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-bulk-archive='false'] use[href='/icons.svg#rotate-ccw']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await page.locator("#archived-filter-button").click();
+    await expect(page.locator("#archived-filter-button")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(4);
 
     const bulkDeleteTicketResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
@@ -454,6 +462,10 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-relations")).toContainText("Blocker candidate");
     await expect(page.locator("#ticket-relations")).toContainText("Children");
     await expect(page.locator("#ticket-relations")).toContainText("Child candidate");
+    await page.locator("#tag-filter").selectOption("smoke-tag");
+    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
+    await page.locator("#tag-filter").selectOption("");
+    await expect(page.locator("#tag-filter")).not.toHaveClass(/is-filter-active/);
 
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#editor-form")).toBeVisible();
@@ -704,6 +716,7 @@ test("lane filter does not leak from List view into Kanban view", async ({ page 
     await page.locator("#lane-filter").selectOption(String(reviewLane.id));
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Review ticket");
+    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
 
     await page.getByRole("button", { name: "Kanban" }).click();
     await expect(page.locator("#lane-filter")).toBeHidden();

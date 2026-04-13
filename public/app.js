@@ -142,6 +142,7 @@ async function main() {
   syncResolvedFilter();
   syncArchivedFilter();
   syncViewMode();
+  syncActiveFilterStyles();
   await refreshBoards();
   await applyRouteFromLocation({ replace: true });
 }
@@ -201,6 +202,7 @@ function bindEvents() {
         elements.laneFilter.value = "";
       }
       syncViewMode();
+      syncActiveFilterStyles();
       refreshBoardDetail().catch((error) => {
         console.error(error);
         showToast(error.message, "error");
@@ -210,26 +212,31 @@ function bindEvents() {
   });
   elements.searchInput.addEventListener("input", async (event) => {
     state.filters.q = event.target.value.trim();
+    syncActiveFilterStyles();
     await refreshBoardDetail();
   });
   elements.laneFilter.addEventListener("change", async (event) => {
     state.filters.lane = event.target.value;
+    syncActiveFilterStyles();
     await refreshBoardDetail();
   });
   elements.archivedFilterButton.addEventListener("click", async () => {
     state.filters.archived = state.filters.archived === "all" ? "" : "all";
     syncArchivedFilter();
+    syncActiveFilterStyles();
     await refreshBoardDetail();
   });
   elements.resolvedFilterButtons.forEach((button) => {
     button.addEventListener("click", async () => {
       state.filters.resolved = button.dataset.value ?? "";
       syncResolvedFilter();
+      syncActiveFilterStyles();
       await refreshBoardDetail();
     });
   });
   elements.tagFilter.addEventListener("change", async (event) => {
     state.filters.tag = event.target.value;
+    syncActiveFilterStyles();
     await refreshBoardDetail();
   });
   elements.editorForm.addEventListener("submit", saveTicket);
@@ -427,6 +434,7 @@ function resetBoardFilters() {
   syncResolvedFilter();
   syncArchivedFilter();
   elements.tagFilter.value = "";
+  syncActiveFilterStyles();
 }
 
 async function selectBoard(boardId) {
@@ -441,6 +449,7 @@ async function refreshBoardDetail() {
     closeBoardEvents();
     state.boardDetail = null;
     state.boardTickets = [];
+    syncActiveFilterStyles();
     renderBoardDetail();
     return;
   }
@@ -485,6 +494,7 @@ async function refreshBoardDetail() {
   syncBoardEvents();
   renderBoards();
   renderBoardDetail();
+  syncActiveFilterStyles();
 }
 
 function closeBoardEvents() {
@@ -760,4 +770,12 @@ function syncResolvedFilter(value = state.filters.resolved) {
 
 function syncArchivedFilter() {
   elements.archivedFilterButton.classList.toggle("active", state.filters.archived === "all");
+}
+
+function syncActiveFilterStyles() {
+  elements.searchInput.closest(".toolbar-search")?.classList.toggle("is-filter-active", state.filters.q !== "");
+  elements.laneFilter.classList.toggle("is-filter-active", state.viewMode === "list" && state.filters.lane !== "");
+  elements.resolvedFilter.classList.toggle("is-filter-active", state.filters.resolved !== "");
+  elements.tagFilter.classList.toggle("is-filter-active", state.filters.tag !== "");
+  elements.archivedFilterButton.classList.toggle("is-filter-active", state.filters.archived === "all");
 }
