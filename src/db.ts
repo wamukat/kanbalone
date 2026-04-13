@@ -1,6 +1,28 @@
 import Database from "better-sqlite3";
 
 import {
+  createBoard as createBoardRecord,
+  createLane as createLaneRecord,
+  createTag as createTagRecord,
+  deleteBoard as deleteBoardRecord,
+  deleteLane as deleteLaneRecord,
+  deleteTag as deleteTagRecord,
+  getBoard as getBoardRecord,
+  getLane as getLaneRecord,
+  getTag as getTagRecord,
+  listBoards as listBoardRecords,
+  listLanes as listLaneRecords,
+  listTags as listTagRecords,
+  reorderBoards as reorderBoardRecords,
+  reorderLanes as reorderLaneRecords,
+  updateBoard as updateBoardRecord,
+  updateLane as updateLaneRecord,
+  updateTag as updateTagRecord,
+  type CreateBoardInput,
+  type CreateLaneInput,
+  type CreateTagInput,
+} from "./db-board.js";
+import {
   addComment,
   deleteComment,
   listActivity,
@@ -10,20 +32,13 @@ import {
   type UpdateCommentInput,
 } from "./db-comments.js";
 import {
-  mapBoard,
-  mapLane,
-  mapTag,
   mapTicket,
   mapTicketSummary,
   sanitizePriority,
 } from "./db-mappers.js";
 import { importBoardPayload, toBoardExport } from "./db-board-transfer.js";
 import {
-  nextBoardPosition,
-  nextLanePosition,
   nextTicketPosition,
-  normalizeBoardPositions,
-  normalizeLanePositions,
   normalizeVisibleAndArchivedTicketPositions,
 } from "./db-ordering.js";
 import { migrate } from "./db-migration.js";
@@ -52,11 +67,9 @@ import {
   type BoardDetailView,
   type BoardShellView,
   type BoardExport,
-  type BoardRow,
   type BoardView,
   type CommentView,
   type Id,
-  type TagRow,
   type TagView,
   type LaneRow,
   type LaneView,
@@ -65,22 +78,6 @@ import {
   type TicketSummaryView,
   type TicketView,
 } from "./types.js";
-
-type CreateBoardInput = {
-  name: string;
-  laneNames?: string[];
-};
-
-type CreateLaneInput = {
-  boardId: Id;
-  name: string;
-};
-
-type CreateTagInput = {
-  boardId: Id;
-  name: string;
-  color?: string;
-};
 
 type CreateTicketInput = {
   boardId: Id;
@@ -124,9 +121,6 @@ type BulkArchiveTicketsInput = {
   isArchived: boolean;
 };
 
-const DEFAULT_LANES = ["todo", "doing", "done"];
-const DEFAULT_TAG_COLOR = "#6b7280";
-
 export class KanbanDb {
   readonly sqlite: Database.Database;
 
@@ -146,36 +140,15 @@ export class KanbanDb {
   }
 
   listBoards(): BoardView[] {
-    const rows = this.sqlite
-      .prepare("SELECT * FROM boards ORDER BY position ASC, id ASC")
-      .all() as BoardRow[];
-    return rows.map(mapBoard);
+    return listBoardRecords(this.sqlite);
   }
 
   createBoard(input: CreateBoardInput): BoardDetailView {
-    const now = this.now();
-    const position = nextBoardPosition(this.sqlite);
-    const insertBoard = this.sqlite.prepare(
-      "INSERT INTO boards (name, position, created_at, updated_at) VALUES (?, ?, ?, ?)",
-    );
-    const insertLane = this.sqlite.prepare(
-      "INSERT INTO lanes (board_id, name, position) VALUES (?, ?, ?)",
-    );
-    const tx = this.sqlite.transaction(() => {
-      const result = insertBoard.run(input.name, position, now, now);
-      const boardId = Number(result.lastInsertRowid);
-      const laneNames = input.laneNames && input.laneNames.length > 0 ? input.laneNames : DEFAULT_LANES;
-      laneNames.forEach((laneName, index) => {
-        insertLane.run(boardId, laneName, index);
-      });
-      return boardId;
-    });
-    return this.getBoardDetail(tx());
+    return this.getBoardDetail(createBoardRecord(this.sqlite, input, this.now()));
   }
 
   getBoard(boardId: Id): BoardView | null {
-    const row = this.sqlite.prepare("SELECT * FROM boards WHERE id = ?").get(boardId) as BoardRow | undefined;
-    return row ? mapBoard(row) : null;
+    return getBoardRecord(this.sqlite, boardId);
   }
 
   getBoardShell(boardId: Id): BoardShellView {
@@ -200,128 +173,59 @@ export class KanbanDb {
   }
 
   updateBoard(boardId: Id, name: string): BoardView {
-    const now = this.now();
-    const result = this.sqlite
-      .prepare("UPDATE boards SET name = ?, updated_at = ? WHERE id = ?")
-      .run(name, now, boardId);
-    if (result.changes === 0) {
-      throw new Error("Board not found");
-    }
-    return this.getBoard(boardId)!;
+    return updateBoardRecord(this.sqlite, boardId, name, this.now());
   }
 
   deleteBoard(boardId: Id): void {
-    const result = this.sqlite.prepare("DELETE FROM boards WHERE id = ?").run(boardId);
-    if (result.changes === 0) {
-      throw new Error("Board not found");
-    }
-    normalizeBoardPositions(this.sqlite);
+    deleteBoardRecord(this.sqlite, boardId);
   }
 
   listLanes(boardId: Id): LaneView[] {
-    const rows = this.sqlite
-      .prepare("SELECT * FROM lanes WHERE board_id = ? ORDER BY position ASC, id ASC")
-      .all(boardId) as LaneRow[];
-    return rows.map(mapLane);
+    return listLaneRecords(this.sqlite, boardId);
   }
 
   createLane(input: CreateLaneInput): LaneView {
-    const position = nextLanePosition(this.sqlite, input.boardId);
-    const result = this.sqlite
-      .prepare("INSERT INTO lanes (board_id, name, position) VALUES (?, ?, ?)")
-      .run(input.boardId, input.name, position);
-    return this.getLane(Number(result.lastInsertRowid))!;
+    return createLaneRecord(this.sqlite, input);
   }
 
   getLane(laneId: Id): LaneView | null {
-    const row = this.sqlite.prepare("SELECT * FROM lanes WHERE id = ?").get(laneId) as LaneRow | undefined;
-    return row ? mapLane(row) : null;
+    return getLaneRecord(this.sqlite, laneId);
   }
 
   updateLane(laneId: Id, name: string): LaneView {
-    const result = this.sqlite.prepare("UPDATE lanes SET name = ? WHERE id = ?").run(name, laneId);
-    if (result.changes === 0) {
-      throw new Error("Lane not found");
-    }
-    return this.getLane(laneId)!;
+    return updateLaneRecord(this.sqlite, laneId, name);
   }
 
   deleteLane(laneId: Id): void {
-    const lane = this.getLane(laneId);
-    if (!lane) {
-      throw new Error("Lane not found");
-    }
-    const ticketCount = this.sqlite
-      .prepare("SELECT COUNT(*) AS count FROM tickets WHERE lane_id = ?")
-      .get(laneId) as { count: number };
-    if (ticketCount.count > 0) {
-      throw new Error("Lane is not empty");
-    }
-    this.sqlite.prepare("DELETE FROM lanes WHERE id = ?").run(laneId);
-    normalizeLanePositions(this.sqlite, lane.boardId);
+    deleteLaneRecord(this.sqlite, laneId);
   }
 
   reorderLanes(boardId: Id, laneIds: Id[]): LaneView[] {
-    const lanes = this.listLanes(boardId);
-    if (lanes.length !== laneIds.length || lanes.some((lane) => !laneIds.includes(lane.id))) {
-      throw new Error("Lane order does not match board lanes");
-    }
-    const stmt = this.sqlite.prepare("UPDATE lanes SET position = ? WHERE id = ?");
-    const tx = this.sqlite.transaction(() => {
-      laneIds.forEach((laneId, index) => stmt.run(index, laneId));
-    });
-    tx();
-    return this.listLanes(boardId);
+    return reorderLaneRecords(this.sqlite, boardId, laneIds);
   }
 
   reorderBoards(boardIds: Id[]): BoardView[] {
-    const boards = this.listBoards();
-    if (boards.length !== boardIds.length || boards.some((board) => !boardIds.includes(board.id))) {
-      throw new Error("Board order does not match boards");
-    }
-    const stmt = this.sqlite.prepare("UPDATE boards SET position = ? WHERE id = ?");
-    const tx = this.sqlite.transaction(() => {
-      boardIds.forEach((boardId, index) => stmt.run(index, boardId));
-    });
-    tx();
-    return this.listBoards();
+    return reorderBoardRecords(this.sqlite, boardIds);
   }
 
   listTags(boardId: Id): TagView[] {
-    const rows = this.sqlite
-      .prepare("SELECT * FROM tags WHERE board_id = ? ORDER BY name ASC, id ASC")
-      .all(boardId) as TagRow[];
-    return rows.map(mapTag);
+    return listTagRecords(this.sqlite, boardId);
   }
 
   createTag(input: CreateTagInput): TagView {
-    const result = this.sqlite
-      .prepare("INSERT INTO tags (board_id, name, color) VALUES (?, ?, ?)")
-      .run(input.boardId, input.name, input.color ?? DEFAULT_TAG_COLOR);
-    return this.getTag(Number(result.lastInsertRowid))!;
+    return createTagRecord(this.sqlite, input);
   }
 
   getTag(tagId: Id): TagView | null {
-    const row = this.sqlite.prepare("SELECT * FROM tags WHERE id = ?").get(tagId) as TagRow | undefined;
-    return row ? mapTag(row) : null;
+    return getTagRecord(this.sqlite, tagId);
   }
 
   updateTag(tagId: Id, input: { name?: string; color?: string }): TagView {
-    const current = this.getTag(tagId);
-    if (!current) {
-      throw new Error("Tag not found");
-    }
-    this.sqlite
-      .prepare("UPDATE tags SET name = ?, color = ? WHERE id = ?")
-      .run(input.name ?? current.name, input.color ?? current.color, tagId);
-    return this.getTag(tagId)!;
+    return updateTagRecord(this.sqlite, tagId, input);
   }
 
   deleteTag(tagId: Id): void {
-    const result = this.sqlite.prepare("DELETE FROM tags WHERE id = ?").run(tagId);
-    if (result.changes === 0) {
-      throw new Error("Tag not found");
-    }
+    deleteTagRecord(this.sqlite, tagId);
   }
 
   listTicketSummaries(boardId: Id, filters: ListTicketsFilters = {}): TicketSummaryView[] {
