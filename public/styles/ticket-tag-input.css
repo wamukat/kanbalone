@@ -1,0 +1,102 @@
+.ticket-tag-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  cursor: text;
+}
+
+.ticket-tag-input:focus-within {
+  border-color: var(--accent);
+}
+
+.ticket-tag-input.is-disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.ticket-tag-input.is-disabled .ticket-tag-search {
+  cursor: default;
+}
+
+.ticket-tag-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.ticket-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 1.6rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.ticket-tag-chip-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ticket-ref-chip {
+  background: var(--accent);
+}
+
+.ticket-ref-chip-id {
+  font-weight: 700;
+}
+
+.ticket-ref-chip-text {
+  max-width: 13rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ticket-tag-search {
+  min-width: 7rem;
+  flex: 1 1 7rem;
+  width: auto;
+  background: transparent;
+  padding: 0.2rem 0.15rem;
+  outline: none;
+}
+
+.editor-form .ticket-tag-search {
+  border-color: color-mix(in srgb, var(--text-muted) 18%, transparent);
+  background: color-mix(in srgb, var(--surface-1) 45%, transparent);
+  padding: 0.42rem 0.55rem;
+}
+
+.editor-form .ticket-tag-search:focus {
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+#ticket-new-tag-button {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.ticket-tag-search::placeholder {
+  color: var(--muted);
+}
+
+.ticket-tag-placeholder {
+  color: var(--muted);
+}

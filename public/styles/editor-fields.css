@@ -1,0 +1,26 @@
+.ticket-tag-field {
+  position: relative;
+}
+
+.editor-field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.editor-field-label {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.editor-section-label {
+  margin-top: 0.2rem;
+}
+
+.editor-relations-content {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.editor-mode > .ticket-tag-field {
+  margin-top: -0.1rem;
+}

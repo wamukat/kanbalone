@@ -1,0 +1,10 @@
+.ticket-picker-id {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.ticket-picker-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}

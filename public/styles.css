@@ -17,6 +17,8 @@
 @import url("./styles/list-table.css");
 @import url("./styles/lanes.css");
 @import url("./styles/ticket-cards.css");
+@import url("./styles/ticket-priority.css");
+@import url("./styles/ticket-status-icons.css");
 @import url("./styles/tags.css");
 @import url("./styles/content-markdown.css");
 @import url("./styles/quick-add.css");
@@ -24,7 +26,10 @@
 @import url("./styles/dialog-shell.css");
 @import url("./styles/tag-color-dialog.css");
 @import url("./styles/tag-manager.css");
-@import url("./styles/ticket-tag-picker.css");
+@import url("./styles/editor-fields.css");
+@import url("./styles/ticket-tag-input.css");
+@import url("./styles/tag-picker-options.css");
+@import url("./styles/ticket-picker-meta.css");
 @import url("./styles/ticket-detail.css");
 @import url("./styles/ticket-editor.css");
 @import url("./styles/comments-activity.css");

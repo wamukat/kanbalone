@@ -1,0 +1,85 @@
+.ticket-tag-options {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  gap: 0.2rem;
+  max-height: 12rem;
+  overflow: auto;
+  padding: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 98%, transparent);
+  box-shadow: var(--shadow);
+}
+
+.editor-mode .ticket-tag-options {
+  position: static;
+  margin-top: 0.35rem;
+}
+
+.tag-picker-empty {
+  color: var(--muted);
+  font-size: 0.86rem;
+  padding: 0.35rem 0.4rem;
+}
+
+.tag-picker-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 2.1rem;
+  padding: 0.35rem 0.45rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+}
+
+.tag-picker-item:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.tag-picker-item.selected {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.tag-picker-item:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  outline-offset: 1px;
+}
+
+.tag-picker-swatch {
+  display: inline-flex;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(28, 28, 23, 0.14);
+}
+
+.tag-picker-swatch.tag-no-color {
+  border-color: color-mix(in srgb, var(--text-muted) 42%, transparent);
+  background: transparent;
+}
+
+.tag-picker-text {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-picker-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  color: var(--accent);
+  font-weight: 700;
+}
