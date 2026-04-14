@@ -12,12 +12,15 @@
 @import url("./styles/toolbar-filters.css");
 @import url("./styles/filter-menus.css");
 @import url("./styles/kanban-board.css");
-@import url("./styles/list.css");
+@import url("./styles/list-board.css");
+@import url("./styles/list-actions.css");
+@import url("./styles/list-table.css");
 @import url("./styles/lanes.css");
 @import url("./styles/ticket-cards.css");
 @import url("./styles/tags.css");
 @import url("./styles/content-markdown.css");
 @import url("./styles/quick-add.css");
+@import url("./styles/empty-state.css");
 @import url("./styles/dialog-shell.css");
 @import url("./styles/tag-color-dialog.css");
 @import url("./styles/tag-manager.css");
@@ -25,4 +28,8 @@
 @import url("./styles/ticket-detail.css");
 @import url("./styles/ticket-editor.css");
 @import url("./styles/comments-activity.css");
-@import url("./styles/responsive-dark.css");
+@import url("./styles/toast.css");
+@import url("./styles/ticket-refs.css");
+@import url("./styles/footer.css");
+@import url("./styles/responsive.css");
+@import url("./styles/dark-mode.css");

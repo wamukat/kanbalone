@@ -1,0 +1,46 @@
+.list-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  flex-wrap: nowrap;
+  justify-content: start;
+  min-height: 2.7rem;
+  overflow-x: auto;
+  background: color-mix(in srgb, var(--text-muted) 4%, transparent);
+}
+
+.list-actions-empty {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.list-actions-empty span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.list-selection-count {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 2rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.list-actions .list-action-button {
+  flex: 0 0 auto;
+  width: auto;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.8rem;
+}
+
+.list-actions .list-action-button .icon {
+  width: 0.85rem;
+  height: 0.85rem;
+}

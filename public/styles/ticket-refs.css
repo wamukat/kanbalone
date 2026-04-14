@@ -1,0 +1,7 @@
+.ticket-ref-resolved {
+  text-decoration: line-through;
+}
+
+.ticket-ref-inline {
+  margin-right: 0.18rem;
+}

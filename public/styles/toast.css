@@ -1,0 +1,17 @@
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: 320px;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  background: color-mix(in srgb, var(--accent) 96%, transparent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow);
+  z-index: 40;
+}
+
+.toast[data-kind="error"] {
+  border-color: color-mix(in srgb, var(--danger) 46%, transparent);
+  background: color-mix(in srgb, var(--danger) 96%, transparent);
+}

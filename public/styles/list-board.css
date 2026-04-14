@@ -1,0 +1,35 @@
+.list-board {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 0;
+  align-content: start;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 0;
+}
+
+.list-board.empty {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 130px);
+}
+
+.list-viewport {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+.list-spacer {
+  position: relative;
+}
+
+.list-window {
+  position: absolute;
+  inset: 0 0 auto 0;
+  will-change: transform;
+}

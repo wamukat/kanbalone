@@ -1,0 +1,129 @@
+.list-header {
+  display: grid;
+  grid-template-columns:
+    2rem minmax(180px, 1.35fr) minmax(150px, 1fr) minmax(130px, 0.85fr)
+    70px 90px 72px;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.5rem 0.7rem;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.list-row {
+  display: grid;
+  grid-template-columns:
+    2rem minmax(180px, 1.35fr) minmax(150px, 1fr) minmax(130px, 0.85fr)
+    70px 90px 72px;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.5rem 0.7rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 12%, transparent);
+  min-height: 44px;
+  overflow: hidden;
+}
+
+.list-row.resolved {
+  background: color-mix(in srgb, var(--text-muted) 4%, transparent);
+}
+
+.list-header > :first-child {
+  display: flex;
+  align-items: center;
+}
+
+.list-header input[type="checkbox"] {
+  justify-self: start;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+}
+
+.list-row input[type="checkbox"] {
+  justify-self: start;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+}
+
+.list-ticket-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-weight: 700;
+}
+
+.list-ticket-link span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-ticket-link:hover {
+  text-decoration: underline;
+}
+
+.list-ticket-link.indent-1 {
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.list-ticket-link.indent-1::before {
+  content: "";
+  position: absolute;
+  left: 0.35rem;
+  width: 0.55rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--text-muted) 35%, transparent);
+}
+
+.list-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  font-size: 0.86rem;
+}
+
+.list-priority-cell {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.list-priority-cell .ticket-priority-badge {
+  max-width: 100%;
+}
+
+.list-status-cell {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.list-cell .tag-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  overflow: hidden;
+}
+
+.list-row .tag-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  overflow: hidden;
+}
+
+.list-row .tag {
+  padding: 0.1rem 0.45rem;
+  font-size: 0.74rem;
+}

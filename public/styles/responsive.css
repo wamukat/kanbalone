@@ -1,0 +1,43 @@
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--text-muted) 18%, transparent);
+  }
+
+  .toolbar {
+    align-items: stretch;
+  }
+
+  .toolbar-actions {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.1rem;
+  }
+
+  .sidebar-edge-toggle {
+    top: 1rem;
+    right: 1rem;
+    left: auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .editor-inline-row {
+    grid-template-columns: 1fr;
+  }
+
+  .completion-toggle {
+    justify-content: flex-start;
+  }
+}

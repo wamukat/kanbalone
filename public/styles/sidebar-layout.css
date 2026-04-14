@@ -65,3 +65,7 @@
 .sidebar-toggle button {
   flex: 1 1 0;
 }
+
+#sidebar-reopen-button {
+  margin-right: 0.1rem;
+}
