@@ -89,3 +89,48 @@ test("list virtual scrolling repaints visible rows", async ({ page }) => {
     await app.close();
   }
 });
+
+test("list ticket titles use subdued app link styling", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "List Typography", laneNames: ["todo"] },
+    });
+    expect(boardResponse.status()).toBe(201);
+    const boardPayload = await boardResponse.json();
+    const lane = boardPayload.lanes[0];
+
+    const ticketResponse = await page.request.post(
+      `${baseUrl}/api/boards/${boardPayload.board.id}/tickets`,
+      {
+        data: {
+          laneId: lane.id,
+          title: "Subdued list title",
+          priority: 2,
+        },
+      },
+    );
+    expect(ticketResponse.status()).toBe(201);
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
+    const titleLink = page.getByRole("button", {
+      name: /Subdued list title/,
+    });
+    await expect(titleLink).toBeVisible();
+    await expect(titleLink).toHaveCSS("font-weight", "600");
+    await expect(titleLink).toHaveCSS("text-decoration-line", "none");
+
+    await titleLink.hover();
+    await expect(titleLink).toHaveCSS("text-decoration-line", "none");
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});

@@ -57,8 +57,9 @@
   padding: 0;
   border: none;
   background: transparent;
+  color: var(--text);
   text-align: left;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .list-ticket-link span:last-child {
@@ -68,7 +69,8 @@
 }
 
 .list-ticket-link:hover {
-  text-decoration: underline;
+  color: var(--accent);
+  text-decoration: none;
 }
 
 .list-ticket-link.indent-1 {
