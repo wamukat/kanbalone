@@ -1,0 +1,32 @@
+.tag-manager-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.tag-manager-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.tag-manager-row input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  padding: 0.55rem 0.7rem;
+}
+
+.tag-manager-row input[type="color"] {
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0.15rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+}
+
+.tag-manager-empty {
+  padding: 0.6rem 0;
+}

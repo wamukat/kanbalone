@@ -1,0 +1,173 @@
+.completion-toggle {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.toggle-switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.completion-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-switch-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.completion-toggle-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.ux-color-enable-switch .toggle-switch-control {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.55rem;
+}
+
+.toggle-switch-knob {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.completion-switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.toggle-switch-knob::after {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 0.82rem;
+  height: 0.82rem;
+  border-radius: 999px;
+  background: var(--control-knob);
+  box-shadow: 0 1px 3px rgba(21, 32, 28, 0.22);
+  content: "";
+  transition: transform 0.15s ease;
+}
+
+.completion-switch::after {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 0.82rem;
+  height: 0.82rem;
+  border-radius: 999px;
+  background: var(--control-knob);
+  box-shadow: 0 1px 3px rgba(21, 32, 28, 0.22);
+  content: "";
+  transition: transform 0.15s ease;
+}
+
+.toggle-switch-input:focus-visible + .toggle-switch-control {
+  outline: 2px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.completion-toggle input:focus-visible + .completion-toggle-control {
+  outline: 2px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.toggle-switch-input:checked + .toggle-switch-control {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+}
+
+.completion-toggle input:checked + .completion-toggle-control {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+}
+
+.toggle-switch-input:checked + .toggle-switch-control .toggle-switch-knob {
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  background: var(--accent);
+}
+
+.completion-toggle
+  input:checked
+  + .completion-toggle-control
+  .completion-switch {
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  background: var(--accent);
+}
+
+.toggle-switch-input:checked
+  + .toggle-switch-control
+  .toggle-switch-knob::after {
+  transform: translateX(1.75rem);
+}
+
+.completion-toggle
+  input:checked
+  + .completion-toggle-control
+  .completion-switch::after {
+  transform: translateX(1.75rem);
+}

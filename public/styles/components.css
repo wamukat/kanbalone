@@ -1,0 +1,121 @@
+button {
+  font: inherit;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  color: var(--text);
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.import-button {
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  color: var(--text);
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--accent);
+}
+
+.import-button:hover {
+  border-color: var(--accent);
+}
+
+.ghost {
+  background: transparent;
+}
+
+.ghost.active {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+}
+
+.danger {
+  color: var(--danger);
+}
+
+.primary-action {
+  border-color: color-mix(in srgb, var(--accent) 80%, transparent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.primary-action:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+.action-with-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.action-with-icon .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.danger-confirm-action {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: var(--on-accent);
+}
+
+.danger-confirm-action:hover {
+  border-color: color-mix(in srgb, var(--danger) 76%, black);
+  background: color-mix(in srgb, var(--danger) 76%, black);
+  color: var(--on-accent);
+}
+
+.import-button.icon-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.icon-button .icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.ticket-tag-chip .icon {
+  width: 0.82rem;
+  height: 0.82rem;
+  stroke-width: 2.4;
+}
+
+.tag-picker-check .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  stroke-width: 2.4;
+}

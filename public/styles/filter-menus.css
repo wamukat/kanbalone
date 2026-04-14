@@ -1,0 +1,176 @@
+.filter-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  min-height: 2.45rem;
+}
+
+.filter-toggle button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: none;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0.45rem 0.72rem;
+  min-width: 52px;
+}
+
+.filter-toggle button:last-child {
+  border-right: none;
+}
+
+.filter-toggle button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.filter-menu {
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto auto;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.45rem;
+  width: max-content;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.filter-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  justify-content: flex-start;
+  min-height: 2.35rem;
+  min-width: 4.6rem;
+  padding: 0 0.45rem 0 0.72rem;
+  font-weight: 550;
+}
+
+.filter-menu-edge-toggle {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  color: var(--text-subtle);
+  cursor: pointer;
+  justify-content: center;
+  width: 2rem;
+  min-width: 2rem;
+  min-height: 2.35rem;
+  margin-left: auto;
+  padding: 0;
+}
+
+.filter-menu-edge-toggle .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.filter-menu-toggle:hover {
+  background: transparent;
+}
+
+.filter-menu-edge-toggle:hover {
+  background: transparent;
+}
+
+.filter-clear-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  margin-left: 0;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-subtle);
+}
+
+.filter-clear-button[hidden] {
+  display: none;
+}
+
+.filter-clear-button .icon {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.filter-clear-button:hover {
+  background: color-mix(in srgb, var(--text-muted) 8%, transparent);
+  color: var(--text-strong);
+}
+
+.filter-menu-summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.35rem;
+  padding: 0 0.42rem;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--text-muted) 8%, transparent);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.filter-menu-options {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: max-content;
+}
+
+.filter-menu-options[hidden] {
+  display: none;
+}
+
+.filter-menu-options button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-content: center;
+  min-height: 1.95rem;
+  padding: 0 0.62rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 550;
+}
+
+.filter-menu-options button .icon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.filter-menu-options button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.toolbar-utility-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.45rem;
+  padding: 0 0.75rem;
+  color: var(--muted);
+}
+
+.toolbar-utility-button.active {
+  color: var(--accent);
+}

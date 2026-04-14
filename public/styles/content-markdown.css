@@ -1,0 +1,23 @@
+.muted {
+  color: var(--muted);
+}
+
+.markdown {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.markdown pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.markdown table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.markdown > :first-child {
+  margin-top: 0;
+}

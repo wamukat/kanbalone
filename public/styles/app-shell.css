@@ -1,0 +1,64 @@
+.shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 100vh;
+  overflow-x: clip;
+  transition: grid-template-columns 140ms ease;
+}
+
+.shell.sidebar-collapsed {
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+
+.sidebar {
+  border-right: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
+  padding: 1rem;
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+}
+
+.shell.sidebar-collapsed .sidebar {
+  padding: 0;
+  border-right: none;
+}
+
+.sidebar-edge-toggle {
+  position: fixed;
+  top: 50%;
+  left: 280px;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 1.7rem;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  padding: 0;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, var(--text-muted) 22%, transparent);
+  background: var(--bg);
+  color: var(--muted);
+  box-shadow: 0 4px 10px rgba(21, 32, 28, 0.08);
+  transition: left 140ms ease;
+}
+
+.sidebar-edge-toggle:hover {
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.shell.sidebar-collapsed .sidebar-edge-toggle {
+  display: none;
+}
+
+.shell.no-boards .toolbar {
+  display: none;
+}
+
+.shell.no-boards #sidebar-view-section {
+  display: none;
+}
+
+.shell.no-boards .sidebar-edge-toggle {
+  display: none;
+}

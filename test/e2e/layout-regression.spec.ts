@@ -1,6 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import {
+  createBoard,
+  createTag,
+  createTicket,
+  startTestApp,
+} from "./helpers.js";
 
 test("toolbar search aligns with active content edge in kanban and list views", async ({
   page,
@@ -125,6 +130,84 @@ test("sidebar toggle stays usable on narrow screens", async ({ page }) => {
     expect(toggleBox.top).toBeGreaterThanOrEqual(15);
     expect(toggleBox.top).toBeLessThan(18);
     expect(toggleBox.right).toBeLessThanOrEqual(toggleBox.viewportWidth - 15);
+  } finally {
+    await close();
+  }
+});
+
+test("native select filters use the shared toolbar color states", async ({
+  page,
+}) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Select Filter Visuals",
+      laneNames: ["todo", "review"],
+    });
+    const tag = await createTag(page.request, baseUrl, boardPayload.board.id, {
+      name: "focus",
+      color: "#1f6f5f",
+    });
+    await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: boardPayload.lanes[0].id,
+      title: "Select color ticket",
+      priority: 2,
+      tagIds: [tag.id],
+    });
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator("#tag-filter")).toBeVisible();
+
+    const readFilterColors = () =>
+      page.evaluate(() => {
+        function tokenColor(token: string): string {
+          const probe = document.createElement("span");
+          probe.style.color = `var(${token})`;
+          document.body.append(probe);
+          const color = getComputedStyle(probe).color;
+          probe.remove();
+          return color;
+        }
+
+        const search = document.querySelector(".toolbar-search");
+        const tagFilter = document.querySelector("#tag-filter");
+        const laneFilter = document.querySelector("#lane-filter");
+        if (!search || !tagFilter || !laneFilter) {
+          throw new Error("Filter controls are missing");
+        }
+
+        return {
+          accent: tokenColor("--accent"),
+          muted: tokenColor("--muted"),
+          search: getComputedStyle(search).color,
+          tag: getComputedStyle(tagFilter).color,
+          lane: getComputedStyle(laneFilter).color,
+        };
+      });
+
+    const kanbanColors = await readFilterColors();
+    expect(kanbanColors.tag).toBe(kanbanColors.search);
+    expect(kanbanColors.tag).toBe(kanbanColors.muted);
+    expect(kanbanColors.tag).not.toBe("rgb(0, 0, 0)");
+
+    await page.getByRole("button", { name: "List", exact: true }).click();
+    await expect(page.locator("#lane-filter")).toBeVisible();
+    const listColors = await readFilterColors();
+    expect(listColors.lane).toBe(listColors.search);
+    expect(listColors.lane).toBe(listColors.muted);
+    expect(listColors.lane).not.toBe("rgb(0, 0, 0)");
+
+    await page.locator("#tag-filter").selectOption("focus");
+    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
+    await page
+      .locator("#lane-filter")
+      .selectOption(String(boardPayload.lanes[0].id));
+    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
+
+    const activeColors = await readFilterColors();
+    expect(activeColors.tag).toBe(activeColors.accent);
+    expect(activeColors.lane).toBe(activeColors.accent);
   } finally {
     await close();
   }

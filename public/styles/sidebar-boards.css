@@ -1,0 +1,117 @@
+.board-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.board-add-button {
+  position: relative;
+  margin-top: 0.6rem;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  justify-content: center;
+}
+
+.board-add-button.is-empty-target {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  box-shadow: var(--control-focus-ring);
+  animation: board-create-nudge 1.8s ease-in-out infinite;
+  margin-bottom: 5.4rem;
+}
+
+.board-add-button.is-empty-target::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 0.18rem);
+  left: 0.62rem;
+  z-index: 2;
+  width: 0.75rem;
+  height: 1.05rem;
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+  clip-path: polygon(
+    50% 0,
+    100% 38%,
+    65% 38%,
+    65% 100%,
+    35% 100%,
+    35% 38%,
+    0 38%
+  );
+}
+
+.board-add-button.is-empty-target::after {
+  content: "Create board here";
+  position: absolute;
+  top: calc(100% + 1.2rem);
+  left: 0;
+  z-index: 1;
+  width: 13.75rem;
+  padding: 0.8rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 8px;
+  background: var(--panel-strong);
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(21, 32, 28, 0.1);
+}
+
+@keyframes board-create-nudge {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .board-add-button.is-empty-target {
+    animation: none;
+  }
+}
+
+.board-button {
+  text-align: left;
+  background: transparent;
+  cursor: grab;
+}
+
+.board-button:active {
+  cursor: grabbing;
+}
+
+.board-button.dragging-board {
+  opacity: 0.45;
+}
+
+.board-create-row {
+  display: block;
+}
+
+.board-create-row input {
+  width: 100%;
+  min-height: 2.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  color: var(--text);
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  outline: none;
+}
+
+.board-create-row input:focus {
+  box-shadow: var(--control-focus-ring);
+}
+
+.board-button.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}

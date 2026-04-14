@@ -1,0 +1,92 @@
+.editor-form {
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.85rem;
+  overflow: visible;
+}
+
+.editor-inline-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.editor-inline-row > label {
+  min-width: 0;
+}
+
+.editor-form .editor-compact-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.editor-form .editor-compact-label > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.editor-form .editor-compact-label > select {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
+.editor-form .editor-compact-label > input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
+.archive-ticket-button {
+  color: var(--muted);
+}
+
+.archive-ticket-button:hover {
+  color: var(--text);
+}
+
+.preview-head {
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+}
+
+.editor-form label {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.comment-form label {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.ux-fields label {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.editor-title-field {
+  display: block;
+}
+
+.editor-title-field input {
+  width: 100%;
+  padding: 0.72rem 0.8rem;
+  font-size: 1rem;
+}
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-top: 0.15rem;
+}

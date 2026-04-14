@@ -1,0 +1,227 @@
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--text-muted) 18%, transparent);
+  }
+
+  .toolbar {
+    align-items: stretch;
+  }
+
+  .toolbar-actions {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.1rem;
+  }
+
+  .sidebar-edge-toggle {
+    top: 1rem;
+    right: 1rem;
+    left: auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .editor-inline-row {
+    grid-template-columns: 1fr;
+  }
+
+  .completion-toggle {
+    justify-content: flex-start;
+  }
+}
+
+.toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: 320px;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  background: color-mix(in srgb, var(--accent) 96%, transparent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow);
+  z-index: 40;
+}
+
+.toast[data-kind="error"] {
+  border-color: color-mix(in srgb, var(--danger) 46%, transparent);
+  background: color-mix(in srgb, var(--danger) 96%, transparent);
+}
+
+.ticket-ref-resolved {
+  text-decoration: line-through;
+}
+
+.ticket-ref-inline {
+  margin-right: 0.18rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  body.editor-dialog-open::before {
+    background: rgba(0, 0, 0, 0.54);
+  }
+
+  button {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .import-button {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .toolbar-search {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .filter-toggle {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .toolbar input {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .toolbar select {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .editor-form input {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .editor-form select {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .editor-form textarea {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .ticket-tag-input {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .tag-manager-row input[type="text"] {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  .tag-manager-row input[type="color"] {
+    border-color: var(--border-soft);
+    background: var(--surface-inset);
+    color: var(--text-strong);
+  }
+
+  button:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+
+  .import-button:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+
+  .primary-action {
+    border-color: color-mix(in srgb, var(--accent) 74%, transparent);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .primary-action:hover {
+    border-color: var(--accent-hover);
+    background: var(--accent-hover);
+    color: var(--on-accent);
+  }
+
+  .toolbar .toolbar-search input {
+    background: transparent;
+  }
+
+  .ticket-tag-search {
+    background: transparent;
+  }
+
+  .filter-toggle button {
+    border-color: var(--border-soft);
+    background: transparent;
+  }
+
+  .filter-toggle button.active {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .ghost.active {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .toolbar-search.is-filter-active,
+  .toolbar select.is-filter-active,
+  .filter-menu.is-filter-active,
+  .filter-toggle.is-filter-active,
+  .toolbar-utility-button.is-filter-active {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .sidebar {
+    border-right-color: var(--border-soft);
+  }
+
+  .list-board {
+    border-color: var(--border-soft);
+    background: var(--surface-1);
+  }
+
+  .lane {
+    border-color: var(--border-soft);
+    background: var(--surface-1);
+  }
+
+  .editor-form {
+    border-color: var(--border-soft);
+    background: var(--surface-1);
+  }
+
+  .ticket-card.dragging {
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+  }
+}

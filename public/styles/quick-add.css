@@ -1,0 +1,15 @@
+.add-ticket-button {
+  width: calc(100% - 1.5rem);
+  height: 2.1rem;
+  margin: 0 0.75rem 0.75rem;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.add-ticket-button:hover {
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--accent-soft) 46%, transparent);
+  color: var(--accent);
+}

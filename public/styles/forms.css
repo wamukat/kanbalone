@@ -1,0 +1,51 @@
+.toolbar input,
+.toolbar select,
+.editor-form input,
+.editor-form select,
+.ux-fields input {
+  width: 100%;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--control-bg);
+  padding: 0.65rem 0.8rem;
+}
+
+.toolbar select {
+  color: var(--muted);
+  accent-color: var(--accent);
+}
+
+.toolbar select option {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.toolbar .toolbar-search input {
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+}
+
+.editor-form textarea,
+.comment-form textarea,
+.ux-fields textarea {
+  line-height: 1.45;
+  width: 100%;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--control-bg);
+  padding: 0.65rem 0.8rem;
+}
+
+.editor-form input:not([type="checkbox"]):not([type="hidden"]):focus,
+.editor-form select:focus,
+.editor-form textarea:focus,
+.comment-form textarea:focus,
+.ux-fields input:focus,
+.ux-fields textarea:focus {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
+  outline: none;
+}

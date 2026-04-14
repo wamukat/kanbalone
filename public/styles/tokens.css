@@ -1,0 +1,77 @@
+:root {
+  --surface-canvas: #f7f8f7;
+  --surface-1: #ffffff;
+  --surface-2: #fbfcfb;
+  --surface-inset: #f1f4f2;
+  --text-strong: #15201c;
+  --text-muted: #66736d;
+  --text-subtle: #8a9690;
+  --border-soft: rgba(21, 32, 28, 0.1);
+  --border-strong: rgba(21, 32, 28, 0.18);
+  --accent: #1f6f5f;
+  --accent-hover: #18594d;
+  --on-accent: #ffffff;
+  --control-knob: #ffffff;
+  --accent-soft: #dceee9;
+  --danger: #c43d3d;
+  --danger-soft: #fae7e7;
+  --success: #257a57;
+  --warning: #a86616;
+  --shadow-card: 0 1px 2px rgba(21, 32, 28, 0.06);
+  --shadow-card-hover: 0 6px 18px rgba(21, 32, 28, 0.08);
+  --shadow-popover: 0 12px 32px rgba(21, 32, 28, 0.16);
+  --shadow-dialog: 0 24px 64px rgba(21, 32, 28, 0.22);
+  --bg: var(--surface-canvas);
+  --panel: var(--surface-1);
+  --panel-strong: var(--surface-2);
+  --line: var(--border-soft);
+  --text: var(--text-strong);
+  --muted: var(--text-muted);
+  --shadow: var(--shadow-popover);
+  --control-bg: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  --control-border: var(--line);
+  --control-hover-border: color-mix(
+    in srgb,
+    var(--text-muted) 28%,
+    transparent
+  );
+  --control-focus-border: color-mix(in srgb, var(--accent) 42%, transparent);
+  --control-focus-ring: 0 0 0 3px
+    color-mix(in srgb, var(--accent) 10%, transparent);
+  font-family:
+    Inter,
+    "SF Pro Text",
+    "Noto Sans JP",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-canvas: #111613;
+    --surface-1: #171d19;
+    --surface-2: #1d2520;
+    --surface-inset: #101511;
+    --text-strong: #eef4f1;
+    --text-muted: #a7b3ad;
+    --text-subtle: #7e8a84;
+    --border-soft: rgba(238, 244, 241, 0.1);
+    --border-strong: rgba(238, 244, 241, 0.2);
+    --accent: #54b89f;
+    --accent-hover: #71c9b4;
+    --on-accent: #071310;
+    --control-knob: #ffffff;
+    --accent-soft: rgba(84, 184, 159, 0.16);
+    --danger: #ef7772;
+    --danger-soft: rgba(239, 119, 114, 0.16);
+    --success: #54b89f;
+    --warning: #d5a451;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.22);
+    --shadow-card-hover: 0 10px 24px rgba(0, 0, 0, 0.28);
+    --shadow-popover: 0 16px 36px rgba(0, 0, 0, 0.34);
+    --shadow-dialog: 0 28px 72px rgba(0, 0, 0, 0.46);
+  }
+}

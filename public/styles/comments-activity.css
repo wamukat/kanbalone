@@ -1,0 +1,111 @@
+.comments-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 320px;
+  overflow: visible;
+  align-content: start;
+}
+
+.activity-section {
+  min-height: 320px;
+  overflow: visible;
+  align-content: start;
+}
+
+.detail-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--text-muted) 16%, transparent);
+}
+
+.detail-tab {
+  padding: 0.2rem 0 0.55rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.detail-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.detail-tab:hover {
+  color: var(--text);
+}
+
+.comment-item + .comment-item {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 20%, transparent);
+}
+
+.activity-item + .activity-item {
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.activity-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.comment-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.comment-edit-form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.comment-edit-form textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 22%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 62%, transparent);
+  color: var(--text);
+  padding: 0.65rem 0.75rem;
+  line-height: 1.45;
+}
+
+.comment-edit-form textarea:focus {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
+  outline: none;
+}
+
+.comment-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.activity-message {
+  line-height: 1.4;
+}

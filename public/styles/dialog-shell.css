@@ -1,0 +1,154 @@
+.ux-dialog {
+  width: min(420px, calc(100vw - 2rem));
+  border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  border-radius: 8px;
+  padding: 0;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.ux-dialog::backdrop {
+  background: rgba(28, 28, 23, 0.26);
+}
+
+.editor-dialog {
+  position: absolute;
+  margin: 0;
+  width: min(720px, calc(100vw - 2rem));
+  border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  border-radius: 8px;
+  padding: 0;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: visible;
+  z-index: 10;
+}
+
+.ux-form {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: none;
+  border-radius: 8px;
+}
+
+.dialog-close-button {
+  color: var(--muted);
+  background: transparent;
+  border-color: transparent;
+  width: 1.8rem;
+  min-width: 1.8rem;
+  height: 1.8rem;
+  font-size: 1.1rem;
+}
+
+.dialog-close-button:hover {
+  background: color-mix(in srgb, var(--text-muted) 8%, transparent);
+  border-color: transparent;
+  color: var(--text);
+}
+
+.editor-mode {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.ticket-view {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.comment-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: space-between;
+  min-width: 0;
+  cursor: move;
+  user-select: none;
+}
+
+.editor-header button {
+  cursor: pointer;
+}
+
+.editor-dialog.dragging {
+  box-shadow: 0 16px 34px rgba(21, 32, 28, 0.16);
+}
+
+.editor-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.editor-dialog-heading {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.editor-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.editor-header-title {
+  margin: 0;
+  max-width: 38rem;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.editor-save-state {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.editor-save-state[data-kind="saving"] {
+  color: var(--accent);
+}
+
+.editor-save-state[data-kind="saved"] {
+  color: var(--accent);
+}
+
+.editor-save-state[data-kind="error"] {
+  color: var(--danger);
+}
+
+.comment-save-state {
+  min-width: 0;
+}
+
+.editor-dialog-heading-top {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.editor-dialog-heading-top .ticket-priority-badge {
+  min-height: 1.45rem;
+  margin-left: 0.05rem;
+}

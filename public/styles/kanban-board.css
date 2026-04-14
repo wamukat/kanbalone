@@ -1,0 +1,100 @@
+.add-lane-button {
+  width: 3rem;
+  height: auto;
+  margin: 0;
+  border-color: var(--border-soft);
+  background: color-mix(in srgb, var(--surface-1) 48%, transparent);
+  color: var(--text-muted);
+  font-size: 1rem;
+  min-width: 3rem;
+  align-self: stretch;
+  min-height: 12rem;
+  border-style: dashed;
+}
+
+.lane.lane-create-column {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 0.55rem;
+  width: 18rem;
+  min-width: 18rem;
+  max-width: 18rem;
+  min-height: 12rem;
+  padding: 0.75rem;
+  border-style: dashed;
+  border-color: var(--border-soft);
+  background: color-mix(in srgb, var(--surface-1) 66%, transparent);
+  box-shadow: none;
+}
+
+.lane-create-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.lane-create-column input {
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0.62rem 0.7rem;
+  font: inherit;
+  font-weight: 650;
+  outline: none;
+}
+
+.lane-create-column input:focus {
+  border-color: var(--accent);
+  box-shadow: var(--control-focus-ring);
+}
+
+.lane-actions .icon-button {
+  width: 1.85rem;
+  min-width: 1.85rem;
+  height: 1.85rem;
+}
+
+.lane-board {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: calc(100vh - 130px);
+  padding: 0 0 1rem;
+  border-radius: 8px;
+  scrollbar-gutter: stable;
+  background:
+    linear-gradient(90deg, var(--surface-canvas), transparent 1.25rem) left
+      center / 1.25rem 100% no-repeat,
+    linear-gradient(270deg, var(--surface-canvas), transparent 1.25rem) right
+      center / 1.25rem 100% no-repeat;
+}
+
+.lane-board.is-dragging-ticket .lane {
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.lane-board.is-dragging-ticket .ticket-list {
+  min-height: 4.75rem;
+}
+
+.lane-board.is-dragging-ticket .lane.is-drag-over {
+  border-color: var(--control-focus-border);
+  background: color-mix(in srgb, var(--accent-soft) 34%, var(--surface-1));
+  box-shadow: var(--control-focus-ring), var(--shadow-card-hover);
+}
+
+.lane-board.empty {
+  display: grid;
+  place-items: center;
+}

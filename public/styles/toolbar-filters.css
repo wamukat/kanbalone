@@ -1,0 +1,101 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1rem;
+  overflow: hidden;
+  background: var(--surface-canvas);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  padding: 0 0 0.85rem;
+  background: color-mix(in srgb, var(--surface-canvas) 92%, var(--surface-1));
+}
+
+.toolbar-actions {
+  display: grid;
+  align-items: center;
+  gap: 0.65rem;
+  grid-template-columns: minmax(180px, 276px) minmax(0, 1fr);
+  justify-content: stretch;
+  width: 100%;
+}
+
+.toolbar-search {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  height: 2.45rem;
+  padding: 0 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 90%, transparent);
+  color: var(--muted);
+}
+
+.toolbar-search:focus-within {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
+  color: var(--accent);
+}
+
+.toolbar-search:hover {
+  border-color: var(--control-hover-border);
+  background: color-mix(in srgb, var(--surface-1) 98%, transparent);
+  color: var(--text);
+}
+
+.toolbar select:hover {
+  border-color: color-mix(in srgb, var(--text-muted) 28%, transparent);
+  background: color-mix(in srgb, var(--surface-1) 98%, transparent);
+  color: var(--text);
+}
+
+.sidebar-toggle button:hover {
+  border-color: color-mix(in srgb, var(--text-muted) 28%, transparent);
+  background: color-mix(in srgb, var(--surface-1) 98%, transparent);
+  color: var(--text);
+}
+
+.toolbar-search.is-filter-active,
+.toolbar select.is-filter-active,
+.filter-menu.is-filter-active,
+.filter-toggle.is-filter-active,
+.toolbar-utility-button.is-filter-active {
+  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+}
+
+.toolbar-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+#search-input {
+  width: 100%;
+}
+
+#lane-filter {
+  width: 126px;
+  height: 2.45rem;
+  padding: 0 0.65rem;
+}
+
+#tag-filter {
+  width: 126px;
+  height: 2.45rem;
+  padding: 0 0.65rem;
+}

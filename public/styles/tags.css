@@ -1,0 +1,24 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 1.35rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 0.08rem 0.45rem;
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-no-color {
+  border-color: color-mix(in srgb, var(--text-muted) 38%, transparent);
+  background: transparent;
+  color: var(--text);
+}

@@ -1,0 +1,59 @@
+.ux-fields {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ux-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ux-fields input[type="color"] {
+  padding: 0.2rem;
+  min-height: 2.5rem;
+}
+
+.ux-color-row {
+  display: grid;
+  grid-template-columns: minmax(3rem, 1fr) minmax(0, 2fr) minmax(0, 2fr);
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ux-color-enable-switch {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.ux-color-row input[type="color"] {
+  width: 100%;
+  height: 2.5rem;
+}
+
+.ux-color-picker-cell {
+  display: block;
+  position: relative;
+  min-width: 0;
+}
+
+.ux-color-none-preview {
+  display: none;
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-1) 38%, transparent);
+}
+
+.ux-color-picker-cell.is-color-none input[type="color"] {
+  display: none;
+}
+
+.ux-color-picker-cell.is-color-none .ux-color-none-preview {
+  display: block;
+}

@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+html.dialog-scroll-locked {
+  overflow: hidden;
+}
+
+body.dialog-scroll-locked {
+  overflow: hidden;
+}
+
+body.editor-dialog-open::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 28, 23, 0.3);
+  pointer-events: auto;
+  z-index: 9;
+}
+
+input {
+  font: inherit;
+}
+
+select {
+  font: inherit;
+}
+
+textarea {
+  font: inherit;
+}
