@@ -1,36 +1,36 @@
 .ux-dialog {
-  width: min(420px, calc(100vw - 2rem));
+  width: min(420px, calc(100vw - var(--space-5) - var(--space-5)));
   border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   padding: 0;
   background: var(--panel);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-dialog);
 }
 
 .ux-dialog::backdrop {
-  background: rgba(28, 28, 23, 0.26);
+  background: var(--overlay-bg);
 }
 
 .editor-dialog {
   position: absolute;
   margin: 0;
-  width: min(720px, calc(100vw - 2rem));
+  width: min(720px, calc(100vw - var(--space-5) - var(--space-5)));
   border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   padding: 0;
   background: var(--panel);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-dialog);
   overflow: visible;
   z-index: 10;
 }
 
 .ux-form {
   display: grid;
-  gap: 1rem;
-  padding: 1rem;
+  gap: var(--space-5);
+  padding: var(--space-5);
   background: var(--panel);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
 }
 
 .dialog-close-button {
@@ -52,28 +52,28 @@
 .editor-mode {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
+  gap: var(--space-3);
   min-width: 0;
 }
 
 .ticket-view {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
+  gap: var(--space-3);
   min-width: 0;
 }
 
 .comment-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
+  gap: var(--space-3);
   min-width: 0;
 }
 
 .editor-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   justify-content: space-between;
   min-width: 0;
   cursor: move;
@@ -85,13 +85,13 @@
 }
 
 .editor-dialog.dragging {
-  box-shadow: 0 16px 34px rgba(21, 32, 28, 0.16);
+  box-shadow: var(--shadow-dialog), var(--drag-ring);
 }
 
 .editor-actions-right {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-left: auto;

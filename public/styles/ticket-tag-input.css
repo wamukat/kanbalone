@@ -7,7 +7,7 @@
   min-height: 2.75rem;
   padding: 0.35rem 0.45rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 92%, transparent);
   cursor: text;
 }
@@ -42,8 +42,9 @@
   min-height: 1.6rem;
   padding: 0.1rem 0.5rem;
   border: 1px solid transparent;
-  border-radius: 999px;
-  color: #fff;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: var(--on-accent);
   font-size: 0.8rem;
 }
 
@@ -59,7 +60,7 @@
 }
 
 .ticket-ref-chip-id {
-  font-weight: 700;
+  font-weight: 650;
 }
 
 .ticket-ref-chip-text {

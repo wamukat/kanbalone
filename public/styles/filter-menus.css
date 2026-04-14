@@ -1,7 +1,7 @@
 .filter-toggle {
   display: inline-flex;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   overflow: hidden;
   background: color-mix(in srgb, var(--surface-1) 92%, transparent);
   min-height: 2.45rem;
@@ -36,12 +36,12 @@
   min-height: 2.45rem;
   width: max-content;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 92%, transparent);
   transition:
-    background-color 140ms ease,
-    border-color 140ms ease,
-    box-shadow 140ms ease;
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard);
 }
 
 .filter-menu-toggle {
@@ -96,7 +96,7 @@
   margin-left: 0;
   padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   background: transparent;
   color: var(--text-subtle);
 }
@@ -121,7 +121,7 @@
   justify-content: center;
   min-height: 1.35rem;
   padding: 0 0.42rem;
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--text-muted) 8%, transparent);
   color: var(--muted);
   font-size: 0.78rem;
@@ -146,7 +146,7 @@
   justify-content: center;
   min-height: 1.95rem;
   padding: 0 0.62rem;
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   font-size: 0.86rem;
   font-weight: 550;
 }

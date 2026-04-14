@@ -1,8 +1,4 @@
 @media (prefers-color-scheme: dark) {
-  body.editor-dialog-open::before {
-    background: rgba(0, 0, 0, 0.54);
-  }
-
   button {
     border-color: var(--border-soft);
     background: var(--surface-inset);
@@ -151,7 +147,4 @@
     background: var(--surface-1);
   }
 
-  .ticket-card.dragging {
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
-  }
 }

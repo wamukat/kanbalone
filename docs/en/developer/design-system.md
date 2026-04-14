@@ -184,6 +184,7 @@ Feedback placement:
 - Easing: `cubic-bezier(0.2, 0, 0, 1)`.
 - Sidebar settings and progressive actions use small opacity plus height/transform changes.
 - Board/card hover states should not shift layout.
+- First-run guidance and other intentional nudges may use `--motion-attention` / `--ease-attention`. Do not use them for decorative ambient motion, and stop them under `prefers-reduced-motion`.
 
 ## Accessibility
 

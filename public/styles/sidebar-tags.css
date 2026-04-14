@@ -19,9 +19,10 @@
   min-width: 0;
   max-width: 100%;
   padding: 0.22rem 0.65rem;
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   border: 1px solid color-mix(in srgb, var(--surface-1) 26%, transparent);
-  color: #fff;
+  background: var(--accent);
+  color: var(--on-accent);
   font-size: 0.84rem;
   white-space: nowrap;
   overflow: hidden;
@@ -40,7 +41,7 @@
 }
 
 .sidebar-tag-badge:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  box-shadow: var(--control-focus-ring);
   outline: none;
 }
 

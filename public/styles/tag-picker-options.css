@@ -10,9 +10,9 @@
   overflow: auto;
   padding: 0.35rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   background: color-mix(in srgb, var(--surface-1) 98%, transparent);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-popover);
 }
 
 .editor-mode .ticket-tag-options {
@@ -35,7 +35,7 @@
   min-height: 2.1rem;
   padding: 0.35rem 0.45rem;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   background: transparent;
   text-align: left;
 }
@@ -57,8 +57,8 @@
   display: inline-flex;
   width: 0.85rem;
   height: 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(28, 28, 23, 0.14);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-soft);
 }
 
 .tag-picker-swatch.tag-no-color {
@@ -81,5 +81,5 @@
   justify-content: center;
   width: 1rem;
   color: var(--accent);
-  font-weight: 700;
+  font-weight: 650;
 }

@@ -28,14 +28,14 @@
   min-height: 2.75rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 92%, transparent);
   color: var(--muted);
   cursor: pointer;
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    color 0.15s ease;
+    background var(--motion-normal) var(--ease-standard),
+    border-color var(--motion-normal) var(--ease-standard),
+    color var(--motion-normal) var(--ease-standard);
 }
 
 .ux-color-enable-switch .toggle-switch-control {
@@ -52,11 +52,11 @@
   width: 3rem;
   height: 1.25rem;
   border: 1px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--text-muted) 12%, transparent);
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+    background var(--motion-normal) var(--ease-standard),
+    border-color var(--motion-normal) var(--ease-standard);
 }
 
 .toggle-switch-knob::after,
@@ -66,11 +66,11 @@
   left: 0.15rem;
   width: 0.82rem;
   height: 0.82rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--control-knob);
-  box-shadow: 0 1px 3px rgba(21, 32, 28, 0.22);
+  box-shadow: var(--shadow-card);
   content: "";
-  transition: transform 0.15s ease;
+  transition: transform var(--motion-normal) var(--ease-standard);
 }
 
 .toggle-switch-input:focus-visible + .toggle-switch-control,

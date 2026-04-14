@@ -36,7 +36,7 @@ body.editor-dialog-open::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(28, 28, 23, 0.3);
+  background: var(--overlay-bg);
   pointer-events: auto;
   z-index: 9;
 }

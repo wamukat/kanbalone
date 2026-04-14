@@ -5,9 +5,9 @@
 
 .sidebar-board-settings-toggle {
   transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.18s ease;
+    background var(--motion-normal) var(--ease-standard),
+    color var(--motion-normal) var(--ease-standard),
+    transform var(--motion-slow) var(--ease-standard);
 }
 
 #sidebar-board-section.expanded .sidebar-board-settings-toggle {
@@ -22,9 +22,9 @@
   overflow: hidden;
   transform: translateY(-0.3rem);
   transition:
-    max-height 180ms ease,
-    opacity 140ms ease,
-    transform 180ms ease;
+    max-height var(--motion-slow) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard),
+    transform var(--motion-slow) var(--ease-standard);
   pointer-events: none;
 }
 

@@ -5,7 +5,7 @@
 .ux-fields input {
   width: 100%;
   border: 1px solid var(--control-border);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: var(--control-bg);
   padding: 0.65rem 0.8rem;
 }
@@ -34,7 +34,7 @@
   line-height: 1.45;
   width: 100%;
   border: 1px solid var(--control-border);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: var(--control-bg);
   padding: 0.65rem 0.8rem;
 }

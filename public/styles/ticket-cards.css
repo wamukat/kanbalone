@@ -1,16 +1,16 @@
 .ticket-card {
   min-width: 0;
   border: 1px solid var(--border-soft);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   background: var(--surface-1);
-  padding: 0.72rem;
+  padding: var(--space-3);
   box-shadow: var(--shadow-card);
   transition:
-    transform 150ms cubic-bezier(0.2, 0, 0, 1),
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease,
-    opacity 150ms ease;
+    transform var(--motion-normal) var(--ease-standard),
+    border-color var(--motion-normal) var(--ease-standard),
+    background-color var(--motion-normal) var(--ease-standard),
+    box-shadow var(--motion-normal) var(--ease-standard),
+    opacity var(--motion-normal) var(--ease-standard);
 }
 
 .ticket-card:hover {
@@ -30,7 +30,7 @@
   opacity: 0.72;
   transform: scale(1.01);
   border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-  box-shadow: 0 14px 34px rgba(21, 32, 28, 0.18);
+  box-shadow: var(--shadow-popover), var(--drag-ring);
 }
 
 .ticket-card.resolved {

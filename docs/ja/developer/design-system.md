@@ -184,6 +184,7 @@ Feedback placement:
 - Easing: `cubic-bezier(0.2, 0, 0, 1)`。
 - Sidebar settings や progressive actions は opacity + height/transform の小さな変化。
 - Board/card の hover は位置を大きく動かさない。
+- 初回操作の案内など、ユーザの注意を誘導する nudge だけは `--motion-attention` / `--ease-attention` を使える。常時の装飾には使わず、`prefers-reduced-motion` では停止する。
 
 ## Accessibility
 

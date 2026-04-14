@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 1rem;
+  padding: var(--space-4);
   overflow: hidden;
   background: var(--surface-canvas);
 }
@@ -10,7 +10,7 @@
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
   justify-content: space-between;
   flex: 0 0 auto;
   padding: 0 0 0.85rem;
@@ -20,7 +20,7 @@
 .toolbar-actions {
   display: grid;
   align-items: center;
-  gap: 0.65rem;
+  gap: var(--space-3);
   grid-template-columns: minmax(180px, 276px) minmax(0, 1fr);
   justify-content: stretch;
   width: 100%;
@@ -30,12 +30,12 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   min-width: 0;
   height: 2.45rem;
-  padding: 0 0.75rem;
+  padding: 0 var(--space-3);
   border: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 90%, transparent);
   color: var(--muted);
 }
@@ -71,7 +71,7 @@
 .toolbar-utility-button.is-filter-active {
   border-color: color-mix(in srgb, var(--accent) 48%, transparent);
   background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent);
+  box-shadow: var(--active-filter-ring);
   color: var(--accent);
 }
 

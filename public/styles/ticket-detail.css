@@ -16,7 +16,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.18rem 0.48rem;
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--text-muted) 10%, transparent);
   color: var(--muted);
   font-size: 0.78rem;
@@ -28,7 +28,7 @@
   gap: 0.35rem;
   padding: 0.65rem 0.7rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   background: color-mix(in srgb, var(--surface-1) 62%, transparent);
 }
 
@@ -79,21 +79,21 @@
 .comments-list {
   padding: 0.7rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   background: color-mix(in srgb, var(--surface-1) 70%, transparent);
 }
 
 .activity-list {
   padding: 0.7rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   background: color-mix(in srgb, var(--surface-1) 70%, transparent);
 }
 
 .ticket-view-body {
   padding: 0.7rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   background: color-mix(in srgb, var(--surface-1) 70%, transparent);
   line-height: 1.45;
 }
@@ -102,7 +102,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.2rem 0.55rem;
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   background: var(--accent-soft);
   color: var(--accent);
   font-size: 0.8rem;
@@ -126,7 +126,7 @@
   padding: 0.12rem 0.46rem;
   overflow: hidden;
   border: 1px solid var(--border-soft);
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   background: var(--surface-inset);
   color: var(--text-muted);
   font-size: 0.72rem;

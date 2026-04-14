@@ -13,7 +13,7 @@
 .tag-manager-row input[type="text"] {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 92%, transparent);
   padding: 0.55rem 0.7rem;
 }
@@ -23,7 +23,7 @@
   height: 2.4rem;
   padding: 0.15rem;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 92%, transparent);
 }
 

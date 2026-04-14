@@ -1,7 +1,7 @@
 .lane {
   background: color-mix(in srgb, var(--surface-1) 58%, transparent);
   border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
-  border-radius: 8px;
+  border-radius: var(--radius-surface);
   box-shadow: none;
   width: 304px;
   min-width: 304px;
@@ -17,8 +17,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6rem;
-  padding: 0.7rem 0.75rem;
+  gap: var(--space-2);
+  padding: var(--space-3);
   border-bottom: 1px solid var(--border-soft);
   background: color-mix(in srgb, var(--surface-1) 82%, transparent);
   backdrop-filter: blur(8px);
@@ -27,13 +27,13 @@
 .lane-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .lane-title-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -47,7 +47,7 @@
   width: 100%;
   min-width: 0;
   border: 1px solid var(--border-strong);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: var(--surface-2);
   color: var(--text-strong);
   padding: 0.46rem 0.55rem;
@@ -66,15 +66,15 @@
 .inline-action-menu {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-1);
   max-width: 0;
   opacity: 0;
   overflow: hidden;
   transform: translateX(-0.25rem);
   transition:
-    max-width 180ms ease,
-    opacity 140ms ease,
-    transform 180ms ease;
+    max-width var(--motion-slow) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard),
+    transform var(--motion-slow) var(--ease-standard);
 }
 
 .inline-action-menu.expanded {
@@ -142,7 +142,7 @@
   height: 1.25rem;
   padding: 0 0.38rem;
   border: 1px solid var(--border-soft);
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   background: var(--surface-1);
   color: var(--text-muted);
   font-size: 0.72rem;
@@ -160,7 +160,7 @@
 
 .ticket-list {
   display: grid;
-  gap: 0.55rem;
+  gap: var(--space-2);
   min-height: 2rem;
-  padding: 0.65rem;
+  padding: var(--space-2);
 }

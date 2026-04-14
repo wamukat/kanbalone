@@ -7,7 +7,7 @@
   border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
   background: color-mix(in srgb, var(--accent) 96%, transparent);
   color: var(--on-accent);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-popover);
   z-index: 40;
 }
 

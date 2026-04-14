@@ -6,7 +6,7 @@
   align-content: start;
   border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
   background: var(--panel);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-card);
   overflow-x: auto;
   overflow-y: hidden;
   min-height: 0;

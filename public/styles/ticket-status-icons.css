@@ -13,7 +13,7 @@
   width: 1.25rem;
   height: 1.25rem;
   border: 1px solid var(--border-soft);
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   color: var(--text-subtle);
   background: color-mix(in srgb, var(--surface-2) 72%, transparent);
 }

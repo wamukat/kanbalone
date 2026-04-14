@@ -87,7 +87,7 @@
   width: 100%;
   resize: vertical;
   border: 1px solid color-mix(in srgb, var(--text-muted) 22%, transparent);
-  border-radius: 8px;
+  border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-1) 62%, transparent);
   color: var(--text);
   padding: 0.65rem 0.75rem;

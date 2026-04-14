@@ -4,7 +4,7 @@
   grid-template-columns: 280px minmax(0, 1fr);
   min-height: 100vh;
   overflow-x: clip;
-  transition: grid-template-columns 140ms ease;
+  transition: grid-template-columns var(--motion-fast) var(--ease-standard);
 }
 
 .shell.sidebar-collapsed {
@@ -13,7 +13,7 @@
 
 .sidebar {
   border-right: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
-  padding: 1rem;
+  padding: var(--space-4);
   backdrop-filter: blur(6px);
   overflow: hidden;
 }
@@ -33,12 +33,12 @@
   min-width: 1.7rem;
   height: 1.7rem;
   padding: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   border-color: color-mix(in srgb, var(--text-muted) 22%, transparent);
   background: var(--bg);
   color: var(--muted);
-  box-shadow: 0 4px 10px rgba(21, 32, 28, 0.08);
-  transition: left 140ms ease;
+  box-shadow: var(--shadow-card);
+  transition: left var(--motion-fast) var(--ease-standard);
 }
 
 .sidebar-edge-toggle:hover {
