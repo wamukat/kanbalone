@@ -18,6 +18,13 @@ test("empty board onboarding focuses inline board creation", async ({ page }) =>
     await expect(page.locator("#sidebar-view-section")).toBeHidden();
     await expect(page.locator("#sidebar-toggle-button")).toBeHidden();
     await expect(page.locator("#new-board-button")).toHaveClass(/is-empty-target/);
+    const emptyAddButtonBox = await page
+      .locator("#new-board-button")
+      .boundingBox();
+    expect(emptyAddButtonBox?.width).toBeGreaterThanOrEqual(31);
+    expect(emptyAddButtonBox?.width).toBeLessThanOrEqual(33);
+    expect(emptyAddButtonBox?.height).toBeGreaterThanOrEqual(31);
+    expect(emptyAddButtonBox?.height).toBeLessThanOrEqual(33);
     await expect(page.locator("#lane-board")).toContainText("No boards yet");
 
     await page.locator("#new-board-button").click();
@@ -37,6 +44,9 @@ test("empty board onboarding focuses inline board creation", async ({ page }) =>
     await expect(page.locator(".shell")).not.toHaveClass(/no-boards/);
     await expect(page.locator(".toolbar")).toBeVisible();
     await expect(page.locator("#board-title")).toHaveText("First Board");
+    const addButtonBox = await page.locator("#new-board-button").boundingBox();
+    expect(addButtonBox?.width).toBeGreaterThanOrEqual(31);
+    expect(addButtonBox?.width).toBeLessThanOrEqual(33);
   } finally {
     await page.close();
     await app.close();
