@@ -77,7 +77,6 @@ Add query parameters to `GET /api/boards/:boardId/tickets`.
 - Use `GET /api/tickets/:ticketId` when you need details.
 - Supported filters: `lane_id`, `tag`, `resolved`, `archived`, and `q`.
 - `q` searches title, body Markdown, numeric ticket ID, and `#ticketId`.
-- `priority:3` filters exact priority.
 
 ### Move A Ticket To A Lane
 

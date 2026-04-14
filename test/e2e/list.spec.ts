@@ -75,15 +75,15 @@ test("list virtual scrolling repaints visible rows", async ({ page }) => {
     }
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
-    await expect(page.locator(".list-window")).toContainText("Virtual ticket 01");
-    await expect(page.locator(".list-window")).not.toContainText("Virtual ticket 80");
+    await expect(page.locator(".list-window")).toContainText("Virtual ticket 80");
+    await expect(page.locator(".list-window")).not.toContainText("Virtual ticket 01");
 
     await page.locator(".list-viewport").evaluate((element) => {
       element.scrollTop = element.scrollHeight;
       element.dispatchEvent(new Event("scroll", { bubbles: true }));
     });
 
-    await expect(page.locator(".list-window")).toContainText("Virtual ticket 80");
+    await expect(page.locator(".list-window")).toContainText("Virtual ticket 01");
   } finally {
     await page.close();
     await app.close();

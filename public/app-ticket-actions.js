@@ -116,7 +116,7 @@ export function createTicketActionsModule(ctx, options) {
         body: { isArchived: !current.isArchived },
       });
       await ctx.refreshBoardDetail();
-      if (!current.isArchived && state.filters.archived !== "all") {
+      if (!current.isArchived && !state.filters.status.includes("archived")) {
         options.closeEditor();
         ctx.showToast("Archived");
         return;

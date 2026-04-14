@@ -106,6 +106,7 @@ http://127.0.0.1:3000
 - [リリース手順](docs/ja/developer/release.md)
 - [パフォーマンスツール](docs/ja/developer/performance.md)
 - [ダイアログボタンポリシー](docs/ja/developer/dialog-button-policy.md)
+- [デザインシステム](docs/ja/developer/design-system.md)
 
 ## Tech Stack
 

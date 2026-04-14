@@ -55,16 +55,10 @@ export function listTicketRows(
   }
   if (filters.q) {
     const q = filters.q.trim();
-    const priorityMatch = /^(?:p|priority):(-?\d+)$/i.exec(q);
-    if (priorityMatch) {
-      sql += " AND t.priority = ?";
-      params.push(Number(priorityMatch[1]));
-    } else {
-      const idQuery = q.startsWith("#") ? q.slice(1) : q;
-      const likeQuery = `%${q}%`;
-      sql += " AND (t.title LIKE ? OR t.body_markdown LIKE ? OR CAST(t.id AS TEXT) LIKE ? OR ('#' || t.id) LIKE ?)";
-      params.push(likeQuery, likeQuery, `%${idQuery}%`, likeQuery);
-    }
+    const idQuery = q.startsWith("#") ? q.slice(1) : q;
+    const likeQuery = `%${q}%`;
+    sql += " AND (t.title LIKE ? OR t.body_markdown LIKE ? OR CAST(t.id AS TEXT) LIKE ? OR ('#' || t.id) LIKE ?)";
+    params.push(likeQuery, likeQuery, `%${idQuery}%`, likeQuery);
   }
   if (filters.tag) {
     sql += `

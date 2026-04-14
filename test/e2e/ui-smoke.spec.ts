@@ -60,20 +60,36 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
     await expect(page.locator("#board-title")).toHaveText("UI Smoke");
-    await expect(page.locator("#resolved-filter [data-value='false']")).toHaveClass(/active/);
+    await expect(page.locator("#status-filter [data-status-filter='open']")).toHaveClass(/active/);
     await expect(page.locator(".ticket-card")).toHaveCount(3);
-    await expect(page.locator("#search-input")).toHaveAttribute("placeholder", "Search keywords, #123, priority:3");
-    await expect(page.locator("#resolved-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#search-input")).toHaveAttribute("placeholder", "Search keywords or #123");
+    await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     const smokeTicket = await ticketResponse.json();
     await page.locator("#search-input").fill(String(smokeTicket.id));
     await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator(".ticket-card")).toContainText("Smoke ticket");
-    await page.locator("#search-input").fill("priority:3");
-    await expect(page.locator(".ticket-card")).toHaveCount(1);
-    await expect(page.locator(".ticket-card")).toContainText("Smoke ticket");
     await page.locator("#search-input").fill("");
     await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
+    const highPriorityResponse = page.waitForResponse((response) => response.url().includes(`/api/boards/${boardPayload.board.id}/tickets?resolved=false`) && response.status() === 200);
+    await page.locator("#priority-filter .filter-menu-edge-toggle").click();
+    await expect(page.locator("#priority-filter [data-priority-filter='high'] use[href='/icons.svg#priority-high']")).toHaveCount(1);
+    await page.locator("#priority-filter [data-priority-filter='high']").click();
+    await highPriorityResponse;
+    await expect(page.locator(".ticket-card")).toHaveCount(1);
+    await expect(page.locator("#lane-board")).toContainText("Smoke ticket");
+    await expect(page.locator("#priority-filter")).toHaveClass(/is-filter-active/);
+    const highUrgentPriorityResponse = page.waitForResponse((response) => response.url().includes(`/api/boards/${boardPayload.board.id}/tickets?resolved=false`) && response.status() === 200);
+    await page.locator("#priority-filter [data-priority-filter='urgent']").click();
+    await highUrgentPriorityResponse;
+    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await expect(page.locator("#lane-board")).toContainText("Smoke ticket");
+    await expect(page.locator("#lane-board")).toContainText("Blocker candidate");
+    await expect(page.locator("#lane-board")).toContainText("Child candidate");
+    await page.locator("#priority-filter [data-priority-filter='high']").click();
+    await page.locator("#priority-filter [data-priority-filter='urgent']").click();
+    await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#priority-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(3);
     await expect(page.locator(".board-title-row")).toBeHidden();
     await page.locator("#new-board-button").click();
@@ -92,7 +108,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#board-title")).toHaveText("Inline Board");
     await page.getByRole("button", { name: "UI Smoke" }).click();
     await expect(page.locator("#board-title")).toHaveText("UI Smoke");
-    await expect(page.locator("#resolved-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator("#board-list .board-button").first()).toHaveText("UI Smoke");
     await Promise.all([
@@ -118,7 +134,9 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator("[data-lane-create-input]").fill("review");
     await page.locator("[data-lane-create-input]").press("Enter");
     await expect(page.locator(".lane-title", { hasText: "review" })).toBeVisible();
-    await page.locator("#resolved-filter [data-value='']").click();
+    await page.locator("#status-filter .filter-menu-edge-toggle").click();
+    await expect(page.locator("#status-filter [data-status-filter='resolved'] use[href='/icons.svg#check']")).toHaveCount(1);
+    await page.locator("#status-filter [data-status-filter='resolved']").click();
     await expect(page.locator(".ticket-card")).toHaveCount(4);
     const openSidebarSearchOffset = await page.locator(".toolbar-search").evaluate((search) => {
       const toolbar = document.querySelector(".toolbar");
@@ -127,7 +145,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
       }
       return search.getBoundingClientRect().left - toolbar.getBoundingClientRect().left;
     });
-    expect(openSidebarSearchOffset).toBeLessThan(1);
+    expect(openSidebarSearchOffset).toBeGreaterThan(12);
+    expect(openSidebarSearchOffset).toBeLessThan(20);
     await expect(page.locator("#sidebar #view-mode-toggle")).toBeVisible();
     await expect(page.locator(".toolbar #view-mode-toggle")).toHaveCount(0);
     await expect(page.locator("#sidebar #view-mode-toggle use[href='/icons.svg#columns-3']")).toHaveCount(1);
@@ -159,7 +178,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-action='toggle-lane-actions']").first()).toHaveAttribute("aria-expanded", "true");
     await expect(page.locator("[data-action='rename-lane']").first()).toBeVisible();
     await expect(page.locator("[data-action='delete-lane']").first()).toBeVisible();
-    await expect(page.locator("[data-action='delete-lane']").first()).toHaveCSS("color", "rgb(185, 61, 36)");
+    await expect(page.locator("[data-action='delete-lane']").first()).toHaveCSS("color", "rgb(196, 61, 61)");
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='list']").click();
     await expect(page.locator("#list-board")).toBeVisible();
     await expect(page.locator(".list-header")).toContainText("Lane");
@@ -167,7 +186,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".list-actions").first()).toContainText("Select tickets to edit in bulk");
     await expect(page.locator(".list-action-button")).toHaveCount(0);
     const smokeTicketPriorityCell = page.getByRole("button", { name: "Smoke ticket" }).locator("..").locator(".list-cell").nth(1);
-    await expect(smokeTicketPriorityCell).toHaveText("3");
+    await expect(smokeTicketPriorityCell).toHaveText("High");
     const listCheckboxAlignment = await page.evaluate(() => {
       const headerCheckbox = document.querySelector("#list-select-all");
       const rowCheckbox = document.querySelector("[data-list-ticket-id]");
@@ -209,8 +228,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".import-button use[href='/icons.svg#upload']")).toHaveCount(1);
     await expect(page.locator("#rename-board-button use[href='/icons.svg#pencil']")).toHaveCount(1);
     await expect(page.locator("#delete-board-button use[href='/icons.svg#trash-2']")).toHaveCount(1);
-    await page.locator("#archived-filter-button").click();
-    await expect(page.locator("#archived-filter-button")).toHaveClass(/is-filter-active/);
+    await page.locator("#status-filter [data-status-filter='archived']").click();
+    await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(5);
     await expect(page.locator("#lane-board")).not.toContainText("No matching tickets");
     await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
@@ -219,8 +238,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.getByRole("button", { name: "Archived candidate" }).locator("..").locator("[data-list-ticket-id]").check();
     await expect(page.locator("[data-bulk-archive='false'] use[href='/icons.svg#rotate-ccw']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
-    await page.locator("#archived-filter-button").click();
-    await expect(page.locator("#archived-filter-button")).not.toHaveClass(/is-filter-active/);
+    await page.locator("#status-filter [data-status-filter='archived']").click();
+    await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(4);
 
     const bulkDeleteTicketResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
@@ -246,8 +265,6 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect((await bulkDeleteResponse).status()).toBe(204);
     await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
     await expect(page.getByRole("button", { name: "Bulk delete candidate" })).toHaveCount(0);
-    await page.locator("#resolved-filter [data-value='']").click();
-
     await page.getByRole("button", { name: "Smoke ticket" }).click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#editor-header-title")).toHaveText("Smoke ticket");
@@ -269,6 +286,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#comment-body")).toHaveValue("");
 
     await page.keyboard.press("Escape");
+    await page.locator("#status-filter .filter-menu-edge-toggle").click();
+    await page.locator("#status-filter [data-status-filter='resolved']").click();
     await page.getByRole("button", { name: "Parent candidate" }).click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#comment-save-state")).toBeHidden();
@@ -281,7 +300,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-toggle-comment-actions]")).toHaveAttribute("aria-expanded", "true");
     await expect(page.locator("[data-edit-comment-id]")).toBeVisible();
     await expect(page.locator("[data-delete-comment-id]")).toBeVisible();
-    await expect(page.locator("[data-delete-comment-id]")).toHaveCSS("color", "rgb(185, 61, 36)");
+    await expect(page.locator("[data-delete-comment-id]")).toHaveCSS("color", "rgb(196, 61, 61)");
     await page.locator("[data-edit-comment-id]").click();
     await expect(page.locator("[data-comment-edit-form]")).toBeVisible();
     await expect(page.locator("[data-comment-edit-body]")).toHaveValue("E2E comment **saved**");

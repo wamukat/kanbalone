@@ -106,6 +106,7 @@ For developers and maintainers:
 - [Release process](docs/en/developer/release.md)
 - [Performance tooling](docs/en/developer/performance.md)
 - [Dialog button policy](docs/en/developer/dialog-button-policy.md)
+- [Design system](docs/en/developer/design-system.md)
 
 ## Tech Stack
 

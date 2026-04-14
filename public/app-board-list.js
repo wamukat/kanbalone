@@ -8,11 +8,15 @@ export { renderListActions } from "./app-board-list-actions.js";
 export const LIST_ROW_HEIGHT = 44;
 export const LIST_OVERSCAN = 12;
 
+function comparePriorityDescending(a, b) {
+  return b.priority - a.priority || a.id - b.id;
+}
+
 export function getListTickets(tickets) {
   const byId = new Map(tickets.map((ticket) => [ticket.id, ticket]));
   const roots = tickets
     .filter((ticket) => ticket.parentTicketId == null || !byId.has(ticket.parentTicketId))
-    .sort((a, b) => a.priority - b.priority || a.id - b.id);
+    .sort(comparePriorityDescending);
   const ordered = [];
   const seen = new Set();
   for (const root of roots) {
@@ -20,13 +24,13 @@ export function getListTickets(tickets) {
     seen.add(root.id);
     const children = tickets
       .filter((candidate) => candidate.parentTicketId === root.id)
-      .sort((a, b) => a.priority - b.priority || a.id - b.id);
+      .sort(comparePriorityDescending);
     for (const child of children) {
       ordered.push({ ticket: child, indent: 1 });
       seen.add(child.id);
     }
   }
-  for (const ticket of tickets.sort((a, b) => a.priority - b.priority || a.id - b.id)) {
+  for (const ticket of tickets.sort(comparePriorityDescending)) {
     if (!seen.has(ticket.id)) {
       ordered.push({ ticket, indent: ticket.parentTicketId == null ? 0 : 1 });
     }
@@ -57,9 +61,9 @@ export function createListBoardModule(ctx, options) {
         })
         : renderEmptyState({
           iconName: "list",
-          title: state.filters.resolved === "false" ? "No unresolved tickets" : "No tickets yet",
-          body: state.filters.resolved === "false"
-            ? "Create a ticket or switch the resolved filter to All."
+          title: state.filters.status.length === 1 && state.filters.status[0] === "open" ? "No open tickets" : "No tickets yet",
+          body: state.filters.status.length === 1 && state.filters.status[0] === "open"
+            ? "Create a ticket or switch the status filter."
             : "Create the first ticket, then switch between Kanban and List as it grows.",
           actionLabel: firstLaneId ? "Create ticket" : "",
           actionAttr: firstLaneId ? `data-empty-create-ticket="${firstLaneId}"` : "",

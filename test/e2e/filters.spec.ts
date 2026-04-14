@@ -53,27 +53,61 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     await page.locator("#search-input").fill("priority:3");
     await searchResponse;
     await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
+    await expect(page.locator(".ticket-card")).toHaveCount(0);
+    await page.locator("#search-input").fill("");
+
+    const priorityLabelResponse = waitForTicketQuery({ resolved: "false" });
+    await page.locator("#priority-filter .filter-menu-edge-toggle").click();
+    await page.locator("#priority-filter [data-priority-filter='high']").click();
+    await priorityLabelResponse;
+    await expect(page.locator("#priority-filter")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator(".ticket-card")).toContainText("Focus open");
 
-    const resolvedResponse = waitForTicketQuery({ q: "priority:3" });
-    await page.locator("#resolved-filter [data-value='']").click();
+    const priorityUrgentResponse = waitForTicketQuery({ resolved: "false" });
+    await page.locator("#priority-filter [data-priority-filter='urgent']").click();
+    await priorityUrgentResponse;
+    await expect(page.locator(".ticket-card")).toHaveCount(2);
+    await expect(page.locator("#lane-board")).toContainText("Focus open");
+    await expect(page.locator("#lane-board")).toContainText("Plain open");
+
+    const priorityHighOnlyResponse = waitForTicketQuery({ resolved: "false" });
+    await page.locator("#priority-filter [data-priority-filter='urgent']").click();
+    await priorityHighOnlyResponse;
+
+    const priorityClearResponse = waitForTicketQuery({ resolved: "false" });
+    await page.locator("#priority-filter [data-priority-clear]").click();
+    await priorityClearResponse;
+    await expect(page.locator("#priority-filter")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#priority-filter")).not.toHaveClass(/is-expanded/);
+    await expect(page.locator("#priority-filter [data-priority-filter='high']")).toBeHidden();
+    await expect(page.locator(".ticket-card")).toHaveCount(2);
+
+    const priorityHighResponse = waitForTicketQuery({ resolved: "false" });
+    await page.locator("#priority-filter .filter-menu-edge-toggle").click();
+    await page.locator("#priority-filter [data-priority-filter='high']").click();
+    await priorityHighResponse;
+    await expect(page.locator("#priority-filter")).toHaveClass(/is-filter-active/);
+
+    const resolvedResponse = waitForTicketQuery({});
+    await page.locator("#status-filter .filter-menu-edge-toggle").click();
+    await page.locator("#status-filter [data-status-filter='resolved']").click();
     await resolvedResponse;
-    await expect(page.locator("#resolved-filter")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(2);
     await expect(page.locator(".ticket-card")).toContainText(["Focus open", "Focus resolved"]);
 
-    const tagResponseForFilter = waitForTicketQuery({ q: "priority:3", tag: "focus" });
+    const tagResponseForFilter = waitForTicketQuery({ tag: "focus" });
     await page.locator("#tag-filter").selectOption("focus");
     await tagResponseForFilter;
     await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(2);
     await expect(page.locator(".ticket-card")).toContainText(["Focus open", "Focus resolved"]);
 
-    const archivedResponse = waitForTicketQuery({ q: "priority:3", tag: "focus", archived: "all" });
-    await page.locator("#archived-filter-button").click();
+    const archivedResponse = waitForTicketQuery({ tag: "focus", archived: "all" });
+    await page.locator("#status-filter [data-status-filter='archived']").click();
     await archivedResponse;
-    await expect(page.locator("#archived-filter-button")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(3);
     await expect(page.locator("#lane-board")).toContainText("Focus open");
     await expect(page.locator("#lane-board")).toContainText("Focus resolved");
@@ -82,7 +116,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     await page.getByRole("button", { name: "List", exact: true }).click();
     await expect(page).toHaveURL(`${baseUrl}/boards/${boardPayload.board.id}/list`);
     await expect(page.locator("#lane-filter")).toBeVisible();
-    const laneResponse = waitForTicketQuery({ q: "priority:3", tag: "focus", archived: "all", lane_id: String(todoLane.id) });
+    const laneResponse = waitForTicketQuery({ tag: "focus", archived: "all", lane_id: String(todoLane.id) });
     await page.locator("#lane-filter").selectOption(String(todoLane.id));
     await laneResponse;
     await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);

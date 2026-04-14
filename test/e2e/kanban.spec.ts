@@ -42,15 +42,15 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
     const betaLane = page.locator(".lane", { has: page.locator(".lane-title", { hasText: "Beta" }) });
     await betaLane.locator("[data-action='toggle-lane-actions']").click();
     await betaLane.locator("[data-action='rename-lane']").click();
-    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
-    await expect(page.locator("#ux-title")).toHaveText("Rename Lane");
-    await page.locator('[data-field-id="name"]').fill("Review");
+    await expect(betaLane.locator("[data-lane-rename-input]")).toBeFocused();
+    await expect(betaLane.locator("[data-lane-rename-input]")).toHaveValue("Beta");
+    await betaLane.locator("[data-lane-rename-input]").fill("Review");
     const renameResponse = page.waitForResponse(
       (response) =>
         response.url().includes("/api/lanes/") &&
         response.request().method() === "PATCH",
     );
-    await page.locator("#ux-submit-button").click();
+    await betaLane.locator("[data-lane-rename-input]").press("Enter");
     expect((await renameResponse).status()).toBe(200);
     await expect(page.locator(".lane-title", { hasText: "Review" })).toBeVisible();
     await expect(page.locator(".lane-title", { hasText: "Beta" })).toHaveCount(0);

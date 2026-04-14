@@ -18,10 +18,11 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#editor-form")).toBeVisible();
     await expect(page.locator("#ticket-resolved-row")).toBeHidden();
+    await expect(page.locator("#ticket-priority")).toHaveValue("2");
 
     await page.locator("#ticket-title").fill("Created from editor");
     await page.locator("#ticket-body").fill("Created with **Markdown**");
-    await page.locator("#ticket-priority").fill("4");
+    await page.locator("#ticket-priority").selectOption("3");
     await page.locator("#ticket-lane").selectOption(String(reviewLane.id));
     const createResponse = page.waitForResponse(
       (response) =>
@@ -42,7 +43,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.locator("#ticket-view")).toContainText("Created with Markdown");
     await page.locator("#header-edit-button").click();
     await page.locator("#ticket-title").fill("Updated from editor");
-    await page.locator("#ticket-priority").fill("7");
+    await page.locator("#ticket-priority").selectOption("3");
     await page.locator("#ticket-resolved-row").click();
     await page.locator("#ticket-lane").selectOption(String(todoLane.id));
     const updateResponse = page.waitForResponse(
@@ -55,7 +56,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.locator("#ticket-view")).toBeVisible();
     await expect(page.locator("#editor-header-title")).toHaveText("Updated from editor");
     await expect(page.locator("#editor-header-state")).toContainText("Resolved");
-    await expect(page.locator("#ticket-view-meta")).toContainText("Priority: 7");
+    await expect(page.locator("#editor-header-priority")).toHaveText("High");
 
     await page.locator("#header-edit-button").click();
     const archiveResponse = page.waitForResponse(
@@ -68,8 +69,9 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
     await expect(page.getByRole("button", { name: "Updated from editor" })).toHaveCount(0);
 
-    await page.locator("#resolved-filter [data-value='']").click();
-    await page.locator("#archived-filter-button").click();
+    await page.locator("#status-filter .filter-menu-edge-toggle").click();
+    await page.locator("#status-filter [data-status-filter='resolved']").click();
+    await page.locator("#status-filter [data-status-filter='archived']").click();
     await page.getByRole("button", { name: "Updated from editor" }).click();
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#archive-ticket-button")).toContainText("Restore");

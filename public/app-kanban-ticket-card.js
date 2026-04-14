@@ -1,4 +1,5 @@
 import { renderTag } from "./app-tags.js";
+import { renderPriorityIcon } from "./app-priority.js";
 import { icon } from "./icons.js";
 
 export function createKanbanTicketCard(ctx, ticket) {
@@ -8,7 +9,10 @@ export function createKanbanTicketCard(ctx, ticket) {
   card.dataset.ticketId = String(ticket.id);
   card.innerHTML = `
     <div class="ticket-head">
-      <span class="ticket-id">#${ticket.id}</span>
+      <span class="ticket-id-stack">
+        <span class="ticket-id">#${ticket.id}</span>
+        ${renderPriorityIcon(ticket.priority)}
+      </span>
       <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
       <span class="ticket-status-icons">${renderTicketStatusIcons(ticket)}</span>
     </div>
@@ -24,9 +28,15 @@ export function createKanbanTicketCard(ctx, ticket) {
   });
   card.addEventListener("dragstart", () => {
     card.classList.add("dragging");
+    card.closest(".lane-board")?.classList.add("is-dragging-ticket");
   });
   card.addEventListener("dragend", () => {
     card.classList.remove("dragging");
+    const laneBoard = card.closest(".lane-board");
+    laneBoard?.classList.remove("is-dragging-ticket");
+    for (const lane of laneBoard?.querySelectorAll(".lane.is-drag-over") ?? []) {
+      lane.classList.remove("is-drag-over");
+    }
   });
   return card;
 }

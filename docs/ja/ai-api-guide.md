@@ -82,7 +82,6 @@
 - `archived`
 - `q`
   - title / body Markdown / ticket ID / `#ticketId` を検索します。
-  - `priority:3` のように書くと priority の完全一致で絞り込みます。
 
 ### チケットをレーン移動したい
 

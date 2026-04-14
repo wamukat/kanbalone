@@ -97,8 +97,9 @@ export function createBoardModule(ctx) {
   function hasUserTicketFilters() {
     return state.filters.q !== ""
       || (state.viewMode === "list" && state.filters.lane !== "")
+      || state.filters.priority.length > 0
       || state.filters.tag !== ""
-      || (state.filters.resolved !== "" && state.filters.resolved !== "false");
+      || !(state.filters.status.length === 1 && state.filters.status[0] === "open");
   }
 
   function renderTicketStatusIcons(ticket) {

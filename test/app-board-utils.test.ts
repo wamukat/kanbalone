@@ -31,7 +31,7 @@ test("takeRoundRobinBatch distributes work across lanes", () => {
   assert.deepEqual(queues.map((queue) => queue.index), [2, 2, 1]);
 });
 
-test("getListTickets keeps parent tickets before children and sorts by priority", () => {
+test("getListTickets keeps parent tickets before children and sorts high priority first", () => {
   const tickets = [
     { id: 4, priority: 3, parentTicketId: 99 },
     { id: 2, priority: 2, parentTicketId: 1 },
@@ -44,10 +44,10 @@ test("getListTickets keeps parent tickets before children and sorts by priority"
   assert.deepEqual(
     entries.map((entry) => [entry.ticket.id, entry.indent]),
     [
-      [3, 0],
-      [4, 0],
       [1, 0],
       [2, 1],
+      [4, 0],
+      [3, 0],
     ],
   );
 });

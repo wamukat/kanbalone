@@ -412,7 +412,7 @@ paths:
             enum: ["true", "false", "all"]
         - name: q
           in: query
-          description: Search title, body Markdown, numeric ticket ID, or #ticketId. Use priority:N for exact priority filtering.
+          description: Search title, body Markdown, numeric ticket ID, or #ticketId.
           schema:
             type: string
       responses:

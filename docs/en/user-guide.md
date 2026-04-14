@@ -82,17 +82,18 @@ Mark finished work Resolved. Move it to a Done lane when that also fits your wor
 
 Archive tickets you no longer need to see every day. Archived tickets are hidden from the normal board so you can focus on current work.
 
-Click `Archived` to the right of the tag filter when you need to include archived tickets.
+Open `Status` to the right of the tag filter and add `Archived` when you need to include archived tickets. You can add `Resolved` from the same menu.
 
 ![Archived filter](../assets/user-guide/11-archived-filter.png)
 
 ## 9. Find Tickets
 
-The search field can filter by keyword, ticket number, and priority.
+The search field can filter by keyword and ticket number.
 
 - Search title and body with a keyword such as `login`.
 - Search ticket numbers with `#123` or `123`.
-- Show only Priority 3 tickets with `priority:3`.
+
+Open `Priority >` in the filter area when you want to filter by priority. You can select multiple values: Low, Medium, High, and Urgent.
 
 ## 10. Classify Work With Tags
 

@@ -35,7 +35,9 @@ export function createKanbanLane(ctx, lane, laneTickets, handlers) {
   addTicketButton.setAttribute("aria-label", "New ticket");
   addTicketButton.addEventListener("click", () => ctx.openEditor(null, "edit", lane.id));
 
-  header.querySelector("[data-action='rename-lane']").addEventListener("click", () => handlers.renameLane(lane));
+  header.querySelector("[data-action='rename-lane']").addEventListener("click", () => {
+    startLaneRename(ctx, header, lane, handlers);
+  });
   header.querySelector("[data-action='delete-lane']").addEventListener("click", () => handlers.deleteLane(lane));
   header.querySelector("[data-action='toggle-lane-actions']").addEventListener("click", (event) => {
     toggleInlineActionMenu(event.currentTarget);
@@ -59,6 +61,52 @@ export function createKanbanLaneInputColumn(onSubmit, onCancel) {
   });
 }
 
+function startLaneRename(ctx, header, lane, handlers) {
+  if (header.querySelector("[data-lane-rename-input]")) {
+    header.querySelector("[data-lane-rename-input]")?.focus();
+    return;
+  }
+
+  collapseInlineActionMenu(header);
+
+  const titleRow = header.querySelector(".lane-title-row");
+  const title = titleRow?.querySelector(".lane-title");
+  if (!titleRow || !title) {
+    return;
+  }
+
+  function restoreTitle() {
+    title.hidden = false;
+    titleRow.querySelector(".lane-title-edit-form")?.remove();
+  }
+
+  const form = createInlineTextForm({
+    className: "lane-title-edit-form",
+    html: `
+      <input class="lane-title-edit-input" type="text" data-lane-rename-input aria-label="Lane name" value="${ctx.escapeHtml(lane.name)}" autocomplete="off" />
+    `,
+    inputSelector: "[data-lane-rename-input]",
+    onSubmit: async (input) => {
+      const name = input?.value.trim() ?? "";
+      if (!name || name === lane.name) {
+        restoreTitle();
+        return;
+      }
+      await handlers.renameLane(lane, name);
+    },
+    onCancel: restoreTitle,
+  });
+
+  form.addEventListener("click", (event) => event.stopPropagation());
+  form.addEventListener("dragstart", (event) => event.preventDefault());
+  title.hidden = true;
+  title.after(form);
+  requestAnimationFrame(() => {
+    const input = form.querySelector("[data-lane-rename-input]");
+    input?.select();
+  });
+}
+
 function toggleInlineActionMenu(toggleButton) {
   const menu = toggleButton.parentElement?.querySelector(".inline-action-menu");
   if (!menu) {
@@ -76,4 +124,20 @@ function toggleInlineActionMenu(toggleButton) {
       }
     }, 180);
   }
+}
+
+function collapseInlineActionMenu(container) {
+  const toggleButton = container.querySelector("[data-action='toggle-lane-actions']");
+  const menu = container.querySelector(".inline-action-menu");
+  if (!toggleButton || !menu) {
+    return;
+  }
+  toggleButton.setAttribute("aria-expanded", "false");
+  menu.classList.remove("expanded");
+  menu.setAttribute("inert", "");
+  window.setTimeout(() => {
+    if (!menu.classList.contains("expanded")) {
+      menu.hidden = true;
+    }
+  }, 180);
 }

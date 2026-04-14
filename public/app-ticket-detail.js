@@ -1,5 +1,6 @@
 import { icon } from "./icons.js";
 import { renderTag } from "./app-tags.js";
+import { renderPriorityBadge } from "./app-priority.js";
 
 export function createTicketDetailModule(ctx) {
   const { state, elements } = ctx;
@@ -28,16 +29,21 @@ export function createTicketDetailModule(ctx) {
       elements.editorHeaderId.textContent = "";
       elements.editorHeaderTitle.hidden = true;
       elements.editorHeaderTitle.textContent = "";
+      elements.editorHeaderPriority.hidden = true;
+      elements.editorHeaderPriority.innerHTML = "";
       elements.headerEditButton.hidden = true;
       elements.archiveTicketButton.hidden = true;
       return;
     }
-    elements.editorHeaderState.hidden = false;
-    elements.editorHeaderState.textContent = ticket.isResolved ? "Resolved" : "Unresolved";
-    elements.editorHeaderState.className = `ticket-state-pill ${ticket.isResolved ? "ticket-state-pill-resolved" : "ticket-state-pill-open"}`;
+    elements.editorHeaderState.hidden = state.dialogMode !== "view" || !ticket.isResolved;
+    elements.editorHeaderState.textContent = ticket.isResolved ? "Resolved" : "";
+    elements.editorHeaderState.className = "ticket-state-pill ticket-state-pill-resolved";
     elements.editorHeaderId.textContent = `#${ticket.id}`;
     elements.editorHeaderTitle.textContent = ticket.title;
     elements.editorHeaderTitle.hidden = state.dialogMode !== "view";
+    const headerPriority = renderPriorityBadge(ticket.priority);
+    elements.editorHeaderPriority.innerHTML = headerPriority;
+    elements.editorHeaderPriority.hidden = state.dialogMode !== "view" || !headerPriority;
     elements.headerEditButton.hidden = state.dialogMode !== "view";
     elements.archiveTicketButton.hidden = state.dialogMode !== "edit";
     const archiveIcon = ticket.isArchived ? "rotate-ccw" : "archive";
@@ -49,13 +55,12 @@ export function createTicketDetailModule(ctx) {
     if (!ticket) {
       return "";
     }
-    const priority = `<span class="ticket-priority-label">Priority: ${ticket.priority}</span>`;
     const archived = ticket.isArchived ? '<span class="ticket-archived-label">Archived</span>' : "";
     const tags = ticket.tags
       .map((tag) => renderTag(tag, ctx.escapeHtml))
       .join("");
     return `
-      <div class="ticket-meta-row">${archived}${priority}${tags}</div>
+      <div class="ticket-meta-row">${archived}${tags}</div>
     `;
   }
 

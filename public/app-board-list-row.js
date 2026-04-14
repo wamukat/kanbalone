@@ -1,4 +1,5 @@
 import { renderTag } from "./app-tags.js";
+import { renderPriorityBadge } from "./app-priority.js";
 
 export function renderListRow(entry, options) {
   const { ticket, indent } = entry;
@@ -35,7 +36,7 @@ export function renderListRow(entry, options) {
       </button>
       <div class="list-cell muted">${relations || "-"}</div>
       <div class="tag-list">${tags || '<span class="muted">-</span>'}</div>
-      <div class="list-cell">${ticket.priority}</div>
+      <div class="list-cell list-priority-cell">${renderPriorityBadge(ticket.priority) || '<span class="muted">-</span>'}</div>
       <div class="list-cell muted">${options.escapeHtml(lane?.name || "Open")}</div>
       <div class="list-cell list-status-cell">${statusIcons || '<span class="muted">-</span>'}</div>
     </div>

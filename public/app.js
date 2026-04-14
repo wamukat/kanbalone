@@ -22,9 +22,9 @@ const state = {
   filters: {
     q: "",
     lane: "",
-    resolved: "false",
+    status: ["open"],
+    priority: [],
     tag: "",
-    archived: "",
   },
   editingTicketId: null,
   activeBoardDragId: null,
@@ -66,10 +66,19 @@ const elements = {
   newBoardButton: document.querySelector("#new-board-button"),
   searchInput: document.querySelector("#search-input"),
   laneFilter: document.querySelector("#lane-filter"),
-  archivedFilterButton: document.querySelector("#archived-filter-button"),
   viewModeButtons: [...document.querySelectorAll("#view-mode-toggle button")],
-  resolvedFilter: document.querySelector("#resolved-filter"),
-  resolvedFilterButtons: [...document.querySelectorAll("#resolved-filter button")],
+  statusFilter: document.querySelector("#status-filter"),
+  statusFilterToggles: [...document.querySelectorAll("#status-filter [data-filter-expand='status']")],
+  statusFilterButtons: [...document.querySelectorAll("#status-filter [data-status-filter]")],
+  statusFilterClearButton: document.querySelector("#status-filter [data-status-clear]"),
+  statusFilterSummary: document.querySelector("#status-filter-summary"),
+  statusFilterOptions: document.querySelector("#status-filter .filter-menu-options"),
+  priorityFilter: document.querySelector("#priority-filter"),
+  priorityFilterToggles: [...document.querySelectorAll("#priority-filter [data-filter-expand='priority']")],
+  priorityFilterButtons: [...document.querySelectorAll("#priority-filter [data-priority-filter]")],
+  priorityFilterClearButton: document.querySelector("#priority-filter [data-priority-clear]"),
+  priorityFilterSummary: document.querySelector("#priority-filter-summary"),
+  priorityFilterOptions: document.querySelector("#priority-filter .filter-menu-options"),
   tagFilter: document.querySelector("#tag-filter"),
   exportBoardButton: document.querySelector("#export-board-button"),
   importBoardInput: document.querySelector("#import-board-input"),
@@ -78,6 +87,7 @@ const elements = {
   editorHeaderState: document.querySelector("#editor-header-state"),
   editorHeaderId: document.querySelector("#editor-header-id"),
   editorHeaderTitle: document.querySelector("#editor-header-title"),
+  editorHeaderPriority: document.querySelector("#editor-header-priority"),
   editorSaveState: document.querySelector("#editor-save-state"),
   archiveTicketButton: document.querySelector("#archive-ticket-button"),
   headerEditButton: document.querySelector("#header-edit-button"),
@@ -141,8 +151,7 @@ async function main() {
   bindEvents();
   await loadAppMeta();
   syncSidebar();
-  syncResolvedFilter();
-  syncArchivedFilter();
+  syncStatusFilter();
   syncViewMode();
   syncActiveFilterStyles();
   await refreshBoards();
@@ -396,20 +405,16 @@ async function refreshBoardDetail() {
     renderBoardDetail();
     return;
   }
-  const ticketListUrl = buildTicketListUrl();
   const [detail, allTickets] = await Promise.all([
     api(`/api/boards/${state.activeBoardId}`),
-    api(ticketListUrl),
+    api(buildTicketListUrl()),
   ]);
-  const tickets = hasActiveTicketFilters()
-    ? await api(buildTicketListUrl())
-    : allTickets;
   state.boardTickets = allTickets.tickets;
   state.boardDetail = {
     board: detail.board,
     lanes: detail.lanes,
     tags: detail.tags,
-    tickets: tickets.tickets,
+    tickets: filterTicketsForDisplay(allTickets.tickets),
   };
   syncBoardEvents();
   renderBoards();
@@ -600,10 +605,10 @@ const filtersModule = createFiltersModule(
 const {
   bindFilterEvents,
   buildTicketListUrl,
+  filterTicketsForDisplay,
   hasActiveTicketFilters,
   syncActiveFilterStyles,
-  syncArchivedFilter,
-  syncResolvedFilter,
+  syncStatusFilter,
   syncViewMode,
 } = filtersModule;
 

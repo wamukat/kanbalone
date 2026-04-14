@@ -10,6 +10,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/design-system.css" />
   </head>
   <body>
     <div class="shell">
@@ -92,24 +93,71 @@
           <div class="toolbar-actions">
             <label class="toolbar-search" for="search-input">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#search"></use></svg>
-              <input id="search-input" type="search" placeholder="Search keywords, #123, priority:3" />
+              <input id="search-input" type="search" placeholder="Search keywords or #123" />
             </label>
             <div class="toolbar-filters">
               <select id="lane-filter" hidden>
                 <option value="">All lanes</option>
               </select>
-              <div id="resolved-filter" class="filter-toggle" role="group" aria-label="Resolved filter">
-                <button type="button" data-value="">All</button>
-                <button type="button" data-value="false" class="active">Unresolved</button>
-                <button type="button" data-value="true">Resolved</button>
+              <div id="priority-filter" class="filter-menu priority-filter">
+                <button type="button" class="filter-menu-toggle" data-filter-expand="priority" aria-expanded="false">
+                  <span>Priority</span>
+                </button>
+                <div class="filter-menu-options" role="group" aria-label="Priority filter" hidden>
+                  <button type="button" data-priority-filter="low">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#priority-low"></use></svg>
+                    <span>Low</span>
+                  </button>
+                  <button type="button" data-priority-filter="medium">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#priority-medium"></use></svg>
+                    <span>Medium</span>
+                  </button>
+                  <button type="button" data-priority-filter="high">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#priority-high"></use></svg>
+                    <span>High</span>
+                  </button>
+                  <button type="button" data-priority-filter="urgent">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#circle-alert"></use></svg>
+                    <span>Urgent</span>
+                  </button>
+                </div>
+                <span id="priority-filter-summary" class="filter-menu-summary">Any</span>
+                <button type="button" class="filter-clear-button" data-priority-clear aria-label="Clear priority filter" hidden>
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
+                </button>
+                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="priority" aria-expanded="false" aria-label="Expand priority filter">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
+                </button>
               </div>
               <select id="tag-filter">
                 <option value="">All tags</option>
               </select>
-              <button id="archived-filter-button" type="button" class="ghost toolbar-utility-button">
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
-                <span>Archived</span>
-              </button>
+              <div id="status-filter" class="filter-menu status-filter">
+                <button type="button" class="filter-menu-toggle" data-filter-expand="status" aria-expanded="false">
+                  <span>Status</span>
+                </button>
+                <div class="filter-menu-options" role="group" aria-label="Status filter" hidden>
+                  <button type="button" data-status-filter="open">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#circle"></use></svg>
+                    <span>Open</span>
+                  </button>
+                  <button type="button" data-status-filter="resolved">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#check"></use></svg>
+                    <span>Resolved</span>
+                  </button>
+                  <button type="button" data-status-filter="archived">
+                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
+                    <span>Archived</span>
+                  </button>
+                </div>
+                <span id="status-filter-summary" class="filter-menu-summary">Open</span>
+                <button type="button" class="filter-clear-button" data-status-clear aria-label="Clear status filter" hidden>
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
+                </button>
+                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="status" aria-expanded="false" aria-label="Expand status filter">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
+                </button>
+              </div>
             </div>
           </div>
         </header>
@@ -136,8 +184,11 @@
             <div class="editor-dialog-heading-top">
               <span id="editor-header-state" class="ticket-state-pill ticket-state-pill-open" hidden>Unresolved</span>
               <span id="editor-header-id" class="muted"></span>
+              <span id="editor-header-priority" hidden></span>
             </div>
-            <h2 id="editor-header-title" class="editor-header-title" hidden></h2>
+            <div class="editor-title-row">
+              <h2 id="editor-header-title" class="editor-header-title" hidden></h2>
+            </div>
           </div>
           <div class="editor-header-actions">
             <div id="editor-save-state" class="editor-save-state" hidden>Saved</div>
@@ -193,7 +244,12 @@
 
              <label class="editor-compact-label">
               <span>Priority</span>
-              <input id="ticket-priority" name="priority" type="number" step="1" value="0" />
+              <select id="ticket-priority" name="priority">
+                <option value="1">Low</option>
+                <option value="2" selected>Medium</option>
+                <option value="3">High</option>
+                <option value="4">Urgent</option>
+              </select>
             </label>
 
              <label id="ticket-resolved-row" class="editor-compact-label completion-toggle">

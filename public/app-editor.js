@@ -3,6 +3,7 @@ import { createTicketCommentsModule } from "./app-ticket-comments.js";
 import { createTicketDetailModule } from "./app-ticket-detail.js";
 import { createTicketRelationsModule } from "./app-ticket-relations.js";
 import { createTicketTagPicker } from "./app-ticket-tag-picker.js";
+import { getPriorityInputValue } from "./app-priority.js";
 
 export function createEditorModule(ctx) {
   const { state, elements } = ctx;
@@ -50,10 +51,19 @@ export function createEditorModule(ctx) {
 
   function setDialogMode(mode) {
     state.dialogMode = mode;
+    elements.editorDialog.classList.toggle("editor-create-mode", mode === "edit" && !state.editingTicketId);
+    elements.editorDialog.classList.toggle("editor-edit-mode", mode === "edit" && Boolean(state.editingTicketId));
+    elements.editorDialog.classList.toggle("editor-view-mode", mode === "view");
     elements.ticketView.hidden = mode !== "view";
     elements.editorForm.hidden = mode !== "edit";
     elements.headerEditButton.hidden = mode !== "view" || !state.editingTicketId;
     elements.editorHeaderTitle.hidden = mode !== "view" || !state.editingTicketId;
+    if (mode !== "view") {
+      elements.editorHeaderState.hidden = true;
+      elements.editorHeaderPriority.hidden = true;
+    } else if (state.dialogTicket) {
+      detailModule.syncEditorHeader(state.dialogTicket);
+    }
     elements.archiveTicketButton.hidden = mode !== "edit" || !state.editingTicketId;
     elements.commentsTabButton.hidden = mode !== "view";
     elements.activityTabButton.hidden = mode !== "view";
@@ -70,6 +80,7 @@ export function createEditorModule(ctx) {
     state.editorBlockerIds = [];
     state.editorChildIds = [];
     state.editorOriginalChildIds = [];
+    state.dialogTicket = null;
     state.tagQuery = "";
     state.parentQuery = "";
     state.blockerQuery = "";
@@ -96,10 +107,11 @@ export function createEditorModule(ctx) {
   }
 
   function hydrateDialogTicket(ticket, activity = []) {
+    state.dialogTicket = ticket;
     detailModule.syncTicketDetail(ticket, activity);
     elements.ticketComments.innerHTML = commentsModule.renderComments(ticket.comments ?? []);
     elements.ticketTitle.value = ticket.title;
-    elements.ticketPriority.value = String(ticket.priority ?? 0);
+    elements.ticketPriority.value = getPriorityInputValue(ticket.priority);
     elements.ticketResolved.checked = ticket.isResolved;
     elements.ticketBody.value = ticket.bodyMarkdown;
     elements.ticketLane.value = String(ticket.laneId);
@@ -142,7 +154,7 @@ export function createEditorModule(ctx) {
     const ticket = ticketId ? await ctx.api(`/api/tickets/${ticketId}`) : null;
     const activity = ticketId ? ((await ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] }))).activity ?? []) : [];
     elements.ticketTitle.value = ticket?.title ?? "";
-    elements.ticketPriority.value = String(ticket?.priority ?? 0);
+    elements.ticketPriority.value = getPriorityInputValue(ticket?.priority);
     elements.ticketResolved.checked = ticket?.isResolved ?? false;
     elements.ticketBody.value = ticket?.bodyMarkdown ?? "";
     detailModule.syncTicketDetail(ticket, activity);

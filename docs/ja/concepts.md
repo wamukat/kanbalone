@@ -15,7 +15,7 @@
 - `laneId` と `isResolved` は別フィールドです。UI では `isResolved` を Resolved と表示します。
 - Archived ticket はデフォルトではボード一覧に表示されません。
 - Ticket には正規参照として `ref` と `shortRef` が含まれます。
-- Numeric priority は並び替えや自動化に利用できます。
+- UI では priority を Low / Medium / High / Urgent のカテゴリとして表示します。内部APIでは数値を維持しているため、自動化では数値指定も利用できます。
 
 ## 関係
 

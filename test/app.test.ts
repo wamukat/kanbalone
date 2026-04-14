@@ -165,24 +165,14 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
     [firstTicket.id],
   );
 
-  const priorityFilteredResponse = await app.inject({
+  const prioritySearchResponse = await app.inject({
     method: "GET",
-    url: `/api/boards/${boardId}/tickets?q=p%3A5`,
+    url: `/api/boards/${boardId}/tickets?q=priority%3Ahigh`,
   });
-  assert.equal(priorityFilteredResponse.statusCode, 200);
+  assert.equal(prioritySearchResponse.statusCode, 200);
   assert.deepEqual(
-    priorityFilteredResponse.json().tickets.map((ticket: { id: number }) => ticket.id),
-    [firstTicket.id],
-  );
-
-  const priorityAliasFilteredResponse = await app.inject({
-    method: "GET",
-    url: `/api/boards/${boardId}/tickets?q=priority%3A2`,
-  });
-  assert.equal(priorityAliasFilteredResponse.statusCode, 200);
-  assert.deepEqual(
-    priorityAliasFilteredResponse.json().tickets.map((ticket: { id: number }) => ticket.id),
-    [secondTicket.id],
+    prioritySearchResponse.json().tickets.map((ticket: { id: number }) => ticket.id),
+    [],
   );
 
   const commentResponse = await app.inject({

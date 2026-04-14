@@ -7,6 +7,7 @@ export function createKanbanBoardModule(ctx, options) {
   const { state, elements } = ctx;
   let kanbanRenderToken = 0;
   let kanbanNextLaneIndex = 0;
+  let laneDragPreview = null;
 
   function cancelPendingRender() {
     kanbanRenderToken += 1;
@@ -86,6 +87,7 @@ export function createKanbanBoardModule(ctx, options) {
       if (!dragging) {
         return;
       }
+      setActiveDropLane(list);
       const afterElement = getDragAfterElement(list, event.clientY);
       if (!afterElement) {
         list.append(dragging);
@@ -99,8 +101,34 @@ export function createKanbanBoardModule(ctx, options) {
         return;
       }
       event.preventDefault();
+      clearDropLaneFeedback();
       await persistTicketOrder();
     });
+
+    list.addEventListener("dragleave", (event) => {
+      if (event.relatedTarget instanceof Node && list.contains(event.relatedTarget)) {
+        return;
+      }
+      list.closest(".lane")?.classList.remove("is-drag-over");
+    });
+  }
+
+  function setActiveDropLane(list) {
+    elements.laneBoard.classList.add("is-dragging-ticket");
+    const activeLane = list.closest(".lane");
+    for (const lane of elements.laneBoard.querySelectorAll(".lane.is-drag-over")) {
+      if (lane !== activeLane) {
+        lane.classList.remove("is-drag-over");
+      }
+    }
+    activeLane?.classList.add("is-drag-over");
+  }
+
+  function clearDropLaneFeedback() {
+    elements.laneBoard.classList.remove("is-dragging-ticket");
+    for (const lane of elements.laneBoard.querySelectorAll(".lane.is-drag-over")) {
+      lane.classList.remove("is-drag-over");
+    }
   }
 
   function bindLaneDrag(handle, laneElement) {
@@ -109,10 +137,18 @@ export function createKanbanBoardModule(ctx, options) {
 
     handle.addEventListener("dragstart", (event) => {
       state.activeLaneDragId = Number(laneElement.dataset.laneId);
+      elements.laneBoard.classList.add("is-dragging-lane");
       laneElement.classList.add("dragging-lane");
       if (event.dataTransfer) {
         event.dataTransfer.effectAllowed = "move";
         event.dataTransfer.setData("text/plain", String(state.activeLaneDragId));
+        laneDragPreview = createLaneDragPreview(laneElement);
+        const box = laneElement.getBoundingClientRect();
+        event.dataTransfer.setDragImage(
+          laneDragPreview,
+          Math.max(24, event.clientX - box.left),
+          Math.max(18, event.clientY - box.top),
+        );
       }
     });
 
@@ -121,9 +157,29 @@ export function createKanbanBoardModule(ctx, options) {
         return;
       }
       laneElement.classList.remove("dragging-lane");
+      clearLaneDropFeedback();
+      removeLaneDragPreview();
       state.activeLaneDragId = null;
       await persistLaneOrder();
     });
+  }
+
+  function createLaneDragPreview(laneElement) {
+    removeLaneDragPreview();
+    const preview = laneElement.cloneNode(true);
+    const box = laneElement.getBoundingClientRect();
+    preview.classList.remove("dragging-lane", "is-lane-drop-target");
+    preview.classList.add("lane-drag-preview");
+    preview.style.width = `${box.width}px`;
+    preview.style.height = `${Math.min(box.height, 420)}px`;
+    preview.setAttribute("aria-hidden", "true");
+    document.body.append(preview);
+    return preview;
+  }
+
+  function removeLaneDragPreview() {
+    laneDragPreview?.remove();
+    laneDragPreview = null;
   }
 
   function handleLaneDragOver(event) {
@@ -139,11 +195,28 @@ export function createKanbanBoardModule(ctx, options) {
     }
     event.preventDefault();
     const afterElement = getLaneAfterElement(elements.laneBoard, event.clientX);
+    setLaneDropTarget(afterElement);
     if (!afterElement) {
       elements.laneBoard.append(dragging);
       return;
     }
     elements.laneBoard.insertBefore(dragging, afterElement);
+  }
+
+  function setLaneDropTarget(afterElement) {
+    for (const lane of elements.laneBoard.querySelectorAll(".lane.is-lane-drop-target")) {
+      if (lane !== afterElement) {
+        lane.classList.remove("is-lane-drop-target");
+      }
+    }
+    afterElement?.classList.add("is-lane-drop-target");
+  }
+
+  function clearLaneDropFeedback() {
+    elements.laneBoard.classList.remove("is-dragging-lane");
+    for (const lane of elements.laneBoard.querySelectorAll(".lane.is-lane-drop-target")) {
+      lane.classList.remove("is-lane-drop-target");
+    }
   }
 
   function getDragAfterElement(container, y) {
@@ -239,18 +312,14 @@ export function createKanbanBoardModule(ctx, options) {
     options.renderBoardDetail();
   }
 
-  async function renameLane(lane) {
-    const values = await ctx.requestFields({
-      title: "Rename Lane",
-      submitLabel: "Save",
-      fields: [{ id: "name", label: "Lane name", value: lane.name, required: true }],
-    });
-    if (!values) {
+  async function renameLane(lane, name) {
+    const nextName = name?.trim() ?? "";
+    if (!nextName || nextName === lane.name) {
       return;
     }
     await ctx.sendJson(`/api/lanes/${lane.id}`, {
       method: "PATCH",
-      body: { name: values.name },
+      body: { name: nextName },
     });
     await ctx.refreshBoardDetail();
   }

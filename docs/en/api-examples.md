@@ -167,7 +167,6 @@ curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?tag=frontend'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?archived=all'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=sidebar'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=%23123'
-curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=priority%3A3'
 ```
 
 ## Reorder Tickets
