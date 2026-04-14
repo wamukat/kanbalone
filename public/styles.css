@@ -653,30 +653,10 @@ button:hover {
   color: var(--text);
 }
 
-.toolbar-search.is-filter-active {
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent);
-}
-
-.toolbar select.is-filter-active {
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent);
-}
-
-.filter-menu.is-filter-active {
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent);
-}
-
-.filter-toggle.is-filter-active {
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent);
-}
-
+.toolbar-search.is-filter-active,
+.toolbar select.is-filter-active,
+.filter-menu.is-filter-active,
+.filter-toggle.is-filter-active,
 .toolbar-utility-button.is-filter-active {
   border-color: color-mix(in srgb, var(--accent) 48%, transparent);
   background: color-mix(in srgb, var(--accent) 8%, transparent);
@@ -3036,30 +3016,10 @@ button:hover {
     color: var(--accent);
   }
 
-  .toolbar-search.is-filter-active {
-    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
-  .toolbar select.is-filter-active {
-    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
-  .filter-menu.is-filter-active {
-    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
-  .filter-toggle.is-filter-active {
-    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
+  .toolbar-search.is-filter-active,
+  .toolbar select.is-filter-active,
+  .filter-menu.is-filter-active,
+  .filter-toggle.is-filter-active,
   .toolbar-utility-button.is-filter-active {
     border-color: color-mix(in srgb, var(--accent) 42%, transparent);
     background: var(--accent-soft);
