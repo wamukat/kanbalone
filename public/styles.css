@@ -544,7 +544,7 @@ button:hover,
 
 .toolbar-actions {
   display: grid;
-  grid-template-columns: minmax(300px, 460px) minmax(0, 1fr);
+  grid-template-columns: minmax(180px, 276px) minmax(0, 1fr);
   align-items: center;
   justify-content: stretch;
   gap: 0.65rem;
@@ -1132,11 +1132,12 @@ button:hover,
   background: color-mix(in srgb, var(--surface-1) 48%, transparent);
 }
 
-.lane-create-column {
+.lane.lane-create-column {
   display: flex;
   flex-direction: column;
   align-self: flex-start;
   gap: 0.55rem;
+  width: 18rem;
   min-width: 18rem;
   max-width: 18rem;
   min-height: 12rem;
