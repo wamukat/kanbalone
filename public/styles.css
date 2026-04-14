@@ -2867,6 +2867,13 @@ button:hover {
     flex-wrap: nowrap;
     padding-bottom: 0.1rem;
   }
+
+  .sidebar-edge-toggle {
+    top: 1rem;
+    right: 1rem;
+    left: auto;
+    transform: none;
+  }
 }
 
 @media (max-width: 680px) {

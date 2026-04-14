@@ -99,6 +99,37 @@ test("toolbar search aligns with active content edge in kanban and list views", 
   }
 });
 
+test("sidebar toggle stays usable on narrow screens", async ({ page }) => {
+  await page.setViewportSize({ width: 820, height: 900 });
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Narrow Layout",
+      laneNames: ["todo"],
+    });
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator("#sidebar-toggle-button")).toBeVisible();
+
+    const toggleBox = await page
+      .locator("#sidebar-toggle-button")
+      .evaluate((button) => {
+        const rect = button.getBoundingClientRect();
+        return {
+          top: rect.top,
+          right: rect.right,
+          viewportWidth: window.innerWidth,
+        };
+      });
+
+    expect(toggleBox.top).toBeGreaterThanOrEqual(15);
+    expect(toggleBox.top).toBeLessThan(18);
+    expect(toggleBox.right).toBeLessThanOrEqual(toggleBox.viewportWidth - 15);
+  } finally {
+    await close();
+  }
+});
+
 test("editor form focus and detail header badges use the shared visual language", async ({
   page,
 }) => {
