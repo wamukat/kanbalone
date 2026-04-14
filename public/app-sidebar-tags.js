@@ -117,17 +117,6 @@ export function createSidebarTagsModule(ctx) {
       renderSidebarTags();
     });
     form.querySelector("[data-sidebar-tag-delete-confirm]")?.addEventListener("click", () => deleteTag(tag.id));
-    form.addEventListener("focusout", () => {
-      window.setTimeout(() => {
-        if (
-          state.editingSidebarTagId === tag.id
-          && state.confirmingSidebarTagDeleteId !== tag.id
-          && !form.contains(document.activeElement)
-        ) {
-          cancelTagEdit();
-        }
-      });
-    });
     requestAnimationFrame(() => {
       if (isConfirmingDelete) {
         return;
