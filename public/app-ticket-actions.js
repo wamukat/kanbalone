@@ -134,9 +134,16 @@ export function createTicketActionsModule(ctx, options) {
       return;
     }
     const ticketId = state.editingTicketId;
+    const ticketTitle = state.dialogTicket?.title ?? `#${ticketId}`;
     await ctx.confirmAndRun({
       title: "Delete Ticket",
-      message: "Delete this ticket?",
+      message: `Delete ticket "${ticketTitle}"?`,
+      details: [
+        `Ticket #${ticketId}`,
+        "Comments and relations on this ticket",
+        "The ticket will disappear from Kanban and List views",
+      ],
+      warning: "This action cannot be undone.",
       submitLabel: "Delete",
       run: async () => {
         await ctx.api(`/api/tickets/${ticketId}`, { method: "DELETE" });

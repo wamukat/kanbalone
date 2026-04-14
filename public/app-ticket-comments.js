@@ -53,6 +53,11 @@ export function createTicketCommentsModule(ctx) {
                   <button type="button" class="ghost icon-button" data-edit-comment-id="${comment.id}" title="Edit comment" aria-label="Edit comment">${icon("pencil")}</button>
                   <button type="button" class="ghost icon-button danger" data-delete-comment-id="${comment.id}" title="Delete comment" aria-label="Delete comment">${icon("trash-2")}</button>
                 </span>
+                <span class="comment-delete-confirm" data-comment-delete-confirm="${comment.id}" ${state.confirmingCommentDeleteId === comment.id ? "" : "hidden"}>
+                  <span>Delete this comment?</span>
+                  <button type="button" class="ghost" data-cancel-comment-delete>Cancel</button>
+                  <button type="button" class="danger action-with-icon danger-confirm-action" data-confirm-comment-delete-id="${comment.id}">${icon("trash-2")}<span>Delete</span></button>
+                </span>
               </span>
             </div>
             <div class="markdown comment-display">${comment.bodyHtml}</div>
@@ -125,7 +130,19 @@ export function createTicketCommentsModule(ctx) {
 
     const deleteButton = event.target.closest("[data-delete-comment-id]");
     if (deleteButton) {
-      await deleteComment(Number(deleteButton.dataset.deleteCommentId));
+      startCommentDeleteConfirm(deleteButton);
+      return;
+    }
+
+    const cancelDeleteButton = event.target.closest("[data-cancel-comment-delete]");
+    if (cancelDeleteButton) {
+      cancelCommentDeleteConfirm();
+      return;
+    }
+
+    const confirmDeleteButton = event.target.closest("[data-confirm-comment-delete-id]");
+    if (confirmDeleteButton) {
+      await deleteComment(Number(confirmDeleteButton.dataset.confirmCommentDeleteId), confirmDeleteButton);
     }
   }
 
@@ -135,6 +152,8 @@ export function createTicketCommentsModule(ctx) {
       return;
     }
     const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+    state.confirmingCommentDeleteId = null;
+    hideCommentDeleteConfirms();
     toggleButton.setAttribute("aria-expanded", String(!isExpanded));
     menu.hidden = false;
     menu.classList.toggle("expanded", !isExpanded);
@@ -161,6 +180,8 @@ export function createTicketCommentsModule(ctx) {
     if (menu) {
       menu.hidden = true;
     }
+    state.confirmingCommentDeleteId = null;
+    hideCommentDeleteConfirms();
     item.querySelector(".comment-display").hidden = true;
     const form = item.querySelector("[data-comment-edit-form]");
     form.hidden = false;
@@ -209,24 +230,55 @@ export function createTicketCommentsModule(ctx) {
     }
   }
 
-  async function deleteComment(commentId) {
-    await ctx.confirmAndRun({
-      title: "Delete Comment",
-      message: "Delete this comment?",
-      submitLabel: "Delete",
-      run: async () => {
-        try {
-          setCommentState("saving", "Deleting...");
-          await ctx.api(`/api/comments/${commentId}`, { method: "DELETE" });
-          await ctx.refreshDialogTicket();
-          await ctx.refreshBoardDetail();
-          setCommentState("saved", "Deleted");
-        } catch (error) {
-          setCommentState("error", "Delete failed");
-          throw error;
-        }
-      },
-    });
+  function startCommentDeleteConfirm(deleteButton) {
+    const item = deleteButton.closest(".comment-item");
+    if (!item) {
+      return;
+    }
+    state.confirmingCommentDeleteId = Number(deleteButton.dataset.deleteCommentId);
+    const toggleButton = item.querySelector("[data-toggle-comment-actions]");
+    const menu = item.querySelector(".inline-action-menu");
+    toggleButton?.setAttribute("aria-expanded", "false");
+    menu?.classList.remove("expanded");
+    menu?.toggleAttribute("inert", true);
+    if (menu) {
+      menu.hidden = true;
+    }
+    syncCommentDeleteConfirms();
+  }
+
+  function cancelCommentDeleteConfirm() {
+    state.confirmingCommentDeleteId = null;
+    hideCommentDeleteConfirms();
+  }
+
+  function syncCommentDeleteConfirms() {
+    for (const confirm of elements.ticketComments.querySelectorAll("[data-comment-delete-confirm]")) {
+      confirm.hidden = Number(confirm.dataset.commentDeleteConfirm) !== state.confirmingCommentDeleteId;
+    }
+  }
+
+  function hideCommentDeleteConfirms() {
+    for (const confirm of elements.ticketComments.querySelectorAll("[data-comment-delete-confirm]")) {
+      confirm.hidden = true;
+    }
+  }
+
+  async function deleteComment(commentId, deleteButton) {
+    try {
+      deleteButton.disabled = true;
+      setCommentState("saving", "Deleting...");
+      await ctx.api(`/api/comments/${commentId}`, { method: "DELETE" });
+      state.confirmingCommentDeleteId = null;
+      await ctx.refreshDialogTicket();
+      await ctx.refreshBoardDetail();
+      setCommentState("saved", "Deleted");
+    } catch (error) {
+      setCommentState("error", "Delete failed");
+      ctx.showToast(error.message, "error");
+    } finally {
+      deleteButton.disabled = false;
+    }
   }
 
   return {

@@ -40,7 +40,13 @@ export function createBoardModule(ctx) {
       elements.sidebarTagSection.hidden = true;
       elements.sidebarBoardSection.hidden = true;
       state.boardSettingsExpanded = false;
+      state.isRenamingBoard = false;
+      state.boardRenameError = "";
       state.isCreatingLane = false;
+      state.isCreatingSidebarTag = false;
+      state.editingSidebarTagId = null;
+      state.confirmingSidebarTagDeleteId = null;
+      state.sidebarTagError = "";
       boardSettingsModule.syncBoardSettingsPanel();
       elements.tagFilter.innerHTML = '<option value="">All tags</option>';
       elements.laneFilter.innerHTML = '<option value="">All lanes</option>';
@@ -125,7 +131,6 @@ export function createBoardModule(ctx) {
     handleLaneDragOver: kanbanModule.handleLaneDragOver,
     createBoard: sidebarBoardsModule.createBoard,
     createLane: kanbanModule.createLane,
-    renameBoard: boardSettingsModule.renameBoard,
     deleteBoard: boardSettingsModule.deleteBoard,
     createTag: sidebarTagsModule.createTag,
     renameLane: kanbanModule.renameLane,

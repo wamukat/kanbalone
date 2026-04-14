@@ -14,7 +14,14 @@ const state = {
   boardRefreshInFlight: false,
   boardRefreshQueued: false,
   isCreatingBoard: false,
+  isRenamingBoard: false,
+  boardRenameError: "",
   isCreatingLane: false,
+  isCreatingSidebarTag: false,
+  editingSidebarTagId: null,
+  confirmingSidebarTagDeleteId: null,
+  sidebarTagError: "",
+  confirmingCommentDeleteId: null,
   viewMode: "kanban",
   selectedListTicketIds: [],
   sidebarCollapsed: localStorage.getItem("soloboard:sidebar-collapsed") === "true",
@@ -33,7 +40,6 @@ const state = {
   skipDialogCloseSync: false,
   toastTimer: null,
   uxResolver: null,
-  uxMode: "form",
   editorTagIds: [],
   editorBlockerIds: [],
   editorChildIds: [],
@@ -56,7 +62,7 @@ const elements = {
   sidebarBoardSection: document.querySelector("#sidebar-board-section"),
   boardSettingsToggleButton: document.querySelector("#board-settings-toggle-button"),
   sidebarBoardActionsPanel: document.querySelector("#sidebar-board-actions-panel"),
-  renameBoardButton: document.querySelector("#rename-board-button"),
+  boardRenameInlineHost: document.querySelector("#board-rename-inline-host"),
   deleteBoardButton: document.querySelector("#delete-board-button"),
   boardTitle: document.querySelector("#board-title"),
   laneBoard: document.querySelector("#lane-board"),
@@ -115,7 +121,6 @@ const elements = {
   ticketParentOptions: document.querySelector("#ticket-parent-options"),
   ticketPriority: document.querySelector("#ticket-priority"),
   ticketResolved: document.querySelector("#ticket-resolved"),
-  ticketNewTagButton: document.querySelector("#ticket-new-tag-button"),
   ticketTagToggle: document.querySelector("#ticket-tag-toggle"),
   ticketTagSummary: document.querySelector("#ticket-tag-summary"),
   ticketTagSearch: document.querySelector("#ticket-tag-search"),
@@ -139,7 +144,6 @@ const elements = {
   uxMessage: document.querySelector("#ux-message"),
   uxFields: document.querySelector("#ux-fields"),
   uxError: document.querySelector("#ux-error"),
-  uxDangerButton: document.querySelector("#ux-danger-button"),
   uxSubmitButton: document.querySelector("#ux-submit-button"),
   uxDismissButton: document.querySelector("#ux-dismiss-button"),
   uxCancelButton: document.querySelector("#ux-cancel-button"),
@@ -173,14 +177,8 @@ function bindEvents() {
   elements.newBoardButton.addEventListener("click", createBoard);
   elements.newSidebarTagButton.addEventListener("click", createTag);
   elements.boardSettingsToggleButton.addEventListener("click", toggleBoardSettings);
-  elements.renameBoardButton.addEventListener("click", renameBoard);
   elements.deleteBoardButton.addEventListener("click", deleteBoard);
   elements.ticketTagToggle.addEventListener("click", handleTicketTagFieldClick);
-  elements.ticketNewTagButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    createTagFromEditor();
-  });
   elements.ticketTagSearch.addEventListener("focus", openTicketTagOptions);
   elements.ticketTagSearch.addEventListener("input", handleTicketTagSearchInput);
   elements.ticketTagSearch.addEventListener("keydown", handleTicketTagSearchKeydown);
@@ -205,7 +203,6 @@ function bindEvents() {
   elements.activityTabButton.addEventListener("click", () => setDetailTab("activity"));
   elements.editorHeader.addEventListener("pointerdown", handleEditorHeaderPointerDown);
   elements.uxForm.addEventListener("submit", handleUxSubmit);
-  elements.uxDangerButton.addEventListener("click", handleUxDanger);
   elements.deleteTicketButton.addEventListener("click", deleteTicket);
   elements.archiveTicketButton.addEventListener("click", toggleTicketArchive);
   elements.headerEditButton.addEventListener("click", () => setDialogMode("edit"));
@@ -391,6 +388,12 @@ function resetBoardFilters() {
 
 async function selectBoard(boardId) {
   state.activeBoardId = boardId;
+  state.isRenamingBoard = false;
+  state.boardRenameError = "";
+  state.isCreatingSidebarTag = false;
+  state.editingSidebarTagId = null;
+  state.confirmingSidebarTagDeleteId = null;
+  state.sidebarTagError = "";
   resetBoardFilters();
   await refreshBoardDetail();
   syncBoardUrl();
@@ -591,7 +594,7 @@ const uxModule = createUxModule({
   escapeHtml,
 });
 
-const { confirmAndRun, finishUxDialog, handleUxDanger, handleUxSubmit, requestFields, requestFieldsAction, showToast } = uxModule;
+const { confirmAndRun, finishUxDialog, handleUxSubmit, showToast } = uxModule;
 
 const filtersModule = createFiltersModule(
   { state, elements },
@@ -620,7 +623,6 @@ const editorModule = createEditorModule({
   escapeHtml,
   ensureEditorDialogPosition,
   prepareEditorDialogPosition,
-  requestFields,
   refreshBoardDetail,
   sendJson,
   showToast,
@@ -633,7 +635,6 @@ const {
   addComment,
   handleCommentAction,
   closeEditor,
-  createTagFromEditor,
   deleteTicket,
   handleBlockerFieldClick,
   handleBlockerSearchInput,
@@ -671,8 +672,6 @@ const boardModule = createBoardModule({
   openEditor,
   refreshBoardDetail,
   refreshBoards,
-  requestFields,
-  requestFieldsAction,
   selectBoard,
   sendJson,
   showToast,
@@ -688,7 +687,6 @@ const {
   handleLaneDragOver,
   createBoard,
   createLane,
-  renameBoard,
   deleteBoard,
   createTag,
   renameLane,

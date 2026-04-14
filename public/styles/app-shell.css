@@ -12,15 +12,23 @@
 }
 
 .sidebar {
+  box-sizing: border-box;
+  width: 280px;
+  max-width: 280px;
   border-right: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
   padding: var(--space-4);
   backdrop-filter: blur(6px);
   overflow: hidden;
+  transform: translateX(0);
+  transition:
+    transform var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard);
 }
 
 .shell.sidebar-collapsed .sidebar {
-  padding: 0;
-  border-right: none;
+  border-right-color: transparent;
+  transform: translateX(-100%);
+  pointer-events: none;
 }
 
 .sidebar-edge-toggle {

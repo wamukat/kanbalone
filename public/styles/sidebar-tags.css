@@ -23,7 +23,9 @@
   border: 1px solid color-mix(in srgb, var(--surface-1) 26%, transparent);
   background: var(--accent);
   color: var(--on-accent);
-  font-size: 0.84rem;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -52,8 +54,134 @@
   opacity: 0.8;
 }
 
+.sidebar-tag-preview {
+  display: flex;
+  min-width: 0;
+}
+
+.sidebar-tag-preview-badge {
+  cursor: default;
+}
+
+.sidebar-tag-preview-badge:hover {
+  box-shadow: none;
+}
+
 .sidebar-tag-badge.tag-no-color {
   border-color: color-mix(in srgb, var(--text-muted) 42%, transparent);
   background: transparent;
   color: var(--text);
+}
+
+.sidebar-tag-form {
+  display: grid;
+  gap: 0.55rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.65rem;
+  border-radius: var(--radius-surface);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.sidebar-tag-form-label {
+  color: var(--muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.sidebar-tag-form input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--text);
+  padding: 0.55rem 0.65rem;
+}
+
+.sidebar-tag-form input[type="text"]:focus {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
+  outline: none;
+}
+
+.sidebar-tag-form input:disabled,
+.sidebar-tag-form input:disabled + .toggle-switch-control,
+.sidebar-tag-form input:disabled ~ .ux-color-none-preview {
+  opacity: 0.62;
+  cursor: default;
+}
+
+.sidebar-tag-form input[type="text"]:disabled,
+.sidebar-tag-form input[type="color"]:disabled {
+  background: color-mix(in srgb, var(--surface-inset) 78%, transparent);
+  border-color: color-mix(in srgb, var(--text-muted) 14%, transparent);
+  color: var(--text-muted);
+}
+
+.sidebar-tag-form input:disabled + .toggle-switch-control {
+  border-color: color-mix(in srgb, var(--text-muted) 14%, transparent);
+  background: color-mix(in srgb, var(--surface-inset) 78%, transparent);
+  color: var(--text-muted);
+}
+
+.sidebar-tag-form input:disabled + .toggle-switch-control .toggle-switch-knob {
+  border-color: color-mix(in srgb, var(--text-muted) 18%, transparent);
+  background: color-mix(in srgb, var(--text-muted) 10%, transparent);
+}
+
+.sidebar-tag-form .ux-field {
+  gap: 0.4rem;
+}
+
+.sidebar-tag-form .ux-color-row {
+  grid-template-columns: minmax(3rem, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.sidebar-tag-form-error {
+  font-size: var(--font-size-label);
+}
+
+.sidebar-tag-delete-confirm {
+  display: grid;
+  gap: 0.55rem;
+  width: 100%;
+  color: var(--danger);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sidebar-tag-delete-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.sidebar-tag-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.sidebar-tag-form-actions-split {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.sidebar-tag-form-actions button {
+  padding: 0.42rem 0.62rem;
+  font-size: var(--font-size-label);
+}
+
+.sidebar-tag-form-actions .icon {
+  width: 0.86rem;
+  height: 0.86rem;
+}
+
+.sidebar-tag-action-spacer {
+  flex: 1 1 auto;
 }

@@ -7,6 +7,10 @@
   border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
   background: var(--control-bg);
+  color: var(--text);
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-control);
   padding: 0.65rem 0.8rem;
 }
 
@@ -31,11 +35,14 @@
 .editor-form textarea,
 .comment-form textarea,
 .ux-fields textarea {
-  line-height: 1.45;
+  line-height: var(--line-height-body);
   width: 100%;
   border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
   background: var(--control-bg);
+  color: var(--text);
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-regular);
   padding: 0.65rem 0.8rem;
 }
 

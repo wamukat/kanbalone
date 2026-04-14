@@ -4,9 +4,16 @@
   }
 
   .sidebar {
+    width: auto;
+    max-width: none;
     border-right: none;
     border-bottom: 1px solid
       color-mix(in srgb, var(--text-muted) 18%, transparent);
+    transform: none;
+  }
+
+  .shell.sidebar-collapsed .sidebar {
+    display: none;
   }
 
   .toolbar {
@@ -25,8 +32,8 @@
   }
 
   .sidebar-edge-toggle {
-    top: 1rem;
-    right: 1rem;
+    top: 16px;
+    right: 16px;
     left: auto;
     transform: none;
   }

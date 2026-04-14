@@ -33,6 +33,26 @@
   border-radius: var(--radius-surface);
 }
 
+.ux-confirm-section-label {
+  display: block;
+  margin-top: 0.7rem;
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ux-confirm-detail-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.45rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.ux-confirm-warning {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--danger);
+}
+
 .dialog-close-button {
   color: var(--muted);
   background: transparent;
@@ -40,13 +60,22 @@
   width: 1.8rem;
   min-width: 1.8rem;
   height: 1.8rem;
-  font-size: 1.1rem;
+  font-size: var(--font-size-body);
 }
 
 .dialog-close-button:hover {
   background: color-mix(in srgb, var(--text-muted) 8%, transparent);
   border-color: transparent;
   color: var(--text);
+}
+
+.dialog-close-button:focus,
+.dialog-close-button:focus-visible {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: transparent;
+  box-shadow: var(--control-focus-ring);
+  color: var(--text);
+  outline: none;
 }
 
 .editor-mode {
@@ -117,13 +146,15 @@
   max-width: 38rem;
   overflow-wrap: anywhere;
   color: var(--text);
-  font-size: 1.08rem;
-  line-height: 1.25;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  transform: translateY(0.25rem);
 }
 
 .editor-save-state {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--font-size-label);
 }
 
 .editor-save-state[data-kind="saving"] {

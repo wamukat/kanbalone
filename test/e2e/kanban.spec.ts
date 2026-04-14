@@ -129,6 +129,9 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
     await gammaLane.locator("[data-action='delete-lane']").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#ux-title")).toHaveText("Delete Lane");
+    await expect(page.locator("#ux-message")).toContainText('Lane "Gamma"');
+    await expect(page.locator("#ux-message")).toContainText("All tickets, comments, tags, and relations in this lane");
+    await expect(page.locator("#ux-message")).toContainText("Only empty lanes can be deleted.");
     const deleteResponse = page.waitForResponse(
       (response) =>
         response.url().includes("/api/lanes/") &&
@@ -190,6 +193,18 @@ test("kanban horizontal overflow stays inside the lane board", async ({ page }) 
     await page.getByRole("button", { name: "Kanban", exact: true }).click();
     await page.locator("#sidebar-toggle-button").click();
     await expect(page.locator(".shell")).toHaveClass(/sidebar-collapsed/);
+    const collapsedSidebar = await page.locator("#sidebar").evaluate((sidebar) => {
+      const rect = sidebar.getBoundingClientRect();
+      const styles = getComputedStyle(sidebar);
+      return {
+        width: rect.width,
+        paddingLeft: styles.paddingLeft,
+        transform: styles.transform,
+      };
+    });
+    expect(collapsedSidebar.width).toBe(280);
+    expect(collapsedSidebar.paddingLeft).not.toBe("0px");
+    expect(collapsedSidebar.transform).not.toBe("none");
     const collapsedOverflow = await readOverflow("#lane-board");
     expect(collapsedOverflow.pageScrollWidth).toBeLessThanOrEqual(collapsedOverflow.pageClientWidth);
     expect(collapsedOverflow.targetScrollWidth).toBeGreaterThan(collapsedOverflow.targetClientWidth);

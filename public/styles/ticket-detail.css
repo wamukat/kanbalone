@@ -19,8 +19,8 @@
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--text-muted) 10%, transparent);
   color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .ticket-relations {
@@ -95,7 +95,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-surface);
   background: color-mix(in srgb, var(--surface-1) 70%, transparent);
-  line-height: 1.45;
+  line-height: var(--line-height-body);
 }
 
 .status-pill {
@@ -105,8 +105,8 @@
   border-radius: var(--radius-control);
   background: var(--accent-soft);
   color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .ticket-state-pills {
@@ -129,8 +129,8 @@
   border-radius: var(--radius-control);
   background: var(--surface-inset);
   color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 650;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-semibold);
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;

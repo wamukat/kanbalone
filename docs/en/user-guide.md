@@ -105,6 +105,10 @@ Use the tag filter to show only tickets for a specific theme.
 
 Tags are useful for documentation, release work, bugs, AI-agent tasks, and other concerns that help keep a growing board understandable.
 
+Create tags inline from the `+` in the sidebar Tags section. New tags start with only a name; click the tag badge later when you want to edit its color.
+
+When editing a ticket, type a new tag name in the Tags field and press `+` to create it immediately as a no-color tag. Add color later from the sidebar tag badge when needed.
+
 ![Tag filter](../assets/user-guide/10-tag-filter.png)
 
 ## 11. Review In List View
@@ -124,6 +128,8 @@ You can mark multiple tickets Resolved, reopen them, Archive them, or Restore th
 ## 12. Use Board Settings
 
 Board rename, Export / Import, and Delete are available from the gear at the bottom of the sidebar.
+
+Opening the gear shows the current board name. Use the pencil icon next to the name to edit it inline.
 
 They stay hidden during everyday work so you can focus on boards and tickets. Open them only when backing up or moving data.
 

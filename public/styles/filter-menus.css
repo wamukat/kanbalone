@@ -55,7 +55,9 @@
   min-height: 2.35rem;
   min-width: 4.6rem;
   padding: 0 0.45rem 0 0.72rem;
-  font-weight: 550;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-control);
 }
 
 .filter-menu-edge-toggle {
@@ -124,8 +126,8 @@
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--text-muted) 8%, transparent);
   color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 650;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
 }
 
 .filter-menu-options {
@@ -147,8 +149,8 @@
   min-height: 1.95rem;
   padding: 0 0.62rem;
   border-radius: var(--radius-control);
-  font-size: 0.86rem;
-  font-weight: 550;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
 }
 
 .filter-menu-options button .icon {

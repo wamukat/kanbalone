@@ -21,12 +21,15 @@ export function createTicketTagPicker(ctx) {
       ? selectedTags.map((tag) => renderTicketTagChip(tag, ctx.escapeHtml)).join("")
       : "";
 
-    if (state.boardDetail.tags.length === 0) {
-      elements.ticketTagOptions.innerHTML = '<div class="tag-picker-empty">No tags</div>';
+    const query = state.tagQuery.trim().toLowerCase();
+    const createLabel = state.tagQuery.trim();
+    const hasExactMatch = state.boardDetail.tags.some((tag) => tag.name.toLowerCase() === query);
+
+    if (state.boardDetail.tags.length === 0 && !createLabel) {
+      elements.ticketTagOptions.innerHTML = '<div class="tag-picker-empty">Type a tag name to create it</div>';
       return;
     }
 
-    const query = state.tagQuery.trim().toLowerCase();
     const visibleTags = state.boardDetail.tags.filter((tag) => {
       if (state.editorTagIds.includes(tag.id)) {
         return true;
@@ -37,7 +40,7 @@ export function createTicketTagPicker(ctx) {
       return tag.name.toLowerCase().includes(query);
     });
 
-    elements.ticketTagOptions.innerHTML = visibleTags.length
+    const optionHtml = visibleTags.length
       ? visibleTags
           .map((tag) => {
             const isSelected = state.editorTagIds.includes(tag.id);
@@ -52,6 +55,15 @@ export function createTicketTagPicker(ctx) {
           })
           .join("")
       : '<div class="tag-picker-empty">No matching tags</div>';
+    const createHtml = createLabel && !hasExactMatch
+      ? `
+        <button type="button" class="tag-picker-item tag-picker-create" data-create-tag-from-query="${ctx.escapeHtml(createLabel)}">
+          ${icon("plus")}
+          <span>Create "${ctx.escapeHtml(createLabel)}"</span>
+        </button>
+      `
+      : "";
+    elements.ticketTagOptions.innerHTML = `${optionHtml}${createHtml}`;
   }
 
   function openOptions() {
@@ -105,11 +117,16 @@ export function createTicketTagPicker(ctx) {
 
   function selectFirstOption(event) {
     const firstOption = elements.ticketTagOptions.querySelector("[data-tag-id]");
-    if (!firstOption) {
-      return false;
-    }
     event?.preventDefault?.();
-    toggleTag(Number(firstOption.dataset.tagId));
+    if (firstOption) {
+      toggleTag(Number(firstOption.dataset.tagId));
+      return true;
+    }
+    const createOption = elements.ticketTagOptions.querySelector("[data-create-tag-from-query]");
+    if (createOption) {
+      createTagByName(createOption.dataset.createTagFromQuery);
+      return true;
+    }
     return true;
   }
 
@@ -128,41 +145,43 @@ export function createTicketTagPicker(ctx) {
 
   function handleOptionClick(event) {
     const option = event.target.closest?.("[data-tag-id]");
-    if (!option || !elements.ticketTagOptions.contains(option)) {
-      return false;
+    if (option && elements.ticketTagOptions.contains(option)) {
+      toggleTag(Number(option.dataset.tagId));
+      return true;
     }
-    toggleTag(Number(option.dataset.tagId));
-    return true;
+    const createOption = event.target.closest?.("[data-create-tag-from-query]");
+    if (createOption && elements.ticketTagOptions.contains(createOption)) {
+      createTagByName(createOption.dataset.createTagFromQuery);
+      return true;
+    }
+    return false;
   }
 
-  async function createTagFromEditor() {
-    if (!state.activeBoardId) {
+  async function createTagByName(name) {
+    const tagName = String(name ?? "").trim();
+    if (!state.activeBoardId || !tagName) {
       return;
     }
-    const values = await ctx.requestFields({
-      title: "New Tag",
-      submitLabel: "Create",
-      fields: [
-        { id: "name", label: "Name", required: true },
-        { id: "color", label: "Color", type: "color", value: "#1f6f5f", required: true, allowNone: true, enabled: false },
-      ],
-    });
-    if (!values) {
+    const existingTag = state.boardDetail?.tags.find((tag) => tag.name.toLowerCase() === tagName.toLowerCase());
+    if (existingTag) {
+      toggleTag(existingTag.id);
       return;
     }
     const created = await ctx.sendJson(`/api/boards/${state.activeBoardId}/tags`, {
       method: "POST",
-      body: values,
+      body: { name: tagName, color: "" },
     });
     await ctx.refreshBoardDetail();
     state.editorTagIds = [...new Set([...state.editorTagIds, created.id])];
+    state.tagQuery = "";
+    elements.ticketTagSearch.value = "";
     syncOptions();
+    openOptions();
     ctx.showToast("Tag created");
   }
 
   return {
     closeOptions,
-    createTagFromEditor,
     handleFieldClick,
     handleOptionClick,
     handleSearchInput,

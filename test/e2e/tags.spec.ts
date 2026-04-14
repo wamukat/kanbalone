@@ -2,6 +2,93 @@ import { expect, test } from "@playwright/test";
 
 import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
+test("sidebar tag create and edit stay inline", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Inline Tag Board", laneNames: ["todo"] },
+    });
+    expect(boardResponse.status()).toBe(201);
+    const boardPayload = await boardResponse.json();
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await page.locator("#new-sidebar-tag-button").click();
+    await expect(page.locator("[data-sidebar-tag-create-form]")).toBeVisible();
+    await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
+    await page.locator("[data-sidebar-tag-name]").fill("inline-tag");
+    const createResponse = page.waitForResponse(
+      (response) =>
+        response.url().endsWith(`/api/boards/${boardPayload.board.id}/tags`) &&
+        response.request().method() === "POST",
+    );
+    await page.locator("[data-sidebar-tag-name]").press("Enter");
+    expect((await createResponse).status()).toBe(201);
+    await expect(page.locator("[data-sidebar-tag-create-form]")).toHaveCount(0);
+    const badge = page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "inline-tag" });
+    await expect(badge).toBeVisible();
+    await expect(badge).toHaveClass(/tag-no-color/);
+
+    await badge.click();
+    await expect(page.locator("[data-sidebar-tag-edit-form]")).toBeVisible();
+    await expect(page.locator(".sidebar-tag-preview-badge")).toHaveText("inline-tag");
+    await expect(page.locator(".sidebar-tag-preview-badge .icon")).toHaveCount(0);
+    await page.locator("[data-sidebar-tag-name]").fill("inline-tag-renamed");
+    await expect(page.locator(".sidebar-tag-preview-badge")).toHaveText("inline-tag");
+    await expect(page.locator(".sidebar-tag-form [data-color-enabled-for='color']")).not.toBeChecked();
+    await expect(page.locator(".sidebar-tag-form [data-field-id='color']")).toHaveValue("#1F6F5F");
+    await expect(page.locator(".sidebar-tag-form [data-color-picker-for='color']")).toHaveValue("#1f6f5f");
+    await page.locator(".sidebar-tag-form .ux-color-enable-switch").click();
+    await expect(page.locator(".sidebar-tag-form [data-color-enabled-for='color']")).toBeChecked();
+    await expect(page.locator(".sidebar-tag-form [data-color-picker-for='color']")).toHaveValue("#1f6f5f");
+    const colorInputWidths = await page.locator(".sidebar-tag-form .ux-color-row").evaluate((row) => {
+      const [switchCell, hexInput, colorCell] = [...row.children].map((child) => child.getBoundingClientRect().width);
+      return { switchCell, hexInput, colorCell };
+    });
+    expect(Math.abs(colorInputWidths.switchCell - colorInputWidths.hexInput)).toBeLessThan(2);
+    expect(Math.abs(colorInputWidths.colorCell - colorInputWidths.switchCell * 2 / 3)).toBeLessThan(2);
+    await page.locator(".sidebar-tag-form [data-field-id='color']").fill("#336699");
+    const updateResponse = page.waitForResponse(
+      (response) =>
+        response.url().includes("/api/tags/") &&
+        response.request().method() === "PATCH",
+    );
+    await page.locator("[data-sidebar-tag-edit-form] button", { hasText: "Save" }).click();
+    expect((await updateResponse).status()).toBe(200);
+    await expect(page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "inline-tag-renamed" })).toBeVisible();
+
+    await page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "inline-tag-renamed" }).click();
+    await expect(page.locator("[data-sidebar-tag-delete]")).toHaveAttribute("aria-label", "Delete tag");
+    await expect(page.locator("[data-sidebar-tag-delete]")).not.toContainText("Delete");
+    await page.locator("[data-sidebar-tag-delete]").click();
+    await expect(page.locator(".sidebar-tag-delete-confirm")).toContainText("Delete this tag?");
+    await expect(page.locator(".sidebar-tag-delete-confirm-actions")).toBeVisible();
+    await expect(page.locator("[data-sidebar-tag-name]")).toBeDisabled();
+    await expect(page.locator(".sidebar-tag-form [data-color-enabled-for='color']")).toBeDisabled();
+    await expect(page.locator(".sidebar-tag-form [data-field-id='color']")).toBeDisabled();
+    await expect(page.locator(".sidebar-tag-form [data-color-picker-for='color']")).toBeDisabled();
+    await expect(page.locator("[data-sidebar-tag-delete-cancel]")).toBeEnabled();
+    await expect(page.locator("[data-sidebar-tag-delete-confirm]")).toBeEnabled();
+    const deleteResponse = page.waitForResponse(
+      (response) =>
+        response.url().includes("/api/tags/") &&
+        response.request().method() === "DELETE",
+    );
+    await page.locator("[data-sidebar-tag-delete-confirm]").click();
+    expect((await deleteResponse).status()).toBe(204);
+    await expect(page.locator("#sidebar-tag-list")).toContainText("No tags yet.");
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});
+
 test("long tag labels are constrained across ticket surfaces", async ({ page }) => {
   const app = buildApp({
     dbFile: createDbFile(),

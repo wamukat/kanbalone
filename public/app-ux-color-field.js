@@ -2,7 +2,7 @@ export function renderUxColorField(field, escapeHtml) {
   const fieldId = escapeHtml(field.id);
   const inputId = `ux-field-${fieldId}`;
   const hexValue = normalizeHexColor(field.value);
-  const pickerValue = hexValue || "#000000";
+  const pickerValue = hexValue.toLowerCase() || "#000000";
   const colorEnabled = !field.allowNone || (field.enabled ?? Boolean(hexValue));
   const noColorClass = colorEnabled ? "" : " is-color-none";
   return `
@@ -30,7 +30,7 @@ export function renderUxColorField(field, escapeHtml) {
           data-field-type="color"
           type="text"
           value="${escapeHtml(hexValue)}"
-          placeholder="#1f6f5f"
+          placeholder="#1F6F5F"
           spellcheck="false"
           ${colorEnabled ? "" : "disabled"}
           ${field.required ? "required" : ""}
@@ -60,14 +60,14 @@ export function bindUxColorFieldInteractions(container) {
     hexInput.addEventListener("input", () => {
       const value = normalizeHexColor(hexInput.value);
       if (value) {
-        picker.value = value;
+        picker.value = value.toLowerCase();
       }
     });
     hexInput.addEventListener("blur", () => {
       const value = normalizeHexColor(hexInput.value);
       if (value) {
         hexInput.value = value;
-        picker.value = value;
+        picker.value = value.toLowerCase();
       }
     });
     picker.addEventListener("input", () => {
@@ -93,7 +93,7 @@ export function isUxColorNoneSelected(input, container) {
 
 export function normalizeHexColor(value) {
   const trimmed = String(value ?? "").trim();
-  return isHexColor(trimmed) ? trimmed.toLowerCase() : "";
+  return isHexColor(trimmed) ? `#${trimmed.slice(1).toUpperCase()}` : "";
 }
 
 export function isHexColor(value) {
@@ -118,5 +118,5 @@ function syncColorEnabledState(hexInput, picker, colorToggle) {
     return;
   }
   const value = normalizeHexColor(hexInput.value) || normalizeHexColor(picker.value) || "#000000";
-  picker.value = value;
+  picker.value = value.toLowerCase();
 }

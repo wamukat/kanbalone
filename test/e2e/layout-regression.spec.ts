@@ -213,6 +213,80 @@ test("native select filters use the shared toolbar color states", async ({
   }
 });
 
+test("core typography follows the design system scale", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Typography Board",
+      laneNames: ["todo"],
+    });
+    const tag = await createTag(page.request, baseUrl, boardPayload.board.id, {
+      name: "design",
+      color: "#1f6f5f",
+    });
+    await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: boardPayload.lanes[0].id,
+      title: "Typography ticket",
+      priority: 2,
+      tagIds: [tag.id],
+    });
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator(".ticket-card")).toBeVisible();
+
+    const typography = await page.evaluate(() => {
+      const selectors = {
+        html: "html",
+        body: "body",
+        search: ".toolbar-search input",
+        filter: ".filter-menu-toggle",
+        laneTitle: ".lane-title",
+        laneCount: ".lane-count",
+        cardTitle: ".ticket-link",
+        cardId: ".ticket-card .ticket-id",
+        tag: ".ticket-card .tag",
+        button: "button",
+      };
+
+      return Object.fromEntries(
+        Object.entries(selectors).map(([key, selector]) => {
+          const element = document.querySelector(selector);
+          if (!element) {
+            throw new Error(`Missing typography fixture: ${selector}`);
+          }
+          const styles = getComputedStyle(element);
+          return [
+            key,
+            {
+              fontSize: styles.fontSize,
+              fontWeight: styles.fontWeight,
+              lineHeight: styles.lineHeight,
+            },
+          ];
+        }),
+      );
+    });
+
+    expect(typography.html.fontSize).toBe("14px");
+    expect(typography.body.fontSize).toBe("14px");
+    expect(typography.body.fontWeight).toBe("400");
+    expect(typography.search.fontSize).toBe("14px");
+    expect(typography.button.fontSize).toBe("14px");
+    expect(typography.button.fontWeight).toBe("500");
+    expect(typography.filter.fontSize).toBe("14px");
+    expect(typography.laneTitle.fontSize).toBe("14px");
+    expect(typography.laneTitle.fontWeight).toBe("600");
+    expect(typography.cardTitle.fontSize).toBe("14px");
+    expect(typography.cardTitle.fontWeight).toBe("600");
+    expect(typography.laneCount.fontSize).toBe("11px");
+    expect(typography.cardId.fontSize).toBe("11px");
+    expect(typography.tag.fontSize).toBe("12px");
+  } finally {
+    await close();
+  }
+});
+
 test("editor form focus and detail header badges use the shared visual language", async ({
   page,
 }) => {

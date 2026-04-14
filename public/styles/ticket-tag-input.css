@@ -45,7 +45,14 @@
   border-radius: var(--radius-control);
   background: var(--accent);
   color: var(--on-accent);
-  font-size: 0.8rem;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ticket-tag-chip.tag-no-color {
+  border-color: color-mix(in srgb, var(--text-muted) 38%, transparent);
+  background: transparent;
+  color: var(--text);
 }
 
 .ticket-tag-chip-text {
@@ -60,7 +67,7 @@
 }
 
 .ticket-ref-chip-id {
-  font-weight: 650;
+  font-weight: var(--font-weight-semibold);
 }
 
 .ticket-ref-chip-text {
@@ -89,10 +96,6 @@
   border-color: color-mix(in srgb, var(--accent) 32%, transparent);
 }
 
-#ticket-new-tag-button {
-  flex: 0 0 auto;
-  margin-left: auto;
-}
 
 .ticket-tag-search::placeholder {
   color: var(--muted);

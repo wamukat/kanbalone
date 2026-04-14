@@ -35,6 +35,12 @@ export function createListSelectionModule(ctx) {
     await ctx.confirmAndRun({
       title: "Delete Tickets",
       message: `Delete ${ticketIds.length} selected ticket${ticketIds.length === 1 ? "" : "s"}?`,
+      details: [
+        `${ticketIds.length} selected ticket${ticketIds.length === 1 ? "" : "s"}`,
+        "Comments and relations on the selected tickets",
+        "The selected tickets will disappear from Kanban and List views",
+      ],
+      warning: "This action cannot be undone.",
       submitLabel: "Delete",
       run: async () => {
         for (const ticketId of ticketIds) {

@@ -30,8 +30,8 @@
   background: transparent;
   color: var(--muted);
   border-bottom: 2px solid transparent;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
 }
 
 .detail-tab.active {
@@ -91,7 +91,7 @@
   background: color-mix(in srgb, var(--surface-1) 62%, transparent);
   color: var(--text);
   padding: 0.65rem 0.75rem;
-  line-height: 1.45;
+  line-height: var(--line-height-body);
 }
 
 .comment-edit-form textarea:focus {
@@ -106,6 +106,19 @@
   gap: 0.5rem;
 }
 
+.comment-delete-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--danger);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.comment-delete-confirm button {
+  padding: 0.42rem 0.62rem;
+}
+
 .activity-message {
-  line-height: 1.4;
+  line-height: var(--line-height-body);
 }

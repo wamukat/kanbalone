@@ -24,7 +24,9 @@
 .collapsed-board-title {
   display: none;
   margin: 0;
-  font-size: 1.05rem;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
 }
 
 .shell.sidebar-collapsed .collapsed-board-title {
@@ -50,7 +52,9 @@
 
 .sidebar-section-head h3 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
 }
 
 .sidebar-board-control {

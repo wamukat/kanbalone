@@ -246,7 +246,6 @@ export function createEditorModule(ctx) {
   return {
     addComment: commentsModule.addComment,
     closeEditor,
-    createTagFromEditor: tagPicker.createTagFromEditor,
     deleteTicket,
     handleCommentAction: commentsModule.handleCommentAction,
     handleBlockerFieldClick: relationsModule.handleBlockerFieldClick,

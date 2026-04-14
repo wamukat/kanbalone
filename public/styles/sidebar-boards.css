@@ -54,9 +54,9 @@
   border-radius: var(--radius-surface);
   background: var(--panel-strong);
   color: var(--accent);
-  font-size: 1rem;
-  font-weight: 650;
-  line-height: 1.35;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-control);
   text-align: center;
   box-shadow: var(--shadow-card-hover);
 }

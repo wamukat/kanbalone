@@ -22,7 +22,7 @@
 
 .tag-picker-empty {
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: var(--font-size-body);
   padding: 0.35rem 0.4rem;
 }
 
@@ -46,6 +46,12 @@
 
 .tag-picker-item.selected {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.tag-picker-create {
+  grid-template-columns: auto minmax(0, 1fr);
+  color: var(--accent);
+  font-weight: var(--font-weight-semibold);
 }
 
 .tag-picker-item:focus-visible {
@@ -81,5 +87,5 @@
   justify-content: center;
   width: 1rem;
   color: var(--accent);
-  font-weight: 650;
+  font-weight: var(--font-weight-semibold);
 }

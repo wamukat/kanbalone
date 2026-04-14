@@ -8,8 +8,8 @@
 }
 
 .editor-field-label {
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
 }
 
 .editor-section-label {

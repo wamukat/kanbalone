@@ -87,19 +87,19 @@ test("sidebar board settings actions are wired", async ({ page }) => {
     await expect(page.locator("#board-title")).toHaveText("Operations Primary");
     await page.locator("#board-settings-toggle-button").click();
     await expect(page.locator("#sidebar-board-actions-panel")).toHaveAttribute("aria-hidden", "false");
+    await expect(page.locator("#board-rename-inline-host")).toContainText("Operations Primary");
 
-    await page.locator("#rename-board-button").click();
-    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
-    await expect(page.locator("#ux-title")).toHaveText("Rename Board");
-    await page.locator('[data-field-id="name"]').fill("Operations Renamed");
+    await page.locator("[data-board-rename-start]").click();
+    await expect(page.locator("[data-board-rename-input]")).toBeFocused();
+    await page.locator("[data-board-rename-input]").fill("Operations Renamed");
     const renameResponse = page.waitForResponse(
       (response) =>
         response.url().endsWith(`/api/boards/${primaryPayload.board.id}`) &&
         response.request().method() === "PATCH",
     );
-    await page.locator("#ux-submit-button").click();
+    await page.locator("[data-board-rename-input]").press("Enter");
     expect((await renameResponse).status()).toBe(200);
-    await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
+    await expect(page.locator("[data-board-rename-input]")).toHaveCount(0);
     await expect(page.locator("#board-title")).toHaveText("Operations Renamed");
     await expect(page.getByRole("button", { name: "Operations Renamed" })).toBeVisible();
 
@@ -120,6 +120,9 @@ test("sidebar board settings actions are wired", async ({ page }) => {
     await page.locator("#delete-board-button").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#ux-title")).toHaveText("Delete Board");
+    await expect(page.locator("#ux-message")).toContainText('Board "Operations Renamed"');
+    await expect(page.locator("#ux-message")).toContainText("All tickets, comments, tags, and relations in this board");
+    await expect(page.locator("#ux-message")).toContainText("This action cannot be undone.");
     await expect(page.locator("#ux-submit-button")).toHaveText("Delete");
     const deleteResponse = page.waitForResponse(
       (response) =>
@@ -153,7 +156,7 @@ test("sidebar board settings actions are wired", async ({ page }) => {
   }
 });
 
-test("board settings dialogs close with Escape and backdrop click", async ({ page }) => {
+test("board rename inline edit cancels with Escape and delete dialog closes with backdrop click", async ({ page }) => {
   const app = buildApp({
     dbFile: createDbFile(),
     staticDir: path.join(process.cwd(), "public"),
@@ -171,13 +174,14 @@ test("board settings dialogs close with Escape and backdrop click", async ({ pag
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
     await page.locator("#board-settings-toggle-button").click();
-    await page.locator("#rename-board-button").click();
-    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
+    await page.locator("[data-board-rename-start]").click();
+    await expect(page.locator("[data-board-rename-input]")).toBeFocused();
+    await page.locator("[data-board-rename-input]").fill("Canceled Board Name");
     await page.keyboard.press("Escape");
-    await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
+    await expect(page.locator("[data-board-rename-input]")).toHaveCount(0);
     await expect(page.locator("#board-title")).toHaveText("Dialog Close Board");
 
-    await page.locator("#rename-board-button").click();
+    await page.locator("#delete-board-button").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
     await page.mouse.click(8, 8);
     await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);

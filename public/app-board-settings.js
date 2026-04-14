@@ -3,22 +3,98 @@ import { icon } from "./icons.js";
 export function createBoardSettingsModule(ctx) {
   const { state, elements } = ctx;
 
-  async function renameBoard() {
+  function renderBoardNameControl() {
+    if (!elements.boardRenameInlineHost) {
+      return;
+    }
+    const board = state.boardDetail?.board;
+    if (!board) {
+      elements.boardRenameInlineHost.innerHTML = "";
+      return;
+    }
+    if (state.isRenamingBoard) {
+      elements.boardRenameInlineHost.innerHTML = `
+        <form class="sidebar-board-name-form" data-board-rename-form>
+          <input id="board-rename-input" data-board-rename-input type="text" value="${ctx.escapeHtml(board.name)}" aria-label="Board name" autocomplete="off" required />
+          <div class="sidebar-board-name-error danger" data-board-rename-error ${state.boardRenameError ? "" : "hidden"}>${ctx.escapeHtml(state.boardRenameError)}</div>
+          <div class="sidebar-board-name-actions">
+            <button type="button" class="ghost" data-board-rename-cancel>Cancel</button>
+            <button type="submit" class="primary-action">Save</button>
+          </div>
+        </form>
+      `;
+      bindBoardNameForm();
+      requestAnimationFrame(() => {
+        const input = elements.boardRenameInlineHost.querySelector("[data-board-rename-input]");
+        input?.focus();
+        input?.select();
+      });
+      return;
+    }
+
+    elements.boardRenameInlineHost.innerHTML = `
+      <div class="sidebar-board-name-display">
+        <div class="sidebar-board-name-row">
+          <span class="sidebar-board-name-text" title="${ctx.escapeHtml(board.name)}">${ctx.escapeHtml(board.name)}</span>
+          <button type="button" class="ghost icon-button" data-board-rename-start title="Rename board" aria-label="Rename board">
+            ${icon("pencil")}
+          </button>
+        </div>
+      </div>
+    `;
+    elements.boardRenameInlineHost.querySelector("[data-board-rename-start]")?.addEventListener("click", startBoardRename);
+  }
+
+  function bindBoardNameForm() {
+    const form = elements.boardRenameInlineHost.querySelector("[data-board-rename-form]");
+    form?.addEventListener("submit", submitBoardRename);
+    form?.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      event.preventDefault();
+      cancelBoardRename();
+    });
+    form?.querySelector("[data-board-rename-cancel]")?.addEventListener("click", cancelBoardRename);
+  }
+
+  function startBoardRename() {
     if (!state.boardDetail) {
       return;
     }
-    const values = await ctx.requestFields({
-      title: "Rename Board",
-      submitLabel: "Save",
-      fields: [{ id: "name", label: "Board name", value: state.boardDetail.board.name, required: true }],
-    });
-    if (!values) {
+    state.isRenamingBoard = true;
+    state.boardRenameError = "";
+    renderBoardNameControl();
+  }
+
+  function cancelBoardRename() {
+    state.isRenamingBoard = false;
+    state.boardRenameError = "";
+    renderBoardNameControl();
+  }
+
+  async function submitBoardRename(event) {
+    event.preventDefault();
+    if (!state.boardDetail) {
+      return;
+    }
+    const input = elements.boardRenameInlineHost.querySelector("[data-board-rename-input]");
+    const name = input?.value.trim() ?? "";
+    if (!name) {
+      state.boardRenameError = "Board name is required";
+      renderBoardNameControl();
+      return;
+    }
+    if (name === state.boardDetail.board.name) {
+      cancelBoardRename();
       return;
     }
     await ctx.sendJson(`/api/boards/${state.activeBoardId}`, {
       method: "PATCH",
-      body: { name: values.name },
+      body: { name },
     });
+    state.isRenamingBoard = false;
+    state.boardRenameError = "";
     await ctx.refreshBoards();
   }
 
@@ -30,7 +106,14 @@ export function createBoardSettingsModule(ctx) {
     const nextBoard = state.boards.find((entry) => entry.id !== board.id) ?? null;
     await ctx.confirmAndRun({
       title: "Delete Board",
-      message: `Delete board "${board.name}" and all of its tickets?`,
+      message: `Delete board "${board.name}"?`,
+      details: [
+        `Board "${board.name}"`,
+        "All lanes in this board",
+        "All tickets, comments, tags, and relations in this board",
+        "Board activity history",
+      ],
+      warning: "This action cannot be undone.",
       submitLabel: "Delete",
       run: async () => {
         await ctx.api(`/api/boards/${board.id}`, { method: "DELETE" });
@@ -93,10 +176,10 @@ export function createBoardSettingsModule(ctx) {
     elements.boardSettingsToggleButton.setAttribute("aria-expanded", String(state.boardSettingsExpanded));
     elements.sidebarBoardActionsPanel.toggleAttribute("inert", !state.boardSettingsExpanded);
     elements.sidebarBoardActionsPanel.setAttribute("aria-hidden", String(!state.boardSettingsExpanded));
+    renderBoardNameControl();
   }
 
   return {
-    renameBoard,
     deleteBoard,
     exportBoard,
     importBoard,

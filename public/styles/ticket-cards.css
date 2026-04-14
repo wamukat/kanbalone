@@ -74,9 +74,9 @@
   flex: 0 0 auto;
   padding-top: 0.12rem;
   color: var(--text-subtle);
-  font-size: 0.72rem;
-  font-weight: 650;
-  line-height: 1.35;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-control);
 }
 
 .ticket-id-stack {
@@ -90,7 +90,7 @@
 
 .ticket-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--font-size-card-title);
 }
 
 .ticket-link {
@@ -106,9 +106,9 @@
   text-align: left;
   overflow-wrap: anywhere;
   word-break: break-word;
-  font-size: 0.88rem;
-  font-weight: 650;
-  line-height: 1.42;
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-body);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }

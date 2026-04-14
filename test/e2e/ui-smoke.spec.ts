@@ -159,7 +159,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#board-settings-toggle-button")).toHaveAttribute("aria-expanded", "true");
     await expect(page.locator("#sidebar-board-actions-panel")).toHaveAttribute("aria-hidden", "false");
     await expect.poll(async () => page.locator("#sidebar-board-actions-panel").evaluate((panel) => panel.getBoundingClientRect().height)).toBeGreaterThan(0);
-    await expect(page.locator("#sidebar-board-actions-panel .sidebar-board-panel-title")).toHaveText("Board");
+    await expect(page.locator("#sidebar-board-actions-panel .sidebar-board-panel-title")).toHaveCount(0);
     await expect
       .poll(async () =>
         page.evaluate(() => {
@@ -232,7 +232,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.getByRole("button", { name: "Parent candidate" }).locator("..").locator(".ticket-status-icon-resolved use[href='/icons.svg#check']")).toHaveCount(1);
     await expect(page.locator("#export-board-button use[href='/icons.svg#download']")).toHaveCount(1);
     await expect(page.locator(".import-button use[href='/icons.svg#upload']")).toHaveCount(1);
-    await expect(page.locator("#rename-board-button use[href='/icons.svg#pencil']")).toHaveCount(1);
+    await expect(page.locator("#board-rename-inline-host")).toContainText("UI Smoke");
+    await expect(page.locator("[data-board-rename-start] use[href='/icons.svg#pencil']")).toHaveCount(1);
     await expect(page.locator("#delete-board-button use[href='/icons.svg#trash-2']")).toHaveCount(1);
     await page.locator("#status-filter [data-status-filter='archived']").click();
     await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
@@ -265,6 +266,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(bulkDeleteButton).toBeVisible();
     await bulkDeleteButton.click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ux-message")).toContainText("1 selected ticket");
+    await expect(page.locator("#ux-message")).toContainText("Comments and relations on the selected tickets");
     await expect(page.locator("#ux-submit-button")).toHaveText("Delete");
     const bulkDeleteResponse = page.waitForResponse((response) => response.url().includes("/api/tickets/") && response.request().method() === "DELETE");
     await page.locator("#ux-submit-button").click();
@@ -276,6 +279,9 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#editor-header-title")).toHaveText("Smoke ticket");
     await expect(page.locator("#editor-header-title")).toBeVisible();
     await expect(page.locator("#header-edit-button")).toBeVisible();
+    await page.locator("#header-edit-button").focus();
+    await expect(page.locator("#header-edit-button")).toHaveCSS("outline-style", "none");
+    await expect(page.locator("#header-edit-button")).not.toHaveCSS("box-shadow", "none");
     await expect(page.locator("#save-comment-button")).toHaveClass(/primary-action/);
     const commentFormBeforeList = await page.locator("#comment-form").evaluate((form) => {
       const list = document.querySelector("#ticket-comments");
@@ -328,10 +334,17 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator("[data-toggle-comment-actions]").click();
     await expect(page.locator("[data-delete-comment-id]")).toBeVisible();
     await page.locator("[data-delete-comment-id]").click();
-    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
-    await expect(page.locator("#ux-submit-button")).toHaveText("Delete");
+    await expect(page.locator("[data-comment-delete-confirm]")).toBeVisible();
+    await expect(page.locator("[data-comment-delete-confirm]")).toContainText("Delete this comment?");
+    await expect(page.locator("[data-comment-delete-confirm]")).toHaveCSS("color", "rgb(196, 61, 61)");
+    await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
+    await page.locator("[data-cancel-comment-delete]").click();
+    await expect(page.locator("[data-comment-delete-confirm]")).toBeHidden();
+    await page.locator("[data-toggle-comment-actions]").click();
+    await page.locator("[data-delete-comment-id]").click();
+    await expect(page.locator("[data-comment-delete-confirm]")).toBeVisible();
     const deleteCommentResponse = page.waitForResponse((response) => response.url().includes("/api/comments/") && response.request().method() === "DELETE");
-    await page.locator("#ux-submit-button").click();
+    await page.locator("[data-confirm-comment-delete-id]").click();
     const deleteCommentResult = await deleteCommentResponse;
     expect(deleteCommentResult.status()).toBe(204);
     await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
@@ -381,52 +394,14 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect(Math.abs(editActionButtonMetrics.deleteHeight - editActionButtonMetrics.archiveHeight)).toBeLessThan(1);
     await expect(page.locator("#editor-header-title")).toBeHidden();
 
-    await page.locator("#ticket-new-tag-button").click();
-    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
-    await page.locator('[data-field-id="name"]').fill("smoke-tag");
-    await expect(page.locator(".ux-color-row [data-field-id='color']")).toBeVisible();
-    await expect(page.locator("[data-color-enabled-for='color']")).not.toBeChecked();
-    await expect(page.locator('[data-field-id="color"]')).toBeDisabled();
-    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#1f6f5f");
-    await expect(page.locator("[data-color-picker-for='color']")).toHaveValue("#1f6f5f");
-    await expect(page.locator(".ux-color-row [data-color-picker-for='color']")).toBeHidden();
-    await expect(page.locator(".ux-color-none-preview")).toBeVisible();
-    const colorInputWidths = await page.locator(".ux-color-row").evaluate((row) => {
-      const [switchCell, hexInput, colorCell] = row.children;
-      return {
-        switch: switchCell.getBoundingClientRect().width,
-        hex: hexInput.getBoundingClientRect().width,
-        color: colorCell.getBoundingClientRect().width,
-      };
-    });
-    expect(Math.abs(colorInputWidths.hex - colorInputWidths.switch * 2)).toBeLessThan(2);
-    expect(Math.abs(colorInputWidths.color - colorInputWidths.hex)).toBeLessThan(1);
-    await page.locator(".ux-color-enable-switch").click();
-    await expect(page.locator("[data-color-enabled-for='color']")).toBeChecked();
-    await expect(page.locator('[data-field-id="color"]')).toBeEnabled();
-    await expect(page.locator(".ux-color-row [data-color-picker-for='color']")).toBeVisible();
-    await expect(page.locator("[data-color-picker-for='color']")).toHaveValue("#1f6f5f");
-    await page.locator('[data-field-id="color"]').fill("#336699");
-    await expect(page.locator("[data-color-picker-for='color']")).toHaveValue("#336699");
-    await page.locator("[data-color-picker-for='color']").fill("#445566");
-    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#445566");
-    await expect(page.locator("[data-color-enabled-for='color']")).toBeChecked();
-    await page.locator(".ux-color-enable-switch").click();
-    await expect(page.locator('[data-field-id="color"]')).toBeDisabled();
-    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#445566");
-    await expect(page.locator("[data-color-picker-for='color']")).toBeDisabled();
-    await expect(page.locator("[data-color-picker-for='color']")).toBeHidden();
-    await expect(page.locator(".ux-color-none-preview")).toBeVisible();
-    await page.locator(".ux-color-enable-switch").click();
-    await expect(page.locator("[data-color-picker-for='color']")).toBeVisible();
-    await page.locator(".ux-color-enable-switch").click();
-    await expect(page.locator("[data-color-enabled-for='color']")).not.toBeChecked();
-    await expect(page.locator('[data-field-id="color"]')).not.toBeFocused();
-    await expect(page.locator('[data-field-id="color"]')).toHaveValue("#445566");
-    await page.locator("#ux-submit-button").click();
+    await expect(page.locator("#ticket-new-tag-button")).toHaveCount(0);
+    await page.locator("#ticket-tag-search").fill("smoke-tag");
+    await expect(page.locator("[data-create-tag-from-query='smoke-tag']")).toBeVisible();
+    await page.locator("#ticket-tag-search").press("Enter");
     await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
     await expect(page.locator("#ticket-tag-summary")).toContainText("smoke-tag");
     await expect(page.locator("#ticket-tag-summary .ticket-tag-chip")).toHaveClass(/tag-no-color/);
+    await expect(page.locator("#ticket-tag-summary .ticket-tag-chip")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
     await expect(page.locator("#ticket-tag-options [data-tag-id]")).toHaveCount(1);
     const sidebarTagBadge = page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "smoke-tag" });
     await expect(sidebarTagBadge).toBeVisible();
@@ -492,6 +467,9 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
 
     await page.locator("#delete-ticket-button").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ux-message")).toContainText("Smoke ticket");
+    await expect(page.locator("#ux-message")).toContainText("Comments and relations on this ticket");
+    await expect(page.locator("#ux-message")).toContainText("This action cannot be undone.");
     await expect(page.locator("#ux-submit-button")).toHaveText("Delete");
     await expect(page.locator("#ux-submit-button")).toHaveClass(/danger-confirm-action/);
     await expect(page.locator("#ux-submit-button use[href='/icons.svg#trash-2']")).toHaveCount(1);

@@ -21,7 +21,6 @@
   padding: var(--space-3);
   border-bottom: 1px solid var(--border-soft);
   background: color-mix(in srgb, var(--surface-1) 82%, transparent);
-  backdrop-filter: blur(8px);
 }
 
 .lane-actions {
@@ -52,9 +51,9 @@
   color: var(--text-strong);
   padding: 0.46rem 0.55rem;
   font: inherit;
-  font-size: 0.86rem;
-  font-weight: 650;
-  line-height: 1.2;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-control);
   outline: none;
 }
 
@@ -127,9 +126,9 @@
   margin: 0;
   overflow: hidden;
   color: var(--text-strong);
-  font-size: 0.86rem;
-  font-weight: 650;
-  line-height: 1.35;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-control);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -145,8 +144,8 @@
   border-radius: var(--radius-control);
   background: var(--surface-1);
   color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 650;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-semibold);
 }
 
 .lane-draggable {

@@ -23,6 +23,30 @@
   --space-4: 16px;
   --space-5: 20px;
   --space-6: 24px;
+  --font-family-ui:
+    Inter,
+    "SF Pro Text",
+    "Noto Sans JP",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  --font-size-app-title: 18px;
+  --font-size-section-title: 15px;
+  --font-size-body: 14px;
+  --font-size-card-title: 14px;
+  --font-size-label: 12px;
+  --font-size-meta: 12px;
+  --font-size-tiny: 11px;
+  --font-size-control: 14px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-strong: 650;
+  --line-height-body: 1.45;
+  --line-height-tight: 1.25;
+  --line-height-control: 1.3;
   --radius-control: 6px;
   --radius-surface: 8px;
   --radius-pill: 999px;
@@ -59,15 +83,7 @@
   --attention-ring: var(--control-focus-ring);
   --attention-ring-strong: 0 0 0 5px
     color-mix(in srgb, var(--accent) 16%, transparent);
-  font-family:
-    Inter,
-    "SF Pro Text",
-    "Noto Sans JP",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  font-family: var(--font-family-ui);
 }
 
 @media (prefers-color-scheme: dark) {

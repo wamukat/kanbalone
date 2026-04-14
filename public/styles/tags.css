@@ -10,9 +10,9 @@
   padding: 0.08rem 0.45rem;
   background: var(--accent);
   color: var(--on-accent);
-  font-size: 0.74rem;
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

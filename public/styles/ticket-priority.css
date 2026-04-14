@@ -12,8 +12,8 @@
   border-radius: var(--radius-control);
   background: var(--surface-inset);
   color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 650;
+  font-size: var(--font-size-tiny);
+  font-weight: var(--font-weight-semibold);
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;

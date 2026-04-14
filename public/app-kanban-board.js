@@ -327,7 +327,12 @@ export function createKanbanBoardModule(ctx, options) {
   async function deleteLane(lane) {
     await ctx.confirmAndRun({
       title: "Delete Lane",
-      message: `Delete lane "${lane.name}"? Empty lanes only.`,
+      message: `Delete lane "${lane.name}"?`,
+      details: [
+        `Lane "${lane.name}"`,
+        "All tickets, comments, tags, and relations in this lane",
+      ],
+      warning: "Only empty lanes can be deleted. This action cannot be undone.",
       submitLabel: "Delete",
       run: async () => {
         await ctx.api(`/api/lanes/${lane.id}`, { method: "DELETE" });

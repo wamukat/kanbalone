@@ -3,7 +3,7 @@
   justify-content: flex-end;
   padding: 0.85rem 0 0.1rem;
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: var(--font-size-label);
 }
 
 .main-footer a {

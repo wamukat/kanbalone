@@ -1,5 +1,8 @@
 button {
   font: inherit;
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-control);
   border: 1px solid var(--line);
   background: var(--panel-strong);
   color: var(--text);
@@ -12,6 +15,9 @@ button {
   border: 1px solid var(--line);
   background: var(--panel-strong);
   color: var(--text);
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-control);
   padding: 0.65rem 0.9rem;
   border-radius: var(--radius-control);
   cursor: pointer;

@@ -52,7 +52,7 @@
             </button>
           </div>
           <div id="sidebar-board-actions-panel" class="sidebar-board-actions-panel">
-            <h3 class="sidebar-board-panel-title">Board</h3>
+            <div id="board-rename-inline-host" class="sidebar-board-name"></div>
             <div class="sidebar-board-actions">
               <div class="sidebar-board-transfer">
                 <button id="export-board-button" type="button" class="action-with-icon">
@@ -65,10 +65,6 @@
                   <input id="import-board-input" type="file" accept="application/json" hidden />
                 </label>
               </div>
-              <button id="rename-board-button" type="button" class="action-with-icon">
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#pencil"></use></svg>
-                <span>Rename</span>
-              </button>
               <button id="delete-board-button" type="button" class="danger action-with-icon">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
                 <span>Delete</span>
@@ -267,9 +263,6 @@
               <div id="ticket-tag-toggle" class="ticket-tag-input" aria-expanded="false" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-tag-summary" class="ticket-tag-summary"></div>
                 <input id="ticket-tag-search" type="text" class="ticket-tag-search" placeholder="Add tags" autocomplete="off" />
-                <button id="ticket-new-tag-button" type="button" class="icon-button ghost" title="New tag" aria-label="New tag">
-                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
-                </button>
               </div>
               <div id="ticket-tag-options" class="ticket-tag-options" hidden></div>
             </div>
@@ -336,10 +329,6 @@
         <div id="ux-fields" class="ux-fields"></div>
         <div id="ux-error" class="danger" hidden></div>
         <div class="editor-actions">
-          <button id="ux-danger-button" type="button" class="danger action-with-icon" hidden>
-            <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
-            <span>Delete</span>
-          </button>
           <div class="editor-actions-right">
             <button id="ux-dismiss-button" type="button" class="ghost">Cancel</button>
             <button id="ux-submit-button" type="submit" class="primary-action">Save</button>
