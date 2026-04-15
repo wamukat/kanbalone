@@ -5,6 +5,7 @@ import { createFiltersModule } from "./app-filters.js";
 import { createUxModule } from "./app-ux.js";
 
 const UI_PREFERENCES_KEY = "soloboard:ui-preferences";
+const UI_PREFERENCES_VERSION = 1;
 const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
 const storedPreferences = readUiPreferences();
 
@@ -62,61 +63,97 @@ const state = {
   uxDialogDrag: null,
 };
 
+function createDefaultUiPreferences() {
+  return {
+    activeBoardId: null,
+    filtersByBoardId: {},
+    viewModeByBoardId: {},
+    filterExpansionByBoardId: {},
+  };
+}
+
 function readUiPreferences() {
   try {
     const raw = localStorage.getItem(UI_PREFERENCES_KEY);
     if (!raw) {
-      return { activeBoardId: null, filtersByBoardId: {}, viewModeByBoardId: {}, filterExpansionByBoardId: {} };
+      return createDefaultUiPreferences();
     }
     const parsed = JSON.parse(raw);
-    const activeBoardId = Number.isInteger(parsed?.activeBoardId) && parsed.activeBoardId > 0 ? parsed.activeBoardId : null;
-    const viewModeByBoardId = normalizeStoredViewModesByBoard(parsed?.viewModeByBoardId);
-    if (activeBoardId && !viewModeByBoardId[String(activeBoardId)] && parsed?.viewMode === "list") {
-      viewModeByBoardId[String(activeBoardId)] = "list";
-    }
-    return {
-      activeBoardId,
-      filtersByBoardId: normalizeStoredFiltersByBoard(parsed?.filtersByBoardId),
-      viewModeByBoardId,
-      filterExpansionByBoardId: normalizeStoredFilterExpansionByBoard(parsed?.filterExpansionByBoardId),
-    };
+    return parsed?.version === UI_PREFERENCES_VERSION
+      ? readVersionedUiPreferences(parsed)
+      : readLegacyUiPreferences(parsed);
   } catch {
-    return { activeBoardId: null, filtersByBoardId: {}, viewModeByBoardId: {}, filterExpansionByBoardId: {} };
+    return createDefaultUiPreferences();
   }
 }
 
-function normalizeStoredViewModesByBoard(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return {};
+function readVersionedUiPreferences(parsed) {
+  const preferences = createDefaultUiPreferences();
+  preferences.activeBoardId = normalizeBoardId(parsed?.activeBoardId);
+
+  for (const [boardId, boardPreferences] of Object.entries(normalizeObject(parsed?.boards))) {
+    if (!normalizeBoardId(boardId)) {
+      continue;
+    }
+    const normalizedBoardId = String(boardId);
+    preferences.filtersByBoardId[normalizedBoardId] = normalizeStoredFilters(boardPreferences?.filters);
+    preferences.viewModeByBoardId[normalizedBoardId] = boardPreferences?.viewMode === "list" ? "list" : "kanban";
+    preferences.filterExpansionByBoardId[normalizedBoardId] = normalizeStoredFilterExpansion(boardPreferences?.filterExpansion);
   }
+
+  return preferences;
+}
+
+function readLegacyUiPreferences(parsed) {
+  const activeBoardId = normalizeBoardId(parsed?.activeBoardId);
+  const viewModeByBoardId = normalizeStoredViewModesByBoard(parsed?.viewModeByBoardId);
+  if (activeBoardId && !viewModeByBoardId[String(activeBoardId)] && parsed?.viewMode === "list") {
+    viewModeByBoardId[String(activeBoardId)] = "list";
+  }
+  return {
+    activeBoardId,
+    filtersByBoardId: normalizeStoredFiltersByBoard(parsed?.filtersByBoardId),
+    viewModeByBoardId,
+    filterExpansionByBoardId: normalizeStoredFilterExpansionByBoard(parsed?.filterExpansionByBoardId),
+  };
+}
+
+function normalizeObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+
+function normalizeBoardId(value) {
+  const boardId = Number(value);
+  return Number.isInteger(boardId) && boardId > 0 ? boardId : null;
+}
+
+function normalizeStoredViewModesByBoard(value) {
   return Object.fromEntries(
-    Object.entries(value)
-      .filter(([boardId, viewMode]) => Number.isInteger(Number(boardId)) && Number(boardId) > 0 && ["kanban", "list"].includes(viewMode))
+    Object.entries(normalizeObject(value))
+      .filter(([boardId, viewMode]) => normalizeBoardId(boardId) && ["kanban", "list"].includes(viewMode))
       .map(([boardId, viewMode]) => [String(boardId), viewMode]),
   );
 }
 
 function normalizeStoredFilterExpansionByBoard(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return {};
-  }
   return Object.fromEntries(
-    Object.entries(value)
-      .filter(([boardId, expansion]) => Number.isInteger(Number(boardId)) && Number(boardId) > 0 && expansion && typeof expansion === "object" && !Array.isArray(expansion))
-      .map(([boardId, expansion]) => [String(boardId), {
-        status: expansion.status === true,
-        priority: expansion.priority === true,
-      }]),
+    Object.entries(normalizeObject(value))
+      .filter(([boardId, expansion]) => normalizeBoardId(boardId) && expansion && typeof expansion === "object" && !Array.isArray(expansion))
+      .map(([boardId, expansion]) => [String(boardId), normalizeStoredFilterExpansion(expansion)]),
   );
 }
 
+function normalizeStoredFilterExpansion(expansion) {
+  return {
+    status: expansion?.status === true,
+    priority: expansion?.priority === true,
+  };
+}
+
 function normalizeStoredFiltersByBoard(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return {};
-  }
   return Object.fromEntries(
-    Object.entries(value)
-      .filter(([boardId]) => Number.isInteger(Number(boardId)) && Number(boardId) > 0)
+    Object.entries(normalizeObject(value))
+      .filter(([boardId]) => normalizeBoardId(boardId))
       .map(([boardId, filters]) => [String(boardId), normalizeStoredFilters(filters)]),
   );
 }
@@ -140,14 +177,31 @@ function normalizeStoredFilters(filters) {
 function persistUiPreferences() {
   try {
     localStorage.setItem(UI_PREFERENCES_KEY, JSON.stringify({
+      version: UI_PREFERENCES_VERSION,
       activeBoardId: state.activeBoardId,
-      viewModeByBoardId: state.viewModeByBoardId,
-      filtersByBoardId: state.filtersByBoardId,
-      filterExpansionByBoardId: state.filterExpansionByBoardId,
+      boards: buildBoardUiPreferences(),
     }));
   } catch (error) {
     console.warn("Failed to persist UI preferences", error);
   }
+}
+
+function buildBoardUiPreferences() {
+  const boardIds = new Set([
+    ...Object.keys(state.filtersByBoardId),
+    ...Object.keys(state.viewModeByBoardId),
+    ...Object.keys(state.filterExpansionByBoardId),
+  ]);
+
+  return Object.fromEntries(
+    [...boardIds]
+      .filter((boardId) => normalizeBoardId(boardId))
+      .map((boardId) => [boardId, {
+        filters: normalizeStoredFilters(state.filtersByBoardId[boardId]),
+        viewMode: state.viewModeByBoardId[boardId] === "list" ? "list" : "kanban",
+        filterExpansion: normalizeStoredFilterExpansion(state.filterExpansionByBoardId[boardId]),
+      }]),
+  );
 }
 
 function pruneUiPreferencesForBoards() {

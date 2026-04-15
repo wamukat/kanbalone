@@ -99,6 +99,8 @@ The search field can filter by keyword and ticket number.
 
 Open `Priority >` in the filter area when you want to filter by priority. You can select multiple values: Low, Medium, High, and Urgent.
 
+When the search field has a value, use the `x` on the right to clear it immediately. SoloBoard remembers the last board, Kanban/List view, board-specific filters, and the open/closed state of the `Status` and `Priority` menus in your browser, then restores them the next time you open the app.
+
 ## 10. Classify Work With Tags
 
 Use the tag filter to show only tickets for a specific theme.

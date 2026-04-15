@@ -64,6 +64,19 @@ Type-check:
 pnpm exec tsc -p tsconfig.json --noEmit
 ```
 
+## UI Preference Storage
+
+Browser-side UI preferences are stored in `localStorage` under `soloboard:ui-preferences`. The stored payload is versioned.
+
+Stored values:
+
+- Last opened board ID
+- Kanban/List view per board
+- Filter values per board
+- Open/closed state of the `Status` and `Priority` filter menus per board
+
+E2E coverage is split by responsibility: `test/e2e/filters.spec.ts` covers filter behavior, while `test/e2e/preferences.spec.ts` covers localStorage restoration and UI preferences. When changing the preference format, update migration handling and `preferences.spec.ts` together.
+
 ## Tech Stack
 
 - Node.js 22
