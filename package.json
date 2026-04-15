@@ -1,6 +1,6 @@
 {
   "name": "soloboard",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "description": "SoloBoard: ultra-light local personal kanban for human and AI collaboration",
   "type": "module",
   "main": "dist/src/server.js",

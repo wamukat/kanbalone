@@ -1,6 +1,7 @@
 /* Keep imports ordered from global tokens/base rules to feature-specific overrides. */
 @import url("./styles/tokens.css");
 @import url("./styles/base.css");
+@import url("./styles/scrollbars.css");
 @import url("./styles/components.css");
 @import url("./styles/forms.css");
 @import url("./styles/toggles.css");

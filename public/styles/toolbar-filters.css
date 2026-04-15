@@ -3,7 +3,7 @@
   flex-direction: column;
   min-width: 0;
   padding: var(--space-4);
-  overflow: hidden;
+  overflow: visible;
   background: var(--surface-canvas);
 }
 

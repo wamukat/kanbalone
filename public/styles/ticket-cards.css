@@ -121,3 +121,38 @@
 .ticket-head + .tag-list {
   margin-top: 0.65rem;
 }
+
+.inactive-ticket-summary {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px dashed var(--border-soft);
+  border-radius: var(--radius-surface);
+  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
+  color: var(--text-muted);
+}
+
+.inactive-ticket-summary-text {
+  display: grid;
+  gap: 0.2rem;
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-body);
+}
+
+.inactive-ticket-summary-text strong {
+  color: var(--text-strong);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+}
+
+.inactive-ticket-summary-button {
+  justify-self: start;
+  min-height: 2rem;
+  padding: 0 0.7rem;
+  font-size: var(--font-size-control);
+}
+
+.inactive-ticket-summary-list {
+  display: grid;
+  gap: var(--space-2);
+}

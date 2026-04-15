@@ -441,6 +441,90 @@ test("editor form focus and detail header badges use the shared visual language"
   }
 });
 
+test("kanban status expansion collapses large completed groups", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const now = new Date().toISOString();
+    const importResponse = await page.request.post(`${baseUrl}/api/boards/import`, {
+      data: {
+        board: {
+          id: 1,
+          name: "Kanban Page Scroll",
+          position: 0,
+          createdAt: now,
+          updatedAt: now,
+        },
+        lanes: [
+          { id: 1, boardId: 1, name: "todo", position: 0 },
+          { id: 2, boardId: 1, name: "review", position: 1 },
+        ],
+        tags: [],
+        tickets: Array.from({ length: 36 }, (_, index) => ({
+          id: index + 1,
+          boardId: 1,
+          laneId: 1,
+          parentTicketId: null,
+          title: `Archived resolved ticket ${index + 1}`,
+          bodyMarkdown: "",
+          isResolved: true,
+          isCompleted: true,
+          isArchived: true,
+          priority: 2,
+          position: index,
+          createdAt: now,
+          updatedAt: now,
+          tags: [],
+          comments: [],
+          blockerIds: [],
+        })),
+      },
+    });
+    expect(importResponse.status()).toBe(201);
+    const boardPayload = await importResponse.json();
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator("#lane-board")).toBeVisible();
+    await page
+      .locator("#status-filter [data-filter-expand=\"status\"]")
+      .last()
+      .click();
+    await page.locator("#status-filter [data-status-filter=\"resolved\"]").click();
+    await page.locator("#status-filter [data-status-filter=\"archived\"]").click();
+    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await expect(page.locator(".inactive-ticket-summary")).toContainText("33 more completed tickets");
+
+    const layout = await page.evaluate(() => {
+      const laneBoard = document.querySelector("#lane-board");
+      const summary = document.querySelector(".inactive-ticket-summary");
+      const ticketList = document.querySelector(".ticket-list");
+      if (!laneBoard || !summary || !ticketList) {
+        throw new Error("Kanban archived summary fixture is missing");
+      }
+      const ticketListStyles = getComputedStyle(ticketList);
+      return {
+        viewportHeight: window.innerHeight,
+        documentHeight: document.documentElement.scrollHeight,
+        laneBoardAlignItems: getComputedStyle(laneBoard).alignItems,
+        ticketListClientHeight: ticketList.clientHeight,
+        ticketListScrollHeight: ticketList.scrollHeight,
+        ticketListOverflowY: ticketListStyles.overflowY,
+        summaryText: summary.textContent?.replace(/\s+/g, " ").trim(),
+      };
+    });
+
+    expect(layout.documentHeight).toBeLessThan(layout.viewportHeight * 2);
+    expect(layout.summaryText).toContain("33 more completed tickets");
+    expect(layout.ticketListScrollHeight).toBeLessThanOrEqual(
+      layout.ticketListClientHeight + 1,
+    );
+    expect(layout.ticketListOverflowY).toBe("visible");
+  } finally {
+    await close();
+  }
+});
+
 test("dark mode keeps key controls legible", async ({ browser }) => {
   const page = await browser.newPage({
     colorScheme: "dark",

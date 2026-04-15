@@ -139,7 +139,38 @@
 
   .lane {
     border-color: var(--border-soft);
-    background: var(--surface-1);
+    background: color-mix(in srgb, var(--surface-1) 72%, var(--surface-canvas));
+  }
+
+  .lane-header {
+    border-bottom-color: var(--border-soft);
+    background: color-mix(in srgb, var(--surface-2) 84%, var(--surface-canvas));
+    color: var(--text-strong);
+  }
+
+  .ticket-card {
+    border-color: var(--border-soft);
+    background: var(--surface-2);
+    color: var(--text-strong);
+  }
+
+  .ticket-card:hover {
+    border-color: var(--border-strong);
+    background: color-mix(in srgb, var(--surface-2) 82%, var(--accent-soft));
+  }
+
+  .ticket-link {
+    background: transparent;
+    color: var(--text-strong);
+  }
+
+  .ticket-link:hover {
+    background: transparent;
+    color: var(--accent-hover);
+  }
+
+  .ticket-card.resolved .ticket-link {
+    color: var(--text-muted);
   }
 
   .editor-form {

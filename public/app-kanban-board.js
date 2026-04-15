@@ -3,6 +3,9 @@ import { createKanbanLane, createKanbanLaneInputColumn } from "./app-kanban-lane
 import { createKanbanTicketCard } from "./app-kanban-ticket-card.js";
 import { icon } from "./icons.js";
 
+const INACTIVE_COLLAPSE_THRESHOLD = 8;
+const INACTIVE_PREVIEW_COUNT = 3;
+
 export function createKanbanBoardModule(ctx, options) {
   const { state, elements } = ctx;
   let kanbanRenderToken = 0;
@@ -23,6 +26,7 @@ export function createKanbanBoardModule(ctx, options) {
 
     for (const lane of detail.lanes.sort((a, b) => a.position - b.position)) {
       const laneTickets = detail.tickets.filter((item) => item.laneId === lane.id).sort((a, b) => a.position - b.position);
+      const { visibleTickets, hiddenInactiveTickets, inactiveTotal } = getKanbanLaneTicketGroups(laneTickets);
       const { laneElement, list } = createKanbanLane(ctx, lane, laneTickets, {
         bindDropZone,
         bindLaneDrag,
@@ -31,7 +35,15 @@ export function createKanbanBoardModule(ctx, options) {
       });
 
       elements.laneBoard.append(laneElement);
-      laneQueues.push({ list, tickets: laneTickets, index: 0 });
+      laneQueues.push({
+        list,
+        tickets: visibleTickets,
+        index: 0,
+        afterRender: hiddenInactiveTickets.length > 0
+          ? () => list.append(createInactiveTicketsSummary(ctx, hiddenInactiveTickets, inactiveTotal))
+          : null,
+        afterRenderDone: false,
+      });
     }
 
     const addLaneButton = document.createElement("button");
@@ -48,6 +60,56 @@ export function createKanbanBoardModule(ctx, options) {
     }
 
     renderKanbanTicketsInBatches(renderToken, laneQueues);
+  }
+
+  function getKanbanLaneTicketGroups(laneTickets) {
+    const inactiveTickets = laneTickets.filter((ticket) => ticket.isResolved || ticket.isArchived);
+    if (inactiveTickets.length <= INACTIVE_COLLAPSE_THRESHOLD) {
+      return {
+        visibleTickets: laneTickets,
+        hiddenInactiveTickets: [],
+        inactiveTotal: inactiveTickets.length,
+      };
+    }
+
+    const previewInactiveIds = new Set(inactiveTickets.slice(0, INACTIVE_PREVIEW_COUNT).map((ticket) => ticket.id));
+    return {
+      visibleTickets: laneTickets.filter((ticket) => (!ticket.isResolved && !ticket.isArchived) || previewInactiveIds.has(ticket.id)),
+      hiddenInactiveTickets: inactiveTickets.slice(INACTIVE_PREVIEW_COUNT),
+      inactiveTotal: inactiveTickets.length,
+    };
+  }
+
+  function createInactiveTicketsSummary(ctx, hiddenTickets, inactiveTotal) {
+    const summary = document.createElement("div");
+    summary.className = "inactive-ticket-summary";
+    const hiddenCount = hiddenTickets.length;
+    summary.innerHTML = [
+      '<div class="inactive-ticket-summary-text">',
+      `<strong>${hiddenCount} more completed tickets</strong>`,
+      `<span>${inactiveTotal} resolved or archived in this lane</span>`,
+      '</div>',
+      '<button type="button" class="inactive-ticket-summary-button">Show all</button>',
+      '<div class="inactive-ticket-summary-list" hidden></div>',
+    ].join("");
+
+    const button = summary.querySelector(".inactive-ticket-summary-button");
+    const list = summary.querySelector(".inactive-ticket-summary-list");
+    let rendered = false;
+    let expanded = false;
+    button.addEventListener("click", () => {
+      expanded = !expanded;
+      if (expanded && !rendered) {
+        const fragment = document.createDocumentFragment();
+        hiddenTickets.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
+        list.append(fragment);
+        rendered = true;
+      }
+      list.hidden = !expanded;
+      button.textContent = expanded ? "Hide" : "Show all";
+    });
+
+    return summary;
   }
 
   function createLaneInputColumn() {
@@ -71,6 +133,12 @@ export function createKanbanBoardModule(ctx, options) {
       }
       for (const [laneIndex, fragment] of fragments.entries()) {
         laneQueues[laneIndex].list.append(fragment);
+      }
+      for (const queue of laneQueues) {
+        if (!queue.afterRenderDone && queue.index >= queue.tickets.length) {
+          queue.afterRender?.();
+          queue.afterRenderDone = true;
+        }
       }
       if (laneQueues.some((queue) => queue.index < queue.tickets.length)) {
         requestAnimationFrame(step);
@@ -261,7 +329,7 @@ export function createKanbanBoardModule(ctx, options) {
       return;
     }
     const items = [...document.querySelectorAll(".ticket-list")].flatMap((list) =>
-      [...list.children].map((card, index) => ({
+      [...list.querySelectorAll(".ticket-card[data-ticket-id]")].map((card, index) => ({
         ticketId: Number(card.dataset.ticketId),
         laneId: Number(list.dataset.laneId),
         position: index,

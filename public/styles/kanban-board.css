@@ -1,13 +1,13 @@
 .add-lane-button {
   width: 3rem;
-  height: auto;
+  height: 12rem;
   margin: 0;
   border-color: var(--border-soft);
   background: color-mix(in srgb, var(--surface-1) 48%, transparent);
   color: var(--text-muted);
   font-size: var(--font-size-body);
   min-width: 3rem;
-  align-self: stretch;
+  align-self: flex-start;
   min-height: 12rem;
   border-style: dashed;
 }
@@ -64,7 +64,7 @@
   display: flex;
   gap: var(--space-3);
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   align-items: flex-start;
   min-width: 0;
   min-height: calc(100vh - 130px);

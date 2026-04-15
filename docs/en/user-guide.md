@@ -125,7 +125,7 @@ You can mark multiple tickets Resolved, reopen them, Archive them, or Restore th
 
 Board rename, Export / Import, and Delete are available from the gear at the bottom of the sidebar.
 
-Open the gear and use the pencil icon next to the board name to rename it.
+Open the gear and click the pencil icon next to the board name to edit the name in place. Press Enter to save, or press Esc / move focus away to cancel.
 
 ![Board settings](../assets/user-guide/12-board-settings.png)
 
@@ -143,7 +143,7 @@ It follows the OS or browser color-scheme setting. When your system is in dark m
 docker run --rm \
   -p 3000:3000 \
   -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.11
+  ghcr.io/wamukat/soloboard:v0.9.12
 ```
 
 Open:
