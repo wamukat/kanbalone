@@ -13,7 +13,7 @@ Dockerでサクッと起動してすぐ使えます。
 
 ![SoloBoard kanban screenshot](docs/assets/soloboard-kanban.png)
 
-![チケット作成、タグ、ドラッグアンドドロップ、検索、フィルタ、コメント、リスト表示を操作する SoloBoard デモ](docs/assets/soloboard-demo.gif)
+![チケット作成、タグ、ドラッグアンドドロップ、検索、フィルタ、コメント、リスト表示を操作する SoloBoard デモ](docs/assets/soloboard-demo.webp)
 
 ## SoloBoard の特徴
 

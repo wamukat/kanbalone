@@ -12,7 +12,7 @@ You can start it quickly with Docker and use it right away. In addition to a bro
 
 ![SoloBoard kanban screenshot](docs/assets/soloboard-kanban.png)
 
-![SoloBoard demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/soloboard-demo.gif)
+![SoloBoard demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/soloboard-demo.webp)
 
 ## Why SoloBoard
 

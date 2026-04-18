@@ -8,7 +8,7 @@ This guide follows the order a new user can use to start working.
 
 This short demo shows ticket creation with Markdown, creating and attaching a tag, drag and drop, search, filters, comments, and List view.
 
-![SoloBoard demo](../assets/soloboard-demo.gif)
+![SoloBoard demo](../assets/soloboard-demo.webp)
 
 ## 1. Create Your First Board
 
