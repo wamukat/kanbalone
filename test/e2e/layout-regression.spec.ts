@@ -547,7 +547,8 @@ test("kanban status expansion collapses large completed groups", async ({ page }
     await page.locator("#status-filter [data-status-filter=\"resolved\"]").click();
     await page.locator("#status-filter [data-status-filter=\"archived\"]").click();
     await expect(page.locator(".ticket-card")).toHaveCount(3);
-    await expect(page.locator(".inactive-ticket-summary")).toContainText("33 more completed tickets");
+    await expect(page.locator(".inactive-ticket-summary")).toContainText("33 hidden tickets");
+    await expect(page.locator(".inactive-ticket-summary-button")).toHaveText("Show remaining 33");
 
     const layout = await page.evaluate(() => {
       const laneBoard = document.querySelector("#lane-board");
@@ -569,11 +570,15 @@ test("kanban status expansion collapses large completed groups", async ({ page }
     });
 
     expect(layout.documentHeight).toBeLessThan(layout.viewportHeight * 2);
-    expect(layout.summaryText).toContain("33 more completed tickets");
+    expect(layout.summaryText).toContain("33 hidden tickets");
     expect(layout.ticketListScrollHeight).toBeLessThanOrEqual(
       layout.ticketListClientHeight + 1,
     );
     expect(layout.ticketListOverflowY).toBe("visible");
+
+    await page.locator(".inactive-ticket-summary-button").click();
+    await expect(page.locator(".ticket-card")).toHaveCount(36);
+    await expect(page.locator(".inactive-ticket-summary-button")).toHaveText("Hide resolved or archived");
   } finally {
     await close();
   }

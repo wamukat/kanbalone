@@ -5,6 +5,7 @@ import { icon } from "./icons.js";
 
 const INACTIVE_COLLAPSE_THRESHOLD = 8;
 const INACTIVE_PREVIEW_COUNT = 3;
+const INACTIVE_SHOW_MORE_COUNT = 50;
 
 export function createKanbanBoardModule(ctx, options) {
   const { state, elements } = ctx;
@@ -86,30 +87,47 @@ export function createKanbanBoardModule(ctx, options) {
     const hiddenCount = hiddenTickets.length;
     summary.innerHTML = [
       '<div class="inactive-ticket-summary-text">',
-      `<strong>${hiddenCount} more completed tickets</strong>`,
-      `<span>${inactiveTotal} resolved or archived in this lane</span>`,
+      `<strong>${formatCount(hiddenCount)} hidden tickets</strong>`,
+      `<span>${formatCount(inactiveTotal)} resolved or archived in this lane</span>`,
       '</div>',
-      '<button type="button" class="inactive-ticket-summary-button">Show all</button>',
       '<div class="inactive-ticket-summary-list" hidden></div>',
+      `<button type="button" class="inactive-ticket-summary-button">${getShowMoreText(hiddenCount)}</button>`,
     ].join("");
 
     const button = summary.querySelector(".inactive-ticket-summary-button");
     const list = summary.querySelector(".inactive-ticket-summary-list");
-    let rendered = false;
-    let expanded = false;
+    let renderedCount = 0;
     button.addEventListener("click", () => {
-      expanded = !expanded;
-      if (expanded && !rendered) {
-        const fragment = document.createDocumentFragment();
-        hiddenTickets.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
-        list.append(fragment);
-        rendered = true;
+      if (renderedCount >= hiddenTickets.length) {
+        renderedCount = 0;
+        list.replaceChildren();
+        list.hidden = true;
+        button.textContent = getShowMoreText(hiddenTickets.length);
+        return;
       }
-      list.hidden = !expanded;
-      button.textContent = expanded ? "Hide" : "Show all";
+
+      const nextTickets = hiddenTickets.slice(renderedCount, renderedCount + INACTIVE_SHOW_MORE_COUNT);
+      const fragment = document.createDocumentFragment();
+      nextTickets.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
+      list.append(fragment);
+      renderedCount += nextTickets.length;
+      list.hidden = false;
+      const remaining = hiddenTickets.length - renderedCount;
+      button.textContent = remaining > 0 ? getShowMoreText(remaining) : "Hide resolved or archived";
     });
 
     return summary;
+  }
+
+  function formatCount(count) {
+    return count.toLocaleString("en-US");
+  }
+
+  function getShowMoreText(remaining) {
+    const count = Math.min(INACTIVE_SHOW_MORE_COUNT, remaining);
+    return remaining <= INACTIVE_SHOW_MORE_COUNT
+      ? `Show remaining ${formatCount(remaining)}`
+      : `Show ${formatCount(count)} more`;
   }
 
   function createLaneInputColumn() {

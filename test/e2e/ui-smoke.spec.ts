@@ -43,8 +43,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
 
     const relationTickets = [
       { title: "Parent candidate", priority: 4, isResolved: true },
-      { title: "Blocker candidate", priority: 3 },
-      { title: "Child candidate", priority: 2 },
+      { title: "Blocker candidate", priority: 4 },
+      { title: "Child candidate", priority: 4 },
       { title: "Archived candidate", priority: 1, isArchived: true },
     ];
     for (const ticket of relationTickets) {

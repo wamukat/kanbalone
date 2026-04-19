@@ -73,7 +73,7 @@ test("list virtual scrolling repaints visible rows", async ({ page }) => {
         data: {
           laneId: lane.id,
           title: `Virtual ticket ${String(index).padStart(2, "0")}`,
-          priority: index,
+          priority: ((index - 1) % 4) + 1,
         },
       });
       expect(response.status()).toBe(201);
