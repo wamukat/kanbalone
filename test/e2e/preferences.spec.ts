@@ -41,7 +41,7 @@ test("last board, view, and filters restore from localStorage", async ({ page })
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator("#list-board")).toContainText("Persisted review");
 
-    const savedPreferences = await page.evaluate(() => JSON.parse(localStorage.getItem("soloboard:ui-preferences") ?? "{}"));
+    const savedPreferences = await page.evaluate(() => JSON.parse(localStorage.getItem("kanbalone:ui-preferences") ?? "{}"));
     expect(savedPreferences).toMatchObject({
       version: 1,
       activeBoardId: secondBoard.board.id,

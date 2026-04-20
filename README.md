@@ -6,13 +6,13 @@
   <img src="public/app-icon.svg" alt="Kanbalone app icon" width="120" height="120" />
 </p>
 
-Kanbalone is a small local kanban app optimized for individuals who develop together with AI. It was previously named SoloBoard.
+Kanbalone is a small local kanban app optimized for individuals who develop together with AI.
 
 You can start it quickly with Docker and use it right away. In addition to a browser-based web UI for humans, it also provides a JSON API that is easy for scripts and AI agents to use.
 
-![Kanbalone kanban screenshot](docs/assets/soloboard-kanban.png)
+![Kanbalone kanban screenshot](docs/assets/kanbalone-kanban.png)
 
-![Kanbalone demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/soloboard-demo.webp)
+![Kanbalone demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/kanbalone-demo.webp)
 
 ## Why Kanbalone
 
@@ -30,8 +30,8 @@ Run the published Docker image:
 ```bash
 docker run --rm \
   -p 3000:3000 \
-  -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.15
+  -v kanbalone-data:/app/data \
+  ghcr.io/wamukat/kanbalone:v0.9.15
 ```
 
 Open:
@@ -46,7 +46,7 @@ User guide:
 https://wamukat.github.io/kanbalone/
 ```
 
-Use `ghcr.io/wamukat/soloboard:latest` when you want the newest released image instead of a pinned version.
+Use `ghcr.io/wamukat/kanbalone:latest` when you want the newest released image instead of a pinned version.
 
 ## Docker Compose
 
@@ -65,10 +65,10 @@ KANBAN_PORT=3457 docker compose -f docker-compose.image.yml up
 The app stores its SQLite database at:
 
 ```text
-/app/data/soloboard.sqlite
+/app/data/kanbalone.sqlite
 ```
 
-The provided Compose file uses a Docker named volume, `soloboard-data`, for persistence.
+The provided Compose file uses a Docker named volume, `kanbalone-data`, for persistence.
 
 On Windows, use Docker Desktop or Rancher Desktop with WSL2 and keep the named volume setup.
 
@@ -93,7 +93,7 @@ Kanbalone includes a Codex skill for API-only kanban operations:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
 When you use only the Docker image, fetch the skill from the matching GitHub release tag to the host running Codex:
@@ -101,9 +101,9 @@ When you use only the Docker image, fetch the skill from the matching GitHub rel
 ```bash
 tmpdir=$(mktemp -d)
 curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.15.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.15/skills/soloboard-api
+  | tar -xz -C "$tmpdir" kanbalone-0.9.15/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.15/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 

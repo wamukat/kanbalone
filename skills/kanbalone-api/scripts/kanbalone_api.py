@@ -2,8 +2,8 @@
 """Small Kanbalone HTTP API helper.
 
 Examples:
-  soloboard_api.py --base http://127.0.0.1:3000 GET /api/boards
-  soloboard_api.py --base http://127.0.0.1:3000 POST /api/tickets/95/comments '{"bodyMarkdown":"Started work."}'
+  kanbalone_api.py --base http://127.0.0.1:3000 GET /api/boards
+  kanbalone_api.py --base http://127.0.0.1:3000 POST /api/tickets/95/comments '{"bodyMarkdown":"Started work."}'
 """
 
 from __future__ import annotations
@@ -21,8 +21,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Call a Kanbalone API endpoint.")
     parser.add_argument(
         "--base",
-        default=os.environ.get("SOLOBOARD_URL", "http://127.0.0.1:3000"),
-        help="Kanbalone base URL. Defaults to SOLOBOARD_URL or http://127.0.0.1:3000.",
+        default=os.environ.get("KANBALONE_URL", "http://127.0.0.1:3000"),
+        help="Kanbalone base URL. Defaults to KANBALONE_URL or http://127.0.0.1:3000.",
     )
     parser.add_argument("method", choices=["GET", "POST", "PATCH", "DELETE", "get", "post", "patch", "delete"])
     parser.add_argument("path", help="API path, for example /api/boards.")

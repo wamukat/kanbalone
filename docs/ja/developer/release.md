@@ -13,15 +13,15 @@ Kanbalone のリリース方法を説明します。
 公開 Docker Image:
 
 ```text
-ghcr.io/wamukat/soloboard
+ghcr.io/wamukat/kanbalone
 ```
 
 `v0.9.0` のような tag では、publish workflow が次の tag を作成します。
 
 ```text
-ghcr.io/wamukat/soloboard:v0.9.0
-ghcr.io/wamukat/soloboard:0.9.0
-ghcr.io/wamukat/soloboard:latest
+ghcr.io/wamukat/kanbalone:v0.9.0
+ghcr.io/wamukat/kanbalone:0.9.0
+ghcr.io/wamukat/kanbalone:latest
 ```
 
 現在の Docker Image target:
@@ -44,7 +44,7 @@ git branch --show-current
 ```bash
 pnpm check
 pnpm exec playwright test --project=chromium
-docker build -t soloboard:release-check .
+docker build -t kanbalone:release-check .
 ```
 
 `pnpm check` は OpenAPI lint、unit/API test、TypeScript build、GitHub Pages build をまとめて実行します。UI/UX を変更した release では、Playwright E2E も実行します。
@@ -64,15 +64,15 @@ rg -n "version: " docs/openapi.yaml
 
 ```bash
 docker run --rm -d \
-  --name soloboard-release-check \
+  --name kanbalone-release-check \
   -p 3001:3000 \
-  -v soloboard-release-check-data:/app/data \
-  soloboard:release-check
+  -v kanbalone-release-check-data:/app/data \
+  kanbalone:release-check
 
 curl http://127.0.0.1:3001/api/health
 
-docker rm -f soloboard-release-check
-docker volume rm soloboard-release-check-data
+docker rm -f kanbalone-release-check
+docker volume rm kanbalone-release-check-data
 ```
 
 ## ドキュメント更新
@@ -82,13 +82,13 @@ docker volume rm soloboard-release-check-data
 例:
 
 ```text
-ghcr.io/wamukat/soloboard:v0.9.0
+ghcr.io/wamukat/kanbalone:v0.9.0
 ```
 
 を次に置き換えます。
 
 ```text
-ghcr.io/wamukat/soloboard:vX.Y.Z
+ghcr.io/wamukat/kanbalone:vX.Y.Z
 ```
 
 あわせて、リリース番号を参照するファイルを確認します。
@@ -140,24 +140,24 @@ gh run watch <run-id> --repo wamukat/kanbalone --exit-status
 期待する tag を pull します。
 
 ```bash
-docker pull ghcr.io/wamukat/soloboard:vX.Y.Z
-docker pull ghcr.io/wamukat/soloboard:X.Y.Z
-docker pull ghcr.io/wamukat/soloboard:latest
+docker pull ghcr.io/wamukat/kanbalone:vX.Y.Z
+docker pull ghcr.io/wamukat/kanbalone:X.Y.Z
+docker pull ghcr.io/wamukat/kanbalone:latest
 ```
 
 公開 Image を起動します。
 
 ```bash
 docker run --rm -d \
-  --name soloboard-ghcr-check \
+  --name kanbalone-ghcr-check \
   -p 3001:3000 \
-  -v soloboard-ghcr-check-data:/app/data \
-  ghcr.io/wamukat/soloboard:vX.Y.Z
+  -v kanbalone-ghcr-check-data:/app/data \
+  ghcr.io/wamukat/kanbalone:vX.Y.Z
 
 curl http://127.0.0.1:3001/api/health
 
-docker rm -f soloboard-ghcr-check
-docker volume rm soloboard-ghcr-check-data
+docker rm -f kanbalone-ghcr-check
+docker volume rm kanbalone-ghcr-check-data
 ```
 
 期待レスポンス:
@@ -182,7 +182,7 @@ gh release create vX.Y.Z \
 - 公開 Docker Image tags
 - 基本的な `docker run` command
 - `docker-compose.image.yml` を使う Docker Compose command
-- Persistence path: `/app/data/soloboard.sqlite`
+- Persistence path: `/app/data/kanbalone.sqlite`
 - Backup note
 - 認証なしの注意
 - 現在の platform support
@@ -201,19 +201,19 @@ gh release create vX.Y.Z \
 Published image:
 
 ```text
-ghcr.io/wamukat/soloboard:vX.Y.Z
-ghcr.io/wamukat/soloboard:X.Y.Z
-ghcr.io/wamukat/soloboard:latest
+ghcr.io/wamukat/kanbalone:vX.Y.Z
+ghcr.io/wamukat/kanbalone:X.Y.Z
+ghcr.io/wamukat/kanbalone:latest
 ```
 
 Run with Docker:
 
 ```bash
 docker run --rm -d \
-  --name soloboard \
+  --name kanbalone \
   -p 3000:3000 \
-  -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:vX.Y.Z
+  -v kanbalone-data:/app/data \
+  ghcr.io/wamukat/kanbalone:vX.Y.Z
 ```
 
 Run with Docker Compose:
@@ -222,7 +222,7 @@ Run with Docker Compose:
 docker compose -f docker-compose.image.yml up -d
 ```
 
-Persistent data is stored at `/app/data/soloboard.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
+Persistent data is stored at `/app/data/kanbalone.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
 
 Platform support:
 
@@ -236,7 +236,7 @@ linux/amd64
 初回 package publish 後、GitHub Packages で次が public であることを確認します。
 
 ```text
-ghcr.io/wamukat/soloboard
+ghcr.io/wamukat/kanbalone
 ```
 
 ローカルの GitHub CLI token には `read:packages` がない場合があるため、GitHub web UI で確認するのが確実です。

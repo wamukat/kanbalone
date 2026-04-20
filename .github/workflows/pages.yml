@@ -42,7 +42,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm docs:build
         env:
-          SOLOBOARD_PAGES_BASE_PATH: /${{ github.event.repository.name }}
+          KANBALONE_PAGES_BASE_PATH: /${{ github.event.repository.name }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist/pages

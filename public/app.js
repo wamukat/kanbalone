@@ -4,7 +4,7 @@ import { createEditorModule } from "./app-editor.js";
 import { createFiltersModule } from "./app-filters.js";
 import { createUxModule } from "./app-ux.js";
 
-const UI_PREFERENCES_KEY = "soloboard:ui-preferences";
+const UI_PREFERENCES_KEY = "kanbalone:ui-preferences";
 const UI_PREFERENCES_VERSION = 1;
 const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
 const storedPreferences = readUiPreferences();
@@ -29,7 +29,7 @@ const state = {
   confirmingCommentDeleteId: null,
   viewMode: "kanban",
   selectedListTicketIds: [],
-  sidebarCollapsed: localStorage.getItem("soloboard:sidebar-collapsed") === "true",
+  sidebarCollapsed: localStorage.getItem("kanbalone:sidebar-collapsed") === "true",
   boardSettingsExpanded: false,
   filters: {
     q: "",

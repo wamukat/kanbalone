@@ -6,7 +6,7 @@ import { marked } from "marked";
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, "dist/pages");
 const ASSET_DIR = path.join(OUT_DIR, "assets");
-const BASE_PATH = (process.env.SOLOBOARD_PAGES_BASE_PATH ?? "").replace(/\/$/, "");
+const BASE_PATH = (process.env.KANBALONE_PAGES_BASE_PATH ?? "").replace(/\/$/, "");
 const SITE_ORIGIN = "https://wamukat.github.io";
 const SITE_BASE_URL = `${SITE_ORIGIN}${BASE_PATH}`;
 

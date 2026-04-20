@@ -66,7 +66,7 @@ pnpm exec tsc -p tsconfig.json --noEmit
 
 ## UI 設定の保存
 
-ブラウザ側の UI 設定は `localStorage` の `soloboard:ui-preferences` に保存します。保存形式は `version` 付きです。
+ブラウザ側の UI 設定は `localStorage` の `kanbalone:ui-preferences` に保存します。保存形式は `version` 付きです。
 
 保存対象:
 

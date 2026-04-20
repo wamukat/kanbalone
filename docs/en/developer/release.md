@@ -13,15 +13,15 @@ A release currently publishes:
 Published Docker image:
 
 ```text
-ghcr.io/wamukat/soloboard
+ghcr.io/wamukat/kanbalone
 ```
 
 For a tag such as `v0.9.0`, the publish workflow creates:
 
 ```text
-ghcr.io/wamukat/soloboard:v0.9.0
-ghcr.io/wamukat/soloboard:0.9.0
-ghcr.io/wamukat/soloboard:latest
+ghcr.io/wamukat/kanbalone:v0.9.0
+ghcr.io/wamukat/kanbalone:0.9.0
+ghcr.io/wamukat/kanbalone:latest
 ```
 
 The current Docker image target is:
@@ -44,7 +44,7 @@ Run local checks:
 ```bash
 pnpm check
 pnpm exec playwright test --project=chromium
-docker build -t soloboard:release-check .
+docker build -t kanbalone:release-check .
 ```
 
 `pnpm check` runs OpenAPI lint, unit/API tests, TypeScript build, and GitHub Pages build. Run Playwright E2E for releases that change UI or UX behavior.
@@ -64,15 +64,15 @@ Optionally verify runtime behavior:
 
 ```bash
 docker run --rm -d \
-  --name soloboard-release-check \
+  --name kanbalone-release-check \
   -p 3001:3000 \
-  -v soloboard-release-check-data:/app/data \
-  soloboard:release-check
+  -v kanbalone-release-check-data:/app/data \
+  kanbalone:release-check
 
 curl http://127.0.0.1:3001/api/health
 
-docker rm -f soloboard-release-check
-docker volume rm soloboard-release-check-data
+docker rm -f kanbalone-release-check
+docker volume rm kanbalone-release-check-data
 ```
 
 ## Update Documentation
@@ -82,13 +82,13 @@ When releasing a new version, update Docker usage examples that pin an image tag
 For example, replace:
 
 ```text
-ghcr.io/wamukat/soloboard:v0.9.0
+ghcr.io/wamukat/kanbalone:v0.9.0
 ```
 
 with:
 
 ```text
-ghcr.io/wamukat/soloboard:vX.Y.Z
+ghcr.io/wamukat/kanbalone:vX.Y.Z
 ```
 
 Also check files that may reference the release version:
@@ -140,24 +140,24 @@ Both should complete successfully.
 Pull all expected tags:
 
 ```bash
-docker pull ghcr.io/wamukat/soloboard:vX.Y.Z
-docker pull ghcr.io/wamukat/soloboard:X.Y.Z
-docker pull ghcr.io/wamukat/soloboard:latest
+docker pull ghcr.io/wamukat/kanbalone:vX.Y.Z
+docker pull ghcr.io/wamukat/kanbalone:X.Y.Z
+docker pull ghcr.io/wamukat/kanbalone:latest
 ```
 
 Run the published image:
 
 ```bash
 docker run --rm -d \
-  --name soloboard-ghcr-check \
+  --name kanbalone-ghcr-check \
   -p 3001:3000 \
-  -v soloboard-ghcr-check-data:/app/data \
-  ghcr.io/wamukat/soloboard:vX.Y.Z
+  -v kanbalone-ghcr-check-data:/app/data \
+  ghcr.io/wamukat/kanbalone:vX.Y.Z
 
 curl http://127.0.0.1:3001/api/health
 
-docker rm -f soloboard-ghcr-check
-docker volume rm soloboard-ghcr-check-data
+docker rm -f kanbalone-ghcr-check
+docker volume rm kanbalone-ghcr-check-data
 ```
 
 Expected response:
@@ -182,7 +182,7 @@ Release notes should include:
 - Published Docker image tags.
 - Basic `docker run` command.
 - Docker Compose command using `docker-compose.image.yml`.
-- Persistence path: `/app/data/soloboard.sqlite`.
+- Persistence path: `/app/data/kanbalone.sqlite`.
 - Backup note.
 - No-authentication warning.
 - Current platform support.
@@ -201,19 +201,19 @@ Release notes template:
 Published image:
 
 ```text
-ghcr.io/wamukat/soloboard:vX.Y.Z
-ghcr.io/wamukat/soloboard:X.Y.Z
-ghcr.io/wamukat/soloboard:latest
+ghcr.io/wamukat/kanbalone:vX.Y.Z
+ghcr.io/wamukat/kanbalone:X.Y.Z
+ghcr.io/wamukat/kanbalone:latest
 ```
 
 Run with Docker:
 
 ```bash
 docker run --rm -d \
-  --name soloboard \
+  --name kanbalone \
   -p 3000:3000 \
-  -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:vX.Y.Z
+  -v kanbalone-data:/app/data \
+  ghcr.io/wamukat/kanbalone:vX.Y.Z
 ```
 
 Run with Docker Compose:
@@ -222,7 +222,7 @@ Run with Docker Compose:
 docker compose -f docker-compose.image.yml up -d
 ```
 
-Persistent data is stored at `/app/data/soloboard.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
+Persistent data is stored at `/app/data/kanbalone.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
 
 Platform support:
 
@@ -236,7 +236,7 @@ linux/amd64
 After the first package publish, verify in GitHub Packages that:
 
 ```text
-ghcr.io/wamukat/soloboard
+ghcr.io/wamukat/kanbalone
 ```
 
 is public.

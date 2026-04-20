@@ -1,17 +1,17 @@
-name: soloboard
+name: kanbalone
 
 services:
-  soloboard:
-    image: ghcr.io/wamukat/soloboard:v0.9.11
+  kanbalone:
+    image: ghcr.io/wamukat/kanbalone:v0.9.11
     environment:
       HOST: 0.0.0.0
       PORT: 3000
-      SOLOBOARD_DB_FILE: /app/data/soloboard.sqlite
+      KANBALONE_DB_FILE: /app/data/kanbalone.sqlite
     ports:
       - "${KANBAN_PORT:-3000}:3000"
     volumes:
-      - soloboard-data:/app/data
+      - kanbalone-data:/app/data
     restart: unless-stopped
 
 volumes:
-  soloboard-data:
+  kanbalone-data:

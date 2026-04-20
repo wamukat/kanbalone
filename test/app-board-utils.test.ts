@@ -149,7 +149,7 @@ test("renderTicketTagChip keeps the remove cue and full tag name", () => {
 
 test("perf seed requires overwrite flag when board already exists", async () => {
   const source = await import("node:fs/promises").then((fs) => fs.readFile("scripts/perf-seed.mjs", "utf8"));
-  assert.match(source, /SOLOBOARD_PERF_OVERWRITE=true/);
+  assert.match(source, /KANBALONE_PERF_OVERWRITE=true/);
 });
 
 test("perf seed creates editable HEX tag colors", async () => {

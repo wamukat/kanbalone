@@ -10,7 +10,7 @@ import { buildApp } from "../../src/app.js";
 export { buildApp, path };
 
 export function createDbFile(): string {
-  return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "soloboard-ui-test-")), "test.sqlite");
+  return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "kanbalone-ui-test-")), "test.sqlite");
 }
 
 export async function getFreePort(): Promise<number> {

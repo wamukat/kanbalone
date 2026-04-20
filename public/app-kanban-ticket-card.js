@@ -35,7 +35,7 @@ export function createKanbanTicketCard(ctx, ticket) {
     card.closest(".lane-board")?.classList.add("is-dragging-ticket");
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("application/x-soloboard-ticket", String(ticket.id));
+      event.dataTransfer.setData("application/x-kanbalone-ticket", String(ticket.id));
       event.dataTransfer.setData("text/plain", `ticket:${ticket.id}`);
       const box = card.getBoundingClientRect();
       event.dataTransfer.setDragImage(card, event.clientX - box.left, event.clientY - box.top);

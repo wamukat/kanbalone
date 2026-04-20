@@ -4,13 +4,13 @@ This API is a local, single-user Kanbalone API. The base URL is usually `http://
 
 ## Codex Skill
 
-Kanbalone ships with a Codex skill for API-only kanban operations at `skills/soloboard-api`.
+Kanbalone ships with a Codex skill for API-only kanban operations at `skills/kanbalone-api`.
 
 Install it from a repository checkout:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
 If you use only the Docker image, fetch the skill from the GitHub release tag to the host running Codex:
@@ -18,9 +18,9 @@ If you use only the Docker image, fetch the skill from the GitHub release tag to
 ```bash
 tmpdir=$(mktemp -d)
 curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.15.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.15/skills/soloboard-api
+  | tar -xz -C "$tmpdir" kanbalone-0.9.15/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.15/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 

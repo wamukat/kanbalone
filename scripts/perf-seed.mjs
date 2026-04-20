@@ -1,12 +1,12 @@
 import { mkdir, writeFile } from "node:fs/promises";
 
-const BASE_URL = process.env.SOLOBOARD_BASE_URL ?? "http://127.0.0.1:3000";
-const BOARD_NAME = process.env.SOLOBOARD_PERF_BOARD ?? "Perf 1000";
-const TICKET_COUNT = Number(process.env.SOLOBOARD_PERF_TICKETS ?? "1000");
-const TAG_COUNT = Number(process.env.SOLOBOARD_PERF_TAGS ?? "20");
-const MIN_COMMENTS = Number(process.env.SOLOBOARD_PERF_MIN_COMMENTS ?? "10");
-const MAX_COMMENTS = Number(process.env.SOLOBOARD_PERF_MAX_COMMENTS ?? "50");
-const OVERWRITE = process.env.SOLOBOARD_PERF_OVERWRITE === "true";
+const BASE_URL = process.env.KANBALONE_BASE_URL ?? "http://127.0.0.1:3000";
+const BOARD_NAME = process.env.KANBALONE_PERF_BOARD ?? "Perf 1000";
+const TICKET_COUNT = Number(process.env.KANBALONE_PERF_TICKETS ?? "1000");
+const TAG_COUNT = Number(process.env.KANBALONE_PERF_TAGS ?? "20");
+const MIN_COMMENTS = Number(process.env.KANBALONE_PERF_MIN_COMMENTS ?? "10");
+const MAX_COMMENTS = Number(process.env.KANBALONE_PERF_MAX_COMMENTS ?? "50");
+const OVERWRITE = process.env.KANBALONE_PERF_OVERWRITE === "true";
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -170,7 +170,7 @@ async function main() {
   const matchingBoards = existing.boards.filter((item) => item.name === BOARD_NAME);
   if (matchingBoards.length > 0 && !OVERWRITE) {
     throw new Error(
-      `Board "${BOARD_NAME}" already exists. Re-run with SOLOBOARD_PERF_OVERWRITE=true to replace it.`,
+      `Board "${BOARD_NAME}" already exists. Re-run with KANBALONE_PERF_OVERWRITE=true to replace it.`,
     );
   }
   for (const board of matchingBoards) {

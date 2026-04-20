@@ -151,7 +151,7 @@ export function createBoardSettingsModule(ctx) {
 
   function toggleSidebar() {
     state.sidebarCollapsed = !state.sidebarCollapsed;
-    localStorage.setItem("soloboard:sidebar-collapsed", String(state.sidebarCollapsed));
+    localStorage.setItem("kanbalone:sidebar-collapsed", String(state.sidebarCollapsed));
     syncSidebar();
   }
 

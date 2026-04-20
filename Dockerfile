@@ -52,7 +52,7 @@ LABEL org.opencontainers.image.title="Kanbalone" \
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
-ENV SOLOBOARD_DB_FILE=/app/data/soloboard.sqlite
+ENV KANBALONE_DB_FILE=/app/data/kanbalone.sqlite
 
 COPY --chown=node:node --from=build /app/package.json ./package.json
 COPY --chown=node:node --from=prod-deps /app/node_modules ./node_modules

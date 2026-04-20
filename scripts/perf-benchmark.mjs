@@ -4,11 +4,11 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
-const BASE_URL = process.env.SOLOBOARD_BASE_URL ?? "http://127.0.0.1:3000";
-const BOARD_NAME = process.env.SOLOBOARD_PERF_BOARD ?? "Perf 1000";
-const RUNS = Number(process.env.SOLOBOARD_PERF_RUNS ?? "5");
+const BASE_URL = process.env.KANBALONE_BASE_URL ?? "http://127.0.0.1:3000";
+const BOARD_NAME = process.env.KANBALONE_PERF_BOARD ?? "Perf 1000";
+const RUNS = Number(process.env.KANBALONE_PERF_RUNS ?? "5");
 const AGENT_BROWSER = process.env.AGENT_BROWSER_BIN ?? "agent-browser";
-const AGENT_BROWSER_SESSION = process.env.AGENT_BROWSER_SESSION ?? "soloboard-ui";
+const AGENT_BROWSER_SESSION = process.env.AGENT_BROWSER_SESSION ?? "kanbalone-ui";
 
 async function api(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {

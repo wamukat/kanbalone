@@ -1,5 +1,5 @@
 ---
-name: soloboard-api
+name: kanbalone-api
 description: "Operate Kanbalone kanban boards through the HTTP API only. Use when the user asks Codex to inspect, create, update, move, comment on, transition, archive, import/export, or otherwise manage Kanbalone kanban tickets or boards without browser/UI interaction."
 ---
 
@@ -11,7 +11,7 @@ Use Kanbalone's HTTP API for kanban operations. Do not use browser automation or
 
 - Prefer a URL explicitly provided by the user, such as `http://127.0.0.1:3000/boards/4`.
 - Derive the API base from that URL, for example `http://127.0.0.1:3000`.
-- If no URL is provided, use `SOLOBOARD_URL` when set.
+- If no URL is provided, use `KANBALONE_URL` when set.
 - If neither is available, default to `http://127.0.0.1:3000` and verify with `GET /api/health`.
 
 ## Tooling
@@ -19,9 +19,9 @@ Use Kanbalone's HTTP API for kanban operations. Do not use browser automation or
 Prefer the bundled helper for API calls:
 
 ```bash
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base http://127.0.0.1:3000 GET /api/boards
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base http://127.0.0.1:3000/boards/4 GET /api/health
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base http://127.0.0.1:3000 POST /api/tickets/95/comments '{"bodyMarkdown":"Started work."}'
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base http://127.0.0.1:3000 GET /api/boards
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base http://127.0.0.1:3000/boards/4 GET /api/health
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base http://127.0.0.1:3000 POST /api/tickets/95/comments '{"bodyMarkdown":"Started work."}'
 ```
 
 The helper accepts either an origin URL or a Kanbalone page URL in `--base`; it normalizes page URLs such as `/boards/4` to the API origin. It prints formatted JSON, exits non-zero on HTTP errors, and reads JSON from the final argument or stdin. `curl` is also acceptable for simple calls.
@@ -33,7 +33,7 @@ Read [references/api.md](references/api.md) when you need exact endpoints, paylo
 Create a Markdown ticket:
 
 ```bash
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" POST /api/boards/"$BOARD_ID"/tickets '{
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/boards/"$BOARD_ID"/tickets '{
   "laneId": 12,
   "title": "Implement webhook settings",
   "bodyMarkdown": "# Goal\n\nAdd webhook settings.\n\n## Acceptance\n\n- [ ] Save endpoint URL\n- [ ] Send test notification",
@@ -49,7 +49,7 @@ python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" PO
 Add a Markdown comment:
 
 ```bash
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/comments '{
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/comments '{
   "bodyMarkdown": "Implemented in `abc1234`.\n\nVerification:\n\n- `pnpm check` passed"
 }'
 ```
@@ -57,19 +57,19 @@ python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" PO
 Change priority:
 
 ```bash
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID" '{"priority":4}'
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID" '{"priority":4}'
 ```
 
 Move within a board:
 
 ```bash
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID"/transition '{"laneName":"doing","isResolved":false}'
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID"/transition '{"laneName":"doing","isResolved":false}'
 ```
 
 Move to another board:
 
 ```bash
-python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/move '{"boardId":4,"laneId":12}'
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/move '{"boardId":4,"laneId":12}'
 ```
 
 ## Operating Workflow

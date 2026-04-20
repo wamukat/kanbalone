@@ -1,5 +1,5 @@
 {
-  "name": "soloboard",
+  "name": "kanbalone",
   "version": "0.9.15",
   "description": "Kanbalone: ultra-light local personal kanban for human and AI collaboration",
   "type": "module",
@@ -19,7 +19,6 @@
   },
   "keywords": [
     "kanbalone",
-    "soloboard",
     "kanban",
     "fastify",
     "sqlite"

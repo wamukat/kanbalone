@@ -66,7 +66,7 @@ pnpm exec tsc -p tsconfig.json --noEmit
 
 ## UI Preference Storage
 
-Browser-side UI preferences are stored in `localStorage` under `soloboard:ui-preferences`. The stored payload is versioned.
+Browser-side UI preferences are stored in `localStorage` under `kanbalone:ui-preferences`. The stored payload is versioned.
 
 Stored values:
 

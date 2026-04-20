@@ -7,7 +7,7 @@ export function createSidebarBoardsModule(ctx, options) {
     const hasBoards = state.boards.length > 0;
     if (!hasBoards && state.sidebarCollapsed) {
       state.sidebarCollapsed = false;
-      localStorage.setItem("soloboard:sidebar-collapsed", "false");
+      localStorage.setItem("kanbalone:sidebar-collapsed", "false");
       options.syncSidebar();
     }
     elements.shell.classList.toggle("no-boards", !hasBoards);

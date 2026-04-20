@@ -8,7 +8,7 @@ This guide follows the order a new user can use to start working.
 
 This short demo shows ticket creation with Markdown, creating and attaching a tag, drag and drop, search, filters, comments, and List view.
 
-![Kanbalone demo](../assets/soloboard-demo.webp)
+![Kanbalone demo](../assets/kanbalone-demo.webp)
 
 ## 1. Create Your First Board
 
@@ -150,8 +150,8 @@ It follows the OS or browser color-scheme setting. When your system is in dark m
 ```bash
 docker run --rm \
   -p 3000:3000 \
-  -v soloboard-data:/app/data \
-  ghcr.io/wamukat/soloboard:v0.9.15
+  -v kanbalone-data:/app/data \
+  ghcr.io/wamukat/kanbalone:v0.9.15
 ```
 
 Open:
@@ -160,6 +160,6 @@ Open:
 http://127.0.0.1:3000
 ```
 
-Data is stored at `/app/data/soloboard.sqlite`. With a Docker named volume, data survives container recreation.
+Data is stored at `/app/data/kanbalone.sqlite`. With a Docker named volume, data survives container recreation.
 
 Kanbalone does not include authentication. Do not expose it directly to untrusted networks.

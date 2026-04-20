@@ -1,4 +1,4 @@
 interface:
   display_name: "Kanbalone API"
   short_description: "Operate Kanbalone kanban through its HTTP API"
-  default_prompt: "Use $soloboard-api to inspect and update my Kanbalone kanban via API."
+  default_prompt: "Use $kanbalone-api to inspect and update my Kanbalone kanban via API."

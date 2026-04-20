@@ -33,13 +33,13 @@ The Docker image should expose the following contract.
 | Container port | `3000` |
 | Default host | `0.0.0.0` |
 | Data directory | `/app/data` |
-| Default database file | `/app/data/soloboard.sqlite` |
+| Default database file | `/app/data/kanbalone.sqlite` |
 | Health endpoint | `GET /api/health` |
 
 Published image:
 
 ```text
-ghcr.io/wamukat/soloboard
+ghcr.io/wamukat/kanbalone
 ```
 
 Supported environment variables:
@@ -48,7 +48,7 @@ Supported environment variables:
 | --- | --- | --- |
 | `HOST` | `0.0.0.0` | Bind address inside the container. |
 | `PORT` | `3000` | Application port inside the container. |
-| `SOLOBOARD_DB_FILE` | `/app/data/soloboard.sqlite` | SQLite database path. |
+| `KANBALONE_DB_FILE` | `/app/data/kanbalone.sqlite` | SQLite database path. |
 
 Recommended `docker run` usage:
 
@@ -57,7 +57,7 @@ mkdir -p data
 docker run --rm \
   -p 3000:3000 \
   -v "$PWD/data:/app/data" \
-  ghcr.io/wamukat/soloboard:latest
+  ghcr.io/wamukat/kanbalone:latest
 ```
 
 When using a bind mount on Linux, the host directory must be writable by UID `1000`, the `node` user inside the image.
@@ -65,18 +65,18 @@ When using a bind mount on Linux, the host directory must be writable by UID `10
 Recommended Docker Compose port mapping:
 
 ```yaml
-name: soloboard
+name: kanbalone
 
 services:
-  soloboard:
+  kanbalone:
     # ...
     ports:
       - "${KANBAN_PORT:-3000}:3000"
     volumes:
-      - soloboard-data:/app/data
+      - kanbalone-data:/app/data
 
 volumes:
-  soloboard-data:
+  kanbalone-data:
 ```
 
 For users who want to run the published image without building locally, use:
@@ -87,7 +87,7 @@ docker compose -f docker-compose.image.yml up
 
 The container should keep `PORT=3000` by default. Users should usually change only the host-side port.
 
-Compose should not set `container_name`. Compose project names are the standard isolation mechanism, and users can override the project name with `docker compose -p <name> up`. With the default project name, the container appears as `soloboard-soloboard-1` instead of an opaque random name.
+Compose should not set `container_name`. Compose project names are the standard isolation mechanism, and users can override the project name with `docker compose -p <name> up`. With the default project name, the container appears as `kanbalone-kanbalone-1` instead of an opaque random name.
 
 Compose should default to a named volume instead of `./data:/app/data`. A bind mount is convenient for direct file access, but on Linux a missing host directory can be created as root-owned before the non-root container starts. A Docker-managed named volume avoids that first-run permission trap.
 
@@ -111,8 +111,8 @@ The `Dockerfile` should keep these properties.
 
 Acceptance criteria:
 
-- `docker build -t soloboard:local .` succeeds.
-- `docker run --rm -p 3000:3000 -v "$PWD/data:/app/data" soloboard:local` starts.
+- `docker build -t kanbalone:local .` succeeds.
+- `docker run --rm -p 3000:3000 -v "$PWD/data:/app/data" kanbalone:local` starts.
 - `curl http://127.0.0.1:3000/api/health` returns success.
 - Creating a board writes to the mounted `./data` directory.
 
@@ -120,12 +120,12 @@ Acceptance criteria:
 
 The Compose file should keep these properties.
 
-- Set top-level `name: soloboard` for predictable Compose resource names.
-- Keep the service name `soloboard`.
+- Set top-level `name: kanbalone` for predictable Compose resource names.
+- Keep the service name `kanbalone`.
 - Do not set `container_name`; it can collide with other Compose projects and prevents Compose from owning naming cleanly.
 - Map `${KANBAN_PORT:-3000}:3000`.
 - Keep `PORT: 3000` inside the container.
-- Keep `SOLOBOARD_DB_FILE: /app/data/soloboard.sqlite`.
+- Keep `KANBALONE_DB_FILE: /app/data/kanbalone.sqlite`.
 - Use a named volume for default local persistence.
 - Document bind mounts as an explicit option for users who want direct host-file access.
 - Keep `restart: unless-stopped`.
@@ -133,9 +133,9 @@ The Compose file should keep these properties.
 Acceptance criteria:
 
 - `docker compose up --build` starts the app at `http://127.0.0.1:3000`.
-- `docker compose ps` shows a predictable service container name such as `soloboard-soloboard-1`.
+- `docker compose ps` shows a predictable service container name such as `kanbalone-kanbalone-1`.
 - `KANBAN_PORT=3457 docker compose up --build` starts the app at `http://127.0.0.1:3457`.
-- The SQLite database is persisted in the `soloboard-data` named volume by default.
+- The SQLite database is persisted in the `kanbalone-data` named volume by default.
 
 ### User Documentation
 
@@ -160,7 +160,7 @@ Add an image publishing workflow when the project is ready to publish images.
 
 Recommended registry:
 
-- GitHub Container Registry: `ghcr.io/wamukat/soloboard`
+- GitHub Container Registry: `ghcr.io/wamukat/kanbalone`
 
 Recommended tags:
 
@@ -186,14 +186,14 @@ Before considering Docker distribution complete, run:
 ```bash
 pnpm build
 pnpm test
-docker build -t soloboard:local .
+docker build -t kanbalone:local .
 docker run --rm -d \
-  --name soloboard-test \
+  --name kanbalone-test \
   -p 3000:3000 \
   -v "$PWD/data:/app/data" \
-  soloboard:local
+  kanbalone:local
 curl http://127.0.0.1:3000/api/health
-docker rm -f soloboard-test
+docker rm -f kanbalone-test
 docker compose up --build
 ```
 
@@ -206,9 +206,9 @@ pnpm test:e2e
 ## Operational Notes
 
 - The SQLite database is the main backup target.
-- The default database path is `/app/data/soloboard.sqlite`.
-- When using the default Docker Compose setup, the database is stored in the `soloboard-data` named volume.
-- When using a bind mount, the host copy is typically `./data/soloboard.sqlite`.
+- The default database path is `/app/data/kanbalone.sqlite`.
+- When using the default Docker Compose setup, the database is stored in the `kanbalone-data` named volume.
+- When using a bind mount, the host copy is typically `./data/kanbalone.sqlite`.
 - Stop the container before copying the database for a simple consistent backup.
 - Do not run multiple Kanbalone containers against the same SQLite file.
 - Do not expose the app directly to the public internet; Kanbalone currently has no authentication.

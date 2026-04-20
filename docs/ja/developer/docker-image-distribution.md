@@ -31,13 +31,13 @@ Kanbalone は引き続き single-user / single-process app です。
 | Container port | `3000` |
 | Default host | `0.0.0.0` |
 | Data directory | `/app/data` |
-| Default database file | `/app/data/soloboard.sqlite` |
+| Default database file | `/app/data/kanbalone.sqlite` |
 | Health endpoint | `GET /api/health` |
 
 公開 Image:
 
 ```text
-ghcr.io/wamukat/soloboard
+ghcr.io/wamukat/kanbalone
 ```
 
 対応する環境変数:
@@ -46,7 +46,7 @@ ghcr.io/wamukat/soloboard
 | --- | --- | --- |
 | `HOST` | `0.0.0.0` | Container 内の bind address。 |
 | `PORT` | `3000` | Container 内の application port。 |
-| `SOLOBOARD_DB_FILE` | `/app/data/soloboard.sqlite` | SQLite database path。 |
+| `KANBALONE_DB_FILE` | `/app/data/kanbalone.sqlite` | SQLite database path。 |
 
 推奨 `docker run`:
 
@@ -55,7 +55,7 @@ mkdir -p data
 docker run --rm \
   -p 3000:3000 \
   -v "$PWD/data:/app/data" \
-  ghcr.io/wamukat/soloboard:latest
+  ghcr.io/wamukat/kanbalone:latest
 ```
 
 Linux で bind mount を使う場合、host directory は image 内の `node` user である UID `1000` から書き込み可能である必要があります。
@@ -63,18 +63,18 @@ Linux で bind mount を使う場合、host directory は image 内の `node` us
 推奨 Docker Compose port mapping:
 
 ```yaml
-name: soloboard
+name: kanbalone
 
 services:
-  soloboard:
+  kanbalone:
     # ...
     ports:
       - "${KANBAN_PORT:-3000}:3000"
     volumes:
-      - soloboard-data:/app/data
+      - kanbalone-data:/app/data
 
 volumes:
-  soloboard-data:
+  kanbalone-data:
 ```
 
 公開 Image を local build せずに使う場合:
@@ -85,7 +85,7 @@ docker compose -f docker-compose.image.yml up
 
 Container 内の `PORT` は基本的に `3000` のままにします。通常、user が変えるのは host 側の port だけです。
 
-Compose では `container_name` を設定しません。Compose project name が標準的な分離機構であり、必要なら `docker compose -p <name> up` で上書きできます。デフォルト project name では container は `soloboard-soloboard-1` のように表示されます。
+Compose では `container_name` を設定しません。Compose project name が標準的な分離機構であり、必要なら `docker compose -p <name> up` で上書きできます。デフォルト project name では container は `kanbalone-kanbalone-1` のように表示されます。
 
 Compose の default persistence は `./data:/app/data` ではなく named volume にします。Bind mount は file へ直接アクセスできて便利ですが、Linux では存在しない host directory が root-owned で作成され、non-root container の初回起動で permission trap になりえます。Docker-managed named volume はこの問題を避けられます。
 
@@ -109,8 +109,8 @@ Compose の default persistence は `./data:/app/data` ではなく named volume
 
 受け入れ条件:
 
-- `docker build -t soloboard:local .` が成功する。
-- `docker run --rm -p 3000:3000 -v "$PWD/data:/app/data" soloboard:local` が起動する。
+- `docker build -t kanbalone:local .` が成功する。
+- `docker run --rm -p 3000:3000 -v "$PWD/data:/app/data" kanbalone:local` が起動する。
 - `curl http://127.0.0.1:3000/api/health` が成功する。
 - Board を作成すると mounted `./data` directory に書き込まれる。
 
@@ -118,12 +118,12 @@ Compose の default persistence は `./data:/app/data` ではなく named volume
 
 Compose file は以下を満たします。
 
-- Predictable resource names のため top-level `name: soloboard` を設定する。
-- Service name は `soloboard` のままにする。
+- Predictable resource names のため top-level `name: kanbalone` を設定する。
+- Service name は `kanbalone` のままにする。
 - `container_name` は設定しない。
 - `${KANBAN_PORT:-3000}:3000` で port mapping する。
 - Container 内の `PORT` は `3000` にする。
-- `SOLOBOARD_DB_FILE` は `/app/data/soloboard.sqlite` にする。
+- `KANBALONE_DB_FILE` は `/app/data/kanbalone.sqlite` にする。
 - Default local persistence には named volume を使う。
 - Host file に直接アクセスしたい user 向けに bind mount を明示的な option として document する。
 - `restart: unless-stopped` を維持する。
@@ -131,9 +131,9 @@ Compose file は以下を満たします。
 受け入れ条件:
 
 - `docker compose up --build` で `http://127.0.0.1:3000` に起動する。
-- `docker compose ps` で `soloboard-soloboard-1` のような predictable service container name が表示される。
+- `docker compose ps` で `kanbalone-kanbalone-1` のような predictable service container name が表示される。
 - `KANBAN_PORT=3457 docker compose up --build` で `http://127.0.0.1:3457` に起動する。
-- SQLite database が default では `soloboard-data` named volume に永続化される。
+- SQLite database が default では `kanbalone-data` named volume に永続化される。
 
 ### ユーザードキュメント
 
@@ -152,7 +152,7 @@ Image publishing workflow は、image 公開準備ができた段階で追加し
 
 推奨 registry:
 
-- GitHub Container Registry: `ghcr.io/wamukat/soloboard`
+- GitHub Container Registry: `ghcr.io/wamukat/kanbalone`
 
 推奨 tags:
 
@@ -172,14 +172,14 @@ Docker 配布を完了扱いにする前に実行します。
 ```bash
 pnpm build
 pnpm test
-docker build -t soloboard:local .
+docker build -t kanbalone:local .
 docker run --rm -d \
-  --name soloboard-test \
+  --name kanbalone-test \
   -p 3000:3000 \
   -v "$PWD/data:/app/data" \
-  soloboard:local
+  kanbalone:local
 curl http://127.0.0.1:3000/api/health
-docker rm -f soloboard-test
+docker rm -f kanbalone-test
 docker compose up --build
 ```
 
@@ -192,9 +192,9 @@ pnpm test:e2e
 ## 運用メモ
 
 - SQLite database が主な backup target です。
-- Default database path は `/app/data/soloboard.sqlite` です。
-- Default Docker Compose setup では database は `soloboard-data` named volume に保存されます。
-- Bind mount を使う場合、host copy は通常 `./data/soloboard.sqlite` です。
+- Default database path は `/app/data/kanbalone.sqlite` です。
+- Default Docker Compose setup では database は `kanbalone-data` named volume に保存されます。
+- Bind mount を使う場合、host copy は通常 `./data/kanbalone.sqlite` です。
 - 単純で一貫した backup のため、database copy 前に container を停止してください。
 - 同じ SQLite file に対して複数 Kanbalone container を起動しないでください。
 - Kanbalone には現在認証がないため、public internet に直接公開しないでください。

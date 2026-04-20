@@ -1,19 +1,19 @@
-name: soloboard
+name: kanbalone
 
 services:
-  soloboard:
+  kanbalone:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       HOST: 0.0.0.0
       PORT: 3000
-      SOLOBOARD_DB_FILE: /app/data/soloboard.sqlite
+      KANBALONE_DB_FILE: /app/data/kanbalone.sqlite
     ports:
       - "${KANBAN_PORT:-3000}:3000"
     volumes:
-      - soloboard-data:/app/data
+      - kanbalone-data:/app/data
     restart: unless-stopped
 
 volumes:
-  soloboard-data:
+  kanbalone-data:

@@ -6,7 +6,7 @@ import { buildApp } from "./app.js";
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? "127.0.0.1";
 const dataDir = path.join(process.cwd(), "data");
-const dbFile = process.env.SOLOBOARD_DB_FILE ?? path.join(dataDir, "soloboard.sqlite");
+const dbFile = process.env.KANBALONE_DB_FILE ?? path.join(dataDir, "kanbalone.sqlite");
 
 fs.mkdirSync(dataDir, { recursive: true });
 

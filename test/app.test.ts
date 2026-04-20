@@ -9,7 +9,7 @@ import { KanbanDb } from "../src/db.js";
 import packageJson from "../package.json" with { type: "json" };
 
 function createDbFile(): string {
-  return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "soloboard-test-")), "test.sqlite");
+  return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "kanbalone-test-")), "test.sqlite");
 }
 
 test("migration creates archive-aware ticket indexes", () => {
