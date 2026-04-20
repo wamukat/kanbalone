@@ -43,7 +43,7 @@ http://127.0.0.1:3000
 User guide:
 
 ```text
-https://wamukat.github.io/SoloBoard/
+https://wamukat.github.io/kanbalone/
 ```
 
 Use `ghcr.io/wamukat/soloboard:latest` when you want the newest released image instead of a pinned version.
@@ -100,10 +100,10 @@ When you use only the Docker image, fetch the skill from the matching GitHub rel
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/SoloBoard/archive/refs/tags/v0.9.15.tar.gz \
-  | tar -xz -C "$tmpdir" SoloBoard-0.9.15/skills/soloboard-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.15.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.9.15/skills/soloboard-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -113,7 +113,7 @@ The skill runs from the host and talks to the Kanbalone HTTP API, for example `h
 
 Published user guide:
 
-- <https://wamukat.github.io/SoloBoard/>
+- <https://wamukat.github.io/kanbalone/>
 
 For users and API clients:
 

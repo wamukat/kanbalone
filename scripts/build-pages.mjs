@@ -158,7 +158,7 @@ function renderPage({ lang, title, description, body, switchLabel, switchHref, p
         ${navLink(`${BASE_PATH}/${lang}/user-guide/`, lang === "ja" ? "ユーザーガイド" : "User Guide", section === "user-guide")}
         ${navLink(`${BASE_PATH}/${lang}/api/`, "API", section === "api")}
         <a href="${switchHref}">${switchLabel}</a>
-        <a href="https://github.com/wamukat/SoloBoard">GitHub</a>
+        <a href="https://github.com/wamukat/kanbalone">GitHub</a>
       </nav>
     </header>
     <main class="content">
@@ -168,7 +168,7 @@ function renderPage({ lang, title, description, body, switchLabel, switchHref, p
       ${body}
     </main>
     <footer class="site-footer">
-      <a href="https://github.com/wamukat/SoloBoard">Kanbalone (v${packageJson.version})</a>
+      <a href="https://github.com/wamukat/kanbalone">Kanbalone (v${packageJson.version})</a>
     </footer>
   </body>
 </html>

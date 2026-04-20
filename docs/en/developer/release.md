@@ -124,8 +124,8 @@ Pushing the tag triggers `.github/workflows/docker-publish.yml`.
 Watch the publish workflow:
 
 ```bash
-gh run list --repo wamukat/SoloBoard --limit 10
-gh run watch <run-id> --repo wamukat/SoloBoard --exit-status
+gh run list --repo wamukat/kanbalone --limit 10
+gh run watch <run-id> --repo wamukat/kanbalone --exit-status
 ```
 
 Expected workflows:
@@ -172,7 +172,7 @@ Create the release after the Docker image publish succeeds.
 
 ```bash
 gh release create vX.Y.Z \
-  --repo wamukat/SoloBoard \
+  --repo wamukat/kanbalone \
   --title "Kanbalone vX.Y.Z" \
   --notes-file /path/to/release-notes.md
 ```

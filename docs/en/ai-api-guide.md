@@ -17,10 +17,10 @@ If you use only the Docker image, fetch the skill from the GitHub release tag to
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/SoloBoard/archive/refs/tags/v0.9.15.tar.gz \
-  | tar -xz -C "$tmpdir" SoloBoard-0.9.15/skills/soloboard-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.15.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.9.15/skills/soloboard-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
