@@ -1,6 +1,6 @@
 # パフォーマンスツール
 
-SoloBoard には、大きな board をローカルで検証するための performance script が含まれます。
+Kanbalone には、大きな board をローカルで検証するための performance script が含まれます。
 
 ## シードデータ作成
 

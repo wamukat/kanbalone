@@ -1,20 +1,20 @@
-# SoloBoard
+# Kanbalone
 
 [日本語](README.ja.md)
 
 <p align="center">
-  <img src="public/app-icon.svg" alt="SoloBoard app icon" width="120" height="120" />
+  <img src="public/app-icon.svg" alt="Kanbalone app icon" width="120" height="120" />
 </p>
 
-SoloBoard is a small local kanban app optimized for individuals who develop together with AI.
+Kanbalone is a small local kanban app optimized for individuals who develop together with AI. It was previously named SoloBoard.
 
 You can start it quickly with Docker and use it right away. In addition to a browser-based web UI for humans, it also provides a JSON API that is easy for scripts and AI agents to use.
 
-![SoloBoard kanban screenshot](docs/assets/soloboard-kanban.png)
+![Kanbalone kanban screenshot](docs/assets/soloboard-kanban.png)
 
-![SoloBoard demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/soloboard-demo.webp)
+![Kanbalone demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/soloboard-demo.webp)
 
-## Why SoloBoard
+## Why Kanbalone
 
 - Optimized for one person and one machine working with AI, without user or permission management.
 - All data is stored locally.
@@ -72,7 +72,7 @@ The provided Compose file uses a Docker named volume, `soloboard-data`, for pers
 
 On Windows, use Docker Desktop or Rancher Desktop with WSL2 and keep the named volume setup.
 
-SoloBoard does not include authentication. Do not expose it directly to untrusted networks.
+Kanbalone does not include authentication. Do not expose it directly to untrusted networks.
 
 ## Local Development
 
@@ -89,7 +89,7 @@ http://127.0.0.1:3000
 
 ## Codex Skill
 
-SoloBoard includes a Codex skill for API-only kanban operations:
+Kanbalone includes a Codex skill for API-only kanban operations:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
@@ -107,7 +107,7 @@ cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.code
 rm -rf "$tmpdir"
 ```
 
-The skill runs from the host and talks to the SoloBoard HTTP API, for example `http://127.0.0.1:3000`.
+The skill runs from the host and talks to the Kanbalone HTTP API, for example `http://127.0.0.1:3000`.
 
 ## Documentation
 

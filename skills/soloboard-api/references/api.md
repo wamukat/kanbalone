@@ -1,4 +1,4 @@
-# SoloBoard API Reference
+# Kanbalone API Reference
 
 Use these endpoints with a base URL such as `http://127.0.0.1:3000`.
 
@@ -7,7 +7,7 @@ When a user gives a page URL such as `http://127.0.0.1:3000/boards/4`, use `http
 ## System
 
 - `GET /api/health` -> `{ "ok": true }`
-- `GET /api/meta` -> `{ "name": "SoloBoard", "version": "X.Y.Z" }`
+- `GET /api/meta` -> `{ "name": "Kanbalone", "version": "X.Y.Z" }`
 
 ## Boards
 

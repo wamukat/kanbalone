@@ -64,7 +64,7 @@ test("meta endpoint exposes app name and package version", async () => {
     });
     assert.equal(response.statusCode, 200);
     assert.deepEqual(response.json(), {
-      name: "SoloBoard",
+      name: "Kanbalone",
       version: packageJson.version,
     });
   } finally {

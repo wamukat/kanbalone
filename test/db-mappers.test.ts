@@ -7,12 +7,12 @@ test("mapComment renders markdown without changing persisted markdown", () => {
   const comment = mapComment({
     id: 1,
     ticket_id: 2,
-    body_markdown: "Hello **SoloBoard**",
+    body_markdown: "Hello **Kanbalone**",
     created_at: "2026-04-13T00:00:00.000Z",
   });
 
-  assert.equal(comment.bodyMarkdown, "Hello **SoloBoard**");
-  assert.match(comment.bodyHtml, /<strong>SoloBoard<\/strong>/);
+  assert.equal(comment.bodyMarkdown, "Hello **Kanbalone**");
+  assert.match(comment.bodyHtml, /<strong>Kanbalone<\/strong>/);
 });
 
 test("mapActivityLog tolerates invalid details json", () => {

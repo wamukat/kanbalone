@@ -1,6 +1,6 @@
-# SoloBoard Design System
+# Kanbalone Design System
 
-SoloBoard should feel as precise and polished as products like Plane.so and Linear, while keeping the speed and simplicity expected from a local-first tool for solo developers.
+Kanbalone should feel as precise and polished as products like Plane.so and Linear, while keeping the speed and simplicity expected from a local-first tool for solo developers.
 
 ## Design Intent
 
@@ -9,7 +9,7 @@ SoloBoard should feel as precise and polished as products like Plane.so and Line
 - Feeling: Plane-style refined minimal with soft depth.
 - Priorities: readability, speed, density, low-friction operation, quiet polish.
 
-SoloBoard is not a loud SaaS dashboard. It is a work surface that should stay comfortable when it is open all day. The design should rely on spacing, typography, borders, and subtle layering instead of decoration.
+Kanbalone is not a loud SaaS dashboard. It is a work surface that should stay comfortable when it is open all day. The design should rely on spacing, typography, borders, and subtle layering instead of decoration.
 
 ## Color Palette
 
@@ -36,7 +36,7 @@ SoloBoard is not a loud SaaS dashboard. It is a work surface that should stay co
 
 ### Dark Mode
 
-Dark mode is applied automatically through `prefers-color-scheme: dark`. SoloBoard does not provide an in-app Light / Dark toggle; it follows the OS or browser appearance setting.
+Dark mode is applied automatically through `prefers-color-scheme: dark`. Kanbalone does not provide an in-app Light / Dark toggle; it follows the OS or browser appearance setting.
 
 Keep the palette neutral and ink-like instead of leaning into dark blue or purple.
 

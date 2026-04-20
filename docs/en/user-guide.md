@@ -1,6 +1,6 @@
-# SoloBoard User Guide
+# Kanbalone User Guide
 
-SoloBoard is a lightweight kanban tool for personal work, small release planning, and collaboration with AI agents.
+Kanbalone is a lightweight kanban tool for personal work, small release planning, and collaboration with AI agents.
 
 This guide follows the order a new user can use to start working.
 
@@ -8,7 +8,7 @@ This guide follows the order a new user can use to start working.
 
 This short demo shows ticket creation with Markdown, creating and attaching a tag, drag and drop, search, filters, comments, and List view.
 
-![SoloBoard demo](../assets/soloboard-demo.webp)
+![Kanbalone demo](../assets/soloboard-demo.webp)
 
 ## 1. Create Your First Board
 
@@ -139,9 +139,9 @@ Open the gear and click the pencil icon next to the board name to edit the name 
 
 ## 13. Dark Mode
 
-SoloBoard does not have an in-app Light / Dark toggle.
+Kanbalone does not have an in-app Light / Dark toggle.
 
-It follows the OS or browser color-scheme setting. When your system is in dark mode, SoloBoard uses the dark theme.
+It follows the OS or browser color-scheme setting. When your system is in dark mode, Kanbalone uses the dark theme.
 
 ![Dark mode](../assets/user-guide/13-dark-mode.png)
 
@@ -162,4 +162,4 @@ http://127.0.0.1:3000
 
 Data is stored at `/app/data/soloboard.sqlite`. With a Docker named volume, data survives container recreation.
 
-SoloBoard does not include authentication. Do not expose it directly to untrusted networks.
+Kanbalone does not include authentication. Do not expose it directly to untrusted networks.

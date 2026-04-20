@@ -163,7 +163,7 @@ function buildPayload() {
 async function main() {
   const health = await fetch(`${BASE_URL}/api/health`).catch(() => null);
   if (!health?.ok) {
-    throw new Error(`SoloBoard is not reachable at ${BASE_URL}`);
+    throw new Error(`Kanbalone is not reachable at ${BASE_URL}`);
   }
 
   const existing = await api("/api/boards");

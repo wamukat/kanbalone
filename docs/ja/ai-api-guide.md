@@ -1,11 +1,11 @@
-# SoloBoard AI API ガイド
+# Kanbalone AI API ガイド
 
-この API は、ローカル環境で動作する単一ユーザー向けの SoloBoard API です。
+この API は、ローカル環境で動作する単一ユーザー向けの Kanbalone API です。
 ベース URL は通常 `http://127.0.0.1:3000` です。
 
 ## Codex Skill
 
-SoloBoard には、API だけで Kanban を操作するための Codex skill を `skills/soloboard-api` に同梱しています。
+Kanbalone には、API だけで Kanban を操作するための Codex skill を `skills/soloboard-api` に同梱しています。
 
 repository checkout からインストールする場合:
 
@@ -25,7 +25,7 @@ cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.code
 rm -rf "$tmpdir"
 ```
 
-Codex は SoloBoard container の外側で動くため、skill はホスト側にインストールします。そのうえで、起動中の SoloBoard API に HTTP で接続します。
+Codex は Kanbalone container の外側で動くため、skill はホスト側にインストールします。そのうえで、起動中の Kanbalone API に HTTP で接続します。
 
 ## 推奨ワークフロー
 

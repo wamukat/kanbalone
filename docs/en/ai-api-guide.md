@@ -1,10 +1,10 @@
-# SoloBoard AI API Guide
+# Kanbalone AI API Guide
 
-This API is a local, single-user SoloBoard API. The base URL is usually `http://127.0.0.1:3000`.
+This API is a local, single-user Kanbalone API. The base URL is usually `http://127.0.0.1:3000`.
 
 ## Codex Skill
 
-SoloBoard ships with a Codex skill for API-only kanban operations at `skills/soloboard-api`.
+Kanbalone ships with a Codex skill for API-only kanban operations at `skills/soloboard-api`.
 
 Install it from a repository checkout:
 
@@ -24,7 +24,7 @@ cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.code
 rm -rf "$tmpdir"
 ```
 
-The skill is installed on the host because Codex runs outside the SoloBoard container. It then talks to the running SoloBoard API over HTTP.
+The skill is installed on the host because Codex runs outside the Kanbalone container. It then talks to the running Kanbalone API over HTTP.
 
 ## Recommended Workflow
 

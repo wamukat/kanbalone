@@ -1,8 +1,8 @@
 # Docker Image Distribution Design
 
-This document defines the Docker image distribution design for SoloBoard.
+This document defines the Docker image distribution design for Kanbalone.
 
-SoloBoard provides a production-oriented Dockerfile and a Docker Compose file for local deployment.
+Kanbalone provides a production-oriented Dockerfile and a Docker Compose file for local deployment.
 
 ## Goals
 
@@ -22,7 +22,7 @@ SoloBoard provides a production-oriented Dockerfile and a Docker Compose file fo
 - Replace the local SQLite persistence model.
 - Support multiple app containers sharing the same SQLite database.
 
-SoloBoard is still intended to be a single-user, single-process app.
+Kanbalone is still intended to be a single-user, single-process app.
 
 ## Runtime Contract
 
@@ -146,7 +146,7 @@ Acceptance criteria:
 - How to change the host port.
 - Where data is stored.
 - How to back up the SQLite database.
-- That SoloBoard has no authentication and should not be exposed to untrusted networks.
+- That Kanbalone has no authentication and should not be exposed to untrusted networks.
 
 Acceptance criteria:
 
@@ -210,8 +210,8 @@ pnpm test:e2e
 - When using the default Docker Compose setup, the database is stored in the `soloboard-data` named volume.
 - When using a bind mount, the host copy is typically `./data/soloboard.sqlite`.
 - Stop the container before copying the database for a simple consistent backup.
-- Do not run multiple SoloBoard containers against the same SQLite file.
-- Do not expose the app directly to the public internet; SoloBoard currently has no authentication.
+- Do not run multiple Kanbalone containers against the same SQLite file.
+- Do not expose the app directly to the public internet; Kanbalone currently has no authentication.
 
 ## Platform Follow-Up
 

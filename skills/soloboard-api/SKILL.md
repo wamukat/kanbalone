@@ -1,11 +1,11 @@
 ---
 name: soloboard-api
-description: "Operate SoloBoard kanban boards through the HTTP API only. Use when the user asks Codex to inspect, create, update, move, comment on, transition, archive, import/export, or otherwise manage SoloBoard kanban tickets or boards without browser/UI interaction."
+description: "Operate Kanbalone kanban boards through the HTTP API only. Use when the user asks Codex to inspect, create, update, move, comment on, transition, archive, import/export, or otherwise manage Kanbalone kanban tickets or boards without browser/UI interaction."
 ---
 
-# SoloBoard API
+# Kanbalone API
 
-Use SoloBoard's HTTP API for kanban operations. Do not use browser automation or UI clicks for this skill.
+Use Kanbalone's HTTP API for kanban operations. Do not use browser automation or UI clicks for this skill.
 
 ## Base URL
 
@@ -24,7 +24,7 @@ python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base http://127
 python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base http://127.0.0.1:3000 POST /api/tickets/95/comments '{"bodyMarkdown":"Started work."}'
 ```
 
-The helper accepts either an origin URL or a SoloBoard page URL in `--base`; it normalizes page URLs such as `/boards/4` to the API origin. It prints formatted JSON, exits non-zero on HTTP errors, and reads JSON from the final argument or stdin. `curl` is also acceptable for simple calls.
+The helper accepts either an origin URL or a Kanbalone page URL in `--base`; it normalizes page URLs such as `/boards/4` to the API origin. It prints formatted JSON, exits non-zero on HTTP errors, and reads JSON from the final argument or stdin. `curl` is also acceptable for simple calls.
 
 Read [references/api.md](references/api.md) when you need exact endpoints, payload shapes, or examples.
 
@@ -103,7 +103,7 @@ python3 ~/.codex/skills/soloboard-api/scripts/soloboard_api.py --base "$BASE" PO
 - Ask before destructive or high-impact operations unless the user explicitly requested them: deleting boards, lanes, tags, tickets, comments, bulk complete, bulk transition, bulk archive, or import into a production board.
 - Do not mutate an arbitrary existing ticket for a smoke test. If the user asks to "try" an update without naming a target ticket, create a disposable test ticket first and update that ticket.
 - Remember that `POST /api/boards/import` creates a new board from an export payload; it does not merge into an existing board.
-- Use priority values only in the SoloBoard range: `1` low, `2` medium, `3` high, `4` urgent.
+- Use priority values only in the Kanbalone range: `1` low, `2` medium, `3` high, `4` urgent.
 - Preserve existing fields when updating a ticket unless the API supports a partial change for the field you need.
 - Prefer comments for audit trails when doing project work: record start, commit SHA, verification, review, release, or blockers.
 - Avoid parallel writes to the same board or ticket when ordering matters. Sequentially add comments or apply dependent mutations in one thread of control.

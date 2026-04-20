@@ -15,8 +15,8 @@ const packageJson = JSON.parse(await readFile(path.join(ROOT, "package.json"), "
 const pages = [
   {
     lang: "ja",
-    title: "SoloBoard ユーザーガイド",
-    description: "SoloBoard の初回起動、ボード作成、チケット作成、整理方法を順番に説明します。",
+    title: "Kanbalone ユーザーガイド",
+    description: "Kanbalone の初回起動、ボード作成、チケット作成、整理方法を順番に説明します。",
     source: "docs/ja/user-guide.md",
     output: "ja/user-guide/index.html",
     path: "/ja/user-guide/",
@@ -26,8 +26,8 @@ const pages = [
   },
   {
     lang: "en",
-    title: "SoloBoard User Guide",
-    description: "Learn SoloBoard from first launch through board setup, ticket creation, and cleanup.",
+    title: "Kanbalone User Guide",
+    description: "Learn Kanbalone from first launch through board setup, ticket creation, and cleanup.",
     source: "docs/en/user-guide.md",
     output: "en/user-guide/index.html",
     path: "/en/user-guide/",
@@ -37,8 +37,8 @@ const pages = [
   },
   {
     lang: "ja",
-    title: "SoloBoard API ガイド",
-    description: "SoloBoard のローカル JSON API、チケット操作、検索、SSE、OpenAPI 仕様を説明します。",
+    title: "Kanbalone API ガイド",
+    description: "Kanbalone のローカル JSON API、チケット操作、検索、SSE、OpenAPI 仕様を説明します。",
     source: "docs/ja/ai-api-guide.md",
     output: "ja/api/index.html",
     path: "/ja/api/",
@@ -48,8 +48,8 @@ const pages = [
   },
   {
     lang: "ja",
-    title: "SoloBoard API 例",
-    description: "curl で SoloBoard API を操作するための実例集です。",
+    title: "Kanbalone API 例",
+    description: "curl で Kanbalone API を操作するための実例集です。",
     source: "docs/ja/api-examples.md",
     output: "ja/api-examples/index.html",
     path: "/ja/api-examples/",
@@ -59,8 +59,8 @@ const pages = [
   },
   {
     lang: "ja",
-    title: "SoloBoard データモデルと概念",
-    description: "SoloBoard の Board、Lane、Ticket、Relation、Archive の考え方を説明します。",
+    title: "Kanbalone データモデルと概念",
+    description: "Kanbalone の Board、Lane、Ticket、Relation、Archive の考え方を説明します。",
     source: "docs/ja/concepts.md",
     output: "ja/concepts/index.html",
     path: "/ja/concepts/",
@@ -70,8 +70,8 @@ const pages = [
   },
   {
     lang: "en",
-    title: "SoloBoard API Guide",
-    description: "Learn the SoloBoard local JSON API for ticket operations, search, SSE, and OpenAPI usage.",
+    title: "Kanbalone API Guide",
+    description: "Learn the Kanbalone local JSON API for ticket operations, search, SSE, and OpenAPI usage.",
     source: "docs/en/ai-api-guide.md",
     output: "en/api/index.html",
     path: "/en/api/",
@@ -81,8 +81,8 @@ const pages = [
   },
   {
     lang: "en",
-    title: "SoloBoard API Examples",
-    description: "Practical curl examples for using the SoloBoard API.",
+    title: "Kanbalone API Examples",
+    description: "Practical curl examples for using the Kanbalone API.",
     source: "docs/en/api-examples.md",
     output: "en/api-examples/index.html",
     path: "/en/api-examples/",
@@ -92,8 +92,8 @@ const pages = [
   },
   {
     lang: "en",
-    title: "SoloBoard Data Model And Concepts",
-    description: "Learn the SoloBoard Board, Lane, Ticket, Relation, and Archive model.",
+    title: "Kanbalone Data Model And Concepts",
+    description: "Learn the Kanbalone Board, Lane, Ticket, Relation, and Archive model.",
     source: "docs/en/concepts.md",
     output: "en/concepts/index.html",
     path: "/en/concepts/",
@@ -130,7 +130,7 @@ function renderPage({ lang, title, description, body, switchLabel, switchHref, p
     <meta name="description" content="${escapeHtml(description)}" />
     <meta name="theme-color" content="#1f6f5f" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="SoloBoard" />
+    <meta property="og:site_name" content="Kanbalone" />
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${pageUrl}" />
@@ -152,7 +152,7 @@ function renderPage({ lang, title, description, body, switchLabel, switchHref, p
     <header class="site-header">
       <a class="brand" href="${BASE_PATH}/">
         <img src="${BASE_PATH}/assets/app-icon.svg" alt="" width="40" height="40" />
-        <span>SoloBoard</span>
+        <span>Kanbalone</span>
       </a>
       <nav>
         ${navLink(`${BASE_PATH}/${lang}/user-guide/`, lang === "ja" ? "ユーザーガイド" : "User Guide", section === "user-guide")}
@@ -168,7 +168,7 @@ function renderPage({ lang, title, description, body, switchLabel, switchHref, p
       ${body}
     </main>
     <footer class="site-footer">
-      <a href="https://github.com/wamukat/SoloBoard">SoloBoard (v${packageJson.version})</a>
+      <a href="https://github.com/wamukat/SoloBoard">Kanbalone (v${packageJson.version})</a>
     </footer>
   </body>
 </html>
@@ -331,7 +331,7 @@ function buildApiIntro(page) {
   const conceptHref = `${BASE_PATH}/${page.lang}/concepts/`;
   if (page.lang === "ja") {
     return [
-      "このページは、SoloBoard の JSON API をブラウザで参照できるようにした公開解説です。",
+      "このページは、Kanbalone の JSON API をブラウザで参照できるようにした公開解説です。",
       "",
       `- [OpenAPI YAML](${openApiHref})`,
       `- [API 例](${examplesHref})`,
@@ -340,7 +340,7 @@ function buildApiIntro(page) {
     ].join("\n");
   }
   return [
-    "This page is the public browser-readable guide for the SoloBoard JSON API.",
+    "This page is the public browser-readable guide for the Kanbalone JSON API.",
     "",
     `- [OpenAPI YAML](${openApiHref})`,
     `- [API examples](${examplesHref})`,
@@ -384,24 +384,24 @@ await writeFile(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="SoloBoard user guide and API guide." />
+    <meta name="description" content="Kanbalone user guide and API guide." />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="SoloBoard" />
-    <meta property="og:title" content="SoloBoard Guides" />
-    <meta property="og:description" content="SoloBoard user guide and API guide." />
+    <meta property="og:site_name" content="Kanbalone" />
+    <meta property="og:title" content="Kanbalone Guides" />
+    <meta property="og:description" content="Kanbalone user guide and API guide." />
     <meta property="og:url" content="${SITE_BASE_URL}/" />
     <meta property="og:image" content="${SITE_BASE_URL}/assets/app-icon-512.png" />
     <meta name="twitter:card" content="summary" />
     <meta http-equiv="refresh" content="0; url=${BASE_PATH}/ja/user-guide/" />
-    <title>SoloBoard Guides</title>
+    <title>Kanbalone Guides</title>
     <link rel="canonical" href="${SITE_BASE_URL}/" />
     <link rel="icon" href="${BASE_PATH}/assets/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
-    <p><a href="${BASE_PATH}/ja/user-guide/">SoloBoard ユーザーガイド</a></p>
-    <p><a href="${BASE_PATH}/ja/api/">SoloBoard API ガイド</a></p>
-    <p><a href="${BASE_PATH}/en/user-guide/">SoloBoard User Guide</a></p>
-    <p><a href="${BASE_PATH}/en/api/">SoloBoard API Guide</a></p>
+    <p><a href="${BASE_PATH}/ja/user-guide/">Kanbalone ユーザーガイド</a></p>
+    <p><a href="${BASE_PATH}/ja/api/">Kanbalone API ガイド</a></p>
+    <p><a href="${BASE_PATH}/en/user-guide/">Kanbalone User Guide</a></p>
+    <p><a href="${BASE_PATH}/en/api/">Kanbalone API Guide</a></p>
   </body>
 </html>
 `,

@@ -1,6 +1,6 @@
 # Performance Tooling
 
-SoloBoard includes local-only performance scripts for large-board testing.
+Kanbalone includes local-only performance scripts for large-board testing.
 
 ## Seed Data
 

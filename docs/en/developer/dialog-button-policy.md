@@ -1,6 +1,6 @@
 # Dialog Button Policy
 
-This document defines the footer actions for SoloBoard dialogs.
+This document defines the footer actions for Kanbalone dialogs.
 
 ## Inventory
 

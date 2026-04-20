@@ -1,21 +1,21 @@
-# SoloBoard
+# Kanbalone
 
 [English](README.md)
 
 <p align="center">
-  <img src="public/app-icon.svg" alt="SoloBoard アプリアイコン" width="120" height="120" />
+  <img src="public/app-icon.svg" alt="Kanbalone アプリアイコン" width="120" height="120" />
 </p>
 
-SoloBoard は、個人が AI とともに開発するのために最適化した小さなローカル Kanban アプリです。
+Kanbalone は、個人が AI とともに開発するために最適化した小さなローカル Kanban アプリです。旧称は SoloBoard です。
 
 Dockerでサクッと起動してすぐ使えます。
 ブラウザで人間が使える Web UI に加えて、スクリプトや AI エージェントから利用しやすい JSON API も備えています。
 
-![SoloBoard kanban screenshot](docs/assets/soloboard-kanban.png)
+![Kanbalone kanban screenshot](docs/assets/soloboard-kanban.png)
 
-![チケット作成、タグ、ドラッグアンドドロップ、検索、フィルタ、コメント、リスト表示を操作する SoloBoard デモ](docs/assets/soloboard-demo.webp)
+![チケット作成、タグ、ドラッグアンドドロップ、検索、フィルタ、コメント、リスト表示を操作する Kanbalone デモ](docs/assets/soloboard-demo.webp)
 
-## SoloBoard の特徴
+## Kanbalone の特徴
 
 - AI と共に 1 人で 1台のマシンで使うことに最適化し、ユーザ管理や権限管理は排除
 - データは全てローカルで保存
@@ -89,7 +89,7 @@ http://127.0.0.1:3000
 
 ## Codex Skill
 
-SoloBoard には、API だけで Kanban を操作するための Codex skill を同梱しています。
+Kanbalone には、API だけで Kanban を操作するための Codex skill を同梱しています。
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
@@ -107,7 +107,7 @@ cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.code
 rm -rf "$tmpdir"
 ```
 
-skill はホスト側で実行され、`http://127.0.0.1:3000` などの SoloBoard HTTP API に接続します。
+skill はホスト側で実行され、`http://127.0.0.1:3000` などの Kanbalone HTTP API に接続します。
 
 ## Documentation
 

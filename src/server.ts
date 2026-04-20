@@ -16,5 +16,5 @@ const app = buildApp({
 });
 
 app.listen({ host, port }).then(() => {
-  console.log(`SoloBoard listening on http://${host}:${port}`);
+  console.log(`Kanbalone listening on http://${host}:${port}`);
 });

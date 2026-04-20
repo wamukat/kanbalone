@@ -45,7 +45,7 @@ FROM node:22-bookworm-slim AS runtime
 
 WORKDIR /app
 
-LABEL org.opencontainers.image.title="SoloBoard" \
+LABEL org.opencontainers.image.title="Kanbalone" \
   org.opencontainers.image.description="Ultra-light local personal kanban for human and AI collaboration" \
   org.opencontainers.image.licenses="MIT"
 

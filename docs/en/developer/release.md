@@ -1,6 +1,6 @@
 # Release Guide
 
-This document describes how to publish a SoloBoard release.
+This document describes how to publish a Kanbalone release.
 
 ## Release Outputs
 
@@ -173,7 +173,7 @@ Create the release after the Docker image publish succeeds.
 ```bash
 gh release create vX.Y.Z \
   --repo wamukat/SoloBoard \
-  --title "SoloBoard vX.Y.Z" \
+  --title "Kanbalone vX.Y.Z" \
   --notes-file /path/to/release-notes.md
 ```
 
@@ -222,7 +222,7 @@ Run with Docker Compose:
 docker compose -f docker-compose.image.yml up -d
 ```
 
-Persistent data is stored at `/app/data/soloboard.sqlite`. Back up that SQLite file before upgrades. SoloBoard currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
+Persistent data is stored at `/app/data/soloboard.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
 
 Platform support:
 
