@@ -87,6 +87,28 @@ Default URL:
 http://127.0.0.1:3000
 ```
 
+## Codex Skill
+
+SoloBoard includes a Codex skill for API-only kanban operations:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+When you use only the Docker image, fetch the skill from the matching GitHub release tag to the host running Codex:
+
+```bash
+tmpdir=$(mktemp -d)
+curl -L https://github.com/wamukat/SoloBoard/archive/refs/tags/v0.9.15.tar.gz \
+  | tar -xz -C "$tmpdir" SoloBoard-0.9.15/skills/soloboard-api
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+rm -rf "$tmpdir"
+```
+
+The skill runs from the host and talks to the SoloBoard HTTP API, for example `http://127.0.0.1:3000`.
+
 ## Documentation
 
 Published user guide:

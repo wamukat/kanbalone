@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoloBoard API"
+  short_description: "Operate SoloBoard kanban through its HTTP API"
+  default_prompt: "Use $soloboard-api to inspect and update my SoloBoard kanban via API."

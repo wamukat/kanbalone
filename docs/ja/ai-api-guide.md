@@ -3,6 +3,30 @@
 この API は、ローカル環境で動作する単一ユーザー向けの SoloBoard API です。
 ベース URL は通常 `http://127.0.0.1:3000` です。
 
+## Codex Skill
+
+SoloBoard には、API だけで Kanban を操作するための Codex skill を `skills/soloboard-api` に同梱しています。
+
+repository checkout からインストールする場合:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+Docker image だけを使う場合は、GitHub release tag から skill を取得して Codex が動くホスト側へコピーします。
+
+```bash
+tmpdir=$(mktemp -d)
+curl -L https://github.com/wamukat/SoloBoard/archive/refs/tags/v0.9.15.tar.gz \
+  | tar -xz -C "$tmpdir" SoloBoard-0.9.15/skills/soloboard-api
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R "$tmpdir"/SoloBoard-0.9.15/skills/soloboard-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+rm -rf "$tmpdir"
+```
+
+Codex は SoloBoard container の外側で動くため、skill はホスト側にインストールします。そのうえで、起動中の SoloBoard API に HTTP で接続します。
+
 ## 推奨ワークフロー
 
 1. まずボード一覧を取得する。
