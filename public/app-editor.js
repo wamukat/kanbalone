@@ -103,6 +103,9 @@ export function createEditorModule(ctx) {
     if (shouldSync) {
       ctx.syncBoardUrl();
     }
+    ctx.flushPendingBoardRefreshAfterDialogClose?.().catch((error) => {
+      console.error(error);
+    });
   }
 
   function closeEditor() {

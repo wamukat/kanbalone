@@ -18,6 +18,7 @@ const state = {
   boardEventsBoardId: null,
   boardRefreshInFlight: false,
   boardRefreshQueued: false,
+  boardRefreshPendingAfterDialog: false,
   isCreatingBoard: false,
   isRenamingBoard: false,
   boardRenameError: "",
@@ -726,7 +727,11 @@ function syncBoardEvents() {
 }
 
 async function handleBoardUpdatedEvent() {
-  if (state.viewMode !== "kanban" || elements.editorDialog.open || !state.activeBoardId) {
+  if (!state.activeBoardId || state.viewMode !== "kanban") {
+    return;
+  }
+  if (elements.editorDialog.open) {
+    state.boardRefreshPendingAfterDialog = true;
     return;
   }
   if (state.boardRefreshInFlight) {
@@ -749,6 +754,14 @@ async function handleBoardUpdatedEvent() {
       });
     }
   }
+}
+
+async function flushPendingBoardRefreshAfterDialogClose() {
+  if (!state.boardRefreshPendingAfterDialog || !state.activeBoardId || state.viewMode !== "kanban") {
+    return;
+  }
+  state.boardRefreshPendingAfterDialog = false;
+  await handleBoardUpdatedEvent();
 }
 
 function readRouteFromLocation() {
@@ -919,6 +932,7 @@ const editorModule = createEditorModule({
   openFormDialog,
   prepareEditorDialogPosition,
   refreshBoardDetail,
+  flushPendingBoardRefreshAfterDialogClose,
   sendJson,
   showToast,
   syncBoardUrl,
