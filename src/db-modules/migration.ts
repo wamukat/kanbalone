@@ -54,6 +54,34 @@ export function migrate(sqlite: Database.Database): void {
       created_at TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS ticket_remote_links (
+      ticket_id INTEGER PRIMARY KEY REFERENCES tickets(id) ON DELETE CASCADE,
+      provider TEXT NOT NULL,
+      instance_url TEXT NOT NULL,
+      resource_type TEXT NOT NULL DEFAULT 'issue',
+      project_key TEXT NOT NULL,
+      issue_key TEXT NOT NULL,
+      display_ref TEXT NOT NULL,
+      remote_url TEXT NOT NULL,
+      remote_title TEXT NOT NULL,
+      remote_body_markdown TEXT NOT NULL DEFAULT '',
+      remote_state TEXT,
+      remote_updated_at TEXT,
+      last_synced_at TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS comment_remote_sync (
+      comment_id INTEGER PRIMARY KEY REFERENCES comments(id) ON DELETE CASCADE,
+      status TEXT NOT NULL,
+      remote_comment_id TEXT,
+      pushed_at TEXT,
+      last_error TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS activity_logs (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       board_id INTEGER NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
@@ -191,5 +219,156 @@ export function migrate(sqlite: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS activity_logs_subject_ticket_created_idx
     ON activity_logs(subject_ticket_id, created_at, id);
+  `);
+
+  ensureTicketRemoteLinksShape(sqlite);
+  ensureCommentRemoteSyncShape(sqlite);
+}
+
+function ensureTicketRemoteLinksShape(sqlite: Database.Database): void {
+  const columns = sqlite.prepare("PRAGMA table_info(ticket_remote_links)").all() as Array<{ name: string }>;
+  const expected = [
+    "ticket_id",
+    "provider",
+    "instance_url",
+    "resource_type",
+    "project_key",
+    "issue_key",
+    "display_ref",
+    "remote_url",
+    "remote_title",
+    "remote_body_markdown",
+    "remote_state",
+    "remote_updated_at",
+    "last_synced_at",
+    "created_at",
+    "updated_at",
+  ];
+  if (expected.every((name) => columns.some((column) => column.name === name))) {
+    sqlite.exec(`
+      DROP INDEX IF EXISTS ticket_remote_links_remote_unique_idx;
+      CREATE UNIQUE INDEX IF NOT EXISTS ticket_remote_links_remote_unique_idx
+      ON ticket_remote_links(provider, instance_url, resource_type, project_key, issue_key);
+    `);
+    return;
+  }
+
+  const hasColumn = (name: string) => columns.some((column) => column.name === name);
+  const selectExpr = (name: string, fallback: string) => (hasColumn(name) ? name : fallback);
+
+  sqlite.exec(`
+    ALTER TABLE ticket_remote_links RENAME TO ticket_remote_links_old;
+
+    CREATE TABLE ticket_remote_links (
+      ticket_id INTEGER PRIMARY KEY REFERENCES tickets(id) ON DELETE CASCADE,
+      provider TEXT NOT NULL,
+      instance_url TEXT NOT NULL,
+      resource_type TEXT NOT NULL DEFAULT 'issue',
+      project_key TEXT NOT NULL,
+      issue_key TEXT NOT NULL,
+      display_ref TEXT NOT NULL,
+      remote_url TEXT NOT NULL,
+      remote_title TEXT NOT NULL,
+      remote_body_markdown TEXT NOT NULL DEFAULT '',
+      remote_state TEXT,
+      remote_updated_at TEXT,
+      last_synced_at TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    INSERT INTO ticket_remote_links (
+      ticket_id,
+      provider,
+      instance_url,
+      resource_type,
+      project_key,
+      issue_key,
+      display_ref,
+      remote_url,
+      remote_title,
+      remote_body_markdown,
+      remote_state,
+      remote_updated_at,
+      last_synced_at,
+      created_at,
+      updated_at
+    )
+    SELECT
+      ticket_id,
+      provider,
+      instance_url,
+      ${selectExpr("resource_type", "'issue'")},
+      project_key,
+      issue_key,
+      display_ref,
+      remote_url,
+      remote_title,
+      ${selectExpr("remote_body_markdown", "''")},
+      ${selectExpr("remote_state", "NULL")},
+      ${selectExpr("remote_updated_at", "NULL")},
+      last_synced_at,
+      created_at,
+      updated_at
+    FROM ticket_remote_links_old;
+
+    DROP TABLE ticket_remote_links_old;
+
+    CREATE UNIQUE INDEX ticket_remote_links_remote_unique_idx
+    ON ticket_remote_links(provider, instance_url, resource_type, project_key, issue_key);
+  `);
+}
+
+function ensureCommentRemoteSyncShape(sqlite: Database.Database): void {
+  const columns = sqlite.prepare("PRAGMA table_info(comment_remote_sync)").all() as Array<{ name: string }>;
+  const expected = [
+    "comment_id",
+    "status",
+    "remote_comment_id",
+    "pushed_at",
+    "last_error",
+    "created_at",
+    "updated_at",
+  ];
+  if (expected.every((name) => columns.some((column) => column.name === name))) {
+    return;
+  }
+
+  const hasColumn = (name: string) => columns.some((column) => column.name === name);
+  const selectExpr = (name: string, fallback: string) => (hasColumn(name) ? name : fallback);
+
+  sqlite.exec(`
+    ALTER TABLE comment_remote_sync RENAME TO comment_remote_sync_old;
+
+    CREATE TABLE comment_remote_sync (
+      comment_id INTEGER PRIMARY KEY REFERENCES comments(id) ON DELETE CASCADE,
+      status TEXT NOT NULL,
+      remote_comment_id TEXT,
+      pushed_at TEXT,
+      last_error TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    INSERT INTO comment_remote_sync (
+      comment_id,
+      status,
+      remote_comment_id,
+      pushed_at,
+      last_error,
+      created_at,
+      updated_at
+    )
+    SELECT
+      comment_id,
+      status,
+      ${selectExpr("remote_comment_id", "NULL")},
+      ${selectExpr("pushed_at", "NULL")},
+      ${selectExpr("last_error", "NULL")},
+      created_at,
+      updated_at
+    FROM comment_remote_sync_old;
+
+    DROP TABLE comment_remote_sync_old;
   `);
 }

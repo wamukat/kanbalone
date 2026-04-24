@@ -9,10 +9,19 @@ test("mapComment renders markdown without changing persisted markdown", () => {
     ticket_id: 2,
     body_markdown: "Hello **Kanbalone**",
     created_at: "2026-04-13T00:00:00.000Z",
+  }, {
+    commentId: 1,
+    status: "local_only",
+    remoteCommentId: null,
+    pushedAt: null,
+    lastError: null,
+    createdAt: "2026-04-13T00:00:00.000Z",
+    updatedAt: "2026-04-13T00:00:00.000Z",
   });
 
   assert.equal(comment.bodyMarkdown, "Hello **Kanbalone**");
   assert.match(comment.bodyHtml, /<strong>Kanbalone<\/strong>/);
+  assert.equal(comment.sync.status, "local_only");
 });
 
 test("mapActivityLog tolerates invalid details json", () => {

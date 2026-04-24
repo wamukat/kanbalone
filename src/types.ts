@@ -54,6 +54,34 @@ export type CommentRow = {
   created_at: string;
 };
 
+export type TicketRemoteLinkRow = {
+  ticket_id: Id;
+  provider: string;
+  instance_url: string;
+  resource_type: string;
+  project_key: string;
+  issue_key: string;
+  display_ref: string;
+  remote_url: string;
+  remote_title: string;
+  remote_body_markdown: string;
+  remote_state: string | null;
+  remote_updated_at: string | null;
+  last_synced_at: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CommentRemoteSyncRow = {
+  comment_id: Id;
+  status: "local_only" | "pushed" | "push_failed";
+  remote_comment_id: string | null;
+  pushed_at: string | null;
+  last_error: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type ActivityLogRow = {
   id: Id;
   board_id: Id;
@@ -122,6 +150,7 @@ export type TicketView = {
   children: TicketRelationView[];
   ref: string;
   shortRef: string;
+  remote: TicketRemoteLinkView | null;
 };
 
 export type TicketSummaryView = {
@@ -140,6 +169,7 @@ export type TicketSummaryView = {
   blockerIds: Id[];
   ref: string;
   shortRef: string;
+  remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null;
 };
 
 export type CommentView = {
@@ -148,6 +178,36 @@ export type CommentView = {
   bodyMarkdown: string;
   bodyHtml: string;
   createdAt: string;
+  sync: CommentRemoteSyncView;
+};
+
+export type TicketRemoteLinkView = {
+  ticketId: Id;
+  provider: string;
+  instanceUrl: string;
+  resourceType: string;
+  projectKey: string;
+  issueKey: string;
+  displayRef: string;
+  url: string;
+  title: string;
+  bodyMarkdown: string;
+  bodyHtml: string;
+  state: string | null;
+  remoteUpdatedAt: string | null;
+  lastSyncedAt: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CommentRemoteSyncView = {
+  commentId: Id;
+  status: "local_only" | "pushed" | "push_failed";
+  remoteCommentId: string | null;
+  pushedAt: string | null;
+  lastError: string | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ActivityLogView = {
@@ -193,5 +253,10 @@ export type BoardExport = {
   board: BoardView;
   lanes: LaneView[];
   tags: TagView[];
-  tickets: Array<Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "parent" | "children" | "ref" | "shortRef"> & { isCompleted?: boolean }>;
+  tickets: Array<
+    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "parent" | "children" | "ref" | "shortRef" | "remote" | "comments"> & {
+      comments: Array<Omit<CommentView, "sync">>;
+      isCompleted?: boolean;
+    }
+  >;
 };

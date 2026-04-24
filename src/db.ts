@@ -24,6 +24,7 @@ import {
 } from "./db-modules/board.js";
 import {
   addComment,
+  getComment,
   deleteComment,
   listActivity,
   listComments,
@@ -51,6 +52,16 @@ import {
 } from "./db-modules/ticket-mutations.js";
 import { importBoardPayload, toBoardExport } from "./db-modules/board-transfer.js";
 import { migrate } from "./db-modules/migration.js";
+import {
+  getCommentRemoteSync,
+  findTicketIdByRemoteIdentity,
+  getTicketRemoteLink,
+  upsertCommentRemoteSync,
+  upsertTicketRemoteLink,
+  type RemoteIdentityInput,
+  type UpsertCommentRemoteSyncInput,
+  type UpsertTicketRemoteLinkInput,
+} from "./db-modules/remote-tracking.js";
 import { type ListTicketsFilters } from "./db-modules/ticket-queries.js";
 import {
   getTicket as getTicketRecord,
@@ -65,9 +76,11 @@ import {
   type BoardExport,
   type BoardView,
   type CommentView,
+  type CommentRemoteSyncView,
   type Id,
   type TagView,
   type LaneView,
+  type TicketRemoteLinkView,
   type TicketRelationsView,
   type TicketSummaryView,
   type TicketView,
@@ -196,6 +209,18 @@ export class KanbanDb {
     return createTicketRecord(this.sqlite, input, this.now.bind(this));
   }
 
+  createTrackedTicketFromRemote(input: CreateTicketInput, remote: Omit<UpsertTicketRemoteLinkInput, "ticketId">): TicketView {
+    const tx = this.sqlite.transaction(() => {
+      const ticket = createTicketRecord(this.sqlite, input, this.now.bind(this));
+      upsertTicketRemoteLink(this.sqlite, {
+        ...remote,
+        ticketId: ticket.id,
+      }, this.now());
+      return ticket.id;
+    });
+    return this.getTicket(tx())!;
+  }
+
   updateTicket(ticketId: Id, input: UpdateTicketInput): TicketView {
     return updateTicketRecord(this.sqlite, ticketId, input, this.now.bind(this));
   }
@@ -216,8 +241,45 @@ export class KanbanDb {
     return listComments(this.sqlite, ticketId);
   }
 
+  getComment(commentId: Id): CommentView | null {
+    return getComment(this.sqlite, commentId);
+  }
+
   updateComment(input: UpdateCommentInput): CommentView {
     return updateComment(this.sqlite, input, this.now());
+  }
+
+  getTicketRemoteLink(ticketId: Id): TicketRemoteLinkView | null {
+    return getTicketRemoteLink(this.sqlite, ticketId);
+  }
+
+  upsertTicketRemoteLink(input: UpsertTicketRemoteLinkInput): TicketRemoteLinkView {
+    return upsertTicketRemoteLink(this.sqlite, input, this.now());
+  }
+
+  findTicketIdByRemoteIdentity(input: RemoteIdentityInput): Id | null {
+    return findTicketIdByRemoteIdentity(this.sqlite, input);
+  }
+
+  refreshTrackedTicketFromRemote(ticketId: Id, input: UpsertTicketRemoteLinkInput): TicketView {
+    const tx = this.sqlite.transaction(() => {
+      const ticket = this.getTicket(ticketId);
+      if (!ticket) {
+        throw new Error("Ticket not found");
+      }
+      this.sqlite.prepare("UPDATE tickets SET title = ?, updated_at = ? WHERE id = ?").run(input.title, this.now(), ticketId);
+      upsertTicketRemoteLink(this.sqlite, input, this.now());
+      return ticketId;
+    });
+    return this.getTicket(tx())!;
+  }
+
+  getCommentRemoteSync(commentId: Id): CommentRemoteSyncView | null {
+    return getCommentRemoteSync(this.sqlite, commentId);
+  }
+
+  upsertCommentRemoteSync(input: UpsertCommentRemoteSyncInput): CommentRemoteSyncView {
+    return upsertCommentRemoteSync(this.sqlite, input, this.now());
   }
 
   deleteComment(commentId: Id): { ticketId: Id; boardId: Id } {

@@ -137,6 +137,7 @@ export function createBoardModule(ctx) {
     deleteLane: kanbanModule.deleteLane,
     exportBoard: boardSettingsModule.exportBoard,
     importBoard: boardSettingsModule.importBoard,
+    importRemoteIssue: boardSettingsModule.importRemoteIssue,
     toggleSidebar: boardSettingsModule.toggleSidebar,
     toggleBoardSettings: boardSettingsModule.toggleBoardSettings,
     syncSidebar: boardSettingsModule.syncSidebar,

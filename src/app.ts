@@ -6,6 +6,11 @@ import fastifyStatic from "@fastify/static";
 import { readPackageMeta } from "./app-meta.js";
 import { BoardEventHub } from "./board-event-hub.js";
 import { KanbanDb } from "./db.js";
+import type { RemoteAdapterRegistry } from "./remote/adapters.js";
+import { getConfiguredCredentialProviders } from "./remote/credentials.js";
+import { GithubIssueAdapter } from "./remote/github-adapter.js";
+import { GitlabIssueAdapter } from "./remote/gitlab-adapter.js";
+import { RedmineIssueAdapter } from "./remote/redmine-adapter.js";
 import {
   getIdParam,
   parseBooleanQuery,
@@ -31,6 +36,7 @@ import { registerWebRoutes } from "./routes/web.js";
 type BuildAppOptions = {
   dbFile: string;
   staticDir?: string;
+  remoteAdapters?: RemoteAdapterRegistry;
 };
 
 export function buildApp(options: BuildAppOptions): FastifyInstance {
@@ -39,6 +45,16 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
   const staticDir = options.staticDir ?? path.join(process.cwd(), "public");
   const appMeta = readPackageMeta();
   const boardEventHub = new BoardEventHub();
+  const remoteAdapters = options.remoteAdapters ?? {
+    github: new GithubIssueAdapter(),
+    gitlab: new GitlabIssueAdapter(),
+    redmine: new RedmineIssueAdapter(),
+  };
+  const configuredProviders = new Set(getConfiguredCredentialProviders());
+  const remoteProviderMeta = ["github", "gitlab", "redmine"].map((id) => ({
+    id,
+    hasCredential: configuredProviders.has(id),
+  }));
 
   app.addHook("onClose", async () => {
     boardEventHub.close();
@@ -50,16 +66,21 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     prefix: "/",
   });
 
-  registerSystemRoutes(app, appMeta);
+  registerSystemRoutes(app, {
+    ...appMeta,
+    remoteProviders: remoteProviderMeta,
+  });
   registerBoardRoutes(app, {
     addBoardEventClient: boardEventHub.addClient,
     db,
     getIdParam,
     publishBoardEvent: boardEventHub.publish,
     removeBoardEventClient: boardEventHub.removeClient,
+    remoteAdapters,
     sanitizeStringArray,
     schemas: routeSchemas,
     serializeBoardDetail,
+    serializeTicket,
   });
 
   registerLaneRoutes(app, {
@@ -82,6 +103,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     parseTicketMutationBody,
     publishBoardEvent: boardEventHub.publish,
     resolveResolvedFlag,
+    remoteAdapters,
     schemas: routeSchemas,
     serializeTicket,
     serializeTicketRelation,

@@ -40,8 +40,13 @@ export function toBoardExport(detail: BoardDetailView): BoardExport {
       children: _children,
       ref: _ref,
       shortRef: _shortRef,
+      remote: _remote,
       ...ticket
-    }) => ({ ...ticket, isCompleted: ticket.isResolved })),
+    }) => ({
+      ...ticket,
+      comments: ticket.comments.map(({ sync: _sync, ...comment }) => comment),
+      isCompleted: ticket.isResolved,
+    })),
   };
 }
 

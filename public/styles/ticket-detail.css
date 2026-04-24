@@ -13,6 +13,7 @@
 }
 
 .ticket-inline-title-button,
+.ticket-inline-title-static,
 .ticket-detail-badge-button {
   display: inline-flex;
   align-items: center;
@@ -36,6 +37,142 @@
 .ticket-inline-title-button span {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.ticket-inline-title-static {
+  width: 100%;
+  padding: 0.12rem 0.28rem;
+  color: var(--text);
+  cursor: default;
+  overflow-wrap: anywhere;
+}
+
+.ticket-body-tabs {
+  margin-top: -0.15rem;
+}
+
+.ticket-remote-summary {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border-soft));
+  border-radius: var(--radius-surface);
+  background: color-mix(in srgb, var(--accent-soft) 32%, var(--surface-1));
+}
+
+.ticket-remote-summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ticket-remote-summary-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.ticket-remote-provider,
+.ticket-remote-ref,
+.ticket-remote-card-ref,
+.list-ticket-remote-ref {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 0.14rem 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--accent-soft) 58%, transparent);
+  color: var(--accent);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-control);
+}
+
+.remote-provider-badge,
+.remote-ref-badge {
+  gap: 0.32rem;
+}
+
+.remote-provider-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--icon-size-meta);
+  height: var(--icon-size-meta);
+  color: currentColor;
+}
+
+.remote-provider-icon .icon {
+  width: var(--icon-size-meta);
+  height: var(--icon-size-meta);
+}
+
+.remote-provider-initials {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  font-size: 0.58rem;
+  font-weight: var(--font-weight-strong);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.ticket-remote-ref {
+  color: var(--text);
+  text-decoration: none;
+}
+
+a.ticket-remote-ref:hover {
+  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.ticket-remote-state {
+  font-size: var(--font-size-label);
+}
+
+.ticket-remote-summary-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.ticket-remote-summary-actions button {
+  padding: 0.3rem 0.55rem;
+  font-size: var(--font-size-label);
+}
+
+.ticket-remote-summary-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: var(--font-size-label);
+}
+
+.ticket-remote-summary-meta span + span::before {
+  content: "·";
+  margin-right: 0.5rem;
+}
+
+.ticket-remote-body-note {
+  margin-bottom: 0.45rem;
+  font-size: var(--font-size-label);
+}
+
+.ticket-remote-body-rendered {
+  padding: 0.75rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  background: var(--surface-inset);
 }
 
 .ticket-detail-badge-button {

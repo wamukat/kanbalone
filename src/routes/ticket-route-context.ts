@@ -1,4 +1,5 @@
 import type { KanbanDb } from "../db.js";
+import type { RemoteAdapterRegistry } from "../remote/adapters.js";
 import type { Id, TicketRelationView, TicketSummaryView, TicketView } from "../types.js";
 
 export type TicketMutationBody = {
@@ -40,8 +41,11 @@ export type TicketRoutesSchemas = {
   ticketCreateBodySchema: unknown;
   ticketListQuerySchema: unknown;
   ticketMoveBodySchema: unknown;
+  ticketRemoteImportBodySchema: unknown;
   ticketRelationsSchema: unknown;
   ticketSchema: unknown;
+  ticketRemoteRefreshResponseSchema: unknown;
+  ticketCommentPushResponseSchema: unknown;
   ticketsResponseSchema: unknown;
   ticketTransitionBodySchema: unknown;
   ticketUpdateBodySchema: unknown;
@@ -53,6 +57,7 @@ export type RegisterTicketRoutesContext = {
   parseBooleanQuery(value: string | undefined): boolean | undefined;
   parseTicketMutationBody(body: TicketMutationBody): TicketMutationBody;
   publishBoardEvent(boardId: Id, event?: string): void;
+  remoteAdapters: RemoteAdapterRegistry;
   resolveResolvedFlag(body: { isResolved?: boolean; isCompleted?: boolean } | undefined): boolean | undefined;
   schemas: TicketRoutesSchemas;
   serializeTicket(ticket: TicketView): unknown;

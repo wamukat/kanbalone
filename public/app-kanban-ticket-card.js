@@ -1,6 +1,7 @@
 import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
 import { icon } from "./icons.js";
+import { renderRemoteRefBadge } from "./app-remote-provider.js";
 
 export function createKanbanTicketCard(ctx, ticket) {
   const { state } = ctx;
@@ -17,6 +18,7 @@ export function createKanbanTicketCard(ctx, ticket) {
       <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
       <span class="ticket-status-icons">${renderTicketStatusIcons(ticket)}</span>
     </div>
+    ${ticket.remote ? renderRemoteRefBadge(ticket.remote, ctx.escapeHtml, "ticket-remote-card-ref") : ""}
     <div class="tag-list">
       ${ticket.tags.map((tag) => renderTag(tag, ctx.escapeHtml)).join("")}
     </div>

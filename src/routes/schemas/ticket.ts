@@ -3,6 +3,68 @@ import { tagViewSchema } from "./tag.js";
 import { commentViewSchema } from "./ticket-comment.js";
 import { ticketRelationSchema } from "./ticket-relation.js";
 
+export const ticketRemoteSummarySchema = {
+  anyOf: [
+    { type: "null" },
+    {
+      type: "object",
+      additionalProperties: false,
+      required: ["provider", "displayRef", "url"],
+      properties: {
+        provider: { type: "string" },
+        displayRef: { type: "string" },
+        url: { type: "string" },
+      },
+    },
+  ],
+} as const;
+
+export const ticketRemoteSchema = {
+  anyOf: [
+    { type: "null" },
+    {
+      type: "object",
+      additionalProperties: false,
+      required: [
+        "ticketId",
+        "provider",
+        "instanceUrl",
+        "resourceType",
+        "projectKey",
+        "issueKey",
+        "displayRef",
+        "url",
+        "title",
+        "bodyMarkdown",
+        "bodyHtml",
+        "state",
+        "remoteUpdatedAt",
+        "lastSyncedAt",
+        "createdAt",
+        "updatedAt",
+      ],
+      properties: {
+        ticketId: positiveIntegerSchema,
+        provider: { type: "string" },
+        instanceUrl: { type: "string" },
+        resourceType: { type: "string" },
+        projectKey: { type: "string" },
+        issueKey: { type: "string" },
+        displayRef: { type: "string" },
+        url: { type: "string" },
+        title: { type: "string" },
+        bodyMarkdown: { type: "string" },
+        bodyHtml: { type: "string" },
+        state: { anyOf: [{ type: "string" }, { type: "null" }] },
+        remoteUpdatedAt: { anyOf: [{ type: "string" }, { type: "null" }] },
+        lastSyncedAt: { type: "string" },
+        createdAt: { type: "string" },
+        updatedAt: { type: "string" },
+      },
+    },
+  ],
+} as const;
+
 export const ticketSchema = {
   type: "object",
   additionalProperties: false,
@@ -30,6 +92,7 @@ export const ticketSchema = {
     "children",
     "ref",
     "shortRef",
+    "remote",
   ],
   properties: {
     id: positiveIntegerSchema,
@@ -73,8 +136,11 @@ export const ticketSchema = {
     },
     ref: { type: "string" },
     shortRef: { type: "string" },
+    remote: ticketRemoteSchema,
   },
 } as const;
+
+export const ticketRemoteRefreshResponseSchema = ticketSchema;
 
 export const ticketSummarySchema = {
   type: "object",
@@ -96,6 +162,7 @@ export const ticketSummarySchema = {
     "blockerIds",
     "ref",
     "shortRef",
+    "remote",
   ],
   properties: {
     id: positiveIntegerSchema,
@@ -120,6 +187,7 @@ export const ticketSummarySchema = {
     },
     ref: { type: "string" },
     shortRef: { type: "string" },
+    remote: ticketRemoteSummarySchema,
   },
 } as const;
 

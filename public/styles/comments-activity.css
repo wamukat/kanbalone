@@ -67,6 +67,14 @@
   margin-bottom: 0.35rem;
 }
 
+.comment-meta-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
 .activity-meta {
   display: flex;
   align-items: center;
@@ -80,6 +88,71 @@
   align-items: center;
   gap: 0.25rem;
   min-width: 0;
+}
+
+.comment-sync-pill,
+.comment-sync-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.35rem;
+  padding: 0.12rem 0.42rem;
+  border-radius: var(--radius-control);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.comment-sync-pill .icon,
+.comment-sync-action .icon {
+  width: var(--icon-size-small);
+  height: var(--icon-size-small);
+}
+
+.comment-sync-pill-pushed {
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+  color: var(--success);
+}
+
+.comment-sync-pill-failed {
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--danger);
+}
+
+.comment-sync-action {
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+}
+
+.comment-sync-error-details {
+  flex-basis: 100%;
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--danger) 16%, transparent);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--danger) 5%, transparent);
+  color: var(--text);
+}
+
+.comment-sync-error-summary {
+  color: var(--danger);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-body);
+}
+
+.comment-sync-error-raw {
+  margin: 0.5rem 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-body);
+}
+
+.comment-sync-failed-toggle {
+  border: none;
+  cursor: pointer;
 }
 
 .comment-edit-form {

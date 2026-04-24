@@ -7,6 +7,7 @@ import { createUxModule } from "./app-ux.js";
 const UI_PREFERENCES_KEY = "kanbalone:ui-preferences";
 const UI_PREFERENCES_VERSION = 1;
 const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
+const EDITOR_DIALOG_WIDTH = 720;
 const storedPreferences = readUiPreferences();
 
 const state = {
@@ -46,7 +47,11 @@ const state = {
   activeBoardDragId: null,
   activeLaneDragId: null,
   dialogMode: "view",
+  dialogTicket: null,
   dialogActivity: [],
+  detailBodyTab: "local",
+  editorBodyTab: "local",
+  editorRemoteImportOpen: false,
   skipDialogCloseSync: false,
   toastTimer: null,
   uxResolver: null,
@@ -268,7 +273,20 @@ const elements = {
   resetFiltersButton: document.querySelector("#reset-filters-button"),
   exportBoardButton: document.querySelector("#export-board-button"),
   importBoardInput: document.querySelector("#import-board-input"),
+  remoteImportCreateButton: document.querySelector("#remote-import-create-button"),
   editorDialog: document.querySelector("#editor-dialog"),
+  editorRemoteImportSheet: document.querySelector("#editor-remote-import-sheet"),
+  editorRemoteImportForm: document.querySelector("#editor-remote-import-form"),
+  editorRemoteImportCloseButton: document.querySelector("#editor-remote-import-close-button"),
+  editorRemoteImportCancelButton: document.querySelector("#editor-remote-import-cancel-button"),
+  editorRemoteImportSubmitButton: document.querySelector("#editor-remote-import-submit-button"),
+  editorRemoteProviderSwitch: document.querySelector("#editor-remote-provider-switch"),
+  editorRemoteProviderOptions: [...document.querySelectorAll("[data-remote-provider-option]")],
+  editorRemoteProviderHelp: document.querySelector("#editor-remote-provider-help"),
+  editorRemoteProvider: document.querySelector("#editor-remote-provider"),
+  editorRemoteLane: document.querySelector("#editor-remote-lane"),
+  editorRemoteUrl: document.querySelector("#editor-remote-url"),
+  editorRemoteImportError: document.querySelector("#editor-remote-import-error"),
   editorHeader: document.querySelector(".editor-header"),
   editorHeaderState: document.querySelector("#editor-header-state"),
   editorHeaderId: document.querySelector("#editor-header-id"),
@@ -281,7 +299,11 @@ const elements = {
   ticketView: document.querySelector("#ticket-view"),
   editorForm: document.querySelector("#editor-form"),
   ticketViewMeta: document.querySelector("#ticket-view-meta"),
+  ticketRemoteSummary: document.querySelector("#ticket-remote-summary"),
   ticketRelations: document.querySelector("#ticket-relations"),
+  ticketBodyTabs: document.querySelector("#ticket-body-tabs"),
+  ticketLocalBodyTabButton: document.querySelector("#ticket-local-body-tab-button"),
+  ticketRemoteBodyTabButton: document.querySelector("#ticket-remote-body-tab-button"),
   ticketViewBody: document.querySelector("#ticket-view-body"),
   commentsTabButton: document.querySelector("#comments-tab-button"),
   activityTabButton: document.querySelector("#activity-tab-button"),
@@ -295,6 +317,7 @@ const elements = {
   commentSaveState: document.querySelector("#comment-save-state"),
   saveCommentButton: document.querySelector("#save-comment-button"),
   ticketTitle: document.querySelector("#ticket-title"),
+  ticketTitleReadonly: document.querySelector("#ticket-title-readonly"),
   ticketLane: document.querySelector("#ticket-lane"),
   ticketParent: document.querySelector("#ticket-parent"),
   ticketParentToggle: document.querySelector("#ticket-parent-toggle"),
@@ -316,7 +339,11 @@ const elements = {
   ticketChildSummary: document.querySelector("#ticket-child-summary"),
   ticketChildSearch: document.querySelector("#ticket-child-search"),
   ticketChildOptions: document.querySelector("#ticket-child-options"),
+  ticketEditBodyTabs: document.querySelector("#ticket-edit-body-tabs"),
+  ticketEditLocalBodyTabButton: document.querySelector("#ticket-edit-local-body-tab-button"),
+  ticketEditRemoteBodyTabButton: document.querySelector("#ticket-edit-remote-body-tab-button"),
   ticketBody: document.querySelector("#ticket-body"),
+  ticketRemoteBodyPanel: document.querySelector("#ticket-remote-body-panel"),
   deleteTicketButton: document.querySelector("#delete-ticket-button"),
   ticketResolvedRow: document.querySelector("#ticket-resolved-row"),
   cancelEditButton: document.querySelector("#cancel-edit-button"),
@@ -349,6 +376,7 @@ async function loadAppMeta() {
   try {
     const meta = await api("/api/meta");
     elements.footerAppLabel.textContent = `${meta.name} (v${meta.version})`;
+    editorModule.setRemoteProviderAvailability?.(meta.remoteProviders ?? []);
   } catch (error) {
     console.warn("Failed to load app metadata", error);
   }
@@ -378,6 +406,11 @@ function bindEvents() {
   elements.commentForm.addEventListener("submit", addComment);
   elements.commentComposeToggle.addEventListener("click", toggleCommentComposer);
   elements.saveCommentButton.addEventListener("click", addComment);
+  elements.remoteImportCreateButton.addEventListener("click", openRemoteImportSheet);
+  elements.editorRemoteProviderSwitch.addEventListener("click", handleRemoteImportProviderClick);
+  elements.editorRemoteImportCloseButton.addEventListener("click", closeRemoteImportSheet);
+  elements.editorRemoteImportCancelButton.addEventListener("click", closeRemoteImportSheet);
+  elements.editorRemoteImportForm.addEventListener("submit", submitRemoteImport);
   elements.ticketComments.addEventListener("click", handleCommentAction);
   elements.editorHeader.addEventListener("click", handleDetailClick);
   elements.ticketView.addEventListener("click", handleDetailClick);
@@ -388,6 +421,8 @@ function bindEvents() {
   elements.ticketView.addEventListener("keydown", handleDetailKeydown);
   elements.commentsTabButton.addEventListener("click", () => setDetailTab("comments"));
   elements.activityTabButton.addEventListener("click", () => setDetailTab("activity"));
+  elements.ticketEditLocalBodyTabButton.addEventListener("click", () => setEditBodyTab("local"));
+  elements.ticketEditRemoteBodyTabButton.addEventListener("click", () => setEditBodyTab("remote"));
   elements.editorHeader.addEventListener("pointerdown", handleEditorHeaderPointerDown);
   elements.uxHeader.addEventListener("pointerdown", handleUxHeaderPointerDown);
   elements.uxForm.addEventListener("submit", handleUxSubmit);
@@ -454,9 +489,9 @@ function applyEditorDialogPosition(position) {
 }
 
 function prepareEditorDialogPosition(scrollY = window.scrollY) {
-  const dialogWidth = Math.min(720, Math.max(0, window.innerWidth - 32));
+  const closedWidth = Math.min(EDITOR_DIALOG_WIDTH, Math.max(0, window.innerWidth - 32));
   const position = {
-    left: Math.max(12, (window.innerWidth - dialogWidth) / 2),
+    left: Math.max(12, (window.innerWidth - closedWidth) / 2),
     top: scrollY + 48,
   };
   state.editorDialogPosition = position;
@@ -609,6 +644,10 @@ function handleDocumentKeydown(event) {
     return;
   }
   event.preventDefault();
+  if (state.editorRemoteImportOpen) {
+    closeRemoteImportSheet();
+    return;
+  }
   closeEditor();
 }
 
@@ -963,6 +1002,7 @@ const {
   handleParentFieldClick,
   handleParentSearchInput,
   handleParentSearchKeydown,
+  handleRemoteImportProviderClick,
   handleTicketTagSearchInput,
   handleTicketTagSearchKeydown,
   handleTicketTagFieldClick,
@@ -972,8 +1012,12 @@ const {
   openParentOptions,
   openTicketTagOptions,
   saveTicket,
+  submitRemoteImport,
+  setEditBodyTab,
   setDetailTab,
   setDialogMode,
+  openRemoteImportSheet,
+  closeRemoteImportSheet,
   syncTicketTagOptions,
   toggleTicketArchive,
 } = editorModule;
@@ -984,6 +1028,7 @@ const boardModule = createBoardModule({
   api,
   confirmAndRun,
   escapeHtml,
+  openFormDialog,
   openEditor,
   refreshBoardDetail,
   refreshBoards,

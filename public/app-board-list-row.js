@@ -1,5 +1,6 @@
 import { renderTag } from "./app-tags.js";
 import { renderPriorityBadge } from "./app-priority.js";
+import { renderRemoteRefBadge } from "./app-remote-provider.js";
 
 export function renderListRow(entry, options) {
   const { ticket, indent } = entry;
@@ -32,7 +33,8 @@ export function renderListRow(entry, options) {
       <input type="checkbox" data-list-ticket-id="${ticket.id}" ${options.selectedTicketIds.includes(ticket.id) ? "checked" : ""} />
       <button type="button" class="list-ticket-link indent-${indent}" data-open-ticket-id="${ticket.id}">
         <span class="ticket-id">#${ticket.id}</span>
-        <span>${options.escapeHtml(ticket.title)}</span>
+        <span class="list-ticket-title">${options.escapeHtml(ticket.title)}</span>
+        ${ticket.remote ? renderRemoteRefBadge(ticket.remote, options.escapeHtml, "list-ticket-remote-ref") : ""}
       </button>
       <div class="list-cell muted">${relations || "-"}</div>
       <div class="tag-list">${tags || '<span class="muted">-</span>'}</div>

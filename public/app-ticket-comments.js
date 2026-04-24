@@ -4,6 +4,7 @@ export function createTicketCommentsModule(ctx) {
   const { state, elements } = ctx;
   let commentStateTimer = null;
   let isCommentComposerOpen = false;
+  let expandedRemoteErrorCommentId = null;
 
   function syncCommentComposer() {
     if (!elements.commentForm || !elements.commentComposeToggle) {
@@ -74,17 +75,27 @@ export function createTicketCommentsModule(ctx) {
     }
     return comments
       .map(
-        (comment) => `
+        (comment) => {
+          const canPushRemote = Boolean(state.dialogTicket?.remote);
+          const isPushed = comment.sync?.status === "pushed";
+          const localActions = !isPushed;
+          const remoteSync = canPushRemote ? renderRemoteSync(comment) : "";
+          return `
           <article class="comment-item" data-comment-id="${comment.id}">
             <div class="comment-meta muted">
-              <span>#${comment.id} ${new Date(comment.createdAt).toLocaleString()}</span>
+              <span class="comment-meta-main">
+                <span>#${comment.id} ${new Date(comment.createdAt).toLocaleString()}</span>
+                ${remoteSync}
+              </span>
               <span class="comment-actions">
-                <button type="button" class="ghost icon-button action-menu-toggle" data-toggle-comment-actions title="Comment actions" aria-label="Comment actions" aria-expanded="false">${icon("ellipsis")}</button>
-                <span class="inline-action-menu" hidden>
-                  <button type="button" class="ghost icon-button" data-edit-comment-id="${comment.id}" title="Edit comment" aria-label="Edit comment">${icon("pencil")}</button>
-                  <button type="button" class="ghost icon-button danger" data-delete-comment-id="${comment.id}" title="Delete comment" aria-label="Delete comment">${icon("trash-2")}</button>
-                </span>
-                <span class="comment-delete-confirm" data-comment-delete-confirm="${comment.id}" ${state.confirmingCommentDeleteId === comment.id ? "" : "hidden"}>
+                ${localActions ? `
+                  <button type="button" class="ghost icon-button action-menu-toggle" data-toggle-comment-actions title="Comment actions" aria-label="Comment actions" aria-expanded="false">${icon("ellipsis")}</button>
+                  <span class="inline-action-menu" hidden>
+                    <button type="button" class="ghost icon-button" data-edit-comment-id="${comment.id}" title="Edit comment" aria-label="Edit comment">${icon("pencil")}</button>
+                    <button type="button" class="ghost icon-button danger" data-delete-comment-id="${comment.id}" title="Delete comment" aria-label="Delete comment">${icon("trash-2")}</button>
+                  </span>
+                ` : ""}
+                <span class="comment-delete-confirm" data-comment-delete-confirm="${comment.id}" ${localActions && state.confirmingCommentDeleteId === comment.id ? "" : "hidden"}>
                   <span>Delete this comment?</span>
                   <button type="button" class="ghost" data-cancel-comment-delete>Cancel</button>
                   <button type="button" class="danger action-with-icon danger-confirm-action" data-confirm-comment-delete-id="${comment.id}">${icon("trash-2")}<span>Delete</span></button>
@@ -100,9 +111,59 @@ export function createTicketCommentsModule(ctx) {
               </div>
             </form>
           </article>
-        `,
+        `;
+        },
       )
       .join("");
+  }
+
+  function renderRemoteSync(comment) {
+    if (comment.sync?.status === "pushed") {
+      return `<span class="comment-sync-pill comment-sync-pill-pushed">${icon("upload")}<span>Pushed</span></span>`;
+    }
+    if (comment.sync?.status === "push_failed") {
+      const details = renderRemoteSyncErrorDetails(comment);
+      const expanded = expandedRemoteErrorCommentId === comment.id;
+      return `
+        <button
+          type="button"
+          class="ghost comment-sync-pill comment-sync-pill-failed comment-sync-failed-toggle"
+          data-toggle-remote-error-details-id="${comment.id}"
+          aria-expanded="${String(expanded)}"
+        >${icon("circle-alert")}<span>Push failed</span></button>
+        <button type="button" class="ghost comment-sync-action" data-push-comment-id="${comment.id}">Retry push</button>
+        ${details}
+      `;
+    }
+    return `<button type="button" class="ghost comment-sync-action" data-push-comment-id="${comment.id}">Push to remote</button>`;
+  }
+
+  function renderRemoteSyncErrorDetails(comment) {
+    const rawError = comment.sync?.lastError?.trim();
+    if (!rawError) {
+      return "";
+    }
+    const expanded = expandedRemoteErrorCommentId === comment.id;
+    const summary = humanizeRemoteSyncError(rawError);
+    return `
+      <div class="comment-sync-error-details" ${expanded ? "" : "hidden"}>
+        <div class="comment-sync-error-summary">${ctx.escapeHtml(summary)}</div>
+        ${summary === rawError ? "" : `<pre class="comment-sync-error-raw">${ctx.escapeHtml(rawError)}</pre>`}
+      </div>
+    `;
+  }
+
+  function humanizeRemoteSyncError(message) {
+    if (/403/i.test(message) && /Resource not accessible by personal access token/i.test(message)) {
+      return "GitHub token does not have permission to post comments to this repository or issue.";
+    }
+    if (/401/i.test(message) || /Bad credentials/i.test(message)) {
+      return "Remote provider authentication failed. Check the configured token.";
+    }
+    if (/404/i.test(message) && /GitHub request failed/i.test(message)) {
+      return "The remote issue or repository could not be found with the current token.";
+    }
+    return message;
   }
 
   async function addComment(event) {
@@ -156,6 +217,18 @@ export function createTicketCommentsModule(ctx) {
     const saveButton = event.target.closest("[data-save-comment-id]");
     if (saveButton) {
       await saveCommentInline(saveButton);
+      return;
+    }
+
+    const pushButton = event.target.closest("[data-push-comment-id]");
+    if (pushButton) {
+      await pushCommentRemote(pushButton);
+      return;
+    }
+
+    const toggleRemoteErrorButton = event.target.closest("[data-toggle-remote-error-details-id]");
+    if (toggleRemoteErrorButton) {
+      toggleRemoteErrorDetails(Number(toggleRemoteErrorButton.dataset.toggleRemoteErrorDetailsId));
       return;
     }
 
@@ -310,6 +383,37 @@ export function createTicketCommentsModule(ctx) {
     } finally {
       deleteButton.disabled = false;
     }
+  }
+
+  async function pushCommentRemote(pushButton) {
+    const commentId = Number(pushButton.dataset.pushCommentId);
+    if (!Number.isInteger(commentId)) {
+      return;
+    }
+    try {
+      pushButton.disabled = true;
+      setCommentState("saving", "Pushing to remote...");
+      await ctx.api(`/api/comments/${commentId}/push-remote`, { method: "POST" });
+      await ctx.refreshDialogTicket();
+      await ctx.refreshBoardDetail();
+      expandedRemoteErrorCommentId = null;
+      setCommentState("saved", "Pushed to remote");
+    } catch (error) {
+      await ctx.refreshDialogTicket().catch(() => null);
+      await ctx.refreshBoardDetail().catch(() => null);
+      setCommentState("error", "Push failed");
+      ctx.showToast(humanizeRemoteSyncError(error.message), "error");
+    } finally {
+      pushButton.disabled = false;
+    }
+  }
+
+  function toggleRemoteErrorDetails(commentId) {
+    if (!Number.isInteger(commentId)) {
+      return;
+    }
+    expandedRemoteErrorCommentId = expandedRemoteErrorCommentId === commentId ? null : commentId;
+    elements.ticketComments.innerHTML = renderComments(state.dialogTicket?.comments ?? []);
   }
 
   return {

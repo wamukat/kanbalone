@@ -12,10 +12,12 @@ import type {
   TagRow,
   TagView,
   TicketBlockerView,
+  TicketRemoteLinkView,
   TicketRelationView,
   TicketRow,
   TicketSummaryView,
   TicketView,
+  CommentRemoteSyncView,
 } from "../types.js";
 
 export function mapBoard(row: BoardRow): BoardView {
@@ -55,6 +57,7 @@ export function mapTicket(
   blockedBy: TicketRelationView[],
   parent: TicketRelationView | null,
   children: TicketRelationView[],
+  remote: TicketRemoteLinkView | null,
 ): TicketView {
   return {
     id: row.id,
@@ -79,6 +82,7 @@ export function mapTicket(
     children,
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),
+    remote,
   };
 }
 
@@ -87,6 +91,7 @@ export function mapTicketSummary(
   boardName: string,
   tags: TagView[],
   blockerIds: Id[],
+  remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null,
 ): TicketSummaryView {
   return {
     id: row.id,
@@ -104,16 +109,18 @@ export function mapTicketSummary(
     blockerIds,
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),
+    remote,
   };
 }
 
-export function mapComment(row: CommentRow): CommentView {
+export function mapComment(row: CommentRow, sync: CommentRemoteSyncView): CommentView {
   return {
     id: row.id,
     ticketId: row.ticket_id,
     bodyMarkdown: row.body_markdown,
     bodyHtml: renderMarkdown(row.body_markdown),
     createdAt: row.created_at,
+    sync,
   };
 }
 

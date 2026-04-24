@@ -18,6 +18,7 @@ import {
   replaceTicketTags,
   validateParentTicket,
 } from "./ticket-writes.js";
+import { getTicketRemoteLink } from "./remote-tracking.js";
 import type {
   Id,
   LaneRow,
@@ -123,6 +124,10 @@ export function updateTicket(
   const current = getTicket(sqlite, ticketId);
   if (!current) {
     throw new Error("Ticket not found");
+  }
+  const remoteLink = getTicketRemoteLink(sqlite, ticketId);
+  if (remoteLink && typeof input.title === "string" && input.title !== current.title) {
+    throw new Error("Remote tracked ticket title is read-only");
   }
   const nextLaneId = input.laneId ?? current.laneId;
   const nextBoardId = input.boardId ?? current.boardId;

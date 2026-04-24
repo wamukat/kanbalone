@@ -17,10 +17,10 @@ If you use only the Docker image, fetch the skill from the GitHub release tag to
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.17.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.17/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.18.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.9.18/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.17/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.18/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -77,6 +77,8 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 - `POST /api/tickets/:ticketId/comments` adds a comment.
 - `PATCH /api/comments/:commentId` edits a comment.
 - `DELETE /api/comments/:commentId` deletes a comment.
+- Remote tracked tickets add `sync` metadata to comments.
+- Use `POST /api/comments/:commentId/push-remote` to post a local comment to the remote issue.
 
 ### 6. Archive State Is Separate From Completion
 
@@ -88,6 +90,21 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 
 - Ticket responses include `ref` and `shortRef`.
 - Formats are `BoardName#TicketId` and `#TicketId`.
+
+### 8. Remote Tracked Tickets Split Title And Body Semantics
+
+- `title` is the read-only title imported from the remote issue.
+- `bodyMarkdown` is the local body.
+- `remote.bodyMarkdown` / `remote.bodyHtml` are remote snapshots.
+- Use `POST /api/boards/:boardId/remote-import` to create a remote tracked ticket.
+- Use `POST /api/tickets/:ticketId/remote-refresh` to update the remote snapshot.
+
+### 9. `/api/meta` Exposes Remote Provider Availability
+
+- `GET /api/meta` returns `remoteProviders`.
+- Each entry has `id` and `hasCredential`.
+- The UI uses this to keep all supported providers visible while disabling providers without configured credentials.
+- API clients can use the same metadata to decide which provider workflows to surface.
 
 ## Common Patterns
 

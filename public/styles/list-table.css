@@ -64,7 +64,15 @@
   line-height: var(--line-height-control);
 }
 
-.list-ticket-link span:last-child {
+.list-ticket-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-ticket-remote-ref {
+  flex: 0 1 auto;
+  max-width: 9rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

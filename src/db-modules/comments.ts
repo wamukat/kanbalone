@@ -1,6 +1,7 @@
 import type Database from "better-sqlite3";
 
 import { mapActivityLog, mapComment } from "./mappers.js";
+import { defaultCommentRemoteSync, getCommentRemoteSync, upsertCommentRemoteSync } from "./remote-tracking.js";
 import { addActivity as insertActivity } from "./ticket-writes.js";
 import { getCommentsForTicketIds } from "./ticket-loaders.js";
 import type {
@@ -41,12 +42,16 @@ export function addComment(
     createdAt: now,
   });
   touchBoard(sqlite, boardId, now);
+  const sync = upsertCommentRemoteSync(sqlite, {
+    commentId: Number(result.lastInsertRowid),
+    status: "local_only",
+  }, now);
   return mapComment({
     id: Number(result.lastInsertRowid),
     ticket_id: input.ticketId,
     body_markdown: input.bodyMarkdown,
     created_at: now,
-  });
+  }, sync);
 }
 
 export function listComments(sqlite: Database.Database, ticketId: Id): CommentView[] {
@@ -54,6 +59,21 @@ export function listComments(sqlite: Database.Database, ticketId: Id): CommentVi
     throw new Error("Ticket not found");
   }
   return getCommentsForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [];
+}
+
+export function getComment(sqlite: Database.Database, commentId: Id): CommentView | null {
+  const row = sqlite
+    .prepare("SELECT * FROM comments WHERE id = ?")
+    .get(commentId) as CommentRow | undefined;
+  if (!row) {
+    return null;
+  }
+  const sync = getCommentRemoteSync(sqlite, commentId) ?? {
+    ...defaultCommentRemoteSync(commentId),
+    createdAt: row.created_at,
+    updatedAt: row.created_at,
+  };
+  return mapComment(row, sync);
 }
 
 export function updateComment(
@@ -74,6 +94,10 @@ export function updateComment(
   if (!current) {
     throw new Error("Comment not found");
   }
+  const sync = getCommentRemoteSync(sqlite, current.id);
+  if (sync?.status === "pushed") {
+    throw new Error("Pushed comments are read-only");
+  }
   sqlite
     .prepare("UPDATE comments SET body_markdown = ? WHERE id = ?")
     .run(input.bodyMarkdown, input.commentId);
@@ -90,12 +114,13 @@ export function updateComment(
     createdAt: now,
   });
   touchBoard(sqlite, current.board_id, now);
+  const nextSync = sync ?? defaultCommentRemoteSync(current.id);
   return mapComment({
     id: current.id,
     ticket_id: current.ticket_id,
     body_markdown: input.bodyMarkdown,
     created_at: current.created_at,
-  });
+  }, nextSync.createdAt ? nextSync : { ...nextSync, createdAt: current.created_at, updatedAt: current.created_at });
 }
 
 export function deleteComment(sqlite: Database.Database, commentId: Id, now: string): { ticketId: Id; boardId: Id } {
@@ -111,6 +136,10 @@ export function deleteComment(sqlite: Database.Database, commentId: Id, now: str
     .get(commentId) as { id: Id; ticket_id: Id; board_id: Id; body_markdown: string } | undefined;
   if (!current) {
     throw new Error("Comment not found");
+  }
+  const sync = getCommentRemoteSync(sqlite, current.id);
+  if (sync?.status === "pushed") {
+    throw new Error("Pushed comments cannot be deleted");
   }
   sqlite.prepare("DELETE FROM comments WHERE id = ?").run(commentId);
   insertActivity(sqlite, {

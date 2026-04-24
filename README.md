@@ -8,7 +8,17 @@
 
 Kanbalone is a small local kanban app optimized for individuals who develop together with AI.
 
+Turn remote issues into a local execution workspace for implementation with AI.
+
 You can start it quickly with Docker and use it right away. In addition to a browser-based web UI for humans, it also provides a JSON API that is easy for scripts and AI agents to use.
+
+Import issues from systems such as GitHub Issues, GitLab, and Redmine into Kanbalone, build out a local implementation body, and keep progress in comments. The remote tracker stays the source of truth while Kanbalone becomes the execution workspace for an individual developer and their AI agents.
+
+![Concept diagram showing remote issues flowing into Kanbalone as a local execution workspace](docs/assets/remote-issue-workspace.svg)
+
+![Remote tracked ticket detail with Local Body in Kanbalone](docs/assets/user-guide/16-remote-ticket-detail-local.png)
+
+![Remote comment push states in Kanbalone](docs/assets/user-guide/18-remote-comment-push.png)
 
 ![Kanbalone kanban screenshot](docs/assets/kanbalone-kanban.png)
 
@@ -18,8 +28,11 @@ You can start it quickly with Docker and use it right away. In addition to a bro
 
 - Optimized for one person and one machine working with AI, without user or permission management.
 - All data is stored locally.
+- Import remote issues from GitHub, GitLab, or Redmine and work on them as local execution tickets.
 - Multiple boards for different work categories.
 - Tags, comments, and ticket dependencies: blockers and parent/child tickets.
+- Keep remote title and body as reference while building a richer local implementation body.
+- Push only selected comments back to the remote issue to keep work logs simple.
 - Lightweight JSON API designed for automation and AI agents.
 - Create the first board and start managing tasks immediately without extra setup.
 
@@ -31,7 +44,7 @@ Run the published Docker image:
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v0.9.17
+  ghcr.io/wamukat/kanbalone:v0.9.18
 ```
 
 Open:
@@ -87,6 +100,17 @@ Default URL:
 http://127.0.0.1:3000
 ```
 
+Remote provider sandbox for GitLab and Redmine:
+
+```bash
+docker compose -f docker-compose.remote-providers.yml up -d
+pnpm sandbox:remote-providers
+```
+
+Kanbalone shows all supported remote providers in the import panel. Providers with configured credentials are enabled, and providers without credentials stay visible but disabled.
+
+See [Remote provider sandbox](docs/en/developer/remote-provider-sandbox.md).
+
 ## Codex Skill
 
 Kanbalone includes a Codex skill for API-only kanban operations:
@@ -100,10 +124,10 @@ When you use only the Docker image, fetch the skill from the matching GitHub rel
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.17.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.17/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.18.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.9.18/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.17/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.18/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -126,6 +150,7 @@ For users and API clients:
 For developers and maintainers:
 
 - [Development](docs/en/developer/development.md)
+- [Remote provider sandbox](docs/en/developer/remote-provider-sandbox.md)
 - [Docker image distribution](docs/en/developer/docker-image-distribution.md)
 - [Release process](docs/en/developer/release.md)
 - [Performance tooling](docs/en/developer/performance.md)

@@ -6,10 +6,50 @@ import path from "node:path";
 
 import { buildApp } from "../src/app.js";
 import { KanbanDb } from "../src/db.js";
+import type { RemoteIssueAdapter, RemoteIssueSnapshot } from "../src/remote/adapters.js";
 import packageJson from "../package.json" with { type: "json" };
 
 function createDbFile(): string {
   return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "kanbalone-test-")), "test.sqlite");
+}
+
+function createMockRemoteAdapter(
+  provider: string,
+  options: {
+  initial: RemoteIssueSnapshot;
+  refreshed?: RemoteIssueSnapshot;
+  postCommentResult?: { remoteCommentId: string; pushedAt: string };
+  postCommentError?: Error;
+  onFetch?(input: Parameters<RemoteIssueAdapter["fetchIssue"]>[0]): void;
+  onRefresh?(input: Parameters<RemoteIssueAdapter["refreshIssue"]>[0]): void;
+  onPostComment?(bodyMarkdown: string): void;
+},
+): RemoteIssueAdapter {
+  return {
+    provider,
+    async fetchIssue(input) {
+      options.onFetch?.(input);
+      return options.initial;
+    },
+    async refreshIssue(link) {
+      options.onRefresh?.(link);
+      return options.refreshed ?? options.initial;
+    },
+    async postComment(_link, bodyMarkdown) {
+      options.onPostComment?.(bodyMarkdown);
+      if (options.postCommentError) {
+        throw options.postCommentError;
+      }
+      return options.postCommentResult ?? {
+        remoteCommentId: "remote-comment-1",
+        pushedAt: "2026-04-23T00:00:00.000Z",
+      };
+    },
+  };
+}
+
+function createMockGithubAdapter(options: Parameters<typeof createMockRemoteAdapter>[1]): RemoteIssueAdapter {
+  return createMockRemoteAdapter("github", options);
 }
 
 test("migration creates archive-aware ticket indexes", () => {
@@ -52,6 +92,13 @@ test("migration normalizes ticket priorities to the API range", () => {
 });
 
 test("meta endpoint exposes app name and package version", async () => {
+  const previousCredentials = process.env.KANBALONE_REMOTE_CREDENTIALS;
+  const previousGithubToken = process.env.GITHUB_TOKEN;
+  process.env.KANBALONE_REMOTE_CREDENTIALS = JSON.stringify({
+    "gitlab:http://localhost:38929": "gitlab-token",
+    "redmine:http://localhost:38080": "redmine-token",
+  });
+  process.env.GITHUB_TOKEN = "github-token";
   const app = buildApp({
     dbFile: createDbFile(),
     staticDir: path.join(process.cwd(), "public"),
@@ -66,9 +113,24 @@ test("meta endpoint exposes app name and package version", async () => {
     assert.deepEqual(response.json(), {
       name: "Kanbalone",
       version: packageJson.version,
+      remoteProviders: [
+        { id: "github", hasCredential: true },
+        { id: "gitlab", hasCredential: true },
+        { id: "redmine", hasCredential: true },
+      ],
     });
   } finally {
     await app.close();
+    if (previousCredentials === undefined) {
+      delete process.env.KANBALONE_REMOTE_CREDENTIALS;
+    } else {
+      process.env.KANBALONE_REMOTE_CREDENTIALS = previousCredentials;
+    }
+    if (previousGithubToken === undefined) {
+      delete process.env.GITHUB_TOKEN;
+    } else {
+      process.env.GITHUB_TOKEN = previousGithubToken;
+    }
   }
 });
 
@@ -581,6 +643,757 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(schemaRejectedTicketCreate.statusCode, 400);
 
   await app.close();
+});
+
+test("ticket detail, summary, and comments expose remote and sync fields", async () => {
+  const dbFile = createDbFile();
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+  });
+
+  const db = new KanbanDb(dbFile);
+  try {
+    const createdBoardResponse = await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote API", laneNames: ["todo"] },
+    });
+    const board = createdBoardResponse.json();
+    const ticket = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/tickets`,
+      payload: { laneId: board.lanes[0].id, title: "Tracked ticket", bodyMarkdown: "Local body" },
+    })).json();
+
+    const comment = (await app.inject({
+      method: "POST",
+      url: `/api/tickets/${ticket.id}/comments`,
+      payload: { bodyMarkdown: "Started work" },
+    })).json();
+
+    db.upsertTicketRemoteLink({
+      ticketId: ticket.id,
+      provider: "github",
+      instanceUrl: "https://github.com",
+      resourceType: "issue",
+      projectKey: "acme/kanbalone",
+      issueKey: "77",
+      displayRef: "acme/kanbalone#77",
+      url: "https://github.com/acme/kanbalone/issues/77",
+      title: "Tracked ticket",
+      bodyMarkdown: "Remote body",
+      state: "open",
+      updatedAt: "2026-04-23T00:00:00.000Z",
+      lastSyncedAt: "2026-04-23T00:00:01.000Z",
+    });
+    db.upsertCommentRemoteSync({
+      commentId: comment.id,
+      status: "pushed",
+      remoteCommentId: "gh-comment-1",
+      pushedAt: "2026-04-23T00:00:02.000Z",
+    });
+
+    const detail = await app.inject({
+      method: "GET",
+      url: `/api/tickets/${ticket.id}`,
+    });
+    assert.equal(detail.statusCode, 200);
+    assert.equal(detail.json().remote.displayRef, "acme/kanbalone#77");
+    assert.equal(detail.json().remote.bodyMarkdown, "Remote body");
+    assert.match(detail.json().remote.bodyHtml, /<p>Remote body<\/p>/);
+    assert.equal(detail.json().comments[0].sync.status, "pushed");
+
+    const summary = await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets`,
+    });
+    assert.equal(summary.statusCode, 200);
+    assert.deepEqual(summary.json().tickets[0].remote, {
+      provider: "github",
+      displayRef: "acme/kanbalone#77",
+      url: "https://github.com/acme/kanbalone/issues/77",
+    });
+
+    const comments = await app.inject({
+      method: "GET",
+      url: `/api/tickets/${ticket.id}/comments`,
+    });
+    assert.equal(comments.statusCode, 200);
+    assert.equal(comments.json().comments[0].sync.remoteCommentId, "gh-comment-1");
+
+    const plainTicket = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/tickets`,
+      payload: { laneId: board.lanes[0].id, title: "Plain ticket" },
+    })).json();
+    const plainDetail = await app.inject({
+      method: "GET",
+      url: `/api/tickets/${plainTicket.id}`,
+    });
+    assert.equal(plainDetail.statusCode, 200);
+    assert.equal(plainDetail.json().remote, null);
+  } finally {
+    db.close();
+    await app.close();
+  }
+});
+
+test("remote import creates a tracked ticket and prevents duplicate imports", async () => {
+  const dbFile = createDbFile();
+  let fetchedUrl: string | undefined;
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "101",
+          displayRef: "acme/kanbalone#101",
+          url: "https://github.com/acme/kanbalone/issues/101",
+          title: "Imported remote issue",
+          bodyMarkdown: "Remote implementation context",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        onFetch(input) {
+          fetchedUrl = input.url;
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote Import", laneNames: ["todo"] },
+    })).json();
+
+    const importResponse = await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        url: "https://github.com/acme/kanbalone/issues/101",
+      },
+    });
+    assert.equal(importResponse.statusCode, 201);
+    assert.equal(fetchedUrl, "https://github.com/acme/kanbalone/issues/101");
+    assert.equal(importResponse.json().title, "Imported remote issue");
+    assert.equal(importResponse.json().bodyMarkdown, "Remote implementation context");
+    assert.equal(importResponse.json().remote.displayRef, "acme/kanbalone#101");
+    assert.equal(importResponse.json().remote.bodyMarkdown, "Remote implementation context");
+    assert.match(importResponse.json().remote.bodyHtml, /<p>Remote implementation context<\/p>/);
+
+    const duplicateResponse = await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "101",
+      },
+    });
+    assert.equal(duplicateResponse.statusCode, 409);
+    assert.equal(duplicateResponse.json().error, "remote issue already imported");
+  } finally {
+    await app.close();
+  }
+});
+
+test("remote refresh updates title and remote snapshot without overwriting local body", async () => {
+  const dbFile = createDbFile();
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "202",
+          displayRef: "acme/kanbalone#202",
+          url: "https://github.com/acme/kanbalone/issues/202",
+          title: "Initial remote title",
+          bodyMarkdown: "Initial remote body",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        refreshed: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "202",
+          displayRef: "acme/kanbalone#202",
+          url: "https://github.com/acme/kanbalone/issues/202",
+          title: "Updated remote title",
+          bodyMarkdown: "Updated remote body",
+          state: "open",
+          updatedAt: "2026-04-23T10:00:00.000Z",
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote Refresh", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "202",
+      },
+    })).json();
+
+    const localEdit = await app.inject({
+      method: "PATCH",
+      url: `/api/tickets/${imported.id}`,
+      payload: { bodyMarkdown: "Expanded local implementation body" },
+    });
+    assert.equal(localEdit.statusCode, 200);
+    assert.equal(localEdit.json().bodyMarkdown, "Expanded local implementation body");
+
+    const refreshResponse = await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/remote-refresh`,
+    });
+    assert.equal(refreshResponse.statusCode, 200);
+    assert.equal(refreshResponse.json().title, "Updated remote title");
+    assert.equal(refreshResponse.json().bodyMarkdown, "Expanded local implementation body");
+    assert.equal(refreshResponse.json().remote.title, "Updated remote title");
+    assert.equal(refreshResponse.json().remote.bodyMarkdown, "Updated remote body");
+    assert.match(refreshResponse.json().remote.bodyHtml, /<p>Updated remote body<\/p>/);
+    assert.equal(refreshResponse.json().remote.remoteUpdatedAt, "2026-04-23T10:00:00.000Z");
+  } finally {
+    await app.close();
+  }
+});
+
+test("gitlab remote routes support import refresh and comment push", async () => {
+  const dbFile = createDbFile();
+  let pushedBodyMarkdown: string | undefined;
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      gitlab: createMockRemoteAdapter("gitlab", {
+        initial: {
+          provider: "gitlab",
+          instanceUrl: "https://gitlab.example.test",
+          resourceType: "issue",
+          projectKey: "team/platform",
+          issueKey: "12",
+          displayRef: "team/platform#12",
+          url: "https://gitlab.example.test/team/platform/-/issues/12",
+          title: "Initial GitLab title",
+          bodyMarkdown: "Initial GitLab body",
+          state: "opened",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        refreshed: {
+          provider: "gitlab",
+          instanceUrl: "https://gitlab.example.test",
+          resourceType: "issue",
+          projectKey: "team/platform",
+          issueKey: "12",
+          displayRef: "team/platform#12",
+          url: "https://gitlab.example.test/team/platform/-/issues/12",
+          title: "Updated GitLab title",
+          bodyMarkdown: "Updated GitLab body",
+          state: "opened",
+          updatedAt: "2026-04-23T10:00:00.000Z",
+        },
+        postCommentResult: {
+          remoteCommentId: "gitlab-note-12",
+          pushedAt: "2026-04-23T11:00:00.000Z",
+        },
+        onPostComment(bodyMarkdown) {
+          pushedBodyMarkdown = bodyMarkdown;
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "GitLab Remote", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "gitlab",
+        laneId: board.lanes[0].id,
+        url: "https://gitlab.example.test/team/platform/-/issues/12",
+      },
+    })).json();
+    assert.equal(imported.remote.provider, "gitlab");
+    assert.equal(imported.remote.displayRef, "team/platform#12");
+
+    await app.inject({
+      method: "PATCH",
+      url: `/api/tickets/${imported.id}`,
+      payload: { bodyMarkdown: "Local GitLab implementation notes" },
+    });
+
+    const refreshed = await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/remote-refresh`,
+    });
+    assert.equal(refreshed.statusCode, 200);
+    assert.equal(refreshed.json().title, "Updated GitLab title");
+    assert.equal(refreshed.json().bodyMarkdown, "Local GitLab implementation notes");
+    assert.equal(refreshed.json().remote.bodyMarkdown, "Updated GitLab body");
+
+    const comment = (await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/comments`,
+      payload: { bodyMarkdown: "GitLab progress update" },
+    })).json();
+
+    const pushed = await app.inject({
+      method: "POST",
+      url: `/api/comments/${comment.id}/push-remote`,
+    });
+    assert.equal(pushed.statusCode, 200);
+    assert.equal(pushedBodyMarkdown, "GitLab progress update");
+    assert.equal(pushed.json().sync.remoteCommentId, "gitlab-note-12");
+  } finally {
+    await app.close();
+  }
+});
+
+test("redmine remote routes support import refresh and comment push", async () => {
+  const dbFile = createDbFile();
+  let pushedBodyMarkdown: string | undefined;
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      redmine: createMockRemoteAdapter("redmine", {
+        initial: {
+          provider: "redmine",
+          instanceUrl: "https://redmine.example.test/redmine",
+          resourceType: "issue",
+          projectKey: "9",
+          issueKey: "42",
+          displayRef: "Backend #42",
+          url: "https://redmine.example.test/redmine/issues/42",
+          title: "Initial Redmine title",
+          bodyMarkdown: "Initial Redmine body",
+          state: "New",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        refreshed: {
+          provider: "redmine",
+          instanceUrl: "https://redmine.example.test/redmine",
+          resourceType: "issue",
+          projectKey: "9",
+          issueKey: "42",
+          displayRef: "Backend #42",
+          url: "https://redmine.example.test/redmine/issues/42",
+          title: "Updated Redmine title",
+          bodyMarkdown: "Updated Redmine body",
+          state: "In Progress",
+          updatedAt: "2026-04-23T10:00:00.000Z",
+        },
+        postCommentResult: {
+          remoteCommentId: "redmine-journal-42",
+          pushedAt: "2026-04-23T11:00:00.000Z",
+        },
+        onPostComment(bodyMarkdown) {
+          pushedBodyMarkdown = bodyMarkdown;
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Redmine Remote", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "redmine",
+        laneId: board.lanes[0].id,
+        url: "https://redmine.example.test/redmine/issues/42",
+      },
+    })).json();
+    assert.equal(imported.remote.provider, "redmine");
+    assert.equal(imported.remote.displayRef, "Backend #42");
+
+    await app.inject({
+      method: "PATCH",
+      url: `/api/tickets/${imported.id}`,
+      payload: { bodyMarkdown: "Local Redmine implementation notes" },
+    });
+
+    const refreshed = await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/remote-refresh`,
+    });
+    assert.equal(refreshed.statusCode, 200);
+    assert.equal(refreshed.json().title, "Updated Redmine title");
+    assert.equal(refreshed.json().bodyMarkdown, "Local Redmine implementation notes");
+    assert.equal(refreshed.json().remote.bodyMarkdown, "Updated Redmine body");
+
+    const comment = (await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/comments`,
+      payload: { bodyMarkdown: "Redmine progress update" },
+    })).json();
+
+    const pushed = await app.inject({
+      method: "POST",
+      url: `/api/comments/${comment.id}/push-remote`,
+    });
+    assert.equal(pushed.statusCode, 200);
+    assert.equal(pushedBodyMarkdown, "Redmine progress update");
+    assert.equal(pushed.json().sync.remoteCommentId, "redmine-journal-42");
+  } finally {
+    await app.close();
+  }
+});
+
+test("remote refresh rejects adapter identity drift", async () => {
+  const dbFile = createDbFile();
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "250",
+          displayRef: "acme/kanbalone#250",
+          url: "https://github.com/acme/kanbalone/issues/250",
+          title: "Original issue",
+          bodyMarkdown: "Original body",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        refreshed: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "251",
+          displayRef: "acme/kanbalone#251",
+          url: "https://github.com/acme/kanbalone/issues/251",
+          title: "Different issue",
+          bodyMarkdown: "Different body",
+          state: "open",
+          updatedAt: "2026-04-23T10:00:00.000Z",
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote Drift", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "250",
+      },
+    })).json();
+
+    const refreshResponse = await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/remote-refresh`,
+    });
+    assert.equal(refreshResponse.statusCode, 400);
+    assert.equal(refreshResponse.json().error, "remote refresh returned a different issue");
+  } finally {
+    await app.close();
+  }
+});
+
+test("remote tracked ticket blocks title edits and pushed comments become read-only after remote push", async () => {
+  const dbFile = createDbFile();
+  let pushedBodyMarkdown: string | undefined;
+  let pushCount = 0;
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "303",
+          displayRef: "acme/kanbalone#303",
+          url: "https://github.com/acme/kanbalone/issues/303",
+          title: "Remote write rules",
+          bodyMarkdown: "Remote body",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        postCommentResult: {
+          remoteCommentId: "gh-comment-303",
+          pushedAt: "2026-04-23T11:00:00.000Z",
+        },
+        onPostComment(bodyMarkdown) {
+          pushedBodyMarkdown = bodyMarkdown;
+          pushCount += 1;
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote Guards", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "303",
+      },
+    })).json();
+
+    const titlePatch = await app.inject({
+      method: "PATCH",
+      url: `/api/tickets/${imported.id}`,
+      payload: { title: "Do not allow this" },
+    });
+    assert.equal(titlePatch.statusCode, 400);
+    assert.equal(titlePatch.json().error, "remote tracked ticket title is read-only");
+
+    const comment = (await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/comments`,
+      payload: { bodyMarkdown: "Posting progress to remote" },
+    })).json();
+
+    const pushResponse = await app.inject({
+      method: "POST",
+      url: `/api/comments/${comment.id}/push-remote`,
+    });
+    assert.equal(pushResponse.statusCode, 200);
+    assert.equal(pushedBodyMarkdown, "Posting progress to remote");
+    assert.equal(pushResponse.json().sync.status, "pushed");
+    assert.equal(pushResponse.json().sync.remoteCommentId, "gh-comment-303");
+
+    const secondPushResponse = await app.inject({
+      method: "POST",
+      url: `/api/comments/${comment.id}/push-remote`,
+    });
+    assert.equal(secondPushResponse.statusCode, 400);
+    assert.equal(secondPushResponse.json().error, "comment already pushed to remote");
+    assert.equal(pushCount, 1);
+
+    const editPushedComment = await app.inject({
+      method: "PATCH",
+      url: `/api/comments/${comment.id}`,
+      payload: { bodyMarkdown: "Edited after push" },
+    });
+    assert.equal(editPushedComment.statusCode, 400);
+    assert.equal(editPushedComment.json().error, "pushed comments are read-only");
+
+    const deletePushedComment = await app.inject({
+      method: "DELETE",
+      url: `/api/comments/${comment.id}`,
+    });
+    assert.equal(deletePushedComment.statusCode, 400);
+    assert.equal(deletePushedComment.json().error, "pushed comments cannot be deleted");
+  } finally {
+    await app.close();
+  }
+});
+
+test("board export omits remote metadata and imported board becomes local-only", async () => {
+  const dbFile = createDbFile();
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "505",
+          displayRef: "acme/kanbalone#505",
+          url: "https://github.com/acme/kanbalone/issues/505",
+          title: "Export remote ticket",
+          bodyMarkdown: "Remote body copied into local body",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        postCommentResult: {
+          remoteCommentId: "gh-comment-505",
+          pushedAt: "2026-04-23T11:00:00.000Z",
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote Export", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "505",
+      },
+    })).json();
+    const comment = (await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/comments`,
+      payload: { bodyMarkdown: "Remote progress" },
+    })).json();
+    await app.inject({
+      method: "POST",
+      url: `/api/comments/${comment.id}/push-remote`,
+    });
+
+    const exportResponse = await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/export`,
+    });
+    assert.equal(exportResponse.statusCode, 200);
+    const exported = exportResponse.json();
+    assert.ok(!("remote" in exported.tickets[0]));
+    assert.ok(!("sync" in exported.tickets[0].comments[0]));
+
+    const importResponse = await app.inject({
+      method: "POST",
+      url: "/api/boards/import",
+      payload: exported,
+    });
+    assert.equal(importResponse.statusCode, 201);
+    const importedBoard = importResponse.json();
+    const localOnlyTicket = importedBoard.tickets[0];
+    assert.equal(localOnlyTicket.remote, null);
+    assert.equal(localOnlyTicket.comments[0].sync.status, "local_only");
+  } finally {
+    await app.close();
+  }
+});
+
+test("remote comment push failures persist push_failed sync state", async () => {
+  const dbFile = createDbFile();
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "404",
+          displayRef: "acme/kanbalone#404",
+          url: "https://github.com/acme/kanbalone/issues/404",
+          title: "Remote push failure",
+          bodyMarkdown: "Remote body",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+        postCommentError: new Error("remote API unavailable"),
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "Remote Push Failure", laneNames: ["todo"] },
+    })).json();
+
+    const imported = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "404",
+      },
+    })).json();
+
+    const comment = (await app.inject({
+      method: "POST",
+      url: `/api/tickets/${imported.id}/comments`,
+      payload: { bodyMarkdown: "This push will fail" },
+    })).json();
+
+    const pushResponse = await app.inject({
+      method: "POST",
+      url: `/api/comments/${comment.id}/push-remote`,
+    });
+    assert.equal(pushResponse.statusCode, 400);
+    assert.equal(pushResponse.json().error, "remote API unavailable");
+
+    const comments = await app.inject({
+      method: "GET",
+      url: `/api/tickets/${imported.id}/comments`,
+    });
+    assert.equal(comments.statusCode, 200);
+    assert.equal(comments.json().comments[0].sync.status, "push_failed");
+    assert.equal(comments.json().comments[0].sync.lastError, "remote API unavailable");
+  } finally {
+    await app.close();
+  }
 });
 
 test("ticket delete activity is retained after ticket removal", () => {

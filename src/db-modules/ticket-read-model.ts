@@ -9,6 +9,7 @@ import {
   getChildrenForTicketIds,
   getCommentsForTicketIds,
   getParentsForTicketIds,
+  getRemoteLinksForTicketIds,
   getTagsForTicketIds,
 } from "./ticket-loaders.js";
 import {
@@ -46,6 +47,7 @@ export function listTickets(
   const blockedByByTicket = getBlockedTicketsForTicketIds(sqlite, ticketIds);
   const parentsByTicket = getParentsForTicketIds(sqlite, ticketIds);
   const childrenByTicket = getChildrenForTicketIds(sqlite, ticketIds);
+  const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
     mapTicket(
@@ -57,6 +59,7 @@ export function listTickets(
       blockedByByTicket.get(row.id) ?? [],
       parentsByTicket.get(row.id) ?? null,
       childrenByTicket.get(row.id) ?? [],
+      remoteByTicket.get(row.id) ?? null,
     ),
   );
 }
@@ -72,6 +75,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
   const blockedByByTicket = getBlockedTicketsForTicketIds(sqlite, [ticketId]);
   const parentsByTicket = getParentsForTicketIds(sqlite, [ticketId]);
   const childrenByTicket = getChildrenForTicketIds(sqlite, [ticketId]);
+  const remoteByTicket = getRemoteLinksForTicketIds(sqlite, [ticketId]);
   const board = getBoard(sqlite, row.board_id);
   return mapTicket(
     row,
@@ -82,6 +86,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
     blockedByByTicket.get(ticketId) ?? [],
     parentsByTicket.get(ticketId) ?? null,
     childrenByTicket.get(ticketId) ?? [],
+    remoteByTicket.get(ticketId) ?? null,
   );
 }
 
@@ -123,6 +128,7 @@ function mapTicketSummaries(
   const ticketIds = rows.map((row) => row.id);
   const tagsByTicket = getTagsForTicketIds(sqlite, ticketIds);
   const blockerIdsByTicket = getBlockerIdsForTicketIds(sqlite, ticketIds);
+  const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
     mapTicketSummary(
@@ -130,6 +136,13 @@ function mapTicketSummaries(
       board?.name ?? "",
       tagsByTicket.get(row.id) ?? [],
       blockerIdsByTicket.get(row.id) ?? [],
+      remoteByTicket.get(row.id)
+        ? {
+          provider: remoteByTicket.get(row.id)!.provider,
+          displayRef: remoteByTicket.get(row.id)!.displayRef,
+          url: remoteByTicket.get(row.id)!.url,
+        }
+        : null,
     ),
   );
 }

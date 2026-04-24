@@ -1,0 +1,38 @@
+services:
+  redmine:
+    image: redmine:latest
+    container_name: kanbalone-redmine
+    ports:
+      - "38080:3000"
+    environment:
+      SECRET_KEY_BASE: kanbalone-redmine-secret
+    volumes:
+      - redmine-data:/usr/src/redmine/files
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: kanbalone-gitlab
+    hostname: localhost
+    shm_size: "256m"
+    ports:
+      - "38929:8929"
+      - "38022:22"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:38929'
+        nginx['listen_port'] = 8929
+        nginx['listen_https'] = false
+        gitlab_rails['gitlab_shell_ssh_port'] = 38022
+        gitlab_rails['initial_root_password'] = 'S9v!q2Lx#5rT8mN4pW7'
+        sidekiq['max_concurrency'] = 5
+        puma['worker_processes'] = 0
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+
+volumes:
+  redmine-data:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:

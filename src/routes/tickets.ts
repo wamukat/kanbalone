@@ -19,6 +19,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     parseBooleanQuery,
     parseTicketMutationBody,
     publishBoardEvent,
+    remoteAdapters,
     resolveResolvedFlag,
     schemas,
     serializeTicket,
@@ -118,6 +119,63 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return reply.code(404).send({ error: "ticket not found" });
     }
     return serializeTicket(ticket);
+  });
+
+  app.post("/api/tickets/:ticketId/remote-refresh", {
+    schema: {
+      params: schemas.idParamsSchema("ticketId"),
+      response: {
+        200: schemas.ticketSchema,
+        400: schemas.errorSchema,
+        404: schemas.errorSchema,
+      },
+    },
+  }, async (request, reply) => {
+    const ticketId = getIdParam(request.params, "ticketId");
+    const ticket = db.getTicket(ticketId);
+    if (!ticket) {
+      return reply.code(404).send({ error: "ticket not found" });
+    }
+    const remote = db.getTicketRemoteLink(ticketId);
+    if (!remote) {
+      return reply.code(400).send({ error: "ticket is not linked to a remote issue" });
+    }
+    const adapter = remoteAdapters[remote.provider];
+    if (!adapter) {
+      return reply.code(400).send({ error: "unsupported remote provider" });
+    }
+    try {
+      const snapshot = await adapter.refreshIssue(remote);
+      if (
+        snapshot.provider !== remote.provider ||
+        snapshot.instanceUrl !== remote.instanceUrl ||
+        snapshot.resourceType !== remote.resourceType ||
+        snapshot.projectKey !== remote.projectKey ||
+        snapshot.issueKey !== remote.issueKey
+      ) {
+        return reply.code(400).send({ error: "remote refresh returned a different issue" });
+      }
+      const updated = db.refreshTrackedTicketFromRemote(ticketId, {
+        ticketId,
+        provider: snapshot.provider,
+        instanceUrl: snapshot.instanceUrl,
+        resourceType: snapshot.resourceType,
+        projectKey: snapshot.projectKey,
+        issueKey: snapshot.issueKey,
+        displayRef: snapshot.displayRef,
+        url: snapshot.url,
+        title: snapshot.title,
+        bodyMarkdown: snapshot.bodyMarkdown,
+        state: snapshot.state,
+        updatedAt: snapshot.updatedAt,
+        lastSyncedAt: new Date().toISOString(),
+      });
+      publishBoardEvent(updated.boardId);
+      return serializeTicket(updated);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "remote refresh failed";
+      return reply.code(400).send({ error: message.toLowerCase() });
+    }
   });
 
   app.patch("/api/tickets/:ticketId", {

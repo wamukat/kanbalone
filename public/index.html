@@ -202,6 +202,11 @@
 
         <section id="ticket-view" class="ticket-view" hidden>
           <div id="ticket-view-meta" class="ticket-view-meta"></div>
+          <section id="ticket-remote-summary" class="ticket-remote-summary" hidden></section>
+          <div id="ticket-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" hidden>
+            <button type="button" id="ticket-local-body-tab-button" class="detail-tab active" data-ticket-body-tab="local" role="tab" aria-selected="true">Local Body</button>
+            <button type="button" id="ticket-remote-body-tab-button" class="detail-tab" data-ticket-body-tab="remote" role="tab" aria-selected="false">Remote Body</button>
+          </div>
           <div id="ticket-view-body" class="markdown ticket-view-body"></div>
           <div id="ticket-relations" class="ticket-relations"></div>
 
@@ -238,9 +243,18 @@
         <form id="editor-form" method="dialog" class="editor-mode" hidden>
           <div class="editor-title-field">
             <input id="ticket-title" name="title" required placeholder="Title" />
+            <button id="remote-import-create-button" type="button" class="ghost icon-button remote-import-create-button" title="Import remote issue" aria-label="Import remote issue" hidden>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#link-plus"></use></svg>
+            </button>
           </div>
+          <div id="ticket-title-readonly" class="editor-title-readonly" hidden></div>
 
+          <div id="ticket-edit-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" hidden>
+            <button type="button" id="ticket-edit-local-body-tab-button" class="detail-tab active" role="tab" aria-selected="true">Local Body</button>
+            <button type="button" id="ticket-edit-remote-body-tab-button" class="detail-tab" role="tab" aria-selected="false">Remote Body</button>
+          </div>
           <textarea id="ticket-body" name="bodyMarkdown" rows="10" aria-label="Ticket body" placeholder="Write details in Markdown"></textarea>
+          <div id="ticket-remote-body-panel" class="ticket-remote-body-panel" hidden></div>
 
           <div class="editor-inline-row">
              <label class="editor-compact-label">
@@ -327,6 +341,59 @@
             </div>
           </div>
         </form>
+        <aside id="editor-remote-import-sheet" class="editor-remote-import-sheet" hidden aria-hidden="true">
+          <div class="editor-remote-import-sheet-head">
+            <div>
+              <h3 class="editor-remote-import-sheet-title">Import Remote Issue</h3>
+              <p class="editor-remote-import-sheet-copy muted">Create one tracked ticket from a remote issue snapshot.</p>
+            </div>
+            <button id="editor-remote-import-close-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Hide import panel" title="Hide import panel">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
+            </button>
+          </div>
+          <form id="editor-remote-import-form" class="editor-remote-import-form">
+            <fieldset class="editor-field editor-remote-provider-fieldset">
+              <legend class="editor-field-label">Provider</legend>
+              <div id="editor-remote-provider-switch" class="editor-remote-provider-switch" role="radiogroup" aria-label="Provider">
+                <button type="button" class="editor-remote-provider-option active" data-remote-provider-option="github" role="radio" aria-checked="true" title="GitHub">
+                  <span class="remote-provider-icon remote-provider-icon-github" aria-hidden="true">
+                    <svg class="icon" focusable="false"><use href="/icons.svg#github"></use></svg>
+                  </span>
+                  <span>GitHub</span>
+                </button>
+                <button type="button" class="editor-remote-provider-option" data-remote-provider-option="gitlab" role="radio" aria-checked="false" title="GitLab">
+                  <span class="remote-provider-icon remote-provider-icon-gitlab" aria-hidden="true">
+                    <svg class="icon" focusable="false"><use href="/icons.svg#gitlab"></use></svg>
+                  </span>
+                  <span>GitLab</span>
+                </button>
+                <button type="button" class="editor-remote-provider-option" data-remote-provider-option="redmine" role="radio" aria-checked="false" title="Redmine">
+                  <span class="remote-provider-icon remote-provider-icon-redmine" aria-hidden="true">
+                    <svg class="icon" focusable="false"><use href="/icons.svg#redmine"></use></svg>
+                  </span>
+                  <span>Redmine</span>
+                </button>
+              </div>
+              <div id="editor-remote-provider-help" class="editor-remote-provider-help muted" hidden></div>
+              <input id="editor-remote-provider" type="hidden" value="github" required />
+            </fieldset>
+            <label class="editor-field">
+              <span class="editor-field-label">Issue URL</span>
+              <input id="editor-remote-url" type="url" required placeholder="https://github.com/owner/repo/issues/123" />
+            </label>
+            <label class="editor-field">
+              <span class="editor-field-label">Lane</span>
+              <select id="editor-remote-lane" required></select>
+            </label>
+            <div id="editor-remote-import-error" class="danger" hidden></div>
+            <div class="editor-actions">
+              <div class="editor-actions-right">
+                <button id="editor-remote-import-cancel-button" type="button" class="ghost">Cancel</button>
+                <button id="editor-remote-import-submit-button" type="submit" class="primary-action">Import</button>
+              </div>
+            </div>
+          </form>
+        </aside>
       </div>
     </dialog>
 

@@ -3,6 +3,8 @@ import type { ServerResponse } from "node:http";
 import type { FastifyInstance } from "fastify";
 
 import type { KanbanDb } from "../db.js";
+import { RemoteIssueAlreadyLinkedError } from "../db-modules/remote-tracking.js";
+import type { RemoteAdapterRegistry } from "../remote/adapters.js";
 import type { BoardDetailView, BoardExport, Id } from "../types.js";
 
 type BoardRoutesSchemas = {
@@ -14,6 +16,8 @@ type BoardRoutesSchemas = {
   errorSchema: unknown;
   idParamsSchema(key: string): unknown;
   reorderBoardsBodySchema: unknown;
+  ticketRemoteImportBodySchema: unknown;
+  ticketSchema: unknown;
 };
 
 type RegisterBoardRoutesContext = {
@@ -22,9 +26,11 @@ type RegisterBoardRoutesContext = {
   getIdParam(params: unknown, key: string): Id;
   publishBoardEvent(boardId: Id, event?: string): void;
   removeBoardEventClient(boardId: Id, response: ServerResponse): void;
+  remoteAdapters: RemoteAdapterRegistry;
   sanitizeStringArray(values: unknown): string[] | undefined;
   schemas: BoardRoutesSchemas;
   serializeBoardDetail(detail: BoardDetailView): unknown;
+  serializeTicket(ticket: NonNullable<ReturnType<KanbanDb["getTicket"]>>): unknown;
 };
 
 export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRoutesContext): void {
@@ -34,9 +40,11 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
     getIdParam,
     publishBoardEvent,
     removeBoardEventClient,
+    remoteAdapters,
     sanitizeStringArray,
     schemas,
     serializeBoardDetail,
+    serializeTicket,
   } = ctx;
 
   app.get("/api/boards", {
@@ -219,6 +227,90 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
     } catch (error) {
       const message = error instanceof Error ? error.message : "import failed";
       return reply.code(400).send({ error: message });
+    }
+  });
+
+  app.post("/api/boards/:boardId/remote-import", {
+    schema: {
+      params: schemas.idParamsSchema("boardId"),
+      body: schemas.ticketRemoteImportBodySchema,
+      response: {
+        201: schemas.ticketSchema,
+        400: schemas.errorSchema,
+        404: schemas.errorSchema,
+        409: schemas.errorSchema,
+      },
+    },
+  }, async (request, reply) => {
+    const boardId = getIdParam(request.params, "boardId");
+    const body = request.body as {
+      provider?: string;
+      laneId?: number;
+      instanceUrl?: string;
+      projectKey?: string;
+      issueKey?: string;
+      url?: string;
+    };
+    if (!db.getBoard(boardId)) {
+      return reply.code(404).send({ error: "board not found" });
+    }
+    if (!body?.provider || !body?.laneId) {
+      return reply.code(400).send({ error: "provider and laneId are required" });
+    }
+    const lane = db.getLane(Number(body.laneId));
+    if (!lane || lane.boardId !== boardId) {
+      return reply.code(400).send({ error: "lane does not belong to board" });
+    }
+    const adapter = remoteAdapters[body.provider];
+    if (!adapter) {
+      return reply.code(400).send({ error: "unsupported remote provider" });
+    }
+    try {
+      const snapshot = await adapter.fetchIssue({
+        provider: body.provider,
+        instanceUrl: body.instanceUrl,
+        projectKey: body.projectKey,
+        issueKey: body.issueKey,
+        url: body.url,
+      });
+      const existingTicketId = db.findTicketIdByRemoteIdentity({
+        provider: snapshot.provider,
+        instanceUrl: snapshot.instanceUrl,
+        resourceType: snapshot.resourceType,
+        projectKey: snapshot.projectKey,
+        issueKey: snapshot.issueKey,
+      });
+      if (existingTicketId != null) {
+        return reply.code(409).send({ error: "remote issue already imported" });
+      }
+      const ticket = db.createTrackedTicketFromRemote({
+        boardId,
+        laneId: Number(body.laneId),
+        title: snapshot.title,
+        bodyMarkdown: snapshot.bodyMarkdown,
+      }, {
+        provider: snapshot.provider,
+        instanceUrl: snapshot.instanceUrl,
+        resourceType: snapshot.resourceType,
+        projectKey: snapshot.projectKey,
+        issueKey: snapshot.issueKey,
+        displayRef: snapshot.displayRef,
+        url: snapshot.url,
+        title: snapshot.title,
+        bodyMarkdown: snapshot.bodyMarkdown,
+        state: snapshot.state,
+        updatedAt: snapshot.updatedAt,
+        lastSyncedAt: new Date().toISOString(),
+      });
+      publishBoardEvent(boardId);
+      return reply.code(201).send(serializeTicket(ticket));
+    } catch (error) {
+      if (error instanceof RemoteIssueAlreadyLinkedError) {
+        return reply.code(409).send({ error: "remote issue already imported" });
+      }
+      const message = error instanceof Error ? error.message : "remote import failed";
+      const code = message === "remote issue already imported" ? 409 : 400;
+      return reply.code(code).send({ error: message.toLowerCase() });
     }
   });
 }

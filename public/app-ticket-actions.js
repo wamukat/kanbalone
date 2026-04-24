@@ -38,7 +38,7 @@ export function createTicketActionsModule(ctx, options) {
     const blockerIds = [...state.editorBlockerIds];
     const nextParentTicketId = elements.ticketParent.value ? Number(elements.ticketParent.value) : null;
     const payload = {
-      title: elements.ticketTitle.value.trim(),
+      title: state.editingTicketId && state.dialogTicket?.remote ? undefined : elements.ticketTitle.value.trim(),
       laneId: Number(elements.ticketLane.value),
       parentTicketId: nextParentTicketId,
       priority: Number(elements.ticketPriority.value || 0),

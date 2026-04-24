@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Kanbalone API
-  version: 0.9.17
+  version: 0.9.18
   summary: Ultra-light local personal kanban API for human and AI collaboration
   license:
     name: MIT
@@ -25,6 +25,38 @@ paths:
                   ok:
                     type: boolean
                 required: [ok]
+        "400":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+
+  /api/meta:
+    get:
+      summary: Get app metadata
+      operationId: getMeta
+      responses:
+        "200":
+          description: App metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  version:
+                    type: string
+                  remoteProviders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        hasCredential:
+                          type: boolean
+                      required: [id, hasCredential]
+                required: [name, version, remoteProviders]
         "400":
           $ref: "#/components/responses/Error"
         "500":
@@ -148,6 +180,8 @@ paths:
       responses:
         "204":
           description: Deleted
+        "400":
+          $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
 
@@ -456,6 +490,33 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/boards/{boardId}/remote-import:
+    post:
+      summary: Import a remote issue into a board
+      description: Creates one local ticket from a remote issue snapshot. The created ticket uses the remote title and copies the remote body into the local body for initial implementation context. Remote metadata is tracked on the ticket, but board export omits it.
+      operationId: importRemoteIssue
+      parameters:
+        - $ref: "#/components/parameters/BoardId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoteIssueImport"
+      responses:
+        "201":
+          description: Imported tracked ticket
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+
   /api/boards/{boardId}/tickets/bulk-complete:
     post:
       summary: Bulk update resolved state
@@ -684,6 +745,25 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/remote-refresh:
+    post:
+      summary: Refresh remote issue snapshot
+      description: Re-fetches remote title/body/state for a tracked ticket. The local bodyMarkdown is not overwritten.
+      operationId: refreshRemoteIssue
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Refreshed tracked ticket
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/tickets/{ticketId}/move:
     post:
       summary: Move ticket to another board and lane
@@ -827,6 +907,29 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/comments/{commentId}/push-remote:
+    post:
+      summary: Push a local comment to the tracked remote issue
+      description: Posts the local comment body to the linked remote issue and marks the comment as pushed. Already-pushed comments are rejected to avoid duplicate remote comments.
+      operationId: pushCommentToRemote
+      parameters:
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Comment with updated remote sync state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/tickets/{ticketId}/activity:
     get:
       summary: List ticket activity
@@ -912,6 +1015,23 @@ components:
         name: { type: string }
         color: { type: string }
       required: [id, boardId, name, color]
+    CommentSync:
+      type: object
+      properties:
+        commentId: { type: integer }
+        status:
+          type: string
+          enum: [local_only, pushed, push_failed]
+        remoteCommentId:
+          type: [string, "null"]
+        pushedAt:
+          type: [string, "null"]
+          format: date-time
+        lastError:
+          type: [string, "null"]
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      required: [commentId, status, remoteCommentId, pushedAt, lastError, createdAt, updatedAt]
     Comment:
       type: object
       properties:
@@ -920,7 +1040,9 @@ components:
         bodyMarkdown: { type: string }
         bodyHtml: { type: string }
         createdAt: { type: string, format: date-time }
-      required: [id, ticketId, bodyMarkdown, bodyHtml, createdAt]
+        sync:
+          $ref: "#/components/schemas/CommentSync"
+      required: [id, ticketId, bodyMarkdown, bodyHtml, createdAt, sync]
     ActivityLog:
       type: object
       properties:
@@ -978,6 +1100,60 @@ components:
           items:
             $ref: "#/components/schemas/TicketRelation"
       required: [parent, children, blockers, blockedBy]
+    TicketRemote:
+      type: object
+      properties:
+        ticketId: { type: integer }
+        provider: { type: string }
+        instanceUrl: { type: string }
+        resourceType: { type: string }
+        projectKey: { type: string }
+        issueKey: { type: string }
+        displayRef: { type: string }
+        url: { type: string }
+        title: { type: string }
+        bodyMarkdown:
+          type: string
+          description: Read-only remote issue body snapshot. The ticket bodyMarkdown remains the editable local implementation body.
+        bodyHtml:
+          type: string
+          description: Sanitized HTML rendered from bodyMarkdown.
+        state:
+          type: [string, "null"]
+        remoteUpdatedAt:
+          type: [string, "null"]
+          format: date-time
+        lastSyncedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      required: [ticketId, provider, instanceUrl, resourceType, projectKey, issueKey, displayRef, url, title, bodyMarkdown, bodyHtml, state, remoteUpdatedAt, lastSyncedAt, createdAt, updatedAt]
+    TicketRemoteSummary:
+      type: object
+      properties:
+        provider: { type: string }
+        displayRef: { type: string }
+        url: { type: string }
+      required: [provider, displayRef, url]
+    RemoteIssueImport:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: "Remote adapter name. Current providers: github, gitlab, redmine."
+        laneId:
+          type: integer
+        instanceUrl:
+          type: string
+        projectKey:
+          type: string
+          description: Provider-specific project key, for example owner/repo for GitHub.
+        issueKey:
+          type: string
+          description: Provider-specific issue key, for example issue number for GitHub.
+        url:
+          type: string
+          description: Remote issue URL. For GitHub this can be used instead of projectKey and issueKey.
+      required: [provider, laneId]
     Ticket:
       type: object
       properties:
@@ -1034,8 +1210,12 @@ components:
             $ref: "#/components/schemas/TicketRelation"
         ref: { type: string }
         shortRef: { type: string }
+        remote:
+          oneOf:
+            - $ref: "#/components/schemas/TicketRemote"
+            - type: "null"
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, blockedBy, parent, children, ref, shortRef]
+        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, blockedBy, parent, children, ref, shortRef, remote]
     TicketSummary:
       type: object
       properties:
@@ -1070,8 +1250,12 @@ components:
             type: integer
         ref: { type: string }
         shortRef: { type: string }
+        remote:
+          oneOf:
+            - $ref: "#/components/schemas/TicketRemoteSummary"
+            - type: "null"
       required:
-        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, ref, shortRef]
+        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, ref, shortRef, remote]
     TicketUpsert:
       type: object
       properties:

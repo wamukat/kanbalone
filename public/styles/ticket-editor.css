@@ -7,6 +7,124 @@
   gap: var(--space-3);
   padding: var(--space-3);
   overflow: visible;
+  position: relative;
+  min-height: 0;
+  isolation: isolate;
+}
+
+.editor-dialog.remote-import-open .editor-mode,
+.editor-dialog.remote-import-open .ticket-view,
+.editor-dialog.remote-import-open .editor-header {
+  opacity: 0.52;
+  pointer-events: none;
+}
+
+.editor-remote-import-sheet {
+  position: absolute;
+  top: 0.85rem;
+  right: 0;
+  bottom: 0.85rem;
+  width: min(500px, calc(100% - 0.85rem));
+  padding: var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
+  border-right: none;
+  border-radius: calc(var(--radius-surface) - 0.1rem) 0 0 calc(var(--radius-surface) - 0.1rem);
+  background: color-mix(in srgb, var(--surface-1) 92%, white);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  clip-path: inset(0 0 0 100%);
+  will-change: clip-path, opacity;
+  transition:
+    clip-path var(--motion-slow) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard);
+}
+
+.editor-dialog.remote-import-open .editor-remote-import-sheet {
+  opacity: 1;
+  pointer-events: auto;
+  clip-path: inset(0 0 0 0);
+}
+
+.editor-remote-import-sheet-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.editor-remote-import-sheet-title {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+}
+
+.editor-remote-import-sheet-copy {
+  margin: 0.3rem 0 0;
+  font-size: var(--font-size-label);
+}
+
+.editor-remote-import-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.editor-remote-provider-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.editor-remote-provider-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.editor-remote-provider-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  min-width: 8.5rem;
+}
+
+.editor-remote-provider-option.active {
+  border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+
+.editor-remote-provider-option.disabled,
+.editor-remote-provider-option:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.editor-remote-provider-option.disabled:hover,
+.editor-remote-provider-option:disabled:hover {
+  border-color: var(--line);
+}
+
+.editor-remote-provider-option .remote-provider-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.editor-remote-provider-help {
+  margin-top: 0.45rem;
+  font-size: var(--font-size-label);
 }
 
 .editor-inline-row {
@@ -78,13 +196,61 @@
 }
 
 .editor-title-field {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.4rem;
+  align-items: center;
 }
 
 .editor-title-field input {
   width: 100%;
   padding: 0.72rem 0.8rem;
   font-size: var(--font-size-body);
+}
+
+.remote-import-create-button {
+  align-self: center;
+  width: 2.35rem;
+  min-width: 2.35rem;
+  height: 2.35rem;
+  color: var(--muted);
+}
+
+.remote-import-create-button:hover {
+  color: var(--accent);
+}
+
+.remote-import-create-button .icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+}
+
+.editor-title-readonly {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--surface-1) 72%, transparent);
+}
+
+.editor-readonly-label {
+  color: var(--muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.editor-readonly-value {
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+  overflow-wrap: anywhere;
+}
+
+.ticket-remote-body-panel {
+  padding: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-surface);
+  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
 }
 
 .editor-actions {

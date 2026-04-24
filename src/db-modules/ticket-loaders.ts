@@ -1,12 +1,17 @@
 import type Database from "better-sqlite3";
 
+import { renderMarkdown } from "../markdown.js";
 import { mapComment, mapRelation, mapTag } from "./mappers.js";
+import { defaultCommentRemoteSync } from "./remote-tracking.js";
 import type {
   CommentRow,
   CommentView,
+  CommentRemoteSyncRow,
   Id,
   TagRow,
   TagView,
+  TicketRemoteLinkRow,
+  TicketRemoteLinkView,
   TicketBlockerView,
   TicketRelationView,
 } from "../types.js";
@@ -56,12 +61,54 @@ export function getCommentsForTicketIds(sqlite: Database.Database, ticketIds: Id
     ORDER BY created_at DESC, id DESC
   `).all(...ticketIds) as CommentRow[];
 
+  const syncByComment = getCommentSyncForCommentIds(sqlite, rows.map((row) => row.id));
+
   rows.forEach((row) => {
     const entry = commentsByTicket.get(row.ticket_id) ?? [];
-    entry.push(mapComment(row));
+    const sync = syncByComment.get(row.id) ?? {
+      ...defaultCommentRemoteSync(row.id),
+      createdAt: row.created_at,
+      updatedAt: row.created_at,
+    };
+    entry.push(mapComment(row, sync));
     commentsByTicket.set(row.ticket_id, entry);
   });
   return commentsByTicket;
+}
+
+export function getRemoteLinksForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, TicketRemoteLinkView> {
+  const remoteByTicket = new Map<Id, TicketRemoteLinkView>();
+  if (ticketIds.length === 0) {
+    return remoteByTicket;
+  }
+  const placeholders = ticketIds.map(() => "?").join(", ");
+  const rows = sqlite.prepare(`
+    SELECT *
+    FROM ticket_remote_links
+    WHERE ticket_id IN (${placeholders})
+  `).all(...ticketIds) as TicketRemoteLinkRow[];
+
+  rows.forEach((row) => {
+    remoteByTicket.set(row.ticket_id, {
+      ticketId: row.ticket_id,
+      provider: row.provider,
+      instanceUrl: row.instance_url,
+      resourceType: row.resource_type,
+      projectKey: row.project_key,
+      issueKey: row.issue_key,
+      displayRef: row.display_ref,
+      url: row.remote_url,
+      title: row.remote_title,
+      bodyMarkdown: row.remote_body_markdown,
+      bodyHtml: renderMarkdown(row.remote_body_markdown),
+      state: row.remote_state,
+      remoteUpdatedAt: row.remote_updated_at,
+      lastSyncedAt: row.last_synced_at,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    });
+  });
+  return remoteByTicket;
 }
 
 export function getParentsForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, TicketRelationView> {
@@ -155,4 +202,30 @@ function getRelationEntriesForTicketIds(
     relationsByTicket.set(row.ticket_id, entry);
   });
   return relationsByTicket;
+}
+
+function getCommentSyncForCommentIds(sqlite: Database.Database, commentIds: Id[]): Map<Id, CommentView["sync"]> {
+  const syncByComment = new Map<Id, CommentView["sync"]>();
+  if (commentIds.length === 0) {
+    return syncByComment;
+  }
+  const placeholders = commentIds.map(() => "?").join(", ");
+  const rows = sqlite.prepare(`
+    SELECT *
+    FROM comment_remote_sync
+    WHERE comment_id IN (${placeholders})
+  `).all(...commentIds) as CommentRemoteSyncRow[];
+
+  rows.forEach((row) => {
+    syncByComment.set(row.comment_id, {
+      commentId: row.comment_id,
+      status: row.status,
+      remoteCommentId: row.remote_comment_id,
+      pushedAt: row.pushed_at,
+      lastError: row.last_error,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    });
+  });
+  return syncByComment;
 }

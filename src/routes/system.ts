@@ -3,6 +3,10 @@ import type { FastifyInstance } from "fastify";
 type AppMeta = {
   name: string;
   version: string;
+  remoteProviders: Array<{
+    id: string;
+    hasCredential: boolean;
+  }>;
 };
 
 const healthResponseSchema = {
@@ -16,11 +20,23 @@ const healthResponseSchema = {
 
 const metaResponseSchema = {
   type: "object",
-  required: ["name", "version"],
+  required: ["name", "version", "remoteProviders"],
   additionalProperties: false,
   properties: {
     name: { type: "string" },
     version: { type: "string" },
+    remoteProviders: {
+      type: "array",
+      items: {
+        type: "object",
+        required: ["id", "hasCredential"],
+        additionalProperties: false,
+        properties: {
+          id: { type: "string" },
+          hasCredential: { type: "boolean" },
+        },
+      },
+    },
   },
 } as const;
 

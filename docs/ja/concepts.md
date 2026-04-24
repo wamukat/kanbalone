@@ -10,6 +10,15 @@
 - Comment は ticket に属します。
 - Blocker と親子リンクで ticket 間の関係を表します。
 
+## Remote Issue Workspace
+
+- Kanbalone は remote issue tracker の代替ではなく、GitHub Issues、GitLab、Redmine などの remote issue のローカル実装ワークスペースです。
+- remote issue を import した ticket には `remote` metadata が付きます。
+- remote tracked ticket では、`title` は remote 由来の read-only 値になります。
+- `bodyMarkdown` は local body として扱われ、実装本文や AI 向け指示を育てる場所になります。
+- `remote.bodyMarkdown` / `remote.bodyHtml` は read-only snapshot です。
+- remote へ push する対象は comment のみです。
+
 ## チケット状態
 
 - `laneId` と `isResolved` は別フィールドです。UI では `isResolved` を Resolved と表示します。
@@ -30,6 +39,7 @@
 - Ticket list route は、ボード描画や自動化スキャン向けの軽量 summary を返します。
 - 詳細が必要な場合は `GET /api/tickets/:ticketId` を使います。
 - 複数 ticket の Resolved 状態変更や lane 名ベースの遷移には、board 単位の bulk endpoint を使います。
+- remote import / refresh / comment push は専用 endpoint で行います。
 
 ## API リファレンス
 
