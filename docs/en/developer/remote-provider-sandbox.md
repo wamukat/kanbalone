@@ -19,7 +19,7 @@ pnpm sandbox:remote-providers
 
 The bootstrap script waits for both services, prepares test data, and writes `.env.local`.
 
-After bootstrapping, the Kanbalone import panel still shows all supported providers. GitLab and Redmine become selectable because the generated credentials are now configured.
+After bootstrapping, Kanbalone shows the remote import action and lists the configured GitLab and Redmine providers in the import panel.
 
 Generated variables:
 
@@ -52,3 +52,4 @@ http://127.0.0.1:3532
 - GitLab 18 may expose issue URLs as `/-/work_items/:iid` through its API, while Kanbalone import uses the stable `/-/issues/:iid` form for user-facing sandbox URLs.
 - `.env.local` is gitignored.
 - Re-running `pnpm sandbox:remote-providers` is safe. It refreshes credentials and rewrites the remote-provider entries in `.env.local`.
+- Kanbalone shows the remote issue import action only after at least one remote provider credential is loaded.

@@ -103,7 +103,7 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 
 - `GET /api/meta` returns `remoteProviders`.
 - Each entry has `id` and `hasCredential`.
-- The UI uses this to keep all supported providers visible while disabling providers without configured credentials.
+- The UI uses this to show remote import only when at least one credential exists and to list configured providers only.
 - API clients can use the same metadata to decide which provider workflows to surface.
 
 ## Common Patterns

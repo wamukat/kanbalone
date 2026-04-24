@@ -73,15 +73,14 @@ export function createEditorModule(ctx) {
       const availability = state.remoteProviderAvailability?.[optionProvider];
       const enabled = availability?.hasCredential ?? false;
       const selected = option.dataset.remoteProviderOption === provider;
+      option.hidden = !enabled;
       option.classList.toggle("active", selected);
       option.setAttribute("aria-checked", String(selected));
       option.tabIndex = enabled && selected ? 0 : -1;
       option.disabled = !enabled;
       option.setAttribute("aria-disabled", String(!enabled));
       option.classList.toggle("disabled", !enabled);
-      option.title = enabled
-        ? optionProviderLabel(optionProvider)
-        : `${optionProviderLabel(optionProvider)} requires a configured credential`;
+      option.title = optionProviderLabel(optionProvider);
     }
     syncRemoteImportProviderHelp();
   }
@@ -107,6 +106,9 @@ export function createEditorModule(ctx) {
   }
 
   function openRemoteImportSheet() {
+    if (!hasEnabledRemoteProvider()) {
+      return;
+    }
     populateRemoteImportLaneOptions();
     setRemoteImportProvider(firstEnabledRemoteProvider());
     elements.editorRemoteUrl.value = "";
@@ -204,7 +206,7 @@ export function createEditorModule(ctx) {
     elements.editorDialog.classList.toggle("editor-create-mode", mode === "edit" && !state.editingTicketId);
     elements.editorDialog.classList.toggle("editor-edit-mode", mode === "edit" && Boolean(state.editingTicketId));
     elements.editorDialog.classList.toggle("editor-view-mode", mode === "view");
-    elements.remoteImportCreateButton.hidden = mode !== "edit" || Boolean(state.editingTicketId);
+    elements.remoteImportCreateButton.hidden = mode !== "edit" || Boolean(state.editingTicketId) || !hasEnabledRemoteProvider();
     elements.ticketView.hidden = mode !== "view";
     elements.editorForm.hidden = mode !== "edit";
     elements.headerEditButton.hidden = mode !== "view" || !state.editingTicketId;
@@ -264,6 +266,8 @@ export function createEditorModule(ctx) {
     elements.editorRemoteProvider.value = nextProvider;
     elements.editorRemoteUrl.placeholder = remoteUrlPlaceholder(nextProvider);
     syncRemoteImportProviderSwitch();
+    elements.remoteImportCreateButton.hidden =
+      state.dialogMode !== "edit" || Boolean(state.editingTicketId) || !hasEnabledRemoteProvider();
   }
 
   function firstEnabledRemoteProvider() {
@@ -274,18 +278,14 @@ export function createEditorModule(ctx) {
     return Boolean(state.remoteProviderAvailability?.[provider]?.hasCredential);
   }
 
+  function hasEnabledRemoteProvider() {
+    return DEFAULT_REMOTE_PROVIDER_ORDER.some((provider) => isRemoteProviderEnabled(provider));
+  }
+
   function syncRemoteImportProviderHelp() {
-    const enabledProviders = DEFAULT_REMOTE_PROVIDER_ORDER.filter((provider) => isRemoteProviderEnabled(provider));
-    elements.editorRemoteImportSubmitButton.disabled = enabledProviders.length === 0;
-    if (enabledProviders.length === DEFAULT_REMOTE_PROVIDER_ORDER.length) {
-      elements.editorRemoteProviderHelp.hidden = true;
-      elements.editorRemoteProviderHelp.textContent = "";
-      return;
-    }
-    elements.editorRemoteProviderHelp.hidden = false;
-    elements.editorRemoteProviderHelp.textContent = enabledProviders.length
-      ? "Configure KANBALONE_REMOTE_CREDENTIALS to enable additional providers."
-      : "Configure KANBALONE_REMOTE_CREDENTIALS to enable remote import.";
+    elements.editorRemoteImportSubmitButton.disabled = !hasEnabledRemoteProvider();
+    elements.editorRemoteProviderHelp.hidden = true;
+    elements.editorRemoteProviderHelp.textContent = "";
   }
 
   function optionProviderLabel(provider) {

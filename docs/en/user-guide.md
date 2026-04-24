@@ -101,7 +101,7 @@ The current implementation supports GitHub Issues, GitLab, and Redmine as provid
 
 ### 8.1 Import A Remote Issue
 
-Use the import icon in the upper-right of the create-ticket dialog.
+Use the import icon in the upper-right of the create-ticket dialog. The icon is shown only when at least one remote provider credential is configured.
 
 The panel asks for:
 
@@ -109,10 +109,7 @@ The panel asks for:
 - Issue URL
 - Destination lane
 
-All supported providers stay visible in the panel.
-
-- Providers with configured credentials are selectable.
-- Providers without credentials stay disabled until credentials are configured.
+Only providers with configured credentials are shown in the panel.
 
 Use `KANBALONE_REMOTE_CREDENTIALS` or the local sandbox bootstrap when you want to enable GitLab or Redmine locally.
 

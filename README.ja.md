@@ -107,7 +107,7 @@ docker compose -f docker-compose.remote-providers.yml up -d
 pnpm sandbox:remote-providers
 ```
 
-Kanbalone の import panel には対応済み provider がすべて表示されます。credential が設定された provider は選択可能で、未設定の provider は表示されたまま disabled になります。
+Kanbalone は remote provider credential が 1 つ以上設定されている場合だけ、remote issue import の導線を表示します。import panel には設定済み provider だけが表示されます。
 
 詳細は [Remote provider sandbox](docs/ja/developer/remote-provider-sandbox.md) を参照してください。
 

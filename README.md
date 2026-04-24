@@ -107,7 +107,7 @@ docker compose -f docker-compose.remote-providers.yml up -d
 pnpm sandbox:remote-providers
 ```
 
-Kanbalone shows all supported remote providers in the import panel. Providers with configured credentials are enabled, and providers without credentials stay visible but disabled.
+Kanbalone shows the remote issue import action only when at least one remote provider credential is configured. The import panel lists configured providers only.
 
 See [Remote provider sandbox](docs/en/developer/remote-provider-sandbox.md).
 
