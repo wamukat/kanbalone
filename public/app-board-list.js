@@ -76,7 +76,11 @@ export function createListBoardModule(ctx, options) {
     const visibleTicketIds = orderedTickets.map(({ ticket }) => ticket.id);
     const allSelected = visibleTicketIds.length > 0 && visibleTicketIds.every((ticketId) => state.selectedListTicketIds.includes(ticketId));
     const previousScrollTop = elements.listBoard.querySelector(".list-viewport")?.scrollTop ?? 0;
-    const actions = renderListActions(detail.tickets, state.selectedListTicketIds);
+    const actions = renderListActions(
+      detail.tickets,
+      state.selectedListTicketIds,
+      state.boards.some((board) => board.id !== state.activeBoardId),
+    );
     elements.listBoard.innerHTML = `
       ${actions}
       <div class="list-header">
@@ -151,6 +155,10 @@ export function createListBoardModule(ctx, options) {
     if (bulkButton && elements.listBoard.contains(bulkButton) && !bulkButton.disabled) {
       if (bulkButton.dataset.bulkDelete) {
         listSelection.deleteSelectedListTickets();
+        return;
+      }
+      if (bulkButton.dataset.bulkMoveBoard) {
+        listSelection.moveSelectedListTickets();
         return;
       }
       if (bulkButton.dataset.bulkArchive) {

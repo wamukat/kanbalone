@@ -6,6 +6,7 @@ type ListTicket = {
 
 type ListActionTicket = {
   id: number;
+  laneId?: number;
   isResolved?: boolean;
   isArchived?: boolean;
 };
@@ -29,11 +30,13 @@ type ListBoardLane = {
 
 type ListBoardDetail = {
   tickets: ListBoardTicket[];
+  lanes: ListBoardLane[];
 };
 
 type ListBoardState = {
   activeBoardId: number | null;
   boardDetail: { lanes: ListBoardLane[] } | null;
+  boards: Array<{ id: number; name: string }>;
   boardTickets: ListBoardTicket[];
   filters: { resolved: string };
   selectedListTicketIds: number[];
@@ -41,6 +44,7 @@ type ListBoardState = {
 
 type ListBoardElements = {
   listBoard: HTMLElement;
+  uxFields: HTMLElement;
 };
 
 type ListBoardContext = {
@@ -48,10 +52,12 @@ type ListBoardContext = {
   confirmAndRun(options: unknown): Promise<unknown> | unknown;
   elements: ListBoardElements;
   escapeHtml(value: string): string;
+  openFormDialog(options: unknown): Promise<unknown>;
   openEditor(ticketId: number | null, mode: "view" | "edit", laneId?: number): void;
   refreshBoardDetail(): Promise<unknown>;
   renderBoardDetail(): void;
   sendJson(path: string, options?: unknown): Promise<unknown>;
+  showToast(message: string, tone?: string): void;
   state: ListBoardState;
 };
 
@@ -75,7 +81,11 @@ export function getListTickets<T extends ListTicket>(tickets: T[]): Array<{
   indent: number;
 }>;
 
-export function renderListActions<T extends ListActionTicket>(tickets: T[], selectedTicketIds: number[]): string;
+export function renderListActions<T extends ListActionTicket>(
+  tickets: T[],
+  selectedTicketIds: number[],
+  hasMoveTarget?: boolean,
+): string;
 
 export function createListBoardModule(ctx: ListBoardContext, options: ListBoardOptions): {
   handleListBoardChange(event: Event): void;

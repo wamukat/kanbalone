@@ -1,11 +1,14 @@
 import { icon } from "./icons.js";
 
-export function renderListActions(tickets, selectedTicketIds) {
+export function renderListActions(tickets, selectedTicketIds, hasMoveTarget = false) {
   const selectedTickets = tickets.filter((ticket) => selectedTicketIds.includes(ticket.id));
   if (selectedTickets.length === 0) {
     return '<div class="list-actions list-actions-empty"><span>Select tickets to edit in bulk</span></div>';
   }
   const buttons = [];
+  if (hasMoveTarget) {
+    buttons.push(`<button type="button" class="list-action-button action-with-icon" data-bulk-move-board="true">${icon("columns-3")}<span>Move</span></button>`);
+  }
   if (selectedTickets.some((ticket) => !ticket.isResolved)) {
     buttons.push(`<button type="button" class="list-action-button action-with-icon" data-bulk-resolve="true">${icon("check")}<span>Mark Resolved</span></button>`);
   }

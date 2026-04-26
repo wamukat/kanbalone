@@ -27,6 +27,67 @@ export function createListSelectionModule(ctx) {
     await ctx.refreshBoardDetail();
   }
 
+  async function moveSelectedListTickets() {
+    const ticketIds = [...state.selectedListTicketIds];
+    if (ticketIds.length === 0) {
+      return;
+    }
+    const targetBoards = state.boards.filter((board) => board.id !== state.activeBoardId);
+    if (targetBoards.length === 0) {
+      ctx.showToast("Create another board before moving tickets", "error");
+      return;
+    }
+
+    const selectedTickets = state.boardTickets.filter((ticket) => ticketIds.includes(ticket.id));
+    const selectedLaneIds = [...new Set(selectedTickets.map((ticket) => ticket.laneId))];
+    const sourceLaneName = selectedLaneIds.length === 1
+      ? state.boardDetail?.lanes?.find((lane) => lane.id === selectedLaneIds[0])?.name
+      : undefined;
+    const initialBoard = await ctx.api(`/api/boards/${targetBoards[0].id}`);
+    const initialLaneId = getDefaultTargetLaneId(initialBoard.lanes, sourceLaneName);
+    const dialogPromise = ctx.openFormDialog({
+      title: "Move Tickets",
+      message: "Move selected tickets to another board. Matching tag names will be kept. Parent, child, and blocker links outside the destination board will be cleared.",
+      fields: renderMoveFields(targetBoards, initialBoard.lanes, initialLaneId),
+      submitLabel: "Move",
+    });
+    const boardSelect = ctx.elements.uxFields.querySelector("[data-bulk-move-board-select]");
+    const laneSelect = ctx.elements.uxFields.querySelector("[data-bulk-move-lane-select]");
+    boardSelect?.addEventListener("change", async () => {
+      try {
+        const board = await ctx.api(`/api/boards/${Number(boardSelect.value)}`);
+        laneSelect.innerHTML = renderLaneOptions(board.lanes, getDefaultTargetLaneId(board.lanes, sourceLaneName));
+      } catch (error) {
+        ctx.showToast(error.message, "error");
+      }
+    });
+
+    const confirmed = await dialogPromise;
+    if (!confirmed) {
+      return;
+    }
+
+    const boardId = Number(boardSelect?.value);
+    const laneId = Number(laneSelect?.value);
+    if (!Number.isInteger(boardId) || !Number.isInteger(laneId)) {
+      ctx.showToast("Choose a destination board and lane", "error");
+      return;
+    }
+    try {
+      for (const ticketId of ticketIds) {
+        await ctx.sendJson(`/api/tickets/${ticketId}/move`, {
+          method: "POST",
+          body: { boardId, laneId },
+        });
+      }
+      state.selectedListTicketIds = [];
+      await ctx.refreshBoardDetail();
+      ctx.showToast(`${ticketIds.length} ticket${ticketIds.length === 1 ? "" : "s"} moved`);
+    } catch (error) {
+      ctx.showToast(error.message, "error");
+    }
+  }
+
   async function deleteSelectedListTickets() {
     const ticketIds = [...state.selectedListTicketIds];
     if (ticketIds.length === 0) {
@@ -72,10 +133,38 @@ export function createListSelectionModule(ctx) {
     ctx.renderBoardDetail();
   }
 
+  function renderMoveFields(targetBoards, lanes, selectedLaneId) {
+    return `
+      <label class="editor-field">
+        <span class="editor-field-label">Board</span>
+        <select data-bulk-move-board-select>
+          ${targetBoards.map((board) => `<option value="${board.id}">${ctx.escapeHtml(board.name)}</option>`).join("")}
+        </select>
+      </label>
+      <label class="editor-field">
+        <span class="editor-field-label">Lane</span>
+        <select data-bulk-move-lane-select>
+          ${renderLaneOptions(lanes, selectedLaneId)}
+        </select>
+      </label>
+    `;
+  }
+
+  function renderLaneOptions(lanes, selectedLaneId) {
+    return lanes
+      .map((lane) => `<option value="${lane.id}" ${lane.id === selectedLaneId ? "selected" : ""}>${ctx.escapeHtml(lane.name)}</option>`)
+      .join("");
+  }
+
+  function getDefaultTargetLaneId(lanes, sourceLaneName) {
+    return lanes.find((lane) => lane.name === sourceLaneName)?.id ?? lanes[0]?.id ?? null;
+  }
+
   return {
     deleteSelectedListTickets,
     handleListSelectAll,
     handleListTicketSelection,
+    moveSelectedListTickets,
     updateSelectedListArchive,
     updateSelectedListTickets,
   };

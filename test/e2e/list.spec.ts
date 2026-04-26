@@ -139,3 +139,56 @@ test("list ticket titles use subdued app link styling", async ({ page }) => {
     await app.close();
   }
 });
+
+test("list bulk move moves selected tickets to another board", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const sourceBoardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Bulk Move Source", laneNames: ["todo", "review"] },
+    });
+    expect(sourceBoardResponse.status()).toBe(201);
+    const sourceBoardPayload = await sourceBoardResponse.json();
+    const [todoLane] = sourceBoardPayload.lanes;
+
+    const targetBoardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Bulk Move Target", laneNames: ["todo", "done"] },
+    });
+    expect(targetBoardResponse.status()).toBe(201);
+    const targetBoardPayload = await targetBoardResponse.json();
+    const [targetTodoLane] = targetBoardPayload.lanes;
+
+    for (const title of ["Move first", "Move second"]) {
+      const response = await page.request.post(`${baseUrl}/api/boards/${sourceBoardPayload.board.id}/tickets`, {
+        data: { laneId: todoLane.id, title },
+      });
+      expect(response.status()).toBe(201);
+    }
+
+    await page.goto(`${baseUrl}/boards/${sourceBoardPayload.board.id}/list`);
+    await page.getByRole("button", { name: "Move first" }).locator("..").locator("[data-list-ticket-id]").check();
+    await page.getByRole("button", { name: "Move second" }).locator("..").locator("[data-list-ticket-id]").check();
+
+    await page.locator("[data-bulk-move-board='true']").first().click();
+    await expect(page.locator("#ux-dialog")).toBeVisible();
+    await page.locator("[data-bulk-move-board-select]").selectOption(String(targetBoardPayload.board.id));
+    await page.locator("[data-bulk-move-lane-select]").selectOption(String(targetTodoLane.id));
+    await page.locator("#ux-submit-button").click();
+
+    await expect(page.locator("#list-board")).not.toContainText("Move first");
+    await expect(page.locator("#list-board")).not.toContainText("Move second");
+
+    await page.goto(`${baseUrl}/boards/${targetBoardPayload.board.id}/list`);
+    await expect(page.getByRole("button", { name: "Move first" }).locator("..")).toContainText("todo");
+    await expect(page.getByRole("button", { name: "Move second" }).locator("..")).toContainText("todo");
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});

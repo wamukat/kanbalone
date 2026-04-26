@@ -61,7 +61,8 @@ test("renderListActions exposes only relevant bulk actions", () => {
 
   assert.match(renderListActions(tickets, []), /Select tickets to edit in bulk/);
 
-  const mixed = renderListActions(tickets, [1, 2]);
+  const mixed = renderListActions(tickets, [1, 2], true);
+  assert.match(mixed, /Move/);
   assert.match(mixed, /Mark Resolved/);
   assert.match(mixed, /Reopen/);
   assert.match(mixed, /Archive/);
@@ -69,6 +70,7 @@ test("renderListActions exposes only relevant bulk actions", () => {
   assert.match(mixed, /Delete/);
 
   const openOnly = renderListActions(tickets, [1]);
+  assert.doesNotMatch(openOnly, /Move/);
   assert.match(openOnly, /Mark Resolved/);
   assert.doesNotMatch(openOnly, /Reopen/);
   assert.match(openOnly, /Archive/);
