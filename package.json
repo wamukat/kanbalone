@@ -1,6 +1,6 @@
 {
   "name": "kanbalone",
-  "version": "0.9.22",
+  "version": "0.9.23",
   "description": "Kanbalone: ultra-light local personal kanban for human and AI collaboration",
   "type": "module",
   "main": "dist/src/server.js",
