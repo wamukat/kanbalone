@@ -64,9 +64,17 @@ export function addActivity(
 }
 
 export function replaceTicketTags(sqlite: Database.Database, ticketId: Id, tagIds: Id[]): void {
-  sqlite.prepare("DELETE FROM ticket_tags WHERE ticket_id = ?").run(ticketId);
-  const insert = sqlite.prepare("INSERT INTO ticket_tags (ticket_id, tag_id) VALUES (?, ?)");
-  tagIds.forEach((tagId) => insert.run(ticketId, tagId));
+  const nextTagIds = [...new Set(tagIds)];
+  if (nextTagIds.length === 0) {
+    sqlite.prepare("DELETE FROM ticket_tags WHERE ticket_id = ?").run(ticketId);
+  } else {
+    const placeholders = nextTagIds.map(() => "?").join(", ");
+    sqlite
+      .prepare(`DELETE FROM ticket_tags WHERE ticket_id = ? AND tag_id NOT IN (${placeholders})`)
+      .run(ticketId, ...nextTagIds);
+  }
+  const insert = sqlite.prepare("INSERT OR IGNORE INTO ticket_tags (ticket_id, tag_id) VALUES (?, ?)");
+  nextTagIds.forEach((tagId) => insert.run(ticketId, tagId));
 }
 
 export function replaceTicketBlockers(

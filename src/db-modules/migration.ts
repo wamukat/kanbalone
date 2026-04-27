@@ -99,10 +99,35 @@ export function migrate(sqlite: Database.Database): void {
       PRIMARY KEY (ticket_id, tag_id)
     );
 
+    CREATE TABLE IF NOT EXISTS ticket_tag_reasons (
+      ticket_id INTEGER NOT NULL,
+      tag_id INTEGER NOT NULL,
+      reason TEXT,
+      details_json TEXT,
+      reason_comment_id INTEGER REFERENCES comments(id) ON DELETE SET NULL,
+      attached_at TEXT,
+      updated_at TEXT NOT NULL,
+      PRIMARY KEY (ticket_id, tag_id),
+      FOREIGN KEY (ticket_id, tag_id) REFERENCES ticket_tags(ticket_id, tag_id) ON DELETE CASCADE
+    );
+
     CREATE TABLE IF NOT EXISTS ticket_blockers (
       ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
       blocker_ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
       PRIMARY KEY (ticket_id, blocker_ticket_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS ticket_events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+      source TEXT NOT NULL,
+      kind TEXT NOT NULL,
+      title TEXT NOT NULL,
+      summary TEXT,
+      severity TEXT,
+      icon TEXT,
+      data_json TEXT NOT NULL DEFAULT '{}',
+      created_at TEXT NOT NULL
     );
 
     CREATE INDEX IF NOT EXISTS tickets_board_lane_position_idx
@@ -114,8 +139,14 @@ export function migrate(sqlite: Database.Database): void {
     CREATE INDEX IF NOT EXISTS ticket_tags_tag_ticket_idx
     ON ticket_tags(tag_id, ticket_id);
 
+    CREATE INDEX IF NOT EXISTS ticket_tag_reasons_tag_ticket_idx
+    ON ticket_tag_reasons(tag_id, ticket_id);
+
     CREATE INDEX IF NOT EXISTS ticket_blockers_blocker_ticket_idx
     ON ticket_blockers(blocker_ticket_id, ticket_id);
+
+    CREATE INDEX IF NOT EXISTS ticket_events_ticket_created_idx
+    ON ticket_events(ticket_id, created_at, id);
 
     CREATE INDEX IF NOT EXISTS activity_logs_ticket_created_idx
     ON activity_logs(ticket_id, created_at, id);

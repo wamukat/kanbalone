@@ -3,8 +3,10 @@ import type { FastifyInstance } from "fastify";
 import { registerTicketActivityRoutes } from "./ticket-activity.js";
 import { registerTicketBulkRoutes } from "./ticket-bulk.js";
 import { registerTicketCommentRoutes } from "./ticket-comments.js";
+import { registerTicketEventRoutes } from "./ticket-events.js";
 import { registerTicketRelationRoutes } from "./ticket-relations.js";
 import { registerTicketReorderRoutes } from "./ticket-reorder.js";
+import { registerTicketTagReasonRoutes } from "./ticket-tag-reasons.js";
 import { sanitizeRemoteRefreshError } from "../remote/errors.js";
 import type {
   RegisterTicketRoutesContext,
@@ -340,7 +342,9 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
 
   registerTicketBulkRoutes(app, ctx);
   registerTicketCommentRoutes(app, ctx);
+  registerTicketEventRoutes(app, ctx);
   registerTicketActivityRoutes(app, ctx);
   registerTicketRelationRoutes(app, ctx);
   registerTicketReorderRoutes(app, ctx);
+  registerTicketTagReasonRoutes(app, ctx);
 }

@@ -18,6 +18,10 @@ import type {
   TicketSummaryView,
   TicketView,
   CommentRemoteSyncView,
+  TicketEventRow,
+  TicketEventView,
+  TicketTagReasonRow,
+  TicketTagReasonView,
 } from "../types.js";
 
 export function mapBoard(row: BoardRow): BoardView {
@@ -146,6 +150,32 @@ export function mapActivityLog(row: ActivityLogRow): ActivityLogView {
   };
 }
 
+export function mapTicketEvent(row: TicketEventRow): TicketEventView {
+  return {
+    id: row.id,
+    ticketId: row.ticket_id,
+    source: row.source,
+    kind: row.kind,
+    title: row.title,
+    summary: row.summary,
+    severity: row.severity,
+    icon: row.icon,
+    data: parseObjectJson(row.data_json),
+    createdAt: row.created_at,
+  };
+}
+
+export function mapTicketTagReason(row: TicketTagReasonRow & TagRow): TicketTagReasonView {
+  return {
+    tag: mapTag(row),
+    reason: row.reason,
+    details: row.details_json == null ? null : parseObjectJson(row.details_json),
+    reasonCommentId: row.reason_comment_id,
+    attachedAt: row.attached_at,
+    updatedAt: row.updated_at,
+  };
+}
+
 export function sanitizePriority(value: number | undefined): number {
   if (typeof value === "undefined") {
     return 2;
@@ -175,6 +205,18 @@ export function mapRelation(
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),
   };
+}
+
+function parseObjectJson(value: string): Record<string, unknown> {
+  try {
+    const parsed = JSON.parse(value);
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      return parsed as Record<string, unknown>;
+    }
+  } catch {
+    return {};
+  }
+  return {};
 }
 
 function formatTicketRef(boardName: string, ticketId: Id): string {

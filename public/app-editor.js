@@ -372,6 +372,7 @@ export function createEditorModule(ctx) {
     state.editorOriginalChildIds = [];
     state.dialogTicket = null;
     state.dialogActivity = [];
+    state.dialogEvents = [];
     state.detailBodyTab = "local";
     state.editorBodyTab = "local";
     state.editorRemoteImportOpen = false;
@@ -451,9 +452,11 @@ export function createEditorModule(ctx) {
     ctx.syncBoardUrl();
   }
 
-  function hydrateDialogTicket(ticket, activity = []) {
+  function hydrateDialogTicket(ticket, activity = [], events = []) {
     state.dialogTicket = ticket;
-    detailModule.syncTicketDetail(ticket, activity);
+    state.dialogActivity = activity;
+    state.dialogEvents = events;
+    detailModule.syncTicketDetail(ticket, activity, events);
     elements.ticketComments.innerHTML = commentsModule.renderComments(ticket.comments ?? []);
     hydrateEditorForm(ticket);
     detailModule.setDetailTab("comments");
@@ -522,11 +525,12 @@ export function createEditorModule(ctx) {
     if (!ticketId) {
       return null;
     }
-    const [ticket, activityPayload] = await Promise.all([
+    const [ticket, activityPayload, eventsPayload] = await Promise.all([
       ctx.api(`/api/tickets/${ticketId}`),
       ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
+      ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
     ]);
-    hydrateDialogTicket(ticket, activityPayload.activity ?? []);
+    hydrateDialogTicket(ticket, activityPayload.activity ?? [], eventsPayload.events ?? []);
     ctx.syncDialogScrollLock?.();
     return ticket;
   }
@@ -556,10 +560,18 @@ export function createEditorModule(ctx) {
       return;
     }
     state.editingTicketId = ticketId;
-    const ticket = ticketId ? await ctx.api(`/api/tickets/${ticketId}`) : null;
-    const activity = ticketId ? ((await ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] }))).activity ?? []) : [];
+    const [ticket, activityPayload, eventsPayload] = ticketId
+      ? await Promise.all([
+        ctx.api(`/api/tickets/${ticketId}`),
+        ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
+        ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
+      ])
+      : [null, { activity: [] }, { events: [] }];
+    const activity = activityPayload.activity ?? [];
+    const events = eventsPayload.events ?? [];
     state.dialogTicket = ticket;
     state.dialogActivity = activity;
+    state.dialogEvents = events;
     state.detailBodyTab = "local";
     state.editorBodyTab = "local";
     elements.ticketTitle.value = ticket?.title ?? "";
@@ -567,7 +579,7 @@ export function createEditorModule(ctx) {
     elements.ticketResolved.checked = ticket?.isResolved ?? false;
     elements.ticketBody.value = ticket?.bodyMarkdown ?? "";
     elements.ticketTitle.disabled = Boolean(ticket?.remote);
-    detailModule.syncTicketDetail(ticket, activity);
+    detailModule.syncTicketDetail(ticket, activity, events);
     elements.ticketComments.innerHTML = commentsModule.renderComments(ticket?.comments ?? []);
     elements.commentBody.value = "";
     commentsModule.resetCommentComposer();

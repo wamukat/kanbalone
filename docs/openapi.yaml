@@ -1036,6 +1036,100 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/events:
+    get:
+      summary: List structured ticket events
+      description: Returns machine-readable ticket events with the newest event first.
+      operationId: listTicketEvents
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Event list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketEventsResponse"
+        "404":
+          $ref: "#/components/responses/Error"
+    post:
+      summary: Add structured ticket event
+      description: Stores a source-specific event for AI and automation workflows without changing the regular activity log shape.
+      operationId: addTicketEvent
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TicketEventCreateBody"
+      responses:
+        "201":
+          description: Created event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketEvent"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
+  /api/tickets/{ticketId}/tag-reasons:
+    get:
+      summary: List ticket tag reasons
+      description: Returns the ticket's currently attached tags with optional reason metadata.
+      operationId: listTicketTagReasons
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Tag reason list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketTagReasonsResponse"
+        "404":
+          $ref: "#/components/responses/Error"
+
+  /api/tickets/{ticketId}/tags/{tagId}:
+    post:
+      summary: Attach tag with optional reason
+      description: Attaches an existing board tag to the ticket and upserts reason metadata for that tag.
+      operationId: setTicketTagReason
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/TagId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TicketTagReasonSetBody"
+      responses:
+        "200":
+          description: Attached tag reason
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketTagReason"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      summary: Remove tag from ticket
+      operationId: removeTicketTag
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/TagId"
+      responses:
+        "204":
+          description: Removed
+        "404":
+          $ref: "#/components/responses/Error"
+
 components:
   parameters:
     BoardId:
@@ -1143,6 +1237,90 @@ components:
           additionalProperties: true
         createdAt: { type: string, format: date-time }
       required: [id, boardId, ticketId, subjectTicketId, action, message, details, createdAt]
+    TicketEvent:
+      type: object
+      properties:
+        id: { type: integer }
+        ticketId: { type: integer }
+        source:
+          type: string
+          description: Producer identifier such as a provider, agent, or integration.
+        kind:
+          type: string
+          description: Source-defined event type.
+        title: { type: string }
+        summary:
+          type: [string, "null"]
+        severity:
+          type: [string, "null"]
+        icon:
+          type: [string, "null"]
+        data:
+          type: object
+          additionalProperties: true
+        createdAt: { type: string, format: date-time }
+      required: [id, ticketId, source, kind, title, summary, severity, icon, data, createdAt]
+    TicketEventCreateBody:
+      type: object
+      properties:
+        source: { type: string }
+        kind: { type: string }
+        title: { type: string }
+        summary:
+          type: [string, "null"]
+        severity:
+          type: [string, "null"]
+        icon:
+          type: [string, "null"]
+        data:
+          type: object
+          additionalProperties: true
+      required: [source, kind, title]
+    TicketEventsResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketEvent"
+      required: [events]
+    TicketTagReason:
+      type: object
+      properties:
+        tag:
+          $ref: "#/components/schemas/Tag"
+        reason:
+          type: [string, "null"]
+        details:
+          type: [object, "null"]
+          additionalProperties: true
+        reasonCommentId:
+          type: [integer, "null"]
+        attachedAt:
+          type: [string, "null"]
+          format: date-time
+        updatedAt:
+          type: [string, "null"]
+          format: date-time
+      required: [tag, reason, details, reasonCommentId, attachedAt, updatedAt]
+    TicketTagReasonsResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketTagReason"
+      required: [tags]
+    TicketTagReasonSetBody:
+      type: object
+      properties:
+        reason:
+          type: [string, "null"]
+        details:
+          type: [object, "null"]
+          additionalProperties: true
+        reasonCommentId:
+          type: [integer, "null"]
     TicketRelation:
       type: object
       properties:

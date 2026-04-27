@@ -520,3 +520,39 @@ test("ticket detail supports focused inline updates", async ({ page }) => {
     await close();
   }
 });
+
+test("ticket activity tab renders structured events once", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Structured Event Board",
+      laneNames: ["Todo"],
+    });
+    const [todoLane] = boardPayload.lanes;
+    const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: todoLane.id,
+      title: "Structured event target",
+    });
+    const eventResponse = await page.request.post(`${baseUrl}/api/tickets/${ticket.id}/events`, {
+      data: {
+        source: "a2o",
+        kind: "branch_pushed",
+        title: "Branch pushed",
+        summary: "Task branch is ready",
+        severity: "success",
+      },
+    });
+    expect(eventResponse.status()).toBe(201);
+
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await page.locator("#activity-tab-button").click();
+    await expect(page.locator("#ticket-activity")).toContainText("Branch pushed");
+    await expect(page.locator("#ticket-activity")).toContainText("Task branch is ready");
+    await expect(page.locator("#ticket-activity")).toContainText("a2o / branch_pushed / success");
+    await expect(page.locator("#ticket-activity .activity-message", { hasText: "Branch pushed" })).toHaveCount(1);
+  } finally {
+    await close();
+  }
+});

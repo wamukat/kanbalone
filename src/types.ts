@@ -42,6 +42,16 @@ export type TicketTagRow = {
   tag_id: Id;
 };
 
+export type TicketTagReasonRow = {
+  ticket_id: Id;
+  tag_id: Id;
+  reason: string | null;
+  details_json: string | null;
+  reason_comment_id: Id | null;
+  attached_at: string | null;
+  updated_at: string | null;
+};
+
 export type TicketBlockerRow = {
   ticket_id: Id;
   blocker_ticket_id: Id;
@@ -95,11 +105,33 @@ export type ActivityLogRow = {
   created_at: string;
 };
 
+export type TicketEventRow = {
+  id: Id;
+  ticket_id: Id;
+  source: string;
+  kind: string;
+  title: string;
+  summary: string | null;
+  severity: string | null;
+  icon: string | null;
+  data_json: string;
+  created_at: string;
+};
+
 export type TagView = {
   id: Id;
   boardId: Id;
   name: string;
   color: string;
+};
+
+export type TicketTagReasonView = {
+  tag: TagView;
+  reason: string | null;
+  details: Record<string, unknown> | null;
+  reasonCommentId: Id | null;
+  attachedAt: string | null;
+  updatedAt: string | null;
 };
 
 export type TicketBlockerView = {
@@ -220,6 +252,19 @@ export type ActivityLogView = {
   action: string;
   message: string;
   details: Record<string, unknown>;
+  createdAt: string;
+};
+
+export type TicketEventView = {
+  id: Id;
+  ticketId: Id;
+  source: string;
+  kind: string;
+  title: string;
+  summary: string | null;
+  severity: string | null;
+  icon: string | null;
+  data: Record<string, unknown>;
   createdAt: string;
 };
 

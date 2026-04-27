@@ -49,6 +49,7 @@ const state = {
   dialogMode: "view",
   dialogTicket: null,
   dialogActivity: [],
+  dialogEvents: [],
   detailBodyTab: "local",
   editorBodyTab: "local",
   editorRemoteImportOpen: false,

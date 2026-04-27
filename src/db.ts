@@ -33,6 +33,17 @@ import {
   type UpdateCommentInput,
 } from "./db-modules/comments.js";
 import {
+  addTicketEvent,
+  listTicketEvents,
+  type CreateTicketEventInput,
+} from "./db-modules/ticket-events.js";
+import {
+  listTicketTagReasons,
+  removeTicketTag,
+  setTicketTagReason,
+  type SetTicketTagReasonInput,
+} from "./db-modules/ticket-tag-reasons.js";
+import {
   bulkArchiveTickets as bulkArchiveTicketRecords,
   bulkResolveTickets as bulkResolveTicketRecords,
   bulkTransitionTickets as bulkTransitionTicketRecords,
@@ -84,6 +95,8 @@ import {
   type LaneView,
   type TicketRemoteLinkView,
   type TicketRelationsView,
+  type TicketEventView,
+  type TicketTagReasonView,
   type TicketSummaryView,
   type TicketView,
 } from "./types.js";
@@ -362,6 +375,26 @@ export class KanbanDb {
 
   listActivity(ticketId: Id): ActivityLogView[] {
     return listActivity(this.sqlite, ticketId);
+  }
+
+  addTicketEvent(input: CreateTicketEventInput): TicketEventView {
+    return addTicketEvent(this.sqlite, input, this.now());
+  }
+
+  listTicketEvents(ticketId: Id): TicketEventView[] {
+    return listTicketEvents(this.sqlite, ticketId);
+  }
+
+  setTicketTagReason(input: SetTicketTagReasonInput): TicketTagReasonView {
+    return setTicketTagReason(this.sqlite, input, this.now());
+  }
+
+  removeTicketTag(ticketId: Id, tagId: Id): { boardId: Id } {
+    return removeTicketTag(this.sqlite, ticketId, tagId, this.now());
+  }
+
+  listTicketTagReasons(ticketId: Id): TicketTagReasonView[] {
+    return listTicketTagReasons(this.sqlite, ticketId);
   }
 
   getTicketRelations(ticketId: Id): TicketRelationsView {

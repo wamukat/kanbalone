@@ -38,6 +38,9 @@ export type TicketRoutesSchemas = {
   reorderTicketsBodySchema: unknown;
   ticketCommentBodySchema: unknown;
   ticketCommentUpdateBodySchema: unknown;
+  ticketEventCreateBodySchema: unknown;
+  ticketEventSchema: unknown;
+  ticketEventsResponseSchema: unknown;
   ticketCreateBodySchema: unknown;
   ticketListQuerySchema: unknown;
   ticketMoveBodySchema: unknown;
@@ -49,6 +52,9 @@ export type TicketRoutesSchemas = {
   ticketsResponseSchema: unknown;
   ticketTransitionBodySchema: unknown;
   ticketUpdateBodySchema: unknown;
+  ticketTagReasonSchema: unknown;
+  ticketTagReasonsResponseSchema: unknown;
+  ticketTagReasonSetBodySchema: unknown;
 };
 
 export type RegisterTicketRoutesContext = {

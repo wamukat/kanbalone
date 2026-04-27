@@ -45,8 +45,9 @@ export function createTicketDetailModule(ctx) {
     }
   }
 
-  function syncTicketDetail(ticket, activity = []) {
+  function syncTicketDetail(ticket, activity = [], events = []) {
     state.dialogActivity = activity;
+    state.dialogEvents = events;
     syncEditorHeader(ticket);
     elements.ticketViewMeta.innerHTML = renderTicketMeta(ticket);
     syncRemoteSummary(ticket);
@@ -57,7 +58,7 @@ export function createTicketDetailModule(ctx) {
     } else {
       renderBodyDisplay(ticket);
     }
-    elements.ticketActivity.innerHTML = renderActivity(activity);
+    elements.ticketActivity.innerHTML = renderActivity(activity, events);
   }
 
   function syncEditorHeader(ticket) {
@@ -270,25 +271,46 @@ export function createTicketDetailModule(ctx) {
     return `<a class="ticket-tag-chip ticket-ref-chip ticket-relation-chip ticket-relation-chip-${kind}" href="/tickets/${ticket.id}"><span class="ticket-ref-chip-id${ticket.isResolved ? " ticket-ref-resolved" : ""}">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span></a>`;
   }
 
-  function renderActivity(activity) {
-    if (!activity.length) {
+  function renderActivity(activity, events = []) {
+    const timeline = [
+      ...activity.map((entry) => ({ type: "activity", createdAt: entry.createdAt, entry })),
+      ...events.map((entry) => ({ type: "event", createdAt: entry.createdAt, entry })),
+    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    if (!timeline.length) {
       return '<p class="muted">No activity yet.</p>';
     }
-    return activity
-      .map(
-        (entry) => `
+    return timeline
+      .map((item) => {
+        if (item.type === "event") {
+          return `
           <article class="activity-item">
-            <div class="activity-meta muted">${new Date(entry.createdAt).toLocaleString()}</div>
-            <div class="activity-message">${ctx.escapeHtml(entry.message)}</div>
+            <div class="activity-meta muted">${ctx.escapeHtml(renderEventMeta(item.entry))}</div>
+            <div class="activity-message">${ctx.escapeHtml(item.entry.title)}</div>
+            ${item.entry.summary ? `<div class="activity-meta muted">${ctx.escapeHtml(item.entry.summary)}</div>` : ""}
           </article>
-        `,
-      )
+        `;
+        }
+        return `
+          <article class="activity-item">
+            <div class="activity-meta muted">${new Date(item.entry.createdAt).toLocaleString()}</div>
+            <div class="activity-message">${ctx.escapeHtml(item.entry.message)}</div>
+          </article>
+        `;
+      })
       .join("");
+  }
+
+  function renderEventMeta(entry) {
+    const parts = [new Date(entry.createdAt).toLocaleString(), entry.source, entry.kind];
+    if (entry.severity) {
+      parts.push(entry.severity);
+    }
+    return parts.filter(Boolean).join(" / ");
   }
 
   function startInlineEdit(field) {
     activeInlineEdit = field;
-    syncTicketDetail(state.dialogTicket, state.dialogActivity ?? []);
+    syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
   }
 
   function cancelInlineEdit() {
@@ -296,7 +318,7 @@ export function createTicketDetailModule(ctx) {
       return;
     }
     activeInlineEdit = null;
-    syncTicketDetail(state.dialogTicket, state.dialogActivity ?? []);
+    syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
   }
 
   async function updateInlineTicket(patch, savedMessage = "Saved") {
