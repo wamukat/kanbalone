@@ -231,6 +231,56 @@ linux/amd64
 ```
 ````
 
+## 関連チケットのクローズ
+
+GitHub Release 作成後、release で完了した GitHub issue と local Kanbalone ticket をすべて close します。両方の状態を更新するまで、リリース作業は完了扱いにしません。
+
+関連する GitHub issue ごとに release comment を追加し、issue を close します。
+
+```bash
+gh issue close <issue-number> \
+  --repo wamukat/kanbalone \
+  --comment 'Released in vX.Y.Z.
+
+Release: https://github.com/wamukat/kanbalone/releases/tag/vX.Y.Z
+Implementation commit: <sha> (<subject>)
+Release commit: <sha> (<subject>)
+
+<short fulfillment summary>'
+```
+
+close 状態を確認します。
+
+```bash
+gh issue view <issue-number> \
+  --repo wamukat/kanbalone \
+  --json number,state,url
+```
+
+プロジェクト board 上の関連 local Kanbalone ticket ごとに、必要なら release 完了 comment を追加し、`done` lane へ移動して `isResolved: true` にします。
+
+```bash
+python3 skills/kanbalone-api/scripts/kanbalone_api.py \
+  --base http://127.0.0.1:3470/boards/4 \
+  PATCH /api/tickets/<ticket-id>/transition \
+  '{"laneName":"done","isResolved":true}'
+```
+
+local ticket ごとに確認します。
+
+```bash
+python3 skills/kanbalone-api/scripts/kanbalone_api.py \
+  --base http://127.0.0.1:3470/boards/4 \
+  GET /api/tickets/<ticket-id>
+```
+
+期待する local state:
+
+- `laneId` が board の `done` lane と一致している
+- `isResolved` が `true`
+
+GitHub issue を import した ticket を扱った release では、upstream GitHub issue と import 済み local Kanbalone ticket の両方を close します。
+
 ## パッケージ公開状態の確認
 
 初回 package publish 後、GitHub Packages で次が public であることを確認します。

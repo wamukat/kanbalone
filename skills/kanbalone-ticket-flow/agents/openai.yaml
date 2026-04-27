@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kanbalone Ticket Flow"
+  short_description: "Run Kanbalone tickets through release."
+  default_prompt: "Use the Kanbalone ticket flow to process related GitHub and local Kanbalone tickets through implementation, verification, release, and closure."

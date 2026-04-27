@@ -231,6 +231,56 @@ linux/amd64
 ```
 ````
 
+## Close Related Tickets
+
+After the GitHub Release exists, close every GitHub issue and local Kanbalone ticket that the release completes. Do not treat the release as finished until both systems are updated.
+
+For each related GitHub issue, add a release comment and close the issue:
+
+```bash
+gh issue close <issue-number> \
+  --repo wamukat/kanbalone \
+  --comment 'Released in vX.Y.Z.
+
+Release: https://github.com/wamukat/kanbalone/releases/tag/vX.Y.Z
+Implementation commit: <sha> (<subject>)
+Release commit: <sha> (<subject>)
+
+<short fulfillment summary>'
+```
+
+Verify closure:
+
+```bash
+gh issue view <issue-number> \
+  --repo wamukat/kanbalone \
+  --json number,state,url
+```
+
+For each related local Kanbalone ticket on the project board, add a release completion comment if needed, move it to `done`, and set `isResolved: true`:
+
+```bash
+python3 skills/kanbalone-api/scripts/kanbalone_api.py \
+  --base http://127.0.0.1:3470/boards/4 \
+  PATCH /api/tickets/<ticket-id>/transition \
+  '{"laneName":"done","isResolved":true}'
+```
+
+Verify each local ticket:
+
+```bash
+python3 skills/kanbalone-api/scripts/kanbalone_api.py \
+  --base http://127.0.0.1:3470/boards/4 \
+  GET /api/tickets/<ticket-id>
+```
+
+Expected local state:
+
+- `laneId` matches the board's `done` lane.
+- `isResolved` is `true`.
+
+If the release is associated with imported GitHub issues, close both the upstream GitHub issue and its imported local Kanbalone ticket.
+
 ## Package Visibility
 
 After the first package publish, verify in GitHub Packages that:
