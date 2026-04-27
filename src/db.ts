@@ -44,6 +44,7 @@ import {
   type SetTicketTagReasonInput,
 } from "./db-modules/ticket-tag-reasons.js";
 import {
+  bulkMoveTickets as bulkMoveTicketRecords,
   bulkArchiveTickets as bulkArchiveTicketRecords,
   bulkResolveTickets as bulkResolveTicketRecords,
   bulkTransitionTickets as bulkTransitionTicketRecords,
@@ -54,6 +55,7 @@ import {
   reorderTickets as reorderTicketRecords,
   transitionTicket as transitionTicketRecord,
   updateTicket as updateTicketRecord,
+  type BulkMoveTicketsInput,
   type BulkArchiveTicketsInput,
   type BulkResolveTicketsInput,
   type BulkTransitionTicketsInput,
@@ -260,6 +262,10 @@ export class KanbanDb {
 
   moveTicket(ticketId: Id, input: MoveTicketInput): TicketView {
     return moveTicketRecord(this.sqlite, ticketId, input, this.now.bind(this));
+  }
+
+  bulkMoveTickets(input: BulkMoveTicketsInput): TicketSummaryView[] {
+    return bulkMoveTicketRecords(this.sqlite, input, this.now.bind(this));
   }
 
   positionTicket(ticketId: Id, input: PositionTicketInput): TicketView {

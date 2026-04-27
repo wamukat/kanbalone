@@ -2827,6 +2827,58 @@ test("bulk resolve and bulk transition operate on board ticket sets", async () =
   await app.close();
 });
 
+test("bulk move is atomic when any selected ticket is invalid", async () => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+
+  const sourceBoard = (await app.inject({
+    method: "POST",
+    url: "/api/boards",
+    payload: { name: "Bulk Move Atomic Source", laneNames: ["todo"] },
+  })).json();
+  const targetBoard = (await app.inject({
+    method: "POST",
+    url: "/api/boards",
+    payload: { name: "Bulk Move Atomic Target", laneNames: ["todo"] },
+  })).json();
+  const first = (await app.inject({
+    method: "POST",
+    url: `/api/boards/${sourceBoard.board.id}/tickets`,
+    payload: { laneId: sourceBoard.lanes[0].id, title: "First" },
+  })).json();
+  const second = (await app.inject({
+    method: "POST",
+    url: `/api/boards/${sourceBoard.board.id}/tickets`,
+    payload: { laneId: sourceBoard.lanes[0].id, title: "Second" },
+  })).json();
+
+  const invalidMove = await app.inject({
+    method: "POST",
+    url: `/api/boards/${sourceBoard.board.id}/tickets/bulk-move`,
+    payload: { ticketIds: [first.id, 999999], boardId: targetBoard.board.id, laneId: targetBoard.lanes[0].id },
+  });
+  assert.equal(invalidMove.statusCode, 400);
+  assert.equal((await app.inject({ method: "GET", url: `/api/tickets/${first.id}` })).json().boardId, sourceBoard.board.id);
+
+  const moved = await app.inject({
+    method: "POST",
+    url: `/api/boards/${sourceBoard.board.id}/tickets/bulk-move`,
+    payload: { ticketIds: [first.id, second.id], boardId: targetBoard.board.id, laneId: targetBoard.lanes[0].id },
+  });
+  assert.equal(moved.statusCode, 200);
+  assert.deepEqual(
+    moved.json().tickets.map((ticket: { id: number; boardId: number; laneId: number }) => [ticket.id, ticket.boardId, ticket.laneId]),
+    [
+      [first.id, targetBoard.board.id, targetBoard.lanes[0].id],
+      [second.id, targetBoard.board.id, targetBoard.lanes[0].id],
+    ],
+  );
+
+  await app.close();
+});
+
 test("ticket event API stores opaque structured events", async () => {
   const app = buildApp({
     dbFile: createDbFile(),

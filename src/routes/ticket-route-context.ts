@@ -36,6 +36,7 @@ export type TicketPositionBody = {
 export type TicketRoutesSchemas = {
   activityLogsResponseSchema: unknown;
   bulkArchiveTicketsBodySchema: unknown;
+  bulkMoveTicketsBodySchema: unknown;
   bulkResolveTicketsBodySchema: unknown;
   bulkTransitionTicketsBodySchema: unknown;
   commentViewSchema: unknown;

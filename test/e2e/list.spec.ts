@@ -179,7 +179,14 @@ test("list bulk move moves selected tickets to another board", async ({ page }) 
     await expect(page.locator("#ux-dialog")).toBeVisible();
     await page.locator("[data-bulk-move-board-select]").selectOption(String(targetBoardPayload.board.id));
     await page.locator("[data-bulk-move-lane-select]").selectOption(String(targetTodoLane.id));
-    await page.locator("#ux-submit-button").click();
+    await Promise.all([
+      page.waitForResponse((response) =>
+        response.url().endsWith(`/api/boards/${sourceBoardPayload.board.id}/tickets/bulk-move`) &&
+        response.request().method() === "POST" &&
+        response.status() === 200,
+      ),
+      page.locator("#ux-submit-button").click(),
+    ]);
 
     await expect(page.locator("#list-board")).not.toContainText("Move first");
     await expect(page.locator("#list-board")).not.toContainText("Move second");

@@ -71,12 +71,17 @@ export function createSidebarBoardsModule(ctx, options) {
     if (boardIds.length !== state.boards.length || boardIds.every((boardId, index) => boardId === state.boards[index]?.id)) {
       return;
     }
-    const data = await ctx.sendJson("/api/boards/reorder", {
-      method: "POST",
-      body: { boardIds },
-    });
-    state.boards = data.boards;
-    renderBoards();
+    try {
+      const data = await ctx.sendJson("/api/boards/reorder", {
+        method: "POST",
+        body: { boardIds },
+      });
+      state.boards = data.boards;
+      renderBoards();
+    } catch (error) {
+      await ctx.refreshBoards();
+      ctx.showToast(error.message, "error");
+    }
   }
 
   async function createBoard() {

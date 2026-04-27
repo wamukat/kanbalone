@@ -276,3 +276,41 @@ test("sidebar board list create and reorder are wired", async ({ page }) => {
     await app.close();
   }
 });
+
+test("sidebar board reorder refreshes back after persistence failure", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const alphaResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Alpha Board", laneNames: ["todo"] },
+    });
+    expect(alphaResponse.status()).toBe(201);
+    const alphaPayload = await alphaResponse.json();
+    const gammaResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Gamma Board", laneNames: ["todo"] },
+    });
+    expect(gammaResponse.status()).toBe(201);
+    await page.route("**/api/boards/reorder", async (route) => {
+      await route.fulfill({ status: 400, contentType: "application/json", body: JSON.stringify({ error: "forced failure" }) });
+    });
+
+    await page.goto(`${baseUrl}/boards/${alphaPayload.board.id}`);
+    await expect(page.locator("#board-list .board-button").first()).toHaveText("Alpha Board");
+    await Promise.all([
+      page.waitForResponse((response) => response.url().endsWith("/api/boards/reorder") && response.status() === 400),
+      page.getByRole("button", { name: "Gamma Board" }).dragTo(page.getByRole("button", { name: "Alpha Board" }), {
+        targetPosition: { x: 8, y: 4 },
+      }),
+    ]);
+    await expect(page.locator("#board-list .board-button").first()).toHaveText("Alpha Board");
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});

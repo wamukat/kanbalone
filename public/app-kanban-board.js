@@ -375,11 +375,16 @@ export function createKanbanBoardModule(ctx, options) {
       return;
     }
     const laneIds = [...elements.laneBoard.querySelectorAll(".lane")].map((lane) => Number(lane.dataset.laneId));
-    await ctx.api(`/api/boards/${state.activeBoardId}/lanes/reorder`, {
-      method: "POST",
-      body: JSON.stringify({ laneIds }),
-    });
-    await ctx.refreshBoardDetail();
+    try {
+      await ctx.api(`/api/boards/${state.activeBoardId}/lanes/reorder`, {
+        method: "POST",
+        body: JSON.stringify({ laneIds }),
+      });
+      await ctx.refreshBoardDetail();
+    } catch (error) {
+      await ctx.refreshBoardDetail();
+      ctx.showToast(error.message, "error");
+    }
   }
 
   async function createLane() {

@@ -271,6 +271,55 @@ test("kanban ticket drag persists when inactive tickets are hidden", async ({ pa
   }
 });
 
+test("kanban lane reorder refreshes back after persistence failure", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Lane Reorder Failure", laneNames: ["Alpha", "Beta", "Gamma"] },
+    });
+    expect(boardResponse.status()).toBe(201);
+    const boardPayload = await boardResponse.json();
+    await page.route(`**/api/boards/${boardPayload.board.id}/lanes/reorder`, async (route) => {
+      await route.fulfill({ status: 400, contentType: "application/json", body: JSON.stringify({ error: "forced failure" }) });
+    });
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator(".lane-title").first()).toHaveText("Alpha");
+    await Promise.all([
+      page.waitForResponse((response) => response.url().endsWith(`/api/boards/${boardPayload.board.id}/lanes/reorder`) && response.status() === 400),
+      page.evaluate(() => {
+        const laneBoard = document.querySelector("#lane-board");
+        const alphaTitle = [...document.querySelectorAll(".lane-title")].find((title) => title.textContent === "Alpha");
+        if (!laneBoard || !alphaTitle) {
+          throw new Error("Lane reorder rollback fixture is missing");
+        }
+        const boardBox = laneBoard.getBoundingClientRect();
+        const dataTransfer = new DataTransfer();
+        alphaTitle.dispatchEvent(new DragEvent("dragstart", { bubbles: true, cancelable: true, dataTransfer }));
+        laneBoard.dispatchEvent(new DragEvent("dragover", {
+          bubbles: true,
+          cancelable: true,
+          clientX: boardBox.right + 100,
+          clientY: boardBox.top + 40,
+          dataTransfer,
+        }));
+        alphaTitle.dispatchEvent(new DragEvent("dragend", { bubbles: true, cancelable: true, dataTransfer }));
+      }),
+    ]);
+    await expect(page.locator(".lane-title").first()).toHaveText("Alpha");
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});
+
 test("kanban horizontal overflow stays inside the lane board", async ({ page }) => {
   const app = buildApp({
     dbFile: createDbFile(),

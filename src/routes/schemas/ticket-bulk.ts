@@ -1,4 +1,4 @@
-import { optionalPositiveIntegerArraySchema } from "./common.js";
+import { optionalPositiveIntegerArraySchema, positiveIntegerSchema } from "./common.js";
 
 export const bulkResolveTicketsBodySchema = {
   type: "object",
@@ -30,5 +30,16 @@ export const bulkArchiveTicketsBodySchema = {
   properties: {
     ticketIds: optionalPositiveIntegerArraySchema,
     isArchived: { type: "boolean" },
+  },
+} as const;
+
+export const bulkMoveTicketsBodySchema = {
+  type: "object",
+  required: ["ticketIds", "boardId", "laneId"],
+  additionalProperties: false,
+  properties: {
+    ticketIds: optionalPositiveIntegerArraySchema,
+    boardId: positiveIntegerSchema,
+    laneId: positiveIntegerSchema,
   },
 } as const;

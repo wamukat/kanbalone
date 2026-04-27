@@ -54,6 +54,11 @@ export type MoveTicketInput = {
   laneId: Id;
 };
 
+export type BulkMoveTicketsInput = MoveTicketInput & {
+  sourceBoardId: Id;
+  ticketIds: Id[];
+};
+
 export type PositionTicketInput = {
   laneId: Id;
   position?: number;
@@ -271,6 +276,78 @@ export function moveTicket(
   });
   tx();
   return getTicket(sqlite, ticketId)!;
+}
+
+export function bulkMoveTickets(
+  sqlite: Database.Database,
+  input: BulkMoveTicketsInput,
+  now: Now,
+): TicketSummaryView[] {
+  const rows = getTicketRowsForBoard(sqlite, input.sourceBoardId, input.ticketIds);
+  if (rows.length !== input.ticketIds.length) {
+    throw new Error("Some tickets do not belong to board");
+  }
+  if (rows.length === 0) {
+    return [];
+  }
+  const targetBoard = sqlite
+    .prepare("SELECT id, name FROM boards WHERE id = ?")
+    .get(input.boardId) as { id: Id; name: string } | undefined;
+  if (!targetBoard) {
+    throw new Error("Board not found");
+  }
+  const targetLane = sqlite
+    .prepare("SELECT id, name, board_id FROM lanes WHERE id = ?")
+    .get(input.laneId) as LaneRow | undefined;
+  if (!targetLane || targetLane.board_id !== input.boardId) {
+    throw new Error("Lane does not belong to board");
+  }
+
+  const sourceBoard = sqlite
+    .prepare("SELECT name FROM boards WHERE id = ?")
+    .get(input.sourceBoardId) as { name: string } | undefined;
+  const rowsById = new Map(rows.map((row) => [row.id, row]));
+  const sourceLaneIds = [...new Set(rows.map((row) => row.lane_id))];
+  const updatedAt = now();
+  const initialTargetPosition = nextTicketPosition(sqlite, input.laneId);
+  const updateStmt = sqlite.prepare(
+    "UPDATE tickets SET board_id = ?, lane_id = ?, parent_ticket_id = ?, position = ?, updated_at = ? WHERE id = ?",
+  );
+  const tx = sqlite.transaction(() => {
+    let nextPosition = initialTargetPosition;
+    for (const ticketId of input.ticketIds) {
+      const row = rowsById.get(ticketId)!;
+      const boardChanged = row.board_id !== input.boardId;
+      const position = row.lane_id === input.laneId ? row.position : nextPosition;
+      updateStmt.run(input.boardId, input.laneId, boardChanged ? null : row.parent_ticket_id, position, updatedAt, ticketId);
+      if (row.lane_id !== input.laneId) {
+        nextPosition += 1;
+      }
+      if (boardChanged) {
+        sqlite.prepare("UPDATE tickets SET parent_ticket_id = NULL WHERE parent_ticket_id = ?").run(ticketId);
+        sqlite.prepare("DELETE FROM ticket_blockers WHERE ticket_id = ? OR blocker_ticket_id = ?").run(ticketId, ticketId);
+        replaceTicketTags(sqlite, ticketId, getMatchingTargetTagIds(sqlite, ticketId, input.boardId));
+      }
+      addTicketActivity(sqlite, now, input.boardId, ticketId, "ticket_moved_board", `Moved to ${targetBoard.name} / ${targetLane.name}`, {
+        fromBoardId: row.board_id,
+        fromBoardName: sourceBoard?.name ?? "",
+        fromLaneId: row.lane_id,
+        toBoardId: input.boardId,
+        toBoardName: targetBoard.name,
+        toLaneId: input.laneId,
+        toLaneName: targetLane.name,
+        relationsCleared: boardChanged,
+      });
+    }
+    sourceLaneIds.forEach((laneId) => normalizeVisibleAndArchivedTicketPositions(sqlite, laneId));
+    normalizeVisibleAndArchivedTicketPositions(sqlite, input.laneId);
+    touchBoard(sqlite, input.sourceBoardId, now());
+    if (input.sourceBoardId !== input.boardId) {
+      touchBoard(sqlite, input.boardId, now());
+    }
+  });
+  tx();
+  return listTicketSummariesByIds(sqlite, input.boardId, input.ticketIds);
 }
 
 export function deleteTicket(sqlite: Database.Database, ticketId: Id, now: Now): void {

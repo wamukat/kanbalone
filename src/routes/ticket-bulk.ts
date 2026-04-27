@@ -112,4 +112,44 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       return reply.code(400).send({ error: message.toLowerCase() });
     }
   });
+
+  app.post("/api/boards/:boardId/tickets/bulk-move", {
+    schema: {
+      params: schemas.idParamsSchema("boardId"),
+      body: schemas.bulkMoveTicketsBodySchema,
+      response: {
+        200: schemas.ticketsResponseSchema,
+        400: schemas.errorSchema,
+        404: schemas.errorSchema,
+      },
+    },
+  }, async (request, reply) => {
+    const sourceBoardId = getIdParam(request.params, "boardId");
+    const body = request.body as { ticketIds?: number[]; boardId?: number; laneId?: number };
+    if (!db.getBoard(sourceBoardId)) {
+      return reply.code(404).send({ error: "board not found" });
+    }
+    if (!Array.isArray(body.ticketIds) || body.ticketIds.length === 0) {
+      return reply.code(400).send({ error: "ticketids is required" });
+    }
+    if (!body.boardId || !body.laneId) {
+      return reply.code(400).send({ error: "boardid and laneid are required" });
+    }
+    try {
+      const tickets = db.bulkMoveTickets({
+        sourceBoardId,
+        ticketIds: body.ticketIds,
+        boardId: body.boardId,
+        laneId: body.laneId,
+      });
+      publishBoardEvent(sourceBoardId);
+      if (sourceBoardId !== body.boardId) {
+        publishBoardEvent(body.boardId);
+      }
+      return { tickets: serializeTicketSummaries(tickets) };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "bulk move failed";
+      return reply.code(400).send({ error: message.toLowerCase() });
+    }
+  });
 }

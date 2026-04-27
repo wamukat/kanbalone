@@ -686,9 +686,52 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/boards/{boardId}/tickets/bulk-move:
+    post:
+      summary: Bulk move tickets to another board and lane
+      description: Moves all selected tickets in one transaction. If any selected ticket does not belong to the source board or the target board/lane is invalid, no tickets are moved.
+      operationId: bulkMoveTickets
+      parameters:
+        - $ref: "#/components/parameters/BoardId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticketIds:
+                  type: array
+                  items:
+                    type: integer
+                boardId:
+                  type: integer
+                laneId:
+                  type: integer
+              required: [ticketIds, boardId, laneId]
+      responses:
+        "200":
+          description: Moved ticket summaries from the destination board
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TicketSummary"
+                required: [tickets]
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/boards/{boardId}/tickets/reorder:
     post:
       summary: Reorder tickets and move between lanes
+      description: Legacy full-board reorder endpoint. The request must include every non-archived ticket returned by the board detail for the board. UI clients should prefer `/api/tickets/{ticketId}/position` for single-ticket drag-and-drop moves.
+      deprecated: true
       operationId: reorderTickets
       parameters:
         - $ref: "#/components/parameters/BoardId"

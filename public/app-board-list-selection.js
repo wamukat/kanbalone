@@ -74,12 +74,10 @@ export function createListSelectionModule(ctx) {
       return;
     }
     try {
-      for (const ticketId of ticketIds) {
-        await ctx.sendJson(`/api/tickets/${ticketId}/move`, {
-          method: "POST",
-          body: { boardId, laneId },
-        });
-      }
+      await ctx.sendJson(`/api/boards/${state.activeBoardId}/tickets/bulk-move`, {
+        method: "POST",
+        body: { ticketIds, boardId, laneId },
+      });
       state.selectedListTicketIds = [];
       await ctx.refreshBoardDetail();
       ctx.showToast(`${ticketIds.length} ticket${ticketIds.length === 1 ? "" : "s"} moved`);
