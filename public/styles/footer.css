@@ -1,12 +1,12 @@
-.main-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0.85rem 0 0.1rem;
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-muted) 14%, transparent);
   color: var(--muted);
   font-size: var(--font-size-label);
 }
 
-.main-footer a {
+.sidebar-github-link {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -20,7 +20,7 @@
   fill: currentColor;
 }
 
-.main-footer a:hover {
+.sidebar-github-link:hover {
   color: var(--text);
   text-decoration: underline;
 }

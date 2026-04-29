@@ -152,6 +152,10 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".toolbar #view-mode-toggle")).toHaveCount(0);
     await expect(page.locator("#sidebar #view-mode-toggle use[href='/icons.svg#columns-3']")).toHaveCount(1);
     await expect(page.locator("#sidebar #view-mode-toggle use[href='/icons.svg#list']")).toHaveCount(1);
+    await expect(page.locator(".main-footer")).toHaveCount(0);
+    await expect(page.locator("#sidebar .sidebar-github-link")).toHaveAttribute("href", "https://github.com/wamukat/kanbalone");
+    await expect(page.locator("#sidebar .sidebar-github-link use[href='/icons.svg#github']")).toHaveCount(1);
+    await expect(page.locator("#sidebar #footer-app-label")).toContainText("Kanbalone");
     await expect(page.locator("#board-settings-toggle-button use[href='/icons.svg#settings']")).toHaveCount(1);
     await expect(page.locator("#board-settings-toggle-button")).toHaveAttribute("aria-expanded", "false");
     await expect(page.locator("#sidebar-board-actions-panel")).toHaveAttribute("aria-hidden", "true");
