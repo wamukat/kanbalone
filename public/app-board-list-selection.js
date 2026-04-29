@@ -32,9 +32,14 @@ export function createListSelectionModule(ctx) {
     if (ticketIds.length === 0) {
       return;
     }
-    const targetBoards = state.boards.filter((board) => board.id !== state.activeBoardId);
+    const targetBoards = state.boards.filter((board) => {
+      if (board.id !== state.activeBoardId) {
+        return true;
+      }
+      return (state.boardDetail?.lanes?.length ?? 0) > 1;
+    });
     if (targetBoards.length === 0) {
-      ctx.showToast("Create another board before moving tickets", "error");
+      ctx.showToast("Create another board or lane before moving tickets", "error");
       return;
     }
 
@@ -43,20 +48,25 @@ export function createListSelectionModule(ctx) {
     const sourceLaneName = selectedLaneIds.length === 1
       ? state.boardDetail?.lanes?.find((lane) => lane.id === selectedLaneIds[0])?.name
       : undefined;
-    const initialBoard = await ctx.api(`/api/boards/${targetBoards[0].id}`);
-    const initialLaneId = getDefaultTargetLaneId(initialBoard.lanes, sourceLaneName);
+    const initialBoard = targetBoards[0].id === state.activeBoardId
+      ? state.boardDetail
+      : await ctx.api(`/api/boards/${targetBoards[0].id}`);
+    const initialTargetLanes = getMoveTargetLanes(initialBoard.lanes, targetBoards[0].id, selectedLaneIds);
+    const initialLaneId = getDefaultTargetLaneId(initialTargetLanes, sourceLaneName);
     const dialogPromise = ctx.openFormDialog({
       title: "Move Tickets",
-      message: "Move selected tickets to another board. Matching tag names will be kept. Parent, child, and blocker links outside the destination board will be cleared.",
-      fields: renderMoveFields(targetBoards, initialBoard.lanes, initialLaneId),
+      message: "Move selected tickets to another lane or board. Matching tag names will be kept when moving between boards. Parent, child, and blocker links outside the destination board will be cleared.",
+      fields: renderMoveFields(targetBoards, initialBoard.lanes, initialLaneId, selectedLaneIds),
       submitLabel: "Move",
     });
     const boardSelect = ctx.elements.uxFields.querySelector("[data-bulk-move-board-select]");
     const laneSelect = ctx.elements.uxFields.querySelector("[data-bulk-move-lane-select]");
     boardSelect?.addEventListener("change", async () => {
       try {
-        const board = await ctx.api(`/api/boards/${Number(boardSelect.value)}`);
-        laneSelect.innerHTML = renderLaneOptions(board.lanes, getDefaultTargetLaneId(board.lanes, sourceLaneName));
+        const boardId = Number(boardSelect.value);
+        const board = boardId === state.activeBoardId ? state.boardDetail : await ctx.api(`/api/boards/${boardId}`);
+        const targetLanes = getMoveTargetLanes(board.lanes, boardId, selectedLaneIds);
+        laneSelect.innerHTML = renderLaneOptions(targetLanes, getDefaultTargetLaneId(targetLanes, sourceLaneName));
       } catch (error) {
         ctx.showToast(error.message, "error");
       }
@@ -131,7 +141,7 @@ export function createListSelectionModule(ctx) {
     ctx.renderBoardDetail();
   }
 
-  function renderMoveFields(targetBoards, lanes, selectedLaneId) {
+  function renderMoveFields(targetBoards, lanes, selectedLaneId, selectedLaneIds) {
     return `
       <label class="editor-field">
         <span class="editor-field-label">Board</span>
@@ -142,7 +152,7 @@ export function createListSelectionModule(ctx) {
       <label class="editor-field">
         <span class="editor-field-label">Lane</span>
         <select data-bulk-move-lane-select>
-          ${renderLaneOptions(lanes, selectedLaneId)}
+          ${renderLaneOptions(getMoveTargetLanes(lanes, targetBoards[0]?.id, selectedLaneIds), selectedLaneId)}
         </select>
       </label>
     `;
@@ -156,6 +166,13 @@ export function createListSelectionModule(ctx) {
 
   function getDefaultTargetLaneId(lanes, sourceLaneName) {
     return lanes.find((lane) => lane.name === sourceLaneName)?.id ?? lanes[0]?.id ?? null;
+  }
+
+  function getMoveTargetLanes(lanes, boardId, selectedLaneIds) {
+    if (boardId === state.activeBoardId && selectedLaneIds.length === 1) {
+      return lanes.filter((lane) => lane.id !== selectedLaneIds[0]);
+    }
+    return lanes;
   }
 
   return {

@@ -79,7 +79,7 @@ export function createListBoardModule(ctx, options) {
     const actions = renderListActions(
       detail.tickets,
       state.selectedListTicketIds,
-      state.boards.some((board) => board.id !== state.activeBoardId),
+      state.boards.length > 1 || detail.lanes.length > 1,
     );
     elements.listBoard.innerHTML = `
       ${actions}

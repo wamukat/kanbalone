@@ -308,3 +308,56 @@ test("list bulk move moves selected tickets to another board", async ({ page }) 
     await app.close();
   }
 });
+
+test("list bulk move can move selected tickets to another lane on the same board", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Bulk Lane Move Board",
+      laneNames: ["todo", "todo", "done"],
+    });
+    const [sourceTodoLane, targetTodoLane] = boardPayload.lanes;
+    const movedTicketIds = [];
+
+    for (const title of ["Lane move first", "Lane move second"]) {
+      const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+        laneId: sourceTodoLane.id,
+        title,
+      });
+      movedTicketIds.push(ticket.id);
+    }
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
+    await page.getByRole("button", { name: "Lane move first" }).locator("..").locator("[data-list-ticket-id]").check();
+    await page.getByRole("button", { name: "Lane move second" }).locator("..").locator("[data-list-ticket-id]").check();
+
+    await page.locator("[data-bulk-move-board='true']").first().click();
+    await expect(page.locator("#ux-dialog")).toBeVisible();
+    await expect(page.locator("#ux-title")).toHaveText("Move Tickets");
+    await expect(page.locator("[data-bulk-move-board-select]")).toContainText("Bulk Lane Move Board");
+    await page.locator("[data-bulk-move-board-select]").selectOption(String(boardPayload.board.id));
+    await expect(page.locator("[data-bulk-move-lane-select] option")).toHaveCount(2);
+    await expect(page.locator(`[data-bulk-move-lane-select] option[value="${sourceTodoLane.id}"]`)).toHaveCount(0);
+    await page.locator("[data-bulk-move-lane-select]").selectOption(String(targetTodoLane.id));
+    await Promise.all([
+      page.waitForResponse((response) =>
+        response.url().endsWith(`/api/boards/${boardPayload.board.id}/tickets/bulk-move`) &&
+        response.request().method() === "POST" &&
+        response.status() === 200,
+      ),
+      page.locator("#ux-submit-button").click(),
+    ]);
+
+    await expect(page.getByRole("button", { name: "Lane move first" }).locator("..")).toContainText("todo");
+    await expect(page.getByRole("button", { name: "Lane move second" }).locator("..")).toContainText("todo");
+    await expect(page.locator("[data-list-ticket-id]:checked")).toHaveCount(0);
+    for (const ticketId of movedTicketIds) {
+      const response = await page.request.get(`${baseUrl}/api/tickets/${ticketId}`);
+      expect(response.status()).toBe(200);
+      expect((await response.json()).laneId).toBe(targetTodoLane.id);
+    }
+  } finally {
+    await close();
+  }
+});

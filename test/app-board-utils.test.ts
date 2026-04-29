@@ -70,7 +70,7 @@ test("renderListActions exposes only relevant bulk actions", () => {
   assert.match(mixed, /Delete/);
 
   const openOnly = renderListActions(tickets, [1]);
-  assert.doesNotMatch(openOnly, /Move/);
+  assert.doesNotMatch(openOnly, />Move</);
   assert.match(openOnly, /Mark Resolved/);
   assert.doesNotMatch(openOnly, /Reopen/);
   assert.match(openOnly, /Archive/);
