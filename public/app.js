@@ -779,7 +779,7 @@ function syncBoardEvents() {
 }
 
 async function handleBoardUpdatedEvent() {
-  if (!state.activeBoardId || state.viewMode !== "kanban") {
+  if (!state.activeBoardId) {
     return;
   }
   if (elements.editorDialog.open) {
@@ -809,7 +809,7 @@ async function handleBoardUpdatedEvent() {
 }
 
 async function flushPendingBoardRefreshAfterDialogClose() {
-  if (!state.boardRefreshPendingAfterDialog || !state.activeBoardId || state.viewMode !== "kanban") {
+  if (!state.boardRefreshPendingAfterDialog || !state.activeBoardId) {
     return;
   }
   state.boardRefreshPendingAfterDialog = false;

@@ -1,6 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { buildApp, createBoard, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+
+async function gotoListAndWaitForBoardEvents(page: Page, baseUrl: string, boardId: number) {
+  const eventsResponse = page.waitForResponse((response) =>
+    response.url().endsWith(`/api/boards/${boardId}/events`) &&
+    response.status() === 200,
+  );
+  await page.goto(`${baseUrl}/boards/${boardId}/list`);
+  await eventsResponse;
+}
 
 test("lane filter does not leak from List view into Kanban view", async ({ page }) => {
   const app = buildApp({
@@ -48,6 +57,106 @@ test("lane filter does not leak from List view into Kanban view", async ({ page 
   } finally {
     await page.close();
     await app.close();
+  }
+});
+
+test("list view refreshes after background API updates", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "List Refresh Board",
+      laneNames: ["Todo"],
+    });
+    const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: boardPayload.lanes[0].id,
+      title: "Original list title",
+    });
+
+    await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
+    await expect(page.locator(".list-row")).toContainText("Original list title");
+
+    await updateTicket(page.request, baseUrl, ticket.id, {
+      title: "Updated list title",
+    });
+
+    await expect(page.locator(".list-row")).toContainText("Updated list title");
+    await expect(page.locator(".list-row")).not.toContainText("Original list title");
+  } finally {
+    await close();
+  }
+});
+
+test("list view applies pending background refresh after closing ticket detail dialog", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "List Dialog Refresh Board",
+      laneNames: ["Todo"],
+    });
+    const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: boardPayload.lanes[0].id,
+      title: "List dialog original title",
+    });
+
+    await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
+    const listBoard = page.locator("#list-board");
+    await listBoard.getByRole("button", { name: "List dialog original title" }).click();
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#editor-header-title")).toHaveText("List dialog original title");
+
+    await updateTicket(page.request, baseUrl, ticket.id, {
+      title: "List dialog updated title",
+    });
+
+    await expect(page.locator("#editor-header-title")).toHaveText("List dialog original title");
+    await expect(listBoard).toContainText("List dialog original title");
+    await expect(listBoard).not.toContainText("List dialog updated title");
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
+    await expect(listBoard.getByRole("button", { name: "List dialog updated title" })).toBeVisible();
+    await expect(listBoard).not.toContainText("List dialog original title");
+  } finally {
+    await close();
+  }
+});
+
+test("list view refreshes after background API create move and delete", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "List Mutation Refresh Board",
+      laneNames: ["Todo", "Done"],
+    });
+    const [todoLane, doneLane] = boardPayload.lanes;
+    const existingTicket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: todoLane.id,
+      title: "Existing list ticket",
+    });
+
+    await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
+    const listBoard = page.locator("#list-board");
+    await expect(listBoard.getByRole("button", { name: "Existing list ticket" })).toBeVisible();
+
+    const createdTicket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: todoLane.id,
+      title: "Created behind list",
+    });
+    await expect(listBoard.getByRole("button", { name: "Created behind list" })).toBeVisible();
+
+    const transitionResponse = await page.request.patch(`${baseUrl}/api/tickets/${createdTicket.id}/transition`, {
+      data: { laneName: doneLane.name, isResolved: false },
+    });
+    expect(transitionResponse.status()).toBe(200);
+    await expect(listBoard.getByRole("button", { name: "Created behind list" }).locator("..")).toContainText("Done");
+
+    const deleteResponse = await page.request.delete(`${baseUrl}/api/tickets/${existingTicket.id}`);
+    expect(deleteResponse.status()).toBe(204);
+    await expect(listBoard.getByRole("button", { name: "Existing list ticket" })).toHaveCount(0);
+  } finally {
+    await close();
   }
 });
 

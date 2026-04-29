@@ -104,6 +104,175 @@ test("toolbar search aligns with active content edge in kanban and list views", 
   }
 });
 
+test("board content keeps active headers visible during vertical scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Sticky Scroll Board",
+      laneNames: ["todo", "review"],
+    });
+    const [todoLane, reviewLane] = boardPayload.lanes;
+    let lastTicketId = 0;
+    for (let index = 1; index <= 48; index += 1) {
+      const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+        laneId: todoLane.id,
+        title: `Sticky ticket ${String(index).padStart(2, "0")}`,
+        priority: 2,
+      });
+      lastTicketId = ticket.id;
+    }
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator(".ticket-card")).toHaveCount(48);
+    const kanbanBefore = await page.evaluate(() => {
+      const board = document.querySelector("#lane-board");
+      const lane = document.querySelector(".lane:not(.lane-create-column)");
+      const header = lane?.querySelector(".lane-header");
+      const addButton = lane?.querySelector(".add-ticket-button");
+      const list = lane?.querySelector(".ticket-list");
+      if (!board || !lane || !header || !addButton || !list) {
+        throw new Error("Kanban sticky fixture is missing");
+      }
+      const boardBox = board.getBoundingClientRect();
+      const headerBox = header.getBoundingClientRect();
+      const addBox = addButton.getBoundingClientRect();
+      return {
+        addBottom: addBox.bottom,
+        boardBottom: boardBox.bottom,
+        boardTop: boardBox.top,
+        headerTop: headerBox.top,
+        laneBottom: lane.getBoundingClientRect().bottom,
+        listClientHeight: list.clientHeight,
+        listScrollHeight: list.scrollHeight,
+      };
+    });
+    expect(kanbanBefore.listScrollHeight).toBeGreaterThan(kanbanBefore.listClientHeight);
+    await page.locator(`.ticket-list[data-lane-id="${todoLane.id}"]`).evaluate((list) => {
+      list.scrollTop = list.scrollHeight;
+      list.dispatchEvent(new Event("scroll", { bubbles: true }));
+    });
+    const kanbanAfter = await page.evaluate(() => {
+      const board = document.querySelector("#lane-board");
+      const sourceLane = document.querySelector(".lane:not(.lane-create-column)");
+      const sourceHeader = sourceLane?.querySelector(".lane-header");
+      const sourceAddButton = sourceLane?.querySelector(".add-ticket-button");
+      const sourceList = sourceLane?.querySelector(".ticket-list");
+      const targetLane = [...document.querySelectorAll(".lane:not(.lane-create-column)")][1];
+      const targetAddButton = targetLane?.querySelector(".add-ticket-button");
+      if (!board || !sourceLane || !sourceHeader || !sourceAddButton || !sourceList || !targetLane || !targetAddButton) {
+        throw new Error("Kanban sticky fixture is missing");
+      }
+      const boardBox = board.getBoundingClientRect();
+      const sourceLaneBox = sourceLane.getBoundingClientRect();
+      const headerBox = sourceHeader.getBoundingClientRect();
+      const sourceAddBox = sourceAddButton.getBoundingClientRect();
+      const targetLaneBox = targetLane.getBoundingClientRect();
+      const targetAddBox = targetAddButton.getBoundingClientRect();
+      return {
+        boardBottom: boardBox.bottom,
+        boardTop: boardBox.top,
+        headerTop: headerBox.top,
+        headerText: sourceHeader.textContent ?? "",
+        sourceAddBottom: sourceAddBox.bottom,
+        sourceLaneBottom: sourceLaneBox.bottom,
+        sourceListScrollTop: sourceList.scrollTop,
+        targetAddBottom: targetAddBox.bottom,
+        targetLaneBottom: targetLaneBox.bottom,
+      };
+    });
+    expect(Math.abs(kanbanAfter.boardTop - kanbanBefore.boardTop)).toBeLessThan(1);
+    expect(Math.abs(kanbanAfter.headerTop - kanbanAfter.boardTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(kanbanAfter.sourceAddBottom - kanbanBefore.addBottom)).toBeLessThan(1);
+    expect(kanbanAfter.sourceAddBottom).toBeLessThanOrEqual(kanbanAfter.boardBottom + 1);
+    expect(kanbanAfter.sourceLaneBottom).toBeGreaterThan(kanbanAfter.boardBottom - 40);
+    expect(kanbanAfter.sourceListScrollTop).toBeGreaterThan(0);
+    expect(kanbanAfter.targetAddBottom).toBeLessThanOrEqual(kanbanAfter.boardBottom + 1);
+    expect(kanbanAfter.targetLaneBottom).toBeLessThan(kanbanAfter.boardBottom - 120);
+    expect(kanbanAfter.headerText).toContain("todo");
+
+    await Promise.all([
+      page.waitForResponse((response) =>
+        response.url().endsWith(`/api/tickets/${lastTicketId}/position`) &&
+        response.request().method() === "PATCH" &&
+        response.status() === 200,
+      ),
+      page.evaluate(({ targetLaneId, ticketId }) => {
+        const card = document.querySelector(`.ticket-card[data-ticket-id="${ticketId}"]`);
+        const targetList = document.querySelector(`.ticket-list[data-lane-id="${targetLaneId}"]`);
+        if (!card || !targetList) {
+          throw new Error("Scrolled lane drag fixture is missing");
+        }
+        const cardBox = card.getBoundingClientRect();
+        const targetBox = targetList.getBoundingClientRect();
+        const dataTransfer = new DataTransfer();
+        card.dispatchEvent(new DragEvent("dragstart", {
+          bubbles: true,
+          cancelable: true,
+          clientX: cardBox.left + 8,
+          clientY: cardBox.top + 8,
+          dataTransfer,
+        }));
+        targetList.dispatchEvent(new DragEvent("dragover", {
+          bubbles: true,
+          cancelable: true,
+          clientX: targetBox.left + 12,
+          clientY: targetBox.bottom - 12,
+          dataTransfer,
+        }));
+        targetList.dispatchEvent(new DragEvent("drop", {
+          bubbles: true,
+          cancelable: true,
+          clientX: targetBox.left + 12,
+          clientY: targetBox.bottom - 12,
+          dataTransfer,
+        }));
+      }, { targetLaneId: reviewLane.id, ticketId: lastTicketId }),
+    ]);
+    await expect(page.locator(".lane", { has: page.locator(`.ticket-card[data-ticket-id="${lastTicketId}"]`) }).locator(".lane-title")).toHaveText("review");
+
+    await page.getByRole("button", { name: "List" }).click();
+    await expect(page.locator("#list-board")).toBeVisible();
+    await expect(page.locator(".list-row").first()).toBeVisible();
+    const listBefore = await page.evaluate(() => {
+      const actions = document.querySelector(".list-actions");
+      const header = document.querySelector(".list-header");
+      if (!actions || !header) {
+        throw new Error("List sticky fixture is missing");
+      }
+      return {
+        actionsTop: actions.getBoundingClientRect().top,
+        headerTop: header.getBoundingClientRect().top,
+      };
+    });
+    await page.locator(".list-viewport").evaluate((viewport) => {
+      viewport.scrollTop = 520;
+      viewport.dispatchEvent(new Event("scroll", { bubbles: true }));
+    });
+    const listAfter = await page.evaluate(() => {
+      const actions = document.querySelector(".list-actions");
+      const header = document.querySelector(".list-header");
+      const viewport = document.querySelector(".list-viewport");
+      if (!actions || !header || !viewport) {
+        throw new Error("List sticky fixture is missing");
+      }
+      return {
+        actionsTop: actions.getBoundingClientRect().top,
+        headerTop: header.getBoundingClientRect().top,
+        viewportScrollTop: viewport.scrollTop,
+        headerText: header.textContent ?? "",
+      };
+    });
+    expect(listAfter.viewportScrollTop).toBeGreaterThan(0);
+    expect(Math.abs(listAfter.actionsTop - listBefore.actionsTop)).toBeLessThan(1);
+    expect(Math.abs(listAfter.headerTop - listBefore.headerTop)).toBeLessThan(1);
+    expect(listAfter.headerText).toContain("ID / Title");
+  } finally {
+    await close();
+  }
+});
+
 test("sidebar toggle stays usable on narrow screens", async ({ page }) => {
   await page.setViewportSize({ width: 820, height: 900 });
   const { baseUrl, close } = await startTestApp(page);
@@ -574,7 +743,7 @@ test("kanban status expansion collapses large completed groups", async ({ page }
     expect(layout.ticketListScrollHeight).toBeLessThanOrEqual(
       layout.ticketListClientHeight + 1,
     );
-    expect(layout.ticketListOverflowY).toBe("visible");
+    expect(layout.ticketListOverflowY).toBe("auto");
 
     await page.locator(".inactive-ticket-summary-button").click();
     await expect(page.locator(".ticket-card")).toHaveCount(36);

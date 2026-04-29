@@ -10,6 +10,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   min-height: 0;
+  scrollbar-gutter: stable;
 }
 
 .list-board.empty {
@@ -22,6 +23,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
+  scrollbar-gutter: stable;
 }
 
 .list-spacer {

@@ -10,17 +10,24 @@
   overflow: visible;
 }
 
+.lane:not(.lane-create-column) {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 .lane-header {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
   padding: var(--space-3);
   border-bottom: 1px solid var(--border-soft);
-  background: color-mix(in srgb, var(--surface-1) 82%, transparent);
+  background: var(--surface-1);
 }
 
 .lane-actions {
@@ -159,7 +166,11 @@
 
 .ticket-list {
   display: grid;
+  align-content: start;
+  flex: 1 1 auto;
   gap: var(--space-2);
-  min-height: 2rem;
+  min-height: 0;
+  overflow-y: auto;
   padding: var(--space-2);
+  scrollbar-gutter: stable;
 }
