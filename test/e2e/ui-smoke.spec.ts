@@ -402,8 +402,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
       return Boolean(archiveButton && deleteButton.compareDocumentPosition(archiveButton) & Node.DOCUMENT_POSITION_FOLLOWING);
     });
     expect(archiveAfterDelete).toBe(true);
-    await expect(page.locator(".editor-section-label")).toHaveText("Relations");
-    const relationsBeforeBlocker = await page.locator(".editor-section-label").evaluate((label) => {
+    await expect(page.locator("#ticket-relation-add > span")).toHaveText("Relations");
+    const relationsBeforeBlocker = await page.locator("#ticket-relation-add").evaluate((label) => {
       const blocker = document.querySelector("#ticket-blocker-toggle");
       return Boolean(blocker && label.compareDocumentPosition(blocker) & Node.DOCUMENT_POSITION_FOLLOWING);
     });
