@@ -117,6 +117,13 @@ export function migrate(sqlite: Database.Database): void {
       PRIMARY KEY (ticket_id, blocker_ticket_id)
     );
 
+    CREATE TABLE IF NOT EXISTS ticket_related_links (
+      ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+      related_ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+      CHECK (ticket_id < related_ticket_id),
+      PRIMARY KEY (ticket_id, related_ticket_id)
+    );
+
     CREATE TABLE IF NOT EXISTS ticket_events (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
@@ -144,6 +151,9 @@ export function migrate(sqlite: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS ticket_blockers_blocker_ticket_idx
     ON ticket_blockers(blocker_ticket_id, ticket_id);
+
+    CREATE INDEX IF NOT EXISTS ticket_related_links_related_ticket_idx
+    ON ticket_related_links(related_ticket_id, ticket_id);
 
     CREATE INDEX IF NOT EXISTS ticket_events_ticket_created_idx
     ON ticket_events(ticket_id, created_at, id);

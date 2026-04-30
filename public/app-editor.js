@@ -368,8 +368,10 @@ export function createEditorModule(ctx) {
     state.dialogMode = "view";
     state.editorTagIds = [];
     state.editorBlockerIds = [];
+    state.editorRelatedIds = [];
     state.editorChildIds = [];
     state.editorOriginalChildIds = [];
+    state.editorVisibleRelationTypes = [];
     state.dialogTicket = null;
     state.dialogActivity = [];
     state.dialogEvents = [];
@@ -379,6 +381,7 @@ export function createEditorModule(ctx) {
     state.tagQuery = "";
     state.parentQuery = "";
     state.blockerQuery = "";
+    state.relatedQuery = "";
     state.childQuery = "";
     detailModule.setDetailTab("comments");
     detailModule.setBodyTab("local");
@@ -473,15 +476,19 @@ export function createEditorModule(ctx) {
     elements.ticketParent.value = ticket.parentTicketId == null ? "" : String(ticket.parentTicketId);
     state.editorTagIds = ticket.tags.map((tag) => tag.id);
     state.editorBlockerIds = [...ticket.blockerIds];
+    state.editorRelatedIds = [...ticket.relatedIds];
     state.editorChildIds = ticket.children.map((child) => child.id);
     state.editorOriginalChildIds = [...state.editorChildIds];
+    state.editorVisibleRelationTypes = relationsModule.getActiveRelationTypes();
     state.tagQuery = "";
     state.parentQuery = "";
     state.blockerQuery = "";
+    state.relatedQuery = "";
     state.childQuery = "";
     elements.ticketTagSearch.value = "";
     elements.ticketParentSearch.value = "";
     elements.ticketBlockerSearch.value = "";
+    elements.ticketRelatedSearch.value = "";
     elements.ticketChildSearch.value = "";
     tagPicker.syncOptions();
     relationsModule.syncOptions();
@@ -596,17 +603,20 @@ export function createEditorModule(ctx) {
     }
     state.editorTagIds = ticket?.tags.map((entry) => entry.id) ?? [];
     state.editorBlockerIds = ticket?.blockerIds ?? [];
+    state.editorRelatedIds = ticket?.relatedIds ?? [];
     state.editorChildIds = ticket?.children.map((entry) => entry.id) ?? [];
     state.editorOriginalChildIds = [...state.editorChildIds];
+    state.editorVisibleRelationTypes = relationsModule.getActiveRelationTypes(ticket);
     state.tagQuery = "";
     state.parentQuery = "";
     state.blockerQuery = "";
+    state.relatedQuery = "";
     state.childQuery = "";
     elements.ticketTagSearch.value = "";
     elements.ticketParentSearch.value = "";
     elements.ticketBlockerSearch.value = "";
+    elements.ticketRelatedSearch.value = "";
     elements.ticketChildSearch.value = "";
-    elements.ticketChildrenRow.hidden = !ticketId;
     populateRemoteImportLaneOptions(ticket?.laneId ?? defaultLaneId);
     clearSaveState();
     commentsModule.clearCommentState();
@@ -696,12 +706,17 @@ export function createEditorModule(ctx) {
     handleChildFieldClick: relationsModule.handleChildFieldClick,
     handleChildSearchInput: relationsModule.handleChildSearchInput,
     handleChildSearchKeydown: relationsModule.handleChildSearchKeydown,
+    handleRelatedFieldClick: relationsModule.handleRelatedFieldClick,
+    handleRelatedSearchInput: relationsModule.handleRelatedSearchInput,
+    handleRelatedSearchKeydown: relationsModule.handleRelatedSearchKeydown,
     handleDocumentClick,
     handleDetailChange: detailModule.handleDetailChange,
     handleDetailClick: detailModule.handleDetailClick,
     handleDetailFocusout: detailModule.handleDetailFocusout,
     handleDetailKeydown: detailModule.handleDetailKeydown,
     handleEditorDialogClose,
+    handleAddRelation: relationsModule.handleAddRelation,
+    handleAddRelationTypeClick: relationsModule.handleAddRelationTypeClick,
     handleParentChange: relationsModule.handleParentChange,
     handleParentFieldClick: relationsModule.handleParentFieldClick,
     handleParentSearchInput: relationsModule.handleParentSearchInput,
@@ -714,6 +729,7 @@ export function createEditorModule(ctx) {
     handleTicketTagFieldClick: tagPicker.handleFieldClick,
     openBlockerOptions: relationsModule.openBlockerOptions,
     openChildOptions: relationsModule.openChildOptions,
+    openRelatedOptions: relationsModule.openRelatedOptions,
     openEditor,
     openParentOptions: relationsModule.openParentOptions,
     openTicketTagOptions: tagPicker.openOptions,

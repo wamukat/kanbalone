@@ -15,6 +15,7 @@ import {
 import {
   addActivity as insertActivity,
   replaceTicketBlockers,
+  replaceTicketRelatedLinks,
   replaceTicketTags,
   validateParentTicket,
 } from "./ticket-writes.js";
@@ -37,6 +38,7 @@ export type CreateTicketInput = {
   parentTicketId?: Id | null;
   tagIds?: Id[];
   blockerIds?: Id[];
+  relatedIds?: Id[];
 };
 
 export type UpdateTicketInput = Partial<CreateTicketInput> & {
@@ -120,6 +122,7 @@ export function createTicket(
     const ticketId = Number(result.lastInsertRowid);
     replaceTicketTags(sqlite, ticketId, input.tagIds ?? []);
     replaceTicketBlockers(sqlite, ticketId, input.blockerIds ?? [], input.boardId);
+    replaceTicketRelatedLinks(sqlite, ticketId, input.relatedIds ?? [], input.boardId);
     addTicketActivity(sqlite, now, input.boardId, ticketId, "ticket_created", "Ticket created");
     touchBoard(sqlite, input.boardId, now());
     return ticketId;
@@ -174,6 +177,9 @@ export function updateTicket(
     }
     if (input.blockerIds) {
       replaceTicketBlockers(sqlite, ticketId, input.blockerIds, nextBoardId);
+    }
+    if (input.relatedIds) {
+      replaceTicketRelatedLinks(sqlite, ticketId, input.relatedIds, nextBoardId);
     }
     if (nextLaneId !== current.laneId) {
       sqlite
@@ -254,6 +260,7 @@ export function moveTicket(
     if (boardChanged) {
       sqlite.prepare("UPDATE tickets SET parent_ticket_id = NULL WHERE parent_ticket_id = ?").run(ticketId);
       sqlite.prepare("DELETE FROM ticket_blockers WHERE ticket_id = ? OR blocker_ticket_id = ?").run(ticketId, ticketId);
+      sqlite.prepare("DELETE FROM ticket_related_links WHERE ticket_id = ? OR related_ticket_id = ?").run(ticketId, ticketId);
       replaceTicketTags(sqlite, ticketId, getMatchingTargetTagIds(sqlite, ticketId, input.boardId));
     }
 
@@ -326,6 +333,7 @@ export function bulkMoveTickets(
       if (boardChanged) {
         sqlite.prepare("UPDATE tickets SET parent_ticket_id = NULL WHERE parent_ticket_id = ?").run(ticketId);
         sqlite.prepare("DELETE FROM ticket_blockers WHERE ticket_id = ? OR blocker_ticket_id = ?").run(ticketId, ticketId);
+        sqlite.prepare("DELETE FROM ticket_related_links WHERE ticket_id = ? OR related_ticket_id = ?").run(ticketId, ticketId);
         replaceTicketTags(sqlite, ticketId, getMatchingTargetTagIds(sqlite, ticketId, input.boardId));
       }
       addTicketActivity(sqlite, now, input.boardId, ticketId, "ticket_moved_board", `Moved to ${targetBoard.name} / ${targetLane.name}`, {

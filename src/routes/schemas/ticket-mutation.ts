@@ -18,6 +18,9 @@ export const ticketMutationBodySchema = {
     blockerIds: {
       anyOf: [optionalPositiveIntegerArraySchema, { type: "null" }],
     },
+    relatedIds: {
+      anyOf: [optionalPositiveIntegerArraySchema, { type: "null" }],
+    },
   },
 } as const;
 

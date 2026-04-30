@@ -264,6 +264,9 @@ export function createTicketDetailModule(ctx) {
     if (blocking.length) {
       parts.push(`<div><span class="muted">Blocks</span> ${blocking.map((blocked) => renderRelationChip(blocked, "blocks")).join("")}</div>`);
     }
+    if (ticket.related.length) {
+      parts.push(`<div><span class="muted">Related</span> ${ticket.related.map((related) => renderRelationChip(related, "related")).join("")}</div>`);
+    }
     return parts.join("");
   }
 

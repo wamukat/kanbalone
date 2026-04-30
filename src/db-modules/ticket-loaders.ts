@@ -182,6 +182,57 @@ export function getBlockedTicketsForTicketIds(sqlite: Database.Database, ticketI
   `);
 }
 
+export function getRelatedTicketsForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, TicketRelationView[]> {
+  return getRelationEntriesForTicketIds(sqlite, ticketIds, `
+    SELECT *
+    FROM (
+      SELECT trl.ticket_id, t.id, t.title, t.lane_id, t.is_resolved, t.priority, board.name AS board_name
+      FROM ticket_related_links trl
+      INNER JOIN tickets t ON t.id = trl.related_ticket_id
+      INNER JOIN boards board ON board.id = t.board_id
+      WHERE trl.ticket_id IN ({placeholders})
+      UNION ALL
+      SELECT trl.related_ticket_id AS ticket_id, t.id, t.title, t.lane_id, t.is_resolved, t.priority, board.name AS board_name
+      FROM ticket_related_links trl
+      INNER JOIN tickets t ON t.id = trl.ticket_id
+      INNER JOIN boards board ON board.id = t.board_id
+      WHERE trl.related_ticket_id IN ({placeholders})
+    )
+    ORDER BY priority DESC, id ASC
+  `);
+}
+
+export function getRelatedIdsForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, Id[]> {
+  const relatedIdsByTicket = new Map<Id, Id[]>();
+  if (ticketIds.length === 0) {
+    return relatedIdsByTicket;
+  }
+  const placeholders = ticketIds.map(() => "?").join(", ");
+  const rows = sqlite.prepare(`
+    SELECT ticket_id, related_ticket_id
+    FROM ticket_related_links
+    WHERE ticket_id IN (${placeholders})
+       OR related_ticket_id IN (${placeholders})
+    ORDER BY related_ticket_id ASC, ticket_id ASC
+  `).all(...ticketIds, ...ticketIds) as Array<{ ticket_id: Id; related_ticket_id: Id }>;
+
+  rows.forEach((row) => {
+    const entries: Array<[Id, Id]> = [
+      [row.ticket_id, row.related_ticket_id],
+      [row.related_ticket_id, row.ticket_id],
+    ];
+    entries.forEach(([ticketId, relatedId]) => {
+      if (!ticketIds.includes(ticketId)) {
+        return;
+      }
+      const entry = relatedIdsByTicket.get(ticketId) ?? [];
+      entry.push(relatedId);
+      relatedIdsByTicket.set(ticketId, entry);
+    });
+  });
+  return relatedIdsByTicket;
+}
+
 function getRelationEntriesForTicketIds(
   sqlite: Database.Database,
   ticketIds: Id[],
@@ -192,9 +243,10 @@ function getRelationEntriesForTicketIds(
     return relationsByTicket;
   }
   const placeholders = ticketIds.map(() => "?").join(", ");
+  const placeholderCount = [...query.matchAll(/\{placeholders\}/g)].length;
   const rows = sqlite
-    .prepare(query.replace("{placeholders}", placeholders))
-    .all(...ticketIds) as TicketRelationRow[];
+    .prepare(query.replaceAll("{placeholders}", placeholders))
+    .all(...Array.from({ length: placeholderCount }, () => ticketIds).flat()) as TicketRelationRow[];
 
   rows.forEach((row) => {
     const entry = relationsByTicket.get(row.ticket_id) ?? [];

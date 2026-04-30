@@ -1,6 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { createBoard, createTag, createTicket, startTestApp } from "./helpers.js";
+
+async function addRelation(page: Page, type: "blocker" | "related" | "parent" | "child") {
+  await page.locator("#ticket-relation-add-button").click();
+  await page.locator(`[data-relation-add-type="${type}"]`).click();
+}
 
 test("ticket editor hides remote import when no provider credentials are configured", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -294,6 +299,16 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     });
     await createTicket(page.request, baseUrl, boardPayload.board.id, {
       laneId: lane.id,
+      title: "Related relation candidate",
+      priority: 4,
+    });
+    await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Related relation alternate",
+      priority: 1,
+    });
+    await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
       title: "Child relation candidate",
       priority: 2,
     });
@@ -346,6 +361,7 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await expect(page.locator("#ticket-tag-options")).not.toContainText("Focus alpha");
     await expect(page.locator("#ticket-tag-options")).toContainText("Focus beta");
 
+    await addRelation(page, "parent");
     await page.locator("#ticket-parent-search").focus();
     await expect(page.locator("#ticket-parent-options")).toHaveJSProperty("hidden", true);
     await page.locator("#ticket-parent-search").fill("Parent relation");
@@ -357,9 +373,8 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await page.locator("#ticket-parent-search").press("ArrowUp");
     await page.locator("#ticket-parent-search").press("Enter");
     await expect(page.locator("#ticket-parent-summary")).toContainText("Parent relation candidate");
-    await expect(page.locator("#ticket-child-search")).toBeDisabled();
-    await expect(page.locator("#ticket-child-summary")).toContainText("Clear parent to edit children");
 
+    await addRelation(page, "blocker");
     await page.locator("#ticket-blocker-search").focus();
     await expect(page.locator("#ticket-blocker-options")).toHaveJSProperty("hidden", true);
     await page.locator("#ticket-blocker-search").fill("Blocker relation");
@@ -380,8 +395,8 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await page.locator("#header-edit-button").click();
     await page.locator("[data-remove-parent-id]").click();
     await expect(page.locator("#ticket-parent-summary")).not.toContainText("Parent relation candidate");
-    await expect(page.locator("#ticket-child-search")).not.toBeDisabled();
 
+    await addRelation(page, "blocker");
     await page.locator("#ticket-blocker-search").fill("Blocker relation");
     await expect(page.locator("#ticket-blocker-options .tag-picker-item.active")).toContainText("Blocker relation candidate");
     await page.locator("#ticket-blocker-search").press("ArrowDown");
@@ -398,9 +413,29 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await page.locator("#ticket-blocker-search").fill("Blocker relation");
     await page.locator("#ticket-blocker-search").press("Enter");
 
+    await addRelation(page, "related");
+    await page.locator("#ticket-related-search").fill("Related relation");
+    await expect(page.locator("#ticket-related-options .tag-picker-item.active")).toContainText("Related relation candidate");
+    await page.locator("#ticket-related-search").press("ArrowDown");
+    await expect(page.locator("#ticket-related-options .tag-picker-item.active")).toContainText("Related relation alternate");
+    await page.locator("#ticket-related-search").press("ArrowUp");
+    await page.locator("#ticket-related-search").press("Enter");
+    await expect(page.locator("#ticket-related-summary")).toContainText("Related relation candidate");
+    await page.locator("#ticket-related-search").fill("Related relation");
+    await expect(page.locator("#ticket-related-options [data-related-id]")).toHaveCount(1);
+    await expect(page.locator("#ticket-related-options")).not.toContainText("Related relation candidate");
+    await expect(page.locator("#ticket-related-options")).toContainText("Related relation alternate");
+    await page.locator("[data-remove-related-id]").click();
+    await expect(page.locator("#ticket-related-summary")).not.toContainText("Related relation candidate");
+    await page.locator("#ticket-related-search").fill("Related relation");
+    await page.locator("#ticket-related-search").press("Enter");
+
+    await addRelation(page, "child");
     await page.locator("#ticket-child-search").fill("Child relation");
     await page.locator("#ticket-child-search").press("Enter");
     await expect(page.locator("#ticket-child-summary")).toContainText("Child relation candidate");
+    await expect(page.locator("#ticket-parent-row")).toBeHidden();
+    await expect(page.locator("#ticket-relation-add-button")).toBeHidden();
     await page.locator("#ticket-child-search").fill("Child relation");
     await expect(page.locator("#ticket-child-options [data-child-id]")).toHaveCount(0);
     await page.locator("[data-remove-child-id]").click();
@@ -419,6 +454,8 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await expect(page.locator("#ticket-relations")).not.toContainText("Parent relation candidate");
     await expect(page.locator("#ticket-relations")).toContainText("Blocked By");
     await expect(page.locator("#ticket-relations")).toContainText("Blocker relation candidate");
+    await expect(page.locator("#ticket-relations")).toContainText("Related");
+    await expect(page.locator("#ticket-relations")).toContainText("Related relation candidate");
     await expect(page.locator("#ticket-relations")).toContainText("Children");
     await expect(page.locator("#ticket-relations")).toContainText("Child relation candidate");
   } finally {

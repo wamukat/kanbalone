@@ -21,6 +21,84 @@
   gap: 0.55rem;
 }
 
+.editor-relation-add {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.editor-relation-add-options {
+  display: inline-flex;
+  overflow: hidden;
+  max-width: 0;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0;
+  transform: translateX(-0.45rem);
+  transition: max-width 160ms ease, opacity 130ms ease, transform 160ms ease;
+  white-space: nowrap;
+}
+
+.editor-relation-add-button {
+  width: 1.8rem;
+  height: 1.8rem;
+  min-height: 1.8rem;
+  padding: 0;
+}
+
+.editor-relation-add.is-open .editor-relation-add-options {
+  max-width: 32rem;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.editor-relation-type-button {
+  padding: 0.35rem 0.65rem;
+  font-size: var(--font-size-label);
+}
+
+.editor-relation-type-button[hidden] {
+  display: none;
+}
+
+.editor-relation-row {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.55rem;
+}
+
+.editor-relation-row-label {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.35rem;
+  padding-top: 0.72rem;
+  color: var(--muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.editor-relation-row-label .icon {
+  width: var(--icon-size-meta);
+  height: var(--icon-size-meta);
+  flex: 0 0 auto;
+}
+
+.editor-relation-row-label span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-relation-row .ticket-tag-options {
+  grid-column: 2 / -1;
+  width: 100%;
+  min-width: 0;
+}
+
 .editor-mode > .ticket-tag-field {
   margin-top: -0.1rem;
 }

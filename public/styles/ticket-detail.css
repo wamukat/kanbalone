@@ -353,6 +353,11 @@ a.ticket-remote-ref:hover {
   color: var(--warning);
 }
 
+.ticket-relation-chip-related {
+  background: color-mix(in srgb, var(--accent-soft) 35%, var(--surface-1));
+  color: var(--accent);
+}
+
 .comments-list {
   padding: 0.7rem;
   border: 1px solid var(--line);

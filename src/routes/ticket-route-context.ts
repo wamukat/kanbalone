@@ -13,6 +13,7 @@ export type TicketMutationBody = {
   priority?: number;
   tagIds?: number[];
   blockerIds?: number[] | null;
+  relatedIds?: number[] | null;
 };
 
 export type TicketTransitionBody = {

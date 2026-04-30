@@ -1,6 +1,6 @@
 import type Database from "better-sqlite3";
 
-import { replaceTicketBlockers } from "./ticket-writes.js";
+import { replaceTicketBlockers, replaceTicketRelatedLinks } from "./ticket-writes.js";
 import type {
   BoardDetailView,
   BoardExport,
@@ -36,6 +36,7 @@ export function toBoardExport(detail: BoardDetailView): BoardExport {
       bodyHtml: _bodyHtml,
       blockers: _blockers,
       blockedBy: _blockedBy,
+      related: _related,
       parent: _parent,
       children: _children,
       ref: _ref,
@@ -111,6 +112,12 @@ export function importBoardPayload(
         sqlite,
         ticketId,
         (ticket.blockerIds ?? []).map((blockerId) => createdTicketIds.get(blockerId)).filter((value): value is number => typeof value === "number"),
+        created.board.id,
+      );
+      replaceTicketRelatedLinks(
+        sqlite,
+        ticketId,
+        (ticket.relatedIds ?? []).map((relatedId) => createdTicketIds.get(relatedId)).filter((value): value is number => typeof value === "number"),
         created.board.id,
       );
     });

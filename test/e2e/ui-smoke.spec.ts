@@ -1,8 +1,13 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test.setTimeout(60_000);
+
+async function addRelation(page: Page, type: "blocker" | "parent" | "child") {
+  await page.locator("#ticket-relation-add-button").click();
+  await page.locator(`[data-relation-add-type="${type}"]`).click();
+}
 
 test("board renders and ticket dialog actions are wired", async ({ page }) => {
   const app = buildApp({
@@ -445,15 +450,16 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
 
     await page.locator("#ticket-tag-search").fill("smoke");
     await expect(page.locator("#ticket-tag-options")).toBeVisible();
+    await addRelation(page, "blocker");
     await page.locator("#ticket-blocker-toggle").click();
     await expect(page.locator("#ticket-tag-options")).toBeHidden();
     await page.locator("#ticket-tag-search").fill("");
 
+    await addRelation(page, "parent");
     await page.locator("#ticket-parent-search").fill("Parent");
     await expect(page.locator("#ticket-parent-options .ticket-picker-meta").first()).toHaveText("Resolved");
     await page.locator("#ticket-parent-search").press("Enter");
     await expect(page.locator("#ticket-parent-summary")).toContainText("Parent candidate");
-    await expect(page.locator("#ticket-child-summary")).toContainText("Clear parent to edit children");
     await page.locator("[data-remove-parent-id]").click();
     await expect(page.locator("#ticket-parent-summary")).not.toContainText("Parent candidate");
     await expect(page.locator("#ticket-parent-search")).toHaveAttribute("placeholder", "Set parent by ID or title");
@@ -464,6 +470,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.keyboard.press("Escape");
     await expect(page.locator("#ticket-blocker-options")).toBeHidden();
 
+    await addRelation(page, "child");
     await page.locator("#ticket-child-search").fill("Child");
     await page.locator("#ticket-child-search").press("Enter");
     await expect(page.locator("#ticket-child-summary")).toContainText("Child candidate");

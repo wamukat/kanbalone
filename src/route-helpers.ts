@@ -58,6 +58,7 @@ export function resolveResolvedFlag(
 export function parseTicketMutationBody(body: TicketMutationBody): TicketMutationBody {
   const hasParentTicketId = Object.prototype.hasOwnProperty.call(body ?? {}, "parentTicketId");
   const hasBlockerIds = Object.prototype.hasOwnProperty.call(body ?? {}, "blockerIds");
+  const hasRelatedIds = Object.prototype.hasOwnProperty.call(body ?? {}, "relatedIds");
   return {
     laneId: body?.laneId,
     parentTicketId: hasParentTicketId ? body?.parentTicketId ?? null : undefined,
@@ -69,5 +70,6 @@ export function parseTicketMutationBody(body: TicketMutationBody): TicketMutatio
     priority: typeof body?.priority === "number" ? body.priority : undefined,
     tagIds: Array.isArray(body?.tagIds) ? body.tagIds : undefined,
     blockerIds: hasBlockerIds ? (Array.isArray(body?.blockerIds) ? body.blockerIds : []) : undefined,
+    relatedIds: hasRelatedIds ? (Array.isArray(body?.relatedIds) ? body.relatedIds : []) : undefined,
   };
 }

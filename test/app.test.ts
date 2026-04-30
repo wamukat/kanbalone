@@ -688,12 +688,20 @@ test("comment list, relations, transition, and canonical refs", async () => {
     payload: { laneId: inProgressLane.id, title: "Dependency" },
   })).json();
 
+  const related = (await app.inject({
+    method: "POST",
+    url: `/api/boards/${board.board.id}/tickets`,
+    payload: { laneId: inProgressLane.id, title: "Related" },
+  })).json();
+
   const updatedParent = (await app.inject({
     method: "PATCH",
     url: `/api/tickets/${parent.id}`,
-    payload: { blockerIds: [dependency.id] },
+    payload: { blockerIds: [dependency.id], relatedIds: [related.id] },
   })).json();
   assert.equal(updatedParent.blockers[0].ref, `Portal#${dependency.id}`);
+  assert.deepEqual(updatedParent.relatedIds, [related.id]);
+  assert.equal(updatedParent.related[0].ref, `Portal#${related.id}`);
 
   const firstComment = await app.inject({
     method: "POST",
@@ -720,6 +728,8 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(ticketDetail.json().children[0].id, child.id);
   assert.equal(ticketDetail.json().blockers.length, 1);
   assert.equal(ticketDetail.json().blockers[0].id, dependency.id);
+  assert.equal(ticketDetail.json().related.length, 1);
+  assert.equal(ticketDetail.json().related[0].id, related.id);
 
   const dependencyDetail = await app.inject({
     method: "GET",
@@ -728,6 +738,14 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(dependencyDetail.statusCode, 200);
   assert.equal(dependencyDetail.json().blockedBy.length, 1);
   assert.equal(dependencyDetail.json().blockedBy[0].id, parent.id);
+
+  const relatedDetail = await app.inject({
+    method: "GET",
+    url: `/api/tickets/${related.id}`,
+  });
+  assert.equal(relatedDetail.statusCode, 200);
+  assert.deepEqual(relatedDetail.json().relatedIds, [parent.id]);
+  assert.equal(relatedDetail.json().related[0].id, parent.id);
 
   const commentsResponse = await app.inject({
     method: "GET",
@@ -801,14 +819,47 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(relations.blockers[0].id, dependency.id);
   assert.equal(relations.blockers[0].laneId, inProgressLane.id);
   assert.equal(relations.blockedBy.length, 0);
+  assert.equal(relations.related.length, 1);
+  assert.equal(relations.related[0].id, related.id);
 
   const reverseRelationsResponse = await app.inject({
     method: "GET",
-    url: `/api/tickets/${dependency.id}/relations`,
+    url: `/api/tickets/${related.id}/relations`,
   });
   assert.equal(reverseRelationsResponse.statusCode, 200);
-  assert.equal(reverseRelationsResponse.json().blockedBy.length, 1);
-  assert.equal(reverseRelationsResponse.json().blockedBy[0].id, parent.id);
+  assert.equal(reverseRelationsResponse.json().related.length, 1);
+  assert.equal(reverseRelationsResponse.json().related[0].id, parent.id);
+
+  const clearRelatedResponse = await app.inject({
+    method: "PATCH",
+    url: `/api/tickets/${related.id}`,
+    payload: { relatedIds: null },
+  });
+  assert.equal(clearRelatedResponse.statusCode, 200);
+  assert.deepEqual(clearRelatedResponse.json().relatedIds, []);
+
+  const parentRelationsAfterRelatedClearResponse = await app.inject({
+    method: "GET",
+    url: `/api/tickets/${parent.id}/relations`,
+  });
+  assert.equal(parentRelationsAfterRelatedClearResponse.statusCode, 200);
+  assert.equal(parentRelationsAfterRelatedClearResponse.json().related.length, 0);
+
+  const restoreRelatedResponse = await app.inject({
+    method: "PATCH",
+    url: `/api/tickets/${parent.id}`,
+    payload: { relatedIds: [related.id] },
+  });
+  assert.equal(restoreRelatedResponse.statusCode, 200);
+  assert.deepEqual(restoreRelatedResponse.json().relatedIds, [related.id]);
+
+  const blockedByRelationsResponse = await app.inject({
+    method: "GET",
+    url: `/api/tickets/${dependency.id}/relations`,
+  });
+  assert.equal(blockedByRelationsResponse.statusCode, 200);
+  assert.equal(blockedByRelationsResponse.json().blockedBy.length, 1);
+  assert.equal(blockedByRelationsResponse.json().blockedBy[0].id, parent.id);
 
   const clearBlockersResponse = await app.inject({
     method: "PATCH",
@@ -2440,11 +2491,16 @@ test("tickets can move between boards with safe tag and relation cleanup", async
       url: `/api/boards/${sourceBoard.board.id}/tickets`,
       payload: { laneId: sourceLane.id, title: "Blocked", blockerIds: [movingTicket.id] },
     })).json();
+    const relatedTicket = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${sourceBoard.board.id}/tickets`,
+      payload: { laneId: sourceLane.id, title: "Related", relatedIds: [movingTicket.id] },
+    })).json();
 
     const updateBlockerResponse = await app.inject({
       method: "PATCH",
       url: `/api/tickets/${movingTicket.id}`,
-      payload: { blockerIds: [blockerTicket.id] },
+      payload: { blockerIds: [blockerTicket.id], relatedIds: [relatedTicket.id] },
     });
     assert.equal(updateBlockerResponse.statusCode, 200);
 
@@ -2467,6 +2523,7 @@ test("tickets can move between boards with safe tag and relation cleanup", async
     assert.equal(moveResponse.json().priority, 4);
     assert.deepEqual(moveResponse.json().tags.map((tag: { id: number }) => tag.id), [keepTargetTag.id]);
     assert.deepEqual(moveResponse.json().blockerIds, []);
+    assert.deepEqual(moveResponse.json().relatedIds, []);
     assert.equal(moveResponse.json().children.length, 0);
     assert.equal(moveResponse.json().ref, `Move Target#${movingTicket.id}`);
 
@@ -2474,6 +2531,8 @@ test("tickets can move between boards with safe tag and relation cleanup", async
     assert.equal(childAfterMove.parentTicketId, null);
     const blockedAfterMove = (await app.inject({ method: "GET", url: `/api/tickets/${blockedTicket.id}` })).json();
     assert.deepEqual(blockedAfterMove.blockerIds, []);
+    const relatedAfterMove = (await app.inject({ method: "GET", url: `/api/tickets/${relatedTicket.id}` })).json();
+    assert.deepEqual(relatedAfterMove.relatedIds, []);
     const activity = (await app.inject({ method: "GET", url: `/api/tickets/${movingTicket.id}/activity` })).json();
     assert.equal(activity.activity.some((entry: { action: string; message: string }) =>
       entry.action === "ticket_moved_board" && entry.message === "Moved to Move Target / done"), true);

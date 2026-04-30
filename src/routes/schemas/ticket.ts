@@ -86,8 +86,10 @@ export const ticketSchema = {
     "tags",
     "comments",
     "blockerIds",
+    "relatedIds",
     "blockers",
     "blockedBy",
+    "related",
     "parent",
     "children",
     "ref",
@@ -121,11 +123,19 @@ export const ticketSchema = {
       type: "array",
       items: positiveIntegerSchema,
     },
+    relatedIds: {
+      type: "array",
+      items: positiveIntegerSchema,
+    },
     blockers: {
       type: "array",
       items: ticketRelationSchema,
     },
     blockedBy: {
+      type: "array",
+      items: ticketRelationSchema,
+    },
+    related: {
       type: "array",
       items: ticketRelationSchema,
     },
@@ -160,6 +170,7 @@ export const ticketSummarySchema = {
     "updatedAt",
     "tags",
     "blockerIds",
+    "relatedIds",
     "ref",
     "shortRef",
     "remote",
@@ -182,6 +193,10 @@ export const ticketSummarySchema = {
       items: tagViewSchema,
     },
     blockerIds: {
+      type: "array",
+      items: positiveIntegerSchema,
+    },
+    relatedIds: {
       type: "array",
       items: positiveIntegerSchema,
     },

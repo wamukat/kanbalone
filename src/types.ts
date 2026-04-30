@@ -57,6 +57,11 @@ export type TicketBlockerRow = {
   blocker_ticket_id: Id;
 };
 
+export type TicketRelatedLinkRow = {
+  ticket_id: Id;
+  related_ticket_id: Id;
+};
+
 export type CommentRow = {
   id: Id;
   ticket_id: Id;
@@ -159,6 +164,7 @@ export type TicketRelationsView = {
   children: TicketRelationView[];
   blockers: TicketRelationView[];
   blockedBy: TicketRelationView[];
+  related: TicketRelationView[];
 };
 
 export type TicketView = {
@@ -178,8 +184,10 @@ export type TicketView = {
   tags: TagView[];
   comments: CommentView[];
   blockerIds: Id[];
+  relatedIds: Id[];
   blockers: TicketBlockerView[];
   blockedBy: TicketRelationView[];
+  related: TicketRelationView[];
   parent: TicketRelationView | null;
   children: TicketRelationView[];
   ref: string;
@@ -201,6 +209,7 @@ export type TicketSummaryView = {
   updatedAt: string;
   tags: TagView[];
   blockerIds: Id[];
+  relatedIds: Id[];
   ref: string;
   shortRef: string;
   remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null;
@@ -301,7 +310,7 @@ export type BoardExport = {
   lanes: LaneView[];
   tags: TagView[];
   tickets: Array<
-    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "parent" | "children" | "ref" | "shortRef" | "remote" | "comments"> & {
+    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "comments"> & {
       comments: Array<Omit<CommentView, "sync">>;
       isCompleted?: boolean;
     }

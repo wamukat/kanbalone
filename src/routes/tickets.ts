@@ -100,6 +100,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
         priority: typeof body.priority === "number" ? body.priority : 2,
         tagIds: Array.isArray(body.tagIds) ? body.tagIds : [],
         blockerIds: Array.isArray(body.blockerIds) ? body.blockerIds : [],
+        relatedIds: Array.isArray(body.relatedIds) ? body.relatedIds : [],
       });
       publishBoardEvent(boardId);
       return reply.code(201).send(serializeTicket(ticket));
@@ -240,6 +241,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
         priority: typeof body.priority === "number" ? body.priority : undefined,
         tagIds: Array.isArray(body.tagIds) ? body.tagIds : undefined,
         blockerIds: Array.isArray(body.blockerIds) ? body.blockerIds : undefined,
+        relatedIds: Array.isArray(body.relatedIds) ? body.relatedIds : undefined,
       });
       publishBoardEvent(ticket.boardId);
       return serializeTicket(ticket);

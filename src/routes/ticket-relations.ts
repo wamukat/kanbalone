@@ -21,6 +21,7 @@ export function registerTicketRelationRoutes(app: FastifyInstance, ctx: Register
         children: relations.children.map(serializeTicketRelation),
         blockers: relations.blockers.map(serializeTicketRelation),
         blockedBy: relations.blockedBy.map(serializeTicketRelation),
+        related: relations.related.map(serializeTicketRelation),
       };
     } catch {
       return reply.code(404).send({ error: "ticket not found" });

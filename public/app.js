@@ -60,11 +60,14 @@ const state = {
   uxResolver: null,
   editorTagIds: [],
   editorBlockerIds: [],
+  editorRelatedIds: [],
   editorChildIds: [],
   editorOriginalChildIds: [],
+  editorVisibleRelationTypes: [],
   tagQuery: "",
   parentQuery: "",
   blockerQuery: "",
+  relatedQuery: "",
   childQuery: "",
   editorDialogPosition: null,
   editorDialogDrag: null,
@@ -329,6 +332,10 @@ const elements = {
   ticketTitleReadonly: document.querySelector("#ticket-title-readonly"),
   ticketLane: document.querySelector("#ticket-lane"),
   ticketParent: document.querySelector("#ticket-parent"),
+  ticketRelationAdd: document.querySelector("#ticket-relation-add"),
+  ticketRelationAddOptions: document.querySelector("#ticket-relation-add-options"),
+  ticketRelationAddButton: document.querySelector("#ticket-relation-add-button"),
+  ticketParentRow: document.querySelector("#ticket-parent-row"),
   ticketParentToggle: document.querySelector("#ticket-parent-toggle"),
   ticketParentSummary: document.querySelector("#ticket-parent-summary"),
   ticketParentSearch: document.querySelector("#ticket-parent-search"),
@@ -340,9 +347,15 @@ const elements = {
   ticketTagSearch: document.querySelector("#ticket-tag-search"),
   ticketTagOptions: document.querySelector("#ticket-tag-options"),
   ticketBlockerToggle: document.querySelector("#ticket-blocker-toggle"),
+  ticketBlockerRow: document.querySelector("#ticket-blocker-row"),
   ticketBlockerSummary: document.querySelector("#ticket-blocker-summary"),
   ticketBlockerSearch: document.querySelector("#ticket-blocker-search"),
   ticketBlockerOptions: document.querySelector("#ticket-blocker-options"),
+  ticketRelatedRow: document.querySelector("#ticket-related-row"),
+  ticketRelatedToggle: document.querySelector("#ticket-related-toggle"),
+  ticketRelatedSummary: document.querySelector("#ticket-related-summary"),
+  ticketRelatedSearch: document.querySelector("#ticket-related-search"),
+  ticketRelatedOptions: document.querySelector("#ticket-related-options"),
   ticketChildrenRow: document.querySelector("#ticket-children-row"),
   ticketChildToggle: document.querySelector("#ticket-child-toggle"),
   ticketChildSummary: document.querySelector("#ticket-child-summary"),
@@ -401,9 +414,14 @@ function bindEvents() {
   elements.ticketTagToggle.addEventListener("click", handleTicketTagFieldClick);
   elements.ticketTagSearch.addEventListener("input", handleTicketTagSearchInput);
   elements.ticketTagSearch.addEventListener("keydown", handleTicketTagSearchKeydown);
+  elements.ticketRelationAddButton.addEventListener("click", handleAddRelation);
+  elements.ticketRelationAddOptions.addEventListener("click", handleAddRelationTypeClick);
   elements.ticketBlockerToggle.addEventListener("click", handleBlockerFieldClick);
   elements.ticketBlockerSearch.addEventListener("input", handleBlockerSearchInput);
   elements.ticketBlockerSearch.addEventListener("keydown", handleBlockerSearchKeydown);
+  elements.ticketRelatedToggle.addEventListener("click", handleRelatedFieldClick);
+  elements.ticketRelatedSearch.addEventListener("input", handleRelatedSearchInput);
+  elements.ticketRelatedSearch.addEventListener("keydown", handleRelatedSearchKeydown);
   elements.ticketChildToggle.addEventListener("click", handleChildFieldClick);
   elements.ticketChildSearch.addEventListener("input", handleChildSearchInput);
   elements.ticketChildSearch.addEventListener("keydown", handleChildSearchKeydown);
@@ -1011,10 +1029,15 @@ const {
   handleDetailFocusout,
   handleDetailKeydown,
   handleEditorDialogClose,
+  handleAddRelation,
+  handleAddRelationTypeClick,
   handleParentChange,
   handleParentFieldClick,
   handleParentSearchInput,
   handleParentSearchKeydown,
+  handleRelatedFieldClick,
+  handleRelatedSearchInput,
+  handleRelatedSearchKeydown,
   handleRemoteBacklinkToggle,
   handleRemoteImportInputChange,
   handleRemoteImportProviderClick,
@@ -1025,6 +1048,7 @@ const {
   openChildOptions,
   openEditor,
   openParentOptions,
+  openRelatedOptions,
   openTicketTagOptions,
   previewRemoteImport,
   saveTicket,

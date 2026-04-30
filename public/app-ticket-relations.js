@@ -61,6 +61,90 @@ export function createTicketRelationsModule(ctx, options) {
     return elements.ticketParent.value ? Number(elements.ticketParent.value) : null;
   }
 
+  function getActiveRelationTypes(ticket = state.dialogTicket) {
+    const activeTypes = [];
+    if ((ticket?.blockerIds ?? state.editorBlockerIds).length > 0) {
+      activeTypes.push("blocker");
+    }
+    if ((ticket?.relatedIds ?? state.editorRelatedIds).length > 0) {
+      activeTypes.push("related");
+    }
+    if ((ticket?.parentTicketId ?? getSelectedParentId()) != null) {
+      activeTypes.push("parent");
+    }
+    if ((ticket?.children ?? state.editorChildIds).length > 0) {
+      activeTypes.push("child");
+    }
+    return activeTypes;
+  }
+
+  function isRelationTypeVisible(type) {
+    return state.editorVisibleRelationTypes.includes(type) || getActiveRelationTypes().includes(type);
+  }
+
+  function hasSelectedParent() {
+    return getSelectedParentId() != null;
+  }
+
+  function hasSelectedChildren() {
+    return state.editorChildIds.length > 0;
+  }
+
+  function canAddRelationType(type, visibleTypes = new Set(getActiveRelationTypes())) {
+    if (visibleTypes.has(type)) {
+      return false;
+    }
+    if (type === "parent" && hasSelectedChildren()) {
+      return false;
+    }
+    if (type === "child" && hasSelectedParent()) {
+      return false;
+    }
+    return true;
+  }
+
+  function showRelationType(type) {
+    if (!canAddRelationType(type, new Set([
+      ...state.editorVisibleRelationTypes,
+      ...getActiveRelationTypes(),
+    ]))) {
+      syncRelationRows();
+      closeRelationAddOptions();
+      return;
+    }
+    if (!state.editorVisibleRelationTypes.includes(type)) {
+      state.editorVisibleRelationTypes = [...state.editorVisibleRelationTypes, type];
+    }
+    syncRelationRows();
+    closeRelationAddOptions();
+    const searchByType = {
+      blocker: elements.ticketBlockerSearch,
+      related: elements.ticketRelatedSearch,
+      parent: elements.ticketParentSearch,
+      child: elements.ticketChildSearch,
+    };
+    searchByType[type]?.focus();
+  }
+
+  function handleAddRelation() {
+    if (elements.ticketRelationAddButton.disabled) {
+      return;
+    }
+    const isOpen = elements.ticketRelationAdd.classList.toggle("is-open");
+    elements.ticketRelationAddButton.setAttribute("aria-expanded", String(isOpen));
+  }
+
+  function handleAddRelationTypeClick(event) {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+    const button = event.target.closest("[data-relation-add-type]");
+    if (!(button instanceof HTMLButtonElement) || button.disabled) {
+      return;
+    }
+    showRelationType(button.dataset.relationAddType || "related");
+  }
+
   function getAvailableParentTickets() {
     return getBoardTickets()
       .filter((ticket) => ticket.id !== state.editingTicketId)
@@ -91,6 +175,26 @@ export function createTicketRelationsModule(ctx, options) {
     elements.ticketBlockerSearch.focus();
   }
 
+  function getAvailableRelatedTickets() {
+    const currentId = state.editingTicketId;
+    return getBoardTickets()
+      .filter((ticket) => ticket.id !== currentId)
+      .sort((a, b) => b.priority - a.priority || a.id - b.id);
+  }
+
+  function toggleRelated(ticketId) {
+    if (state.editorRelatedIds.includes(ticketId)) {
+      state.editorRelatedIds = state.editorRelatedIds.filter((id) => id !== ticketId);
+    } else {
+      state.editorRelatedIds = [...state.editorRelatedIds, ticketId];
+    }
+    state.relatedQuery = "";
+    elements.ticketRelatedSearch.value = "";
+    relatedPicker.syncOptions();
+    relatedPicker.openOptions();
+    elements.ticketRelatedSearch.focus();
+  }
+
   function getAvailableChildTickets() {
     if (!state.editingTicketId || getSelectedParentId() != null) {
       return [];
@@ -103,7 +207,6 @@ export function createTicketRelationsModule(ctx, options) {
 
   function syncChildPickerAvailability() {
     const canEditChildren = Boolean(state.editingTicketId) && getSelectedParentId() == null;
-    elements.ticketChildrenRow.hidden = !state.editingTicketId;
     elements.ticketChildSearch.disabled = !canEditChildren;
     elements.ticketChildToggle.classList.toggle("is-disabled", !canEditChildren);
     if (!canEditChildren) {
@@ -120,6 +223,7 @@ export function createTicketRelationsModule(ctx, options) {
     } else {
       state.editorChildIds = [...state.editorChildIds, ticketId];
     }
+    syncRelationRows();
     state.childQuery = "";
     elements.ticketChildSearch.value = "";
     childPicker.syncOptions();
@@ -130,6 +234,7 @@ export function createTicketRelationsModule(ctx, options) {
   function handleParentChange() {
     syncChildPickerAvailability();
     childPicker.syncOptions();
+    syncRelationRows();
   }
 
   const relationPickerContext = {
@@ -153,6 +258,7 @@ export function createTicketRelationsModule(ctx, options) {
     closePeerOptions: () => {
       options.tagPicker.closeOptions();
       blockerPicker.closeOptions();
+      relatedPicker.closeOptions();
       childPicker.closeOptions();
     },
     getAvailableTickets: getAvailableParentTickets,
@@ -182,6 +288,7 @@ export function createTicketRelationsModule(ctx, options) {
     closePeerOptions: () => {
       options.tagPicker.closeOptions();
       parentPicker.closeOptions();
+      relatedPicker.closeOptions();
       childPicker.closeOptions();
     },
     getAvailableTickets: getAvailableBlockerTickets,
@@ -210,6 +317,7 @@ export function createTicketRelationsModule(ctx, options) {
       options.tagPicker.closeOptions();
       parentPicker.closeOptions();
       blockerPicker.closeOptions();
+      relatedPicker.closeOptions();
     },
     getAvailableTickets: getAvailableChildTickets,
     getPlaceholder: () => (state.editingTicketId ? (getSelectedParentId() != null ? "Clear parent to edit children" : "") : "Save ticket first"),
@@ -223,9 +331,38 @@ export function createTicketRelationsModule(ctx, options) {
     },
   });
 
+  const relatedPicker = createTicketRelationPicker({
+    ...relationPickerContext,
+    optionAttr: "data-related-id",
+    removeAttr: "data-remove-related-id",
+    elements: {
+      toggle: elements.ticketRelatedToggle,
+      summary: elements.ticketRelatedSummary,
+      search: elements.ticketRelatedSearch,
+      options: elements.ticketRelatedOptions,
+    },
+    closePeerOptions: () => {
+      options.tagPicker.closeOptions();
+      parentPicker.closeOptions();
+      blockerPicker.closeOptions();
+      childPicker.closeOptions();
+    },
+    getAvailableTickets: getAvailableRelatedTickets,
+    getPlaceholder: () => "",
+    getQuery: () => state.relatedQuery,
+    getSelectedTicketIds: () => [...state.editorRelatedIds],
+    removeTicket: toggleRelated,
+    selectTicket: toggleRelated,
+    setQuery: (value) => {
+      state.relatedQuery = value;
+    },
+  });
+
   function syncOptions() {
+    syncRelationRows();
     parentPicker.syncOptions();
     blockerPicker.syncOptions();
+    relatedPicker.syncOptions();
     syncChildPickerAvailability();
     childPicker.syncOptions();
   }
@@ -233,11 +370,48 @@ export function createTicketRelationsModule(ctx, options) {
   function closeOptions() {
     parentPicker.closeOptions();
     blockerPicker.closeOptions();
+    relatedPicker.closeOptions();
     childPicker.closeOptions();
+    closeRelationAddOptions();
+  }
+
+  function closeRelationAddOptions() {
+    elements.ticketRelationAdd.classList.remove("is-open");
+    elements.ticketRelationAddButton.setAttribute("aria-expanded", "false");
+  }
+
+  function syncRelationRows() {
+    if (hasSelectedChildren()) {
+      state.editorVisibleRelationTypes = state.editorVisibleRelationTypes.filter((type) => type !== "parent");
+    }
+    if (hasSelectedParent()) {
+      state.editorVisibleRelationTypes = state.editorVisibleRelationTypes.filter((type) => type !== "child");
+    }
+    elements.ticketBlockerRow.hidden = !isRelationTypeVisible("blocker");
+    elements.ticketRelatedRow.hidden = !isRelationTypeVisible("related");
+    elements.ticketParentRow.hidden = hasSelectedChildren() || !isRelationTypeVisible("parent");
+    elements.ticketChildrenRow.hidden = hasSelectedParent() || !isRelationTypeVisible("child");
+    const visibleTypes = new Set([
+      ...state.editorVisibleRelationTypes,
+      ...getActiveRelationTypes(),
+    ]);
+    const relationButtons = [...elements.ticketRelationAddOptions.querySelectorAll("[data-relation-add-type]")];
+    relationButtons.forEach((button) => {
+      const isUnavailable = !canAddRelationType(button.dataset.relationAddType, visibleTypes);
+      button.hidden = isUnavailable;
+      button.disabled = isUnavailable;
+    });
+    const hasAvailableType = relationButtons.some((button) => !button.disabled);
+    elements.ticketRelationAddButton.disabled = !hasAvailableType;
+    elements.ticketRelationAdd.hidden = !hasAvailableType;
+    if (!hasAvailableType) {
+      closeRelationAddOptions();
+    }
   }
 
   function handleOptionClick(event) {
     return blockerPicker.handleOptionClick(event) ||
+      relatedPicker.handleOptionClick(event) ||
       childPicker.handleOptionClick(event) ||
       parentPicker.handleOptionClick(event);
   }
@@ -247,6 +421,9 @@ export function createTicketRelationsModule(ctx, options) {
       elements.ticketParentOptions.contains(target) ||
       elements.ticketBlockerToggle.contains(target) ||
       elements.ticketBlockerOptions.contains(target) ||
+      elements.ticketRelatedToggle.contains(target) ||
+      elements.ticketRelatedOptions.contains(target) ||
+      elements.ticketRelationAdd.contains(target) ||
       elements.ticketChildToggle.contains(target) ||
       elements.ticketChildOptions.contains(target);
   }
@@ -254,7 +431,10 @@ export function createTicketRelationsModule(ctx, options) {
   return {
     closeOptions,
     containsTarget,
+    getActiveRelationTypes,
     getBlockingTickets,
+    handleAddRelation,
+    handleAddRelationTypeClick,
     handleBlockerFieldClick: blockerPicker.handleFieldClick,
     handleBlockerSearchInput: blockerPicker.handleSearchInput,
     handleBlockerSearchKeydown: blockerPicker.handleSearchKeydown,
@@ -266,9 +446,13 @@ export function createTicketRelationsModule(ctx, options) {
     handleParentFieldClick: parentPicker.handleFieldClick,
     handleParentSearchInput: parentPicker.handleSearchInput,
     handleParentSearchKeydown: parentPicker.handleSearchKeydown,
+    handleRelatedFieldClick: relatedPicker.handleFieldClick,
+    handleRelatedSearchInput: relatedPicker.handleSearchInput,
+    handleRelatedSearchKeydown: relatedPicker.handleSearchKeydown,
     openBlockerOptions: blockerPicker.openOptions,
     openChildOptions: childPicker.openOptions,
     openParentOptions: parentPicker.openOptions,
+    openRelatedOptions: relatedPicker.openOptions,
     syncOptions,
   };
 }

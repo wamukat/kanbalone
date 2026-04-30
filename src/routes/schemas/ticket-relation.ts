@@ -19,7 +19,7 @@ export const ticketRelationSchema = {
 export const ticketRelationsSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["parent", "children", "blockers", "blockedBy"],
+  required: ["parent", "children", "blockers", "blockedBy", "related"],
   properties: {
     parent: { anyOf: [ticketRelationSchema, { type: "null" }] },
     children: {
@@ -31,6 +31,10 @@ export const ticketRelationsSchema = {
       items: ticketRelationSchema,
     },
     blockedBy: {
+      type: "array",
+      items: ticketRelationSchema,
+    },
+    related: {
       type: "array",
       items: ticketRelationSchema,
     },

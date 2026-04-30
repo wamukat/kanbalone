@@ -9,6 +9,8 @@ import {
   getChildrenForTicketIds,
   getCommentsForTicketIds,
   getParentsForTicketIds,
+  getRelatedIdsForTicketIds,
+  getRelatedTicketsForTicketIds,
   getRemoteLinksForTicketIds,
   getTagsForTicketIds,
 } from "./ticket-loaders.js";
@@ -47,6 +49,7 @@ export function listTickets(
   const blockedByByTicket = getBlockedTicketsForTicketIds(sqlite, ticketIds);
   const parentsByTicket = getParentsForTicketIds(sqlite, ticketIds);
   const childrenByTicket = getChildrenForTicketIds(sqlite, ticketIds);
+  const relatedByTicket = getRelatedTicketsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
@@ -57,6 +60,7 @@ export function listTickets(
       commentsByTicket.get(row.id) ?? [],
       blockersByTicket.get(row.id) ?? [],
       blockedByByTicket.get(row.id) ?? [],
+      relatedByTicket.get(row.id) ?? [],
       parentsByTicket.get(row.id) ?? null,
       childrenByTicket.get(row.id) ?? [],
       remoteByTicket.get(row.id) ?? null,
@@ -75,6 +79,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
   const blockedByByTicket = getBlockedTicketsForTicketIds(sqlite, [ticketId]);
   const parentsByTicket = getParentsForTicketIds(sqlite, [ticketId]);
   const childrenByTicket = getChildrenForTicketIds(sqlite, [ticketId]);
+  const relatedByTicket = getRelatedTicketsForTicketIds(sqlite, [ticketId]);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, [ticketId]);
   const board = getBoard(sqlite, row.board_id);
   return mapTicket(
@@ -84,6 +89,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
     commentsByTicket.get(ticketId) ?? [],
     blockersByTicket.get(ticketId) ?? [],
     blockedByByTicket.get(ticketId) ?? [],
+    relatedByTicket.get(ticketId) ?? [],
     parentsByTicket.get(ticketId) ?? null,
     childrenByTicket.get(ticketId) ?? [],
     remoteByTicket.get(ticketId) ?? null,
@@ -101,6 +107,7 @@ export function getTicketRelations(sqlite: Database.Database, ticketId: Id): Tic
     children: getChildrenForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [],
     blockers: getBlockersForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [],
     blockedBy: getBlockedTicketsForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [],
+    related: getRelatedTicketsForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [],
   };
 }
 
@@ -128,6 +135,7 @@ function mapTicketSummaries(
   const ticketIds = rows.map((row) => row.id);
   const tagsByTicket = getTagsForTicketIds(sqlite, ticketIds);
   const blockerIdsByTicket = getBlockerIdsForTicketIds(sqlite, ticketIds);
+  const relatedIdsByTicket = getRelatedIdsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
@@ -136,6 +144,7 @@ function mapTicketSummaries(
       board?.name ?? "",
       tagsByTicket.get(row.id) ?? [],
       blockerIdsByTicket.get(row.id) ?? [],
+      relatedIdsByTicket.get(row.id) ?? [],
       remoteByTicket.get(row.id)
         ? {
           provider: remoteByTicket.get(row.id)!.provider,

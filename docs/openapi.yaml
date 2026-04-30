@@ -1443,7 +1443,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TicketRelation"
-      required: [parent, children, blockers, blockedBy]
+        related:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketRelation"
+      required: [parent, children, blockers, blockedBy, related]
     TicketRemote:
       type: object
       properties:
@@ -1610,11 +1614,19 @@ components:
           type: array
           items:
             type: integer
+        relatedIds:
+          type: array
+          items:
+            type: integer
         blockers:
           type: array
           items:
             $ref: "#/components/schemas/TicketRelation"
         blockedBy:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketRelation"
+        related:
           type: array
           items:
             $ref: "#/components/schemas/TicketRelation"
@@ -1633,7 +1645,7 @@ components:
             - $ref: "#/components/schemas/TicketRemote"
             - type: "null"
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, blockers, blockedBy, parent, children, ref, shortRef, remote]
+        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, relatedIds, blockers, blockedBy, related, parent, children, ref, shortRef, remote]
     TicketSummary:
       type: object
       properties:
@@ -1666,6 +1678,10 @@ components:
           type: array
           items:
             type: integer
+        relatedIds:
+          type: array
+          items:
+            type: integer
         ref: { type: string }
         shortRef: { type: string }
         remote:
@@ -1673,7 +1689,7 @@ components:
             - $ref: "#/components/schemas/TicketRemoteSummary"
             - type: "null"
       required:
-        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, ref, shortRef, remote]
+        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote]
     TicketUpsert:
       type: object
       properties:
@@ -1699,6 +1715,10 @@ components:
           items:
             type: integer
         blockerIds:
+          type: [array, "null"]
+          items:
+            type: integer
+        relatedIds:
           type: [array, "null"]
           items:
             type: integer

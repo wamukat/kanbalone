@@ -2,12 +2,13 @@ import type { BoardDetailView, TicketRelationView, TicketSummaryView, TicketView
 
 export type ApiTicketRelationView = TicketRelationView & { isCompleted: boolean };
 export type ApiTicketSummaryView = TicketSummaryView & { isCompleted: boolean };
-export type ApiTicketView = Omit<TicketView, "parent" | "children" | "blockers" | "blockedBy"> & {
+export type ApiTicketView = Omit<TicketView, "parent" | "children" | "blockers" | "blockedBy" | "related"> & {
   isCompleted: boolean;
   parent: ApiTicketRelationView | null;
   children: ApiTicketRelationView[];
   blockers: ApiTicketRelationView[];
   blockedBy: ApiTicketRelationView[];
+  related: ApiTicketRelationView[];
 };
 
 export function serializeTicketRelation(relation: TicketRelationView): ApiTicketRelationView {
@@ -26,6 +27,7 @@ export function serializeTicket(ticket: TicketView): ApiTicketView {
     children: ticket.children.map(serializeTicketRelation),
     blockers: ticket.blockers.map(serializeTicketRelation),
     blockedBy: ticket.blockedBy.map(serializeTicketRelation),
+    related: ticket.related.map(serializeTicketRelation),
   };
 }
 

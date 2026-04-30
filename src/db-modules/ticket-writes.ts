@@ -119,3 +119,41 @@ export function replaceTicketBlockers(
   );
   nextBlockerIds.forEach((blockerId) => insert.run(ticketId, blockerId));
 }
+
+export function replaceTicketRelatedLinks(
+  sqlite: Database.Database,
+  ticketId: Id,
+  relatedIds: Id[],
+  boardId: Id,
+): void {
+  const nextRelatedIds = [...new Set(relatedIds.filter((relatedId) => relatedId !== ticketId))];
+  if (nextRelatedIds.length > 0) {
+    const placeholders = nextRelatedIds.map(() => "?").join(", ");
+    const validIds = sqlite
+      .prepare(
+        `
+        SELECT id
+        FROM tickets
+        WHERE board_id = ?
+          AND id IN (${placeholders})
+        `,
+      )
+      .all(boardId, ...nextRelatedIds) as Array<{ id: Id }>;
+    if (validIds.length !== nextRelatedIds.length) {
+      throw new Error("Related ticket does not belong to board");
+    }
+  }
+
+  sqlite
+    .prepare("DELETE FROM ticket_related_links WHERE ticket_id = ? OR related_ticket_id = ?")
+    .run(ticketId, ticketId);
+
+  const insert = sqlite.prepare(
+    "INSERT INTO ticket_related_links (ticket_id, related_ticket_id) VALUES (?, ?)",
+  );
+  nextRelatedIds.forEach((relatedId) => {
+    const leftId = Math.min(ticketId, relatedId);
+    const rightId = Math.max(ticketId, relatedId);
+    insert.run(leftId, rightId);
+  });
+}

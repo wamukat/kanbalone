@@ -36,6 +36,7 @@ export function createTicketActionsModule(ctx, options) {
     }
     const tagIds = options.getSelectedTagIds();
     const blockerIds = [...state.editorBlockerIds];
+    const relatedIds = [...state.editorRelatedIds];
     const nextParentTicketId = elements.ticketParent.value ? Number(elements.ticketParent.value) : null;
     const payload = {
       title: state.editingTicketId && state.dialogTicket?.remote ? undefined : elements.ticketTitle.value.trim(),
@@ -46,6 +47,7 @@ export function createTicketActionsModule(ctx, options) {
       bodyMarkdown: elements.ticketBody.value,
       tagIds,
       blockerIds,
+      relatedIds,
     };
     const endpoint = state.editingTicketId
       ? `/api/tickets/${state.editingTicketId}`
