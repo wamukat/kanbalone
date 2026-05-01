@@ -17,6 +17,9 @@ importers:
       fastify:
         specifier: ^5.8.4
         version: 5.8.4
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.11.1
       marked:
         specifier: ^18.0.0
         version: 18.0.0
@@ -747,6 +750,10 @@ packages:
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
+
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
 
   htmlparser2@10.1.0:
     resolution: {integrity: sha512-VTZkM9GWRAtEpveh7MSF6SjjrpNVNNVJfFup7xTY3UpFtm67foy9HDVXneLtFVt4pMz5kZtgNcvCniNFb1hlEQ==}
@@ -2086,6 +2093,8 @@ snapshots:
       uglify-js: 3.19.3
 
   has-flag@4.0.0: {}
+
+  highlight.js@11.11.1: {}
 
   htmlparser2@10.1.0:
     dependencies:

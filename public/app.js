@@ -6,8 +6,11 @@ import { createUxModule } from "./app-ux.js";
 
 const UI_PREFERENCES_KEY = "kanbalone:ui-preferences";
 const UI_PREFERENCES_VERSION = 1;
+const EDITOR_DIALOG_SIZE_KEY = "kanbalone:editor-dialog-size";
 const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
 const EDITOR_DIALOG_WIDTH = 720;
+const EDITOR_DIALOG_MIN_WIDTH = 520;
+const EDITOR_DIALOG_MIN_HEIGHT = 360;
 const storedPreferences = readUiPreferences();
 
 const state = {
@@ -71,6 +74,8 @@ const state = {
   childQuery: "",
   editorDialogPosition: null,
   editorDialogDrag: null,
+  editorDialogSize: readEditorDialogSize(),
+  editorDialogResize: null,
   uxDialogPosition: null,
   uxDialogDrag: null,
 };
@@ -128,6 +133,31 @@ function readLegacyUiPreferences(parsed) {
     viewModeByBoardId,
     filterExpansionByBoardId: normalizeStoredFilterExpansionByBoard(parsed?.filterExpansionByBoardId),
   };
+}
+
+function readEditorDialogSize() {
+  try {
+    const raw = localStorage.getItem(EDITOR_DIALOG_SIZE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const parsed = JSON.parse(raw);
+    const width = Number(parsed?.width);
+    const height = Number(parsed?.height);
+    return Number.isFinite(width) && Number.isFinite(height)
+      ? { width, height }
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveEditorDialogSize(size) {
+  try {
+    localStorage.setItem(EDITOR_DIALOG_SIZE_KEY, JSON.stringify(size));
+  } catch {
+    // Ignore storage failures; resizing should remain usable for this session.
+  }
 }
 
 function normalizeObject(value) {
@@ -308,6 +338,7 @@ const elements = {
   moveTicketButton: document.querySelector("#move-ticket-button"),
   headerEditButton: document.querySelector("#header-edit-button"),
   ticketView: document.querySelector("#ticket-view"),
+  editorDialogResizeHandle: document.querySelector("#editor-dialog-resize-handle"),
   editorForm: document.querySelector("#editor-form"),
   ticketViewMeta: document.querySelector("#ticket-view-meta"),
   ticketRemoteSummary: document.querySelector("#ticket-remote-summary"),
@@ -455,6 +486,7 @@ function bindEvents() {
   elements.ticketEditLocalBodyTabButton.addEventListener("click", () => setEditBodyTab("local"));
   elements.ticketEditRemoteBodyTabButton.addEventListener("click", () => setEditBodyTab("remote"));
   elements.editorHeader.addEventListener("pointerdown", handleEditorHeaderPointerDown);
+  elements.editorDialogResizeHandle.addEventListener("pointerdown", handleEditorDialogResizePointerDown);
   elements.uxHeader.addEventListener("pointerdown", handleUxHeaderPointerDown);
   elements.uxForm.addEventListener("submit", handleUxSubmit);
   elements.deleteTicketButton.addEventListener("click", deleteTicket);
@@ -469,6 +501,8 @@ function bindEvents() {
     closeEditor();
   });
   elements.editorDialog.addEventListener("close", () => {
+    state.editorDialogResize = null;
+    elements.editorDialog.classList.remove("resizing");
     handleEditorDialogClose();
     syncDialogScrollLock();
   });
@@ -493,6 +527,8 @@ function bindEvents() {
   });
   window.addEventListener("pointermove", handleEditorHeaderPointerMove);
   window.addEventListener("pointerup", handleEditorHeaderPointerUp);
+  window.addEventListener("pointermove", handleEditorDialogResizePointerMove);
+  window.addEventListener("pointerup", handleEditorDialogResizePointerUp);
   window.addEventListener("pointermove", handleUxHeaderPointerMove);
   window.addEventListener("pointerup", handleUxHeaderPointerUp);
   document.addEventListener("click", handleDocumentClick);
@@ -509,6 +545,32 @@ function clampEditorDialogPosition(left, top) {
   };
 }
 
+function clampEditorDialogSize(width, height) {
+  const rect = elements.editorDialog.getBoundingClientRect();
+  const maxWidth = Math.max(EDITOR_DIALOG_MIN_WIDTH, window.innerWidth - rect.left - 12);
+  const viewportBottom = window.scrollY + window.innerHeight - 12;
+  const dialogTop = window.scrollY + rect.top;
+  const maxHeight = Math.max(EDITOR_DIALOG_MIN_HEIGHT, viewportBottom - dialogTop);
+  return {
+    width: Math.min(Math.max(EDITOR_DIALOG_MIN_WIDTH, width), maxWidth),
+    height: Math.min(Math.max(EDITOR_DIALOG_MIN_HEIGHT, height), maxHeight),
+  };
+}
+
+function applyEditorDialogSize(size, { persist = false } = {}) {
+  if (!size) {
+    return;
+  }
+  const clamped = clampEditorDialogSize(size.width, size.height);
+  state.editorDialogSize = clamped;
+  elements.editorDialog.style.width = `${clamped.width}px`;
+  elements.editorDialog.style.height = `${clamped.height}px`;
+  if (persist) {
+    saveEditorDialogSize(clamped);
+  }
+  syncEditorDialogScrollSpace();
+}
+
 function applyEditorDialogPosition(position) {
   if (!position) {
     return;
@@ -520,7 +582,13 @@ function applyEditorDialogPosition(position) {
 }
 
 function prepareEditorDialogPosition(scrollY = window.scrollY) {
-  const closedWidth = Math.min(EDITOR_DIALOG_WIDTH, Math.max(0, window.innerWidth - 32));
+  if (state.editorDialogSize) {
+    applyEditorDialogSize(state.editorDialogSize);
+  } else {
+    elements.editorDialog.style.width = "";
+    elements.editorDialog.style.height = "";
+  }
+  const closedWidth = state.editorDialogSize?.width ?? Math.min(EDITOR_DIALOG_WIDTH, Math.max(0, window.innerWidth - 32));
   const position = {
     left: Math.max(12, (window.innerWidth - closedWidth) / 2),
     top: scrollY + 48,
@@ -579,6 +647,47 @@ function handleEditorHeaderPointerUp(event) {
   }
   state.editorDialogDrag = null;
   elements.editorDialog.classList.remove("dragging");
+}
+
+function handleEditorDialogResizePointerDown(event) {
+  if (!elements.editorDialog.open || event.button !== 0) {
+    return;
+  }
+  const rect = elements.editorDialog.getBoundingClientRect();
+  state.editorDialogResize = {
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    width: rect.width,
+    height: rect.height,
+  };
+  elements.editorDialog.classList.add("resizing");
+  elements.editorDialogResizeHandle.setPointerCapture?.(event.pointerId);
+  event.preventDefault();
+}
+
+function handleEditorDialogResizePointerMove(event) {
+  const resize = state.editorDialogResize;
+  if (!resize || resize.pointerId !== event.pointerId) {
+    return;
+  }
+  applyEditorDialogSize({
+    width: resize.width + (event.clientX - resize.startX),
+    height: resize.height + (event.clientY - resize.startY),
+  });
+}
+
+function handleEditorDialogResizePointerUp(event) {
+  const resize = state.editorDialogResize;
+  if (!resize || resize.pointerId !== event.pointerId) {
+    return;
+  }
+  state.editorDialogResize = null;
+  elements.editorDialog.classList.remove("resizing");
+  elements.editorDialogResizeHandle.releasePointerCapture?.(event.pointerId);
+  if (state.editorDialogSize) {
+    applyEditorDialogSize(state.editorDialogSize, { persist: true });
+  }
 }
 
 function clampUxDialogPosition(left, top) {

@@ -59,6 +59,30 @@
     color: var(--text-strong);
   }
 
+  .markdown .hljs-keyword,
+  .markdown .hljs-selector-tag,
+  .markdown .hljs-subst {
+    color: #c4b5fd;
+  }
+
+  .markdown .hljs-string,
+  .markdown .hljs-regexp,
+  .markdown .hljs-attr {
+    color: #5eead4;
+  }
+
+  .markdown .hljs-title,
+  .markdown .hljs-name,
+  .markdown .hljs-section {
+    color: #7dd3fc;
+  }
+
+  .markdown .hljs-number,
+  .markdown .hljs-literal,
+  .markdown .hljs-type {
+    color: #fbbf24;
+  }
+
   .tag-manager-row input[type="text"] {
     border-color: var(--border-soft);
     background: var(--surface-inset);

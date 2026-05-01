@@ -87,6 +87,37 @@ test("list view refreshes after background API updates", async ({ page }) => {
   }
 });
 
+test("list relation ids open linked ticket details", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "List Relation Links Board",
+      laneNames: ["Todo"],
+    });
+    const lane = boardPayload.lanes[0];
+    const related = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Linked related ticket",
+    });
+    await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Ticket with related link",
+      relatedIds: [related.id],
+    });
+
+    await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
+    const relationLink = page.locator(".list-row", { hasText: "Ticket with related link" })
+      .locator(".list-relation-ticket-link", { hasText: `#${related.id}` });
+    await expect(relationLink).toBeVisible();
+    await relationLink.click();
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#editor-header-title")).toContainText("Linked related ticket");
+  } finally {
+    await close();
+  }
+});
+
 test("list view applies pending background refresh after closing ticket detail dialog", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
 

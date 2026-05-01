@@ -309,6 +309,38 @@ a.ticket-remote-ref:hover {
   background: color-mix(in srgb, var(--surface-1) 62%, transparent);
 }
 
+.ticket-relation-row {
+  display: grid;
+  grid-template-columns: 7.2rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.ticket-relation-label {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ticket-relation-label .icon {
+  width: var(--icon-size-meta);
+  height: var(--icon-size-meta);
+  flex: 0 0 auto;
+}
+
+.ticket-relation-label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ticket-relation-chips {
+  min-width: 0;
+}
+
 .ticket-inline-link {
   display: inline-flex;
   align-items: center;
@@ -322,7 +354,6 @@ a.ticket-remote-ref:hover {
 }
 
 .ticket-relation-chip {
-  margin-left: 0.45rem;
   background: color-mix(in srgb, var(--surface-inset) 78%, var(--surface-1));
   color: var(--text-muted);
   text-decoration: none;

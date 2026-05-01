@@ -11,11 +11,84 @@
 .markdown pre {
   max-width: 100%;
   overflow-x: auto;
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 14%, transparent);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--surface-inset) 82%, var(--surface-1));
 }
 
 .markdown table {
+  display: block;
   max-width: 100%;
   overflow-x: auto;
+  border-collapse: collapse;
+  margin: 0.8rem 0;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 22%, transparent);
+  border-radius: var(--radius-control);
+}
+
+.markdown th,
+.markdown td {
+  padding: 0.42rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown th {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+}
+
+.markdown tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--text-muted) 3%, transparent);
+}
+
+.markdown code {
+  border-radius: var(--radius-control);
+  padding: 0.08rem 0.28rem;
+  background: color-mix(in srgb, var(--surface-inset) 75%, var(--surface-1));
+  font-size: 0.92em;
+}
+
+.markdown pre code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  font-size: var(--font-size-body);
+  line-height: 1.45;
+}
+
+.markdown .hljs-keyword,
+.markdown .hljs-selector-tag,
+.markdown .hljs-subst {
+  color: #7c3aed;
+}
+
+.markdown .hljs-string,
+.markdown .hljs-regexp,
+.markdown .hljs-attr {
+  color: #0f766e;
+}
+
+.markdown .hljs-title,
+.markdown .hljs-name,
+.markdown .hljs-section {
+  color: #0369a1;
+}
+
+.markdown .hljs-number,
+.markdown .hljs-literal,
+.markdown .hljs-type {
+  color: #b45309;
+}
+
+.markdown .hljs-comment,
+.markdown .hljs-quote {
+  color: var(--muted);
+  font-style: italic;
 }
 
 .markdown > :first-child {

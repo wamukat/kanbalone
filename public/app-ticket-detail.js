@@ -253,21 +253,30 @@ export function createTicketDetailModule(ctx) {
     const parts = [];
     const blocking = ctx.getBlockingTickets(ticket.id);
     if (ticket.parent) {
-      parts.push(`<div><span class="muted">Parent</span> ${renderRelationChip(ticket.parent, "parent")}</div>`);
+      parts.push(renderRelationRow("Parent", "folder-up", renderRelationChip(ticket.parent, "parent")));
     }
     if (ticket.children.length) {
-      parts.push(`<div><span class="muted">Children</span> ${ticket.children.map((child) => renderRelationChip(child, "child")).join("")}</div>`);
+      parts.push(renderRelationRow("Children", "folder-tree", ticket.children.map((child) => renderRelationChip(child, "child")).join("")));
     }
     if (ticket.blockers.length) {
-      parts.push(`<div><span class="muted">Blocked By</span> ${ticket.blockers.map((blocker) => renderRelationChip(blocker, "blocked-by")).join("")}</div>`);
+      parts.push(renderRelationRow("Blocked By", "octagon-alert", ticket.blockers.map((blocker) => renderRelationChip(blocker, "blocked-by")).join("")));
     }
     if (blocking.length) {
-      parts.push(`<div><span class="muted">Blocks</span> ${blocking.map((blocked) => renderRelationChip(blocked, "blocks")).join("")}</div>`);
+      parts.push(renderRelationRow("Blocks", "octagon-alert", blocking.map((blocked) => renderRelationChip(blocked, "blocks")).join("")));
     }
     if (ticket.related.length) {
-      parts.push(`<div><span class="muted">Related</span> ${ticket.related.map((related) => renderRelationChip(related, "related")).join("")}</div>`);
+      parts.push(renderRelationRow("Related", "link-plus", ticket.related.map((related) => renderRelationChip(related, "related")).join("")));
     }
     return parts.join("");
+  }
+
+  function renderRelationRow(label, iconName, chips) {
+    return `
+      <div class="ticket-relation-row">
+        <span class="ticket-relation-label muted">${icon(iconName)}<span>${ctx.escapeHtml(label)}</span></span>
+        <span class="ticket-relation-chips">${chips}</span>
+      </div>
+    `;
   }
 
   function renderRelationChip(ticket, kind) {

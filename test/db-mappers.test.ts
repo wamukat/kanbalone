@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { mapActivityLog, mapComment, sanitizePriority } from "../src/db-modules/mappers.js";
+import { renderMarkdown } from "../src/markdown.js";
 
 test("mapComment renders markdown without changing persisted markdown", () => {
   const comment = mapComment({
@@ -22,6 +23,23 @@ test("mapComment renders markdown without changing persisted markdown", () => {
   assert.equal(comment.bodyMarkdown, "Hello **Kanbalone**");
   assert.match(comment.bodyHtml, /<strong>Kanbalone<\/strong>/);
   assert.equal(comment.sync.status, "local_only");
+});
+
+test("renderMarkdown highlights code blocks and preserves table markup", () => {
+  const html = renderMarkdown([
+    "| Name | Value |",
+    "| --- | --- |",
+    "| mode | list |",
+    "",
+    "```js",
+    "const mode = \"list\";",
+    "```",
+  ].join("\n"));
+
+  assert.match(html, /<table>/);
+  assert.match(html, /<th>Name<\/th>/);
+  assert.match(html, /class="hljs language-js"/);
+  assert.match(html, /hljs-keyword/);
 });
 
 test("mapActivityLog tolerates invalid details json", () => {

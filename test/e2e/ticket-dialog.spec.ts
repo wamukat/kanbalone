@@ -53,6 +53,53 @@ test("ticket detail dialog closes with Escape and backdrop click", async ({ page
   }
 });
 
+test("ticket detail dialog can be resized and keeps markdown tables and code readable", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Resizable Detail Board",
+      laneNames: ["Todo"],
+    });
+    const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: boardPayload.lanes[0].id,
+      title: "Resizable detail ticket",
+      bodyMarkdown: [
+        "| Name | Value |",
+        "| --- | --- |",
+        "| Mode | Detail |",
+        "",
+        "```js",
+        "const mode = \"detail\";",
+        "```",
+      ].join("\n"),
+    });
+
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ticket-view-body table")).toBeVisible();
+    await expect(page.locator("#ticket-view-body code.hljs.language-js")).toBeVisible();
+
+    const before = await page.locator("#editor-dialog").boundingBox();
+    expect(before).not.toBeNull();
+    const handle = page.locator("#editor-dialog-resize-handle");
+    const handleBox = await handle.boundingBox();
+    expect(handleBox).not.toBeNull();
+    await page.mouse.move(handleBox!.x + handleBox!.width / 2, handleBox!.y + handleBox!.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(handleBox!.x + handleBox!.width / 2 + 120, handleBox!.y + handleBox!.height / 2 + 80);
+    await page.mouse.up();
+
+    const after = await page.locator("#editor-dialog").boundingBox();
+    expect(after).not.toBeNull();
+    expect(after!.width).toBeGreaterThan(before!.width + 80);
+    expect(after!.height).toBeGreaterThan(before!.height + 50);
+  } finally {
+    await close();
+  }
+});
+
 test("board refresh resumes after closing ticket detail dialog", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
 

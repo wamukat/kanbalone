@@ -9,22 +9,26 @@ export function renderListRow(entry, options) {
     .join("");
   const blockedByTickets = options.boardTickets.filter((candidate) => ticket.blockerIds.includes(candidate.id));
   const blockedBy = blockedByTickets.length
-    ? `blocked by ${blockedByTickets
-        .map(
-          (blocker) =>
-            `<span class="ticket-ref-inline${blocker.isResolved ? " ticket-ref-resolved" : ""}">#${blocker.id}</span>`,
-        )
-        .join(", ")}`
+    ? `blocked by ${blockedByTickets.map((blocker) => renderInlineTicketLink(blocker, options.escapeHtml)).join(", ")}`
     : "";
   const blocks = options.boardTickets
     .filter((candidate) => candidate.id !== ticket.id && candidate.blockerIds.includes(ticket.id))
-    .map(
-      (candidate) =>
-        `<span class="ticket-ref-inline${candidate.isResolved ? " ticket-ref-resolved" : ""}">#${candidate.id}</span>`,
-    );
+    .map((candidate) => renderInlineTicketLink(candidate, options.escapeHtml));
+  const parent = ticket.parentTicketId == null
+    ? ""
+    : options.boardTickets.find((candidate) => candidate.id === ticket.parentTicketId);
+  const children = options.boardTickets
+    .filter((candidate) => candidate.parentTicketId === ticket.id)
+    .map((candidate) => renderInlineTicketLink(candidate, options.escapeHtml));
+  const related = options.boardTickets
+    .filter((candidate) => ticket.relatedIds?.includes(candidate.id))
+    .map((candidate) => renderInlineTicketLink(candidate, options.escapeHtml));
   const relations = [
+    parent ? `parent ${renderInlineTicketLink(parent, options.escapeHtml)}` : "",
+    children.length ? `children ${children.join(", ")}` : "",
     blockedBy,
     blocks.length ? `blocks ${blocks.join(", ")}` : "",
+    related.length ? `related ${related.join(", ")}` : "",
   ].filter(Boolean).join(" · ");
   const lane = options.lanes.find((item) => item.id === ticket.laneId);
   const statusIcons = options.renderTicketStatusIcons(ticket);
@@ -43,4 +47,8 @@ export function renderListRow(entry, options) {
       <div class="list-cell list-status-cell">${statusIcons || '<span class="muted">-</span>'}</div>
     </div>
   `;
+}
+
+function renderInlineTicketLink(ticket, escapeHtml) {
+  return `<button type="button" class="ticket-ref-inline list-relation-ticket-link${ticket.isResolved ? " ticket-ref-resolved" : ""}" data-open-ticket-id="${ticket.id}" title="${escapeHtml(ticket.title)}">#${ticket.id}</button>`;
 }

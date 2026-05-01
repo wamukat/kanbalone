@@ -5,3 +5,19 @@
 .ticket-ref-inline {
   margin-right: 0.18rem;
 }
+
+.list-relation-ticket-link {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.list-relation-ticket-link:hover {
+  text-decoration: underline;
+}
