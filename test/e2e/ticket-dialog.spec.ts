@@ -100,6 +100,86 @@ test("ticket detail dialog can be resized and keeps markdown tables and code rea
   }
 });
 
+test("remote refresh button updates the open ticket detail", async ({ page }) => {
+  const app = buildApp({
+    dbFile: createDbFile(),
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: {
+        provider: "github",
+        async fetchIssue() {
+          return {
+            provider: "github",
+            instanceUrl: "https://github.com",
+            resourceType: "issue",
+            projectKey: "acme/kanbalone",
+            issueKey: "42",
+            displayRef: "acme/kanbalone#42",
+            url: "https://github.com/acme/kanbalone/issues/42",
+            title: "Initial remote title",
+            bodyMarkdown: "Initial remote body",
+            state: "open",
+            updatedAt: "2026-04-23T09:00:00.000Z",
+          };
+        },
+        async refreshIssue() {
+          return {
+            provider: "github",
+            instanceUrl: "https://github.com",
+            resourceType: "issue",
+            projectKey: "acme/kanbalone",
+            issueKey: "42",
+            displayRef: "acme/kanbalone#42",
+            url: "https://github.com/acme/kanbalone/issues/42",
+            title: "Refreshed remote title",
+            bodyMarkdown: "Refreshed remote body",
+            state: "open",
+            updatedAt: "2026-04-23T10:00:00.000Z",
+          };
+        },
+        async postComment() {
+          return {
+            remoteCommentId: "mock-comment",
+            pushedAt: "2026-04-23T10:01:00.000Z",
+          };
+        },
+      },
+    },
+  });
+  const port = await getFreePort();
+  await app.listen({ host: "127.0.0.1", port });
+
+  try {
+    const baseUrl = `http://127.0.0.1:${port}`;
+    const boardResponse = await page.request.post(`${baseUrl}/api/boards`, {
+      data: { name: "Remote Detail Refresh", laneNames: ["todo"] },
+    });
+    expect(boardResponse.status()).toBe(201);
+    const boardPayload = await boardResponse.json();
+    const importResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/remote-import`, {
+      data: {
+        provider: "github",
+        laneId: boardPayload.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "42",
+      },
+    });
+    expect(importResponse.status()).toBe(201);
+    const ticket = await importResponse.json();
+
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#editor-header-title")).toHaveText("Initial remote title");
+
+    await page.getByRole("button", { name: "Refresh", exact: true }).click();
+    await expect(page.locator("#editor-header-title")).toHaveText("Refreshed remote title");
+    await expect(page.getByText("Remote snapshot refreshed")).toBeVisible();
+  } finally {
+    await page.close();
+    await app.close();
+  }
+});
+
 test("board refresh resumes after closing ticket detail dialog", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
 

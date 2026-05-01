@@ -27,6 +27,7 @@ export function createEditorModule(ctx) {
   const detailModule = createTicketDetailModule({
     ...ctx,
     getBlockingTickets: relationsModule.getBlockingTickets,
+    refreshDialogTicket,
     updateDialogTicket,
   });
 
