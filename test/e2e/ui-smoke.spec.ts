@@ -161,6 +161,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#sidebar .sidebar-github-link")).toHaveAttribute("href", "https://github.com/wamukat/kanbalone");
     await expect(page.locator("#sidebar .sidebar-github-link use[href='/icons.svg#github']")).toHaveCount(1);
     await expect(page.locator("#sidebar #footer-app-label")).toContainText("Kanbalone");
+    await page.setViewportSize({ width: 1280, height: 500 });
     await expect(page.locator("#board-settings-toggle-button use[href='/icons.svg#settings']")).toHaveCount(1);
     await expect(page.locator("#board-settings-toggle-button")).toHaveAttribute("aria-expanded", "false");
     await expect(page.locator("#sidebar-board-actions-panel")).toHaveAttribute("aria-hidden", "true");
@@ -171,6 +172,11 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#sidebar-board-actions-panel")).toHaveAttribute("aria-hidden", "false");
     await expect.poll(async () => page.locator("#sidebar-board-actions-panel").evaluate((panel) => panel.getBoundingClientRect().height)).toBeGreaterThan(0);
     await expect(page.locator("#sidebar-board-actions-panel .sidebar-board-panel-title")).toHaveCount(0);
+    await expect
+      .poll(async () =>
+        page.evaluate(() => document.documentElement.scrollHeight <= document.documentElement.clientHeight),
+      )
+      .toBe(true);
     await expect
       .poll(async () =>
         page.evaluate(() => {

@@ -72,3 +72,20 @@
 .shell.no-boards .sidebar-edge-toggle {
   display: none;
 }
+
+@media (min-width: 901px) {
+  .shell {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    min-height: 0;
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
