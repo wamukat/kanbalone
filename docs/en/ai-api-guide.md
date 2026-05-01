@@ -17,10 +17,10 @@ If you use only the Docker image, fetch the skill from the GitHub release tag to
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.27.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.24/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.28.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.9.28/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.24/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.9.28/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -101,14 +101,22 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 - Set `postBacklinkComment: true` on remote import only when you want Kanbalone to attempt one remote backlink comment. `backlinkUrl` is optional because Kanbalone may not have a public URL; when supplied it must be an absolute `http` or `https` URL. The provider token needs comment/write permission.
 - Use `POST /api/tickets/:ticketId/remote-refresh` to update the remote snapshot.
 
-### 9. `/api/meta` Exposes Remote Provider Availability
+### 9. External References Are Non-Tracking Provenance
+
+- `externalReferences` stores structured remote provenance that is not a tracked import.
+- Use `PUT /api/tickets/:ticketId/external-references/:kind` to idempotently set a reference such as `source`.
+- External references do not violate the one-import-per-remote-issue rule.
+- External references do not expose refresh, sync, or push actions.
+- Use this when generated tickets need to point back to a source requirement without becoming another imported remote ticket.
+
+### 10. `/api/meta` Exposes Remote Provider Availability
 
 - `GET /api/meta` returns `remoteProviders`.
 - Each entry has `id` and `hasCredential`.
 - The UI uses this to show remote import only when at least one credential exists and to list configured providers only.
 - API clients can use the same metadata to decide which provider workflows to surface.
 
-### 10. `/api/remote-diagnostics` Checks Remote Credentials
+### 11. `/api/remote-diagnostics` Checks Remote Credentials
 
 - `GET /api/remote-diagnostics` returns configured/missing credential status per provider.
 - `POST /api/remote-diagnostics` accepts a provider plus remote issue lookup fields and checks whether the configured credential can read that issue.
@@ -128,7 +136,9 @@ Add query parameters to `GET /api/boards/:boardId/tickets`.
 - It does not include `bodyHtml`, `comments`, `parent`, `children`, or expanded `blockers`.
 - Use `GET /api/tickets/:ticketId` when you need details.
 - Supported filters: `lane_id`, `tag`, `resolved`, `archived`, and `q`.
-- `q` searches title, body Markdown, numeric ticket ID, and `#ticketId`.
+- `q` searches title, body Markdown, numeric ticket ID, `#ticketId`, tracked remote refs, and external references.
+- Provider-prefixed shorthand such as `gh#123`, `github#123`, `gl#123`, `gitlab#123`, `rm#123`, and `redmine#123` matches tracked remote links and external references for that provider.
+- `ext#123` / `external#123` searches external references only. `remote#123` searches tracked remote links only.
 
 ### Move A Ticket To A Lane
 

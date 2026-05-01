@@ -90,34 +90,58 @@ export function createTicketDetailModule(ctx) {
   }
 
   function syncRemoteSummary(ticket) {
-    if (!ticket?.remote) {
+    const externalReferences = ticket?.externalReferences ?? [];
+    if (!ticket?.remote && externalReferences.length === 0) {
       elements.ticketRemoteSummary.hidden = true;
       elements.ticketRemoteSummary.innerHTML = "";
+      elements.ticketRemoteSummary.classList.remove("has-only-external-references");
       return;
     }
-    const freshness = getRemoteSnapshotFreshness(ticket.remote);
+    const freshness = ticket.remote ? getRemoteSnapshotFreshness(ticket.remote) : null;
     elements.ticketRemoteSummary.hidden = false;
+    elements.ticketRemoteSummary.classList.toggle("has-only-external-references", !ticket.remote);
     elements.ticketRemoteSummary.innerHTML = `
-      <div class="ticket-remote-summary-head">
-        <div class="ticket-remote-summary-title">
-          ${renderRemoteProviderBadge(ticket.remote.provider, ctx.escapeHtml)}
-          ${renderRemoteRefLink(ticket.remote, ctx.escapeHtml)}
-          <span class="ticket-remote-state muted">${ctx.escapeHtml(ticket.remote.state ?? "state unknown")}</span>
-          ${freshness.isStale ? `<span class="ticket-remote-stale-pill">${icon("circle-alert")}<span>Possibly stale</span></span>` : ""}
+      ${ticket.remote ? `
+        <div class="ticket-remote-summary-head">
+          <div class="ticket-remote-summary-title">
+            ${renderRemoteProviderBadge(ticket.remote.provider, ctx.escapeHtml)}
+            ${renderRemoteRefLink(ticket.remote, ctx.escapeHtml)}
+            <span class="ticket-remote-state muted">${ctx.escapeHtml(ticket.remote.state ?? "state unknown")}</span>
+            ${freshness?.isStale ? `<span class="ticket-remote-stale-pill">${icon("circle-alert")}<span>Possibly stale</span></span>` : ""}
+          </div>
+          <div class="ticket-remote-summary-actions">
+            <button type="button" class="ghost action-with-icon" data-refresh-remote-ticket>
+              ${icon("rotate-ccw")}<span>Refresh</span>
+            </button>
+          </div>
         </div>
-        <div class="ticket-remote-summary-actions">
-          <button type="button" class="ghost action-with-icon" data-refresh-remote-ticket>
-            ${icon("rotate-ccw")}<span>Refresh</span>
-          </button>
+        <div class="ticket-remote-summary-meta muted">
+          <span>Imported snapshot</span>
+          <span>Last sync ${ctx.escapeHtml(formatDateTime(ticket.remote.lastSyncedAt))}</span>
+          <span>Remote updated ${ctx.escapeHtml(formatDateTime(ticket.remote.remoteUpdatedAt))}</span>
+          ${freshness?.isStale ? `<span>${ctx.escapeHtml(freshness.message)}</span>` : ""}
         </div>
-      </div>
-      <div class="ticket-remote-summary-meta muted">
-        <span>Imported snapshot</span>
-        <span>Last sync ${ctx.escapeHtml(formatDateTime(ticket.remote.lastSyncedAt))}</span>
-        <span>Remote updated ${ctx.escapeHtml(formatDateTime(ticket.remote.remoteUpdatedAt))}</span>
-        ${freshness.isStale ? `<span>${ctx.escapeHtml(freshness.message)}</span>` : ""}
+      ` : ""}
+      ${externalReferences.length ? renderExternalReferences(externalReferences) : ""}
+    `;
+  }
+
+  function renderExternalReferences(references) {
+    return `
+      <div class="ticket-external-references">
+        ${references.map((reference) => `
+          <div class="ticket-external-reference-row">
+            <span class="ticket-external-reference-kind">${ctx.escapeHtml(formatExternalReferenceKind(reference.kind))}</span>
+            ${renderRemoteRefLink(reference, ctx.escapeHtml, "ticket-external-reference-ref")}
+            ${reference.title ? `<span class="ticket-external-reference-title muted">${ctx.escapeHtml(reference.title)}</span>` : ""}
+          </div>
+        `).join("")}
       </div>
     `;
+  }
+
+  function formatExternalReferenceKind(kind) {
+    return String(kind || "reference").replace(/[-_]+/g, " ");
   }
 
   function syncBodyTabs(ticket) {

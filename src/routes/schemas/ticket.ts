@@ -65,6 +65,41 @@ export const ticketRemoteSchema = {
   ],
 } as const;
 
+export const ticketExternalReferenceSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: [
+    "id",
+    "ticketId",
+    "kind",
+    "provider",
+    "instanceUrl",
+    "resourceType",
+    "projectKey",
+    "issueKey",
+    "displayRef",
+    "url",
+    "title",
+    "createdAt",
+    "updatedAt",
+  ],
+  properties: {
+    id: positiveIntegerSchema,
+    ticketId: positiveIntegerSchema,
+    kind: { type: "string" },
+    provider: { type: "string" },
+    instanceUrl: { type: "string" },
+    resourceType: { type: "string" },
+    projectKey: { type: "string" },
+    issueKey: { type: "string" },
+    displayRef: { type: "string" },
+    url: { type: "string" },
+    title: { anyOf: [{ type: "string" }, { type: "null" }] },
+    createdAt: { type: "string" },
+    updatedAt: { type: "string" },
+  },
+} as const;
+
 export const ticketSchema = {
   type: "object",
   additionalProperties: false,
@@ -95,6 +130,7 @@ export const ticketSchema = {
     "ref",
     "shortRef",
     "remote",
+    "externalReferences",
   ],
   properties: {
     id: positiveIntegerSchema,
@@ -147,6 +183,10 @@ export const ticketSchema = {
     ref: { type: "string" },
     shortRef: { type: "string" },
     remote: ticketRemoteSchema,
+    externalReferences: {
+      type: "array",
+      items: ticketExternalReferenceSchema,
+    },
   },
 } as const;
 
@@ -174,6 +214,7 @@ export const ticketSummarySchema = {
     "ref",
     "shortRef",
     "remote",
+    "externalReferences",
   ],
   properties: {
     id: positiveIntegerSchema,
@@ -203,6 +244,10 @@ export const ticketSummarySchema = {
     ref: { type: "string" },
     shortRef: { type: "string" },
     remote: ticketRemoteSummarySchema,
+    externalReferences: {
+      type: "array",
+      items: ticketExternalReferenceSchema,
+    },
   },
 } as const;
 

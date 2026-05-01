@@ -4,6 +4,7 @@ import { registerTicketActivityRoutes } from "./ticket-activity.js";
 import { registerTicketBulkRoutes } from "./ticket-bulk.js";
 import { registerTicketCommentRoutes } from "./ticket-comments.js";
 import { registerTicketEventRoutes } from "./ticket-events.js";
+import { registerTicketExternalReferenceRoutes } from "./ticket-external-references.js";
 import { registerTicketRelationRoutes } from "./ticket-relations.js";
 import { registerTicketReorderRoutes } from "./ticket-reorder.js";
 import { registerTicketTagReasonRoutes } from "./ticket-tag-reasons.js";
@@ -387,4 +388,5 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
   registerTicketRelationRoutes(app, ctx);
   registerTicketReorderRoutes(app, ctx);
   registerTicketTagReasonRoutes(app, ctx);
+  registerTicketExternalReferenceRoutes(app, ctx);
 }

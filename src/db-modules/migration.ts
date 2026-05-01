@@ -72,6 +72,22 @@ export function migrate(sqlite: Database.Database): void {
       updated_at TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS ticket_external_references (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+      kind TEXT NOT NULL,
+      provider TEXT NOT NULL,
+      instance_url TEXT NOT NULL,
+      resource_type TEXT NOT NULL DEFAULT 'issue',
+      project_key TEXT NOT NULL,
+      issue_key TEXT NOT NULL,
+      display_ref TEXT NOT NULL,
+      remote_url TEXT NOT NULL,
+      remote_title TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS comment_remote_sync (
       comment_id INTEGER PRIMARY KEY REFERENCES comments(id) ON DELETE CASCADE,
       status TEXT NOT NULL,
@@ -157,6 +173,12 @@ export function migrate(sqlite: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS ticket_events_ticket_created_idx
     ON ticket_events(ticket_id, created_at, id);
+
+    CREATE UNIQUE INDEX IF NOT EXISTS ticket_external_references_ticket_kind_idx
+    ON ticket_external_references(ticket_id, kind);
+
+    CREATE INDEX IF NOT EXISTS ticket_external_references_remote_idx
+    ON ticket_external_references(provider, instance_url, resource_type, project_key, issue_key);
 
     CREATE INDEX IF NOT EXISTS activity_logs_ticket_created_idx
     ON activity_logs(ticket_id, created_at, id);

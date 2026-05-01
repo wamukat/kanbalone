@@ -1148,6 +1148,155 @@ test("remote import creates a tracked ticket and prevents duplicate imports", as
   }
 });
 
+test("external references are set independently from tracked remote links and are searchable", async () => {
+  const dbFile = createDbFile();
+  const app = buildApp({
+    dbFile,
+    staticDir: path.join(process.cwd(), "public"),
+    remoteAdapters: {
+      github: createMockGithubAdapter({
+        initial: {
+          provider: "github",
+          instanceUrl: "https://github.com",
+          resourceType: "issue",
+          projectKey: "acme/kanbalone",
+          issueKey: "202",
+          displayRef: "acme/kanbalone#202",
+          url: "https://github.com/acme/kanbalone/issues/202",
+          title: "Imported requirement",
+          bodyMarkdown: "Remote requirement body",
+          state: "open",
+          updatedAt: "2026-04-23T09:00:00.000Z",
+        },
+      }),
+    },
+  });
+
+  try {
+    const board = (await app.inject({
+      method: "POST",
+      url: "/api/boards",
+      payload: { name: "External References", laneNames: ["todo"] },
+    })).json();
+
+    const imported = await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "202",
+      },
+    });
+    assert.equal(imported.statusCode, 201);
+
+    const generated = (await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/tickets`,
+      payload: {
+        laneId: board.lanes[0].id,
+        title: "Generated implementation ticket",
+      },
+    })).json();
+
+    const setReference = await app.inject({
+      method: "PUT",
+      url: `/api/tickets/${generated.id}/external-references/source`,
+      payload: {
+        provider: "github",
+        instanceUrl: "https://github.com",
+        resourceType: "issue",
+        projectKey: "acme/kanbalone",
+        issueKey: "202",
+        displayRef: "acme/kanbalone#202",
+        url: "https://github.com/acme/kanbalone/issues/202",
+        title: "Imported requirement",
+      },
+    });
+    assert.equal(setReference.statusCode, 200);
+    assert.equal(setReference.json().remote, null);
+    assert.equal(setReference.json().externalReferences.length, 1);
+    assert.equal(setReference.json().externalReferences[0].kind, "source");
+    assert.equal(setReference.json().externalReferences[0].displayRef, "acme/kanbalone#202");
+
+    const duplicateImport = await app.inject({
+      method: "POST",
+      url: `/api/boards/${board.board.id}/remote-import`,
+      payload: {
+        provider: "github",
+        laneId: board.lanes[0].id,
+        projectKey: "acme/kanbalone",
+        issueKey: "202",
+      },
+    });
+    assert.equal(duplicateImport.statusCode, 409);
+
+    const searchByDisplayRef = (await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets?q=acme%2Fkanbalone%23202&resolved=false`,
+    })).json();
+    assert.deepEqual(
+      searchByDisplayRef.tickets.map((ticket: { id: number }) => ticket.id).sort((a: number, b: number) => a - b),
+      [imported.json().id, generated.id].sort((a: number, b: number) => a - b),
+    );
+
+    const searchByShortRef = (await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets?q=gh%23202&resolved=false`,
+    })).json();
+    assert.deepEqual(
+      searchByShortRef.tickets.map((ticket: { id: number }) => ticket.id).sort((a: number, b: number) => a - b),
+      [imported.json().id, generated.id].sort((a: number, b: number) => a - b),
+    );
+
+    const searchByExternalRef = (await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets?q=ext%23202&resolved=false`,
+    })).json();
+    assert.deepEqual(
+      searchByExternalRef.tickets.map((ticket: { id: number }) => ticket.id),
+      [generated.id],
+    );
+
+    const searchByRemoteRef = (await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets?q=remote%23202&resolved=false`,
+    })).json();
+    assert.deepEqual(
+      searchByRemoteRef.tickets.map((ticket: { id: number }) => ticket.id),
+      [imported.json().id],
+    );
+
+    const searchByLocalRef = (await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets?q=%23202&resolved=false`,
+    })).json();
+    assert.deepEqual(searchByLocalRef.tickets, []);
+
+    for (let index = 0; index < 20; index += 1) {
+      await app.inject({
+        method: "POST",
+        url: `/api/boards/${board.board.id}/tickets`,
+        payload: {
+          laneId: board.lanes[0].id,
+          title: `Neutral generated task ${index}`,
+        },
+      });
+    }
+    const exactLocalRef = (await app.inject({
+      method: "GET",
+      url: `/api/boards/${board.board.id}/tickets?q=%23${imported.json().id}&resolved=false`,
+    })).json();
+    assert.deepEqual(
+      exactLocalRef.tickets.map((ticket: { id: number }) => ticket.id),
+      [imported.json().id],
+    );
+  } finally {
+    await app.close();
+  }
+});
+
 test("remote import preview resolves remote issue and reports duplicates", async () => {
   const dbFile = createDbFile();
   const app = buildApp({

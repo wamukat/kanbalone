@@ -60,6 +60,11 @@
   background: color-mix(in srgb, var(--accent-soft) 32%, var(--surface-1));
 }
 
+.ticket-remote-summary.has-only-external-references {
+  border-color: color-mix(in srgb, var(--text-muted) 24%, var(--border-soft));
+  background: color-mix(in srgb, var(--text-muted) 8%, var(--surface-1));
+}
+
 .ticket-remote-summary-head {
   display: flex;
   align-items: center;
@@ -79,7 +84,10 @@
 .ticket-remote-provider,
 .ticket-remote-ref,
 .ticket-remote-card-ref,
-.list-ticket-remote-ref {
+.ticket-external-card-ref,
+.ticket-external-reference-ref,
+.list-ticket-remote-ref,
+.list-ticket-external-ref {
   display: inline-flex;
   align-items: center;
   max-width: 100%;
@@ -133,6 +141,53 @@ a.ticket-remote-ref:hover {
   border-color: color-mix(in srgb, var(--accent) 48%, transparent);
   color: var(--accent);
   text-decoration: none;
+}
+
+.ticket-external-references {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ticket-external-reference-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.ticket-external-reference-kind {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.42rem;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+  color: var(--text-muted);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+}
+
+.ticket-external-reference-ref,
+.ticket-external-card-ref,
+.list-ticket-external-ref {
+  border-color: color-mix(in srgb, var(--text-muted) 22%, transparent);
+  background: color-mix(in srgb, var(--text-muted) 10%, transparent);
+  color: var(--text-muted);
+}
+
+a.ticket-external-reference-ref {
+  text-decoration: none;
+}
+
+a.ticket-external-reference-ref:hover {
+  border-color: color-mix(in srgb, var(--text-muted) 42%, transparent);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.ticket-external-reference-title {
+  min-width: 0;
+  font-size: var(--font-size-label);
 }
 
 .ticket-remote-state {

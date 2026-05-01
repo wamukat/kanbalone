@@ -87,6 +87,22 @@ export type TicketRemoteLinkRow = {
   updated_at: string;
 };
 
+export type TicketExternalReferenceRow = {
+  id: Id;
+  ticket_id: Id;
+  kind: string;
+  provider: string;
+  instance_url: string;
+  resource_type: string;
+  project_key: string;
+  issue_key: string;
+  display_ref: string;
+  remote_url: string;
+  remote_title: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type CommentRemoteSyncRow = {
   comment_id: Id;
   status: CommentRemoteSyncStatus;
@@ -193,6 +209,7 @@ export type TicketView = {
   ref: string;
   shortRef: string;
   remote: TicketRemoteLinkView | null;
+  externalReferences: TicketExternalReferenceView[];
 };
 
 export type TicketSummaryView = {
@@ -213,6 +230,7 @@ export type TicketSummaryView = {
   ref: string;
   shortRef: string;
   remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null;
+  externalReferences: TicketExternalReferenceView[];
 };
 
 export type CommentView = {
@@ -239,6 +257,22 @@ export type TicketRemoteLinkView = {
   state: string | null;
   remoteUpdatedAt: string | null;
   lastSyncedAt: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TicketExternalReferenceView = {
+  id: Id;
+  ticketId: Id;
+  kind: string;
+  provider: string;
+  instanceUrl: string;
+  resourceType: string;
+  projectKey: string;
+  issueKey: string;
+  displayRef: string;
+  url: string;
+  title: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -310,7 +344,7 @@ export type BoardExport = {
   lanes: LaneView[];
   tags: TagView[];
   tickets: Array<
-    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "comments"> & {
+    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments"> & {
       comments: Array<Omit<CommentView, "sync">>;
       isCompleted?: boolean;
     }

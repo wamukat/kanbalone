@@ -12,6 +12,7 @@ import type {
   TagRow,
   TagView,
   TicketBlockerView,
+  TicketExternalReferenceView,
   TicketRemoteLinkView,
   TicketRelationView,
   TicketRow,
@@ -63,6 +64,7 @@ export function mapTicket(
   parent: TicketRelationView | null,
   children: TicketRelationView[],
   remote: TicketRemoteLinkView | null,
+  externalReferences: TicketExternalReferenceView[],
 ): TicketView {
   return {
     id: row.id,
@@ -90,6 +92,7 @@ export function mapTicket(
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),
     remote,
+    externalReferences,
   };
 }
 
@@ -100,6 +103,7 @@ export function mapTicketSummary(
   blockerIds: Id[],
   relatedIds: Id[],
   remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null,
+  externalReferences: TicketExternalReferenceView[],
 ): TicketSummaryView {
   return {
     id: row.id,
@@ -119,6 +123,7 @@ export function mapTicketSummary(
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),
     remote,
+    externalReferences,
   };
 }
 

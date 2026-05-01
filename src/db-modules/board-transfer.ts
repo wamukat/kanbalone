@@ -42,6 +42,7 @@ export function toBoardExport(detail: BoardDetailView): BoardExport {
       ref: _ref,
       shortRef: _shortRef,
       remote: _remote,
+      externalReferences: _externalReferences,
       ...ticket
     }) => ({
       ...ticket,

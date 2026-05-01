@@ -38,7 +38,7 @@ export function listTicketRows(
     FROM tickets t
     WHERE t.board_id = ?
   `;
-  const params: Array<string | number> = [boardId];
+  const params: Array<string | number | null> = [boardId];
 
   if (typeof filters.laneId === "number") {
     sql += " AND t.lane_id = ?";
@@ -55,10 +55,65 @@ export function listTicketRows(
   }
   if (filters.q) {
     const q = filters.q.trim();
-    const idQuery = q.startsWith("#") ? q.slice(1) : q;
+    const localTicketRef = q.match(/^#(?<ticketId>\d+)$/)?.groups?.ticketId;
+    const externalRefQuery = parseExternalRefQuery(q);
     const likeQuery = `%${q}%`;
-    sql += " AND (t.title LIKE ? OR t.body_markdown LIKE ? OR CAST(t.id AS TEXT) LIKE ? OR ('#' || t.id) LIKE ?)";
-    params.push(likeQuery, likeQuery, `%${idQuery}%`, likeQuery);
+    const remoteReferenceClause =
+      !localTicketRef && (!externalRefQuery || externalRefQuery.scope !== "external")
+        ? `
+        OR EXISTS (
+          SELECT 1
+          FROM ticket_remote_links trl
+          WHERE trl.ticket_id = t.id
+            AND (
+              ${!externalRefQuery ? `trl.provider LIKE ?
+              OR trl.project_key LIKE ?
+              OR trl.issue_key LIKE ?
+              OR trl.display_ref LIKE ?
+              OR trl.remote_url LIKE ?
+              OR trl.remote_title LIKE ?` : "(trl.issue_key = ? AND (? IS NULL OR trl.provider = ?))"}
+            )
+        )`
+        : "";
+    const externalReferenceClause =
+      !localTicketRef && (!externalRefQuery || externalRefQuery.scope !== "remote")
+        ? `
+        OR EXISTS (
+          SELECT 1
+          FROM ticket_external_references ter
+          WHERE ter.ticket_id = t.id
+            AND (
+              ${!externalRefQuery ? `ter.kind LIKE ?
+              OR ter.provider LIKE ?
+              OR ter.project_key LIKE ?
+              OR ter.issue_key LIKE ?
+              OR ter.display_ref LIKE ?
+              OR ter.remote_url LIKE ?
+              OR ter.remote_title LIKE ?` : "(ter.issue_key = ? AND (? IS NULL OR ter.provider = ?))"}
+            )
+        )`
+        : "";
+    sql += `
+      AND (
+        t.title LIKE ?
+        OR t.body_markdown LIKE ?
+        OR ${localTicketRef ? "t.id = ?" : "CAST(t.id AS TEXT) LIKE ?"}
+        OR ${localTicketRef ? "('#' || t.id) = ?" : "('#' || t.id) LIKE ?"}
+        ${remoteReferenceClause}
+        ${externalReferenceClause}
+      )
+    `;
+    params.push(likeQuery, likeQuery, localTicketRef ?? `%${q}%`, localTicketRef ? `#${localTicketRef}` : likeQuery);
+    if (!localTicketRef && !externalRefQuery && remoteReferenceClause) {
+      params.push(likeQuery, likeQuery, likeQuery, likeQuery, likeQuery, likeQuery);
+    } else if (!localTicketRef && externalRefQuery && externalRefQuery.scope !== "external") {
+      params.push(externalRefQuery.issueKey, externalRefQuery.provider, externalRefQuery.provider);
+    }
+    if (!localTicketRef && !externalRefQuery && externalReferenceClause) {
+      params.push(likeQuery, likeQuery, likeQuery, likeQuery, likeQuery, likeQuery, likeQuery);
+    } else if (!localTicketRef && externalRefQuery && externalRefQuery.scope !== "remote") {
+      params.push(externalRefQuery.issueKey, externalRefQuery.provider, externalRefQuery.provider);
+    }
   }
   if (filters.tag) {
     sql += `
@@ -75,4 +130,29 @@ export function listTicketRows(
   sql += " ORDER BY t.lane_id ASC, t.is_archived ASC, t.position ASC, t.id ASC";
 
   return sqlite.prepare(sql).all(...params) as TicketRow[];
+}
+
+function parseExternalRefQuery(query: string): { provider: string | null; issueKey: string; scope: "remote" | "external" | "both" } | null {
+  const match = query.trim().match(/^(?<prefix>[a-z][a-z0-9_-]*)#(?<issueKey>[^#\s]+)$/i);
+  const prefix = match?.groups?.prefix.toLowerCase();
+  const issueKey = match?.groups?.issueKey;
+  if (!prefix || !issueKey) {
+    return null;
+  }
+  const refByPrefix: Record<string, { provider: string | null; scope: "remote" | "external" | "both" }> = {
+    gh: { provider: "github", scope: "both" },
+    github: { provider: "github", scope: "both" },
+    gl: { provider: "gitlab", scope: "both" },
+    gitlab: { provider: "gitlab", scope: "both" },
+    rm: { provider: "redmine", scope: "both" },
+    redmine: { provider: "redmine", scope: "both" },
+    ext: { provider: null, scope: "external" },
+    external: { provider: null, scope: "external" },
+    remote: { provider: null, scope: "remote" },
+  };
+  const ref = refByPrefix[prefix];
+  if (!ref) {
+    return null;
+  }
+  return { ...ref, issueKey };
 }

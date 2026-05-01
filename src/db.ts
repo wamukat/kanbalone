@@ -67,6 +67,12 @@ import {
 } from "./db-modules/ticket-mutations.js";
 import { importBoardPayload, toBoardExport } from "./db-modules/board-transfer.js";
 import { migrate } from "./db-modules/migration.js";
+import {
+  deleteTicketExternalReference,
+  getTicketExternalReferences,
+  upsertTicketExternalReference,
+  type UpsertTicketExternalReferenceInput,
+} from "./db-modules/ticket-external-references.js";
 import { addActivity } from "./db-modules/ticket-writes.js";
 import {
   getCommentRemoteSync,
@@ -97,6 +103,7 @@ import {
   type Id,
   type TagView,
   type LaneView,
+  type TicketExternalReferenceView,
   type TicketRemoteLinkView,
   type TicketRelationsView,
   type TicketEventView,
@@ -302,6 +309,64 @@ export class KanbanDb {
 
   findTicketIdByRemoteIdentity(input: RemoteIdentityInput): Id | null {
     return findTicketIdByRemoteIdentity(this.sqlite, input);
+  }
+
+  listTicketExternalReferences(ticketId: Id): TicketExternalReferenceView[] {
+    return getTicketExternalReferences(this.sqlite, ticketId);
+  }
+
+  upsertTicketExternalReference(
+    input: UpsertTicketExternalReferenceInput,
+    activity?: {
+      boardId: Id;
+      ticketId: Id;
+      action: string;
+      message: string;
+      details?: Record<string, unknown>;
+    },
+  ): TicketView {
+    const tx = this.sqlite.transaction(() => {
+      upsertTicketExternalReference(this.sqlite, input, this.now());
+      if (activity) {
+        addActivity(this.sqlite, {
+          ...activity,
+          createdAt: this.now(),
+        });
+      }
+      return input.ticketId;
+    });
+    return this.getTicket(tx())!;
+  }
+
+  deleteTicketExternalReference(
+    ticketId: Id,
+    kind: string,
+    activity?: {
+      boardId: Id;
+      action: string;
+      message: string;
+      details?: Record<string, unknown>;
+    },
+  ): TicketView {
+    const tx = this.sqlite.transaction(() => {
+      const ticket = this.getTicket(ticketId);
+      if (!ticket) {
+        throw new Error("Ticket not found");
+      }
+      const deleted = deleteTicketExternalReference(this.sqlite, ticketId, kind);
+      if (deleted && activity) {
+        addActivity(this.sqlite, {
+          boardId: activity.boardId,
+          ticketId,
+          action: activity.action,
+          message: activity.message,
+          details: activity.details,
+          createdAt: this.now(),
+        });
+      }
+      return ticketId;
+    });
+    return this.getTicket(tx())!;
   }
 
   refreshTrackedTicketFromRemote(

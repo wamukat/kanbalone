@@ -32,6 +32,9 @@ export function renderListRow(entry, options) {
   ].filter(Boolean).join(" · ");
   const lane = options.lanes.find((item) => item.id === ticket.laneId);
   const statusIcons = options.renderTicketStatusIcons(ticket);
+  const externalReferences = (ticket.externalReferences ?? [])
+    .map((reference) => renderRemoteRefBadge(reference, options.escapeHtml, "list-ticket-external-ref"))
+    .join("");
   return `
     <div class="list-row ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}" style="height:${options.rowHeight}px">
       <input type="checkbox" data-list-ticket-id="${ticket.id}" ${options.selectedTicketIds.includes(ticket.id) ? "checked" : ""} />
@@ -39,6 +42,7 @@ export function renderListRow(entry, options) {
         <span class="ticket-id">#${ticket.id}</span>
         <span class="list-ticket-title">${options.escapeHtml(ticket.title)}</span>
         ${ticket.remote ? renderRemoteRefBadge(ticket.remote, options.escapeHtml, "list-ticket-remote-ref") : ""}
+        ${externalReferences}
       </button>
       <div class="list-cell muted">${relations || "-"}</div>
       <div class="tag-list">${tags || '<span class="muted">-</span>'}</div>

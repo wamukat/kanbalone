@@ -135,6 +135,39 @@ export const ticketListQuerySchema = {
   },
 } as const;
 
+export const ticketExternalReferenceParamsSchema = {
+  type: "object",
+  required: ["ticketId", "kind"],
+  additionalProperties: false,
+  properties: {
+    ticketId: positiveIntegerSchema,
+    kind: { type: "string", pattern: "^[A-Za-z][A-Za-z0-9_-]{0,63}$" },
+  },
+} as const;
+
+export const ticketExternalReferenceSetBodySchema = {
+  type: "object",
+  required: [
+    "provider",
+    "instanceUrl",
+    "projectKey",
+    "issueKey",
+    "displayRef",
+    "url",
+  ],
+  additionalProperties: false,
+  properties: {
+    provider: { type: "string", minLength: 1 },
+    instanceUrl: { type: "string", minLength: 1 },
+    resourceType: { type: "string", minLength: 1 },
+    projectKey: { type: "string", minLength: 1 },
+    issueKey: { type: "string", minLength: 1 },
+    displayRef: { type: "string", minLength: 1 },
+    url: { type: "string", minLength: 1 },
+    title: { anyOf: [{ type: "string" }, { type: "null" }] },
+  },
+} as const;
+
 export const reorderTicketsBodySchema = {
   type: "object",
   required: ["items"],

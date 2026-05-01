@@ -2,6 +2,7 @@ import type Database from "better-sqlite3";
 
 import { getBoard } from "./board.js";
 import { mapTicket, mapTicketSummary } from "./mappers.js";
+import { getExternalReferencesForTicketIds } from "./ticket-external-references.js";
 import {
   getBlockedTicketsForTicketIds,
   getBlockerIdsForTicketIds,
@@ -51,6 +52,7 @@ export function listTickets(
   const childrenByTicket = getChildrenForTicketIds(sqlite, ticketIds);
   const relatedByTicket = getRelatedTicketsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
+  const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
     mapTicket(
@@ -64,6 +66,7 @@ export function listTickets(
       parentsByTicket.get(row.id) ?? null,
       childrenByTicket.get(row.id) ?? [],
       remoteByTicket.get(row.id) ?? null,
+      externalReferencesByTicket.get(row.id) ?? [],
     ),
   );
 }
@@ -81,6 +84,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
   const childrenByTicket = getChildrenForTicketIds(sqlite, [ticketId]);
   const relatedByTicket = getRelatedTicketsForTicketIds(sqlite, [ticketId]);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, [ticketId]);
+  const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, [ticketId]);
   const board = getBoard(sqlite, row.board_id);
   return mapTicket(
     row,
@@ -93,6 +97,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
     parentsByTicket.get(ticketId) ?? null,
     childrenByTicket.get(ticketId) ?? [],
     remoteByTicket.get(ticketId) ?? null,
+    externalReferencesByTicket.get(ticketId) ?? [],
   );
 }
 
@@ -137,6 +142,7 @@ function mapTicketSummaries(
   const blockerIdsByTicket = getBlockerIdsForTicketIds(sqlite, ticketIds);
   const relatedIdsByTicket = getRelatedIdsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
+  const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
     mapTicketSummary(
@@ -152,6 +158,7 @@ function mapTicketSummaries(
           url: remoteByTicket.get(row.id)!.url,
         }
         : null,
+      externalReferencesByTicket.get(row.id) ?? [],
     ),
   );
 }

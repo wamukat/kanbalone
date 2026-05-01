@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Kanbalone API
-  version: 0.9.27
+  version: 0.9.28
   summary: Ultra-light local personal kanban API for human and AI collaboration
   license:
     name: MIT
@@ -502,7 +502,7 @@ paths:
             enum: ["true", "false", "all"]
         - name: q
           in: query
-          description: Search title, body Markdown, numeric ticket ID, or #ticketId.
+          description: Search title, body Markdown, local ticket refs such as #10, tracked remote refs, external references, provider refs such as gh#10, external-only refs such as ext#10, or tracked-remote-only refs such as remote#10.
           schema:
             type: string
       responses:
@@ -928,6 +928,49 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/external-references/{kind}:
+    put:
+      summary: Set external ticket reference
+      description: Idempotently sets a non-tracking external reference for the ticket. External references do not participate in the one-import-per-remote-issue constraint and do not expose refresh, sync, or push actions.
+      operationId: setTicketExternalReference
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/ExternalReferenceKind"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TicketExternalReferenceSet"
+      responses:
+        "200":
+          description: Ticket with updated external references
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      summary: Remove external ticket reference
+      operationId: removeTicketExternalReference
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - $ref: "#/components/parameters/ExternalReferenceKind"
+      responses:
+        "200":
+          description: Ticket with updated external references
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/tickets/{ticketId}/move:
     post:
       summary: Move ticket to another board and lane
@@ -1239,6 +1282,13 @@ components:
       required: true
       schema:
         type: integer
+    ExternalReferenceKind:
+      name: kind
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
   responses:
     Error:
       description: Error response
@@ -1482,6 +1532,41 @@ components:
         displayRef: { type: string }
         url: { type: string }
       required: [provider, displayRef, url]
+    TicketExternalReference:
+      type: object
+      properties:
+        id: { type: integer }
+        ticketId: { type: integer }
+        kind:
+          type: string
+          description: Reference purpose, such as source, spec, or doc.
+        provider: { type: string }
+        instanceUrl: { type: string }
+        resourceType: { type: string }
+        projectKey: { type: string }
+        issueKey: { type: string }
+        displayRef: { type: string }
+        url: { type: string }
+        title:
+          type: [string, "null"]
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      required: [id, ticketId, kind, provider, instanceUrl, resourceType, projectKey, issueKey, displayRef, url, title, createdAt, updatedAt]
+    TicketExternalReferenceSet:
+      type: object
+      properties:
+        provider: { type: string }
+        instanceUrl: { type: string }
+        resourceType:
+          type: string
+          default: issue
+        projectKey: { type: string }
+        issueKey: { type: string }
+        displayRef: { type: string }
+        url: { type: string }
+        title:
+          type: [string, "null"]
+      required: [provider, instanceUrl, projectKey, issueKey, displayRef, url]
     RemoteIssueImport:
       type: object
       properties:
@@ -1644,8 +1729,12 @@ components:
           oneOf:
             - $ref: "#/components/schemas/TicketRemote"
             - type: "null"
+        externalReferences:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketExternalReference"
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, relatedIds, blockers, blockedBy, related, parent, children, ref, shortRef, remote]
+        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, relatedIds, blockers, blockedBy, related, parent, children, ref, shortRef, remote, externalReferences]
     TicketSummary:
       type: object
       properties:
@@ -1688,8 +1777,12 @@ components:
           oneOf:
             - $ref: "#/components/schemas/TicketRemoteSummary"
             - type: "null"
+        externalReferences:
+          type: array
+          items:
+            $ref: "#/components/schemas/TicketExternalReference"
       required:
-        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote]
+        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote, externalReferences]
     TicketUpsert:
       type: object
       properties:

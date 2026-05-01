@@ -34,6 +34,17 @@ export type TicketPositionBody = {
   afterTicketId?: number | null;
 };
 
+export type TicketExternalReferenceBody = {
+  provider?: string;
+  instanceUrl?: string;
+  resourceType?: string;
+  projectKey?: string;
+  issueKey?: string;
+  displayRef?: string;
+  url?: string;
+  title?: string | null;
+};
+
 export type TicketRoutesSchemas = {
   activityLogsResponseSchema: unknown;
   bulkArchiveTicketsBodySchema: unknown;
@@ -50,6 +61,8 @@ export type TicketRoutesSchemas = {
   ticketEventCreateBodySchema: unknown;
   ticketEventSchema: unknown;
   ticketEventsResponseSchema: unknown;
+  ticketExternalReferenceParamsSchema: unknown;
+  ticketExternalReferenceSetBodySchema: unknown;
   ticketCreateBodySchema: unknown;
   ticketListQuerySchema: unknown;
   ticketMoveBodySchema: unknown;

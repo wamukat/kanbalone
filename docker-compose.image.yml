@@ -2,7 +2,7 @@ name: kanbalone
 
 services:
   kanbalone:
-    image: ghcr.io/wamukat/kanbalone:v0.9.27
+    image: ghcr.io/wamukat/kanbalone:v0.9.28
     environment:
       HOST: 0.0.0.0
       PORT: 3000

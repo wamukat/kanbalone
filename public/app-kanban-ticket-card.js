@@ -19,6 +19,7 @@ export function createKanbanTicketCard(ctx, ticket) {
       <span class="ticket-status-icons">${renderTicketStatusIcons(ticket)}</span>
     </div>
     ${ticket.remote ? renderRemoteRefBadge(ticket.remote, ctx.escapeHtml, "ticket-remote-card-ref") : ""}
+    ${(ticket.externalReferences ?? []).map((reference) => renderRemoteRefBadge(reference, ctx.escapeHtml, "ticket-external-card-ref")).join("")}
     <div class="tag-list">
       ${ticket.tags.map((tag) => renderTag(tag, ctx.escapeHtml)).join("")}
     </div>

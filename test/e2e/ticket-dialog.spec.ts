@@ -180,6 +180,45 @@ test("remote refresh button updates the open ticket detail", async ({ page }) =>
   }
 });
 
+test("ticket detail and cards render non-tracking external references", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "External Reference Board",
+      laneNames: ["Todo"],
+    });
+    const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: boardPayload.lanes[0].id,
+      title: "Generated implementation",
+    });
+    const referenceResponse = await page.request.put(`${baseUrl}/api/tickets/${ticket.id}/external-references/source`, {
+      data: {
+        provider: "github",
+        instanceUrl: "https://github.com",
+        resourceType: "issue",
+        projectKey: "acme/a2o",
+        issueKey: "454",
+        displayRef: "acme/a2o#454",
+        url: "https://github.com/acme/a2o/issues/454",
+        title: "Requirement source",
+      },
+    });
+    expect(referenceResponse.status()).toBe(200);
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator(".ticket-external-card-ref", { hasText: "acme/a2o#454" })).toBeVisible();
+
+    await page.getByRole("button", { name: "Generated implementation" }).click();
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator(".ticket-external-reference-kind")).toHaveText("source");
+    await expect(page.locator(".ticket-external-reference-ref", { hasText: "acme/a2o#454" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Refresh", exact: true })).toBeHidden();
+  } finally {
+    await close();
+  }
+});
+
 test("board refresh resumes after closing ticket detail dialog", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
 

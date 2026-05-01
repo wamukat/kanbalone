@@ -66,6 +66,9 @@ List:
   - `completed=true|false` alias of resolved
   - `archived=true|false|all`
   - `q=<search text>`
+    - Searches title, body Markdown, local refs such as `#10`, tracked remote refs, and external references.
+    - Provider shorthand such as `gh#123`, `github#123`, `gl#123`, `gitlab#123`, `rm#123`, and `redmine#123` matches tracked remote links and external references for that provider.
+    - `ext#123` / `external#123` searches external references only. `remote#123` searches tracked remote links only.
 
 Create:
 
@@ -105,6 +108,28 @@ Move between boards:
 - `POST /api/tickets/:ticketId/move`
 - Body: `{ "boardId": 4, "laneId": 20 }`
 - Preserves core ticket content and comments. Cross-board move keeps same-name tags only and clears parent/child/blocker relations.
+
+External references:
+
+- `PUT /api/tickets/:ticketId/external-references/:kind`
+- Body:
+
+```json
+{
+  "provider": "github",
+  "instanceUrl": "https://github.com",
+  "resourceType": "issue",
+  "projectKey": "owner/repo",
+  "issueKey": "123",
+  "displayRef": "owner/repo#123",
+  "url": "https://github.com/owner/repo/issues/123",
+  "title": "Source requirement"
+}
+```
+
+- Use external references for provenance that should not become a tracked remote import.
+- External references do not violate the one-import-per-remote-issue constraint and do not support refresh/sync/push actions.
+- `DELETE /api/tickets/:ticketId/external-references/:kind` removes one reference kind from a ticket.
 
 Bulk:
 
