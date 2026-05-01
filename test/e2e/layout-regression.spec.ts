@@ -126,12 +126,13 @@ test("board content keeps active headers visible during vertical scroll", async 
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
     await expect(page.locator(".ticket-card")).toHaveCount(48);
-    const kanbanBefore = await page.evaluate(() => {
+    await expect(page.locator(`.ticket-list[data-lane-id="${todoLane.id}"] .ticket-card`)).toHaveCount(48);
+    const kanbanBefore = await page.evaluate((laneId) => {
       const board = document.querySelector("#lane-board");
-      const lane = document.querySelector(".lane:not(.lane-create-column)");
+      const list = document.querySelector(`.ticket-list[data-lane-id="${laneId}"]`);
+      const lane = list?.closest(".lane");
       const header = lane?.querySelector(".lane-header");
       const addButton = lane?.querySelector(".add-ticket-button");
-      const list = lane?.querySelector(".ticket-list");
       if (!board || !lane || !header || !addButton || !list) {
         throw new Error("Kanban sticky fixture is missing");
       }
@@ -147,19 +148,20 @@ test("board content keeps active headers visible during vertical scroll", async 
         listClientHeight: list.clientHeight,
         listScrollHeight: list.scrollHeight,
       };
-    });
+    }, todoLane.id);
     expect(kanbanBefore.listScrollHeight).toBeGreaterThan(kanbanBefore.listClientHeight);
     await page.locator(`.ticket-list[data-lane-id="${todoLane.id}"]`).evaluate((list) => {
       list.scrollTop = list.scrollHeight;
       list.dispatchEvent(new Event("scroll", { bubbles: true }));
     });
-    const kanbanAfter = await page.evaluate(() => {
+    const kanbanAfter = await page.evaluate(({ sourceLaneId, targetLaneId }) => {
       const board = document.querySelector("#lane-board");
-      const sourceLane = document.querySelector(".lane:not(.lane-create-column)");
+      const sourceList = document.querySelector(`.ticket-list[data-lane-id="${sourceLaneId}"]`);
+      const sourceLane = sourceList?.closest(".lane");
       const sourceHeader = sourceLane?.querySelector(".lane-header");
       const sourceAddButton = sourceLane?.querySelector(".add-ticket-button");
-      const sourceList = sourceLane?.querySelector(".ticket-list");
-      const targetLane = [...document.querySelectorAll(".lane:not(.lane-create-column)")][1];
+      const targetList = document.querySelector(`.ticket-list[data-lane-id="${targetLaneId}"]`);
+      const targetLane = targetList?.closest(".lane");
       const targetAddButton = targetLane?.querySelector(".add-ticket-button");
       if (!board || !sourceLane || !sourceHeader || !sourceAddButton || !sourceList || !targetLane || !targetAddButton) {
         throw new Error("Kanban sticky fixture is missing");
@@ -181,7 +183,7 @@ test("board content keeps active headers visible during vertical scroll", async 
         targetAddBottom: targetAddBox.bottom,
         targetLaneBottom: targetLaneBox.bottom,
       };
-    });
+    }, { sourceLaneId: todoLane.id, targetLaneId: reviewLane.id });
     expect(Math.abs(kanbanAfter.boardTop - kanbanBefore.boardTop)).toBeLessThan(1);
     expect(Math.abs(kanbanAfter.headerTop - kanbanAfter.boardTop)).toBeLessThanOrEqual(1);
     expect(Math.abs(kanbanAfter.sourceAddBottom - kanbanBefore.addBottom)).toBeLessThan(1);
