@@ -1,6 +1,39 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { buildApp, createBoard, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+
+test("kanban cards show parent child and standalone hierarchy icons", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "Hierarchy Icons",
+      laneNames: ["todo"],
+    });
+    const laneId = boardPayload.lanes[0].id;
+    const parent = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Parent ticket",
+    });
+    const child = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Child ticket",
+    });
+    const standalone = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Standalone ticket",
+    });
+    await updateTicket(page.request, baseUrl, child.id, { parentTicketId: parent.id });
+
+    await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+
+    await expect(page.locator(`.ticket-card[data-ticket-id="${parent.id}"] .ticket-hierarchy-icon-parent`)).toHaveAttribute("aria-label", "Parent ticket");
+    await expect(page.locator(`.ticket-card[data-ticket-id="${child.id}"] .ticket-hierarchy-icon-child`)).toHaveAttribute("aria-label", "Child ticket");
+    await expect(page.locator(`.ticket-card[data-ticket-id="${standalone.id}"] .ticket-hierarchy-icon-single`)).toHaveAttribute("aria-label", "Standalone ticket");
+  } finally {
+    await close();
+  }
+});
 
 test("kanban lane create rename delete and reorder are wired", async ({ page }) => {
   const app = buildApp({

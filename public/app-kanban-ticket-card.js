@@ -13,7 +13,10 @@ export function createKanbanTicketCard(ctx, ticket) {
     <div class="ticket-head">
       <span class="ticket-id-stack">
         <span class="ticket-id">#${ticket.id}</span>
-        ${renderPriorityIcon(ticket.priority)}
+        <span class="ticket-card-meta-icons">
+          ${renderTicketHierarchyIcon(ticket, state.boardTickets ?? [])}
+          ${renderPriorityIcon(ticket.priority)}
+        </span>
       </span>
       <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
       <span class="ticket-status-icons">${renderTicketStatusIcons(ticket)}</span>
@@ -53,6 +56,28 @@ export function createKanbanTicketCard(ctx, ticket) {
     }
   });
   return card;
+}
+
+function renderTicketHierarchyIcon(ticket, boardTickets) {
+  const hasChildren = boardTickets.some((candidate) => candidate.parentTicketId === ticket.id);
+  const state = ticket.parentTicketId != null
+    ? {
+        key: "child",
+        iconName: "folder-up",
+        label: "Child ticket",
+      }
+    : hasChildren
+      ? {
+          key: "parent",
+          iconName: "folder-tree",
+          label: "Parent ticket",
+        }
+      : {
+          key: "single",
+          iconName: "ticket",
+          label: "Standalone ticket",
+        };
+  return `<span class="ticket-hierarchy-icon ticket-hierarchy-icon-${state.key}" title="${state.label}" aria-label="${state.label}">${icon(state.iconName)}</span>`;
 }
 
 function renderTicketStatusIcons(ticket) {

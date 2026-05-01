@@ -85,7 +85,48 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.28rem;
-  min-width: 1.7rem;
+  min-width: 2.75rem;
+}
+
+.ticket-card-meta-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+}
+
+.ticket-hierarchy-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: var(--icon-size-default);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--surface-2) 72%, transparent);
+  color: var(--text-subtle);
+}
+
+.ticket-hierarchy-icon .icon {
+  width: var(--icon-size-small);
+  height: var(--icon-size-small);
+}
+
+.ticket-hierarchy-icon-parent {
+  border-color: color-mix(in srgb, var(--success) 26%, transparent);
+  background: color-mix(in srgb, var(--success) 10%, var(--surface-1));
+  color: var(--success);
+}
+
+.ticket-hierarchy-icon-child {
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background: color-mix(in srgb, var(--accent-soft) 42%, var(--surface-1));
+  color: var(--accent);
+}
+
+.ticket-hierarchy-icon-single {
+  border-color: color-mix(in srgb, var(--text-subtle) 24%, transparent);
+  background: color-mix(in srgb, var(--surface-inset) 82%, transparent);
+  color: var(--text-subtle);
 }
 
 .ticket-title {
