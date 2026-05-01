@@ -63,13 +63,13 @@ function renderTicketHierarchyIcon(ticket, boardTickets) {
   const state = ticket.parentTicketId != null
     ? {
         key: "child",
-        iconName: "folder-up",
+        iconName: "folder-tree",
         label: "Child ticket",
       }
     : hasChildren
       ? {
           key: "parent",
-          iconName: "folder-tree",
+          iconName: "folder-up",
           label: "Parent ticket",
         }
       : {
