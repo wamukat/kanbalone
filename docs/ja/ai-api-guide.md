@@ -18,7 +18,7 @@ Docker image だけを使う場合は、GitHub release tag から skill を取�
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.26.tar.gz \
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.27.tar.gz \
   | tar -xz -C "$tmpdir" kanbalone-0.9.24/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R "$tmpdir"/kanbalone-0.9.24/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
