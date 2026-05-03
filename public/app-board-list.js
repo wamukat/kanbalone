@@ -5,7 +5,7 @@ import { createListSelectionModule } from "./app-board-list-selection.js";
 
 export { renderListActions } from "./app-board-list-actions.js";
 
-export const LIST_ROW_HEIGHT = 44;
+export const LIST_ROW_HEIGHT = 64;
 export const LIST_OVERSCAN = 12;
 
 function comparePriorityDescending(a, b) {

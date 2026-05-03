@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import { calculateVisibleWindow, takeRoundRobinBatch } from "../public/app-board-utils.js";
 import { getListTickets, renderListActions } from "../public/app-board-list.js";
+import { renderListRow } from "../public/app-board-list-row.js";
 import { formatTagLabel, renderTag, tagTextColor } from "../public/app-tags.js";
 import { renderTicketTagChip } from "../public/app-ticket-tag-picker.js";
 import { buildBodyDiffRows, getRemoteSnapshotFreshness } from "../public/app-ticket-detail.js";
@@ -75,6 +76,58 @@ test("renderListActions exposes only relevant bulk actions", () => {
   assert.doesNotMatch(openOnly, /Reopen/);
   assert.match(openOnly, /Archive/);
   assert.doesNotMatch(openOnly, /Restore/);
+});
+
+test("renderListRow places remote references after normal tags in the Tags column", () => {
+  const html = renderListRow(
+    {
+      indent: 0,
+      ticket: {
+        id: 1,
+        laneId: 2,
+        parentTicketId: null,
+        title: "Tracked ticket",
+        blockerIds: [],
+        relatedIds: [],
+        tags: [{ name: "customer", color: "#1f6f5f" }],
+        remote: {
+          provider: "github",
+          displayRef: "owner/repo#123",
+          url: "https://github.com/owner/repo/issues/123",
+        },
+        externalReferences: [{
+          provider: "github",
+          displayRef: "source/repo#456",
+          url: "https://github.com/source/repo/issues/456",
+        }],
+        priority: 3,
+        isResolved: false,
+        isArchived: false,
+      },
+    },
+    {
+      boardTickets: [],
+      escapeHtml,
+      lanes: [{ id: 2, name: "Todo" }],
+      renderTicketStatusIcons: () => "",
+      rowHeight: 64,
+      selectedTicketIds: [],
+    },
+  );
+
+  const titleCell = html.slice(html.indexOf("list-ticket-title-cell"), html.indexOf('<div class="list-cell muted">'));
+  assert.doesNotMatch(titleCell, /owner\/repo#123/);
+  assert.doesNotMatch(titleCell, /source\/repo#456/);
+
+  const tagRowIndex = html.indexOf("list-tag-row");
+  const remoteRowIndex = html.indexOf("list-remote-ref-row");
+  assert.ok(tagRowIndex > -1);
+  assert.ok(remoteRowIndex > tagRowIndex);
+  assert.match(html, /customer/);
+  assert.match(html, /list-ticket-remote-ref/);
+  assert.match(html, /owner\/repo#123/);
+  assert.match(html, /list-ticket-external-ref/);
+  assert.match(html, /source\/repo#456/);
 });
 
 test("tagTextColor selects readable foreground colors", () => {
