@@ -2,6 +2,7 @@ import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
 import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
+import { icon } from "./icons.js";
 
 export function createKanbanTicketCard(ctx, ticket) {
   const { state } = ctx;

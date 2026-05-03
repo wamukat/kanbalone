@@ -166,7 +166,7 @@ test("long tag labels are constrained across ticket surfaces", async ({ page }) 
       .toBe(true);
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
-    const listRow = page.locator(`[data-open-ticket-id="${ticket.id}"]`).locator("xpath=..");
+    const listRow = page.locator(".list-row", { hasText: "Long tag ticket" });
     await expect(listRow.locator(".tag [aria-hidden='true']")).toHaveText("very-long-tag-name-withou...");
     await expect(listRow.locator(".tag")).toHaveAttribute("title", longTagName);
     await expect
@@ -277,7 +277,7 @@ test("long tag labels remain safe without Intl.Segmenter", async ({ page }) => {
       .toBe(true);
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
-    const listRow = page.locator(`[data-open-ticket-id="${ticket.id}"]`).locator("xpath=..");
+    const listRow = page.locator(".list-row", { hasText: "Fallback long tag ticket" });
     await expect(listRow.locator(".tag [aria-hidden='true']")).toHaveText("🇯🇵🇺🇸very-long-tag-name-with...");
     await expect(listRow.locator(".tag")).toHaveAttribute("title", longTagName);
     await expect

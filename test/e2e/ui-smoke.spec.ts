@@ -201,7 +201,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".list-header")).toContainText("Status");
     await expect(page.locator(".list-actions").first()).toContainText("Select tickets to edit in bulk");
     await expect(page.locator(".list-action-button")).toHaveCount(0);
-    const smokeTicketPriorityCell = page.getByRole("button", { name: "Smoke ticket" }).locator("..").locator(".list-cell").nth(1);
+    const smokeTicketPriorityCell = page.locator(".list-row", { hasText: "Smoke ticket" }).locator(".list-cell").nth(1);
     await expect(smokeTicketPriorityCell).toHaveText("High");
     const listCheckboxAlignment = await page.evaluate(() => {
       const headerCheckbox = document.querySelector("#list-select-all");
@@ -224,7 +224,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect(listCheckboxAlignment?.centerOffset).toBeLessThan(1);
     expect(listCheckboxAlignment?.widthOffset).toBeLessThan(1);
     const emptyListActionsHeight = await page.locator(".list-actions").first().evaluate((element) => element.getBoundingClientRect().height);
-    await page.getByRole("button", { name: "Smoke ticket" }).locator("..").locator("[data-list-ticket-id]").check();
+    await page.locator(".list-row", { hasText: "Smoke ticket" }).locator("[data-list-ticket-id]").check();
     await expect(page.locator(".list-actions").first()).toContainText("1 selected");
     const selectedListActionsMetrics = await page.locator(".list-actions").first().evaluate((element) => ({
       height: element.getBoundingClientRect().height,
@@ -240,8 +240,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-bulk-delete='true'] use[href='/icons.svg#trash-2']").first()).toHaveCount(1);
     await expect(page.locator("[data-bulk-resolve='false']")).toHaveCount(0);
     await expect(page.locator("[data-bulk-archive='false']")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Parent candidate" }).locator("..").locator(".list-status-cell .ticket-status-icon-resolved use[href='/icons.svg#check']")).toHaveCount(1);
-    await page.getByRole("button", { name: "Parent candidate" }).locator("..").locator("[data-list-ticket-id]").check();
+    await expect(page.locator(".list-row", { hasText: "Parent candidate" }).locator(".list-status-cell .ticket-status-icon-resolved use[href='/icons.svg#check']")).toHaveCount(1);
+    await page.locator(".list-row", { hasText: "Parent candidate" }).locator("[data-list-ticket-id]").check();
     await expect(page.locator(".list-actions").first()).toContainText("2 selected");
     await expect(page.locator("[data-bulk-resolve='false'] use[href='/icons.svg#circle']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
@@ -258,8 +258,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#lane-board")).not.toContainText("No matching tickets");
     await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='list']").click();
-    await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".list-status-cell .ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
-    await page.getByRole("button", { name: "Archived candidate" }).locator("..").locator("[data-list-ticket-id]").check();
+    await expect(page.locator(".list-row", { hasText: "Archived candidate" }).locator(".list-status-cell .ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
+    await page.locator(".list-row", { hasText: "Archived candidate" }).locator("[data-list-ticket-id]").check();
     await expect(page.locator("[data-bulk-archive='false'] use[href='/icons.svg#rotate-ccw']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await page.locator("#status-filter [data-status-filter='archived']").click();
@@ -276,7 +276,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect(bulkDeleteTicketResponse.status()).toBe(201);
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
     await expect(page.locator("#list-board")).toBeVisible();
-    const bulkDeleteCandidateRow = page.getByRole("button", { name: "Bulk delete candidate" }).locator("..");
+    const bulkDeleteCandidateRow = page.locator(".list-row", { hasText: "Bulk delete candidate" });
     await expect(bulkDeleteCandidateRow).toBeVisible();
     await bulkDeleteCandidateRow.locator("[data-list-ticket-id]").check();
     const bulkDeleteButton = page.locator(".list-actions [data-bulk-delete='true']").first();
