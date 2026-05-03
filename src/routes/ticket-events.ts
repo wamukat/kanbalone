@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
+import { getBodyRecord, getBodyString } from "../route-helpers.js";
 import type { RegisterTicketRoutesContext } from "./ticket-route-context.js";
 
 export function registerTicketEventRoutes(app: FastifyInstance, ctx: RegisterTicketRoutesContext): void {
@@ -32,18 +33,10 @@ export function registerTicketEventRoutes(app: FastifyInstance, ctx: RegisterTic
       },
     },
   }, async (request, reply) => {
-    const body = request.body as {
-      source?: string;
-      kind?: string;
-      title?: string;
-      summary?: string | null;
-      severity?: string | null;
-      icon?: string | null;
-      data?: Record<string, unknown>;
-    };
-    const source = body.source?.trim();
-    const kind = body.kind?.trim();
-    const title = body.title?.trim();
+    const body = getBodyRecord(request.body);
+    const source = getBodyString(request.body, "source");
+    const kind = getBodyString(request.body, "kind");
+    const title = getBodyString(request.body, "title");
     if (!source || !kind || !title) {
       return reply.code(400).send({ error: "source, kind, and title are required" });
     }
@@ -57,7 +50,7 @@ export function registerTicketEventRoutes(app: FastifyInstance, ctx: RegisterTic
         summary: normalizeOptionalText(body.summary),
         severity: normalizeOptionalText(body.severity),
         icon: normalizeOptionalText(body.icon),
-        data: body.data ?? {},
+        data: body.data && typeof body.data === "object" && !Array.isArray(body.data) ? body.data as Record<string, unknown> : {},
       });
       const ticket = db.getTicket(ticketId);
       if (ticket) {
@@ -72,7 +65,7 @@ export function registerTicketEventRoutes(app: FastifyInstance, ctx: RegisterTic
   });
 }
 
-function normalizeOptionalText(value: string | null | undefined): string | null {
-  const trimmed = value?.trim();
+function normalizeOptionalText(value: unknown): string | null {
+  const trimmed = typeof value === "string" ? value.trim() : "";
   return trimmed ? trimmed : null;
 }

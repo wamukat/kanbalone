@@ -1,13 +1,13 @@
 import { createTicketActionsModule } from "./app-ticket-actions.js";
 import { createTicketCommentsModule } from "./app-ticket-comments.js";
 import { createTicketDetailModule } from "./app-ticket-detail.js";
+import { createEditorRemoteImportModule } from "./app-editor-remote-import.js";
 import { createTicketRelationsModule } from "./app-ticket-relations.js";
 import { createTicketTagPicker } from "./app-ticket-tag-picker.js";
 import { getPriorityInputValue } from "./app-priority.js";
 
 export function createEditorModule(ctx) {
   const { state, elements } = ctx;
-  const DEFAULT_REMOTE_PROVIDER_ORDER = ["github", "gitlab", "redmine"];
 
   function getSelectedTagIds() {
     return [...state.editorTagIds];
@@ -53,276 +53,25 @@ export function createEditorModule(ctx) {
     setSaveState,
   });
 
-  function syncRemoteImportSheet() {
-    const open = state.editorRemoteImportOpen && state.dialogMode === "edit" && !state.editingTicketId;
-    elements.editorDialog.classList.toggle("remote-import-open", open);
-    elements.editorRemoteImportSheet.hidden = false;
-    elements.editorRemoteImportSheet.setAttribute("aria-hidden", String(!open));
-    elements.editorForm.toggleAttribute("inert", open);
-    elements.editorForm.setAttribute("aria-hidden", String(open));
-    elements.remoteImportCreateButton.setAttribute("aria-pressed", String(open));
-    if (!open) {
-      elements.editorRemoteImportError.hidden = true;
-      elements.editorRemoteImportError.textContent = "";
-      clearRemoteImportPreview();
-    }
-  }
+  const remoteImportModule = createEditorRemoteImportModule(ctx, {
+    openImportedTicket: (ticketId) => openEditor(ticketId, "view"),
+  });
 
-  function clearRemoteImportPreview() {
-    state.editorRemoteImportPreview = null;
-    elements.editorRemoteImportPreview.hidden = true;
-    elements.editorRemoteImportPreview.innerHTML = "";
-    syncRemoteImportActions();
-  }
-
-  function syncRemoteImportActions() {
-    const hasPreview = Boolean(state.editorRemoteImportPreview);
-    const hasDuplicate = Boolean(state.editorRemoteImportPreview?.duplicate);
-    const hasProvider = hasEnabledRemoteProvider();
-    elements.editorRemoteImportPreviewButton.disabled = !hasProvider;
-    elements.editorRemoteImportSubmitButton.disabled = !hasProvider || !hasPreview || hasDuplicate;
-  }
-
-  function syncRemoteImportProviderSwitch() {
-    const provider = elements.editorRemoteProvider.value || "github";
-    for (const option of elements.editorRemoteProviderOptions) {
-      const optionProvider = option.dataset.remoteProviderOption || "";
-      const availability = state.remoteProviderAvailability?.[optionProvider];
-      const enabled = availability?.hasCredential ?? false;
-      const selected = option.dataset.remoteProviderOption === provider;
-      option.hidden = !enabled;
-      option.classList.toggle("active", selected);
-      option.setAttribute("aria-checked", String(selected));
-      option.tabIndex = enabled && selected ? 0 : -1;
-      option.disabled = !enabled;
-      option.setAttribute("aria-disabled", String(!enabled));
-      option.classList.toggle("disabled", !enabled);
-      option.title = optionProviderLabel(optionProvider);
-    }
-    syncRemoteImportProviderHelp();
-  }
-
-  function setRemoteImportProvider(provider) {
-    if (!isRemoteProviderEnabled(provider)) {
-      return;
-    }
-    if (elements.editorRemoteProvider.value !== provider) {
-      state.editorRemoteImportPreviewRequestId = (state.editorRemoteImportPreviewRequestId ?? 0) + 1;
-      clearRemoteImportPreview();
-    }
-    elements.editorRemoteProvider.value = provider;
-    elements.editorRemoteUrl.placeholder = remoteUrlPlaceholder(provider);
-    syncRemoteImportProviderSwitch();
-  }
-
-  function populateRemoteImportLaneOptions(defaultLaneId = null) {
-    if (!state.boardDetail) {
-      elements.editorRemoteLane.innerHTML = "";
-      return;
-    }
-    const selectedLaneId = Number.isInteger(defaultLaneId) ? defaultLaneId : Number(elements.ticketLane.value || state.boardDetail.lanes[0]?.id);
-    elements.editorRemoteLane.innerHTML = state.boardDetail.lanes
-      .map((lane) => `<option value="${lane.id}" ${selectedLaneId === lane.id ? "selected" : ""}>${ctx.escapeHtml(lane.name)}</option>`)
-      .join("");
-  }
-
-  function openRemoteImportSheet() {
-    if (!hasEnabledRemoteProvider()) {
-      return;
-    }
-    populateRemoteImportLaneOptions();
-    setRemoteImportProvider(firstEnabledRemoteProvider());
-    elements.editorRemoteUrl.value = "";
-    elements.editorRemoteBacklinkComment.checked = false;
-    elements.editorRemoteBacklinkUrl.value = "";
-    syncRemoteBacklinkOptions();
-    clearRemoteImportPreview();
-    elements.editorRemoteImportError.hidden = true;
-    elements.editorRemoteImportError.textContent = "";
-    state.editorRemoteImportOpen = true;
-    syncRemoteImportSheet();
-    queueMicrotask(() => elements.editorRemoteUrl.focus());
-  }
-
-  function remoteUrlPlaceholder(provider) {
-    switch (provider) {
-      case "gitlab":
-        return "https://gitlab.example.com/group/project/-/issues/123";
-      case "redmine":
-        return "https://redmine.example.com/issues/123";
-      case "github":
-      default:
-        return "https://github.com/owner/repo/issues/123";
-    }
-  }
-
-  function handleRemoteImportProviderClick(event) {
-    const option = event.target.closest("[data-remote-provider-option]");
-    if (!(option instanceof HTMLElement)) {
-      return;
-    }
-    if (option.disabled) {
-      return;
-    }
-    setRemoteImportProvider(option.dataset.remoteProviderOption || "github");
-    option.focus({ preventScroll: true });
-  }
-
-  function closeRemoteImportSheet() {
-    if (elements.editorRemoteImportCancelButton.disabled || elements.editorRemoteImportCloseButton.disabled) {
-      return;
-    }
-    state.editorRemoteImportOpen = false;
-    syncRemoteImportSheet();
-    queueMicrotask(() => elements.remoteImportCreateButton.focus({ preventScroll: true }));
-  }
-
-  function getRemoteImportInput() {
-    return {
-      provider: elements.editorRemoteProvider.value.trim(),
-      laneId: Number(elements.editorRemoteLane.value),
-      url: elements.editorRemoteUrl.value.trim(),
-      postBacklinkComment: elements.editorRemoteBacklinkComment.checked,
-      backlinkUrl: elements.editorRemoteBacklinkUrl.value.trim() || undefined,
-    };
-  }
-
-  function remoteImportInputKey(input) {
-    return `${input.provider}\n${input.laneId}\n${input.url}`;
-  }
-
-  function validateRemoteImportInput(input) {
-    if (!input.provider || !Number.isInteger(input.laneId) || !input.url) {
-      return "Provider, lane, and issue URL are required";
-    }
-    if (!isRemoteProviderEnabled(input.provider)) {
-      return `${optionProviderLabel(input.provider)} requires a configured credential`;
-    }
-    return "";
-  }
-
-  function renderRemoteImportPreview(preview, input) {
-    const stateLabel = preview.state || "Unknown state";
-    const duplicateText = preview.duplicate
-      ? `Already imported as ${preview.existingTicketRef || `#${preview.existingTicketId}`}`
-      : "Ready to import";
-    state.editorRemoteImportPreview = {
-      ...preview,
-      key: remoteImportInputKey(input),
-    };
-    elements.editorRemoteImportPreview.hidden = false;
-    elements.editorRemoteImportPreview.innerHTML = `
-      <div class="editor-remote-import-preview-head">
-        <span class="editor-remote-import-preview-ref">${ctx.escapeHtml(preview.displayRef)}</span>
-        <span class="editor-remote-import-preview-state">${ctx.escapeHtml(stateLabel)}</span>
-      </div>
-      <div class="editor-remote-import-preview-title">${ctx.escapeHtml(preview.title)}</div>
-      <div class="editor-remote-import-preview-meta${preview.duplicate ? " duplicate" : ""}">${ctx.escapeHtml(duplicateText)}</div>
-    `;
-    syncRemoteImportActions();
-  }
-
-  async function previewRemoteImport() {
-    if (!state.activeBoardId) {
-      return;
-    }
-    const input = getRemoteImportInput();
-    const inputKey = remoteImportInputKey(input);
-    const validationError = validateRemoteImportInput(input);
-    if (validationError) {
-      elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = validationError;
-      return;
-    }
-    state.editorRemoteImportPreviewRequestId = (state.editorRemoteImportPreviewRequestId ?? 0) + 1;
-    const requestId = state.editorRemoteImportPreviewRequestId;
-    elements.editorRemoteImportError.hidden = true;
-    elements.editorRemoteImportError.textContent = "";
-    elements.editorRemoteImportPreviewButton.disabled = true;
-    elements.editorRemoteImportSubmitButton.disabled = true;
-    try {
-      const preview = await ctx.sendJson(`/api/boards/${state.activeBoardId}/remote-import/preview`, {
-        method: "POST",
-        body: input,
-      });
-      if (requestId === state.editorRemoteImportPreviewRequestId && inputKey === remoteImportInputKey(getRemoteImportInput())) {
-        renderRemoteImportPreview(preview, input);
-      }
-    } catch (error) {
-      if (requestId === state.editorRemoteImportPreviewRequestId) {
-        clearRemoteImportPreview();
-        elements.editorRemoteImportError.hidden = false;
-        elements.editorRemoteImportError.textContent = error.message;
-      }
-    } finally {
-      syncRemoteImportActions();
-    }
-  }
-
-  async function submitRemoteImport(event) {
-    event.preventDefault();
-    if (!state.activeBoardId) {
-      return;
-    }
-    const input = getRemoteImportInput();
-    const validationError = validateRemoteImportInput(input);
-    if (validationError) {
-      elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = validationError;
-      return;
-    }
-    if (!state.editorRemoteImportPreview || state.editorRemoteImportPreview.key !== remoteImportInputKey(input)) {
-      elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = "Preview the remote issue before importing";
-      return;
-    }
-    if (state.editorRemoteImportPreview.duplicate) {
-      elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = "This remote issue is already imported";
-      return;
-    }
-    elements.editorRemoteImportSubmitButton.disabled = true;
-    elements.editorRemoteImportPreviewButton.disabled = true;
-    elements.editorRemoteImportCancelButton.disabled = true;
-    elements.editorRemoteImportCloseButton.disabled = true;
-    try {
-      const ticket = await ctx.sendJson(`/api/boards/${state.activeBoardId}/remote-import`, {
-        method: "POST",
-        body: input,
-      });
-      state.editorRemoteImportOpen = false;
-      clearRemoteImportPreview();
-      syncRemoteImportSheet();
-      await ctx.refreshBoardDetail();
-      await openEditor(ticket.id, "view");
-      ctx.showToast("Remote issue imported");
-    } catch (error) {
-      elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = error.message;
-    } finally {
-      syncRemoteImportActions();
-      elements.editorRemoteImportCancelButton.disabled = false;
-      elements.editorRemoteImportCloseButton.disabled = false;
-    }
-  }
-
-  function handleRemoteImportInputChange() {
-    state.editorRemoteImportPreviewRequestId = (state.editorRemoteImportPreviewRequestId ?? 0) + 1;
-    clearRemoteImportPreview();
-  }
-
-  function handleRemoteBacklinkToggle() {
-    syncRemoteBacklinkOptions();
-  }
-
-  function syncRemoteBacklinkOptions() {
-    const enabled = elements.editorRemoteBacklinkComment.checked;
-    elements.editorRemoteBacklinkUrlRow.hidden = !enabled;
-    elements.editorRemoteBacklinkUrl.disabled = !enabled;
-    if (!enabled) {
-      elements.editorRemoteBacklinkUrl.value = "";
-    }
-  }
+  const {
+    closeSheet: closeRemoteImportSheet,
+    handleBacklinkToggle: handleRemoteBacklinkToggle,
+    handleInputChange: handleRemoteImportInputChange,
+    handleProviderClick: handleRemoteImportProviderClick,
+    hasEnabledProvider: hasEnabledRemoteProvider,
+    openSheet: openRemoteImportSheet,
+    populateLaneOptions: populateRemoteImportLaneOptions,
+    preview: previewRemoteImport,
+    resetProvider: resetRemoteImportProvider,
+    setProviderAvailability: setRemoteProviderAvailability,
+    submit: submitRemoteImport,
+    syncProviderSwitch: syncRemoteImportProviderSwitch,
+    syncSheet: syncRemoteImportSheet,
+  } = remoteImportModule;
 
   function setEditBodyTab(tab = "local") {
     state.editorBodyTab = tab === "remote" && state.dialogTicket?.remote ? "remote" : "local";
@@ -387,52 +136,7 @@ export function createEditorModule(ctx) {
     detailModule.setDetailTab("comments");
     detailModule.setBodyTab("local");
     commentsModule.resetCommentComposer();
-    setRemoteImportProvider(firstEnabledRemoteProvider());
-    syncRemoteImportSheet();
-  }
-
-  function setRemoteProviderAvailability(remoteProviders) {
-    state.remoteProviderAvailability = Object.fromEntries(
-      (remoteProviders ?? []).map((provider) => [provider.id, provider]),
-    );
-    const nextProvider = isRemoteProviderEnabled(elements.editorRemoteProvider.value)
-      ? elements.editorRemoteProvider.value
-      : firstEnabledRemoteProvider();
-    elements.editorRemoteProvider.value = nextProvider;
-    elements.editorRemoteUrl.placeholder = remoteUrlPlaceholder(nextProvider);
-    syncRemoteImportProviderSwitch();
-    elements.remoteImportCreateButton.hidden =
-      state.dialogMode !== "edit" || Boolean(state.editingTicketId) || !hasEnabledRemoteProvider();
-  }
-
-  function firstEnabledRemoteProvider() {
-    return DEFAULT_REMOTE_PROVIDER_ORDER.find((provider) => isRemoteProviderEnabled(provider)) ?? DEFAULT_REMOTE_PROVIDER_ORDER[0];
-  }
-
-  function isRemoteProviderEnabled(provider) {
-    return Boolean(state.remoteProviderAvailability?.[provider]?.hasCredential);
-  }
-
-  function hasEnabledRemoteProvider() {
-    return DEFAULT_REMOTE_PROVIDER_ORDER.some((provider) => isRemoteProviderEnabled(provider));
-  }
-
-  function syncRemoteImportProviderHelp() {
-    syncRemoteImportActions();
-    elements.editorRemoteProviderHelp.hidden = true;
-    elements.editorRemoteProviderHelp.textContent = "";
-  }
-
-  function optionProviderLabel(provider) {
-    switch (provider) {
-      case "gitlab":
-        return "GitLab";
-      case "redmine":
-        return "Redmine";
-      case "github":
-      default:
-        return "GitHub";
-    }
+    resetRemoteImportProvider();
   }
 
   function handleEditorDialogClose() {

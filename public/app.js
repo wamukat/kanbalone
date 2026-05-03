@@ -1,418 +1,41 @@
 import { api, createSendJson } from "./app-api.js";
+import { createBoardEventsModule } from "./app-board-events.js";
 import { createBoardModule } from "./app-board.js";
+import { createDialogModule } from "./app-dialogs.js";
+import { getAppElements } from "./app-elements.js";
 import { createEditorModule } from "./app-editor.js";
 import { createFiltersModule } from "./app-filters.js";
+import { createUiPreferencesController, saveEditorDialogSize } from "./app-preferences.js";
+import { createRouterModule } from "./app-router.js";
+import { createAppState } from "./app-state.js";
 import { createUxModule } from "./app-ux.js";
 
-const UI_PREFERENCES_KEY = "kanbalone:ui-preferences";
-const UI_PREFERENCES_VERSION = 1;
-const EDITOR_DIALOG_SIZE_KEY = "kanbalone:editor-dialog-size";
-const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
-const EDITOR_DIALOG_WIDTH = 720;
-const EDITOR_DIALOG_MIN_WIDTH = 520;
-const EDITOR_DIALOG_MIN_HEIGHT = 360;
-const storedPreferences = readUiPreferences();
+const state = createAppState();
 
-const state = {
-  boards: [],
-  activeBoardId: storedPreferences.activeBoardId,
-  boardDetail: null,
-  boardTickets: [],
-  boardEvents: null,
-  boardEventsBoardId: null,
-  boardRefreshInFlight: false,
-  boardRefreshQueued: false,
-  boardRefreshPendingAfterDialog: false,
-  isCreatingBoard: false,
-  isRenamingBoard: false,
-  boardRenameError: "",
-  isCreatingLane: false,
-  isCreatingSidebarTag: false,
-  editingSidebarTagId: null,
-  confirmingSidebarTagDeleteId: null,
-  sidebarTagError: "",
-  confirmingCommentDeleteId: null,
-  viewMode: "kanban",
-  selectedListTicketIds: [],
-  sidebarCollapsed: localStorage.getItem("kanbalone:sidebar-collapsed") === "true",
-  boardSettingsExpanded: false,
-  filters: {
-    q: "",
-    lane: "",
-    status: ["open"],
-    priority: [],
-    tag: "",
-  },
-  filtersByBoardId: storedPreferences.filtersByBoardId,
-  viewModeByBoardId: storedPreferences.viewModeByBoardId,
-  filterExpansionByBoardId: storedPreferences.filterExpansionByBoardId,
-  editingTicketId: null,
-  activeBoardDragId: null,
-  activeLaneDragId: null,
-  dialogMode: "view",
-  dialogTicket: null,
-  dialogActivity: [],
-  dialogEvents: [],
-  detailBodyTab: "local",
-  editorBodyTab: "local",
-  editorRemoteImportOpen: false,
-  editorRemoteImportPreview: null,
-  editorRemoteImportPreviewRequestId: 0,
-  skipDialogCloseSync: false,
-  toastTimer: null,
-  uxResolver: null,
-  editorTagIds: [],
-  editorBlockerIds: [],
-  editorRelatedIds: [],
-  editorChildIds: [],
-  editorOriginalChildIds: [],
-  editorVisibleRelationTypes: [],
-  tagQuery: "",
-  parentQuery: "",
-  blockerQuery: "",
-  relatedQuery: "",
-  childQuery: "",
-  editorDialogPosition: null,
-  editorDialogDrag: null,
-  editorDialogSize: readEditorDialogSize(),
-  editorDialogResize: null,
-  uxDialogPosition: null,
-  uxDialogDrag: null,
-};
+const {
+  persistUiPreferences,
+  pruneUiPreferencesForBoards,
+  saveBoardViewMode,
+  restoreBoardViewMode,
+} = createUiPreferencesController(state);
 
-function createDefaultUiPreferences() {
-  return {
-    activeBoardId: null,
-    filtersByBoardId: {},
-    viewModeByBoardId: {},
-    filterExpansionByBoardId: {},
-  };
-}
+const elements = getAppElements();
 
-function readUiPreferences() {
-  try {
-    const raw = localStorage.getItem(UI_PREFERENCES_KEY);
-    if (!raw) {
-      return createDefaultUiPreferences();
-    }
-    const parsed = JSON.parse(raw);
-    return parsed?.version === UI_PREFERENCES_VERSION
-      ? readVersionedUiPreferences(parsed)
-      : readLegacyUiPreferences(parsed);
-  } catch {
-    return createDefaultUiPreferences();
-  }
-}
-
-function readVersionedUiPreferences(parsed) {
-  const preferences = createDefaultUiPreferences();
-  preferences.activeBoardId = normalizeBoardId(parsed?.activeBoardId);
-
-  for (const [boardId, boardPreferences] of Object.entries(normalizeObject(parsed?.boards))) {
-    if (!normalizeBoardId(boardId)) {
-      continue;
-    }
-    const normalizedBoardId = String(boardId);
-    preferences.filtersByBoardId[normalizedBoardId] = normalizeStoredFilters(boardPreferences?.filters);
-    preferences.viewModeByBoardId[normalizedBoardId] = boardPreferences?.viewMode === "list" ? "list" : "kanban";
-    preferences.filterExpansionByBoardId[normalizedBoardId] = normalizeStoredFilterExpansion(boardPreferences?.filterExpansion);
-  }
-
-  return preferences;
-}
-
-function readLegacyUiPreferences(parsed) {
-  const activeBoardId = normalizeBoardId(parsed?.activeBoardId);
-  const viewModeByBoardId = normalizeStoredViewModesByBoard(parsed?.viewModeByBoardId);
-  if (activeBoardId && !viewModeByBoardId[String(activeBoardId)] && parsed?.viewMode === "list") {
-    viewModeByBoardId[String(activeBoardId)] = "list";
-  }
-  return {
-    activeBoardId,
-    filtersByBoardId: normalizeStoredFiltersByBoard(parsed?.filtersByBoardId),
-    viewModeByBoardId,
-    filterExpansionByBoardId: normalizeStoredFilterExpansionByBoard(parsed?.filterExpansionByBoardId),
-  };
-}
-
-function readEditorDialogSize() {
-  try {
-    const raw = localStorage.getItem(EDITOR_DIALOG_SIZE_KEY);
-    if (!raw) {
-      return null;
-    }
-    const parsed = JSON.parse(raw);
-    const width = Number(parsed?.width);
-    const height = Number(parsed?.height);
-    return Number.isFinite(width) && Number.isFinite(height)
-      ? { width, height }
-      : null;
-  } catch {
-    return null;
-  }
-}
-
-function saveEditorDialogSize(size) {
-  try {
-    localStorage.setItem(EDITOR_DIALOG_SIZE_KEY, JSON.stringify(size));
-  } catch {
-    // Ignore storage failures; resizing should remain usable for this session.
-  }
-}
-
-function normalizeObject(value) {
-  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
-}
-
-function normalizeBoardId(value) {
-  const boardId = Number(value);
-  return Number.isInteger(boardId) && boardId > 0 ? boardId : null;
-}
-
-function normalizeStoredViewModesByBoard(value) {
-  return Object.fromEntries(
-    Object.entries(normalizeObject(value))
-      .filter(([boardId, viewMode]) => normalizeBoardId(boardId) && ["kanban", "list"].includes(viewMode))
-      .map(([boardId, viewMode]) => [String(boardId), viewMode]),
-  );
-}
-
-function normalizeStoredFilterExpansionByBoard(value) {
-  return Object.fromEntries(
-    Object.entries(normalizeObject(value))
-      .filter(([boardId, expansion]) => normalizeBoardId(boardId) && expansion && typeof expansion === "object" && !Array.isArray(expansion))
-      .map(([boardId, expansion]) => [String(boardId), normalizeStoredFilterExpansion(expansion)]),
-  );
-}
-
-function normalizeStoredFilterExpansion(expansion) {
-  return {
-    status: expansion?.status === true,
-    priority: expansion?.priority === true,
-  };
-}
-
-function normalizeStoredFiltersByBoard(value) {
-  return Object.fromEntries(
-    Object.entries(normalizeObject(value))
-      .filter(([boardId]) => normalizeBoardId(boardId))
-      .map(([boardId, filters]) => [String(boardId), normalizeStoredFilters(filters)]),
-  );
-}
-
-function normalizeStoredFilters(filters) {
-  const status = Array.isArray(filters?.status)
-    ? filters.status.filter((item) => ["open", "resolved", "archived"].includes(item))
-    : [];
-  const priority = Array.isArray(filters?.priority)
-    ? filters.priority.filter((item) => ["low", "medium", "high", "urgent"].includes(item))
-    : [];
-  return {
-    q: typeof filters?.q === "string" ? filters.q : DEFAULT_FILTERS.q,
-    lane: typeof filters?.lane === "string" ? filters.lane : DEFAULT_FILTERS.lane,
-    status: status.length ? [...new Set(status)] : [...DEFAULT_FILTERS.status],
-    priority: [...new Set(priority)],
-    tag: typeof filters?.tag === "string" ? filters.tag : DEFAULT_FILTERS.tag,
-  };
-}
-
-function persistUiPreferences() {
-  try {
-    localStorage.setItem(UI_PREFERENCES_KEY, JSON.stringify({
-      version: UI_PREFERENCES_VERSION,
-      activeBoardId: state.activeBoardId,
-      boards: buildBoardUiPreferences(),
-    }));
-  } catch (error) {
-    console.warn("Failed to persist UI preferences", error);
-  }
-}
-
-function buildBoardUiPreferences() {
-  const boardIds = new Set([
-    ...Object.keys(state.filtersByBoardId),
-    ...Object.keys(state.viewModeByBoardId),
-    ...Object.keys(state.filterExpansionByBoardId),
-  ]);
-
-  return Object.fromEntries(
-    [...boardIds]
-      .filter((boardId) => normalizeBoardId(boardId))
-      .map((boardId) => [boardId, {
-        filters: normalizeStoredFilters(state.filtersByBoardId[boardId]),
-        viewMode: state.viewModeByBoardId[boardId] === "list" ? "list" : "kanban",
-        filterExpansion: normalizeStoredFilterExpansion(state.filterExpansionByBoardId[boardId]),
-      }]),
-  );
-}
-
-function pruneUiPreferencesForBoards() {
-  const boardIds = new Set(state.boards.map((board) => String(board.id)));
-  state.filtersByBoardId = Object.fromEntries(
-    Object.entries(state.filtersByBoardId).filter(([boardId]) => boardIds.has(boardId)),
-  );
-  state.viewModeByBoardId = Object.fromEntries(
-    Object.entries(state.viewModeByBoardId).filter(([boardId]) => boardIds.has(boardId)),
-  );
-  state.filterExpansionByBoardId = Object.fromEntries(
-    Object.entries(state.filterExpansionByBoardId).filter(([boardId]) => boardIds.has(boardId)),
-  );
-}
-
-function saveBoardViewMode(boardId = state.activeBoardId, viewMode = state.viewMode) {
-  if (!boardId) {
-    return;
-  }
-  state.viewModeByBoardId[String(boardId)] = viewMode === "list" ? "list" : "kanban";
-  persistUiPreferences();
-}
-
-function restoreBoardViewMode(boardId = state.activeBoardId) {
-  state.viewMode = boardId && state.viewModeByBoardId[String(boardId)] === "list" ? "list" : "kanban";
-}
-
-const elements = {
-  shell: document.querySelector(".shell"),
-  sidebar: document.querySelector("#sidebar"),
-  boardList: document.querySelector("#board-list"),
-  sidebarTagSection: document.querySelector("#sidebar-tag-section"),
-  sidebarTagList: document.querySelector("#sidebar-tag-list"),
-  newSidebarTagButton: document.querySelector("#new-sidebar-tag-button"),
-  sidebarBoardSection: document.querySelector("#sidebar-board-section"),
-  boardSettingsToggleButton: document.querySelector("#board-settings-toggle-button"),
-  sidebarBoardActionsPanel: document.querySelector("#sidebar-board-actions-panel"),
-  boardRenameInlineHost: document.querySelector("#board-rename-inline-host"),
-  deleteBoardButton: document.querySelector("#delete-board-button"),
-  boardTitle: document.querySelector("#board-title"),
-  laneBoard: document.querySelector("#lane-board"),
-  listBoard: document.querySelector("#list-board"),
-  sidebarToggleButton: document.querySelector("#sidebar-toggle-button"),
-  sidebarReopenButton: document.querySelector("#sidebar-reopen-button"),
-  newBoardButton: document.querySelector("#new-board-button"),
-  searchInput: document.querySelector("#search-input"),
-  searchClearButton: document.querySelector("#search-clear-button"),
-  laneFilter: document.querySelector("#lane-filter"),
-  viewModeButtons: [...document.querySelectorAll("#view-mode-toggle button")],
-  statusFilter: document.querySelector("#status-filter"),
-  statusFilterToggles: [...document.querySelectorAll("#status-filter [data-filter-expand='status']")],
-  statusFilterButtons: [...document.querySelectorAll("#status-filter [data-status-filter]")],
-  statusFilterClearButton: document.querySelector("#status-filter [data-status-clear]"),
-  statusFilterSummary: document.querySelector("#status-filter-summary"),
-  statusFilterOptions: document.querySelector("#status-filter .filter-menu-options"),
-  priorityFilter: document.querySelector("#priority-filter"),
-  priorityFilterToggles: [...document.querySelectorAll("#priority-filter [data-filter-expand='priority']")],
-  priorityFilterButtons: [...document.querySelectorAll("#priority-filter [data-priority-filter]")],
-  priorityFilterClearButton: document.querySelector("#priority-filter [data-priority-clear]"),
-  priorityFilterSummary: document.querySelector("#priority-filter-summary"),
-  priorityFilterOptions: document.querySelector("#priority-filter .filter-menu-options"),
-  tagFilter: document.querySelector("#tag-filter"),
-  resetFiltersButton: document.querySelector("#reset-filters-button"),
-  exportBoardButton: document.querySelector("#export-board-button"),
-  importBoardInput: document.querySelector("#import-board-input"),
-  remoteImportCreateButton: document.querySelector("#remote-import-create-button"),
-  editorDialog: document.querySelector("#editor-dialog"),
-  editorRemoteImportSheet: document.querySelector("#editor-remote-import-sheet"),
-  editorRemoteImportForm: document.querySelector("#editor-remote-import-form"),
-  editorRemoteImportCloseButton: document.querySelector("#editor-remote-import-close-button"),
-  editorRemoteImportCancelButton: document.querySelector("#editor-remote-import-cancel-button"),
-  editorRemoteImportPreviewButton: document.querySelector("#editor-remote-import-preview-button"),
-  editorRemoteImportSubmitButton: document.querySelector("#editor-remote-import-submit-button"),
-  editorRemoteImportPreview: document.querySelector("#editor-remote-import-preview"),
-  editorRemoteProviderSwitch: document.querySelector("#editor-remote-provider-switch"),
-  editorRemoteProviderOptions: [...document.querySelectorAll("[data-remote-provider-option]")],
-  editorRemoteProviderHelp: document.querySelector("#editor-remote-provider-help"),
-  editorRemoteProvider: document.querySelector("#editor-remote-provider"),
-  editorRemoteLane: document.querySelector("#editor-remote-lane"),
-  editorRemoteUrl: document.querySelector("#editor-remote-url"),
-  editorRemoteBacklinkComment: document.querySelector("#editor-remote-backlink-comment"),
-  editorRemoteBacklinkUrlRow: document.querySelector("#editor-remote-backlink-url-row"),
-  editorRemoteBacklinkUrl: document.querySelector("#editor-remote-backlink-url"),
-  editorRemoteImportError: document.querySelector("#editor-remote-import-error"),
-  editorHeader: document.querySelector(".editor-header"),
-  editorHeaderState: document.querySelector("#editor-header-state"),
-  editorHeaderId: document.querySelector("#editor-header-id"),
-  editorHeaderTitle: document.querySelector("#editor-header-title"),
-  editorHeaderPriority: document.querySelector("#editor-header-priority"),
-  editorSaveState: document.querySelector("#editor-save-state"),
-  archiveTicketButton: document.querySelector("#archive-ticket-button"),
-  moveTicketButton: document.querySelector("#move-ticket-button"),
-  headerEditButton: document.querySelector("#header-edit-button"),
-  ticketView: document.querySelector("#ticket-view"),
-  editorDialogResizeHandle: document.querySelector("#editor-dialog-resize-handle"),
-  editorForm: document.querySelector("#editor-form"),
-  ticketViewMeta: document.querySelector("#ticket-view-meta"),
-  ticketRemoteSummary: document.querySelector("#ticket-remote-summary"),
-  ticketRelations: document.querySelector("#ticket-relations"),
-  ticketBodyTabs: document.querySelector("#ticket-body-tabs"),
-  ticketLocalBodyTabButton: document.querySelector("#ticket-local-body-tab-button"),
-  ticketRemoteBodyTabButton: document.querySelector("#ticket-remote-body-tab-button"),
-  ticketDiffBodyTabButton: document.querySelector("#ticket-diff-body-tab-button"),
-  ticketViewBody: document.querySelector("#ticket-view-body"),
-  commentsTabButton: document.querySelector("#comments-tab-button"),
-  activityTabButton: document.querySelector("#activity-tab-button"),
-  commentsSection: document.querySelector("#comments-section"),
-  activitySection: document.querySelector("#activity-section"),
-  ticketComments: document.querySelector("#ticket-comments"),
-  ticketActivity: document.querySelector("#ticket-activity"),
-  commentComposeToggle: document.querySelector("#comment-compose-toggle"),
-  commentForm: document.querySelector("#comment-form"),
-  commentBody: document.querySelector("#comment-body"),
-  commentSaveState: document.querySelector("#comment-save-state"),
-  saveCommentButton: document.querySelector("#save-comment-button"),
-  ticketTitle: document.querySelector("#ticket-title"),
-  ticketTitleReadonly: document.querySelector("#ticket-title-readonly"),
-  ticketLane: document.querySelector("#ticket-lane"),
-  ticketParent: document.querySelector("#ticket-parent"),
-  ticketRelationAdd: document.querySelector("#ticket-relation-add"),
-  ticketRelationAddOptions: document.querySelector("#ticket-relation-add-options"),
-  ticketRelationAddButton: document.querySelector("#ticket-relation-add-button"),
-  ticketParentRow: document.querySelector("#ticket-parent-row"),
-  ticketParentToggle: document.querySelector("#ticket-parent-toggle"),
-  ticketParentSummary: document.querySelector("#ticket-parent-summary"),
-  ticketParentSearch: document.querySelector("#ticket-parent-search"),
-  ticketParentOptions: document.querySelector("#ticket-parent-options"),
-  ticketPriority: document.querySelector("#ticket-priority"),
-  ticketResolved: document.querySelector("#ticket-resolved"),
-  ticketTagToggle: document.querySelector("#ticket-tag-toggle"),
-  ticketTagSummary: document.querySelector("#ticket-tag-summary"),
-  ticketTagSearch: document.querySelector("#ticket-tag-search"),
-  ticketTagOptions: document.querySelector("#ticket-tag-options"),
-  ticketBlockerToggle: document.querySelector("#ticket-blocker-toggle"),
-  ticketBlockerRow: document.querySelector("#ticket-blocker-row"),
-  ticketBlockerSummary: document.querySelector("#ticket-blocker-summary"),
-  ticketBlockerSearch: document.querySelector("#ticket-blocker-search"),
-  ticketBlockerOptions: document.querySelector("#ticket-blocker-options"),
-  ticketRelatedRow: document.querySelector("#ticket-related-row"),
-  ticketRelatedToggle: document.querySelector("#ticket-related-toggle"),
-  ticketRelatedSummary: document.querySelector("#ticket-related-summary"),
-  ticketRelatedSearch: document.querySelector("#ticket-related-search"),
-  ticketRelatedOptions: document.querySelector("#ticket-related-options"),
-  ticketChildrenRow: document.querySelector("#ticket-children-row"),
-  ticketChildToggle: document.querySelector("#ticket-child-toggle"),
-  ticketChildSummary: document.querySelector("#ticket-child-summary"),
-  ticketChildSearch: document.querySelector("#ticket-child-search"),
-  ticketChildOptions: document.querySelector("#ticket-child-options"),
-  ticketEditBodyTabs: document.querySelector("#ticket-edit-body-tabs"),
-  ticketEditLocalBodyTabButton: document.querySelector("#ticket-edit-local-body-tab-button"),
-  ticketEditRemoteBodyTabButton: document.querySelector("#ticket-edit-remote-body-tab-button"),
-  ticketBody: document.querySelector("#ticket-body"),
-  ticketRemoteBodyPanel: document.querySelector("#ticket-remote-body-panel"),
-  deleteTicketButton: document.querySelector("#delete-ticket-button"),
-  ticketResolvedRow: document.querySelector("#ticket-resolved-row"),
-  cancelEditButton: document.querySelector("#cancel-edit-button"),
-  uxDialog: document.querySelector("#ux-dialog"),
-  uxForm: document.querySelector("#ux-form"),
-  uxHeader: document.querySelector("#ux-form .editor-header"),
-  uxTitle: document.querySelector("#ux-title"),
-  uxMessage: document.querySelector("#ux-message"),
-  uxFields: document.querySelector("#ux-fields"),
-  uxError: document.querySelector("#ux-error"),
-  uxSubmitButton: document.querySelector("#ux-submit-button"),
-  uxDismissButton: document.querySelector("#ux-dismiss-button"),
-  uxCancelButton: document.querySelector("#ux-cancel-button"),
-  toast: document.querySelector("#toast"),
-  footerAppLabel: document.querySelector("#footer-app-label"),
-};
+const {
+  ensureEditorDialogPosition,
+  handleEditorDialogResizePointerDown,
+  handleEditorDialogResizePointerMove,
+  handleEditorDialogResizePointerUp,
+  handleEditorHeaderPointerDown,
+  handleEditorHeaderPointerMove,
+  handleEditorHeaderPointerUp,
+  handleUxHeaderPointerDown,
+  handleUxHeaderPointerMove,
+  handleUxHeaderPointerUp,
+  prepareEditorDialogPosition,
+  prepareUxDialogPosition,
+  syncDialogScrollLock,
+} = createDialogModule({ state, elements }, { saveEditorDialogSize });
 
 async function main() {
   bindEvents();
@@ -535,226 +158,6 @@ function bindEvents() {
   document.addEventListener("keydown", handleDocumentKeydown);
 }
 
-function clampEditorDialogPosition(left, top) {
-  const rect = elements.editorDialog.getBoundingClientRect();
-  const maxLeft = Math.max(12, window.innerWidth - rect.width - 12);
-  const minTop = window.scrollY + 12;
-  return {
-    left: Math.min(Math.max(12, left), maxLeft),
-    top: Math.max(minTop, top),
-  };
-}
-
-function clampEditorDialogSize(width, height) {
-  const rect = elements.editorDialog.getBoundingClientRect();
-  const maxWidth = Math.max(EDITOR_DIALOG_MIN_WIDTH, window.innerWidth - rect.left - 12);
-  const viewportBottom = window.scrollY + window.innerHeight - 12;
-  const dialogTop = window.scrollY + rect.top;
-  const maxHeight = Math.max(EDITOR_DIALOG_MIN_HEIGHT, viewportBottom - dialogTop);
-  return {
-    width: Math.min(Math.max(EDITOR_DIALOG_MIN_WIDTH, width), maxWidth),
-    height: Math.min(Math.max(EDITOR_DIALOG_MIN_HEIGHT, height), maxHeight),
-  };
-}
-
-function applyEditorDialogSize(size, { persist = false } = {}) {
-  if (!size) {
-    return;
-  }
-  const clamped = clampEditorDialogSize(size.width, size.height);
-  state.editorDialogSize = clamped;
-  elements.editorDialog.style.width = `${clamped.width}px`;
-  elements.editorDialog.style.height = `${clamped.height}px`;
-  if (persist) {
-    saveEditorDialogSize(clamped);
-  }
-  syncEditorDialogScrollSpace();
-}
-
-function applyEditorDialogPosition(position) {
-  if (!position) {
-    return;
-  }
-  const clamped = clampEditorDialogPosition(position.left, position.top);
-  state.editorDialogPosition = clamped;
-  elements.editorDialog.style.left = `${clamped.left}px`;
-  elements.editorDialog.style.top = `${clamped.top}px`;
-}
-
-function prepareEditorDialogPosition(scrollY = window.scrollY) {
-  if (state.editorDialogSize) {
-    applyEditorDialogSize(state.editorDialogSize);
-  } else {
-    elements.editorDialog.style.width = "";
-    elements.editorDialog.style.height = "";
-  }
-  const closedWidth = state.editorDialogSize?.width ?? Math.min(EDITOR_DIALOG_WIDTH, Math.max(0, window.innerWidth - 32));
-  const position = {
-    left: Math.max(12, (window.innerWidth - closedWidth) / 2),
-    top: scrollY + 48,
-  };
-  state.editorDialogPosition = position;
-  elements.editorDialog.style.left = `${position.left}px`;
-  elements.editorDialog.style.top = `${position.top}px`;
-}
-
-function ensureEditorDialogPosition() {
-  if (state.editorDialogPosition) {
-    applyEditorDialogPosition(state.editorDialogPosition);
-    return;
-  }
-  const rect = elements.editorDialog.getBoundingClientRect();
-  applyEditorDialogPosition({
-    left: Math.max(12, (window.innerWidth - rect.width) / 2),
-    top: window.scrollY + 48,
-  });
-}
-
-function handleEditorHeaderPointerDown(event) {
-  if (!elements.editorDialog.open) {
-    return;
-  }
-  if (event.button !== 0 || event.target.closest("button, input, textarea, select")) {
-    return;
-  }
-  const rect = elements.editorDialog.getBoundingClientRect();
-  state.editorDialogDrag = {
-    pointerId: event.pointerId,
-    startX: event.clientX,
-    startY: event.clientY,
-    left: rect.left,
-    top: rect.top,
-  };
-  elements.editorDialog.classList.add("dragging");
-  event.preventDefault();
-}
-
-function handleEditorHeaderPointerMove(event) {
-  const drag = state.editorDialogDrag;
-  if (!drag || drag.pointerId !== event.pointerId) {
-    return;
-  }
-  applyEditorDialogPosition({
-    left: drag.left + (event.clientX - drag.startX),
-    top: window.scrollY + drag.top + (event.clientY - drag.startY),
-  });
-}
-
-function handleEditorHeaderPointerUp(event) {
-  const drag = state.editorDialogDrag;
-  if (!drag || drag.pointerId !== event.pointerId) {
-    return;
-  }
-  state.editorDialogDrag = null;
-  elements.editorDialog.classList.remove("dragging");
-}
-
-function handleEditorDialogResizePointerDown(event) {
-  if (!elements.editorDialog.open || event.button !== 0) {
-    return;
-  }
-  const rect = elements.editorDialog.getBoundingClientRect();
-  state.editorDialogResize = {
-    pointerId: event.pointerId,
-    startX: event.clientX,
-    startY: event.clientY,
-    width: rect.width,
-    height: rect.height,
-  };
-  elements.editorDialog.classList.add("resizing");
-  elements.editorDialogResizeHandle.setPointerCapture?.(event.pointerId);
-  event.preventDefault();
-}
-
-function handleEditorDialogResizePointerMove(event) {
-  const resize = state.editorDialogResize;
-  if (!resize || resize.pointerId !== event.pointerId) {
-    return;
-  }
-  applyEditorDialogSize({
-    width: resize.width + (event.clientX - resize.startX),
-    height: resize.height + (event.clientY - resize.startY),
-  });
-}
-
-function handleEditorDialogResizePointerUp(event) {
-  const resize = state.editorDialogResize;
-  if (!resize || resize.pointerId !== event.pointerId) {
-    return;
-  }
-  state.editorDialogResize = null;
-  elements.editorDialog.classList.remove("resizing");
-  elements.editorDialogResizeHandle.releasePointerCapture?.(event.pointerId);
-  if (state.editorDialogSize) {
-    applyEditorDialogSize(state.editorDialogSize, { persist: true });
-  }
-}
-
-function clampUxDialogPosition(left, top) {
-  const rect = elements.uxDialog.getBoundingClientRect();
-  return {
-    left: Math.min(Math.max(12, left), Math.max(12, window.innerWidth - rect.width - 12)),
-    top: Math.min(Math.max(12, top), Math.max(12, window.innerHeight - rect.height - 12)),
-  };
-}
-
-function applyUxDialogPosition(position) {
-  if (!position) {
-    return;
-  }
-  const clamped = clampUxDialogPosition(position.left, position.top);
-  state.uxDialogPosition = clamped;
-  elements.uxDialog.style.left = `${clamped.left}px`;
-  elements.uxDialog.style.top = `${clamped.top}px`;
-}
-
-function prepareUxDialogPosition() {
-  const rect = elements.uxDialog.getBoundingClientRect();
-  applyUxDialogPosition({
-    left: (window.innerWidth - rect.width) / 2,
-    top: Math.max(48, (window.innerHeight - rect.height) / 2),
-  });
-}
-
-function handleUxHeaderPointerDown(event) {
-  if (!elements.uxDialog.open) {
-    return;
-  }
-  if (event.button !== 0 || event.target.closest("button")) {
-    return;
-  }
-  const rect = elements.uxDialog.getBoundingClientRect();
-  state.uxDialogDrag = {
-    pointerId: event.pointerId,
-    startX: event.clientX,
-    startY: event.clientY,
-    left: rect.left,
-    top: rect.top,
-  };
-  elements.uxDialog.classList.add("dragging");
-  event.preventDefault();
-}
-
-function handleUxHeaderPointerMove(event) {
-  const drag = state.uxDialogDrag;
-  if (!drag || drag.pointerId !== event.pointerId) {
-    return;
-  }
-  applyUxDialogPosition({
-    left: drag.left + (event.clientX - drag.startX),
-    top: drag.top + (event.clientY - drag.startY),
-  });
-}
-
-function handleUxHeaderPointerUp(event) {
-  const drag = state.uxDialogDrag;
-  if (!drag || drag.pointerId !== event.pointerId) {
-    return;
-  }
-  state.uxDialogDrag = null;
-  elements.uxDialog.classList.remove("dragging");
-}
-
 function handleDialogBackdropClick(event) {
   const dialog = event.currentTarget;
   if (!(dialog instanceof HTMLDialogElement) || event.target !== dialog) {
@@ -789,24 +192,6 @@ function handleDocumentKeydown(event) {
     return;
   }
   closeEditor();
-}
-
-function syncEditorDialogScrollSpace() {
-  if (!elements.editorDialog.open) {
-    document.body.style.minHeight = "";
-    return;
-  }
-  const rect = elements.editorDialog.getBoundingClientRect();
-  const dialogBottom = window.scrollY + rect.bottom;
-  document.body.style.minHeight = `${Math.ceil(dialogBottom + 32)}px`;
-}
-
-function syncDialogScrollLock() {
-  const shouldLockScroll = elements.uxDialog.open;
-  document.documentElement.classList.toggle("dialog-scroll-locked", shouldLockScroll);
-  document.body.classList.toggle("dialog-scroll-locked", shouldLockScroll);
-  document.body.classList.toggle("editor-dialog-open", elements.editorDialog.open);
-  syncEditorDialogScrollSpace();
 }
 
 async function refreshBoards() {
@@ -870,191 +255,6 @@ async function refreshBoardDetail() {
   syncActiveFilterStyles();
 }
 
-function closeBoardEvents() {
-  if (state.boardEvents) {
-    state.boardEvents.close();
-  }
-  state.boardEvents = null;
-  state.boardEventsBoardId = null;
-}
-
-function syncBoardEvents() {
-  if (!state.activeBoardId) {
-    closeBoardEvents();
-    return;
-  }
-  if (state.boardEvents && state.boardEventsBoardId === state.activeBoardId) {
-    return;
-  }
-  closeBoardEvents();
-  const source = new EventSource(`/api/boards/${state.activeBoardId}/events`);
-  source.onmessage = () => {
-    handleBoardUpdatedEvent().catch((error) => {
-      console.error(error);
-    });
-  };
-  source.addEventListener("board_updated", handleBoardUpdatedEvent);
-  source.addEventListener("board_imported", handleBoardUpdatedEvent);
-  source.addEventListener("board_created", handleBoardUpdatedEvent);
-  source.onerror = () => {
-    if (state.boardEvents === source && source.readyState === EventSource.CLOSED) {
-      closeBoardEvents();
-    }
-  };
-  state.boardEvents = source;
-  state.boardEventsBoardId = state.activeBoardId;
-}
-
-async function handleBoardUpdatedEvent() {
-  if (!state.activeBoardId) {
-    return;
-  }
-  if (elements.editorDialog.open) {
-    state.boardRefreshPendingAfterDialog = true;
-    return;
-  }
-  if (state.boardRefreshInFlight) {
-    state.boardRefreshQueued = true;
-    return;
-  }
-  state.boardRefreshInFlight = true;
-  try {
-    await refreshBoardDetail();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    state.boardRefreshInFlight = false;
-    if (state.boardRefreshQueued) {
-      state.boardRefreshQueued = false;
-      queueMicrotask(() => {
-        handleBoardUpdatedEvent().catch((error) => {
-          console.error(error);
-        });
-      });
-    }
-  }
-}
-
-async function flushPendingBoardRefreshAfterDialogClose() {
-  if (!state.boardRefreshPendingAfterDialog || !state.activeBoardId) {
-    return;
-  }
-  state.boardRefreshPendingAfterDialog = false;
-  await handleBoardUpdatedEvent();
-}
-
-function readRouteFromLocation() {
-  const parts = window.location.pathname.split("/").filter(Boolean);
-  const [kind, rawId, rawView] = parts;
-  const id = Number(rawId);
-  if (kind === "boards" && Number.isInteger(id) && id > 0) {
-    return { kind: "board", id, viewMode: rawView === "list" ? "list" : "kanban" };
-  }
-  if (kind === "tickets" && Number.isInteger(id) && id > 0) {
-    return { kind: "ticket", id };
-  }
-  return { kind: "home" };
-}
-
-async function applyRouteFromLocation({ replace = false } = {}) {
-  const route = readRouteFromLocation();
-
-  if (route.kind === "ticket") {
-    try {
-      const ticket = await api(`/api/tickets/${route.id}`);
-      saveBoardFilters();
-      saveBoardFilterExpansion();
-      saveBoardViewMode();
-      state.activeBoardId = ticket.boardId;
-      restoreBoardViewMode(ticket.boardId);
-      restoreBoardFilters(ticket.boardId);
-      restoreBoardFilterExpansion(ticket.boardId);
-      await refreshBoardDetail();
-      await openEditor(ticket.id, "view");
-      persistUiPreferences();
-      if (replace) {
-        syncTicketUrl(ticket.id, { replace: true });
-      }
-      return;
-    } catch {
-      showToast("Ticket not found", "error");
-    }
-  }
-
-  if (route.kind === "board") {
-    if (state.boards.some((board) => board.id === route.id)) {
-      saveBoardFilters();
-      saveBoardFilterExpansion();
-      saveBoardViewMode();
-      state.activeBoardId = route.id;
-      state.viewMode = route.viewMode;
-      saveBoardViewMode(route.id, route.viewMode);
-      restoreBoardFilters(route.id);
-      restoreBoardFilterExpansion(route.id);
-      await refreshBoardDetail();
-      persistUiPreferences();
-      if (elements.editorDialog.open) {
-        state.skipDialogCloseSync = true;
-        elements.editorDialog.close();
-      }
-      if (replace) {
-        syncBoardUrl(true);
-      }
-      return;
-    }
-    showToast("Board not found", "error");
-  }
-
-  if (state.boards.length > 0) {
-    saveBoardFilters();
-    saveBoardFilterExpansion();
-    saveBoardViewMode();
-    state.activeBoardId =
-      state.activeBoardId && state.boards.some((board) => board.id === state.activeBoardId)
-        ? state.activeBoardId
-        : state.boards[0].id;
-    restoreBoardViewMode(state.activeBoardId);
-    restoreBoardFilters(state.activeBoardId);
-    restoreBoardFilterExpansion(state.activeBoardId);
-    await refreshBoardDetail();
-    persistUiPreferences();
-    if (elements.editorDialog.open) {
-      state.skipDialogCloseSync = true;
-      elements.editorDialog.close();
-    }
-    syncBoardUrl(replace);
-    return;
-  }
-
-  state.activeBoardId = null;
-  state.viewMode = "kanban";
-  persistUiPreferences();
-  await refreshBoardDetail();
-}
-
-function setUrl(pathname, { replace = false } = {}) {
-  if (window.location.pathname === pathname) {
-    return;
-  }
-  const method = replace ? "replaceState" : "pushState";
-  window.history[method](null, "", pathname);
-}
-
-function syncBoardUrl(replace = false) {
-  saveBoardViewMode();
-  const pathname = !state.activeBoardId
-    ? "/"
-    : state.viewMode === "list"
-      ? `/boards/${state.activeBoardId}/list`
-      : `/boards/${state.activeBoardId}`;
-  setUrl(pathname, { replace });
-  persistUiPreferences();
-}
-
-function syncTicketUrl(ticketId, { replace = false } = {}) {
-  setUrl(`/tickets/${ticketId}`, { replace });
-}
-
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -1075,6 +275,20 @@ const uxModule = createUxModule({
 });
 
 const { confirmAndRun, finishUxDialog, handleUxSubmit, openFormDialog, showToast } = uxModule;
+
+let routerModule;
+
+function applyRouteFromLocation(options) {
+  return routerModule.applyRouteFromLocation(options);
+}
+
+function syncBoardUrl(replace = false) {
+  return routerModule.syncBoardUrl(replace);
+}
+
+function syncTicketUrl(ticketId, options) {
+  return routerModule.syncTicketUrl(ticketId, options);
+}
 
 const filtersModule = createFiltersModule(
   { state, elements },
@@ -1100,6 +314,17 @@ const {
   syncStatusFilter,
   syncViewMode,
 } = filtersModule;
+
+const {
+  closeBoardEvents,
+  flushPendingBoardRefreshAfterDialogClose,
+  syncBoardEvents,
+} = createBoardEventsModule(
+  { state, elements },
+  {
+    refreshBoardDetail,
+  },
+);
 
 const editorModule = createEditorModule({
   state,
@@ -1170,6 +395,22 @@ const {
   syncTicketTagOptions,
   toggleTicketArchive,
 } = editorModule;
+
+routerModule = createRouterModule(
+  { state, elements, api },
+  {
+    openEditor,
+    persistUiPreferences,
+    refreshBoardDetail,
+    restoreBoardFilterExpansion,
+    restoreBoardFilters,
+    restoreBoardViewMode,
+    saveBoardFilterExpansion,
+    saveBoardFilters,
+    saveBoardViewMode,
+    showToast,
+  },
+);
 
 const boardModule = createBoardModule({
   state,

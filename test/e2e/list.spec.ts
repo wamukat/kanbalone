@@ -87,32 +87,120 @@ test("list view refreshes after background API updates", async ({ page }) => {
   }
 });
 
-test("list relation ids open linked ticket details", async ({ page }) => {
+test("list blocker ids open linked ticket details", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
 
   try {
     const boardPayload = await createBoard(page.request, baseUrl, {
-      name: "List Relation Links Board",
+      name: "List Blocker Links Board",
       laneNames: ["Todo"],
     });
     const lane = boardPayload.lanes[0];
-    const related = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+    const blocker = await createTicket(page.request, baseUrl, boardPayload.board.id, {
       laneId: lane.id,
-      title: "Linked related ticket",
+      title: "Linked blocker ticket",
     });
     await createTicket(page.request, baseUrl, boardPayload.board.id, {
       laneId: lane.id,
-      title: "Ticket with related link",
+      title: "Ticket with blocker link",
+      blockerIds: [blocker.id],
+    });
+
+    await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
+    const blockerLink = page.locator(".list-row", { hasText: "Ticket with blocker link" })
+      .locator(".list-relation-ticket-link", { hasText: `#${blocker.id}` });
+    await expect(blockerLink).toBeVisible();
+    await blockerLink.click();
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#editor-header-title")).toContainText("Linked blocker ticket");
+  } finally {
+    await close();
+  }
+});
+
+test("list blockers column only shows blockers", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "List Blockers Board",
+      laneNames: ["Todo"],
+    });
+    const lane = boardPayload.lanes[0];
+    const parent = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Parent ticket",
+    });
+    const blocker = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Blocking ticket",
+    });
+    const related = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Related ticket",
+    });
+    const child = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId: lane.id,
+      title: "Child ticket",
+      parentTicketId: parent.id,
+      blockerIds: [blocker.id],
       relatedIds: [related.id],
     });
 
     await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
-    const relationLink = page.locator(".list-row", { hasText: "Ticket with related link" })
-      .locator(".list-relation-ticket-link", { hasText: `#${related.id}` });
-    await expect(relationLink).toBeVisible();
-    await relationLink.click();
-    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
-    await expect(page.locator("#editor-header-title")).toContainText("Linked related ticket");
+
+    const childRow = page.locator(".list-row", { hasText: "Child ticket" });
+    await expect(childRow).toBeVisible();
+    const blockersCell = childRow.locator(".list-cell").first();
+    await expect(blockersCell.locator(".list-relation-ticket-link")).toHaveText(`#${blocker.id}`);
+    await expect(blockersCell).not.toContainText(`parent #${parent.id}`);
+    await expect(blockersCell).not.toContainText(`related #${related.id}`);
+    await expect(blockersCell).not.toContainText(`children #${child.id}`);
+  } finally {
+    await close();
+  }
+});
+
+test("list title column shows hierarchy icons and parent icon selects the family", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const boardPayload = await createBoard(page.request, baseUrl, {
+      name: "List Hierarchy Icons",
+      laneNames: ["Todo"],
+    });
+    const laneId = boardPayload.lanes[0].id;
+    const parent = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Parent list ticket",
+    });
+    const child = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Child list ticket",
+    });
+    const standalone = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Standalone list ticket",
+    });
+    await updateTicket(page.request, baseUrl, child.id, { parentTicketId: parent.id });
+
+    await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
+
+    const parentRow = page.locator(".list-row", { hasText: "Parent list ticket" });
+    const childRow = page.locator(".list-row", { hasText: "Child list ticket" });
+    const standaloneRow = page.locator(".list-row", { hasText: "Standalone list ticket" });
+    await expect(parentRow.locator(".ticket-hierarchy-icon-parent use")).toHaveAttribute("href", "/icons.svg#folder-up");
+    await expect(childRow.locator(".ticket-hierarchy-icon-child use")).toHaveAttribute("href", "/icons.svg#folder-tree");
+    await expect(standaloneRow.locator(".ticket-hierarchy-icon-single use")).toHaveAttribute("href", "/icons.svg#ticket");
+
+    await parentRow.locator("[data-select-family-ticket-id]").click();
+    await expect(page.locator(`[data-list-ticket-id="${parent.id}"]`)).toBeChecked();
+    await expect(page.locator(`[data-list-ticket-id="${child.id}"]`)).toBeChecked();
+    await expect(page.locator(`[data-list-ticket-id="${standalone.id}"]`)).not.toBeChecked();
+
+    await parentRow.locator("[data-select-family-ticket-id]").click();
+    await expect(page.locator(`[data-list-ticket-id="${parent.id}"]`)).not.toBeChecked();
+    await expect(page.locator(`[data-list-ticket-id="${child.id}"]`)).not.toBeChecked();
   } finally {
     await close();
   }
@@ -181,7 +269,7 @@ test("list view refreshes after background API create move and delete", async ({
       data: { laneName: doneLane.name, isResolved: false },
     });
     expect(transitionResponse.status()).toBe(200);
-    await expect(listBoard.getByRole("button", { name: "Created behind list" }).locator("..")).toContainText("Done");
+    await expect(listBoard.locator(".list-row", { hasText: "Created behind list" })).toContainText("Done");
 
     const deleteResponse = await page.request.delete(`${baseUrl}/api/tickets/${existingTicket.id}`);
     expect(deleteResponse.status()).toBe(204);
@@ -312,8 +400,8 @@ test("list bulk move moves selected tickets to another board", async ({ page }) 
     }
 
     await page.goto(`${baseUrl}/boards/${sourceBoardPayload.board.id}/list`);
-    await page.getByRole("button", { name: "Move first" }).locator("..").locator("[data-list-ticket-id]").check();
-    await page.getByRole("button", { name: "Move second" }).locator("..").locator("[data-list-ticket-id]").check();
+    await page.locator(".list-row", { hasText: "Move first" }).locator("[data-list-ticket-id]").check();
+    await page.locator(".list-row", { hasText: "Move second" }).locator("[data-list-ticket-id]").check();
 
     await page.locator("[data-bulk-move-board='true']").first().click();
     await expect(page.locator("#ux-dialog")).toBeVisible();
@@ -332,8 +420,8 @@ test("list bulk move moves selected tickets to another board", async ({ page }) 
     await expect(page.locator("#list-board")).not.toContainText("Move second");
 
     await page.goto(`${baseUrl}/boards/${targetBoardPayload.board.id}/list`);
-    await expect(page.getByRole("button", { name: "Move first" }).locator("..")).toContainText("todo");
-    await expect(page.getByRole("button", { name: "Move second" }).locator("..")).toContainText("todo");
+    await expect(page.locator(".list-row", { hasText: "Move first" })).toContainText("todo");
+    await expect(page.locator(".list-row", { hasText: "Move second" })).toContainText("todo");
   } finally {
     await page.close();
     await app.close();
@@ -360,8 +448,8 @@ test("list bulk move can move selected tickets to another lane on the same board
     }
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
-    await page.getByRole("button", { name: "Lane move first" }).locator("..").locator("[data-list-ticket-id]").check();
-    await page.getByRole("button", { name: "Lane move second" }).locator("..").locator("[data-list-ticket-id]").check();
+    await page.locator(".list-row", { hasText: "Lane move first" }).locator("[data-list-ticket-id]").check();
+    await page.locator(".list-row", { hasText: "Lane move second" }).locator("[data-list-ticket-id]").check();
 
     await page.locator("[data-bulk-move-board='true']").first().click();
     await expect(page.locator("#ux-dialog")).toBeVisible();
@@ -380,8 +468,8 @@ test("list bulk move can move selected tickets to another lane on the same board
       page.locator("#ux-submit-button").click(),
     ]);
 
-    await expect(page.getByRole("button", { name: "Lane move first" }).locator("..")).toContainText("todo");
-    await expect(page.getByRole("button", { name: "Lane move second" }).locator("..")).toContainText("todo");
+    await expect(page.locator(".list-row", { hasText: "Lane move first" })).toContainText("todo");
+    await expect(page.locator(".list-row", { hasText: "Lane move second" })).toContainText("todo");
     await expect(page.locator("[data-list-ticket-id]:checked")).toHaveCount(0);
     for (const ticketId of movedTicketIds) {
       const response = await page.request.get(`${baseUrl}/api/tickets/${ticketId}`);

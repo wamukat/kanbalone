@@ -48,6 +48,14 @@
   margin: 0;
 }
 
+.list-ticket-title-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
 .list-ticket-link {
   display: inline-flex;
   align-items: center;
@@ -70,12 +78,18 @@
   white-space: nowrap;
 }
 
-.list-ticket-remote-ref {
+.list-ticket-remote-ref,
+.list-ticket-external-ref {
   flex: 0 1 auto;
-  max-width: 9rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.list-ticket-remote-ref > span:last-child,
+.list-ticket-external-ref > span:last-child {
+  overflow-wrap: anywhere;
 }
 
 .list-ticket-link:hover {
@@ -83,18 +97,33 @@
   text-decoration: none;
 }
 
-.list-ticket-link.indent-1 {
+.list-ticket-title-cell.indent-1 {
   padding-left: 1.25rem;
   position: relative;
 }
 
-.list-ticket-link.indent-1::before {
+.list-ticket-title-cell.indent-1::before {
   content: "";
   position: absolute;
   left: 0.35rem;
   width: 0.55rem;
   height: 1px;
   background: color-mix(in srgb, var(--text-muted) 35%, transparent);
+}
+
+.list-ticket-title-cell .ticket-hierarchy-icon {
+  flex: 0 0 auto;
+}
+
+.ticket-hierarchy-select-button {
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.ticket-hierarchy-select-button:hover {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--success) 18%, transparent);
+  filter: brightness(0.98);
 }
 
 .list-cell {

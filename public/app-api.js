@@ -1,3 +1,10 @@
+// @ts-check
+
+/**
+ * @param {string | URL} url
+ * @param {RequestInit} [init]
+ * @returns {Promise<unknown>}
+ */
 export async function api(url, init = {}) {
   const headers = {
     ...(init.body == null ? {} : { "content-type": "application/json" }),
@@ -9,7 +16,7 @@ export async function api(url, init = {}) {
     headers,
   });
   if (!response.ok) {
-    const payload = await response.json().catch(() => ({ error: response.statusText }));
+    const payload = /** @type {{ error?: string }} */ (await response.json().catch(() => ({ error: response.statusText })));
     throw new Error(payload.error ?? response.statusText);
   }
   if (response.status === 204) {
@@ -18,6 +25,10 @@ export async function api(url, init = {}) {
   return response.json();
 }
 
+/**
+ * @param {(url: string | URL, init?: RequestInit) => Promise<unknown>} apiClient
+ * @returns {(url: string, options: { method: string; body?: unknown }) => Promise<unknown>}
+ */
 export function createSendJson(apiClient) {
   return function sendJson(url, { method, body }) {
     return apiClient(url, {

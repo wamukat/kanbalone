@@ -1,6 +1,6 @@
 import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
-import { icon } from "./icons.js";
+import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
 
 export function createKanbanTicketCard(ctx, ticket) {
@@ -56,28 +56,6 @@ export function createKanbanTicketCard(ctx, ticket) {
     }
   });
   return card;
-}
-
-function renderTicketHierarchyIcon(ticket, boardTickets) {
-  const hasChildren = boardTickets.some((candidate) => candidate.parentTicketId === ticket.id);
-  const state = ticket.parentTicketId != null
-    ? {
-        key: "child",
-        iconName: "folder-tree",
-        label: "Child ticket",
-      }
-    : hasChildren
-      ? {
-          key: "parent",
-          iconName: "folder-up",
-          label: "Parent ticket",
-        }
-      : {
-          key: "single",
-          iconName: "ticket",
-          label: "Standalone ticket",
-        };
-  return `<span class="ticket-hierarchy-icon ticket-hierarchy-icon-${state.key}" title="${state.label}" aria-label="${state.label}">${icon(state.iconName)}</span>`;
 }
 
 function renderTicketStatusIcons(ticket) {

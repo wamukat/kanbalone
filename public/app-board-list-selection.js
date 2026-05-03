@@ -141,6 +141,21 @@ export function createListSelectionModule(ctx) {
     ctx.renderBoardDetail();
   }
 
+  function handleListFamilySelection(parentTicketId) {
+    const familyIds = state.boardTickets
+      .filter((ticket) => ticket.id === parentTicketId || ticket.parentTicketId === parentTicketId)
+      .map((ticket) => ticket.id);
+    if (familyIds.length === 0) {
+      return;
+    }
+    const familySet = new Set(familyIds);
+    const isFullySelected = familyIds.every((ticketId) => state.selectedListTicketIds.includes(ticketId));
+    state.selectedListTicketIds = isFullySelected
+      ? state.selectedListTicketIds.filter((ticketId) => !familySet.has(ticketId))
+      : [...new Set([...state.selectedListTicketIds, ...familyIds])];
+    ctx.renderBoardDetail();
+  }
+
   function renderMoveFields(targetBoards, lanes, selectedLaneId, selectedLaneIds) {
     return `
       <label class="editor-field">
@@ -177,6 +192,7 @@ export function createListSelectionModule(ctx) {
 
   return {
     deleteSelectedListTickets,
+    handleListFamilySelection,
     handleListSelectAll,
     handleListTicketSelection,
     moveSelectedListTickets,

@@ -1,6 +1,7 @@
 import type { KanbanDb } from "../db.js";
 import type { RemoteAdapterRegistry } from "../remote/adapters.js";
 import type { Id, TicketRelationView, TicketSummaryView, TicketView } from "../types.js";
+import type { RouteJsonSchema } from "./route-schema.js";
 
 export type TicketMutationBody = {
   laneId?: number;
@@ -46,45 +47,45 @@ export type TicketExternalReferenceBody = {
 };
 
 export type TicketRoutesSchemas = {
-  activityLogsResponseSchema: unknown;
-  bulkArchiveTicketsBodySchema: unknown;
-  bulkMoveTicketsBodySchema: unknown;
-  bulkResolveTicketsBodySchema: unknown;
-  bulkTransitionTicketsBodySchema: unknown;
-  commentViewSchema: unknown;
-  commentsResponseSchema: unknown;
-  errorSchema: unknown;
-  idParamsSchema(key: string): unknown;
-  reorderTicketsBodySchema: unknown;
-  ticketCommentBodySchema: unknown;
-  ticketCommentUpdateBodySchema: unknown;
-  ticketEventCreateBodySchema: unknown;
-  ticketEventSchema: unknown;
-  ticketEventsResponseSchema: unknown;
-  ticketExternalReferenceParamsSchema: unknown;
-  ticketExternalReferenceSetBodySchema: unknown;
-  ticketCreateBodySchema: unknown;
-  ticketListQuerySchema: unknown;
-  ticketMoveBodySchema: unknown;
-  ticketPositionBodySchema: unknown;
-  ticketRemoteImportBodySchema: unknown;
-  ticketRelationsSchema: unknown;
-  ticketSchema: unknown;
-  ticketRemoteRefreshResponseSchema: unknown;
-  ticketCommentPushResponseSchema: unknown;
-  ticketsResponseSchema: unknown;
-  ticketTransitionBodySchema: unknown;
-  ticketUpdateBodySchema: unknown;
-  ticketTagReasonSchema: unknown;
-  ticketTagReasonsResponseSchema: unknown;
-  ticketTagReasonSetBodySchema: unknown;
+  activityLogsResponseSchema: RouteJsonSchema;
+  bulkArchiveTicketsBodySchema: RouteJsonSchema;
+  bulkMoveTicketsBodySchema: RouteJsonSchema;
+  bulkResolveTicketsBodySchema: RouteJsonSchema;
+  bulkTransitionTicketsBodySchema: RouteJsonSchema;
+  commentViewSchema: RouteJsonSchema;
+  commentsResponseSchema: RouteJsonSchema;
+  errorSchema: RouteJsonSchema;
+  idParamsSchema(key: string): RouteJsonSchema;
+  reorderTicketsBodySchema: RouteJsonSchema;
+  ticketCommentBodySchema: RouteJsonSchema;
+  ticketCommentUpdateBodySchema: RouteJsonSchema;
+  ticketEventCreateBodySchema: RouteJsonSchema;
+  ticketEventSchema: RouteJsonSchema;
+  ticketEventsResponseSchema: RouteJsonSchema;
+  ticketExternalReferenceParamsSchema: RouteJsonSchema;
+  ticketExternalReferenceSetBodySchema: RouteJsonSchema;
+  ticketCreateBodySchema: RouteJsonSchema;
+  ticketListQuerySchema: RouteJsonSchema;
+  ticketMoveBodySchema: RouteJsonSchema;
+  ticketPositionBodySchema: RouteJsonSchema;
+  ticketRemoteImportBodySchema: RouteJsonSchema;
+  ticketRelationsSchema: RouteJsonSchema;
+  ticketSchema: RouteJsonSchema;
+  ticketRemoteRefreshResponseSchema: RouteJsonSchema;
+  ticketCommentPushResponseSchema: RouteJsonSchema;
+  ticketsResponseSchema: RouteJsonSchema;
+  ticketTransitionBodySchema: RouteJsonSchema;
+  ticketUpdateBodySchema: RouteJsonSchema;
+  ticketTagReasonSchema: RouteJsonSchema;
+  ticketTagReasonsResponseSchema: RouteJsonSchema;
+  ticketTagReasonSetBodySchema: RouteJsonSchema;
 };
 
 export type RegisterTicketRoutesContext = {
   db: KanbanDb;
   getIdParam(params: unknown, key: string): Id;
   parseBooleanQuery(value: string | undefined): boolean | undefined;
-  parseTicketMutationBody(body: TicketMutationBody): TicketMutationBody;
+  parseTicketMutationBody(body: unknown): TicketMutationBody;
   publishBoardEvent(boardId: Id, event?: string): void;
   remoteAdapters: RemoteAdapterRegistry;
   resolveResolvedFlag(body: { isResolved?: boolean; isCompleted?: boolean } | undefined): boolean | undefined;

@@ -1,15 +1,17 @@
 import type { FastifyInstance } from "fastify";
 
 import type { KanbanDb } from "../db.js";
+import { getBodyString } from "../route-helpers.js";
 import type { Id } from "../types.js";
+import type { RouteJsonSchema } from "./route-schema.js";
 
 type TagRoutesSchemas = {
-  errorSchema: unknown;
-  idParamsSchema(key: string): unknown;
-  tagCreateBodySchema: unknown;
-  tagUpdateBodySchema: unknown;
-  tagViewSchema: unknown;
-  tagsResponseSchema: unknown;
+  errorSchema: RouteJsonSchema;
+  idParamsSchema(key: string): RouteJsonSchema;
+  tagCreateBodySchema: RouteJsonSchema;
+  tagUpdateBodySchema: RouteJsonSchema;
+  tagViewSchema: RouteJsonSchema;
+  tagsResponseSchema: RouteJsonSchema;
 };
 
 type RegisterTagRoutesContext = {
@@ -51,8 +53,7 @@ export function registerTagRoutes(app: FastifyInstance, ctx: RegisterTagRoutesCo
     },
   }, async (request, reply) => {
     const boardId = getIdParam(request.params, "boardId");
-    const body = request.body as { name?: string; color?: string };
-    const name = body?.name?.trim();
+    const name = getBodyString(request.body, "name");
     if (!db.getBoard(boardId)) {
       return reply.code(404).send({ error: "board not found" });
     }
@@ -60,7 +61,7 @@ export function registerTagRoutes(app: FastifyInstance, ctx: RegisterTagRoutesCo
       return reply.code(400).send({ error: "name is required" });
     }
     try {
-      const tag = db.createTag({ boardId, name, color: body?.color?.trim() });
+      const tag = db.createTag({ boardId, name, color: getBodyString(request.body, "color") });
       publishBoardEvent(boardId);
       return reply.code(201).send(tag);
     } catch {
@@ -79,11 +80,10 @@ export function registerTagRoutes(app: FastifyInstance, ctx: RegisterTagRoutesCo
       },
     },
   }, async (request, reply) => {
-    const body = request.body as { name?: string; color?: string };
     try {
       const tag = db.updateTag(getIdParam(request.params, "tagId"), {
-        name: body?.name?.trim(),
-        color: body?.color?.trim(),
+        name: getBodyString(request.body, "name"),
+        color: getBodyString(request.body, "color"),
       });
       publishBoardEvent(tag.boardId);
       return tag;

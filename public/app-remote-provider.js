@@ -1,5 +1,8 @@
+// @ts-check
+
 import { icon } from "./icons.js";
 
+/** @type {Record<string, { label: string; iconName?: string; shortLabel: string }>} */
 const PROVIDER_META = {
   github: { label: "GitHub", iconName: "github", shortLabel: "GH" },
   gitlab: { label: "GitLab", iconName: "gitlab", shortLabel: "GL" },
@@ -7,14 +10,24 @@ const PROVIDER_META = {
   redmine: { label: "Redmine", iconName: "redmine", shortLabel: "RM" },
 };
 
+/**
+ * @typedef {{
+ *   provider: string;
+ *   displayRef: string;
+ *   url: string;
+ * }} RemoteRefLike
+ */
+
+/** @param {string} provider */
 export function remoteProviderLabel(provider) {
   const key = normalizeProvider(provider);
-  return PROVIDER_META[key]?.label ?? provider;
+  return getProviderMeta(key)?.label ?? provider;
 }
 
+/** @param {string} provider @param {(value: unknown) => string} escapeHtml */
 export function renderRemoteProviderIcon(provider, escapeHtml) {
   const key = normalizeProvider(provider);
-  const meta = PROVIDER_META[key] ?? {
+  const meta = getProviderMeta(key) ?? {
     label: provider,
     shortLabel: shortProviderLabel(provider),
   };
@@ -26,6 +39,7 @@ export function renderRemoteProviderIcon(provider, escapeHtml) {
   return `<span class="remote-provider-icon remote-provider-icon-${providerClass} remote-provider-initials" title="${title}" aria-label="${title}">${escapeHtml(meta.shortLabel)}</span>`;
 }
 
+/** @param {string} provider @param {(value: unknown) => string} escapeHtml */
 export function renderRemoteProviderBadge(provider, escapeHtml) {
   return `
     <span class="ticket-remote-provider remote-provider-badge">
@@ -35,6 +49,7 @@ export function renderRemoteProviderBadge(provider, escapeHtml) {
   `;
 }
 
+/** @param {RemoteRefLike | null | undefined} remote @param {(value: unknown) => string} escapeHtml @param {string} [className] */
 export function renderRemoteRefBadge(remote, escapeHtml, className = "ticket-remote-ref") {
   if (!remote) {
     return "";
@@ -47,6 +62,7 @@ export function renderRemoteRefBadge(remote, escapeHtml, className = "ticket-rem
   `;
 }
 
+/** @param {RemoteRefLike | null | undefined} remote @param {(value: unknown) => string} escapeHtml @param {string} [className] */
 export function renderRemoteRefLink(remote, escapeHtml, className = "ticket-remote-ref") {
   if (!remote) {
     return "";
@@ -59,10 +75,19 @@ export function renderRemoteRefLink(remote, escapeHtml, className = "ticket-remo
   `;
 }
 
+/** @param {string} provider */
 function normalizeProvider(provider) {
   return String(provider || "remote").toLowerCase().replace(/[^a-z0-9-]/g, "-");
 }
 
+/** @param {string} key */
+function getProviderMeta(key) {
+  return Object.hasOwn(PROVIDER_META, key)
+    ? PROVIDER_META[key]
+    : null;
+}
+
+/** @param {string} provider */
 function shortProviderLabel(provider) {
   const cleaned = String(provider || "remote").replace(/[^a-z0-9]/gi, "").toUpperCase();
   return (cleaned || "R").slice(0, 2);

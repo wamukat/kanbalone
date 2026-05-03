@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM"],
+    "skipLibCheck": true
+  },
+  "include": [
+    "public/app-api.js",
+    "public/app-board-utils.js",
+    "public/app-dialogs.js",
+    "public/app-preferences.js",
+    "public/app-priority.js",
+    "public/app-remote-provider.js",
+    "public/app-tags.js"
+  ]
+}

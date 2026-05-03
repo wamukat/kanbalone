@@ -1,3 +1,5 @@
+// @ts-check
+
 import { icon } from "./icons.js";
 
 const PRIORITY_LEVELS = {
@@ -7,6 +9,7 @@ const PRIORITY_LEVELS = {
   urgent: { value: 4, label: "Urgent", icon: "circle-alert" },
 };
 
+/** @param {unknown} priority */
 export function getPriorityLevel(priority) {
   const normalizedPriority = Number(priority ?? 0);
   if (normalizedPriority === 4) {
@@ -24,16 +27,19 @@ export function getPriorityLevel(priority) {
   return { key: "medium", ...PRIORITY_LEVELS.medium };
 }
 
+/** @param {unknown} priority */
 export function getPriorityInputValue(priority) {
   return String(getPriorityLevel(priority).value);
 }
 
+/** @param {unknown} priority */
 export function renderPriorityBadge(priority) {
   const level = getPriorityLevel(priority);
   const label = `${level.label} priority`;
   return `<span class="ticket-priority-badge ticket-priority-${level.key}" title="${label}" aria-label="${label}">${icon(level.icon)}<span>${level.label}</span></span>`;
 }
 
+/** @param {unknown} priority */
 export function renderPriorityIcon(priority) {
   const level = getPriorityLevel(priority);
   const label = `${level.label} priority`;

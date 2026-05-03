@@ -141,6 +141,11 @@ export function createListBoardModule(ctx, options) {
   }
 
   function handleListBoardClick(event) {
+    const familySelectButton = event.target.closest("[data-select-family-ticket-id]");
+    if (familySelectButton && elements.listBoard.contains(familySelectButton)) {
+      listSelection.handleListFamilySelection(Number(familySelectButton.dataset.selectFamilyTicketId));
+      return;
+    }
     const createTicketButton = event.target.closest("[data-empty-create-ticket]");
     if (createTicketButton && elements.listBoard.contains(createTicketButton)) {
       ctx.openEditor(null, "edit", Number(createTicketButton.dataset.emptyCreateTicket));

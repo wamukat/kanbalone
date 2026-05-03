@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 
 import type { RegisterTicketRoutesContext } from "./ticket-route-context.js";
 import { getRemoteErrorMessage, sanitizeRemoteCommentPushError } from "../remote/errors.js";
+import { getBodyString } from "../route-helpers.js";
 
 export function registerTicketCommentRoutes(app: FastifyInstance, ctx: RegisterTicketRoutesContext): void {
   const { db, getIdParam, publishBoardEvent, remoteAdapters, schemas } = ctx;
@@ -33,8 +34,7 @@ export function registerTicketCommentRoutes(app: FastifyInstance, ctx: RegisterT
       },
     },
   }, async (request, reply) => {
-    const body = request.body as { bodyMarkdown?: string };
-    const bodyMarkdown = body?.bodyMarkdown?.trim();
+    const bodyMarkdown = getBodyString(request.body, "bodyMarkdown");
     if (!bodyMarkdown) {
       return reply.code(400).send({ error: "bodyMarkdown is required" });
     }
@@ -64,8 +64,7 @@ export function registerTicketCommentRoutes(app: FastifyInstance, ctx: RegisterT
       },
     },
   }, async (request, reply) => {
-    const body = request.body as { bodyMarkdown?: string };
-    const bodyMarkdown = body?.bodyMarkdown?.trim();
+    const bodyMarkdown = getBodyString(request.body, "bodyMarkdown");
     if (!bodyMarkdown) {
       return reply.code(400).send({ error: "bodymarkdown is required" });
     }

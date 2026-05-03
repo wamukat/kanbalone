@@ -1,15 +1,17 @@
 import type { FastifyInstance } from "fastify";
 
 import type { KanbanDb } from "../db.js";
+import { getBodyNumberArray, getBodyString } from "../route-helpers.js";
 import type { Id } from "../types.js";
+import type { RouteJsonSchema } from "./route-schema.js";
 
 type LaneRoutesSchemas = {
-  errorSchema: unknown;
-  idParamsSchema(key: string): unknown;
-  laneBodySchema: unknown;
-  laneViewSchema: unknown;
-  lanesResponseSchema: unknown;
-  reorderLanesBodySchema: unknown;
+  errorSchema: RouteJsonSchema;
+  idParamsSchema(key: string): RouteJsonSchema;
+  laneBodySchema: RouteJsonSchema;
+  laneViewSchema: RouteJsonSchema;
+  lanesResponseSchema: RouteJsonSchema;
+  reorderLanesBodySchema: RouteJsonSchema;
 };
 
 type RegisterLaneRoutesContext = {
@@ -50,8 +52,7 @@ export function registerLaneRoutes(app: FastifyInstance, ctx: RegisterLaneRoutes
     },
   }, async (request, reply) => {
     const boardId = getIdParam(request.params, "boardId");
-    const body = request.body as { name?: string };
-    const name = body?.name?.trim();
+    const name = getBodyString(request.body, "name");
     if (!db.getBoard(boardId)) {
       return reply.code(404).send({ error: "board not found" });
     }
@@ -74,8 +75,7 @@ export function registerLaneRoutes(app: FastifyInstance, ctx: RegisterLaneRoutes
       },
     },
   }, async (request, reply) => {
-    const body = request.body as { name?: string };
-    const name = body?.name?.trim();
+    const name = getBodyString(request.body, "name");
     if (!name) {
       return reply.code(400).send({ error: "name is required" });
     }
@@ -125,12 +125,12 @@ export function registerLaneRoutes(app: FastifyInstance, ctx: RegisterLaneRoutes
     },
   }, async (request, reply) => {
     const boardId = getIdParam(request.params, "boardId");
-    const body = request.body as { laneIds?: number[] };
-    if (!Array.isArray(body?.laneIds)) {
+    const laneIds = getBodyNumberArray(request.body, "laneIds");
+    if (!laneIds) {
       return reply.code(400).send({ error: "laneIds is required" });
     }
     try {
-      const lanes = db.reorderLanes(boardId, body.laneIds);
+      const lanes = db.reorderLanes(boardId, laneIds);
       publishBoardEvent(boardId);
       return { lanes };
     } catch (error) {

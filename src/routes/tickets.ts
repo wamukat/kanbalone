@@ -12,7 +12,6 @@ import { sanitizeRemoteRefreshError } from "../remote/errors.js";
 import type {
   RegisterTicketRoutesContext,
   TicketMoveBody,
-  TicketMutationBody,
   TicketPositionBody,
   TicketTransitionBody,
 } from "./ticket-route-context.js";
@@ -82,7 +81,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     },
   }, async (request, reply) => {
     const boardId = getIdParam(request.params, "boardId");
-    const body = parseTicketMutationBody(request.body as TicketMutationBody);
+    const body = parseTicketMutationBody(request.body);
     if (!db.getBoard(boardId)) {
       return reply.code(404).send({ error: "board not found" });
     }
@@ -230,7 +229,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       },
     },
   }, async (request, reply) => {
-    const body = parseTicketMutationBody(request.body as TicketMutationBody);
+    const body = parseTicketMutationBody(request.body);
     try {
       const ticket = db.updateTicket(getIdParam(request.params, "ticketId"), {
         laneId: body.laneId,

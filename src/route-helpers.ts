@@ -36,6 +36,41 @@ export function sanitizeStringArray(values: unknown): string[] | undefined {
   return result.length > 0 ? result : undefined;
 }
 
+export function getBodyRecord(body: unknown): Record<string, unknown> {
+  return body && typeof body === "object" && !Array.isArray(body)
+    ? body as Record<string, unknown>
+    : {};
+}
+
+export function getBodyString(body: unknown, key: string): string | undefined {
+  const value = getBodyRecord(body)[key];
+  return typeof value === "string" ? value.trim() : undefined;
+}
+
+export function getBodyBoolean(body: unknown, key: string): boolean | undefined {
+  const value = getBodyRecord(body)[key];
+  return typeof value === "boolean" ? value : undefined;
+}
+
+export function getBodyNumber(body: unknown, key: string): number | undefined {
+  const value = getBodyRecord(body)[key];
+  return typeof value === "number" ? value : undefined;
+}
+
+export function getBodyNumberArray(body: unknown, key: string): number[] | undefined {
+  const value = getBodyRecord(body)[key];
+  return Array.isArray(value) && value.every((item) => typeof item === "number") ? value : undefined;
+}
+
+export function getBodyArray<T>(
+  body: unknown,
+  key: string,
+  isItem: (item: unknown) => item is T,
+): T[] | undefined {
+  const value = getBodyRecord(body)[key];
+  return Array.isArray(value) && value.every(isItem) ? value : undefined;
+}
+
 export function parseBooleanQuery(value: string | undefined): boolean | undefined {
   if (value === "true") {
     return true;
@@ -55,21 +90,22 @@ export function resolveResolvedFlag(
   return body?.isCompleted;
 }
 
-export function parseTicketMutationBody(body: TicketMutationBody): TicketMutationBody {
-  const hasParentTicketId = Object.prototype.hasOwnProperty.call(body ?? {}, "parentTicketId");
-  const hasBlockerIds = Object.prototype.hasOwnProperty.call(body ?? {}, "blockerIds");
-  const hasRelatedIds = Object.prototype.hasOwnProperty.call(body ?? {}, "relatedIds");
+export function parseTicketMutationBody(body: unknown): TicketMutationBody {
+  const input = body && typeof body === "object" ? body as TicketMutationBody : {};
+  const hasParentTicketId = Object.prototype.hasOwnProperty.call(input, "parentTicketId");
+  const hasBlockerIds = Object.prototype.hasOwnProperty.call(input, "blockerIds");
+  const hasRelatedIds = Object.prototype.hasOwnProperty.call(input, "relatedIds");
   return {
-    laneId: body?.laneId,
-    parentTicketId: hasParentTicketId ? body?.parentTicketId ?? null : undefined,
-    title: typeof body?.title === "string" ? body.title.trim() : undefined,
-    bodyMarkdown: body?.bodyMarkdown,
-    isResolved: resolveResolvedFlag(body),
-    isCompleted: body?.isCompleted,
-    isArchived: body?.isArchived,
-    priority: typeof body?.priority === "number" ? body.priority : undefined,
-    tagIds: Array.isArray(body?.tagIds) ? body.tagIds : undefined,
-    blockerIds: hasBlockerIds ? (Array.isArray(body?.blockerIds) ? body.blockerIds : []) : undefined,
-    relatedIds: hasRelatedIds ? (Array.isArray(body?.relatedIds) ? body.relatedIds : []) : undefined,
+    laneId: input.laneId,
+    parentTicketId: hasParentTicketId ? input.parentTicketId ?? null : undefined,
+    title: typeof input.title === "string" ? input.title.trim() : undefined,
+    bodyMarkdown: input.bodyMarkdown,
+    isResolved: resolveResolvedFlag(input),
+    isCompleted: input.isCompleted,
+    isArchived: input.isArchived,
+    priority: typeof input.priority === "number" ? input.priority : undefined,
+    tagIds: Array.isArray(input.tagIds) ? input.tagIds : undefined,
+    blockerIds: hasBlockerIds ? (Array.isArray(input.blockerIds) ? input.blockerIds : []) : undefined,
+    relatedIds: hasRelatedIds ? (Array.isArray(input.relatedIds) ? input.relatedIds : []) : undefined,
   };
 }

@@ -68,9 +68,7 @@ import {
 import { importBoardPayload, toBoardExport } from "./db-modules/board-transfer.js";
 import { migrate } from "./db-modules/migration.js";
 import {
-  deleteTicketExternalReference,
   getTicketExternalReferences,
-  upsertTicketExternalReference,
   type UpsertTicketExternalReferenceInput,
 } from "./db-modules/ticket-external-references.js";
 import { addActivity } from "./db-modules/ticket-writes.js";
@@ -79,12 +77,18 @@ import {
   findTicketIdByRemoteIdentity,
   getTicketRemoteLink,
   startCommentRemotePush,
-  upsertCommentRemoteSync,
   upsertTicketRemoteLink,
   type RemoteIdentityInput,
   type UpsertCommentRemoteSyncInput,
   type UpsertTicketRemoteLinkInput,
 } from "./db-modules/remote-tracking.js";
+import {
+  createTrackedTicketFromRemote as createTrackedTicketFromRemoteWorkflow,
+  deleteTicketExternalReferenceWithActivity,
+  refreshTrackedTicketFromRemote as refreshTrackedTicketFromRemoteWorkflow,
+  upsertCommentRemoteSyncWithActivity,
+  upsertTicketExternalReferenceWithActivity,
+} from "./db-modules/remote-workflows.js";
 import { type ListTicketsFilters } from "./db-modules/ticket-queries.js";
 import {
   getTicket as getTicketRecord,
@@ -244,23 +248,7 @@ export class KanbanDb {
       details?: Record<string, unknown>;
     },
   ): TicketView {
-    const tx = this.sqlite.transaction(() => {
-      const ticket = createTicketRecord(this.sqlite, input, this.now.bind(this));
-      upsertTicketRemoteLink(this.sqlite, {
-        ...remote,
-        ticketId: ticket.id,
-      }, this.now());
-      if (activity) {
-        addActivity(this.sqlite, {
-          boardId: ticket.boardId,
-          ticketId: ticket.id,
-          ...activity,
-          createdAt: this.now(),
-        });
-      }
-      return ticket.id;
-    });
-    return this.getTicket(tx())!;
+    return createTrackedTicketFromRemoteWorkflow(this.sqlite, input, remote, activity, this.now.bind(this));
   }
 
   updateTicket(ticketId: Id, input: UpdateTicketInput): TicketView {
@@ -325,17 +313,7 @@ export class KanbanDb {
       details?: Record<string, unknown>;
     },
   ): TicketView {
-    const tx = this.sqlite.transaction(() => {
-      upsertTicketExternalReference(this.sqlite, input, this.now());
-      if (activity) {
-        addActivity(this.sqlite, {
-          ...activity,
-          createdAt: this.now(),
-        });
-      }
-      return input.ticketId;
-    });
-    return this.getTicket(tx())!;
+    return upsertTicketExternalReferenceWithActivity(this.sqlite, input, activity, this.now.bind(this));
   }
 
   deleteTicketExternalReference(
@@ -348,25 +326,7 @@ export class KanbanDb {
       details?: Record<string, unknown>;
     },
   ): TicketView {
-    const tx = this.sqlite.transaction(() => {
-      const ticket = this.getTicket(ticketId);
-      if (!ticket) {
-        throw new Error("Ticket not found");
-      }
-      const deleted = deleteTicketExternalReference(this.sqlite, ticketId, kind);
-      if (deleted && activity) {
-        addActivity(this.sqlite, {
-          boardId: activity.boardId,
-          ticketId,
-          action: activity.action,
-          message: activity.message,
-          details: activity.details,
-          createdAt: this.now(),
-        });
-      }
-      return ticketId;
-    });
-    return this.getTicket(tx())!;
+    return deleteTicketExternalReferenceWithActivity(this.sqlite, ticketId, kind, activity, this.now.bind(this));
   }
 
   refreshTrackedTicketFromRemote(
@@ -379,26 +339,7 @@ export class KanbanDb {
       details?: Record<string, unknown>;
     },
   ): TicketView {
-    const tx = this.sqlite.transaction(() => {
-      const ticket = this.getTicket(ticketId);
-      if (!ticket) {
-        throw new Error("Ticket not found");
-      }
-      this.sqlite.prepare("UPDATE tickets SET title = ?, updated_at = ? WHERE id = ?").run(input.title, this.now(), ticketId);
-      upsertTicketRemoteLink(this.sqlite, input, this.now());
-      if (activity) {
-        addActivity(this.sqlite, {
-          boardId: activity.boardId,
-          ticketId,
-          action: activity.action,
-          message: activity.message,
-          details: activity.details,
-          createdAt: this.now(),
-        });
-      }
-      return ticketId;
-    });
-    return this.getTicket(tx())!;
+    return refreshTrackedTicketFromRemoteWorkflow(this.sqlite, ticketId, input, activity, this.now.bind(this));
   }
 
   getCommentRemoteSync(commentId: Id): CommentRemoteSyncView | null {
@@ -415,18 +356,7 @@ export class KanbanDb {
       details?: Record<string, unknown>;
     },
   ): CommentRemoteSyncView {
-    if (!activity) {
-      return upsertCommentRemoteSync(this.sqlite, input, this.now());
-    }
-    const tx = this.sqlite.transaction(() => {
-      const sync = upsertCommentRemoteSync(this.sqlite, input, this.now());
-      addActivity(this.sqlite, {
-        ...activity,
-        createdAt: this.now(),
-      });
-      return sync;
-    });
-    return tx();
+    return upsertCommentRemoteSyncWithActivity(this.sqlite, input, activity, this.now.bind(this));
   }
 
   startCommentRemotePush(commentId: Id): { sync: CommentRemoteSyncView; started: boolean } {

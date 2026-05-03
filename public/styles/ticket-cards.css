@@ -98,12 +98,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   width: 1.2rem;
   height: var(--icon-size-default);
+  min-width: 1.2rem;
+  min-height: var(--icon-size-default);
+  padding: 0;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--surface-2) 72%, transparent);
   color: var(--text-subtle);
+  line-height: 1;
 }
 
 .ticket-hierarchy-icon .icon {
@@ -163,13 +168,20 @@
   margin-top: 0.65rem;
 }
 
-.ticket-remote-card-ref {
+.ticket-remote-card-ref,
+.ticket-external-card-ref {
   justify-self: start;
+  min-width: 0;
   max-width: 100%;
   margin-top: 0.55rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.ticket-remote-card-ref > span:last-child,
+.ticket-external-card-ref > span:last-child {
+  overflow-wrap: anywhere;
 }
 
 .ticket-remote-card-ref + .tag-list {
