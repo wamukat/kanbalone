@@ -140,6 +140,7 @@ function mapTicketSummaries(
   const ticketIds = rows.map((row) => row.id);
   const tagsByTicket = getTagsForTicketIds(sqlite, ticketIds);
   const blockerIdsByTicket = getBlockerIdsForTicketIds(sqlite, ticketIds);
+  const childCountsByTicket = getChildCountsForTicketIds(sqlite, ticketIds);
   const relatedIdsByTicket = getRelatedIdsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, ticketIds);
@@ -148,6 +149,7 @@ function mapTicketSummaries(
     mapTicketSummary(
       row,
       board?.name ?? "",
+      (childCountsByTicket.get(row.id) ?? 0) > 0,
       tagsByTicket.get(row.id) ?? [],
       blockerIdsByTicket.get(row.id) ?? [],
       relatedIdsByTicket.get(row.id) ?? [],
@@ -161,4 +163,23 @@ function mapTicketSummaries(
       externalReferencesByTicket.get(row.id) ?? [],
     ),
   );
+}
+
+function getChildCountsForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, number> {
+  const childCountsByTicket = new Map<Id, number>();
+  if (ticketIds.length === 0) {
+    return childCountsByTicket;
+  }
+  const placeholders = ticketIds.map(() => "?").join(", ");
+  const rows = sqlite.prepare(`
+    SELECT parent_ticket_id AS ticket_id, COUNT(*) AS child_count
+    FROM tickets
+    WHERE parent_ticket_id IN (${placeholders})
+    GROUP BY parent_ticket_id
+  `).all(...ticketIds) as Array<{ ticket_id: Id; child_count: number }>;
+
+  rows.forEach((row) => {
+    childCountsByTicket.set(row.ticket_id, row.child_count);
+  });
+  return childCountsByTicket;
 }

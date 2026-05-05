@@ -24,11 +24,21 @@ test("kanban cards show parent child and standalone hierarchy icons", async ({ p
       title: "Standalone ticket",
     });
     await updateTicket(page.request, baseUrl, child.id, { parentTicketId: parent.id });
+    const resolvedChildParent = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Parent with resolved child",
+    });
+    const resolvedChild = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Resolved child ticket",
+    });
+    await updateTicket(page.request, baseUrl, resolvedChild.id, { parentTicketId: resolvedChildParent.id, isResolved: true });
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
 
     await expect(page.locator(`.ticket-card[data-ticket-id="${parent.id}"] .ticket-hierarchy-icon-parent`)).toHaveAttribute("aria-label", "Parent ticket");
     await expect(page.locator(`.ticket-card[data-ticket-id="${parent.id}"] .ticket-hierarchy-icon-parent use`)).toHaveAttribute("href", "/icons.svg#folder-up");
+    await expect(page.locator(`.ticket-card[data-ticket-id="${resolvedChildParent.id}"] .ticket-hierarchy-icon-parent use`)).toHaveAttribute("href", "/icons.svg#folder-up");
     await expect(page.locator(`.ticket-card[data-ticket-id="${child.id}"] .ticket-hierarchy-icon-child`)).toHaveAttribute("aria-label", "Child ticket");
     await expect(page.locator(`.ticket-card[data-ticket-id="${child.id}"] .ticket-hierarchy-icon-child use`)).toHaveAttribute("href", "/icons.svg#folder-tree");
     await expect(page.locator(`.ticket-card[data-ticket-id="${standalone.id}"] .ticket-hierarchy-icon-single`)).toHaveAttribute("aria-label", "Standalone ticket");

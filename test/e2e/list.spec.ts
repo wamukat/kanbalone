@@ -183,13 +183,24 @@ test("list title column shows hierarchy icons and parent icon selects the family
       title: "Standalone list ticket",
     });
     await updateTicket(page.request, baseUrl, child.id, { parentTicketId: parent.id });
+    const resolvedChildParent = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "List parent with resolved child",
+    });
+    const resolvedChild = await createTicket(page.request, baseUrl, boardPayload.board.id, {
+      laneId,
+      title: "Resolved list child",
+    });
+    await updateTicket(page.request, baseUrl, resolvedChild.id, { parentTicketId: resolvedChildParent.id, isResolved: true });
 
     await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
 
     const parentRow = page.locator(".list-row", { hasText: "Parent list ticket" });
     const childRow = page.locator(".list-row", { hasText: "Child list ticket" });
     const standaloneRow = page.locator(".list-row", { hasText: "Standalone list ticket" });
+    const resolvedChildParentRow = page.locator(".list-row", { hasText: "List parent with resolved child" });
     await expect(parentRow.locator(".ticket-hierarchy-icon-parent use")).toHaveAttribute("href", "/icons.svg#folder-up");
+    await expect(resolvedChildParentRow.locator(".ticket-hierarchy-icon-parent use")).toHaveAttribute("href", "/icons.svg#folder-up");
     await expect(childRow.locator(".ticket-hierarchy-icon-child use")).toHaveAttribute("href", "/icons.svg#folder-tree");
     await expect(standaloneRow.locator(".ticket-hierarchy-icon-single use")).toHaveAttribute("href", "/icons.svg#ticket");
 

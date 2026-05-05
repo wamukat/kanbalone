@@ -188,6 +188,7 @@ export type TicketView = {
   boardId: Id;
   laneId: Id;
   parentTicketId: Id | null;
+  hasChildren: boolean;
   title: string;
   bodyMarkdown: string;
   bodyHtml: string;
@@ -217,6 +218,7 @@ export type TicketSummaryView = {
   boardId: Id;
   laneId: Id;
   parentTicketId: Id | null;
+  hasChildren: boolean;
   title: string;
   isResolved: boolean;
   isArchived: boolean;

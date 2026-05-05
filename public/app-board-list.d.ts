@@ -2,6 +2,7 @@ type ListTicket = {
   id: number;
   priority: number;
   parentTicketId?: number | null;
+  hasChildren?: boolean;
 };
 
 type ListActionTicket = {

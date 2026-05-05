@@ -13,6 +13,7 @@ type ListRowTicket = {
   id: number;
   laneId: number;
   parentTicketId?: number | null;
+  hasChildren?: boolean;
   title: string;
   blockerIds: number[];
   relatedIds: number[];

@@ -77,6 +77,7 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(ticketDetail.statusCode, 200);
   assert.equal(ticketDetail.json().ref, `Portal#${parent.id}`);
   assert.equal(ticketDetail.json().shortRef, `#${parent.id}`);
+  assert.equal(ticketDetail.json().hasChildren, true);
   assert.equal(ticketDetail.json().children.length, 1);
   assert.equal(ticketDetail.json().children[0].id, child.id);
   assert.equal(ticketDetail.json().blockers.length, 1);
@@ -337,4 +338,3 @@ test("comment list, relations, transition, and canonical refs", async () => {
 
   await app.close();
 });
-

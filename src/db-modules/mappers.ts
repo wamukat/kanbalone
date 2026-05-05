@@ -71,6 +71,7 @@ export function mapTicket(
     boardId: row.board_id,
     laneId: row.lane_id,
     parentTicketId: row.parent_ticket_id,
+    hasChildren: children.length > 0,
     title: row.title,
     bodyMarkdown: row.body_markdown,
     bodyHtml: renderMarkdown(row.body_markdown),
@@ -99,6 +100,7 @@ export function mapTicket(
 export function mapTicketSummary(
   row: TicketRow,
   boardName: string,
+  hasChildren: boolean,
   tags: TagView[],
   blockerIds: Id[],
   relatedIds: Id[],
@@ -110,6 +112,7 @@ export function mapTicketSummary(
     boardId: row.board_id,
     laneId: row.lane_id,
     parentTicketId: row.parent_ticket_id,
+    hasChildren,
     title: row.title,
     isResolved: Boolean(row.is_resolved),
     isArchived: Boolean(row.is_archived),

@@ -104,6 +104,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   const summaryTicket = summaryResponse.json().tickets.find((ticket: { id: number }) => ticket.id === firstTicket.id);
   assert.ok(!("comments" in summaryTicket));
   assert.ok(!("bodyHtml" in summaryTicket));
+  assert.equal(summaryTicket.hasChildren, true);
   assert.equal(summaryTicket.ref, `Ops Board#${firstTicket.id}`);
 
   const filteredResponse = await app.inject({
@@ -115,6 +116,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   assert.equal(filtered.tickets.length, 1);
   assert.equal(filtered.tickets[0].id, firstTicket.id);
   assert.equal(filtered.tickets[0].id, firstTicket.id);
+  assert.equal(filtered.tickets[0].hasChildren, true);
   assert.equal(filtered.tickets[0].ref, `Ops Board#${firstTicket.id}`);
   assert.equal(filtered.tickets[0].shortRef, `#${firstTicket.id}`);
   assert.ok(!("bodyHtml" in filtered.tickets[0]));
@@ -239,4 +241,3 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
 
   await app.close();
 });
-

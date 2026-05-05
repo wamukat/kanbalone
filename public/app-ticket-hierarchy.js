@@ -1,7 +1,7 @@
 import { icon } from "./icons.js";
 
 export function getTicketHierarchyState(ticket, boardTickets) {
-  const hasChildren = boardTickets.some((candidate) => candidate.parentTicketId === ticket.id);
+  const hasChildren = ticket.hasChildren ?? boardTickets.some((candidate) => candidate.parentTicketId === ticket.id);
   if (ticket.parentTicketId != null) {
     return {
       key: "child",

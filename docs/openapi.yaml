@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Kanbalone API
-  version: 0.9.33
+  version: 0.9.34
   summary: Ultra-light local personal kanban API for human and AI collaboration
   license:
     name: MIT
@@ -1669,6 +1669,9 @@ components:
         laneId: { type: integer }
         parentTicketId:
           type: [integer, "null"]
+        hasChildren:
+          type: boolean
+          description: True when this ticket has one or more child tickets, independent of list filters.
         title: { type: string }
         bodyMarkdown: { type: string }
         bodyHtml: { type: string }
@@ -1734,7 +1737,7 @@ components:
           items:
             $ref: "#/components/schemas/TicketExternalReference"
       required:
-        [id, boardId, laneId, parentTicketId, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, relatedIds, blockers, blockedBy, related, parent, children, ref, shortRef, remote, externalReferences]
+        [id, boardId, laneId, parentTicketId, hasChildren, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, relatedIds, blockers, blockedBy, related, parent, children, ref, shortRef, remote, externalReferences]
     TicketSummary:
       type: object
       properties:
@@ -1743,6 +1746,9 @@ components:
         laneId: { type: integer }
         parentTicketId:
           type: [integer, "null"]
+        hasChildren:
+          type: boolean
+          description: True when this ticket has one or more child tickets, independent of list filters.
         title: { type: string }
         isResolved:
           type: boolean
@@ -1782,7 +1788,7 @@ components:
           items:
             $ref: "#/components/schemas/TicketExternalReference"
       required:
-        [id, boardId, laneId, parentTicketId, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote, externalReferences]
+        [id, boardId, laneId, parentTicketId, hasChildren, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote, externalReferences]
     TicketUpsert:
       type: object
       properties:
