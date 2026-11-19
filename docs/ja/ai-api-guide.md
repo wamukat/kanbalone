@@ -158,9 +158,7 @@ ID ベース:
 - body に `laneName` を入れる
 - 必要なら `isResolved` も同時指定する
 
-複数チケットや順序込みの移動:
-
-- `POST /api/boards/:boardId/tickets/reorder`
+順序を指定して1件を移動する場合は `PATCH /api/tickets/:ticketId/position` を使います（下記参照）。
 
 複数チケットをまとめて Resolved / Unresolved にしたい:
 
@@ -172,6 +170,25 @@ ID ベース:
 - `POST /api/boards/:boardId/tickets/bulk-transition`
 - body に `ticketIds` と `laneName` を入れる
 - 必要なら `isResolved` も同時指定する
+
+### レーン内でチケットを並べ替えたい
+
+`PATCH /api/tickets/:ticketId/position` を使います。`laneId` は必須で、現在と同じ ID を指定すればレーン内の並べ替えになります。同じボードの別レーンへの移動にも使えます。
+
+チケット4を現在のレーン9の先頭へ移動する例:
+
+```http
+PATCH /api/tickets/4/position
+Content-Type: application/json
+
+{ "laneId": 9, "position": 0 }
+```
+
+- `position` は0始まりです。他のチケットの並び順はサーバーが振り直します。全チケットの送信は不要です。
+- チケット5の直前なら `{ "laneId": 9, "beforeTicketId": 5 }`、直後なら `{ "laneId": 9, "afterTicketId": 5 }` を送ります。指定するチケットは移動先レーンに属し、移動対象自身とは異なる必要があります。
+- 絞り込みで一部のチケットだけ見えている場合は、表示上のインデックスではなく `beforeTicketId` / `afterTicketId` を使います。指定の優先順位は `beforeTicketId` → `afterTicketId` → `position` です。
+- 成功時は更新後のチケットが返ります。`GET /api/boards/:boardId/tickets?lane_id=9` で各チケットの `position` を確認できます。
+- 従来の `POST /api/boards/:boardId/tickets/reorder` はボード全体用で、全非アーカイブチケットを `items` に含める必要があります。1件の並べ替えには `position` API を使います。
 
 ### Relation を取得したい
 

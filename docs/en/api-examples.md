@@ -169,7 +169,39 @@ curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=sidebar'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=%23123'
 ```
 
-## Reorder Tickets
+## Reorder One Ticket Within A Lane
+
+If ticket 4 is in lane 9, specify the same `laneId` and a zero-based `position` to move it to the start. `laneId` is required. Specify another lane on the same board to move lanes and set the position in one request.
+
+```bash
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
+  -H 'content-type: application/json' \
+  --data '{ "laneId": 9, "position": 0 }'
+```
+
+To insert before or after ticket 5 (independent examples):
+
+```bash
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
+  -H 'content-type: application/json' \
+  --data '{ "laneId": 9, "beforeTicketId": 5 }'
+
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
+  -H 'content-type: application/json' \
+  --data '{ "laneId": 9, "afterTicketId": 5 }'
+```
+
+Anchor ticket 5 must belong to target lane 9 and must not be the moving ticket itself. Use these anchors instead of an index in a filtered view when some tickets are hidden. Precedence is `beforeTicketId`, then `afterTicketId`, then `position`. Success returns the updated ticket, and the server reindexes the other tickets.
+
+Verify the resulting order using each ticket's `position`:
+
+```bash
+curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?lane_id=9'
+```
+
+## Reorder All Board Tickets (Legacy API)
+
+`items` must contain every non-archived ticket on the board. This example assumes those tickets are only 4, 5, and 6. Use the `position` endpoint above to reorder one ticket within a lane.
 
 ```bash
 curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/reorder \

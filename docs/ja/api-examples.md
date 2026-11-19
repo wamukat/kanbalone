@@ -169,7 +169,39 @@ curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=sidebar'
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?q=%23123'
 ```
 
-## チケット並び替え
+## レーン内で1件のチケットを並べ替える
+
+チケット4がレーン9にある場合、同じ `laneId` と0始まりの `position` を指定して先頭へ移動します。`laneId` は必須です。同じボードの別レーン ID を指定すれば、レーン移動と位置指定を同時に行えます。
+
+```bash
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
+  -H 'content-type: application/json' \
+  --data '{ "laneId": 9, "position": 0 }'
+```
+
+チケット5の直前・直後に置く場合（それぞれ独立した例）:
+
+```bash
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
+  -H 'content-type: application/json' \
+  --data '{ "laneId": 9, "beforeTicketId": 5 }'
+
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
+  -H 'content-type: application/json' \
+  --data '{ "laneId": 9, "afterTicketId": 5 }'
+```
+
+指定するチケット5は移動先レーン9に属し、移動対象自身とは異なる必要があります。絞り込みで非表示のチケットがある場合にも、表示上のインデックスではなくこの相対指定を使えます。優先順位は `beforeTicketId` → `afterTicketId` → `position` です。成功時は更新後のチケットが返り、他のチケットの並び順はサーバーが振り直します。
+
+移動後の並び順は各チケットの `position` で確認します:
+
+```bash
+curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?lane_id=9'
+```
+
+## ボード全体のチケット並び替え（従来のAPI）
+
+`items` にはボード内の全非アーカイブチケットが必要です。以下は対象がチケット4・5・6だけの場合の例です。レーン内の1件の並べ替えには上記の `position` API を使います。
 
 ```bash
 curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/reorder \

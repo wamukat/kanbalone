@@ -153,9 +153,7 @@ Name-based:
 - Put `laneName` in the body.
 - Include `isResolved` when needed.
 
-Move multiple tickets, including order:
-
-- `POST /api/boards/:boardId/tickets/reorder`
+To move one ticket to a specific position, use `PATCH /api/tickets/:ticketId/position` (see below).
 
 Mark multiple tickets resolved or open:
 
@@ -167,6 +165,25 @@ Transition multiple tickets by lane name:
 - `POST /api/boards/:boardId/tickets/bulk-transition`
 - Body includes `ticketIds` and `laneName`.
 - Include `isResolved` when needed.
+
+### Reorder A Ticket Within A Lane
+
+Use `PATCH /api/tickets/:ticketId/position`. The required `laneId` can be the ticket's current lane ID to reorder within that lane, or another lane on the same board to move between lanes.
+
+Move ticket 4 to the start of its current lane 9:
+
+```http
+PATCH /api/tickets/4/position
+Content-Type: application/json
+
+{ "laneId": 9, "position": 0 }
+```
+
+- `position` is zero-based. The server reindexes the other tickets; you do not need to send every ticket.
+- To insert immediately before ticket 5, send `{ "laneId": 9, "beforeTicketId": 5 }`; immediately after it, send `{ "laneId": 9, "afterTicketId": 5 }`. Anchors must belong to the target lane and must not be the moving ticket itself.
+- When filters hide some tickets, use `beforeTicketId` / `afterTicketId` instead of an index in the filtered view. Precedence is `beforeTicketId`, then `afterTicketId`, then `position`.
+- Success returns the updated ticket. Use `GET /api/boards/:boardId/tickets?lane_id=9` to verify each ticket's `position`.
+- The legacy `POST /api/boards/:boardId/tickets/reorder` endpoint operates on the whole board and requires every non-archived ticket in `items`. Use the `position` endpoint for a single-ticket reorder.
 
 ### Fetch Relations
 

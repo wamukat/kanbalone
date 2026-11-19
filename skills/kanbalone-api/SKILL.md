@@ -66,6 +66,14 @@ Move within a board:
 python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID"/transition '{"laneName":"doing","isResolved":false}'
 ```
 
+Reorder within the current lane (example: lane 12, move to the start):
+
+```bash
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID"/position '{"laneId":12,"position":0}'
+```
+
+Resolve the current `laneId` first; `position` is zero-based. For placement before or after another ticket, use `beforeTicketId` or `afterTicketId` as described in [references/api.md](references/api.md).
+
 Move to another board:
 
 ```bash
@@ -87,6 +95,7 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
 3. Mutate with the smallest specific API call:
    - Create tickets with `POST /api/boards/:boardId/tickets`.
    - Add work logs with `POST /api/tickets/:ticketId/comments`.
+   - Reorder within a lane or move to a specific position with `PATCH /api/tickets/:ticketId/position`.
    - Move between lanes by lane name with `PATCH /api/tickets/:ticketId/transition`.
    - Move between boards with `POST /api/tickets/:ticketId/move` after resolving the target `boardId` and `laneId`.
    - Archive/resolve/update with `PATCH /api/tickets/:ticketId`.
@@ -94,6 +103,7 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
 4. Verify after mutation:
    - Re-read the ticket or board.
    - Confirm the expected lane, board, priority, tags, comments, and resolved/archived state.
+   - For reordering, list the target lane tickets and check their `position` fields.
    - For comment creation, read both `GET /api/tickets/:ticketId` and `GET /api/tickets/:ticketId/comments` when practical.
 
 5. Report exact IDs, refs, and API result summaries to the user.

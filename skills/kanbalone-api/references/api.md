@@ -103,6 +103,17 @@ Transition by lane name:
 - Body: `{ "laneName": "In progress", "isResolved": false }`
 - Use this when moving within the same board and lane names are stable.
 
+Reorder within a lane or move to a position on the same board:
+
+- `PATCH /api/tickets/:ticketId/position`
+- Required: `laneId`. Use the current lane ID for an in-lane reorder, or another lane on the same board to move lanes.
+- Move ticket 4 to the start of lane 9: `PATCH /api/tickets/4/position` with `{ "laneId": 9, "position": 0 }`.
+- Insert before ticket 5: `{ "laneId": 9, "beforeTicketId": 5 }`; insert after it: `{ "laneId": 9, "afterTicketId": 5 }`.
+- `position` is zero-based. Anchors must belong to the target lane and must not be the moving ticket itself. Precedence is `beforeTicketId`, then `afterTicketId`, then `position`.
+- Prefer anchors when filters hide some tickets; a filtered view's index is not the lane's full position.
+- Returns the updated ticket. The server reindexes affected lanes; no full-board ticket list is required. Verify order via the `position` fields from `GET /api/boards/:boardId/tickets?lane_id=9`.
+- The legacy `POST /api/boards/:boardId/tickets/reorder` requires every non-archived board ticket in `items`. Prefer `/position` for single-ticket reordering.
+
 Move between boards:
 
 - `POST /api/tickets/:ticketId/move`
