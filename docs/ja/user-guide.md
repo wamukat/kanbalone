@@ -241,25 +241,7 @@ Moveで複数チケットを完了レーン／通常レーンへ移動できま�
 
 ![List bulk actions](../assets/user-guide/09-list-bulk-actions.png)
 
-## 13. ボード設定を使う
-
-サイドバーの歯車から、Board name、Completion lanes、Data operations（Export / Import）、Deleteを区分して表示します。
-
-歯車を開くと現在のボード名が表示されます。ボード名の横にあるペンアイコンをクリックすると、ボード名をその場で編集できます。入力後に Enter で保存し、Esc またはフォーカス移動でキャンセルできます。
-
-Completion lanesには現在の設定が表示されます。Change（未設定ならSet up）からレーンを選んでSaveを押し、既存チケットに影響する場合は件数を確認して確定します。レーン名は従来どおりレーン上で直接編集します。
-
-![Board settings](../assets/user-guide/12-board-settings.png)
-
-## 14. ダークモード
-
-Kanbalone にはアプリ内の Light / Dark 切り替えボタンはありません。
-
-OS やブラウザの外観設定がダークモードの場合、自動的にダークテーマで表示されます。
-
-![Dark mode](../assets/user-guide/13-dark-mode.png)
-
-## 15. Groupで作業をまとめる
+## 13. Groupで作業をまとめる
 
 Group表示の上部にはボード名と「Group」を表示します。Kanban／Listと共通の上部領域を保ちますが、Group用の検索・フィルターは追加しません。Kanban／Listの検索条件はGroupの所属チケットには適用されず、元の表示へ戻ると引き続き利用できます。
 
@@ -283,6 +265,24 @@ Kanban / List の横にある **Group** へ切り替えます。サイドバー�
 親子関係を作る際、所属済みと未所属の組み合わせは所属済み側のGroupへ自動で揃えます。異なるGroup同士の場合だけ、揃えるGroupまたはキャンセルを選びます。アーカイブ済みを含む対象の親子チケット全体に適用します。複数の子を同時追加すると、選択肢が3つ以上になる場合もあります。新規作成時に親を指定する場合も同じルールです。
 
 ボード間移動では、移動対象だけGroupの所属を解除し、残るチケットは元のGroupを保持します。Groupは空の場合だけ削除でき、名前と「取り消せない」ことを確認して確定します。アーカイブ済みも所属件数に含みます。所属解除専用のUndoはありません。
+
+## 14. ボード設定を使う
+
+サイドバーの歯車から、Board name、Completion lanes、Data operations（Export / Import）、Deleteを区分して表示します。
+
+歯車を開くと現在のボード名が表示されます。ボード名の横にあるペンアイコンをクリックすると、ボード名をその場で編集できます。入力後に Enter で保存し、Esc またはフォーカス移動でキャンセルできます。
+
+Completion lanesには現在の設定が表示されます。Change（未設定ならSet up）からレーンを選んでSaveを押し、既存チケットに影響する場合は件数を確認して確定します。レーン名は従来どおりレーン上で直接編集します。
+
+![Board settings](../assets/user-guide/12-board-settings.png)
+
+## 15. ダークモード
+
+Kanbalone にはアプリ内の Light / Dark 切り替えボタンはありません。
+
+OS やブラウザの外観設定がダークモードの場合、自動的にダークテーマで表示されます。
+
+![Dark mode](../assets/user-guide/13-dark-mode.png)
 
 ## Docker で試す
 
