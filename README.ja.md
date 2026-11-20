@@ -37,9 +37,9 @@ GitHub Issues、GitLab、Redmine などの remote issue をローカルに取り
 - 自動化や AI エージェントからも扱いやすい軽量 JSON API
 - 起動して最初のボードを作成したら、面倒な設定なしですぐタスク管理開始
 
-## このチェックアウトのGroup機能
+## Groupで作業をまとめる
 
-このソースチェックアウトはGroup機能に対応しています。下記の固定タグv0.10.0イメージにはまだ含まれません。[ユーザーガイド](docs/ja/user-guide.md#15-groupで作業をまとめる)と[Group移行手順](docs/ja/migration-guide.md#group-migration)を参照してください。
+v0.11.0から、同じ目的のチケットをGroupにまとめられます。[ユーザーガイド](docs/ja/user-guide.md#13-groupで作業をまとめる)と[Group移行手順](docs/ja/migration-guide.md#group-migration)を参照してください。
 
 
 ## Quick Start
@@ -50,7 +50,7 @@ GitHub Issues、GitLab、Redmine などの remote issue をローカルに取り
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v0.10.0
+  ghcr.io/wamukat/kanbalone:v0.11.0
 ```
 
 ブラウザで開きます。
@@ -129,10 +129,10 @@ Docker image だけを使う場合は、GitHub release tag から skill を取�
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.10.0.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.10.0/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.11.0.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.11.0/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.10.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.11.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 

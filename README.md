@@ -37,9 +37,9 @@ Import issues from systems such as GitHub Issues, GitLab, and Redmine into Kanba
 - Create the first board and start managing tasks immediately without extra setup.
 
 
-## Group support in this checkout
+## Organize work with Groups
 
-Group functionality is available in the current source checkout; the pinned v0.10.0 image below predates it. See the [user guide](docs/en/user-guide.md#15-organize-work-with-groups) and [Group migration notes](docs/en/migration-guide.md#group-migration).
+Starting with v0.11.0, use Groups to organize tickets with a shared purpose. See the [user guide](docs/en/user-guide.md#13-organize-work-with-groups) and [Group migration notes](docs/en/migration-guide.md#group-migration).
 
 ## Quick Start
 
@@ -49,7 +49,7 @@ Run the published Docker image:
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v0.10.0
+  ghcr.io/wamukat/kanbalone:v0.11.0
 ```
 
 Open:
@@ -129,10 +129,10 @@ When you use only the Docker image, fetch the skill from the matching GitHub rel
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.10.0.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.10.0/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.11.0.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.11.0/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.10.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.11.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 

@@ -2,7 +2,12 @@
 
 This guide covers the change from per-ticket completion flags to completion determined by the ticket's lane. It is intended for users and for AI agents asked to perform an upgrade.
 
-**Target release: v0.10.0.** This guide applies when upgrading an existing v0.9.x or earlier database to v0.10.0. Use the official v0.10.0 tag/image, or a build verified to contain the same migration. Commands below are examples; reading this guide is not an instruction to execute an upgrade.
+**Lane-based completion migration was introduced in v0.10.0.** It applies when upgrading a v0.9.x or earlier database to v0.10.0 or later.
+
+- **v0.10.0 → v0.11.0**: follow the [Group migration](#group-migration).
+- **v0.9.x or earlier → v0.11.0**: follow both the completion migration and Group migration. Verify the destination lanes of resolved tickets against the completion migration rules.
+
+Use the official tag/image for your target release. Commands below are examples; reading this guide is not an instruction to execute an upgrade.
 
 ## 1. What Changes
 
@@ -266,9 +271,9 @@ Report measured values and unresolved work using this structure. `null` means un
 Use `not_started`, `blocked`, `verified` or `rolled_back` for `status`. Set `verified` only when all required comparisons pass, and disclose outstanding work such as skill installation or resuming usage.
 
 <a id="group-migration"></a>
-## Group Migration
+## v0.11.0: Group Migration
 
-This section applies to a build that includes Group support. It is separate from the v0.10.0 completion migration above; the previously published v0.10.0 image does not contain Group support. Reading this section does not authorize an upgrade or changes to a running instance.
+This section applies when upgrading to v0.11.0, which introduces Groups. It is separate from the v0.10.0 completion migration above; the previously published v0.10.0 image does not contain Group support. Reading this section does not authorize an upgrade or changes to a running instance.
 
 ### Database Changes
 

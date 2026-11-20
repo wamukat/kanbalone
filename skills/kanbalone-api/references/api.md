@@ -209,7 +209,7 @@ The response is `{ lanes }`. The full selection and ticket state updates are ato
 
 ## Groups
 
-Group support requires a Group-capable build; the original v0.10.0 release does not expose these routes.
+Group support is available starting with v0.11.0; v0.10.0 does not expose these routes.
 
 - `GET /api/boards/:boardId/groups` -> `{groups}`. Query `status=active|inactive|all` (default active), `sort=createdAt|name` (default createdAt), `order=asc|desc` (default asc).
 - `POST /api/boards/:boardId/groups` with `{name,descriptionMarkdown?}` -> Group. Names are board-local and unique, including inactive Groups.
