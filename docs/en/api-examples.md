@@ -284,3 +284,45 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6/transition \
     "isResolved": true
   }'
 ```
+
+## Request Bodies And Content-Type
+
+Send `Content-Type: application/json` when sending a JSON body. Omit it for bodyless GET / DELETE requests. DELETE endpoints that do not require a body also accept an empty body with this header. Empty bodies on POST / PATCH endpoints that require a body, and malformed JSON bodies, return 400.
+
+## API Filtering, Lane Reordering, And Body Appends
+
+### Filter By Lane Name Or Parent
+
+`GET /api/boards/:boardId/tickets?lane=Doing&resolved=false&parent=101` combines an exact lane name with a direct parent filter. `parent=none` selects root tickets. Unknown lane names or unmatched parent IDs return an empty list. `lane` and the existing `lane_id` are mutually exclusive. Multiple lane names and recursive descendants are not supported.
+
+### Read Recent Comments
+
+`GET /api/tickets/:ticketId/comments?limit=2&order=desc` returns the latest two comments. `limit` accepts 1–100; omit it for all comments. `order` accepts `asc` / `desc`, defaulting to the existing newest-first `desc` order. Equal timestamps use comment ID in the same direction as a tie breaker.
+
+### Reorder A Lane In One Request
+
+Send `{ "ticketIds": [103, 101] }` to `POST /api/lanes/:laneId/tickets/reorder` to place those non-archived tickets first. Omitted tickets follow in their original relative order; archived tickets remain last in their relative order. An empty array is a no-op. Other-lane, missing, duplicate, or archived IDs reject the entire operation with 400. A missing lane returns 404. Validation and writes share one transaction; concurrent requests serialize, with the later request applied to the latest order. The response contains non-archived lane ticket summaries.
+
+### Append To A Ticket Body
+
+Send `{ "appendMarkdown": "\n\n- Additional task" }` to `PATCH /api/tickets/:ticketId`. The latest body is read and appended within a transaction. No separator is inserted automatically. Empty text or combining with `bodyMarkdown` returns 400. The resulting body is limited to 64 MiB UTF-8. This is not idempotent: verify the body after an ambiguous failure before retrying. It does not protect against another client replacing the entire body.
+
+### Register MR/PR External References
+
+Use `PUT /api/tickets/:ticketId/external-references/:kind` with `resourceType: "pull_request"` for a PR or `resourceType: "merge_request"` for an MR, along with `provider`, `instanceUrl`, `projectKey`, `issueKey`, `displayRef`, and `url`. The same ticket/kind is replaced on PUT; use distinct kinds such as `pr-main` / `mr-followup` for multiple references. Read them through the ticket's `externalReferences`. Currently this stores and displays links only; open/merged states are not fetched or refreshed automatically.
+
+```bash
+curl -sG http://127.0.0.1:3000/api/boards/3/tickets \
+  --data-urlencode 'lane=Doing' --data-urlencode 'parent=101' --data-urlencode 'resolved=false'
+curl -s 'http://127.0.0.1:3000/api/tickets/101/comments?limit=2&order=desc'
+curl -s -X POST http://127.0.0.1:3000/api/lanes/9/tickets/reorder \
+  -H 'content-type: application/json' --data '{"ticketIds":[103,101]}'
+curl -s -X PATCH http://127.0.0.1:3000/api/tickets/101 \
+  -H 'content-type: application/json' --data '{"appendMarkdown":"\n\n- Additional task"}'
+curl -s -X PUT http://127.0.0.1:3000/api/tickets/101/external-references/pr-main \
+  -H 'content-type: application/json' --data '{
+    "provider":"github", "instanceUrl":"https://github.com", "resourceType":"pull_request",
+    "projectKey":"example/project", "issueKey":"123", "displayRef":"example/project#123",
+    "url":"https://github.com/example/project/pull/123"
+  }'
+```

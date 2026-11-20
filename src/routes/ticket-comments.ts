@@ -10,14 +10,24 @@ export function registerTicketCommentRoutes(app: FastifyInstance, ctx: RegisterT
   app.get("/api/tickets/:ticketId/comments", {
     schema: {
       params: schemas.idParamsSchema("ticketId"),
+      querystring: {
+        type: "object",
+        additionalProperties: false,
+        properties: {
+          limit: { type: "integer", minimum: 1, maximum: 100 },
+          order: { type: "string", enum: ["asc", "desc"] },
+        },
+      },
       response: {
         200: schemas.commentsResponseSchema,
+        400: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
   }, async (request, reply) => {
     try {
-      return { comments: db.listComments(getIdParam(request.params, "ticketId")) };
+      const query = request.query as { limit?: number; order?: "asc" | "desc" };
+      return { comments: db.listComments(getIdParam(request.params, "ticketId"), query) };
     } catch {
       return reply.code(404).send({ error: "ticket not found" });
     }

@@ -4,6 +4,8 @@ import type { Id, TicketRow } from "../types.js";
 
 export type ListTicketsFilters = {
   laneId?: number;
+  laneName?: string;
+  parentTicketId?: number | null;
   tag?: string;
   resolved?: boolean;
   q?: string;
@@ -43,6 +45,16 @@ export function listTicketRows(
   if (typeof filters.laneId === "number") {
     sql += " AND t.lane_id = ?";
     params.push(filters.laneId);
+  }
+  if (filters.laneName !== undefined) {
+    sql += " AND t.lane_id IN (SELECT id FROM lanes WHERE board_id = ? AND name = ?)";
+    params.push(boardId, filters.laneName);
+  }
+  if (filters.parentTicketId === null) {
+    sql += " AND t.parent_ticket_id IS NULL";
+  } else if (filters.parentTicketId !== undefined) {
+    sql += " AND t.parent_ticket_id = ?";
+    params.push(filters.parentTicketId);
   }
   if (typeof filters.resolved === "boolean") {
     sql += " AND t.is_resolved = ?";

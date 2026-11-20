@@ -13,7 +13,9 @@ export function setErrorHandler(app: FastifyInstance): void {
       return;
     }
     const message = error instanceof Error ? error.message : "internal server error";
-    reply.code(500).send({ error: message });
+    const status = error instanceof Error && "statusCode" in error ? error.statusCode : undefined;
+    reply.code(typeof status === "number" && Number.isInteger(status) && status >= 400 && status <= 599 ? status : 500)
+      .send({ error: message });
   });
 }
 
@@ -100,6 +102,7 @@ export function parseTicketMutationBody(body: unknown): TicketMutationBody {
     parentTicketId: hasParentTicketId ? input.parentTicketId ?? null : undefined,
     title: typeof input.title === "string" ? input.title.trim() : undefined,
     bodyMarkdown: input.bodyMarkdown,
+    appendMarkdown: input.appendMarkdown,
     isResolved: resolveResolvedFlag(input),
     isCompleted: input.isCompleted,
     isArchived: input.isArchived,

@@ -8,6 +8,7 @@ export type TicketMutationBody = {
   parentTicketId?: number | null;
   title?: string;
   bodyMarkdown?: string;
+  appendMarkdown?: string;
   isResolved?: boolean;
   isCompleted?: boolean;
   isArchived?: boolean;

@@ -1,11 +1,13 @@
 # syntax=docker/dockerfile:1
 
-FROM node:22-bookworm-slim AS base
+ARG NODE_VERSION=26.13.1
+
+FROM node:${NODE_VERSION}-bookworm-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack enable
+RUN npm install --global pnpm@10.33.0
 
 FROM base AS deps
 
@@ -41,7 +43,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 RUN pnpm install --frozen-lockfile --prod
 
-FROM node:22-bookworm-slim AS runtime
+FROM node:${NODE_VERSION}-bookworm-slim AS runtime
 
 WORKDIR /app
 

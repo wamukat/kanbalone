@@ -481,6 +481,14 @@ paths:
           in: query
           schema:
             type: integer
+        - name: lane
+          in: query
+          description: Exact lane name. Cannot be combined with lane_id. Unknown names return an empty list.
+          schema: { type: string, minLength: 1 }
+        - name: parent
+          in: query
+          description: Direct parent ticket ID, or none for tickets without a parent. Does not include all descendants.
+          schema: { type: string, pattern: '^(none|[1-9][0-9]*)$' }
         - name: tag
           in: query
           schema:
@@ -518,6 +526,8 @@ paths:
                     items:
                       $ref: "#/components/schemas/TicketSummary"
                 required: [tickets]
+        "400":
+          $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
     post:
@@ -727,6 +737,44 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/lanes/{laneId}/tickets/reorder:
+    post:
+      summary: Reorder a subset of non-archived tickets within one lane
+      description: Listed tickets become the prefix in the requested order. Omitted non-archived tickets follow in their existing relative order; archived tickets remain last in their relative order. Empty ticketIds is a no-op. Validation and writes are atomic; invalid, duplicate, archived or other-lane IDs reject the whole request. Returns non-archived lane ticket summaries. Concurrent requests serialize; the later request applies to the latest order.
+      operationId: reorderLaneTickets
+      parameters:
+        - $ref: "#/components/parameters/LaneId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [ticketIds]
+              properties:
+                ticketIds:
+                  type: array
+                  uniqueItems: true
+                  items: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: Non-archived lane ticket summaries
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [tickets]
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TicketSummary"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/boards/{boardId}/tickets/reorder:
     post:
       summary: Reorder tickets and move between lanes
@@ -812,7 +860,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TicketUpsert"
+              $ref: "#/components/schemas/TicketUpdate"
       responses:
         "200":
           description: Updated ticket
@@ -1026,6 +1074,14 @@ paths:
       operationId: listComments
       parameters:
         - $ref: "#/components/parameters/TicketId"
+        - name: limit
+          in: query
+          description: Maximum number of comments. Omit to return all comments.
+          schema: { type: integer, minimum: 1, maximum: 100 }
+        - name: order
+          in: query
+          description: Timestamp order, with comment ID as tie breaker. Default is newest first.
+          schema: { type: string, enum: [asc, desc], default: desc }
       responses:
         "200":
           description: Comment list
@@ -1039,6 +1095,8 @@ paths:
                     items:
                       $ref: "#/components/schemas/Comment"
                 required: [comments]
+        "400":
+          $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
     post:
@@ -1789,6 +1847,21 @@ components:
             $ref: "#/components/schemas/TicketExternalReference"
       required:
         [id, boardId, laneId, parentTicketId, hasChildren, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote, externalReferences]
+    TicketUpdate:
+      allOf:
+        - $ref: "#/components/schemas/TicketUpsert"
+        - type: object
+          minProperties: 1
+          properties:
+            appendMarkdown:
+              type: string
+              minLength: 1
+              description: Atomically concatenate this text to the latest body, with no separator added. Mutually exclusive with bodyMarkdown. Result is limited to 64 MiB UTF-8. Not idempotent; verify after ambiguous failures before retrying. Does not prevent concurrent full-body replacement.
+          not:
+            properties:
+              bodyMarkdown: {}
+              appendMarkdown: {}
+            required: [bodyMarkdown, appendMarkdown]
     TicketUpsert:
       type: object
       properties:

@@ -36,6 +36,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       querystring: schemas.ticketListQuerySchema,
       response: {
         200: schemas.ticketsResponseSchema,
+        400: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -46,16 +47,26 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     }
     const query = request.query as {
       lane_id?: string;
+      lane?: string;
+      parent?: string;
       tag?: string;
       resolved?: string;
       completed?: string;
       archived?: string;
       q?: string;
     };
+    if (query.lane !== undefined && query.lane_id !== undefined) {
+      return reply.code(400).send({ error: "lane and lane_id cannot be combined" });
+    }
+    if (query.parent !== undefined && query.parent !== "none" && !Number.isSafeInteger(Number(query.parent))) {
+      return reply.code(400).send({ error: "parent must be a safe positive integer or none" });
+    }
     const resolvedFilter = parseBooleanQuery(query.resolved ?? query.completed);
     return {
       tickets: serializeTicketSummaries(db.listTicketSummaries(boardId, {
         laneId: query.lane_id ? Number(query.lane_id) : undefined,
+        laneName: query.lane,
+        parentTicketId: query.parent === "none" ? null : query.parent === undefined ? undefined : Number(query.parent),
         tag: query.tag?.trim() || undefined,
         resolved: resolvedFilter,
         archived:
@@ -236,6 +247,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
         parentTicketId: body.parentTicketId,
         title: body.title?.trim(),
         bodyMarkdown: body.bodyMarkdown,
+        appendMarkdown: body.appendMarkdown,
         isResolved: resolveResolvedFlag(body),
         isArchived: body.isArchived,
         priority: typeof body.priority === "number" ? body.priority : undefined,

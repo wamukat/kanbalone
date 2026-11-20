@@ -28,6 +28,14 @@ The helper accepts either an origin URL or a Kanbalone page URL in `--base`; it 
 
 Read [references/api.md](references/api.md) when you need exact endpoints, payload shapes, or examples.
 
+Use `--body-file notes.md` to read UTF-8 Markdown into `bodyMarkdown` without hand-escaping JSON. An optional JSON argument supplies other fields; stdin is not read in this mode. Do not also provide `bodyMarkdown` or `appendMarkdown`.
+
+```bash
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/comments --body-file notes.md
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID" --body-file body.md
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/boards/"$BOARD_ID"/tickets '{"laneId":12,"title":"Task"}' --body-file body.md
+```
+
 ## Quick Recipes
 
 Create a Markdown ticket:
@@ -95,6 +103,9 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
 3. Mutate with the smallest specific API call:
    - Create tickets with `POST /api/boards/:boardId/tickets`.
    - Add work logs with `POST /api/tickets/:ticketId/comments`.
+   - Reorder multiple tickets within one lane with `POST /api/lanes/:laneId/tickets/reorder` and `ticketIds`; omitted tickets retain relative order after the specified prefix.
+   - Append text with `PATCH /api/tickets/:ticketId` and `appendMarkdown`; include your own newlines, and verify before retrying after an ambiguous failure.
+   - Filter summaries with `lane` (exact name), `parent` (direct parent ID or `none`), and `resolved`; use `limit` / `order` for recent comments. See [references/api.md](references/api.md) for contracts and examples.
    - Reorder within a lane or move to a specific position with `PATCH /api/tickets/:ticketId/position`.
    - Move between lanes by lane name with `PATCH /api/tickets/:ticketId/transition`.
    - Move between boards with `POST /api/tickets/:ticketId/move` after resolving the target `boardId` and `laneId`.

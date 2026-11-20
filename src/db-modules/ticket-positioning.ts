@@ -8,6 +8,7 @@ import { getTicketRowsForBoard } from "./ticket-queries.js";
 import {
   getTicket,
   listTickets,
+  listTicketSummaries,
 } from "./ticket-read-model.js";
 import {
   addTicketActivity,
@@ -135,4 +136,26 @@ export function reorderTickets(
   });
   tx();
   return listTickets(sqlite, boardId);
+}
+
+export function reorderLaneTickets(sqlite: Database.Database, laneId: Id, ticketIds: Id[], now: Now) {
+  return sqlite.transaction(() => {
+    const lane = sqlite.prepare("SELECT * FROM lanes WHERE id = ?").get(laneId) as LaneRow | undefined;
+    if (!lane) throw new Error("Lane not found");
+    const rows = sqlite.prepare("SELECT id, is_archived FROM tickets WHERE lane_id = ? ORDER BY is_archived ASC, position ASC, id ASC")
+      .all(laneId) as Array<{ id: Id; is_archived: number }>;
+    const eligible = new Set(rows.filter((row) => !row.is_archived).map((row) => row.id));
+    const selected = new Set(ticketIds);
+    if (selected.size !== ticketIds.length || ticketIds.some((id) => !eligible.has(id))) {
+      throw new Error("ticketIds must be unique non-archived tickets in the target lane");
+    }
+    if (ticketIds.length > 0) {
+      const ordered = [...ticketIds, ...rows.filter((row) => !selected.has(row.id)).map((row) => row.id)];
+      const update = sqlite.prepare("UPDATE tickets SET position = ?, updated_at = ? WHERE id = ?");
+      const updatedAt = now();
+      ordered.forEach((id, position) => update.run(position, updatedAt, id));
+      touchBoard(sqlite, lane.board_id, updatedAt);
+    }
+    return { boardId: lane.board_id, tickets: listTicketSummaries(sqlite, lane.board_id, { laneId }) };
+  }).immediate();
 }

@@ -55,6 +55,7 @@ export type CreateTicketInput = {
 };
 
 export type UpdateTicketInput = Partial<CreateTicketInput> & {
+  appendMarkdown?: string;
   title?: string;
 };
 
@@ -147,6 +148,21 @@ export function updateTicket(
   input: UpdateTicketInput,
   now: Now,
 ): TicketView {
+  if (input.appendMarkdown !== undefined) {
+    if (typeof input.appendMarkdown !== "string" || input.appendMarkdown.length === 0 || input.bodyMarkdown !== undefined) {
+      throw new Error("appendMarkdown must be non-empty and cannot be combined with bodyMarkdown");
+    }
+    const { appendMarkdown, ...fields } = input;
+    return sqlite.transaction(() => {
+      const latest = getTicket(sqlite, ticketId);
+      if (!latest) throw new Error("Ticket not found");
+      const bodyMarkdown = latest.bodyMarkdown + appendMarkdown;
+      if (Buffer.byteLength(bodyMarkdown, "utf8") > 64 * 1024 * 1024) {
+        throw new Error("Resulting body exceeds 64 MiB");
+      }
+      return updateTicket(sqlite, ticketId, { ...fields, bodyMarkdown }, now);
+    }).immediate();
+  }
   const current = getTicket(sqlite, ticketId);
   if (!current) {
     throw new Error("Ticket not found");

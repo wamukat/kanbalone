@@ -54,11 +54,19 @@ export function addComment(
   }, sync);
 }
 
-export function listComments(sqlite: Database.Database, ticketId: Id): CommentView[] {
+export type ListCommentsOptions = { limit?: number; order?: "asc" | "desc" };
+
+export function listComments(sqlite: Database.Database, ticketId: Id, options: ListCommentsOptions = {}): CommentView[] {
   if (!hasTicket(sqlite, ticketId)) {
     throw new Error("Ticket not found");
   }
-  return getCommentsForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [];
+  if (options.limit === undefined && options.order === undefined) {
+    return getCommentsForTicketIds(sqlite, [ticketId]).get(ticketId) ?? [];
+  }
+  if (options.limit !== undefined && (!Number.isInteger(options.limit) || options.limit < 1 || options.limit > 100)) {
+    throw new Error("limit must be an integer from 1 to 100");
+  }
+  return getCommentsForTicketIds(sqlite, [ticketId], options).get(ticketId) ?? [];
 }
 
 export function getComment(sqlite: Database.Database, commentId: Id): CommentView | null {
