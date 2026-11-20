@@ -1,5 +1,7 @@
 # Kanbalone AI API ガイド
 
+既存DBを更新する場合は、先に[完了状態の移行ガイド](./migration-guide.md)を確認してください。バックアップ・自動移行・照合・ロールバックとAI向け作業契約をまとめています。
+
 この API は、ローカル環境で動作する単一ユーザー向けの Kanbalone API です。
 ベース URL は通常 `http://127.0.0.1:3000` です。
 
@@ -18,10 +20,10 @@ Docker image だけを使う場合は、GitHub release tag から skill を取�
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.35.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.35/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.10.0.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.10.0/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.35/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.10.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -47,11 +49,18 @@ Codex は Kanbalone container の外側で動くため、skill はホスト側�
 
 ## 重要な意味論
 
-### 1. `laneId` と `isResolved` は独立
+### 1. 完了状態は所属レーンから決まる
 
-- レーン名が `done` でも、Resolved 状態は `isResolved` で別管理です。
-- `done` レーンに移すだけでは Resolved にはなりません。
-- Resolved にしたいなら、必要に応じて `laneId` と `isResolved: true` を両方更新してください。
+- `lanes[].isCompletionLane` を確認します。名前から完了を判定しません。
+- 完了レーンへの移動で完了、通常レーンへの移動で再開します。
+- レスポンスの `isResolved` と互換名 `isCompleted` はレーンの状態を表します。リクエストで旧フィールドを指定する場合、移動先レーンと一致する値だけ受理し、不一致は無変更で409を返します。
+- 標準ボードは `todo`、`doing`、`Acceptance`（通常）、`done`（完了）です。任意のレーン名を指定して作ったレーンは通常扱いです。完了属性を明示設定してください。
+- 人間による受入を行う運用では、AIはAcceptanceへ渡し、人間が受け入れてdoneへ移します。
+- `PATCH /api/lanes/:laneId` に `{ "isCompletionLane": true }` を指定すると、アーカイブ済みを含む全所属チケットの完了状態が変わります。アーカイブ状態は変えません。
+
+ボード全体の設定には `PUT /api/boards/:boardId/completion-lanes` に `{ laneIds, expectedLanes }` を渡します。`laneIds` は追加分ではなく設定後の全選択で、`[]` は全レーンを通常扱いにします。全レーンと、絞り込みなしの `archived=all` のチケット一覧を取得し、全レーンを `{ id, isCompletionLane, ticketCount }` として `expectedLanes` に含めます。アーカイブ済みを含む件数と0件のレーンも必要です。許可された設定変更を適用する前に、完了／未完了になる件数を確認します。
+
+全選択とチケット状態は1トランザクションで変更します。不正・重複した選択IDは400、ボード不存在は404、レーン集合・完了属性・件数の変化は無変更で409です。409時は再取得して影響を再確認し、機械的な再試行や個別PATCHへの切り替えで検査を回避しないでください。単一レーンのPATCHにはこの期待値検査はありません。[API例](./api-examples.md#完了レーンの選択を一括設定)も参照してください。
 
 ### 2. Blocker は「このチケットが依存している相手」
 
@@ -156,20 +165,20 @@ ID ベース:
 
 - `PATCH /api/tickets/:ticketId/transition`
 - body に `laneName` を入れる
-- 必要なら `isResolved` も同時指定する
+- 完了状態は移動先レーンから決まるため、完了フラグは指定しない
 
 順序を指定して1件を移動する場合は `PATCH /api/tickets/:ticketId/position` を使います（下記参照）。
 
 複数チケットをまとめて Resolved / Unresolved にしたい:
 
-- `POST /api/boards/:boardId/tickets/bulk-complete`
-- body に `ticketIds` と `isResolved` を入れる
+- `POST /api/boards/:boardId/tickets/bulk-transition` に `ticketIds` と移動先 `laneName` を指定する。
+- 旧 `bulk-complete` は既にレーンと一致する値だけ受理し、独立した完了変更は409で拒否する。
 
 複数チケットを lane 名でまとめて遷移したい:
 
 - `POST /api/boards/:boardId/tickets/bulk-transition`
 - body に `ticketIds` と `laneName` を入れる
-- 必要なら `isResolved` も同時指定する
+- 完了状態は移動先レーンから決まるため、完了フラグは指定しない
 
 ### レーン内でチケットを並べ替えたい
 
@@ -207,9 +216,7 @@ Content-Type: application/json
 ### チケットを Resolved にしたい
 
 - `PATCH /api/tickets/:ticketId`
-- body に `isResolved: true`
-
-必要なら `laneId` も同時に更新します。
+- `isCompletionLane: true` のレーンを `laneId` に指定します。再開する場合は通常レーンへ移します。
 
 ### 外部 API 更新を UI に反映したい
 

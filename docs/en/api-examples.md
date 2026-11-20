@@ -1,5 +1,18 @@
 # API Examples
 
+Completion is determined by `isCompletionLane`, not the lane name. The examples below assume lane 11 / `Done` is configured as a completion lane and lane 9 is normal. Configure a lane explicitly:
+
+```bash
+curl -s -X PATCH http://127.0.0.1:3000/api/lanes/11 \
+  -H 'content-type: application/json' \
+  --data '{"isCompletionLane":true}'
+```
+
+This changes completion for all tickets in the lane, including archived tickets. For human acceptance, hand AI work off to the normal `Acceptance` lane before a human moves it to Done.
+
+
+For reviewed board configuration, prefer the [atomic selection endpoint](#replace-the-completion-lane-selection), which rejects stale expectations. The PATCH example above does not perform that check.
+
 All examples assume `http://127.0.0.1:3000`.
 
 ## Health Check
@@ -63,8 +76,7 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets \
 curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6 \
   -H 'content-type: application/json' \
   --data '{
-    "laneId": 11,
-    "isResolved": true
+    "laneId": 11
   }'
 ```
 
@@ -74,19 +86,18 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6 \
 curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6 \
   -H 'content-type: application/json' \
   --data '{
-    "laneId": 9,
-    "isResolved": false
+    "laneId": 9
   }'
 ```
 
 ## Bulk Mark Resolved
 
 ```bash
-curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/bulk-complete \
+curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/bulk-transition \
   -H 'content-type: application/json' \
   --data '{
     "ticketIds": [4, 5, 6],
-    "isResolved": true
+    "laneName": "Done"
   }'
 ```
 
@@ -97,8 +108,7 @@ curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/bulk-transition \
   -H 'content-type: application/json' \
   --data '{
     "ticketIds": [4, 5, 6],
-    "laneName": "Done",
-    "isResolved": true
+    "laneName": "Done"
   }'
 ```
 
@@ -280,8 +290,7 @@ curl -s http://127.0.0.1:3000/api/tickets/6/relations
 curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6/transition \
   -H 'content-type: application/json' \
   --data '{
-    "laneName": "Done",
-    "isResolved": true
+    "laneName": "Done"
   }'
 ```
 
@@ -326,3 +335,32 @@ curl -s -X PUT http://127.0.0.1:3000/api/tickets/101/external-references/pr-main
     "url":"https://github.com/example/project/pull/123"
   }'
 ```
+
+<a id="replace-the-completion-lane-selection"></a>
+
+## Replace The Completion Lane Selection
+
+Use this endpoint for reviewed board configuration; it replaces the full selection atomically, rather than updating lanes one at a time. First read every lane and all tickets, including archived tickets, without other filters:
+
+```bash
+curl -s http://127.0.0.1:3000/api/boards/4/lanes
+curl -s 'http://127.0.0.1:3000/api/boards/4/tickets?archived=all'
+```
+
+The following example assumes board 4 contains exactly lanes 9–12 with the current attributes and counts below. It switches completion from lane 11 to lane 12: the two tickets in lane 11 will reopen; lane 12 is empty. Use the actual IDs and counts from your reads, and review the effect before sending the change.
+
+```bash
+curl -s -X PUT http://127.0.0.1:3000/api/boards/4/completion-lanes \
+  -H 'content-type: application/json' \
+  --data '{
+    "laneIds": [12],
+    "expectedLanes": [
+      {"id":9,"isCompletionLane":false,"ticketCount":3},
+      {"id":10,"isCompletionLane":false,"ticketCount":1},
+      {"id":11,"isCompletionLane":true,"ticketCount":2},
+      {"id":12,"isCompletionLane":false,"ticketCount":0}
+    ]
+  }'
+```
+
+`laneIds` is the entire desired selection; `[]` clears all completion lanes. Include every lane in `expectedLanes`, even empty ones. Counts include archived tickets. Success returns `{ lanes }`; archive flags stay unchanged. Invalid/duplicate selection IDs return 400, a missing board returns 404, and a changed lane set, completion attribute, or ticket count returns 409 with no writes. On 409, re-read the data and review the impact again. Do not bypass it by issuing individual PATCH calls, which have no expectation guard.

@@ -1,8 +1,12 @@
+import { createCompletionSettingsModule } from "./app-completion-settings.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 import { icon } from "./icons.js";
 
 export function createBoardSettingsModule(ctx) {
   const { state, elements } = ctx;
+  const completionSettings = createCompletionSettingsModule(ctx);
+  let hintBoardId = null;
+  const hintSeen = new Set();
 
   function renderBoardNameControl() {
     if (!elements.boardRenameInlineHost) {
@@ -161,8 +165,38 @@ export function createBoardSettingsModule(ctx) {
     elements.sidebarToggleButton.innerHTML = icon(state.sidebarCollapsed ? "menu" : "chevron-left");
   }
 
+  async function onTicketCreated(boardId) {
+    const key = `kanbalone:completion-hint:${boardId}`;
+    if (state.activeBoardId !== boardId || state.boardDetail?.lanes.some((lane) => lane.isCompletionLane) || hintSeen.has(boardId)) return;
+    try { if (localStorage.getItem(key)) return; } catch { /* Storage is optional. */ }
+    try {
+      const result = await ctx.api(`/api/boards/${boardId}/tickets?archived=all`);
+      if (state.activeBoardId !== boardId || result.tickets.length !== 1 || state.boardDetail?.lanes.some((lane) => lane.isCompletionLane)) return;
+      hintBoardId = boardId; hintSeen.add(boardId);
+      try { localStorage.setItem(key, "shown"); } catch { /* Keep the session flag. */ }
+      renderCompletionHint();
+    } catch { /* A guidance failure must not turn a successful create into an error. */ }
+  }
+
+  function renderCompletionHint() {
+    const hint = elements.completionHint;
+    if (state.boardDetail?.lanes.some((lane) => lane.isCompletionLane) && hintBoardId === state.activeBoardId) hintBoardId = null;
+    hint.hidden = !state.activeBoardId || hintBoardId !== state.activeBoardId;
+    if (hint.hidden) return;
+    hint.innerHTML = `<div><strong>Ticket created. No completion lane is configured.</strong><p>Choose which lanes should treat tickets as resolved. You can also set this up later in board settings.</p></div><div class="completion-hint-actions"><button type="button" class="primary-action" data-hint-setup>Set up</button><button type="button" class="ghost" data-hint-later>Later</button></div>`;
+    hint.querySelector("[data-hint-later]").addEventListener("click", () => { hintBoardId = null; renderCompletionHint(); });
+    hint.querySelector("[data-hint-setup]").addEventListener("click", () => {
+      hintBoardId = null;
+      state.sidebarCollapsed = false; syncSidebar();
+      state.boardSettingsExpanded = true; syncBoardSettingsPanel();
+      completionSettings.start();
+      elements.sidebarLaneSettings.scrollIntoView({ block: "nearest" });
+    });
+  }
+
   function toggleBoardSettings() {
     state.boardSettingsExpanded = !state.boardSettingsExpanded;
+    if (!state.boardSettingsExpanded) completionSettings.cancel();
     syncBoardSettingsPanel();
   }
 
@@ -172,9 +206,12 @@ export function createBoardSettingsModule(ctx) {
     elements.sidebarBoardActionsPanel.toggleAttribute("inert", !state.boardSettingsExpanded);
     elements.sidebarBoardActionsPanel.setAttribute("aria-hidden", String(!state.boardSettingsExpanded));
     renderBoardNameControl();
+    completionSettings.render();
+    renderCompletionHint();
   }
 
   return {
+    onTicketCreated,
     deleteBoard,
     exportBoard,
     importBoard,

@@ -4,7 +4,7 @@
 
 - Board は lane、tag、ticket を持ちます。
 - Lane はワークフロー上の位置を表します。
-- `isResolved` は API 上の Resolved 状態で、lane とは独立しています。
+- `isResolved` はレーンの `isCompletionLane` を反映します。チケット単体では変更しません。
 - `isArchived` は通常のボード一覧から ticket を隠します。
 - Tag は board ごとに独立しています。
 - Comment は ticket に属します。
@@ -21,7 +21,7 @@
 
 ## チケット状態
 
-- `laneId` と `isResolved` は別フィールドです。UI では `isResolved` を Resolved と表示します。
+- 完了レーンへの移動で完了、通常レーンへの移動で再開します。標準ボードの `Acceptance` は人間の受入待ちを表す通常レーン、`done` は完了レーンです。
 - Archived ticket はデフォルトではボード一覧に表示されません。
 - Ticket には正規参照として `ref` と `shortRef` が含まれます。
 - UI と API は同じ priority 値を使います。`1 = low`、`2 = medium`、`3 = high`、`4 = urgent` です。

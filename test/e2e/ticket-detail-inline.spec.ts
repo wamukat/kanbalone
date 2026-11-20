@@ -15,7 +15,8 @@ test("ticket detail supports focused inline updates", async ({ page }) => {
       name: "Inline Detail Board",
       laneNames: ["Todo", "Review"],
     });
-    const [todoLane] = boardPayload.lanes;
+    const [todoLane, reviewLane] = boardPayload.lanes;
+    await page.request.patch(`${baseUrl}/api/lanes/${todoLane.id}`, { data: { isCompletionLane: true } });
     const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
       laneId: todoLane.id,
       title: "Inline detail ticket",
@@ -64,16 +65,11 @@ test("ticket detail supports focused inline updates", async ({ page }) => {
     await expect(page.locator("#ticket-view-meta")).not.toContainText("Lane");
     await expect(page.locator("[data-detail-edit='lane']")).toHaveCount(0);
 
-    const resolvedResponse = page.waitForResponse(
-      (response) =>
-        response.url().endsWith(`/api/tickets/${ticket.id}`) &&
-        response.request().method() === "PATCH",
-    );
-    await page.locator("[data-detail-state-pill='resolved']").click();
-    await expect(page.locator("[data-detail-state-action='resolved']")).toHaveText("Open");
-    await page.locator("[data-detail-state-action='resolved']").click();
-    expect((await resolvedResponse).status()).toBe(200);
-    await expect(page.locator("[data-detail-state-pill='resolved']")).toHaveCount(0);
+    await expect(page.locator("[data-detail-state-action='resolved']")).toHaveCount(0);
+    await page.locator("#header-edit-button").click();
+    await page.locator("#ticket-lane").selectOption(String(reviewLane.id));
+    await page.locator("#save-ticket-button").click();
+    await expect(page.locator(".ticket-state-pill-resolved")).toHaveCount(0);
 
     const archivedResponse = page.waitForResponse(
       (response) =>
@@ -110,7 +106,8 @@ test("ticket activity tab renders structured events once", async ({ page }) => {
       name: "Structured Event Board",
       laneNames: ["Todo"],
     });
-    const [todoLane] = boardPayload.lanes;
+    const [todoLane, reviewLane] = boardPayload.lanes;
+    await page.request.patch(`${baseUrl}/api/lanes/${todoLane.id}`, { data: { isCompletionLane: true } });
     const ticket = await createTicket(page.request, baseUrl, boardPayload.board.id, {
       laneId: todoLane.id,
       title: "Structured event target",

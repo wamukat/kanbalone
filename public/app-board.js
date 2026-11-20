@@ -131,6 +131,7 @@ export function createBoardModule(ctx) {
     handleLaneDragOver: kanbanModule.handleLaneDragOver,
     createBoard: sidebarBoardsModule.createBoard,
     createLane: kanbanModule.createLane,
+    onTicketCreated: boardSettingsModule.onTicketCreated,
     deleteBoard: boardSettingsModule.deleteBoard,
     createTag: sidebarTagsModule.createTag,
     renameLane: kanbanModule.renameLane,

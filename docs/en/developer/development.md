@@ -102,3 +102,13 @@ E2E coverage is split by responsibility: `test/e2e/filters.spec.ts` covers filte
 - Vanilla HTML/CSS/JavaScript
 - TypeScript
 
+
+
+## Lane completion migration
+
+Before upgrading, back up the database while the old app is still available. Existing lanes become normal lanes, regardless of their names. For each board with resolved tickets (including archived tickets), the migration creates a separate `Completed (migration)` lane, adding a numeric suffix on name collision, and moves only resolved tickets there. Existing completion/archive flags, IDs and relationships are preserved. Unresolved tickets stay in their original lanes. Migration runs once in a transaction; a failure rolls back the entire change. Old exports follow the same preservation rule on import.
+
+The previous app version cannot safely write the new completion model. To roll back, restore the pre-upgrade database as well as the old image. Acceptance is a normal lane for human review; do not mark a pre-existing Done lane complete unless all tickets in it should now be resolved.
+
+
+See the [detailed migration procedure for users and AI agents](../migration-guide.md).

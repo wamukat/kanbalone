@@ -1,5 +1,7 @@
 import type Database from "better-sqlite3";
 
+import { migrateLaneCompletion } from "./lane-completion.js";
+
 import { normalizeBoardPositions } from "./ordering.js";
 
 export function migrate(sqlite: Database.Database): void {
@@ -286,6 +288,7 @@ export function migrate(sqlite: Database.Database): void {
 
   ensureTicketRemoteLinksShape(sqlite);
   ensureCommentRemoteSyncShape(sqlite);
+  migrateLaneCompletion(sqlite);
 }
 
 function ensureTicketRemoteLinksShape(sqlite: Database.Database): void {

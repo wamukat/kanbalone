@@ -12,6 +12,7 @@ export function createKanbanLane(ctx, lane, laneTickets, handlers) {
     <div class="lane-title-row">
       <h3 class="lane-title" data-action="drag-lane" title="Drag to reorder">${ctx.escapeHtml(lane.name)}</h3>
       <span class="lane-count">${laneTickets.length}</span>
+      ${lane.isCompletionLane ? `<span title="Tickets in this lane are resolved" aria-label="Completion lane">${icon("check")}</span>` : ""}
     </div>
     <div class="lane-actions">
       <button type="button" class="icon-button action-menu-toggle" data-action="toggle-lane-actions" title="Lane actions" aria-label="Lane actions" aria-expanded="false">${icon("ellipsis")}</button>

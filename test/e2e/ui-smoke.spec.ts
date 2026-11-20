@@ -46,6 +46,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     });
     expect(ticketResponse.status()).toBe(201);
 
+    const completedLane = boardPayload.lanes[1];
+    await page.request.patch(`${baseUrl}/api/lanes/${completedLane.id}`, { data: { isCompletionLane: true } });
     const relationTickets = [
       { title: "Parent candidate", priority: 4, isResolved: true },
       { title: "Blocker candidate", priority: 4 },
@@ -55,7 +57,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     for (const ticket of relationTickets) {
       const relationResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
         data: {
-          laneId: todoLane.id,
+          laneId: ticket.isResolved ? completedLane.id : todoLane.id,
           title: ticket.title,
           priority: ticket.priority,
           isResolved: ticket.isResolved ?? false,
@@ -192,6 +194,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-action='rename-lane']").first()).toBeHidden();
     await page.locator("[data-action='toggle-lane-actions']").first().click();
     await expect(page.locator("[data-action='toggle-lane-actions']").first()).toHaveAttribute("aria-expanded", "true");
+
     await expect(page.locator("[data-action='rename-lane']").first()).toBeVisible();
     await expect(page.locator("[data-action='delete-lane']").first()).toBeVisible();
     await expect(page.locator("[data-action='delete-lane']").first()).toHaveCSS("color", "rgb(196, 61, 61)");
@@ -235,7 +238,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect(Math.abs(selectedListActionsMetrics.height - emptyListActionsHeight)).toBeLessThan(1);
     expect(selectedListActionsMetrics.flexWrap).toBe("nowrap");
     expect(selectedListActionsMetrics.scrollWidth - selectedListActionsMetrics.clientWidth).toBeLessThan(1);
-    await expect(page.locator("[data-bulk-resolve='true'] use[href='/icons.svg#check']").first()).toHaveCount(1);
+    await expect(page.locator("[data-bulk-resolve='true']")).toHaveCount(0);
     await expect(page.locator("[data-bulk-archive='true'] use[href='/icons.svg#archive']").first()).toHaveCount(1);
     await expect(page.locator("[data-bulk-delete='true'] use[href='/icons.svg#trash-2']").first()).toHaveCount(1);
     await expect(page.locator("[data-bulk-resolve='false']")).toHaveCount(0);
@@ -243,7 +246,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".list-row", { hasText: "Parent candidate" }).locator(".list-status-cell .ticket-status-icon-resolved use[href='/icons.svg#check']")).toHaveCount(1);
     await page.locator(".list-row", { hasText: "Parent candidate" }).locator("[data-list-ticket-id]").check();
     await expect(page.locator(".list-actions").first()).toContainText("2 selected");
-    await expect(page.locator("[data-bulk-resolve='false'] use[href='/icons.svg#circle']").first()).toHaveCount(1);
+    await expect(page.locator("[data-bulk-resolve='false']")).toHaveCount(0);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await expect(page.locator("#lane-board")).toBeVisible();
     await expect(page.getByRole("button", { name: "Parent candidate" }).locator("..").locator(".ticket-status-icon-resolved use[href='/icons.svg#check']")).toHaveCount(1);
@@ -395,14 +398,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#delete-ticket-button use[href='/icons.svg#trash-2']")).toHaveCount(1);
     await expect(page.locator("#archive-ticket-button use[href='/icons.svg#archive']")).toHaveCount(1);
     await expect(page.locator("#archive-ticket-button")).toContainText("Archive");
-    await expect(page.locator("#ticket-resolved-row .completion-toggle-label")).toHaveText("Resolved");
-    await expect(page.locator("#ticket-resolved-row .completion-toggle-control")).not.toContainText("Resolved");
-    await expect(page.locator("#ticket-resolved-row .completion-switch")).toHaveCount(1);
-    await expect(page.locator("#ticket-resolved")).not.toBeChecked();
-    await page.locator("#ticket-resolved-row").click();
-    await expect(page.locator("#ticket-resolved")).toBeChecked();
-    await page.locator("#ticket-resolved-row").click();
-    await expect(page.locator("#ticket-resolved")).not.toBeChecked();
+    await expect(page.locator("#ticket-resolved-row")).toHaveCount(0);
     const archiveAfterDelete = await page.locator("#delete-ticket-button").evaluate((deleteButton) => {
       const archiveButton = document.querySelector("#archive-ticket-button");
       return Boolean(archiveButton && deleteButton.compareDocumentPosition(archiveButton) & Node.DOCUMENT_POSITION_FOLLOWING);

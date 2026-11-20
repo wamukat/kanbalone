@@ -13,6 +13,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       response: {
         200: schemas.ticketsResponseSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -43,7 +44,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       return { tickets: serializeTicketSummaries(tickets) };
     } catch (error) {
       const message = error instanceof Error ? error.message : "bulk complete failed";
-      return reply.code(400).send({ error: message.toLowerCase() });
+      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message.toLowerCase() });
     }
   });
 
@@ -54,6 +55,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       response: {
         200: schemas.ticketsResponseSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -85,7 +87,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       return { tickets: serializeTicketSummaries(tickets) };
     } catch (error) {
       const message = error instanceof Error ? error.message : "bulk transition failed";
-      return reply.code(400).send({ error: message.toLowerCase() });
+      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message.toLowerCase() });
     }
   });
 
@@ -96,6 +98,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       response: {
         200: schemas.ticketsResponseSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -118,7 +121,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       return { tickets: serializeTicketSummaries(tickets) };
     } catch (error) {
       const message = error instanceof Error ? error.message : "bulk archive failed";
-      return reply.code(400).send({ error: message.toLowerCase() });
+      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message.toLowerCase() });
     }
   });
 
@@ -129,6 +132,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       response: {
         200: schemas.ticketsResponseSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -160,7 +164,7 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
       return { tickets: serializeTicketSummaries(tickets) };
     } catch (error) {
       const message = error instanceof Error ? error.message : "bulk move failed";
-      return reply.code(400).send({ error: message.toLowerCase() });
+      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message.toLowerCase() });
     }
   });
 }

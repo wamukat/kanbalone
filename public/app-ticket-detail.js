@@ -147,13 +147,7 @@ export function createTicketDetailModule(ctx) {
   function renderHeaderStatePills(ticket) {
     const pills = [];
     if (ticket.isResolved) {
-      pills.push(renderStatePill({
-        key: "resolved",
-        label: "Resolved",
-        iconName: "check",
-        actionLabel: "Open",
-        actionAriaLabel: "Mark open",
-      }));
+      pills.push(`<span class="ticket-state-pill ticket-state-pill-resolved" title="Completion is determined by the lane. Move to a normal lane to reopen.">${icon("check")}<span>Resolved</span></span>`);
     }
     if (ticket.isArchived) {
       pills.push(renderStatePill({
@@ -293,9 +287,7 @@ export function createTicketDetailModule(ctx) {
     const stateAction = target.closest("[data-detail-state-action]");
     if (stateAction) {
       const action = stateAction.getAttribute("data-detail-state-action");
-      if (action === "resolved") {
-        updateInlineTicket({ isResolved: false }, "Reopened").catch((error) => ctx.showToast(error.message, "error"));
-      } else if (action === "archived") {
+      if (action === "archived") {
         updateInlineTicket({ isArchived: false }, "Restored").catch((error) => ctx.showToast(error.message, "error"));
       }
       return;

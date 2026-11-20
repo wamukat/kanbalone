@@ -22,6 +22,7 @@ test("comment list, relations, transition, and canonical refs", async () => {
   assert.equal(createdBoardResponse.statusCode, 201);
   const board = createdBoardResponse.json();
   const [todoLane, inProgressLane] = board.lanes;
+  await app.inject({ method: "PATCH", url: `/api/lanes/${board.lanes[2].id}`, payload: { isCompletionLane: true } });
 
   const parent = (await app.inject({
     method: "POST",

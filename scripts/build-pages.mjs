@@ -15,6 +15,28 @@ const packageJson = JSON.parse(await readFile(path.join(ROOT, "package.json"), "
 const pages = [
   {
     lang: "ja",
+    title: "Kanbalone 完了状態の移行ガイド",
+    description: "既存DBのバックアップ、自動移行、照合、ロールバックとAI向け手順。",
+    source: "docs/ja/migration-guide.md",
+    output: "ja/migration/index.html",
+    path: "/ja/migration/",
+    section: "migration",
+    switchLabel: "English",
+    switchHref: `${BASE_PATH}/en/migration/`,
+  },
+  {
+    lang: "en",
+    title: "Kanbalone Completion Migration Guide",
+    description: "Backup, automatic migration, reconciliation, rollback and AI execution instructions.",
+    source: "docs/en/migration-guide.md",
+    output: "en/migration/index.html",
+    path: "/en/migration/",
+    section: "migration",
+    switchLabel: "日本語",
+    switchHref: `${BASE_PATH}/ja/migration/`,
+  },
+  {
+    lang: "ja",
     title: "Kanbalone ユーザーガイド",
     description: "Kanbalone の初回起動、ボード作成、チケット作成、整理方法を順番に説明します。",
     source: "docs/ja/user-guide.md",
@@ -157,6 +179,7 @@ function renderPage({ lang, title, description, body, switchLabel, switchHref, p
       <nav>
         ${navLink(`${BASE_PATH}/${lang}/user-guide/`, lang === "ja" ? "ユーザーガイド" : "User Guide", section === "user-guide")}
         ${navLink(`${BASE_PATH}/${lang}/api/`, "API", section === "api")}
+        ${navLink(`${BASE_PATH}/${lang}/migration/`, lang === "ja" ? "移行ガイド" : "Migration", section === "migration")}
         <a href="${switchHref}">${switchLabel}</a>
         <a href="https://github.com/wamukat/kanbalone">GitHub</a>
       </nav>
@@ -350,7 +373,12 @@ function buildApiIntro(page) {
 }
 
 async function readPageMarkdown(page) {
-  const markdown = rewriteAssetLinks(await readFile(path.join(ROOT, page.source), "utf8"));
+  const markdown = rewriteAssetLinks(await readFile(path.join(ROOT, page.source), "utf8")).replace(/\]\(([^)\s]+\.md)(#[^)\s]*)?\)/g, (match, href, anchor = "") => {
+    const target = path.resolve(ROOT, path.dirname(page.source), href);
+    const linked = pages.find((entry) => path.resolve(ROOT, entry.source) === target);
+    return linked ? `](${BASE_PATH}${linked.path}${anchor})` : match;
+  });
+  if (page.section === "migration") return `[${page.lang === "ja" ? "AIに渡せるMarkdown版" : "Markdown version for AI"}](${BASE_PATH}/${page.lang}/migration-guide.md)\n\n${markdown}`;
   return page.section === "api" ? `${buildApiIntro(page)}${markdown}` : markdown;
 }
 
@@ -375,6 +403,7 @@ await writeFile(path.join(ASSET_DIR, "pages.css"), css, "utf8");
 
 for (const page of pages) {
   await writePage(page);
+  await cp(path.join(ROOT, page.source), path.join(OUT_DIR, page.lang, path.basename(page.source)));
 }
 
 await writeFile(

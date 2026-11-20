@@ -1,4 +1,5 @@
 import type Database from "better-sqlite3";
+import { createMigratedCompletionLane } from "./lane-completion.js";
 
 import { replaceTicketBlockers, replaceTicketRelatedLinks } from "./ticket-writes.js";
 import type {
@@ -62,7 +63,17 @@ export function importBoardPayload(
       name: payload.board.name,
       laneNames: payload.lanes.map((lane) => lane.name),
     });
-    const laneByName = new Map(created.lanes.map((lane) => [lane.name, lane.id]));
+    const laneById = new Map(payload.lanes.map((lane, index) => [lane.id, created.lanes[index].id]));
+    if (laneById.size !== payload.lanes.length) throw new Error("Duplicate lane IDs in import payload");
+    for (const lane of payload.lanes) {
+      if (lane.isCompletionLane !== undefined && typeof lane.isCompletionLane !== "boolean") {
+        throw new Error("Invalid lane completion attribute");
+      }
+      const completion = lane.isCompletionLane ?? false;
+      sqlite.prepare("UPDATE lanes SET is_completion_lane = ? WHERE id = ?")
+        .run(Number(completion), laneById.get(lane.id)!);
+    }
+    let migratedLaneId: number | undefined;
     const tagByName = new Map<string, Id>();
     const createdTicketIds = new Map<Id, Id>();
     payload.tags.forEach((tag) => {
@@ -80,9 +91,15 @@ export function importBoardPayload(
       if (!laneName) {
         throw new Error("Invalid ticket lane in import payload");
       }
+      if (typeof ticket.isResolved === "boolean" && typeof ticket.isCompleted === "boolean" && ticket.isResolved !== ticket.isCompleted) {
+        throw new Error("isResolved and isCompleted must agree");
+      }
+      const sourceLane = payload.lanes.find((lane) => lane.id === ticket.laneId)!;
+      const legacyResolved = sourceLane.isCompletionLane === undefined && (ticket.isResolved ?? ticket.isCompleted);
+      if (legacyResolved && migratedLaneId === undefined) migratedLaneId = createMigratedCompletionLane(sqlite, created.board.id);
       const createdTicket = ops.createTicket({
         boardId: created.board.id,
-        laneId: laneByName.get(laneName)!,
+        laneId: legacyResolved ? migratedLaneId! : laneById.get(ticket.laneId)!,
         title: ticket.title,
         bodyMarkdown: ticket.bodyMarkdown,
         isResolved: ticket.isResolved ?? ticket.isCompleted,

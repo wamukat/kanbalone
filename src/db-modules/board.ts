@@ -17,7 +17,7 @@ import type {
   TagView,
 } from "../types.js";
 
-const DEFAULT_LANES = ["todo", "doing", "done"];
+const DEFAULT_LANES = ["todo", "doing", "Acceptance", "done"];
 const DEFAULT_TAG_COLOR = "#6b7280";
 
 export type CreateBoardInput = {
@@ -26,6 +26,7 @@ export type CreateBoardInput = {
 };
 
 export type CreateLaneInput = {
+  isCompletionLane?: boolean;
   boardId: Id;
   name: string;
 };
@@ -49,14 +50,14 @@ export function createBoard(sqlite: Database.Database, input: CreateBoardInput, 
     "INSERT INTO boards (name, position, created_at, updated_at) VALUES (?, ?, ?, ?)",
   );
   const insertLane = sqlite.prepare(
-    "INSERT INTO lanes (board_id, name, position) VALUES (?, ?, ?)",
+    "INSERT INTO lanes (board_id, name, position, is_completion_lane) VALUES (?, ?, ?, ?)",
   );
   const tx = sqlite.transaction(() => {
     const result = insertBoard.run(input.name, position, now, now);
     const boardId = Number(result.lastInsertRowid);
     const laneNames = input.laneNames && input.laneNames.length > 0 ? input.laneNames : DEFAULT_LANES;
     laneNames.forEach((laneName, index) => {
-      insertLane.run(boardId, laneName, index);
+      insertLane.run(boardId, laneName, index, !input.laneNames?.length && index === DEFAULT_LANES.length - 1 ? 1 : 0);
     });
     return boardId;
   });
@@ -96,8 +97,8 @@ export function listLanes(sqlite: Database.Database, boardId: Id): LaneView[] {
 export function createLane(sqlite: Database.Database, input: CreateLaneInput): LaneView {
   const position = nextLanePosition(sqlite, input.boardId);
   const result = sqlite
-    .prepare("INSERT INTO lanes (board_id, name, position) VALUES (?, ?, ?)")
-    .run(input.boardId, input.name, position);
+    .prepare("INSERT INTO lanes (board_id, name, position, is_completion_lane) VALUES (?, ?, ?, ?)")
+    .run(input.boardId, input.name, position, Number(input.isCompletionLane ?? false));
   return getLane(sqlite, Number(result.lastInsertRowid))!;
 }
 
@@ -106,12 +107,16 @@ export function getLane(sqlite: Database.Database, laneId: Id): LaneView | null 
   return row ? mapLane(row) : null;
 }
 
-export function updateLane(sqlite: Database.Database, laneId: Id, name: string): LaneView {
-  const result = sqlite.prepare("UPDATE lanes SET name = ? WHERE id = ?").run(name, laneId);
-  if (result.changes === 0) {
-    throw new Error("Lane not found");
-  }
-  return getLane(sqlite, laneId)!;
+export function updateLane(sqlite: Database.Database, laneId: Id, input: string | { name?: string; isCompletionLane?: boolean }): LaneView {
+  return sqlite.transaction(() => {
+    const current = getLane(sqlite, laneId);
+    if (!current) throw new Error("Lane not found");
+    const fields = typeof input === "string" ? { name: input } : input;
+    sqlite.prepare("UPDATE lanes SET name = ?, is_completion_lane = ? WHERE id = ?")
+      .run(fields.name ?? current.name, Number(fields.isCompletionLane ?? current.isCompletionLane), laneId);
+    sqlite.prepare("UPDATE boards SET updated_at = ? WHERE id = ?").run(new Date().toISOString(), current.boardId);
+    return getLane(sqlite, laneId)!;
+  }).immediate();
 }
 
 export function deleteLane(sqlite: Database.Database, laneId: Id): void {

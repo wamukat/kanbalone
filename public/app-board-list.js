@@ -256,7 +256,7 @@ export function createListBoardModule(ctx, options) {
         listSelection.updateSelectedListArchive(bulkButton.dataset.bulkArchive === "true");
         return;
       }
-      listSelection.updateSelectedListTickets(bulkButton.dataset.bulkResolve === "true");
+
     }
   }
 

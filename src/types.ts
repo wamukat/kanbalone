@@ -9,6 +9,7 @@ export type BoardRow = {
 };
 
 export type LaneRow = {
+  is_completion_lane: number;
   id: Id;
   board_id: Id;
   name: string;
@@ -314,6 +315,7 @@ export type TicketEventView = {
 };
 
 export type LaneView = {
+  isCompletionLane: boolean;
   id: Id;
   boardId: Id;
   name: string;

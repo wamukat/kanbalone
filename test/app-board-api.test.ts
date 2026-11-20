@@ -22,7 +22,8 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
   assert.equal(createdBoardResponse.statusCode, 201);
   const createdBoard = createdBoardResponse.json();
   const boardId = createdBoard.board.id;
-  const [todoLane, doingLane] = createdBoard.lanes;
+  const [todoLane, doingLane, doneLane] = createdBoard.lanes;
+  await app.inject({ method: "PATCH", url: `/api/lanes/${doneLane.id}`, payload: { isCompletionLane: true } });
 
   const bugTagResponse = await app.inject({
     method: "POST",
@@ -60,7 +61,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
     method: "POST",
     url: `/api/boards/${boardId}/tickets`,
     payload: {
-      laneId: todoLane.id,
+      laneId: doneLane.id,
       parentTicketId: firstTicket.id,
       title: "Write docs",
       bodyMarkdown: "Link [guide](https://example.com)",

@@ -327,6 +327,7 @@ const {
 );
 
 const editorModule = createEditorModule({
+  onTicketCreated: (boardId) => boardModule.onTicketCreated(boardId),
   state,
   elements,
   api,

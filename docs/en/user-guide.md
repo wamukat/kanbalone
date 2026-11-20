@@ -1,5 +1,7 @@
 # Kanbalone User Guide
 
+Before upgrading an existing database, read the [completion-state migration guide](./migration-guide.md) for backup, automatic migration, reconciliation, rollback and the AI execution contract.
+
 Kanbalone is a lightweight kanban tool for personal work, small release planning, and collaboration with AI agents.
 
 This guide follows the order a new user can use to start working.
@@ -66,7 +68,7 @@ The detail view shows the body, relationships, comments, and activity.
 
 Use the pencil icon in the upper-right of the detail view.
 
-You can change Lane / Priority / Resolved, Tags, Relations, and the body.
+You can change Lane / Priority, Tags, Relations, and the body.
 
 For a remote tracked ticket, the title becomes a remote-owned read-only value. The editable implementation text lives in `Local Body`.
 
@@ -189,7 +191,11 @@ This keeps the remote issue as the canonical requirement while letting Kanbalone
 
 ## 9. Resolve And Organize Tickets
 
-You can mark finished work Resolved. You can also move it to a Done lane.
+Move accepted work to a completion lane to mark it Resolved. Moving it to a normal lane reopens it. For human acceptance, AI work goes to the normal Acceptance lane first; a human moves it to Done after acceptance. Lane names are labels, not completion rules. The sidebar gear panel separates Board name, Completion lanes, Data operations, and deletion. Completion lanes normally shows the current selection and Change (or Set up). Choose lanes from the checklist, then Save. If tickets are affected, review the numbers becoming resolved or reopened, including archived tickets, and explicitly apply the change inline. Checking a box does not change ticket states. Changes to lane attributes or ticket counts after review require another review.
+
+After the first ticket is created through the UI on a board without a completion lane, a nonblocking hint appears once. Set up opens the same settings section; Later dismisses the hint. The shown flag is stored per board in this browser. Lane names remain editable directly on the lane.
+
+When upgrading existing data, each board with resolved tickets gets an automatically created `Completed (migration)` completion lane, with a numeric suffix if the name is already taken. Only resolved tickets move there. Existing lanes, including Done, remain normal lanes; unresolved tickets stay where they are. Archive status is preserved.
 
 Archive tickets you no longer need to see every day. Archived tickets are hidden from the normal board.
 
@@ -231,15 +237,17 @@ List view shows Resolved / Archived state and priority in columns.
 
 Select tickets in List view to show bulk actions.
 
-You can mark multiple tickets Resolved, reopen them, Archive them, or Restore them.
+Use Move to send multiple tickets to a completion lane or a normal lane. Archive and Restore remain separate operations.
 
 ![List bulk actions](../assets/user-guide/09-list-bulk-actions.png)
 
 ## 13. Use Board Settings
 
-Board rename, Export / Import, and Delete are available from the gear at the bottom of the sidebar.
+Board name, Completion lanes, Data operations (Export / Import), and Delete are grouped separately under the sidebar gear.
 
 Open the gear and click the pencil icon next to the board name to edit the name in place. Press Enter to save, or press Esc / move focus away to cancel.
+
+Completion lanes shows the current selection. Choose Change (or Set up if none are configured) to select lanes, then Save. If existing tickets are affected, review the counts before applying the change. Lane names are still edited directly on the lane.
 
 ![Board settings](../assets/user-guide/12-board-settings.png)
 
@@ -257,7 +265,7 @@ It follows the OS or browser color-scheme setting. When your system is in dark m
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v0.9.35
+  ghcr.io/wamukat/kanbalone:v0.10.0
 ```
 
 Open:

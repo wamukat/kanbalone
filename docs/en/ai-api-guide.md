@@ -1,5 +1,7 @@
 # Kanbalone AI API Guide
 
+Before upgrading an existing database, read the [completion-state migration guide](./migration-guide.md) for backup, automatic migration, reconciliation, rollback and the AI execution contract.
+
 This API is a local, single-user Kanbalone API. The base URL is usually `http://127.0.0.1:3000`.
 
 ## Codex Skill
@@ -17,10 +19,10 @@ If you use only the Docker image, fetch the skill from the GitHub release tag to
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.35.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.35/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.10.0.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.10.0/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.35/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.10.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -46,11 +48,18 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 
 ## Important Semantics
 
-### 1. `laneId` And `isResolved` Are Separate
+### 1. Completion Comes From The Lane
 
-- A lane named `done` does not automatically make the ticket complete.
-- Moving a ticket to a done lane does not set resolved state.
-- If you want the ticket resolved, update both `laneId` and `isResolved: true` when appropriate.
+- Inspect `lanes[].isCompletionLane`; names do not determine completion.
+- Moving to a completion lane resolves a ticket. Moving to a normal lane reopens it.
+- `isResolved` and the legacy `isCompleted` response field reflect the lane. In requests, these optional compatibility fields must agree with the destination lane or the API returns 409 without changes.
+- The standard board has `todo`, `doing`, `Acceptance` (normal lanes), and `done` (completion lane). Custom lane names default to normal; configure completion explicitly.
+- For human acceptance workflows, AI hands work off to `Acceptance`; the human moves accepted work to `done`.
+- `PATCH /api/lanes/:laneId` with `{ "isCompletionLane": true }` changes completion for every ticket in that lane, including archived tickets. Archive flags do not change.
+
+For board-wide configuration, use `PUT /api/boards/:boardId/completion-lanes` with `{ laneIds, expectedLanes }`. `laneIds` is the entire desired selection, not an append operation; `[]` makes every lane normal. Read all lanes and the unfiltered ticket list with `archived=all`, then include every lane in `expectedLanes` as `{ id, isCompletionLane, ticketCount }`. Counts include archived tickets and zero-ticket lanes. Review how many tickets will become resolved or reopened before applying the authorized change.
+
+The selection and all affected ticket states update in one transaction. Invalid or duplicate selection IDs return 400; a missing board returns 404; a changed lane set, completion attribute, or ticket count returns 409 with no writes. On 409, fetch current data and review the effect again; do not blindly retry or bypass the check with individual PATCH calls. The single-lane PATCH endpoint does not have this expectation guard. See [API examples](./api-examples.md#replace-the-completion-lane-selection).
 
 ### 2. Blockers Are Dependencies Of This Ticket
 
@@ -151,20 +160,20 @@ Name-based:
 
 - `PATCH /api/tickets/:ticketId/transition`
 - Put `laneName` in the body.
-- Include `isResolved` when needed.
+- Completion is derived from the destination lane; omit completion flags.
 
 To move one ticket to a specific position, use `PATCH /api/tickets/:ticketId/position` (see below).
 
 Mark multiple tickets resolved or open:
 
-- `POST /api/boards/:boardId/tickets/bulk-complete`
-- Body includes `ticketIds` and `isResolved`.
+- Use `POST /api/boards/:boardId/tickets/bulk-transition` with `ticketIds` and the target `laneName`.
+- Legacy `bulk-complete` only accepts already-matching states; it cannot change completion independently and returns 409 on conflict.
 
 Transition multiple tickets by lane name:
 
 - `POST /api/boards/:boardId/tickets/bulk-transition`
 - Body includes `ticketIds` and `laneName`.
-- Include `isResolved` when needed.
+- Completion is derived from the destination lane; omit completion flags.
 
 ### Reorder A Ticket Within A Lane
 
@@ -202,9 +211,7 @@ Content-Type: application/json
 ### Mark A Ticket Resolved
 
 - `PATCH /api/tickets/:ticketId`
-- Body includes `isResolved: true`.
-
-Update `laneId` at the same time when needed.
+- Set `laneId` to a lane with `isCompletionLane: true`. Reopening requires moving to a normal lane.
 
 ### Reflect External API Updates In The UI
 

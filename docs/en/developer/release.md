@@ -233,7 +233,7 @@ linux/amd64
 
 ## Close Related Tickets
 
-After the GitHub Release exists, close every GitHub issue and local Kanbalone ticket that the release completes. Do not treat the release as finished until both systems are updated.
+After the GitHub Release exists, close the GitHub issues completed by the release and hand the local Kanbalone tickets off to Acceptance. Local completion follows human acceptance.
 
 For each related GitHub issue, add a release comment and close the issue:
 
@@ -257,13 +257,13 @@ gh issue view <issue-number> \
   --json number,state,url
 ```
 
-For each related local Kanbalone ticket on the project board, add a release completion comment if needed, move it to `done`, and set `isResolved: true`:
+For each related local Kanbalone ticket on the project board, add a release completion comment if needed, move it to the normal `Acceptance` lane for human acceptance:
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
   --base http://127.0.0.1:3470/boards/4 \
   PATCH /api/tickets/<ticket-id>/transition \
-  '{"laneName":"done","isResolved":true}'
+  '{"laneName":"Acceptance"}'
 ```
 
 Verify each local ticket:
@@ -276,10 +276,10 @@ python3 skills/kanbalone-api/scripts/kanbalone_api.py \
 
 Expected local state:
 
-- `laneId` matches the board's `done` lane.
-- `isResolved` is `true`.
+- `laneId` matches the board's normal `Acceptance` lane.
+- `isResolved` is `false` until a human moves the ticket to a completion lane.
 
-If the release is associated with imported GitHub issues, close both the upstream GitHub issue and its imported local Kanbalone ticket.
+If the release is associated with imported GitHub issues, close the upstream GitHub issue and move its imported local ticket to Acceptance.
 
 ## Package Visibility
 
@@ -314,3 +314,6 @@ Adding `linux/arm64` requires validating native dependency behavior for `better-
 Do not move a release tag after it has been pushed and a Docker image has been published.
 
 If a release needs a follow-up fix, create a new patch release instead.
+
+
+When publishing the release that introduces lane-based completion, replace the unassigned target release in both language versions of the [migration guide](../migration-guide.md) and link it from the release notes. Tell existing users to back up the DB and update API clients and installed skills.

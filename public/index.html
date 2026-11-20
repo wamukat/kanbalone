@@ -52,8 +52,10 @@
             </button>
           </div>
           <div id="sidebar-board-actions-panel" class="sidebar-board-actions-panel">
-            <div id="board-rename-inline-host" class="sidebar-board-name"></div>
-            <div class="sidebar-board-actions">
+            <section class="sidebar-setting-group"><h3 class="sidebar-setting-label">Board name</h3><div id="board-rename-inline-host" class="sidebar-board-name"></div></section>
+            <div id="sidebar-lane-settings" class="sidebar-lane-settings sidebar-setting-group"></div>
+            <div class="sidebar-board-actions sidebar-setting-group">
+              <h3 class="sidebar-setting-label">Data operations</h3>
               <div class="sidebar-board-transfer">
                 <button id="export-board-button" type="button" class="action-with-icon">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#download"></use></svg>
@@ -65,6 +67,8 @@
                   <input id="import-board-input" type="file" accept="application/json" hidden />
                 </label>
               </div>
+            </div>
+            <div class="sidebar-board-delete">
               <button id="delete-board-button" type="button" class="danger action-with-icon">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
                 <span>Delete</span>
@@ -170,6 +174,7 @@
           </div>
         </header>
 
+        <aside id="completion-hint" class="completion-hint" role="status" hidden></aside>
         <section id="lane-board" class="lane-board empty">
           <div class="empty-state">
             <p>Create a board to start tracking tasks.</p>
@@ -273,13 +278,7 @@
               </select>
             </label>
 
-             <label id="ticket-resolved-row" class="editor-compact-label completion-toggle">
-              <span class="completion-toggle-label">Resolved</span>
-              <input id="ticket-resolved" class="toggle-switch-input" name="isResolved" type="checkbox" />
-              <span class="completion-toggle-control toggle-switch-control">
-                <span class="completion-switch toggle-switch-knob" aria-hidden="true"></span>
-              </span>
-            </label>
+
 
           </div>
 

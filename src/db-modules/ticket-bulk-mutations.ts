@@ -1,4 +1,5 @@
 import type Database from "better-sqlite3";
+import { laneCompletion } from "./lane-completion.js";
 
 import {
   nextTicketPosition,
@@ -93,6 +94,7 @@ export function bulkResolveTickets(
   const updatedAt = now();
   const stmt = sqlite.prepare("UPDATE tickets SET is_resolved = ?, updated_at = ? WHERE id = ?");
   const tx = sqlite.transaction(() => {
+    rows.forEach((row) => laneCompletion(sqlite, row.lane_id, input.isResolved, input.boardId));
     rows.forEach((row) => stmt.run(input.isResolved ? 1 : 0, updatedAt, row.id));
     rows.forEach((row) =>
       addTicketActivity(
@@ -143,7 +145,7 @@ export function bulkTransitionTickets(
     let targetPosition = nextPosition;
     for (const ticketId of input.ticketIds) {
       const row = rowsById.get(ticketId)!;
-      const nextResolved = typeof input.isResolved === "boolean" ? Number(input.isResolved) : row.is_resolved;
+      const nextResolved = Number(laneCompletion(sqlite, lane.id, input.isResolved, input.boardId));
       if (row.lane_id === lane.id) {
         updateSameLaneStmt.run(nextResolved, updatedAt, row.id);
         addTicketActivity(sqlite, now, input.boardId, row.id, "ticket_transitioned", `Moved to ${input.laneName}`);

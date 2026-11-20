@@ -45,7 +45,7 @@ GitHub Issues、GitLab、Redmine などの remote issue をローカルに取り
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v0.9.34
+  ghcr.io/wamukat/kanbalone:v0.10.0
 ```
 
 ブラウザで開きます。
@@ -124,10 +124,10 @@ Docker image だけを使う場合は、GitHub release tag から skill を取�
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.9.34.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-0.9.34/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v0.10.0.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-0.10.0/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-0.9.34/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-0.10.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
@@ -142,6 +142,7 @@ skill はホスト側で実行され、`http://127.0.0.1:3000` などの Kanbalo
 利用者・API クライアント向け:
 
 - [ユーザーガイド](docs/ja/user-guide.md)
+- [完了状態の移行ガイド（ユーザー・AI向け）](docs/ja/migration-guide.md)
 - [データモデルと概念](docs/ja/concepts.md)
 - [AI API ガイド](docs/ja/ai-api-guide.md)
 - [API 例](docs/ja/api-examples.md)

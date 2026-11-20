@@ -25,7 +25,7 @@ def parse_args() -> argparse.Namespace:
         default=os.environ.get("KANBALONE_URL", "http://127.0.0.1:3000"),
         help="Kanbalone base URL. Defaults to KANBALONE_URL or http://127.0.0.1:3000.",
     )
-    parser.add_argument("method", choices=["GET", "POST", "PATCH", "DELETE", "get", "post", "patch", "delete"])
+    parser.add_argument("method", choices=["GET", "POST", "PUT", "PATCH", "DELETE", "get", "post", "put", "patch", "delete"])
     parser.add_argument("path", help="API path, for example /api/boards.")
     parser.add_argument("json_body", nargs="?", help="JSON body. If omitted, stdin is used when piped.")
     parser.add_argument("--body-file", help="UTF-8 Markdown file to send as bodyMarkdown. Optional JSON argument supplies other fields; stdin is not read.")

@@ -1,3 +1,4 @@
+import { setCompletionLanes, type CompletionLaneExpectation } from "./db-modules/lane-completion.js";
 import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
 import Database from "better-sqlite3";
 
@@ -124,7 +125,12 @@ export class KanbanDb {
     this.sqlite = new Database(filename);
     this.sqlite.pragma("journal_mode = WAL");
     this.sqlite.pragma("foreign_keys = ON");
-    migrate(this.sqlite);
+    try {
+      this.sqlite.transaction(() => migrate(this.sqlite)).immediate();
+    } catch (error) {
+      this.sqlite.close();
+      throw error;
+    }
   }
 
   close(): void {
@@ -188,8 +194,13 @@ export class KanbanDb {
     return getLaneRecord(this.sqlite, laneId);
   }
 
-  updateLane(laneId: Id, name: string): LaneView {
-    return updateLaneRecord(this.sqlite, laneId, name);
+  setCompletionLanes(boardId: Id, laneIds: Id[], expected: CompletionLaneExpectation[]): LaneView[] {
+    setCompletionLanes(this.sqlite, boardId, laneIds, expected);
+    return this.listLanes(boardId);
+  }
+
+  updateLane(laneId: Id, input: string | { name?: string; isCompletionLane?: boolean }): LaneView {
+    return updateLaneRecord(this.sqlite, laneId, input);
   }
 
   deleteLane(laneId: Id): void {

@@ -37,6 +37,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       response: {
         200: schemas.ticketsResponseSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -87,6 +88,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
           additionalProperties: true,
         },
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -106,7 +108,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
         parentTicketId: body.parentTicketId ?? null,
         title: body.title.trim(),
         bodyMarkdown: body.bodyMarkdown ?? "",
-        isResolved: Boolean(resolveResolvedFlag(body)),
+        isResolved: resolveResolvedFlag(body),
         isArchived: Boolean(body.isArchived),
         priority: typeof body.priority === "number" ? body.priority : 2,
         tagIds: Array.isArray(body.tagIds) ? body.tagIds : [],
@@ -117,7 +119,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return reply.code(201).send(serializeTicket(ticket));
     } catch (error) {
       const message = error instanceof Error ? error.message : "ticket create failed";
-      return reply.code(400).send({ error: message });
+      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message });
     }
   });
 
@@ -143,6 +145,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       response: {
         200: schemas.ticketSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -222,7 +225,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
           error: message,
         },
       });
-      return reply.code(400).send({ error: message });
+      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message });
     }
   });
 
@@ -236,6 +239,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
           additionalProperties: true,
         },
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -259,7 +263,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return serializeTicket(ticket);
     } catch (error) {
       const message = error instanceof Error ? error.message : "ticket update failed";
-      const code = message === "Ticket not found" ? 404 : 400;
+      const code = (error as { statusCode?: number }).statusCode === 409 ? 409 : message === "Ticket not found" ? 404 : 400;
       return reply.code(code).send({ error: message.toLowerCase() });
     }
   });
@@ -274,6 +278,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
           additionalProperties: true,
         },
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -293,7 +298,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return serializeTicket(ticket);
     } catch (error) {
       const message = error instanceof Error ? error.message : "ticket transition failed";
-      const code = message === "Ticket not found" ? 404 : 400;
+      const code = (error as { statusCode?: number }).statusCode === 409 ? 409 : message === "Ticket not found" ? 404 : 400;
       return reply.code(code).send({ error: message.toLowerCase() });
     }
   });
@@ -308,6 +313,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
           additionalProperties: true,
         },
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },
@@ -330,7 +336,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return serializeTicket(ticket);
     } catch (error) {
       const message = error instanceof Error ? error.message : "ticket position failed";
-      const code = message === "Ticket not found" ? 404 : 400;
+      const code = (error as { statusCode?: number }).statusCode === 409 ? 409 : message === "Ticket not found" ? 404 : 400;
       return reply.code(code).send({ error: message.toLowerCase() });
     }
   });
@@ -342,6 +348,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       response: {
         200: schemas.ticketSchema,
         400: schemas.errorSchema,
+        409: schemas.errorSchema,
         404: schemas.errorSchema,
       },
     },

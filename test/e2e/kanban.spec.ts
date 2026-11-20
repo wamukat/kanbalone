@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createBoard, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+import { buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
 
 test("kanban cards show parent child and standalone hierarchy icons", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -32,7 +32,8 @@ test("kanban cards show parent child and standalone hierarchy icons", async ({ p
       laneId,
       title: "Resolved child ticket",
     });
-    await updateTicket(page.request, baseUrl, resolvedChild.id, { parentTicketId: resolvedChildParent.id, isResolved: true });
+    const completedLane = await createCompletionLane(page.request, baseUrl, boardPayload.board.id);
+    await updateTicket(page.request, baseUrl, resolvedChild.id, { parentTicketId: resolvedChildParent.id, laneId: completedLane.id });
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
 
@@ -252,7 +253,7 @@ test("kanban ticket drag persists when inactive tickets are hidden", async ({ pa
     const doneHiddenTicketIds = [];
     for (let index = 0; index < 10; index += 1) {
       const response = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {
-        data: { laneId: doneLane.id, title: `Resolved hidden ${index}`, isResolved: true },
+        data: { laneId: doneLane.id, title: `Archived hidden ${index}`, isArchived: true },
       });
       expect(response.status()).toBe(201);
       doneHiddenTicketIds.push((await response.json()).id);
@@ -308,7 +309,7 @@ test("kanban ticket drag persists when inactive tickets are hidden", async ({ pa
     const doneTicketIds = (await ticketsResponse.json()).tickets
       .filter((ticket: { laneId: number }) => ticket.laneId === doneLane.id)
       .map((ticket: { id: number }) => ticket.id);
-    expect(doneTicketIds).toEqual([...doneHiddenTicketIds, anchorTicket.id, movingTicket.id]);
+    expect(doneTicketIds).toEqual([anchorTicket.id, movingTicket.id, ...doneHiddenTicketIds]);
     await page.reload();
     await expect(page.locator(".lane", { has: page.getByRole("button", { name: "Move with hidden inactive" }) }).locator(".lane-title")).toHaveText("Done");
   } finally {

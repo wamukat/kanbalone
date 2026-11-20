@@ -174,7 +174,6 @@ export function createEditorModule(ctx) {
   function hydrateEditorForm(ticket) {
     elements.ticketTitle.value = ticket.title;
     elements.ticketPriority.value = getPriorityInputValue(ticket.priority);
-    elements.ticketResolved.checked = ticket.isResolved;
     elements.ticketBody.value = ticket.bodyMarkdown;
     elements.ticketTitle.disabled = Boolean(ticket.remote);
     elements.ticketLane.value = String(ticket.laneId);
@@ -288,7 +287,6 @@ export function createEditorModule(ctx) {
     state.editorBodyTab = "local";
     elements.ticketTitle.value = ticket?.title ?? "";
     elements.ticketPriority.value = getPriorityInputValue(ticket?.priority);
-    elements.ticketResolved.checked = ticket?.isResolved ?? false;
     elements.ticketBody.value = ticket?.bodyMarkdown ?? "";
     elements.ticketTitle.disabled = Boolean(ticket?.remote);
     detailModule.syncTicketDetail(ticket, activity, events);
@@ -301,7 +299,6 @@ export function createEditorModule(ctx) {
       .join("");
     elements.ticketParent.value = ticket?.parentTicketId == null ? "" : String(ticket.parentTicketId);
     elements.deleteTicketButton.hidden = !ticketId;
-    elements.ticketResolvedRow.hidden = !ticketId;
     elements.archiveTicketButton.hidden = !ticketId;
     if (!ticketId && defaultLaneId != null) {
       elements.ticketLane.value = String(defaultLaneId);

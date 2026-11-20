@@ -16,6 +16,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
       laneNames: ["Todo", "Review"],
     });
     const [todoLane, reviewLane] = boardPayload.lanes;
+    await page.request.patch(`${baseUrl}/api/lanes/${todoLane.id}`, { data: { isCompletionLane: true } });
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
     const todoColumn = page.locator(".lane", { has: page.locator(".lane-title", { hasText: "Todo" }) });
@@ -51,7 +52,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await page.locator("#header-edit-button").click();
     await page.locator("#ticket-title").fill("Updated from editor");
     await page.locator("#ticket-priority").selectOption("3");
-    await page.locator("#ticket-resolved-row").click();
+    await expect(page.locator("#ticket-resolved-row")).toHaveCount(0);
     await page.locator("#ticket-lane").selectOption(String(todoLane.id));
     const updateResponse = page.waitForResponse(
       (response) =>
