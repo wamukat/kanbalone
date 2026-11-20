@@ -159,7 +159,7 @@ For developers and maintainers:
 
 ## Tech Stack
 
-- Node.js 22
+- Node.js 26.13.1 LTS
 - Fastify
 - SQLite via `better-sqlite3`
 - TypeScript

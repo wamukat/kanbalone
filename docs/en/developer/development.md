@@ -2,15 +2,31 @@
 
 ## Requirements
 
-- Node.js 22
+- Node.js 26.13.1 LTS
 - pnpm 10
 
 If you use Volta:
 
 ```bash
-volta install node@22
+volta install node@26.13.1
 volta install pnpm@10.33.0
 ```
+
+Node.js 25 and newer do not bundle Corepack. Install the pinned package manager explicitly when it is not already available:
+
+```bash
+npm install --global pnpm@10.33.0
+```
+
+The repository pins Node.js 26.13.1 through Volta. After changing Node versions, reinstall dependencies and rebuild the native SQLite extension under the new runtime:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm rebuild better-sqlite3
+pnpm check
+pnpm test:e2e
+```
+
 
 ## Local Setup
 
@@ -79,7 +95,7 @@ E2E coverage is split by responsibility: `test/e2e/filters.spec.ts` covers filte
 
 ## Tech Stack
 
-- Node.js 22
+- Node.js 26.13.1 LTS
 - pnpm
 - Fastify
 - SQLite via `better-sqlite3`

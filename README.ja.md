@@ -159,7 +159,7 @@ skill はホスト側で実行され、`http://127.0.0.1:3000` などの Kanbalo
 
 ## Tech Stack
 
-- Node.js 22
+- Node.js 26.13.1 LTS
 - Fastify
 - SQLite via `better-sqlite3`
 - TypeScript

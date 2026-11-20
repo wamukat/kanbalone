@@ -2,15 +2,31 @@
 
 ## 必要なもの
 
-- Node.js 22
+- Node.js 26.13.1 LTS
 - pnpm 10
 
 Volta を使う場合:
 
 ```bash
-volta install node@22
+volta install node@26.13.1
 volta install pnpm@10.33.0
 ```
+
+Node.js 25以降にはCorepackが同梱されません。pnpmが未導入の場合は、固定バージョンを明示的にインストールします。
+
+```bash
+npm install --global pnpm@10.33.0
+```
+
+このリポジトリはVoltaでNode.js 26.13.1を指定しています。Nodeのバージョン変更後は、新しい実行環境で依存をインストールし直し、SQLiteのネイティブ拡張を再ビルドしてください。
+
+```bash
+pnpm install --frozen-lockfile
+pnpm rebuild better-sqlite3
+pnpm check
+pnpm test:e2e
+```
+
 
 ## ローカルセットアップ
 
@@ -79,7 +95,7 @@ E2E は、filter そのものの動作を `test/e2e/filters.spec.ts`、localStor
 
 ## 技術スタック
 
-- Node.js 22
+- Node.js 26.13.1 LTS
 - pnpm
 - Fastify
 - SQLite via `better-sqlite3`
