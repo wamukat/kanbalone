@@ -13,6 +13,10 @@ export function registerWebRoutes(app: FastifyInstance): void {
     return reply.sendFile("index.html");
   });
 
+  app.get("/boards/:boardId/group", async (_request, reply) => {
+    return reply.sendFile("index.html");
+  });
+
   app.get("/tickets/:ticketId", async (_request, reply) => {
     return reply.sendFile("index.html");
   });

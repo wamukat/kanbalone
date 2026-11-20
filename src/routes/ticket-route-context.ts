@@ -4,6 +4,12 @@ import type { Id, TicketRelationView, TicketSummaryView, TicketView } from "../t
 import type { RouteJsonSchema } from "./route-schema.js";
 
 export type TicketMutationBody = {
+  groupId?: number | null;
+  childTicketIds?: number[];
+  groupResolution?: { groupId: number };
+  expectedToken?: string;
+  expectedEditToken?: string;
+  expectedSelectedParents?: Array<{ticketId: number; parentTicketId: number | null}>;
   laneId?: number;
   parentTicketId?: number | null;
   title?: string;

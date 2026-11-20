@@ -101,6 +101,12 @@ export function parseTicketMutationBody(body: unknown): TicketMutationBody {
   const hasBlockerIds = Object.prototype.hasOwnProperty.call(input, "blockerIds");
   const hasRelatedIds = Object.prototype.hasOwnProperty.call(input, "relatedIds");
   return {
+    groupId: input.groupId,
+    childTicketIds: input.childTicketIds,
+    groupResolution: input.groupResolution,
+    expectedToken: input.expectedToken,
+    expectedEditToken: input.expectedEditToken,
+    expectedSelectedParents: input.expectedSelectedParents,
     laneId: input.laneId,
     parentTicketId: hasParentTicketId ? input.parentTicketId ?? null : undefined,
     title: typeof input.title === "string" ? input.title.trim() : undefined,

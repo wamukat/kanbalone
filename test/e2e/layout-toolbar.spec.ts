@@ -50,7 +50,7 @@ test("toolbar search aligns with active content edge in kanban and list views", 
     ).toBeLessThan(2);
 
     await page.getByRole("button", { name: "List" }).click();
-    await expect(page.locator("#list-board")).toBeVisible();
+    await expect(page.locator("#list-board .list-header")).toBeVisible();
 
     const listLayout = await page.evaluate(() => {
       const search = document.querySelector(".toolbar-search");

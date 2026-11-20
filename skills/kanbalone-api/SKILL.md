@@ -165,3 +165,13 @@ Blocked:
 Blocked: <reason>.
 Next needed: <specific action or decision>.
 ```
+
+## Group Operations
+
+Read the Group section of [references/api.md](references/api.md) before changing membership or parent/child links involving Groups.
+
+- A ticket has at most one board-local Group. Parent/child membership is shared, including archived tickets; a child ID can therefore affect its parent and siblings.
+- Use membership preview, inspect the complete affected set, then apply the unchanged request with `expectedToken`. To change Groups, remove first, then add. Do not PATCH `groupId` on an existing ticket.
+- Preserve the original `editToken` from ticket detail when replacing the child set. Save the body and parent/child changes atomically; do not issue sequential child PATCH calls. Resolve a Group conflict only to a returned candidate consistent with the user's intent.
+- Empty Groups are active. Nonempty Groups are active only while a member is unresolved and unarchived. There is no Group completion/archive action. `status=all` and ticket `archived=all` solve different filtering needs.
+- On a stale expectation, read and reconcile current state rather than refreshing only the token and blindly retrying. Board moves clear membership only on moved tickets.

@@ -6,7 +6,7 @@ export function createRouterModule(ctx, options) {
     const [kind, rawId, rawView] = parts;
     const id = Number(rawId);
     if (kind === "boards" && Number.isInteger(id) && id > 0) {
-      return { kind: "board", id, viewMode: rawView === "list" ? "list" : "kanban" };
+      return { kind: "board", id, viewMode: rawView === "group" ? "group" : rawView === "list" ? "list" : "kanban" };
     }
     if (kind === "tickets" && Number.isInteger(id) && id > 0) {
       return { kind: "ticket", id };
@@ -102,7 +102,9 @@ export function createRouterModule(ctx, options) {
     options.saveBoardViewMode();
     const pathname = !state.activeBoardId
       ? "/"
-      : state.viewMode === "list"
+      : state.viewMode === "group"
+        ? `/boards/${state.activeBoardId}/group`
+        : state.viewMode === "list"
         ? `/boards/${state.activeBoardId}/list`
         : `/boards/${state.activeBoardId}`;
     setUrl(pathname, { replace });

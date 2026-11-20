@@ -241,7 +241,7 @@ async function refreshBoardDetail() {
   }
   const detail = await api(`/api/boards/${state.activeBoardId}`);
   normalizeBoardFiltersForDetail(detail);
-  const allTickets = await api(buildTicketListUrl());
+  const allTickets = await api(state.viewMode === "group" ? `/api/boards/${state.activeBoardId}/tickets?archived=all` : buildTicketListUrl());
   state.boardTickets = allTickets.tickets;
   state.boardDetail = {
     board: detail.board,
@@ -328,6 +328,7 @@ const {
 
 const editorModule = createEditorModule({
   onTicketCreated: (boardId) => boardModule.onTicketCreated(boardId),
+  openGroup: (groupId) => boardModule.openGroup(groupId),
   state,
   elements,
   api,
@@ -421,6 +422,7 @@ const boardModule = createBoardModule({
   escapeHtml,
   openFormDialog,
   openEditor,
+  closeEditor,
   refreshBoardDetail,
   refreshBoards,
   restoreBoardFilterExpansion,

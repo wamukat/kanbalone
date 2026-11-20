@@ -46,3 +46,11 @@
 - [OpenAPI](../openapi.yaml)
 - [AI API guide](ai-api-guide.md)
 - [API examples](api-examples.md)
+
+## Groups
+
+A Group is a board-local body of work with a name and optional Markdown description. It is different from a tag: a ticket can have many tags but at most one Group. Parent and child tickets always share the same membership, including archived tickets. Splitting the relationship preserves membership on both sides. Board-to-board moves clear membership only for the moved tickets.
+
+Group activity is derived, not a stored workflow status: an empty Group is active; otherwise it is active while at least one ticket is both unresolved and unarchived. Inactive Groups retain their members and remain queryable. There is no Group completion/archive action. Deleting a Group requires zero members, including archived members.
+
+The Group list defaults to active Groups. Ticket archive filtering is independent: specify `archived=all` when an API consumer needs every member. Ticket responses expose `groupId` and a `{id,name}` Group summary; ticket details also expose an `editToken` for optimistic editing.

@@ -16,6 +16,7 @@ export function getAppElements() {
     boardTitle: document.querySelector("#board-title"),
     laneBoard: document.querySelector("#lane-board"),
     listBoard: document.querySelector("#list-board"),
+    groupBoard: document.querySelector("#group-board"),
     sidebarToggleButton: document.querySelector("#sidebar-toggle-button"),
     sidebarReopenButton: document.querySelector("#sidebar-reopen-button"),
     newBoardButton: document.querySelector("#new-board-button"),

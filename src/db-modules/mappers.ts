@@ -66,6 +66,7 @@ export function mapTicket(
   children: TicketRelationView[],
   remote: TicketRemoteLinkView | null,
   externalReferences: TicketExternalReferenceView[],
+  groupFields: Pick<TicketView, "groupId" | "group" | "editToken"> = {},
 ): TicketView {
   return {
     id: row.id,
@@ -95,6 +96,7 @@ export function mapTicket(
     shortRef: formatShortRef(row.id),
     remote,
     externalReferences,
+    ...groupFields,
   };
 }
 
@@ -107,6 +109,7 @@ export function mapTicketSummary(
   relatedIds: Id[],
   remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null,
   externalReferences: TicketExternalReferenceView[],
+  groupFields: Pick<TicketSummaryView, "groupId" | "group"> = {},
 ): TicketSummaryView {
   return {
     id: row.id,
@@ -128,6 +131,7 @@ export function mapTicketSummary(
     shortRef: formatShortRef(row.id),
     remote,
     externalReferences,
+    ...groupFields,
   };
 }
 

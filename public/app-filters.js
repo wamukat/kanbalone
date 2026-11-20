@@ -19,6 +19,8 @@ export function createFiltersModule(ctx, options) {
     });
     elements.shell.classList.toggle("view-kanban", state.viewMode === "kanban");
     elements.shell.classList.toggle("view-list", state.viewMode === "list");
+    elements.shell.classList.toggle("view-group", state.viewMode === "group");
+    elements.groupBoard.hidden = state.viewMode !== "group";
     elements.laneBoard.hidden = state.viewMode !== "kanban";
     elements.listBoard.hidden = state.viewMode !== "list";
     elements.laneFilter.hidden = state.viewMode !== "list";

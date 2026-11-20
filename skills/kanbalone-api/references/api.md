@@ -206,3 +206,32 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PU
 ```
 
 The response is `{ lanes }`. The full selection and ticket state updates are atomic. Invalid/duplicate selection IDs return 400; a missing board returns 404. If the lane set, completion attributes, or any lane's ticket count differ from `expectedLanes`, the API returns 409 without changes. Fetch current data and review the effect again before retrying. Individual lane PATCH requests do not provide this expectation guard. Removing completion reopens all tickets in that lane, including archived tickets, without changing their archive flags.
+
+## Groups
+
+Group support requires a Group-capable build; the original v0.10.0 release does not expose these routes.
+
+- `GET /api/boards/:boardId/groups` -> `{groups}`. Query `status=active|inactive|all` (default active), `sort=createdAt|name` (default createdAt), `order=asc|desc` (default asc).
+- `POST /api/boards/:boardId/groups` with `{name,descriptionMarkdown?}` -> Group. Names are board-local and unique, including inactive Groups.
+- `GET /api/groups/:groupId` -> Group detail, including `revision`, counts, `descriptionMarkdown`, sanitized `descriptionHtml`; returns an `ETag`.
+- `PATCH /api/groups/:groupId` with `{name?,descriptionMarkdown?,expectedRevision}`. Omitted fields remain unchanged; an empty description clears it.
+- `DELETE /api/groups/:groupId` with `If-Match` set to the GET `ETag`. Only zero-member Groups can be deleted; archived members count. Use `curl -H 'If-Match: "REVISION"'` because the helper has no custom-header option.
+- `GET /api/boards/:boardId/tickets?groupId=7&archived=all` reads all members. `ungrouped=true` finds ungrouped tickets; it cannot be combined with `groupId`.
+- `POST /api/boards/:boardId/group-memberships/preview` with `{ticketIds:[101],groupId:7}` previews addition; use `groupId:null` for removal. The response identifies all affected parent/child tickets and supplies `expectedToken`.
+- `PUT /api/boards/:boardId/group-memberships` with the same body plus `expectedToken` applies atomically. Different non-null Group membership is rejected; remove then add instead. Existing membership in the same Group is a no-op.
+- `POST /api/boards/:boardId/tickets` also accepts `groupId`. With a parent, Group rules apply to the connected set. `POST /api/boards/:boardId/tickets/preview` previews this creation without inserting a ticket.
+- `POST /api/tickets/:ticketId/change-preview` accepts the intended PATCH body. Use its result when adding or changing parent/child relations.
+
+For atomic child editing, fetch ticket detail and retain `.editToken`. PATCH with `childTicketIds` as the complete desired set, `expectedEditToken` from that original read, and `expectedSelectedParents:[{ticketId,parentTicketId}]` for every newly added child, using the parent value observed when the child was selected. Include the body/title edits in this same request. Preview the exact body first. Do not refresh the original token immediately before saving an old child set.
+
+If `requiresResolution` is true, the preview contains `candidates` with Group IDs and the tickets whose membership would change. Ask which candidate to keep unless the user's instruction already determines it. Apply the unchanged request plus `expectedToken` and `groupResolution:{groupId}`. A third unrelated Group is not a valid resolution. Three or more Group candidates are possible when adding multiple children.
+
+With only one non-null Group, ungrouped parent/child tickets join it automatically. Detaching children preserves their membership. In a conflict, no partial body or relation edits are saved. A stale-context/edit/revision error must be reconciled, not bypassed through individual updates.
+
+Group-aware errors use `{error,code,details?}`. Input errors return 400, missing resources 404, conflicts 409, and missing required preconditions 428. After a failure, do not infer that a requested change partially succeeded.
+
+Exports use `formatVersion:2`, `groups`, and ticket `groupId`, including empty/inactive Groups and archived tickets. Import remaps IDs into a new board and rejects inconsistent Group references or parent/child membership. Legacy exports without version and without Group fields import as ungrouped. Do not import format-2 exports into an older release as a rollback method.
+
+Creation previews use `id: 0, clientRef: "new"` for the proposed ticket, including references in parent changes and candidate changed IDs. Never send 0 as an existing ticket ID. Membership apply returns `{changedTickets,affectedGroups}`. Read Group history with `GET /api/boards/:boardId/group-activity?groupId=7`; history remains after deletion. `POST /api/markdown/preview` with `{bodyMarkdown}` returns sanitized `{bodyHtml}` without writing. Schema validation failures can omit `code`: missing Group PATCH `expectedRevision` returns 400, whereas missing runtime tokens or DELETE `If-Match` return 428.
+
+Machine-readable conflict codes: `GROUP_CONFLICT` requires choosing a preview candidate; `GROUP_ALREADY_ASSIGNED` requires remove then add; `GROUP_NOT_EMPTY` forbids deletion; `GROUP_NAME_EXISTS` requires a distinct name. `STALE_GROUP`, `STALE_GROUP_CONTEXT`, `STALE_TICKET_EDIT`, and `STALE_RELATIONS` require re-reading and reviewing changed state. `PRECONDITION_REQUIRED` identifies a missing runtime precondition. Invalid Group, ticket, or relation inputs return 400 (including `GROUP_WRITE_ENDPOINT` when membership is sent through ticket PATCH).

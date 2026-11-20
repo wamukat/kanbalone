@@ -3,6 +3,8 @@ import type Database from "better-sqlite3";
 import type { Id, TicketRow } from "../types.js";
 
 export type ListTicketsFilters = {
+  groupId?: number | null;
+  ungrouped?: boolean;
   laneId?: number;
   laneName?: string;
   parentTicketId?: number | null;
@@ -41,6 +43,9 @@ export function listTicketRows(
     WHERE t.board_id = ?
   `;
   const params: Array<string | number | null> = [boardId];
+
+  if (filters.groupId === null || filters.ungrouped === true) { sql += " AND t.group_id IS NULL"; }
+  else if (filters.groupId !== undefined) { sql += " AND t.group_id = ?"; params.push(filters.groupId); }
 
   if (typeof filters.laneId === "number") {
     sql += " AND t.lane_id = ?";

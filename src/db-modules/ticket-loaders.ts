@@ -1,3 +1,4 @@
+import { ticketGroupFields } from "./groups.js";
 import type Database from "better-sqlite3";
 
 import { renderMarkdown } from "../markdown.js";
@@ -251,7 +252,8 @@ function getRelationEntriesForTicketIds(
 
   rows.forEach((row) => {
     const entry = relationsByTicket.get(row.ticket_id) ?? [];
-    entry.push(mapRelation(row, row.board_name));
+    const groupRow = sqlite.prepare("SELECT group_id FROM tickets WHERE id=?").get(row.id) as { group_id: number | null };
+    entry.push({ ...mapRelation(row, row.board_name), ...ticketGroupFields(sqlite, { id: row.id, group_id: groupRow.group_id }) });
     relationsByTicket.set(row.ticket_id, entry);
   });
   return relationsByTicket;

@@ -36,6 +36,11 @@ Import issues from systems such as GitHub Issues, GitLab, and Redmine into Kanba
 - Lightweight JSON API designed for automation and AI agents.
 - Create the first board and start managing tasks immediately without extra setup.
 
+
+## Group support in this checkout
+
+Group functionality is available in the current source checkout; the pinned v0.10.0 image below predates it. See the [user guide](docs/en/user-guide.md#15-organize-work-with-groups) and [Group migration notes](docs/en/migration-guide.md#group-migration).
+
 ## Quick Start
 
 Run the published Docker image:

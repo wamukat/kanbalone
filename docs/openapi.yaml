@@ -176,7 +176,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BoardExport"
+              $ref: "#/components/schemas/BoardImport"
       responses:
         "201":
           description: Imported board detail
@@ -538,48 +538,72 @@ paths:
   /api/boards/{boardId}/tickets:
     get:
       summary: List ticket summaries
-      description: Lightweight summary endpoint for board rendering, filtering, search, and automation on large boards. Fetch individual ticket detail separately when body, comments, or expanded relations are needed.
+      description: Lightweight summary endpoint for board rendering, filtering, search, and automation on large boards. Fetch individual ticket
+        detail separately when body, comments, or expanded relations are needed.
       operationId: listTickets
       parameters:
-        - $ref: "#/components/parameters/BoardId"
-        - name: lane_id
-          in: query
-          schema:
-            type: integer
-        - name: lane
-          in: query
-          description: Exact lane name. Cannot be combined with lane_id. Unknown names return an empty list.
-          schema: { type: string, minLength: 1 }
-        - name: parent
-          in: query
-          description: Direct parent ticket ID, or none for tickets without a parent. Does not include all descendants.
-          schema: { type: string, pattern: '^(none|[1-9][0-9]*)$' }
-        - name: tag
-          in: query
-          schema:
-            type: string
-        - name: resolved
-          in: query
-          schema:
-            type: boolean
-        - name: completed
-          in: query
-          deprecated: true
-          description: Legacy alias for resolved.
-          schema:
-            type: boolean
-        - name: archived
-          in: query
-          schema:
-            type: string
-            enum: ["true", "false", "all"]
-        - name: q
-          in: query
-          description: Search title, body Markdown, local ticket refs such as #10, tracked remote refs, external references, provider refs such as gh#10, external-only refs such as ext#10, or tracked-remote-only refs such as remote#10.
-          schema:
-            type: string
+      - $ref: '#/components/parameters/BoardId'
+      - name: lane_id
+        in: query
+        schema:
+          type: integer
+      - name: lane
+        in: query
+        description: Exact lane name. Cannot be combined with lane_id. Unknown names return an empty list.
+        schema:
+          type: string
+          minLength: 1
+      - name: parent
+        in: query
+        description: Direct parent ticket ID, or none for tickets without a parent. Does not include all descendants.
+        schema:
+          type: string
+          pattern: ^(none|[1-9][0-9]*)$
+      - name: tag
+        in: query
+        schema:
+          type: string
+      - name: resolved
+        in: query
+        schema:
+          type: boolean
+      - name: completed
+        in: query
+        deprecated: true
+        description: Legacy alias for resolved.
+        schema:
+          type: boolean
+      - name: archived
+        in: query
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - all
+      - name: q
+        in: query
+        description: Search title, body Markdown, local ticket refs such as
+        schema:
+          type: string
+      - name: groupId
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+        description: Group on this board; mutually exclusive with ungrouped=true.
+      - name: ungrouped
+        in: query
+        schema:
+          type: boolean
+        description: Only ungrouped tickets. Cannot be combined with groupId.
+      - name: includeArchived
+        in: query
+        schema:
+          type: boolean
+        description: Alias for including archived tickets when archived is omitted. Prefer archived=all.
       responses:
-        "200":
+        '200':
           description: Ticket summary list
           content:
             application/json:
@@ -589,40 +613,39 @@ paths:
                   tickets:
                     type: array
                     items:
-                      $ref: "#/components/schemas/TicketSummary"
-                required: [tickets]
-        "400":
-          $ref: "#/components/responses/Error"
-        "404":
-          $ref: "#/components/responses/Error"
+                      $ref: '#/components/schemas/TicketSummary'
+                required:
+                - tickets
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
     post:
       summary: Create ticket
       operationId: createTicket
       parameters:
-        - $ref: "#/components/parameters/BoardId"
+      - $ref: '#/components/parameters/BoardId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/TicketUpsert"
-                - type: object
-                  required: [laneId, title]
+              $ref: '#/components/schemas/TicketCreate'
       responses:
-        "201":
+        '201':
           description: Created ticket
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ticket"
-        "400":
-          $ref: "#/components/responses/Error"
-        "404":
-          $ref: "#/components/responses/Error"
-
-        "409":
-          $ref: "#/components/responses/Error"
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/GroupError'
+        '404':
+          $ref: '#/components/responses/GroupError'
+        '409':
+          $ref: '#/components/responses/GroupError'
+        '428':
+          $ref: '#/components/responses/GroupError'
 
   /api/boards/{boardId}/remote-import:
     post:
@@ -916,51 +939,54 @@ paths:
       summary: Get ticket detail
       operationId: getTicket
       parameters:
-        - $ref: "#/components/parameters/TicketId"
+      - $ref: '#/components/parameters/TicketId'
       responses:
-        "200":
+        '200':
           description: Ticket detail
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ticket"
-        "404":
-          $ref: "#/components/responses/Error"
+                $ref: '#/components/schemas/Ticket'
+        '404':
+          $ref: '#/components/responses/Error'
     patch:
       summary: Update ticket
       operationId: updateTicket
       parameters:
-        - $ref: "#/components/parameters/TicketId"
+      - $ref: '#/components/parameters/TicketId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TicketUpdate"
+              $ref: '#/components/schemas/TicketUpdate'
       responses:
-        "200":
+        '200':
           description: Updated ticket
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Ticket"
-        "400":
-          $ref: "#/components/responses/Error"
-        "404":
-          $ref: "#/components/responses/Error"
-        "409":
-          $ref: "#/components/responses/Error"
-
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/GroupError'
+        '404':
+          $ref: '#/components/responses/GroupError'
+        '409':
+          $ref: '#/components/responses/GroupError'
+        '428':
+          $ref: '#/components/responses/GroupError'
+      description: Atomically updates the ticket body and parent/child set. Different Groups require an allowed groupResolution and preview token.
+        Existing-ticket groupId is not writable here; use membership endpoints.
     delete:
       summary: Delete ticket
       operationId: deleteTicket
       parameters:
-        - $ref: "#/components/parameters/TicketId"
+      - $ref: '#/components/parameters/TicketId'
       responses:
-        "204":
+        '204':
           description: Deleted
-        "404":
-          $ref: "#/components/responses/Error"
+        '404':
+          $ref: '#/components/responses/Error'
 
   /api/tickets/{ticketId}/transition:
     patch:
@@ -1396,8 +1422,339 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/boards/{boardId}/groups:
+    get:
+      summary: List board Groups
+      description: Defaults to active Groups. Empty Groups are active. Otherwise a Group is active while a member is unresolved and unarchived.
+        Ticket archive filtering is independent.
+      operationId: listGroups
+      parameters:
+      - $ref: '#/components/parameters/BoardId'
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - inactive
+          - all
+          default: active
+      - name: sort
+        in: query
+        schema:
+          type: string
+          enum:
+          - createdAt
+          - name
+          default: createdAt
+      - name: order
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      responses:
+        '200':
+          description: Groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GroupSummary'
+                required:
+                - groups
+        '400': &id001x1
+          $ref: '#/components/responses/GroupError'
+        '404': &id002x1
+          $ref: '#/components/responses/GroupError'
+        '409': &id003x1
+          $ref: '#/components/responses/GroupError'
+        '428': &id004x1
+          $ref: '#/components/responses/GroupError'
+    post:
+      summary: Create Group
+      operationId: createGroup
+      parameters:
+      - $ref: '#/components/parameters/BoardId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreate'
+      responses:
+        '201':
+          description: Created Group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+  /api/groups/{groupId}:
+    get:
+      summary: Get Group, including inactive Groups
+      operationId: getGroup
+      parameters:
+      - $ref: '#/components/parameters/GroupId'
+      responses:
+        '200':
+          description: Group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+          headers:
+            ETag:
+              description: Quoted Group revision, for example "1".
+              schema:
+                type: string
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+    patch:
+      summary: Edit Group with revision check
+      operationId: updateGroup
+      parameters:
+      - $ref: '#/components/parameters/GroupId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdate'
+      responses:
+        '200':
+          description: Updated Group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+    delete:
+      summary: Delete an empty Group
+      description: Archived tickets count as members. The revision and empty state are checked atomically; no tickets are deleted.
+      operationId: deleteGroup
+      parameters:
+      - $ref: '#/components/parameters/GroupId'
+      - name: If-Match
+        in: header
+        required: true
+        schema:
+          type: string
+        description: ETag from the Group GET response.
+      responses:
+        '204':
+          description: Deleted
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+  /api/boards/{boardId}/group-memberships/preview:
+    post:
+      summary: Preview parent/child Group membership change
+      description: Read-only. Expands selected tickets to the connected parent/child set, including archived members. Direct changes between non-null
+        Groups are rejected.
+      operationId: previewGroupMemberships
+      parameters:
+      - $ref: '#/components/parameters/BoardId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupMembershipRequest'
+      responses:
+        '200':
+          description: Membership preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMembershipPreview'
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+  /api/boards/{boardId}/group-memberships:
+    put:
+      summary: Apply Group membership change atomically
+      description: Use the same body as preview plus its expectedToken. A stale token causes no writes. To change Groups, remove membership then
+        add the destination.
+      operationId: applyGroupMemberships
+      parameters:
+      - $ref: '#/components/parameters/BoardId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupMembershipApply'
+      responses:
+        '200':
+          description: Changed members and affected Groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMembershipResult'
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+  /api/boards/{boardId}/tickets/preview:
+    post:
+      summary: Preview ticket creation and Group resolution
+      description: Does not insert a ticket. Parent/Group conflicts produce candidates; previously ungrouped parent/child tickets join the one assigned
+        Group automatically.
+      operationId: previewTicketCreate
+      parameters:
+      - $ref: '#/components/parameters/BoardId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketCreate'
+      responses:
+        '200':
+          description: Creation preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupChangePreview'
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+  /api/tickets/{ticketId}/change-preview:
+    post:
+      summary: Preview atomic ticket and parent/child edits
+      description: Keep the original editToken; do not replace it with a fresh token to replay an obsolete child set. Conflicting Groups return
+        candidate choices without writing.
+      operationId: previewTicketChange
+      parameters:
+      - $ref: '#/components/parameters/TicketId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketUpdate'
+      responses:
+        '200':
+          description: Change preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupChangePreview'
+        '400': *id001x1
+        '404': *id002x1
+        '409': *id003x1
+        '428': *id004x1
+  /api/markdown/preview:
+    post:
+      summary: Render a Markdown preview
+      description: Read-only rendering using the same Markdown sanitizer as ticket and Group descriptions.
+      operationId: previewMarkdown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bodyMarkdown:
+                  type: string
+                  maxLength: 100000
+              required:
+              - bodyMarkdown
+      responses:
+        '200':
+          description: Sanitized HTML
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bodyHtml:
+                    type: string
+                required:
+                - bodyHtml
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /api/boards/{boardId}/group-activity:
+    get:
+      summary: Read board Group activity
+      operationId: listGroupActivity
+      parameters:
+      - $ref: '#/components/parameters/BoardId'
+      - name: groupId
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+        description: Optional subject Group ID, including a deleted Group.
+      responses:
+        '200':
+          description: Newest first Group activity, retained after Group deletion.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - activity
+                properties:
+                  activity:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - boardId
+                      - groupId
+                      - action
+                      - details
+                      - createdAt
+                      properties:
+                        id:
+                          type: integer
+                        boardId:
+                          type: integer
+                        groupId:
+                          type: integer
+                        action:
+                          type: string
+                        details:
+                          type: object
+                          additionalProperties: true
+                        createdAt:
+                          type: string
+                          format: date-time
+        '400':
+          $ref: '#/components/responses/GroupError'
+        '404':
+          $ref: '#/components/responses/GroupError'
 components:
   parameters:
+    GroupId:
+      name: groupId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
     BoardId:
       name: boardId
       in: path
@@ -1440,7 +1797,352 @@ components:
               error:
                 type: string
             required: [error]
+    GroupError:
+      description: Group or edit error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GroupErrorBody'
   schemas:
+    GroupSummary:
+      type: object
+      properties:
+        id: &schemaid001x1
+          type: integer
+          minimum: 1
+        boardId: *schemaid001x1
+        name:
+          type: string
+        revision: *schemaid001x1
+        isActive:
+          type: boolean
+        totalTicketCount:
+          type: integer
+          minimum: 0
+        openTicketCount:
+          type: integer
+          minimum: 0
+        archivedTicketCount:
+          type: integer
+          minimum: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - boardId
+      - name
+      - revision
+      - isActive
+      - totalTicketCount
+      - openTicketCount
+      - archivedTicketCount
+      - createdAt
+      - updatedAt
+    Group:
+      allOf:
+      - $ref: '#/components/schemas/GroupSummary'
+      - type: object
+        properties:
+          descriptionMarkdown:
+            type: string
+          descriptionHtml:
+            type: string
+        required:
+        - descriptionMarkdown
+        - descriptionHtml
+    GroupReference:
+      oneOf:
+      - type: object
+        properties:
+          id: *schemaid001x1
+          name:
+            type: string
+        required:
+        - id
+        - name
+      - type: 'null'
+    GroupCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Trimmed and NFC-normalized; exact duplicate names on the same board, including inactive Groups, are rejected.
+        descriptionMarkdown:
+          type: string
+          maxLength: 100000
+      required:
+      - name
+      additionalProperties: false
+    GroupUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        descriptionMarkdown:
+          type: string
+          maxLength: 100000
+        expectedRevision:
+          type: integer
+          minimum: 1
+      required:
+      - expectedRevision
+      minProperties: 2
+      additionalProperties: false
+    GroupResolution:
+      type: object
+      properties:
+        groupId: *schemaid001x1
+      required:
+      - groupId
+    GroupMembershipRequest:
+      type: object
+      properties:
+        ticketIds:
+          type: array
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
+          items: *schemaid001x1
+        groupId: &schemaid002x1
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+      required:
+      - ticketIds
+      - groupId
+    GroupMembershipApply:
+      allOf:
+      - $ref: '#/components/schemas/GroupMembershipRequest'
+      - type: object
+        properties:
+          expectedToken:
+            type: string
+            minLength: 1
+        required:
+        - expectedToken
+    GroupPreviewTicket:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 0
+          description: 'Existing ticket ID, or 0 for the proposed new ticket (clientRef: new); never send 0 as a persisted ticket
+            ID.'
+        clientRef:
+          type: string
+        title:
+          type: string
+        boardId:
+          type: integer
+          minimum: 1
+        parentTicketId:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        groupId:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        isArchived:
+          type: boolean
+      required:
+      - title
+      - parentTicketId
+      - groupId
+      - isArchived
+      - id
+      - boardId
+    GroupChangePreview:
+      type: object
+      properties:
+        expectedToken:
+          type: string
+        requiresResolution:
+          type: boolean
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupPreviewTicket'
+        parentChanges:
+          type: array
+          items:
+            type: object
+            properties:
+              ticketId:
+                type: integer
+                minimum: 0
+              fromParentTicketId:
+                type:
+                - integer
+                - 'null'
+                minimum: 1
+              toParentTicketId:
+                type:
+                - integer
+                - 'null'
+                minimum: 0
+            required:
+            - ticketId
+            - fromParentTicketId
+            - toParentTicketId
+        candidates:
+          type: array
+          items:
+            type: object
+            properties:
+              group:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    minimum: 1
+                  name:
+                    type: string
+                required:
+                - id
+                - name
+              changedTicketIds:
+                type: array
+                items:
+                  type: integer
+                  minimum: 0
+            required:
+            - group
+            - changedTicketIds
+        changedTicketIds:
+          type: array
+          items:
+            type: integer
+            minimum: 0
+        targetGroupId:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+      required:
+      - expectedToken
+      - requiresResolution
+      - tickets
+      - parentChanges
+      - candidates
+      - changedTicketIds
+      - targetGroupId
+    GroupMembershipPreview:
+      allOf:
+      - $ref: '#/components/schemas/GroupChangePreview'
+      description: Membership previews never require Group resolution; candidates and parentChanges are empty. changedTicketIds
+        contains persisted IDs.
+    GroupMembershipResult:
+      type: object
+      properties:
+        changedTickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketSummary'
+        affectedGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupSummary'
+      required:
+      - changedTickets
+      - affectedGroups
+    TicketCreate:
+      allOf:
+      - $ref: '#/components/schemas/TicketUpsert'
+      - type: object
+        properties:
+          groupId: *schemaid002x1
+          groupResolution:
+            $ref: '#/components/schemas/GroupResolution'
+          expectedToken:
+            type: string
+        required:
+        - laneId
+        - title
+    GroupErrorBody:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+          description: Machine-readable Group or edit error code.
+        details:
+          type: object
+          additionalProperties: true
+          description: Current preview or conflict context, when available.
+      required:
+      - error
+    GroupExport:
+      type: object
+      properties:
+        id: *schemaid001x1
+        name:
+          type: string
+        descriptionMarkdown:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - descriptionMarkdown
+      - createdAt
+      - updatedAt
+    LegacyBoardExport:
+      properties:
+        board:
+          $ref: '#/components/schemas/Board'
+        lanes:
+          items:
+            $ref: '#/components/schemas/Lane'
+          type: array
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+        tickets:
+          items:
+            type: object
+          type: array
+      required:
+      - board
+      - lanes
+      - tags
+      - tickets
+      type: object
+    BoardImport:
+      oneOf:
+      - $ref: '#/components/schemas/BoardExport'
+      - allOf:
+        - $ref: '#/components/schemas/LegacyBoardExport'
+        - not:
+            anyOf:
+            - properties:
+                formatVersion: {}
+              required:
+              - formatVersion
+            - properties:
+                groups: {}
+              required:
+              - groups
+      description: Legacy payloads omit formatVersion and all Group fields, including ticket.groupId. Partial Group payloads and unknown versions
+        are rejected.
     Board:
       type: object
       properties:
@@ -1598,23 +2300,51 @@ components:
     TicketRelation:
       type: object
       properties:
-        id: { type: integer }
-        title: { type: string }
-        laneId: { type: integer }
+        id:
+          type: integer
+        title:
+          type: string
+        laneId:
+          type: integer
         isResolved:
           type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
+          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts
+            return 409.
         isCompleted:
           type: boolean
           deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
+          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both
+            completion flags when writing.
         priority:
           type: integer
-          enum: [1, 2, 3, 4]
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
           description: Ticket priority. 1 = low, 2 = medium, 3 = high, 4 = urgent.
-        ref: { type: string }
-        shortRef: { type: string }
-      required: [id, title, laneId, isResolved, isCompleted, priority, ref, shortRef]
+        ref:
+          type: string
+        shortRef:
+          type: string
+        groupId:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        group:
+          $ref: '#/components/schemas/GroupReference'
+      required:
+      - id
+      - title
+      - laneId
+      - isResolved
+      - isCompleted
+      - priority
+      - ref
+      - shortRef
+      - groupId
+      - group
     TicketRelations:
       type: object
       properties:
@@ -1805,40 +2535,60 @@ components:
     Ticket:
       type: object
       properties:
-        id: { type: integer }
-        boardId: { type: integer }
-        laneId: { type: integer }
+        id:
+          type: integer
+        boardId:
+          type: integer
+        laneId:
+          type: integer
         parentTicketId:
-          type: [integer, "null"]
+          type:
+          - integer
+          - 'null'
         hasChildren:
           type: boolean
           description: True when this ticket has one or more child tickets, independent of list filters.
-        title: { type: string }
-        bodyMarkdown: { type: string }
-        bodyHtml: { type: string }
+        title:
+          type: string
+        bodyMarkdown:
+          type: string
+        bodyHtml:
+          type: string
         isResolved:
           type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
+          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts
+            return 409.
         isCompleted:
           type: boolean
           deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
-        isArchived: { type: boolean }
+          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both
+            completion flags when writing.
+        isArchived:
+          type: boolean
         priority:
           type: integer
-          enum: [1, 2, 3, 4]
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
           description: Ticket priority. 1 = low, 2 = medium, 3 = high, 4 = urgent.
-        position: { type: integer }
-        createdAt: { type: string, format: date-time }
-        updatedAt: { type: string, format: date-time }
+        position:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/Tag"
+            $ref: '#/components/schemas/Tag'
         comments:
           type: array
           items:
-            $ref: "#/components/schemas/Comment"
+            $ref: '#/components/schemas/Comment'
         blockerIds:
           type: array
           items:
@@ -1850,66 +2600,126 @@ components:
         blockers:
           type: array
           items:
-            $ref: "#/components/schemas/TicketRelation"
+            $ref: '#/components/schemas/TicketRelation'
         blockedBy:
           type: array
           items:
-            $ref: "#/components/schemas/TicketRelation"
+            $ref: '#/components/schemas/TicketRelation'
         related:
           type: array
           items:
-            $ref: "#/components/schemas/TicketRelation"
+            $ref: '#/components/schemas/TicketRelation'
         parent:
           oneOf:
-            - $ref: "#/components/schemas/TicketRelation"
-            - type: "null"
+          - $ref: '#/components/schemas/TicketRelation'
+          - type: 'null'
         children:
           type: array
           items:
-            $ref: "#/components/schemas/TicketRelation"
-        ref: { type: string }
-        shortRef: { type: string }
+            $ref: '#/components/schemas/TicketRelation'
+        ref:
+          type: string
+        shortRef:
+          type: string
         remote:
           oneOf:
-            - $ref: "#/components/schemas/TicketRemote"
-            - type: "null"
+          - $ref: '#/components/schemas/TicketRemote'
+          - type: 'null'
         externalReferences:
           type: array
           items:
-            $ref: "#/components/schemas/TicketExternalReference"
+            $ref: '#/components/schemas/TicketExternalReference'
+        groupId:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        group:
+          $ref: '#/components/schemas/GroupReference'
+        editToken:
+          type: string
+          description: Snapshot of editable fields and complete relations. Retain from editing start.
       required:
-        [id, boardId, laneId, parentTicketId, hasChildren, title, bodyMarkdown, bodyHtml, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, comments, blockerIds, relatedIds, blockers, blockedBy, related, parent, children, ref, shortRef, remote, externalReferences]
+      - id
+      - boardId
+      - laneId
+      - parentTicketId
+      - hasChildren
+      - title
+      - bodyMarkdown
+      - bodyHtml
+      - isResolved
+      - isCompleted
+      - isArchived
+      - priority
+      - position
+      - createdAt
+      - updatedAt
+      - tags
+      - comments
+      - blockerIds
+      - relatedIds
+      - blockers
+      - blockedBy
+      - related
+      - parent
+      - children
+      - ref
+      - shortRef
+      - remote
+      - externalReferences
+      - groupId
+      - group
+      - editToken
     TicketSummary:
       type: object
       properties:
-        id: { type: integer }
-        boardId: { type: integer }
-        laneId: { type: integer }
+        id:
+          type: integer
+        boardId:
+          type: integer
+        laneId:
+          type: integer
         parentTicketId:
-          type: [integer, "null"]
+          type:
+          - integer
+          - 'null'
         hasChildren:
           type: boolean
           description: True when this ticket has one or more child tickets, independent of list filters.
-        title: { type: string }
+        title:
+          type: string
         isResolved:
           type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
+          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts
+            return 409.
         isCompleted:
           type: boolean
           deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
-        isArchived: { type: boolean }
+          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both
+            completion flags when writing.
+        isArchived:
+          type: boolean
         priority:
           type: integer
-          enum: [1, 2, 3, 4]
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
           description: Ticket priority. 1 = low, 2 = medium, 3 = high, 4 = urgent.
-        position: { type: integer }
-        createdAt: { type: string, format: date-time }
-        updatedAt: { type: string, format: date-time }
+        position:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/Tag"
+            $ref: '#/components/schemas/Tag'
         blockerIds:
           type: array
           items:
@@ -1918,33 +2728,93 @@ components:
           type: array
           items:
             type: integer
-        ref: { type: string }
-        shortRef: { type: string }
+        ref:
+          type: string
+        shortRef:
+          type: string
         remote:
           oneOf:
-            - $ref: "#/components/schemas/TicketRemoteSummary"
-            - type: "null"
+          - $ref: '#/components/schemas/TicketRemoteSummary'
+          - type: 'null'
         externalReferences:
           type: array
           items:
-            $ref: "#/components/schemas/TicketExternalReference"
+            $ref: '#/components/schemas/TicketExternalReference'
+        groupId:
+          type:
+          - integer
+          - 'null'
+          minimum: 1
+        group:
+          $ref: '#/components/schemas/GroupReference'
       required:
-        [id, boardId, laneId, parentTicketId, hasChildren, title, isResolved, isCompleted, isArchived, priority, position, createdAt, updatedAt, tags, blockerIds, relatedIds, ref, shortRef, remote, externalReferences]
+      - id
+      - boardId
+      - laneId
+      - parentTicketId
+      - hasChildren
+      - title
+      - isResolved
+      - isCompleted
+      - isArchived
+      - priority
+      - position
+      - createdAt
+      - updatedAt
+      - tags
+      - blockerIds
+      - relatedIds
+      - ref
+      - shortRef
+      - remote
+      - externalReferences
+      - groupId
+      - group
     TicketUpdate:
       allOf:
-        - $ref: "#/components/schemas/TicketUpsert"
-        - type: object
-          minProperties: 1
+      - $ref: '#/components/schemas/TicketUpsert'
+      - type: object
+        minProperties: 1
+        properties:
+          appendMarkdown:
+            type: string
+            minLength: 1
+            description: Atomically concatenate this text to the latest body, with no separator added. Mutually exclusive with bodyMarkdown. Result
+              is limited to 64 MiB UTF-8. Not idempotent; verify after ambiguous failures before retrying. Does not prevent concurrent full-body replacement.
+          childTicketIds:
+            type: array
+            items: &schemaid001x2
+              type: integer
+              minimum: 1
+            uniqueItems: true
+            description: Complete desired child set, not an append. Requires expectedEditToken and expectations for newly selected children.
+          expectedEditToken:
+            type: string
+          expectedSelectedParents:
+            type: array
+            items:
+              type: object
+              properties:
+                ticketId: *schemaid001x2
+                parentTicketId:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 1
+              required:
+              - ticketId
+              - parentTicketId
+          expectedToken:
+            type: string
+          groupResolution:
+            $ref: '#/components/schemas/GroupResolution'
+        not:
           properties:
-            appendMarkdown:
-              type: string
-              minLength: 1
-              description: Atomically concatenate this text to the latest body, with no separator added. Mutually exclusive with bodyMarkdown. Result is limited to 64 MiB UTF-8. Not idempotent; verify after ambiguous failures before retrying. Does not prevent concurrent full-body replacement.
-          not:
-            properties:
-              bodyMarkdown: {}
-              appendMarkdown: {}
-            required: [bodyMarkdown, appendMarkdown]
+            bodyMarkdown: {}
+            appendMarkdown: {}
+          required:
+          - bodyMarkdown
+          - appendMarkdown
     TicketUpsert:
       type: object
       properties:
@@ -2005,17 +2875,40 @@ components:
       type: object
       properties:
         board:
-          $ref: "#/components/schemas/Board"
+          $ref: '#/components/schemas/Board'
         lanes:
           type: array
           items:
-            $ref: "#/components/schemas/Lane"
+            $ref: '#/components/schemas/Lane'
         tags:
           type: array
           items:
-            $ref: "#/components/schemas/Tag"
+            $ref: '#/components/schemas/Tag'
         tickets:
           type: array
           items:
             type: object
-      required: [board, lanes, tags, tickets]
+            properties:
+              groupId:
+                type:
+                - integer
+                - 'null'
+                minimum: 1
+            required:
+            - groupId
+        formatVersion:
+          type: integer
+          const: 2
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupExport'
+      required:
+      - board
+      - lanes
+      - tags
+      - tickets
+      - formatVersion
+      - groups
+      description: Format 2. Includes all Groups and all tickets, including inactive and archived records. Import remaps IDs and validates parent/child
+        membership.

@@ -364,3 +364,109 @@ curl -s -X PUT http://127.0.0.1:3000/api/boards/4/completion-lanes \
 ```
 
 `laneIds` は設定後の全選択で、`[]` は全レーンを通常扱いにします。`expectedLanes` には0件のレーンも含めて全レーンを指定し、件数にはアーカイブ済みを含めます。成功時は `{ lanes }` を返し、アーカイブ状態は変えません。不正・重複した選択IDは400、ボード不存在は404、レーン集合・完了属性・件数が変わっていた場合は無変更で409です。409時は再取得して影響を再確認します。期待値検査のない個別PATCHに切り替えて回避しないでください。
+
+<a id="groups"></a>
+## Group
+
+```bash
+BASE=http://127.0.0.1:3000
+BOARD_ID=3
+
+# Active is the default. Include inactive Groups and sort by name.
+curl -sS "$BASE/api/boards/$BOARD_ID/groups?status=all&sort=name&order=asc"
+
+# Create a Group. Keep the returned id and revision.
+curl -sS -X POST "$BASE/api/boards/$BOARD_ID/groups" \
+  -H 'content-type: application/json' \
+  --data '{"name":"First-use guide","descriptionMarkdown":"## Goal\n\nHelp people create their first ticket."}'
+
+GROUP_ID=7
+curl -sS "$BASE/api/groups/$GROUP_ID"
+curl -sS "$BASE/api/boards/$BOARD_ID/tickets?groupId=$GROUP_ID&archived=all"
+curl -sS "$BASE/api/boards/$BOARD_ID/tickets?ungrouped=true&q=guide"
+```
+
+### 所属変更のpreviewと確定
+
+以下は `jq` を使います。IDは対象環境で取得したものに置き換えてください。親子の所属は共通なので、previewの対象件数は指定したID数より多くなる場合があります。
+
+```bash
+WORK_DIR=$(mktemp -d)
+printf '%s\n' '{"ticketIds":[101],"groupId":7}' > "$WORK_DIR/membership.json"
+curl -sS --fail-with-body -X POST "$BASE/api/boards/$BOARD_ID/group-memberships/preview" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/membership.json" \
+  > "$WORK_DIR/preview.json"
+cat "$WORK_DIR/preview.json"
+```
+
+対象全件を確認したうえで、同じ操作を確定します。
+
+```bash
+jq --slurpfile preview "$WORK_DIR/preview.json" \
+  '. + {expectedToken:$preview[0].expectedToken}' \
+  "$WORK_DIR/membership.json" > "$WORK_DIR/apply.json"
+curl -sS --fail-with-body -X PUT "$BASE/api/boards/$BOARD_ID/group-memberships" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/apply.json"
+```
+
+解除は `{"ticketIds":[101],"groupId":null}` で新しいpreviewを取得し、そのtokenで確定します。アーカイブ済みを含む接続した親子全体の所属を解除します。別Groupへ移す場合は解除後、追加先へのpreview・追加を行います。異なるbodyにtokenを流用しません。
+
+### Groupに所属するチケットを新規作成
+
+```bash
+curl -sS --fail-with-body -X POST "$BASE/api/boards/$BOARD_ID/tickets" \
+  -H 'content-type: application/json' \
+  --data '{"laneId":9,"title":"Improve first-use guidance","priority":2,"groupId":7}'
+```
+
+`parentTicketId` も指定する場合は、同じ作成bodyで `POST /api/boards/:boardId/tickets/preview` を呼びます。`requiresResolution` がtrueなら、返された候補Groupを選び、作成要求へ `groupResolution:{groupId}` と `expectedToken` を追加します。既存の親子と新規チケットを一括更新します。非null Groupが1種類なら未所属側を自動で揃えます。previewではチケットを作成しません。
+
+### 親子関係の変更を一括保存
+
+編集開始時のeditTokenを保持します。以下は102がすでに101の子であり、303を新たに選択した場合に、101の子の集合を102と303で置き換える例です。新しく選択した子はすべて `expectedSelectedParents` に指定します。他の子がいる場合に、追加だけの要求としてそのまま使わないでください。
+
+```bash
+curl -sS --fail-with-body "$BASE/api/tickets/101" > "$WORK_DIR/ticket.json"
+curl -sS --fail-with-body "$BASE/api/tickets/303" > "$WORK_DIR/selected-child.json"
+jq --slurpfile child "$WORK_DIR/selected-child.json" \
+  '{childTicketIds:[102,303], expectedEditToken:.editToken,
+    expectedSelectedParents:[{ticketId:$child[0].id,parentTicketId:$child[0].parentTicketId}]}' \
+  "$WORK_DIR/ticket.json" > "$WORK_DIR/edit.json"
+curl -sS --fail-with-body -X POST "$BASE/api/tickets/101/change-preview" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/edit.json" \
+  > "$WORK_DIR/edit-preview.json"
+cat "$WORK_DIR/edit-preview.json"
+```
+
+競合時は、変更対象を確認して `candidates` から1つ選びます。先頭候補を自動選択しません。たとえば返された候補のGroup 7を選ぶ場合:
+
+```bash
+jq --slurpfile preview "$WORK_DIR/edit-preview.json" \
+  '. + {expectedToken:$preview[0].expectedToken,groupResolution:{groupId:7}}' \
+  "$WORK_DIR/edit.json" > "$WORK_DIR/edit-apply.json"
+curl -sS --fail-with-body -X PATCH "$BASE/api/tickets/101" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/edit-apply.json"
+```
+
+競合がなければ `groupResolution` を省略し、`expectedToken` だけを追加します。previewと確定の間で編集bodyは変えません。古い状態のエラーでは、tokenだけ更新して過去の子集合を再送せず、読み直して編集内容を照合します。
+
+### Groupの編集・削除
+
+```bash
+curl -sS --fail-with-body "$BASE/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
+jq '{name:"First-use improvements",expectedRevision:.revision}' "$WORK_DIR/group.json" \
+  > "$WORK_DIR/group-edit.json"
+curl -sS --fail-with-body -X PATCH "$BASE/api/groups/$GROUP_ID" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/group-edit.json"
+```
+
+アーカイブ済みを含む所属が0件で、削除が意図した操作であることを確認してから削除します。編集するとrevisionが変わるため再取得します。
+
+```bash
+curl -sS --fail-with-body "$BASE/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
+REVISION=$(jq -r '.revision' "$WORK_DIR/group.json")
+curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
+  -H "If-Match: \"$REVISION\""
+```
+
+非空のGroupや古いrevisionは拒否します。Groupの削除でチケットを連鎖削除しません。配布APIヘルパーは `If-Match` を指定できないため、この操作には `curl` を使います。

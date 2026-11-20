@@ -16,6 +16,7 @@ export function createTicketDetailRenderers(ctx) {
       .join("");
     return `
       <div class="ticket-meta-row">${tags}</div>
+      <div class="ticket-meta-row ticket-group-meta"><span class="muted">Group:</span> ${ticket.group ? `<a href="/boards/${ticket.boardId}/group" data-ticket-group="${ticket.group.id}">${ctx.escapeHtml(ticket.group.name)}</a>` : '<span class="muted">Unassigned</span>'}</div>
     `;
   }
 

@@ -1,3 +1,4 @@
+import { groupReferenceSchema, nullableGroupIdSchema } from "./group.js";
 import { positiveIntegerSchema, ticketPrioritySchema } from "./common.js";
 import { tagViewSchema } from "./tag.js";
 import { commentViewSchema } from "./ticket-comment.js";
@@ -134,6 +135,9 @@ export const ticketSchema = {
     "externalReferences",
   ],
   properties: {
+    groupId: nullableGroupIdSchema,
+    group: groupReferenceSchema,
+    editToken: { type: "string" },
     id: positiveIntegerSchema,
     boardId: positiveIntegerSchema,
     laneId: positiveIntegerSchema,
@@ -220,6 +224,8 @@ export const ticketSummarySchema = {
     "externalReferences",
   ],
   properties: {
+    groupId: nullableGroupIdSchema,
+    group: groupReferenceSchema,
     id: positiveIntegerSchema,
     boardId: positiveIntegerSchema,
     laneId: positiveIntegerSchema,

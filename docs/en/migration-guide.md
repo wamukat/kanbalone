@@ -264,3 +264,38 @@ Report measured values and unresolved work using this structure. `null` means un
 ```
 
 Use `not_started`, `blocked`, `verified` or `rolled_back` for `status`. Set `verified` only when all required comparisons pass, and disclose outstanding work such as skill installation or resuming usage.
+
+<a id="group-migration"></a>
+## Group Migration
+
+This section applies to a build that includes Group support. It is separate from the v0.10.0 completion migration above; the previously published v0.10.0 image does not contain Group support. Reading this section does not authorize an upgrade or changes to a running instance.
+
+### Database Changes
+
+On first startup, the Group-capable application adds Group storage and nullable ticket membership. Existing tickets start ungrouped. It does not infer Groups from tags, lane names, ticket titles, or parent names. Existing ticket IDs, lanes, completion/archive flags, parent links, comments and remote links remain intact. Group migration does not rerun completion reclassification or create completion lanes on a database already migrated to v0.10.0.
+
+Membership is board-local and shared by connected parent/child tickets. Do not write `group_id` directly in SQLite: API transactions also validate the board, update the connected set and record changes.
+
+### Upgrade And Reconciliation For Humans Or AI
+
+1. Identify the actual instance URL, runtime, data path and both source/target builds. Do not assume the published v0.10.0 image is Group-capable.
+2. Stop writes and take a consistent, restorable SQLite backup using the backup procedure above. Do not copy only the live `.sqlite` file while ignoring its WAL.
+3. Before upgrading, record board/lane/ticket counts and export every board. Include archived tickets when recording the baseline. Export is additional reconciliation data, not a substitute for a full database backup.
+4. Start the verified Group-capable build against the same storage. Do not run old and new writers together.
+5. Verify health and board/ticket totals. `GET /api/boards/:boardId/groups?status=all` should initially be empty; all existing tickets should have `groupId:null` and `group:null`. Compare lane IDs, completion/archive flags and parent links with the baseline.
+6. Verify a Group workflow on a disposable test board: create, add a parent/child set, detach membership, delete the empty Group, and export/import. Do not reorganize the user's existing tickets merely to test the migration.
+7. Report the verified build, backup location, checks and any discrepancies. Do not declare success if the migration or reconciliation failed.
+
+### JSON Export Format 2
+
+New exports contain `formatVersion:2`, a `groups` array, and `groupId` on every ticket. They include inactive/empty Groups and archived tickets. Group descriptions are Markdown; derived counts, active state and rendered HTML are not restoration inputs. Ticket display summaries such as `group:{id,name}` are not exported as membership references.
+
+Import creates a new board and remaps both ticket and Group IDs. It does not merge into an existing board. Group references and parent/child membership must agree. Invalid references, duplicate IDs/names, missing Group fields or inconsistent parent/child membership reject the whole import, leaving no partial board.
+
+Legacy exports are accepted only when they omit the format version and all Group fields. They import as ungrouped tickets. A payload with Group fields but no format version is rejected rather than silently dropping membership. Unknown versions are rejected.
+
+### Rollback
+
+Stop the new application and restore the pre-upgrade database backup before running the old build. Do not open the upgraded DB with the old application: it does not enforce Group invariants. Changes made after the backup are not present in that restore and must be reconciled separately if needed.
+
+Do not use a format-2 JSON import into an old release as a rollback path. Older releases may ignore unknown fields instead of rejecting them, losing Group data. Use the original backup and original build together.

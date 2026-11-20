@@ -265,6 +265,8 @@ export function createTicketDetailModule(ctx) {
     if (!(target instanceof Element) || state.dialogMode !== "view") {
       return;
     }
+    const groupLink = target.closest("[data-ticket-group]");
+    if (groupLink) { event.preventDefault(); ctx.openGroup?.(Number(groupLink.getAttribute("data-ticket-group"))).catch(error => ctx.showToast(error.message, "error")); return; }
     const bodyTab = target.closest("[data-ticket-body-tab]");
     if (bodyTab) {
       setBodyTab(bodyTab.getAttribute("data-ticket-body-tab") ?? "local");

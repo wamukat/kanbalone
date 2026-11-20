@@ -199,6 +199,8 @@ export function createTicketRelationsModule(ctx, options) {
       state.editorChildIds = state.editorChildIds.filter((id) => id !== ticketId);
     } else {
       state.editorChildIds = [...state.editorChildIds, ticketId];
+      state.editorSelectedParents ??= {};
+      state.editorSelectedParents[ticketId] = getTicketById(ticketId)?.parentTicketId ?? null;
     }
     syncRelationRows();
     state.childQuery = "";

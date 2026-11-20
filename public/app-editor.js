@@ -121,6 +121,9 @@ export function createEditorModule(ctx) {
     state.editorRelatedIds = [];
     state.editorChildIds = [];
     state.editorOriginalChildIds = [];
+    state.editorEditToken = null;
+    state.editorSelectedParents = {};
+    state.editorCreateGroup = null;
     state.editorVisibleRelationTypes = [];
     state.dialogTicket = null;
     state.dialogActivity = [];
@@ -183,6 +186,8 @@ export function createEditorModule(ctx) {
     state.editorRelatedIds = [...ticket.relatedIds];
     state.editorChildIds = ticket.children.map((child) => child.id);
     state.editorOriginalChildIds = [...state.editorChildIds];
+    state.editorEditToken = ticket?.editToken;
+    state.editorSelectedParents = {};
     state.editorVisibleRelationTypes = relationsModule.getActiveRelationTypes();
     state.tagQuery = "";
     state.parentQuery = "";
@@ -266,11 +271,15 @@ export function createEditorModule(ctx) {
     }
   }
 
-  async function openEditor(ticketId = null, mode = "edit", defaultLaneId = null) {
+  async function openEditor(ticketId = null, mode = "edit", defaultLaneId = null, creationGroup = null) {
     if (!state.boardDetail) {
       return;
     }
     state.editingTicketId = ticketId;
+    state.editorCreateGroup = ticketId ? null : creationGroup;
+    state.boardTickets = (await ctx.api(`/api/boards/${state.activeBoardId}/tickets?archived=all`)).tickets;
+    const groupContext = elements.editorForm.querySelector(".editor-group-context");
+    if (groupContext) { groupContext.hidden = !creationGroup; groupContext.textContent = creationGroup ? `Group: ${creationGroup.name}` : ""; }
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
         ctx.api(`/api/tickets/${ticketId}`),
@@ -308,6 +317,8 @@ export function createEditorModule(ctx) {
     state.editorRelatedIds = ticket?.relatedIds ?? [];
     state.editorChildIds = ticket?.children.map((entry) => entry.id) ?? [];
     state.editorOriginalChildIds = [...state.editorChildIds];
+    state.editorEditToken = ticket?.editToken;
+    state.editorSelectedParents = {};
     state.editorVisibleRelationTypes = relationsModule.getActiveRelationTypes(ticket);
     state.tagQuery = "";
     state.parentQuery = "";

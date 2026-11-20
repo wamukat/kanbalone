@@ -42,7 +42,7 @@ export function createListSelectionModule(ctx) {
     const initialLaneId = getDefaultTargetLaneId(initialTargetLanes, sourceLaneName);
     const dialogPromise = ctx.openFormDialog({
       title: "Move Tickets",
-      message: "Move selected tickets to another lane or board. Matching tag names will be kept when moving between boards. Parent, child, and blocker links outside the destination board will be cleared.",
+      message: "Move selected tickets to another lane or board. Matching tag names will be kept when moving between boards. Group membership will be cleared when moving to another board. Parent, child, and blocker links outside the destination board will be cleared.",
       fields: renderMoveFields(targetBoards, initialBoard.lanes, initialLaneId, selectedLaneIds),
       submitLabel: "Move",
     });

@@ -1,3 +1,4 @@
+import * as groups from "./db-modules/groups.js";
 import { setCompletionLanes, type CompletionLaneExpectation } from "./db-modules/lane-completion.js";
 import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
 import Database from "better-sqlite3";
@@ -171,6 +172,7 @@ export class KanbanDb {
     return {
       ...shell,
       tickets: this.listTickets(boardId, { includeArchived: true }),
+      groups: this.listGroups(boardId, { status: "all" }),
     };
   }
 
@@ -234,6 +236,31 @@ export class KanbanDb {
   deleteTag(tagId: Id): void {
     deleteTagRecord(this.sqlite, tagId);
   }
+
+  listGroups(boardId: Id, options: Parameters<typeof groups.listGroups>[2] = {}) { return groups.listGroups(this.sqlite, boardId, options); }
+  getGroup(id: Id) { return groups.getGroup(this.sqlite, id); }
+  createGroup(input: Parameters<typeof groups.createGroup>[1]) { return groups.createGroup(this.sqlite, input, this.now()); }
+  updateGroup(id: Id, input: Parameters<typeof groups.updateGroup>[2]) { return groups.updateGroup(this.sqlite, id, input, this.now()); }
+  deleteGroup(id: Id, revision?: number) { return groups.deleteGroup(this.sqlite, id, revision, this.now()); }
+  listGroupActivity(boardId: Id, groupId?: Id) { return groups.listGroupActivity(this.sqlite, boardId, groupId); }
+  previewGroupMemberships(boardId: Id, input: groups.MembershipInput) { return groups.previewGroupMemberships(this.sqlite, boardId, input); }
+  setGroupMemberships(boardId: Id, input: groups.MembershipInput) {
+    const result = groups.setGroupMemberships(this.sqlite, boardId, input, this.now());
+    return { changedTickets: this.listTicketSummaries(boardId, { includeArchived: true }).filter(t => result.changedTicketIds.includes(t.id)), affectedGroups: result.affectedGroups };
+  }
+  previewTicketChange(ticketId: Id, input: UpdateTicketInput) {
+    return this.sqlite.transaction(() => {
+      if (input.appendMarkdown !== undefined) {
+        if (typeof input.appendMarkdown !== "string" || !input.appendMarkdown || input.bodyMarkdown !== undefined) throw new Error("appendMarkdown must be non-empty and cannot be combined with bodyMarkdown");
+        const ticket = this.getTicket(ticketId);
+        if (!ticket) groups.groupError("Ticket not found", "TICKET_NOT_FOUND", 404);
+        const { appendMarkdown, ...fields } = input;
+        input = { ...fields, bodyMarkdown: ticket.bodyMarkdown + appendMarkdown };
+      }
+      return groups.planTicketGroupChange(this.sqlite, ticketId, input).preview;
+    })();
+  }
+  previewTicketCreate(input: CreateTicketInput) { return this.sqlite.transaction(() => groups.planTicketGroupChange(this.sqlite, null, input).preview)(); }
 
   listTicketSummaries(boardId: Id, filters: ListTicketsFilters = {}): TicketSummaryView[] {
     return listTicketSummaryRecords(this.sqlite, boardId, filters);

@@ -1,3 +1,4 @@
+import { planTicketGroupChange, applyTicketGroupPlan, clearGroupForBoardMove, type GroupEditFields } from "./groups.js";
 import type Database from "better-sqlite3";
 import { laneCompletion } from "./lane-completion.js";
 
@@ -41,7 +42,7 @@ import type {
   TicketView,
 } from "../types.js";
 
-export type CreateTicketInput = {
+export type CreateTicketInput = GroupEditFields & {
   boardId: Id;
   laneId: Id;
   title: string;
@@ -110,6 +111,7 @@ export function createTicket(
   const createdAt = now();
   const position = nextTicketPosition(sqlite, input.laneId);
   const tx = sqlite.transaction(() => {
+    const groupPlan = planTicketGroupChange(sqlite, null, input, true);
     const result = sqlite
       .prepare(
         `
@@ -133,6 +135,7 @@ export function createTicket(
         createdAt,
       );
     const ticketId = Number(result.lastInsertRowid);
+    applyTicketGroupPlan(sqlite, groupPlan, ticketId, now());
     replaceTicketTags(sqlite, ticketId, input.tagIds ?? []);
     replaceTicketBlockers(sqlite, ticketId, input.blockerIds ?? [], input.boardId);
     replaceTicketRelatedLinks(sqlite, ticketId, input.relatedIds ?? [], input.boardId);
@@ -140,7 +143,7 @@ export function createTicket(
     touchBoard(sqlite, input.boardId, now());
     return ticketId;
   });
-  return getTicket(sqlite, tx())!;
+  return getTicket(sqlite, tx.immediate())!;
 }
 
 export function updateTicket(
@@ -175,21 +178,26 @@ export function updateTicket(
   const nextLaneId = input.laneId ?? current.laneId;
   const nextBoardId = input.boardId ?? current.boardId;
   const tx = sqlite.transaction(() => {
+    const groupPlan = planTicketGroupChange(sqlite, ticketId, input, true);
+    applyTicketGroupPlan(sqlite, groupPlan, undefined, now());
+    const boardChanged = nextBoardId !== current.boardId;
+    if (boardChanged) { clearGroupForBoardMove(sqlite, ticketId, current.boardId, now()); cleanupTicketForBoardMove(sqlite, ticketId, nextBoardId); }
     sqlite
       .prepare(
         `
         UPDATE tickets
-        SET board_id = ?, lane_id = ?, parent_ticket_id = ?, title = ?, body_markdown = ?, is_resolved = ?, is_archived = ?, priority = ?, updated_at = ?
+        SET group_id = CASE WHEN board_id <> ? THEN NULL ELSE group_id END, board_id = ?, lane_id = ?, parent_ticket_id = ?, title = ?, body_markdown = ?, is_resolved = ?, is_archived = ?, priority = ?, updated_at = ?
         WHERE id = ?
         `,
       )
       .run(
         nextBoardId,
+        nextBoardId,
         nextLaneId,
         validateParentTicket(
           sqlite,
           ticketId,
-          input.parentTicketId !== undefined ? input.parentTicketId : current.parentTicketId,
+          boardChanged ? null : input.parentTicketId !== undefined ? input.parentTicketId : current.parentTicketId,
           nextBoardId,
         ),
         input.title ?? current.title,
@@ -240,8 +248,9 @@ export function updateTicket(
         : "ticket_updated";
     addTicketActivity(sqlite, now, nextBoardId, ticketId, action, message);
     touchBoard(sqlite, nextBoardId, now());
+    if (boardChanged) touchBoard(sqlite, current.boardId, now());
   });
-  tx();
+  tx.immediate();
   return getTicket(sqlite, ticketId)!;
 }
 
@@ -261,15 +270,16 @@ export function moveTicket(
   const updatedAt = now();
   const nextPosition = current.laneId === input.laneId ? current.position : nextTicketPosition(sqlite, input.laneId);
   const tx = sqlite.transaction(() => {
+    if (boardChanged) clearGroupForBoardMove(sqlite, ticketId, current.boardId, updatedAt);
     sqlite
       .prepare(
         `
         UPDATE tickets
-        SET board_id = ?, lane_id = ?, parent_ticket_id = ?, position = ?, updated_at = ?
+        SET group_id = CASE WHEN board_id <> ? THEN NULL ELSE group_id END, board_id = ?, lane_id = ?, parent_ticket_id = ?, position = ?, updated_at = ?
         WHERE id = ?
         `,
       )
-      .run(input.boardId, input.laneId, boardChanged ? null : current.parentTicketId, nextPosition, updatedAt, ticketId);
+      .run(input.boardId, input.boardId, input.laneId, boardChanged ? null : current.parentTicketId, nextPosition, updatedAt, ticketId);
 
     if (boardChanged) {
       cleanupTicketForBoardMove(sqlite, ticketId, input.boardId);

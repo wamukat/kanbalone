@@ -1,3 +1,4 @@
+import { groupReferenceSchema, nullableGroupIdSchema } from "./group.js";
 import { positiveIntegerSchema, ticketPrioritySchema } from "./common.js";
 
 export const ticketRelationSchema = {
@@ -5,6 +6,8 @@ export const ticketRelationSchema = {
   additionalProperties: false,
   required: ["id", "title", "laneId", "isResolved", "isCompleted", "priority", "ref", "shortRef"],
   properties: {
+    groupId: nullableGroupIdSchema,
+    group: groupReferenceSchema,
     id: positiveIntegerSchema,
     title: { type: "string" },
     laneId: positiveIntegerSchema,

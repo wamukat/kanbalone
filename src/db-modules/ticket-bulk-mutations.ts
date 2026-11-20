@@ -1,3 +1,4 @@
+import { clearGroupForBoardMove } from "./groups.js";
 import type Database from "better-sqlite3";
 import { laneCompletion } from "./lane-completion.js";
 
@@ -43,7 +44,7 @@ export function bulkMoveTickets(
   const updatedAt = now();
   const initialTargetPosition = nextTicketPosition(sqlite, input.laneId);
   const updateStmt = sqlite.prepare(
-    "UPDATE tickets SET board_id = ?, lane_id = ?, parent_ticket_id = ?, position = ?, updated_at = ? WHERE id = ?",
+    "UPDATE tickets SET group_id = CASE WHEN board_id <> ? THEN NULL ELSE group_id END, board_id = ?, lane_id = ?, parent_ticket_id = ?, position = ?, updated_at = ? WHERE id = ?",
   );
   const tx = sqlite.transaction(() => {
     let nextPosition = initialTargetPosition;
@@ -51,7 +52,8 @@ export function bulkMoveTickets(
       const row = rowsById.get(ticketId)!;
       const boardChanged = row.board_id !== input.boardId;
       const position = row.lane_id === input.laneId ? row.position : nextPosition;
-      updateStmt.run(input.boardId, input.laneId, boardChanged ? null : row.parent_ticket_id, position, updatedAt, ticketId);
+      if (boardChanged) clearGroupForBoardMove(sqlite, ticketId, row.board_id, updatedAt);
+      updateStmt.run(input.boardId, input.boardId, input.laneId, boardChanged ? null : row.parent_ticket_id, position, updatedAt, ticketId);
       if (row.lane_id !== input.laneId) {
         nextPosition += 1;
       }

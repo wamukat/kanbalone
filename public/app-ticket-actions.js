@@ -1,3 +1,5 @@
+import { chooseGroupResolution } from "./app-group-conflict.js";
+
 export function createTicketActionsModule(ctx, options) {
   const { state, elements } = ctx;
   let saveStateTimer = null;
@@ -31,7 +33,7 @@ export function createTicketActionsModule(ctx, options) {
 
   async function saveTicket(event) {
     event.preventDefault();
-    if (!state.activeBoardId) {
+    if (!state.activeBoardId || state.editorSaving) {
       return;
     }
     const tagIds = options.getSelectedTagIds();
@@ -53,43 +55,27 @@ export function createTicketActionsModule(ctx, options) {
       : `/api/boards/${state.activeBoardId}/tickets`;
     const method = state.editingTicketId ? "PATCH" : "POST";
     const editingTicketId = state.editingTicketId;
+    const creationGroup = state.editorCreateGroup;
+    if (editingTicketId) {
+      payload.childTicketIds = nextParentTicketId == null ? [...state.editorChildIds] : [];
+      payload.expectedEditToken = state.editorEditToken;
+      payload.expectedSelectedParents = payload.childTicketIds.filter(id => !state.editorOriginalChildIds.includes(id)).map(id => ({ ticketId: id, parentTicketId: state.editorSelectedParents?.[id] ?? null }));
+    } else if (creationGroup) {
+      payload.groupId = creationGroup.id;
+    }
+    state.editorSaving = true;
     try {
-      if (editingTicketId && nextParentTicketId != null && state.editorOriginalChildIds.length > 0) {
-        for (const childId of state.editorOriginalChildIds) {
-          await ctx.sendJson(`/api/tickets/${childId}`, {
-            method: "PATCH",
-            body: { parentTicketId: null },
-          });
-        }
-      }
       setSaveState("saving", "Saving...");
-      const savedTicket = await ctx.api(endpoint, {
-        method,
-        body: JSON.stringify(payload),
-      });
+      if (editingTicketId || nextParentTicketId != null || creationGroup) {
+        const preview = await ctx.sendJson(editingTicketId ? `${endpoint}/change-preview` : `${endpoint}/preview`, { method: "POST", body: payload });
+        const resolution = await chooseGroupResolution(ctx, preview);
+        if (resolution === null) { clearSaveState(); return null; }
+        if (resolution) payload.groupResolution = resolution;
+        payload.expectedToken = preview.expectedToken;
+      }
+      const savedTicket = await ctx.api(endpoint, { method, body: JSON.stringify(payload) });
       if (editingTicketId) {
-        if (nextParentTicketId == null) {
-          const originalChildIds = new Set(state.editorOriginalChildIds);
-          const nextChildIds = new Set(state.editorChildIds);
-          for (const childId of state.editorOriginalChildIds) {
-            if (!nextChildIds.has(childId)) {
-              await ctx.sendJson(`/api/tickets/${childId}`, {
-                method: "PATCH",
-                body: { parentTicketId: null },
-              });
-            }
-          }
-          for (const childId of state.editorChildIds) {
-            if (!originalChildIds.has(childId)) {
-              await ctx.sendJson(`/api/tickets/${childId}`, {
-                method: "PATCH",
-                body: { parentTicketId: editingTicketId },
-              });
-            }
-          }
-        }
         await options.refreshDialogTicket(editingTicketId);
-        state.editorOriginalChildIds = [...state.editorChildIds];
         options.setDialogMode("view");
         setSaveState("saved", "Saved");
       } else {
@@ -98,12 +84,13 @@ export function createTicketActionsModule(ctx, options) {
       }
       await ctx.refreshBoardDetail();
       if (!editingTicketId) await ctx.onTicketCreated?.(savedTicket.boardId);
+      if (!editingTicketId && creationGroup && savedTicket.groupId != null && savedTicket.groupId !== creationGroup.id) await ctx.openGroup?.(savedTicket.groupId);
       return savedTicket;
     } catch (error) {
       setSaveState("error", "Save failed");
       ctx.showToast(error.message, "error");
       return null;
-    }
+    } finally { state.editorSaving = false; }
   }
 
   async function toggleTicketArchive() {
@@ -171,7 +158,7 @@ export function createTicketActionsModule(ctx, options) {
     const initialLaneId = getDefaultTargetLaneId(initialBoard.lanes, sourceLane?.name);
     const dialogPromise = ctx.openFormDialog({
       title: "Move Ticket",
-      message: "Move this ticket to another board. Matching tag names will be kept. Parent, child, and blocker links outside the destination board will be cleared.",
+      message: "Move this ticket to another board. Matching tag names will be kept. Group membership will be cleared. Parent, child, and blocker links outside the destination board will be cleared.",
       fields: renderMoveFields(state.boards, state.dialogTicket.boardId, initialBoard.lanes, initialLaneId),
       submitLabel: "Move",
     });

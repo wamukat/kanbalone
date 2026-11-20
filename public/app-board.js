@@ -3,6 +3,7 @@ import { createBoardSettingsModule } from "./app-board-settings.js";
 import { createKanbanBoardModule } from "./app-kanban-board.js";
 import { createSidebarBoardsModule } from "./app-sidebar-boards.js";
 import { createSidebarTagsModule } from "./app-sidebar-tags.js";
+import { createGroupBoardModule } from "./app-group-board.js";
 import { icon } from "./icons.js";
 
 export function createBoardModule(ctx) {
@@ -18,6 +19,7 @@ export function createBoardModule(ctx) {
     cancelLaneCreate: kanbanModule.cancelLaneCreate,
   });
   const sidebarTagsModule = createSidebarTagsModule(ctx);
+  const groupModule = createGroupBoardModule(ctx);
 
   function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "" }) {
     const action = actionLabel && actionAttr
@@ -56,6 +58,7 @@ export function createBoardModule(ctx) {
         title: "No boards yet",
         body: "Use the + button in the sidebar to create your first board.",
       });
+      elements.groupBoard.innerHTML = "";
       elements.listBoard.className = "list-board empty";
       elements.listBoard.innerHTML = renderEmptyState({
         iconName: "columns-3",
@@ -93,6 +96,9 @@ export function createBoardModule(ctx) {
 
     if (state.viewMode === "kanban") {
       kanbanModule.renderKanbanBoard(detail);
+    } else if (state.viewMode === "group") {
+      kanbanModule.cancelPendingRender();
+      groupModule.renderGroupBoard();
     } else {
       kanbanModule.cancelPendingRender();
       listModule.renderListBoard(detail);
@@ -125,6 +131,7 @@ export function createBoardModule(ctx) {
   elements.listBoard.addEventListener("scroll", listModule.handleListBoardScroll, true);
 
   return {
+    openGroup: groupModule.openGroup,
     renderBoards: sidebarBoardsModule.renderBoards,
     renderBoardDetail,
     renderSidebarTags: sidebarTagsModule.renderSidebarTags,

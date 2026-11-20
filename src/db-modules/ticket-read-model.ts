@@ -1,3 +1,4 @@
+import { ticketGroupFields } from "./groups.js";
 import type Database from "better-sqlite3";
 
 import { getBoard } from "./board.js";
@@ -67,6 +68,7 @@ export function listTickets(
       childrenByTicket.get(row.id) ?? [],
       remoteByTicket.get(row.id) ?? null,
       externalReferencesByTicket.get(row.id) ?? [],
+      ticketGroupFields(sqlite, row),
     ),
   );
 }
@@ -98,6 +100,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
     childrenByTicket.get(ticketId) ?? [],
     remoteByTicket.get(ticketId) ?? null,
     externalReferencesByTicket.get(ticketId) ?? [],
+    ticketGroupFields(sqlite, row, true),
   );
 }
 
@@ -161,6 +164,7 @@ function mapTicketSummaries(
         }
         : null,
       externalReferencesByTicket.get(row.id) ?? [],
+      ticketGroupFields(sqlite, row),
     ),
   );
 }

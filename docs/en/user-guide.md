@@ -277,3 +277,24 @@ http://127.0.0.1:3000
 Data is stored at `/app/data/kanbalone.sqlite`. With a Docker named volume, data survives container recreation.
 
 Kanbalone does not include authentication. Do not expose it directly to untrusted networks.
+
+## 15. Organize work with Groups
+
+The Group view shows the board name and “Group” in the shared top toolbar. It keeps the same upper layout as Kanban/List without adding Group search or ticket filters. Kanban/List search conditions do not filter Group members and remain available when you return to those views.
+
+Switch to **Group** beside Kanban and List. The sidebar stays in place; the content area shows Groups on the left and the selected Group's tickets on the right. A ticket belongs to at most one Group on its own board. Use tags for labels that can overlap, and a Group for one body of work.
+
+- Create a Group with the **＋** at the bottom of the Group list. A name is enough; add an optional Markdown description later. Names must be unique within the board, including inactive Groups.
+- Choose creation order or name order, ascending or descending. Arrows in the buttons show the current direction, and the selection is remembered per board. Group tickets have no sort controls; they use the default List order while keeping children below their parent.
+- Use **Add existing tickets** or **Create ticket**, always visible at the top left of the ticket list, to search for ungrouped tickets or create a new ticket in this Group. New tickets use the regular ticket editor and lane selection.
+- Parent and child tickets share one Group. Selecting a child for addition also includes its parent and siblings, including archived tickets. A visible removal action on the parent removes the entire set after confirmation; a standalone ticket has its own action. Tickets themselves are not deleted. To move tickets to another Group, remove them first, then add them there.
+- The description can be edited and previewed as Markdown. Long descriptions can be expanded. Group names can be edited in place.
+- Ticket details show the Group name as a link. Opening it selects that Group. For an inactive Group, the list switches to **All**. Ungrouped tickets have no Group link.
+
+**Active** shows Groups with an unresolved, unarchived ticket, plus empty Groups. When every member is resolved or archived, the Group is inactive and remains available through **All**. There is no separate completion or archive action for a Group. Reopening/restoring a ticket can make its Group active again. Removing the last ticket makes the empty Group active.
+
+Archived tickets are hidden initially. Use the archived-ticket toggle to show them. If an archived parent has visible children, its title remains as relationship context, with the parent-level Group removal action. Board search and tag filters do not filter the Group screen; the search for adding existing tickets remains available.
+
+When connecting parent and child tickets, an assigned Group automatically includes previously ungrouped tickets. If the tickets belong to different Groups, choose which Group to keep or cancel. The choice applies to the affected parent/child set together, including archived children. Multiple children can produce more than two Group choices. A new ticket with a parent follows the same rule.
+
+Moving a ticket to another board clears its Group membership; tickets left behind keep their Group. Only an empty Group can be deleted, after confirming its name and that deletion cannot be undone. Archived tickets still count as members. Group removal has no separate Undo action.

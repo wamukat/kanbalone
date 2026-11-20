@@ -19,6 +19,7 @@ import {
   sanitizeStringArray,
   setErrorHandler,
 } from "./route-helpers.js";
+import { registerGroupRoutes } from "./routes/groups.js";
 import { registerBoardRoutes } from "./routes/boards.js";
 import { registerLaneRoutes } from "./routes/lanes.js";
 import * as routeSchemas from "./routes/schemas.js";
@@ -95,6 +96,8 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     serializeBoardDetail,
     serializeTicket,
   });
+
+  registerGroupRoutes(app, { db, publishBoardEvent: boardEventHub.publish });
 
   registerLaneRoutes(app, {
     db,

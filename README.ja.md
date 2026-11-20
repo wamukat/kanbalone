@@ -37,6 +37,11 @@ GitHub Issues、GitLab、Redmine などの remote issue をローカルに取り
 - 自動化や AI エージェントからも扱いやすい軽量 JSON API
 - 起動して最初のボードを作成したら、面倒な設定なしですぐタスク管理開始
 
+## このチェックアウトのGroup機能
+
+このソースチェックアウトはGroup機能に対応しています。下記の固定タグv0.10.0イメージにはまだ含まれません。[ユーザーガイド](docs/ja/user-guide.md#15-groupで作業をまとめる)と[Group移行手順](docs/ja/migration-guide.md#group-migration)を参照してください。
+
+
 ## Quick Start
 
 公開済み Docker Image で起動します。

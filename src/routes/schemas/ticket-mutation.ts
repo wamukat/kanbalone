@@ -1,3 +1,4 @@
+import { groupMutationProperties, nullableGroupIdSchema } from "./group.js";
 import { optionalPositiveIntegerArraySchema, positiveIntegerSchema, ticketPrioritySchema } from "./common.js";
 
 export const ticketMutationBodySchema = {
@@ -27,12 +28,19 @@ export const ticketMutationBodySchema = {
 export const ticketCreateBodySchema = {
   ...ticketMutationBodySchema,
   required: ["laneId", "title"],
+  properties: { ...ticketMutationBodySchema.properties,
+    groupId: nullableGroupIdSchema,
+    groupResolution: groupMutationProperties.groupResolution,
+    expectedToken: groupMutationProperties.expectedToken,
+  },
 } as const;
 
 export const ticketUpdateBodySchema = {
   ...ticketMutationBodySchema,
   properties: {
     ...ticketMutationBodySchema.properties,
+    ...groupMutationProperties,
+    groupId: nullableGroupIdSchema,
     appendMarkdown: { type: "string", minLength: 1 },
   },
   not: { required: ["bodyMarkdown", "appendMarkdown"] },
@@ -131,6 +139,9 @@ export const ticketListQuerySchema = {
   type: "object",
   additionalProperties: false,
   properties: {
+    groupId: positiveIntegerSchema,
+    ungrouped: { type: "string", enum: ["true", "false"] },
+    includeArchived: { type: "string", enum: ["true", "false"] },
     lane_id: positiveIntegerSchema,
     lane: { type: "string", minLength: 1 },
     parent: { type: "string", pattern: "^(none|[1-9][0-9]*)$" },

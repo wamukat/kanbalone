@@ -364,3 +364,109 @@ curl -s -X PUT http://127.0.0.1:3000/api/boards/4/completion-lanes \
 ```
 
 `laneIds` is the entire desired selection; `[]` clears all completion lanes. Include every lane in `expectedLanes`, even empty ones. Counts include archived tickets. Success returns `{ lanes }`; archive flags stay unchanged. Invalid/duplicate selection IDs return 400, a missing board returns 404, and a changed lane set, completion attribute, or ticket count returns 409 with no writes. On 409, re-read the data and review the impact again. Do not bypass it by issuing individual PATCH calls, which have no expectation guard.
+
+<a id="groups"></a>
+## Groups
+
+```bash
+BASE=http://127.0.0.1:3000
+BOARD_ID=3
+
+# Active is the default. Include inactive Groups and sort by name.
+curl -sS "$BASE/api/boards/$BOARD_ID/groups?status=all&sort=name&order=asc"
+
+# Create a Group. Keep the returned id and revision.
+curl -sS -X POST "$BASE/api/boards/$BOARD_ID/groups" \
+  -H 'content-type: application/json' \
+  --data '{"name":"First-use guide","descriptionMarkdown":"## Goal\n\nHelp people create their first ticket."}'
+
+GROUP_ID=7
+curl -sS "$BASE/api/groups/$GROUP_ID"
+curl -sS "$BASE/api/boards/$BOARD_ID/tickets?groupId=$GROUP_ID&archived=all"
+curl -sS "$BASE/api/boards/$BOARD_ID/tickets?ungrouped=true&q=guide"
+```
+
+### Preview And Apply Membership
+
+The following examples require `jq`. Replace IDs with resources from the target instance. The preview can include more tickets than the IDs submitted because parent/child membership is shared.
+
+```bash
+WORK_DIR=$(mktemp -d)
+printf '%s\n' '{"ticketIds":[101],"groupId":7}' > "$WORK_DIR/membership.json"
+curl -sS --fail-with-body -X POST "$BASE/api/boards/$BOARD_ID/group-memberships/preview" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/membership.json" \
+  > "$WORK_DIR/preview.json"
+cat "$WORK_DIR/preview.json"
+```
+
+After reviewing the complete affected set, apply exactly that operation:
+
+```bash
+jq --slurpfile preview "$WORK_DIR/preview.json" \
+  '. + {expectedToken:$preview[0].expectedToken}' \
+  "$WORK_DIR/membership.json" > "$WORK_DIR/apply.json"
+curl -sS --fail-with-body -X PUT "$BASE/api/boards/$BOARD_ID/group-memberships" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/apply.json"
+```
+
+To remove membership, start a new preview with `{"ticketIds":[101],"groupId":null}` and apply its token. This removes the Group from the connected parent/child set, including archived members. To assign another Group, remove first, then preview/add the destination Group. Do not reuse a token for a different body.
+
+### Create A Ticket In A Group
+
+```bash
+curl -sS --fail-with-body -X POST "$BASE/api/boards/$BOARD_ID/tickets" \
+  -H 'content-type: application/json' \
+  --data '{"laneId":9,"title":"Improve first-use guidance","priority":2,"groupId":7}'
+```
+
+When also setting `parentTicketId`, use `POST /api/boards/:boardId/tickets/preview` with the same creation body. If `requiresResolution` is true, choose a returned candidate Group and add `groupResolution:{groupId}` and `expectedToken` to the creation request. The existing parent/children and the new ticket are updated together. With one non-null Group, the ungrouped side joins it automatically. Preview does not create a ticket.
+
+### Save Parent/Child Changes Atomically
+
+Keep the original edit token from when editing starts. This example assumes 102 is already a child of 101 and 303 is newly selected. It replaces ticket 101's child set with 102 and 303; it must not be used as an append request when additional children already exist. Supply an `expectedSelectedParents` entry for every newly selected child.
+
+```bash
+curl -sS --fail-with-body "$BASE/api/tickets/101" > "$WORK_DIR/ticket.json"
+curl -sS --fail-with-body "$BASE/api/tickets/303" > "$WORK_DIR/selected-child.json"
+jq --slurpfile child "$WORK_DIR/selected-child.json" \
+  '{childTicketIds:[102,303], expectedEditToken:.editToken,
+    expectedSelectedParents:[{ticketId:$child[0].id,parentTicketId:$child[0].parentTicketId}]}' \
+  "$WORK_DIR/ticket.json" > "$WORK_DIR/edit.json"
+curl -sS --fail-with-body -X POST "$BASE/api/tickets/101/change-preview" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/edit.json" \
+  > "$WORK_DIR/edit-preview.json"
+cat "$WORK_DIR/edit-preview.json"
+```
+
+For a conflict, select one Group from `candidates` after reviewing which tickets change. Do not select the first candidate automatically. For example, if Group 7 is the intended returned candidate:
+
+```bash
+jq --slurpfile preview "$WORK_DIR/edit-preview.json" \
+  '. + {expectedToken:$preview[0].expectedToken,groupResolution:{groupId:7}}' \
+  "$WORK_DIR/edit.json" > "$WORK_DIR/edit-apply.json"
+curl -sS --fail-with-body -X PATCH "$BASE/api/tickets/101" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/edit-apply.json"
+```
+
+Without a conflict, omit `groupResolution` and add only `expectedToken`. Keep the edit body unchanged between preview and commit. On a stale response, re-read and reconcile the user's changes rather than refreshing tokens and replaying an obsolete child set.
+
+### Edit Or Delete A Group
+
+```bash
+curl -sS --fail-with-body "$BASE/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
+jq '{name:"First-use improvements",expectedRevision:.revision}' "$WORK_DIR/group.json" \
+  > "$WORK_DIR/group-edit.json"
+curl -sS --fail-with-body -X PATCH "$BASE/api/groups/$GROUP_ID" \
+  -H 'content-type: application/json' --data-binary @"$WORK_DIR/group-edit.json"
+```
+
+Delete only after verifying that the Group has zero tickets, including archived tickets, and that deletion is intended. Re-read after edits because the revision changes.
+
+```bash
+curl -sS --fail-with-body "$BASE/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
+REVISION=$(jq -r '.revision' "$WORK_DIR/group.json")
+curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
+  -H "If-Match: \"$REVISION\""
+```
+
+A nonempty Group or a stale revision is rejected; deleting a Group never deletes its tickets. The bundled API helper does not supply `If-Match`, so use `curl` for this operation.

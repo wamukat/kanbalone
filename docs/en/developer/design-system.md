@@ -193,6 +193,16 @@ Feedback placement:
 - Keep interactive targets around 32px or larger.
 - Use automatic tag foreground selection to avoid poor contrast.
 
+## Review criteria for new list views
+
+- Reuse component roles, not only color tokens. Ticket lists follow List's borderless titles, subdued IDs, hierarchy icons, and thin row separators.
+- Keep description headings subordinate to the main heading. Initially show a short summary of long descriptions; only expanded content exposes interactive links, code, and tables.
+- Keep unselected Group rows flat and indicate selection with a soft surface. Place the quiet add button at the end of the list.
+- Keep Group removal visible on the parent (or standalone ticket). Use a subdued row action, not a hover-only action or overflow menu, and show affected tickets in the confirmation.
+- Keep two bordered actions, Add existing tickets and Create ticket, visible at the top left of the ticket list. Use a 32px baseline height and preserve size and position on hover/focus. Toggling archived visibility must preserve the height and text layout of retained rows. Distinguish accidental shifts from intentional content expansion in forms and descriptions.
+- Share the outer content alignment with Kanban/List; add only the internal spacing needed for the split view.
+- Include visual review of actual screens before declaring completion: normal, empty, long content, archived parent, editing, adding, removal confirmation, keyboard, narrow viewport, and dark appearance. Passing interaction tests alone does not establish GUI quality.
+
 ## Implementation Priority
 
 1. Align CSS custom properties with these tokens.

@@ -6,7 +6,7 @@ const EDITOR_DIALOG_SIZE_KEY = "kanbalone:editor-dialog-size";
 const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
 
 /**
- * @typedef {"kanban" | "list"} BoardViewMode
+ * @typedef {"kanban" | "list" | "group"} BoardViewMode
  * @typedef {{ q: string; lane: string; status: string[]; priority: string[]; tag: string }} BoardFilters
  * @typedef {{ status: boolean; priority: boolean }} FilterExpansion
  * @typedef {{
@@ -94,7 +94,7 @@ export function createUiPreferencesController(state) {
         .filter((boardId) => normalizeBoardId(boardId))
         .map((boardId) => [boardId, {
           filters: normalizeStoredFilters(state.filtersByBoardId[boardId]),
-          viewMode: state.viewModeByBoardId[boardId] === "list" ? "list" : "kanban",
+          viewMode: normalizeViewMode(state.viewModeByBoardId[boardId]),
           filterExpansion: normalizeStoredFilterExpansion(state.filterExpansionByBoardId[boardId]),
         }]),
     );
@@ -121,13 +121,13 @@ export function createUiPreferencesController(state) {
     if (!boardId) {
       return;
     }
-    state.viewModeByBoardId[String(boardId)] = viewMode === "list" ? "list" : "kanban";
+    state.viewModeByBoardId[String(boardId)] = normalizeViewMode(viewMode);
     persistUiPreferences();
   }
 
   /** @param {number | null} [boardId] */
   function restoreBoardViewMode(boardId = state.activeBoardId) {
-    state.viewMode = boardId && state.viewModeByBoardId[String(boardId)] === "list" ? "list" : "kanban";
+    state.viewMode = normalizeViewMode(boardId ? state.viewModeByBoardId[String(boardId)] : null);
   }
 
   return {
@@ -159,7 +159,7 @@ function readVersionedUiPreferences(parsed) {
     }
     const normalizedBoardId = String(boardId);
     preferences.filtersByBoardId[normalizedBoardId] = normalizeStoredFilters(boardPreferences?.filters);
-    preferences.viewModeByBoardId[normalizedBoardId] = boardPreferences?.viewMode === "list" ? "list" : "kanban";
+    preferences.viewModeByBoardId[normalizedBoardId] = normalizeViewMode(boardPreferences?.viewMode);
     preferences.filterExpansionByBoardId[normalizedBoardId] = normalizeStoredFilterExpansion(boardPreferences?.filterExpansion);
   }
 
@@ -196,7 +196,7 @@ function normalizeBoardId(value) {
 function normalizeStoredViewModesByBoard(value) {
   return Object.fromEntries(
     Object.entries(normalizeObject(value))
-      .filter(([boardId, viewMode]) => normalizeBoardId(boardId) && ["kanban", "list"].includes(viewMode))
+      .filter(([boardId, viewMode]) => normalizeBoardId(boardId) && ["kanban", "list", "group"].includes(viewMode))
       .map(([boardId, viewMode]) => [String(boardId), viewMode]),
   );
 }
@@ -243,3 +243,6 @@ function normalizeStoredFilters(filters) {
     tag: typeof filters?.tag === "string" ? filters.tag : DEFAULT_FILTERS.tag,
   };
 }
+
+/** @param {unknown} value @returns {BoardViewMode} */
+function normalizeViewMode(value) { return value === "group" ? "group" : value === "list" ? "list" : "kanban"; }

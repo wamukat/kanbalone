@@ -32,6 +32,7 @@
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#list"></use></svg>
               <span>List</span>
             </button>
+            <button type="button" data-view-mode="group"><svg class="icon" aria-hidden="true"><use href="/icons.svg#folder-tree"></use></svg><span>Group</span></button>
           </div>
         </section>
 
@@ -94,6 +95,7 @@
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#menu"></use></svg>
             </button>
             <h2 id="board-title" class="collapsed-board-title">No board selected</h2>
+            <span class="group-view-label">Group</span>
           </div>
           <div class="toolbar-actions">
             <label class="toolbar-search" for="search-input">
@@ -181,6 +183,7 @@
           </div>
         </section>
         <section id="list-board" class="list-board" hidden></section>
+        <section id="group-board" class="group-board" aria-label="Groups" hidden></section>
       </main>
     </div>
 
@@ -248,6 +251,7 @@
 
         <form id="editor-form" method="dialog" class="editor-mode" hidden>
           <div class="editor-title-field">
+            <p class="editor-group-context" hidden></p>
             <input id="ticket-title" name="title" required placeholder="Title" />
             <button id="remote-import-create-button" type="button" class="ghost icon-button remote-import-create-button" title="Import remote issue" aria-label="Import remote issue" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#link-plus"></use></svg>

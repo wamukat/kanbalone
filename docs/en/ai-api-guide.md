@@ -260,3 +260,51 @@ Send `{ "appendMarkdown": "\n\n- Additional task" }` to `PATCH /api/tickets/:tic
 ### Register MR/PR External References
 
 Use `PUT /api/tickets/:ticketId/external-references/:kind` with `resourceType: "pull_request"` for a PR or `resourceType: "merge_request"` for an MR, along with `provider`, `instanceUrl`, `projectKey`, `issueKey`, `displayRef`, and `url`. The same ticket/kind is replaced on PUT; use distinct kinds such as `pr-main` / `mr-followup` for multiple references. Read them through the ticket's `externalReferences`. Currently this stores and displays links only; open/merged states are not fetched or refreshed automatically.
+
+## Groups: Single Membership And Atomic Parent Editing
+
+A Group belongs to one board. A ticket can belong to at most one Group. Parents and children, including archived children, must have the same Group. Tags remain the mechanism for overlapping classifications.
+
+| Operation | API |
+| --- | --- |
+| List active Groups | `GET /api/boards/:boardId/groups` |
+| Include inactive Groups | `GET /api/boards/:boardId/groups?status=all` |
+| List/sort Groups | `status=active\|inactive\|all`, `sort=createdAt\|name`, `order=asc\|desc` |
+| Create Group | `POST /api/boards/:boardId/groups` with `{name,descriptionMarkdown?}` |
+| Read/edit Group | `GET` / `PATCH /api/groups/:groupId`; PATCH includes `expectedRevision` |
+| Delete empty Group | `DELETE /api/groups/:groupId` with the GET response's `ETag` in `If-Match` |
+| Read members | `GET /api/boards/:boardId/tickets?groupId=7&archived=all` |
+| Find ungrouped tickets | `GET /api/boards/:boardId/tickets?ungrouped=true&q=guide` |
+| Preview membership | `POST /api/boards/:boardId/group-memberships/preview` |
+| Apply membership | `PUT /api/boards/:boardId/group-memberships` |
+| Preview ticket creation | `POST /api/boards/:boardId/tickets/preview` |
+| Preview an edit | `POST /api/tickets/:ticketId/change-preview` |
+
+A Group is active when it is empty or has at least one unresolved, unarchived ticket. There is no manual Group archive/completion. `status=all` includes inactive Groups; it does not change the archive filter on a ticket query. Group creation order defaults to ascending; name/creation sorting is stable, with ID as the tie-breaker.
+
+**Membership workflow:** preview `{ticketIds:[...],groupId:7}` or `{ticketIds:[...],groupId:null}`. Read every ticket in the preview, including archived parent/child tickets. Apply the same body plus the returned `expectedToken`. Selecting a child expands the operation to its connected parent and siblings. The operation is atomic. Moving directly from one non-null Group to another is rejected: remove membership first, then add it to the destination. Adding existing members to the same Group is a no-op. Do not replace membership by writing `groupId` through an ordinary ticket PATCH.
+
+**Parent/child workflow:** read the ticket detail before editing and retain its `editToken`. Use one PATCH with `childTicketIds` (the complete desired child set), `expectedEditToken`, and `expectedSelectedParents` for each newly added child. The latter contains `{ticketId,parentTicketId}` as observed when selecting that ticket. Do not PATCH the body, remove children, and add children as separate requests: that could leave partial changes after a conflict. Preview the complete edit first; if it reports a Group conflict, select one of the returned candidates and send `groupResolution:{groupId}` with the returned `expectedToken` and the unchanged edit body. More than two Groups can be candidates.
+
+When the resulting parent/child set contains one non-null Group, previously ungrouped tickets join it automatically. If it contains different Groups, no writes occur until a candidate is selected. Detaching a child preserves its Group; the old parent and siblings keep theirs when a child is attached elsewhere. Creation with `groupId` and `parentTicketId` follows the same resolution rules. Preview creation before committing a conflicting parent/Group combination. New tickets are only inserted on commit.
+
+Group-aware errors include a machine-readable `code` with the human-readable `error`. On a stale edit/context/revision, re-read and review the new state rather than blindly resending or replacing the original expectation. Missing required preconditions return 428; invalid inputs return 400, missing resources 404, and conflicts 409. Do not change a requested destination or silently strip an archived member to make a request pass. See [Group examples](./api-examples.md#groups) and the [migration guide](./migration-guide.md#group-migration).
+
+Creation previews identify the proposed ticket as `id: 0, clientRef: "new"`; parent changes and candidate changed IDs may refer to 0. It is only a preview sentinel. Never send it as an existing ticket ID. Membership apply returns `{changedTickets, affectedGroups}`. `GET /api/boards/:boardId/group-activity?groupId=7` returns newest-first Group activity, including retained history after deletion. `POST /api/markdown/preview` with `{bodyMarkdown}` returns sanitized `{bodyHtml}` without writing.
+
+Schema validation failures may return only `error`, without `code`. In particular, missing `expectedRevision` on Group PATCH returns 400; missing runtime token or DELETE `If-Match` returns 428.
+
+Group error codes (schema validation and generic errors may omit `code`):
+
+| HTTP | code | Handling |
+| --- | --- | --- |
+| 400 | `INVALID_GROUP_NAME / INVALID_GROUP_DESCRIPTION` | Correct the name/description limits. |
+| 400 | `INVALID_TICKET_IDS / INVALID_TICKET / INVALID_GROUP` | Use unique existing ticket IDs and a Group on the same board. |
+| 400 | `GROUP_WRITE_ENDPOINT` | Use membership preview/apply for existing ticket membership. |
+| 400 | `INVALID_RELATIONS / INVALID_RELATION_EXPECTATIONS / INVALID_GROUP_RESOLUTION` | Correct the full relation request or choose a returned candidate. |
+| 404 | `BOARD_NOT_FOUND / GROUP_NOT_FOUND / TICKET_NOT_FOUND` | Reload available resources. |
+| 409 | `GROUP_NAME_EXISTS / GROUP_NOT_EMPTY` | Choose a distinct name; only delete an empty Group. |
+| 409 | `GROUP_ALREADY_ASSIGNED` | Review and remove membership before adding to another Group. |
+| 409 | `GROUP_CONFLICT` | Review details/candidates and resubmit the same edit with resolution and token. |
+| 409 | `STALE_GROUP / STALE_GROUP_CONTEXT / STALE_TICKET_EDIT / STALE_RELATIONS` | Reload and review the changed state before retrying. |
+| 428 | `PRECONDITION_REQUIRED` | Supply the required runtime edit/preview token or If-Match. |

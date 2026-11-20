@@ -265,3 +265,51 @@ Content-Type: application/json
 ### MR/PRを外部参照として登録する
 
 `PUT /api/tickets/:ticketId/external-references/:kind` を使います。PRは `resourceType: "pull_request"`、MRは `resourceType: "merge_request"` とし、`provider`・`instanceUrl`・`projectKey`・`issueKey`・`displayRef`・`url` を指定します。同じチケットの同じ `kind` は置換されるため、複数登録する場合は `pr-main` / `mr-followup` など別のkindを使います。取得はチケットの `externalReferences` を参照します。現時点ではリンク登録・表示のみで、open/mergedの取得や自動更新は行いません。
+
+## Group: 単一所属と親子関係の一括保存
+
+Groupは1つのボードに属し、チケットの所属は最大1つです。親子チケットはアーカイブ済みも含め同じGroupに所属します。重ね合わせる分類にはタグを使います。
+
+| 操作 | API |
+| --- | --- |
+| activeなGroup一覧 | `GET /api/boards/:boardId/groups` |
+| inactiveも含める | `GET /api/boards/:boardId/groups?status=all` |
+| 一覧・並び順 | `status=active\|inactive\|all`、`sort=createdAt\|name`、`order=asc\|desc` |
+| Group作成 | `POST /api/boards/:boardId/groups` に `{name,descriptionMarkdown?}` |
+| Group取得・編集 | `GET` / `PATCH /api/groups/:groupId`。PATCHには `expectedRevision` を含める |
+| 空のGroupを削除 | `DELETE /api/groups/:groupId`。GETで受け取った `ETag` を `If-Match` に指定 |
+| 所属チケット取得 | `GET /api/boards/:boardId/tickets?groupId=7&archived=all` |
+| 未所属チケット検索 | `GET /api/boards/:boardId/tickets?ungrouped=true&q=guide` |
+| 所属変更preview | `POST /api/boards/:boardId/group-memberships/preview` |
+| 所属変更確定 | `PUT /api/boards/:boardId/group-memberships` |
+| 新規作成preview | `POST /api/boards/:boardId/tickets/preview` |
+| 編集preview | `POST /api/tickets/:ticketId/change-preview` |
+
+Groupは空、または未完了かつ未アーカイブのチケットが1件以上あるとactiveです。手動のGroupアーカイブ・完了はありません。`status=all` はinactiveを含める指定で、チケット取得のアーカイブ条件は変えません。Groupの並び順の既定は作成順の昇順です。同順位ではIDで安定化します。
+
+**所属変更:** `{ticketIds:[...],groupId:7}`、解除なら `{ticketIds:[...],groupId:null}` をpreviewします。返された対象をアーカイブ済みも含めて確認し、同じbodyに `expectedToken` を加えて確定します。子を指定しても親・兄弟へ対象が広がり、一括で更新します。別の非null Groupへの直接変更は拒否します。「解除→追加」で移してください。同じGroupへの追加はno-opです。通常のチケットPATCHで `groupId` を書き換えないでください。
+
+**親子関係の編集:** 編集開始時にチケット詳細を取得し、`editToken` を保持します。`childTicketIds` は子の最終集合、`expectedEditToken` は取得時のtoken、`expectedSelectedParents` は新たに追加する各子の選択時の `{ticketId,parentTicketId}` です。本体の保存・子の解除・追加を別々のPATCHに分けず、1回のPATCHで保存します。全編集内容をpreviewし、Groupが競合する場合は候補を選び、同じ編集bodyに `groupResolution:{groupId}` と返された `expectedToken` を加えて確定します。候補が3つ以上になる場合もあります。
+
+変更後の親子の非null Groupが1種類なら、未所属側をそこへ自動で揃えます。異なるGroupが混在する場合、候補を選ぶまで書き込みません。子を分離しても所属は保持し、別の親に付ける場合、元の親・兄弟のGroupは変えません。`groupId` と `parentTicketId` を指定した新規作成も同じ解決ルールです。競合する組み合わせはpreviewしてから作成します。previewでは新規チケットをINSERTしません。
+
+Group対応のエラーには人向けの `error` と機械判定用の `code` が含まれます。古い編集・確認・revisionのエラーでは現状を読み直し、差分を検討してください。期待値だけ新しい値に差し替えて無条件に再送しません。必須の事前条件がない場合は428、不正入力は400、対象不存在は404、競合は409です。成功させるために所属先を勝手に変更したり、アーカイブ済みの対象を除外しないでください。[GroupのAPI例](./api-examples.md#groups)と[移行ガイド](./migration-guide.md#group-migration)も参照してください。
+
+新規作成のpreviewでは作成予定チケットを `id: 0, clientRef: "new"` で表します。親変更や候補の変更IDも0を参照する場合があります。preview専用の値であり、既存チケットIDとして送信しません。所属変更の成功レスポンスは `{changedTickets, affectedGroups}` です。`GET /api/boards/:boardId/group-activity?groupId=7` で削除後も保持されるGroup履歴を新しい順に取得できます。`POST /api/markdown/preview` に `{bodyMarkdown}` を送ると、保存せずサニタイズ済みの `{bodyHtml}` を返します。
+
+スキーマ検証エラーには `code` が付かず `error` だけの場合があります。Group PATCHの `expectedRevision` 不足は400、実行時に必要なtokenやDELETEの `If-Match` 不足は428です。
+
+Groupのエラーコード（スキーマ検証や汎用エラーでは `code` が付かない場合があります）:
+
+| HTTP | code | 対応 |
+| --- | --- | --- |
+| 400 | `INVALID_GROUP_NAME / INVALID_GROUP_DESCRIPTION` | 名前・説明の制約を満たすよう修正する。 |
+| 400 | `INVALID_TICKET_IDS / INVALID_TICKET / INVALID_GROUP` | 同じボードの存在するチケット・Groupを指定する。 |
+| 400 | `GROUP_WRITE_ENDPOINT` | 既存チケットの所属は所属変更preview/applyを使う。 |
+| 400 | `INVALID_RELATIONS / INVALID_RELATION_EXPECTATIONS / INVALID_GROUP_RESOLUTION` | 親子編集の入力を修正するか、返却された候補を選ぶ。 |
+| 404 | `BOARD_NOT_FOUND / GROUP_NOT_FOUND / TICKET_NOT_FOUND` | 対象の存在を再確認する。 |
+| 409 | `GROUP_NAME_EXISTS / GROUP_NOT_EMPTY` | 重複しない名前にする。空のGroupだけ削除できる。 |
+| 409 | `GROUP_ALREADY_ASSIGNED` | 確認のうえ所属を解除してから別Groupに追加する。 |
+| 409 | `GROUP_CONFLICT` | detailsの候補を確認し、同じ編集内容に解決先とtokenを付けて再送する。 |
+| 409 | `STALE_GROUP / STALE_GROUP_CONTEXT / STALE_TICKET_EDIT / STALE_RELATIONS` | 現状を読み直し、変化した内容を確認してから再試行する。 |
+| 428 | `PRECONDITION_REQUIRED` | 必要な編集・preview token、またはIf-Matchを指定する。 |

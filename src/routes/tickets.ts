@@ -1,3 +1,6 @@
+import { ticketCreateInput, ticketUpdateInput } from "./ticket-input.js";
+import { groupErrorSchema, groupPreviewSchema } from "./schemas/group.js";
+import { sendGroupError } from "./groups.js";
 import type { FastifyInstance } from "fastify";
 
 import { registerTicketActivityRoutes } from "./ticket-activity.js";
@@ -55,6 +58,9 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       completed?: string;
       archived?: string;
       q?: string;
+      groupId?: number;
+      ungrouped?: string;
+      includeArchived?: string;
     };
     if (query.lane !== undefined && query.lane_id !== undefined) {
       return reply.code(400).send({ error: "lane and lane_id cannot be combined" });
@@ -62,9 +68,17 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     if (query.parent !== undefined && query.parent !== "none" && !Number.isSafeInteger(Number(query.parent))) {
       return reply.code(400).send({ error: "parent must be a safe positive integer or none" });
     }
+    if (query.groupId !== undefined && query.ungrouped === "true") {
+      return reply.code(400).send({ error: "groupId and ungrouped cannot be combined" });
+    }
+    if (query.groupId !== undefined) {
+      const group = db.getGroup(Number(query.groupId));
+      if (!group || group.boardId !== boardId) return reply.code(404).send({ error: "Group not found in this board" });
+    }
     const resolvedFilter = parseBooleanQuery(query.resolved ?? query.completed);
     return {
       tickets: serializeTicketSummaries(db.listTicketSummaries(boardId, {
+        groupId: query.ungrouped === "true" ? null : query.groupId === undefined ? undefined : Number(query.groupId),
         laneId: query.lane_id ? Number(query.lane_id) : undefined,
         laneName: query.lane,
         parentTicketId: query.parent === "none" ? null : query.parent === undefined ? undefined : Number(query.parent),
@@ -72,7 +86,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
         resolved: resolvedFilter,
         archived:
           query.archived === "true" ? true : query.archived === "false" ? false : undefined,
-        includeArchived: query.archived === "all",
+        includeArchived: query.archived === "all" || (query.archived === undefined && query.includeArchived === "true"),
         q: query.q?.trim() || undefined,
       })),
     };
@@ -83,13 +97,14 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       params: schemas.idParamsSchema("boardId"),
       body: schemas.ticketCreateBodySchema,
       response: {
+        428: groupErrorSchema,
         201: {
           type: "object",
           additionalProperties: true,
         },
-        400: schemas.errorSchema,
-        409: schemas.errorSchema,
-        404: schemas.errorSchema,
+        400: groupErrorSchema,
+        409: groupErrorSchema,
+        404: groupErrorSchema,
       },
     },
   }, async (request, reply) => {
@@ -102,25 +117,32 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return reply.code(400).send({ error: "laneId and title are required" });
     }
     try {
-      const ticket = db.createTicket({
-        boardId,
-        laneId: body.laneId,
-        parentTicketId: body.parentTicketId ?? null,
-        title: body.title.trim(),
-        bodyMarkdown: body.bodyMarkdown ?? "",
-        isResolved: resolveResolvedFlag(body),
-        isArchived: Boolean(body.isArchived),
-        priority: typeof body.priority === "number" ? body.priority : 2,
-        tagIds: Array.isArray(body.tagIds) ? body.tagIds : [],
-        blockerIds: Array.isArray(body.blockerIds) ? body.blockerIds : [],
-        relatedIds: Array.isArray(body.relatedIds) ? body.relatedIds : [],
-      });
+      const ticket = db.createTicket(ticketCreateInput(boardId, body));
       publishBoardEvent(boardId);
       return reply.code(201).send(serializeTicket(ticket));
     } catch (error) {
-      const message = error instanceof Error ? error.message : "ticket create failed";
-      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message });
+      return sendGroupError(reply, error);
     }
+  });
+
+  app.post("/api/boards/:boardId/tickets/preview", { schema: {
+    params: schemas.idParamsSchema("boardId"), body: schemas.ticketCreateBodySchema,
+    response: { 200: groupPreviewSchema, 400: groupErrorSchema, 404: groupErrorSchema, 409: groupErrorSchema, 428: groupErrorSchema },
+  } }, async (request, reply) => {
+    try {
+      const boardId = getIdParam(request.params, "boardId");
+      if (!db.getBoard(boardId)) return reply.code(404).send({ error: "board not found" });
+      const body = parseTicketMutationBody(request.body);
+      if (!body.title?.trim()) return reply.code(400).send({ error: "Title is required" });
+      return db.previewTicketCreate(ticketCreateInput(boardId, body));
+    } catch (error) { return sendGroupError(reply, error); }
+  });
+  app.post("/api/tickets/:ticketId/change-preview", { schema: {
+    params: schemas.idParamsSchema("ticketId"), body: schemas.ticketUpdateBodySchema,
+    response: { 200: groupPreviewSchema, 400: groupErrorSchema, 404: groupErrorSchema, 409: groupErrorSchema, 428: groupErrorSchema },
+  } }, async (request, reply) => {
+    try { return db.previewTicketChange(getIdParam(request.params, "ticketId"), ticketUpdateInput(parseTicketMutationBody(request.body))); }
+    catch (error) { return sendGroupError(reply, error); }
   });
 
   app.get("/api/tickets/:ticketId", {
@@ -234,37 +256,24 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       params: schemas.idParamsSchema("ticketId"),
       body: schemas.ticketUpdateBodySchema,
       response: {
+        428: groupErrorSchema,
         200: {
           type: "object",
           additionalProperties: true,
         },
-        400: schemas.errorSchema,
-        409: schemas.errorSchema,
-        404: schemas.errorSchema,
+        400: groupErrorSchema,
+        409: groupErrorSchema,
+        404: groupErrorSchema,
       },
     },
   }, async (request, reply) => {
     const body = parseTicketMutationBody(request.body);
     try {
-      const ticket = db.updateTicket(getIdParam(request.params, "ticketId"), {
-        laneId: body.laneId,
-        parentTicketId: body.parentTicketId,
-        title: body.title?.trim(),
-        bodyMarkdown: body.bodyMarkdown,
-        appendMarkdown: body.appendMarkdown,
-        isResolved: resolveResolvedFlag(body),
-        isArchived: body.isArchived,
-        priority: typeof body.priority === "number" ? body.priority : undefined,
-        tagIds: Array.isArray(body.tagIds) ? body.tagIds : undefined,
-        blockerIds: Array.isArray(body.blockerIds) ? body.blockerIds : undefined,
-        relatedIds: Array.isArray(body.relatedIds) ? body.relatedIds : undefined,
-      });
+      const ticket = db.updateTicket(getIdParam(request.params, "ticketId"), ticketUpdateInput(body));
       publishBoardEvent(ticket.boardId);
       return serializeTicket(ticket);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "ticket update failed";
-      const code = (error as { statusCode?: number }).statusCode === 409 ? 409 : message === "Ticket not found" ? 404 : 400;
-      return reply.code(code).send({ error: message.toLowerCase() });
+      return sendGroupError(reply, error, true);
     }
   });
 

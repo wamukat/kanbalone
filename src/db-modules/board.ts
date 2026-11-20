@@ -80,11 +80,13 @@ export function updateBoard(sqlite: Database.Database, boardId: Id, name: string
 }
 
 export function deleteBoard(sqlite: Database.Database, boardId: Id): void {
-  const result = sqlite.prepare("DELETE FROM boards WHERE id = ?").run(boardId);
-  if (result.changes === 0) {
-    throw new Error("Board not found");
-  }
-  normalizeBoardPositions(sqlite);
+  sqlite.transaction(() => {
+    if (!getBoard(sqlite, boardId)) throw new Error("Board not found");
+    sqlite.prepare("DELETE FROM tickets WHERE board_id=?").run(boardId);
+    sqlite.prepare("DELETE FROM groups WHERE board_id=?").run(boardId);
+    sqlite.prepare("DELETE FROM boards WHERE id=?").run(boardId);
+    normalizeBoardPositions(sqlite);
+  }).immediate();
 }
 
 export function listLanes(sqlite: Database.Database, boardId: Id): LaneView[] {

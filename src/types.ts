@@ -23,7 +23,12 @@ export type TagRow = {
   color: string;
 };
 
+export type GroupView = {
+  id: Id; boardId: Id; name: string; descriptionMarkdown: string; descriptionHtml: string; revision: number; createdAt: string; updatedAt: string; isActive: boolean; totalTicketCount: number; openTicketCount: number; archivedTicketCount: number;
+};
+
 export type TicketRow = {
+  group_id: Id | null;
   id: Id;
   board_id: Id;
   lane_id: Id;
@@ -167,6 +172,8 @@ export type TicketBlockerView = {
 };
 
 export type TicketRelationView = {
+  groupId?: Id | null;
+  group?: { id: Id; name: string } | null;
   id: Id;
   title: string;
   laneId: Id;
@@ -185,6 +192,9 @@ export type TicketRelationsView = {
 };
 
 export type TicketView = {
+  groupId?: Id | null;
+  group?: { id: Id; name: string } | null;
+  editToken?: string;
   id: Id;
   boardId: Id;
   laneId: Id;
@@ -215,6 +225,8 @@ export type TicketView = {
 };
 
 export type TicketSummaryView = {
+  groupId?: Id | null;
+  group?: { id: Id; name: string } | null;
   id: Id;
   boardId: Id;
   laneId: Id;
@@ -331,6 +343,7 @@ export type BoardView = {
 };
 
 export type BoardDetailView = {
+  groups?: GroupView[];
   board: BoardView;
   lanes: LaneView[];
   tags: TagView[];
@@ -344,11 +357,13 @@ export type BoardShellView = {
 };
 
 export type BoardExport = {
+  formatVersion?: number;
+  groups?: Array<Pick<GroupView, "id" | "name" | "descriptionMarkdown" | "createdAt" | "updatedAt">>;
   board: BoardView;
   lanes: LaneView[];
   tags: TagView[];
   tickets: Array<
-    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments"> & {
+    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken"> & {
       comments: Array<Omit<CommentView, "sync">>;
       isCompleted?: boolean;
     }
