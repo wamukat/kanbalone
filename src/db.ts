@@ -1,3 +1,4 @@
+import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
 import Database from "better-sqlite3";
 
 import {
@@ -263,6 +264,10 @@ export class KanbanDb {
     return bulkMoveTicketRecords(this.sqlite, input, this.now.bind(this));
   }
 
+  reorderLaneTickets(laneId: Id, ticketIds: Id[]) {
+    return reorderLaneTicketRecords(this.sqlite, laneId, ticketIds, this.now.bind(this));
+  }
+
   positionTicket(ticketId: Id, input: PositionTicketInput): TicketView {
     return positionTicketRecord(this.sqlite, ticketId, input, this.now.bind(this));
   }
@@ -275,8 +280,8 @@ export class KanbanDb {
     return addComment(this.sqlite, input, this.now());
   }
 
-  listComments(ticketId: Id): CommentView[] {
-    return listComments(this.sqlite, ticketId);
+  listComments(ticketId: Id, options: { limit?: number; order?: "asc" | "desc" } = {}): CommentView[] {
+    return listComments(this.sqlite, ticketId, options);
   }
 
   getComment(commentId: Id): CommentView | null {

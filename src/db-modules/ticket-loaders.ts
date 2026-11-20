@@ -48,7 +48,7 @@ export function getTagsForTicketIds(sqlite: Database.Database, ticketIds: Id[]):
   return tagsByTicket;
 }
 
-export function getCommentsForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, CommentView[]> {
+export function getCommentsForTicketIds(sqlite: Database.Database, ticketIds: Id[], options: { limit?: number; order?: "asc" | "desc" } = {}): Map<Id, CommentView[]> {
   const commentsByTicket = new Map<Id, CommentView[]>();
   if (ticketIds.length === 0) {
     return commentsByTicket;
@@ -58,8 +58,9 @@ export function getCommentsForTicketIds(sqlite: Database.Database, ticketIds: Id
     SELECT *
     FROM comments
     WHERE ticket_id IN (${placeholders})
-    ORDER BY created_at DESC, id DESC
-  `).all(...ticketIds) as CommentRow[];
+    ORDER BY created_at ${options.order === "asc" ? "ASC" : "DESC"}, id ${options.order === "asc" ? "ASC" : "DESC"}
+    LIMIT ?
+  `).all(...ticketIds, options.limit ?? -1) as CommentRow[];
 
   const syncByComment = getCommentSyncForCommentIds(sqlite, rows.map((row) => row.id));
 

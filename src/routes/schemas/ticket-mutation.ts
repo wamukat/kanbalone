@@ -31,6 +31,11 @@ export const ticketCreateBodySchema = {
 
 export const ticketUpdateBodySchema = {
   ...ticketMutationBodySchema,
+  properties: {
+    ...ticketMutationBodySchema.properties,
+    appendMarkdown: { type: "string", minLength: 1 },
+  },
+  not: { required: ["bodyMarkdown", "appendMarkdown"] },
   minProperties: 1,
 } as const;
 
@@ -127,6 +132,8 @@ export const ticketListQuerySchema = {
   additionalProperties: false,
   properties: {
     lane_id: positiveIntegerSchema,
+    lane: { type: "string", minLength: 1 },
+    parent: { type: "string", pattern: "^(none|[1-9][0-9]*)$" },
     tag: { type: "string" },
     resolved: { type: "string", enum: ["true", "false"] },
     completed: { type: "string", enum: ["true", "false"] },

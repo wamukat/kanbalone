@@ -43,6 +43,14 @@ type BuildAppOptions = {
 
 export function buildApp(options: BuildAppOptions): FastifyInstance {
   const app = fastify({ logger: false, bodyLimit: 64 * 1024 * 1024 });
+  const parseJson = app.getDefaultJsonParser("error", "error");
+  app.addContentTypeParser<string>("application/json", { parseAs: "string" }, (request, body, done) => {
+    if (body === "" && request.method === "DELETE" && !request.routeOptions.schema?.body) {
+      done(null, undefined);
+      return;
+    }
+    parseJson(request, body, done);
+  });
   const db = new KanbanDb(options.dbFile);
   const staticDir = options.staticDir ?? path.join(process.cwd(), "public");
   const appMeta = readPackageMeta();

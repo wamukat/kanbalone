@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+from pathlib import Path
 import sys
 import urllib.error
 import urllib.parse
@@ -27,10 +28,26 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("method", choices=["GET", "POST", "PATCH", "DELETE", "get", "post", "patch", "delete"])
     parser.add_argument("path", help="API path, for example /api/boards.")
     parser.add_argument("json_body", nargs="?", help="JSON body. If omitted, stdin is used when piped.")
+    parser.add_argument("--body-file", help="UTF-8 Markdown file to send as bodyMarkdown. Optional JSON argument supplies other fields; stdin is not read.")
     return parser.parse_args()
 
 
-def read_body(arg: str | None) -> bytes | None:
+def read_body(arg: str | None, body_file: str | None = None) -> bytes | None:
+    if body_file is not None:
+        try:
+            fields = json.loads(arg) if arg is not None else {}
+        except json.JSONDecodeError as exc:
+            raise SystemExit(f"Invalid JSON body: {exc}") from exc
+        if not isinstance(fields, dict):
+            raise SystemExit("--body-file requires a JSON object for additional fields")
+        if "bodyMarkdown" in fields or "appendMarkdown" in fields:
+            raise SystemExit("--body-file cannot be combined with bodyMarkdown or appendMarkdown")
+        try:
+            with Path(body_file).open(encoding="utf-8", newline="") as source:
+                fields["bodyMarkdown"] = source.read()
+        except (OSError, UnicodeError) as exc:
+            raise SystemExit(f"Cannot read Markdown file: {exc}") from exc
+        return json.dumps(fields).encode("utf-8")
     if arg is None and sys.stdin.isatty():
         return None
     text = arg if arg is not None else sys.stdin.read()
@@ -59,12 +76,15 @@ def build_url(base: str, path: str) -> str:
 def main() -> int:
     args = parse_args()
     method = args.method.upper()
-    body = read_body(args.json_body)
+    body = read_body(args.json_body, args.body_file)
+    headers = {"accept": "application/json"}
+    if body is not None:
+        headers["content-type"] = "application/json"
     request = urllib.request.Request(
         build_url(args.base, args.path),
         data=body,
         method=method,
-        headers={"accept": "application/json", "content-type": "application/json"},
+        headers=headers,
     )
 
     try:
