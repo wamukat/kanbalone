@@ -284,6 +284,10 @@ The Group view shows the board name and “Group” in the shared top toolbar. I
 
 Switch to **Group** beside Kanban and List. The sidebar stays in place; the content area shows Groups on the left and the selected Group's tickets on the right. A ticket belongs to at most one Group on its own board. Use tags for labels that can overlap, and a Group for one body of work.
 
+![Group list and member tickets, with two add actions, parent-child rows, and an archive icon](../assets/user-guide/19-group-view.png)
+
+Select a Group on the left, then use **Add existing tickets** or **Create ticket** on the right. Ticket #1 in this example is an archived parent retained to show its relationship to unarchived children.
+
 - Create a Group with the **＋** at the bottom of the Group list. A name is enough; add an optional Markdown description later. Names must be unique within the board, including inactive Groups.
 - Choose creation order or name order, ascending or descending. Arrows in the buttons show the current direction, and the selection is remembered per board. Group tickets have no sort controls; they use the default List order while keeping children below their parent.
 - Use **Add existing tickets** or **Create ticket**, always visible at the top left of the ticket list, to search for ungrouped tickets or create a new ticket in this Group. New tickets use the regular ticket editor and lane selection.
