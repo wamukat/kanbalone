@@ -1,245 +1,164 @@
 # Kanbalone ユーザーガイド
 
-既存DBを更新する場合は、先に[完了状態の移行ガイド](./migration-guide.md)を確認してください。バックアップ・自動移行・照合・ロールバックとAI向け作業契約をまとめています。
+Kanbalone は、チケットを動かしながら作業の進み具合を整理するツールです。ひとりでの作業にも、AIとの共同作業にも使えます。
 
-Kanbalone は、ひとりの作業・小さなリリース計画・AI エージェントとの共同作業を、軽いカンバンで整理するためのツールです。
-
-このガイドは、初めて使う時の流れに沿って説明します。
+初めて使う方は、ボードの作成から始めてください。既存のデータを引き継いで更新する方は、先に[移行ガイド](./migration-guide.md)でバックアップ手順を確認してください。
 
 ## 全体デモ
 
-チケット作成、Markdown 本文の入力、タグの新規作成と追加、ドラッグアンドドロップ、検索、フィルタ、コメント、List 表示までの流れを短く確認できます。
+チケットの作成から、移動・検索・コメントまでの操作を動画で確認できます。
 
-![Kanbalone demo](../assets/kanbalone-demo.webp)
+![操作デモ](../assets/kanbalone-demo.webp)
 
 ## 1. 最初のボードを作る
 
-左上の `+` を押すと、ボード名の入力欄が表示されます。
+左上の **＋** を押し、ボード名を入力して **Enter** で作成します。
 
-ボード名を入力して Enter を押すと、最初のボードが作成されます。
+![最初の空のボード](../assets/user-guide/00-initial-empty-board.png)
 
-![Initial empty board](../assets/user-guide/00-initial-empty-board.png)
-
-![Inline board create](../assets/user-guide/02-inline-board-create.png)
+![ボード名の入力](../assets/user-guide/02-inline-board-create.png)
 
 ## 2. 画面の基本を知る
 
-ボードを作成すると、作業画面が表示されます。
+左のサイドバーでボードを選び、表示を切り替えます。
 
-左側のサイドバーでボードを選び、中央の Kanban でチケットを動かします。サイドバーの `Kanban` / `List` で表示を切り替えられます。
+- **Kanban**：チケットをドラッグして、作業の進み具合に合わせてレーンを移動します。
+- **List**：チケットを表で確認し、まとめて操作します。
+- **Group**：同じ目的のチケットをまとめて確認します。
 
-![Kanban overview](../assets/user-guide/01-kanban-overview.png)
+![Kanban表示](../assets/user-guide/01-kanban-overview.png)
 
 ## 3. レーンを用意する
 
-ボード下部の `+` からレーンを追加できます。名前を入力して Enter を押すと追加されます。
+ボード下部の **＋** を押し、レーン名を入力して **Enter** で追加します。「Todo」「Doing」「Done」など、作業の段階に合わせて作ります。
 
-レーン名の変更や削除は、各レーン右上のアクションボタンから行えます。
+名前の変更や削除は、各レーン右上のボタンから行います。完了扱いにするレーンは、サイドバーの歯車にある **Completion lanes** で設定します。
 
-![Inline lane create](../assets/user-guide/03-inline-lane-create.png)
+![レーンの追加](../assets/user-guide/03-inline-lane-create.png)
 
 ## 4. チケットを作る
 
-各レーンの `+` からチケットを作成します。
+各レーンの **＋** を押し、タイトルと本文を入力します。本文にはMarkdownを使えます。
 
-タイトルと本文を入力します。Lane / Priority、Tags、Relations も設定できます。
+必要に応じて、**Lane**（レーン）、**Priority**（優先度）、**Tags**（タグ）を設定します。**Relations** では、親チケットや、先に終える必要があるチケット（ブロッカー）を指定できます。
 
-入力できる主な項目:
+**Save** を押すとチケットが作成されます。
 
-- タイトル
-- Markdown で書ける本文
-- Lane / Priority
-- Tags
-- Relations
-
-Relations では、ブロッカーや親チケットを設定できます。
-
-![Ticket create dialog](../assets/user-guide/04-ticket-create-dialog.png)
+![チケット作成画面](../assets/user-guide/04-ticket-create-dialog.png)
 
 ## 5. チケットを読む
 
-チケットをクリックすると詳細画面が開きます。
+チケットをクリックすると詳細が開き、本文・関連チケット・コメントを確認できます。変更履歴は **Activity** タブで確認します。
 
-詳細画面では、本文、関係、コメント、アクティビティを確認できます。
-
-![Ticket detail comments](../assets/user-guide/05-ticket-detail-comments.png)
+![チケット詳細](../assets/user-guide/05-ticket-detail-comments.png)
 
 ## 6. チケットを編集する
 
-詳細画面右上のペンアイコンで編集できます。
+チケット詳細の右上にあるペンアイコンを押します。本文、レーン、優先度、タグ、親子関係やブロッカーを変更し、**Save** で保存します。
 
-編集画面では、Lane / Priority、Tags、Relations、本文などを変更できます。
+別のボードやレーンへ移すときは、詳細画面の **Move** を使います。別のボードへ移すと、親子関係・ブロッカー・Groupの所属は解除されます。同名のタグは引き継がれます。
 
-remote tracked ticket では、title は remote 由来の read-only 値になります。実装のために編集する本文は `Local Body` 側です。
-
-Relations では、ブロッカー、親チケット、子チケットを編集できます。
-
-詳細画面の `Move` で、チケットを別の board / lane へ移動できます。同名 tag は保持されます。別 board へ移動する場合、親子関係と blocker は解除されます。
-
-![Ticket edit relations](../assets/user-guide/07-ticket-edit-relations.png)
+![チケット編集画面](../assets/user-guide/07-ticket-edit-relations.png)
 
 ## 7. コメントと履歴を見る
 
-チケット詳細ではコメントを残せます。
+チケット詳細から、進捗やメモをコメントとして残せます。**Activity** タブでは、コメントやチケットの変更履歴を確認できます。
 
-`Activity` タブでは、コメント追加、更新、削除などの履歴を確認できます。
+![コメントと変更履歴](../assets/user-guide/06-ticket-activity.png)
 
-remote tracked ticket では、comment を remote issue に push できます。push に失敗した場合は、comment 上で失敗理由を確認できます。
+## 8. 外部サービスのIssueを取り込む
 
-![Ticket activity](../assets/user-guide/06-ticket-activity.png)
+GitHub Issues・GitLab・RedmineのIssueを取り込み、Kanbaloneで作業を進められます。取り込んだ内容を確認しながら自分用のメモを書き、必要なコメントを元のIssueへ送れます。
 
-## 8. Remote Issue で作業する
+### 8.1 Issueを取り込む
 
-Kanbalone では、GitHub Issues、GitLab、Redmine などの remote issue を取り込み、ローカルの実装ワークスペースとして扱えます。
+チケット作成画面の右上にある取り込みアイコンを押し、サービス（**Provider**）、**Issue URL**、登録先レーンを指定して **Import** を押します。
 
-現在の実装では、GitHub Issues、GitLab、Redmine を provider として使えます。
+取り込みには、利用するサービスの接続設定が必要です。アイコンが表示されない場合は、Kanbaloneの起動時の接続設定を確認してください。
 
-- remote は課題の正本
-- Kanbalone は実装と作業ログのためのローカル作業面
-- local body は AI や自分の実装用本文
-- remote へ返すのは必要な comment だけ
+![Issueの取り込み](../assets/user-guide/15-remote-import-panel.png)
 
-![Remote issue を local execution workspace に変える概念図](../assets/remote-issue-workspace.svg)
+### 8.2 本文を確認する
 
-### 8.1 Remote Issue を取り込む
+取り込んだチケットでは、2つの本文を切り替えられます。
 
-新規チケット作成ダイアログ右上の import アイコンから、remote issue を取り込みます。このアイコンは remote provider credential が 1 つ以上設定されている場合だけ表示されます。
+- **Local Body**：自分の作業方針やメモを書きます。
+- **Remote Body**：元のIssueの内容を確認します。
 
-入力する項目:
+![作業用の本文](../assets/user-guide/16-remote-ticket-detail-local.png)
 
-- Provider
-- Issue URL
-- 登録先 Lane
+### 8.3 チケットを編集する
 
-panel には credential が設定された provider だけが表示されます。
+ペンアイコンから、**Local Body**、レーン、優先度、タグ、関連チケットを編集できます。
 
-ローカルで GitLab / Redmine を有効化したいときは、`KANBALONE_REMOTE_CREDENTIALS` を設定するか sandbox bootstrap を使います。
+タイトルや **Remote Body** を変更したい場合は、元のサービスで編集し、Kanbaloneで **Refresh** を押します。
 
-取り込み後は、remote issue が通常のチケットとして board に配置されます。
+![元のIssueの本文](../assets/user-guide/17-remote-ticket-detail-remote.png)
 
-![Remote issue import panel](../assets/user-guide/15-remote-import-panel.png)
+### 8.4 コメントを元のIssueへ送る
 
-### 8.2 Remote チケットの見方
+コメントはまずKanbaloneに保存されます。送信したいコメントの **Push to remote** を押してください。
 
-remote tracked ticket では、detail 上に remote ref が表示されます。
+- **Pushed**：送信済みです。
+- **Push failed**：送信できませんでした。クリックすると理由を確認できます。
 
-本文は `Local Body` / `Remote Body` の 2 面で扱います。
+送信済みコメントは編集・削除できません。訂正するときは、新しいコメントを追加して送信してください。
 
-- `Local Body`
-  実装方針、実装メモ、A-AI 向けの作業本文
-- `Remote Body`
-  remote issue から取り込んだ read-only snapshot
+![コメントの送信状態](../assets/user-guide/18-remote-comment-push.png)
 
-`Refresh` を使うと、remote 側の title / body / state を再取得できます。
+### 8.5 最新の内容を取り込む
 
-![Remote tracked ticket with Local Body selected](../assets/user-guide/16-remote-ticket-detail-local.png)
-
-### 8.3 Remote チケットで編集できるもの
-
-編集できるもの:
-
-- Local Body
-- Lane / Priority
-- Tags / Relations
-- Comments
-
-編集できないもの:
-
-- Title
-- Remote Body
-
-remote issue の要件を書き換えたい場合は remote 側で修正し、必要になったら `Refresh` で取り込み直します。
-
-![Remote tracked ticket with Remote Body selected](../assets/user-guide/17-remote-ticket-detail-remote.png)
-
-### 8.4 コメントを Remote に反映する
-
-comment は最初に local comment として保存されます。
-
-必要なものだけ `Push to remote` で remote issue に反映します。
-
-comment の状態:
-
-- `Push to remote`
-  まだ local only
-- `Pushed`
-  remote に反映済み
-- `Push failed`
-  remote 反映に失敗。クリックすると詳細を確認可能
-
-![Remote comment push states in the ticket detail view](../assets/user-guide/18-remote-comment-push.png)
-
-push 済み comment は、MVP では編集・削除できません。修正が必要な場合は新しい comment を追加して再 push します。
-
-### 8.5 Remote の更新を取り込む
-
-`Refresh` は、remote 側の変更を local snapshot に取り込むための操作です。
-
-更新されるもの:
-
-- remote title
-- remote body
-- remote state
-
-更新されないもの:
-
-- local body
-- local comments
-- lane / priority / tags / relations
-
-つまり、要件の正本は remote に残しつつ、Kanbalone 側では実装本文を独立して育てます。
+**Refresh** を押すと、元のIssueのタイトル・本文・状態を更新できます。自分で書いた本文やコメント、レーン・優先度・タグ・関連チケットはそのまま残ります。
 
 ## 9. チケットを完了・整理する
 
-受入済みの作業を完了レーンへ移すとResolvedになります。通常レーンへ戻すと再開します。人間の受入を行う場合、AIの作業終了時は通常レーンのAcceptanceへ渡し、人間が確認してDoneへ移します。レーン名ではなく属性が完了状態を決めます。サイドバーの歯車領域では、ボード名・Completion lanes・データ操作・削除を分けて表示します。Completion lanesは普段は現在値とChange（未設定ならSet up）のみを表示します。Changeからレーン一覧を選び、Saveで保存します。既存チケットに影響するときは同じ領域で完了／未完了になる件数（アーカイブ済みを含む）を確認して確定します。選択しただけでは状態は変わりません。確認後にレーン属性や件数が変わると保存を拒否し、再確認を求めます。
+作業が終わったら、チケットを完了レーンへ移します。**Resolved**（完了）になり、通常のレーンへ戻すと未完了に戻ります。
 
-完了レーンがないボードで最初のチケットを画面から作成すると、作成を妨げない案内が一度表示されます。Set upで同じ設定欄へ進み、Laterで閉じられます。案内済みの記録はブラウザごとに保存します。レーン名の編集は従来どおりレーン上で行います。
+完了レーンは、サイドバーの歯車 → **Completion lanes** で設定します。「Done」という名前にするだけでは完了レーンになりません。
 
-既存データの更新時は、完了済みチケットがあるボードに `Completed (migration)` という完了レーンを自動作成し、完了済みだけを移します。同名があれば連番を付けます。既存のDoneなどは通常レーンとして残り、未完了チケットの配置は変わりません。アーカイブ状態も維持されます。
+普段の一覧から隠したいチケットは、詳細画面の **Archive** でアーカイブします。
 
-もう普段見る必要がないチケットは Archive できます。Archived チケットは通常のボードから隠れます。
+完了済み・アーカイブ済みのチケットを探すときは、Kanban／List上部の **Status >** で **Resolved**／**Archived** を選びます。フィルター内の **×** で条件を解除できます。
 
-アーカイブ済みチケットを表示したい時は、タグフィルタの右にある `Status >` を開き、`Archived` を追加します。`Resolved` も同じメニューから追加できます。条件を解除したい時は、フィルタ内の `x` アイコンを押します。
-
-![Archived filter](../assets/user-guide/11-archived-filter.png)
+![アーカイブ済みチケットの表示](../assets/user-guide/11-archived-filter.png)
 
 ## 10. チケットを探す
 
-検索フィールドでは、キーワード、チケット番号でチケットを絞り込めます。
+Kanban／List上部の検索欄に入力して、チケットを絞り込みます。
 
-- `login` のようなキーワードでタイトルと本文を検索
-- `#123` や `123` でチケット番号を検索
-- `gh#123`、`github#123`、`ext#123`、完全な display ref で remote / external reference を検索
+- **キーワード**：タイトルと本文を検索します。例：`login`
+- **チケット番号**：`#123` または `123`
+- **外部Issueの番号**：`gh#123`、`github#123`、`ext#123`、またはチケットに表示された参照番号
 
-優先度で絞り込みたい場合は、フィルタ領域の `Priority >` を開きます。Low / Medium / High / Urgent を複数選択できます。
+**Priority >** では、Low／Medium／High／Urgentから優先度を選べます。複数選択もできます。
 
-検索欄に入力がある時は、右端の `x` で検索条件を消せます。
+検索欄の右端の **×** で、入力を消して絞り込みを解除します。
 
-![Search clear button](../assets/user-guide/14-search-clear.png)
+![検索条件の解除](../assets/user-guide/14-search-clear.png)
 
 ## 11. タグで分類する
 
-タグフィルタを使うと、特定テーマのチケットだけを表示できます。
+種類や用途で分類したいときは、チケットにタグを付けます。タグフィルターで、そのタグのチケットだけを表示できます。
 
-タグはサイドバーの Tags セクションにある `+` から作成できます。色は後からタグバッジをクリックして編集できます。
+- **作成**：サイドバーの **Tags** にある **＋** を押します。
+- **色の変更**：タグをクリックします。
+- **チケットに追加**：編集画面の **Tags** で選びます。新しい名前を入力して **＋** を押すと、タグを作成できます。
 
-チケット編集中に新しいタグが必要になった場合は、Tags の入力欄に名前を入れて `+` を押すと、色なしタグとして作成されます。
-
-![Tag filter](../assets/user-guide/10-tag-filter.png)
+![タグで絞り込む](../assets/user-guide/10-tag-filter.png)
 
 ## 12. リスト表示でまとめて整理する
 
-サイドバーの `List` に切り替えると、チケットを表形式で確認できます。
+サイドバーの **List** を開くと、チケットの優先度や完了・アーカイブ状態を表で確認できます。
 
-List 表示では、Resolved / Archive 状態や優先度を一覧で確認できます。
+![リスト表示](../assets/user-guide/08-list-view.png)
 
-![List view](../assets/user-guide/08-list-view.png)
+チケットにチェックを入れると、一括操作のボタンが表示されます。
 
-List 表示でチェックを入れると、選択したチケットに対する一括操作が表示されます。
+- **Move**：選択したチケットを移動します。完了レーンへ移すと、まとめて完了にできます。
+- **Archive**：一覧から隠します。
+- **Restore**：アーカイブを解除します。
 
-Moveで複数チケットを完了レーン／通常レーンへ移動できます。Archive / Restoreは独立した操作です。
-
-![List bulk actions](../assets/user-guide/09-list-bulk-actions.png)
+![チケットの一括操作](../assets/user-guide/09-list-bulk-actions.png)
 
 ## 13. Groupで作業をまとめる
 
@@ -265,21 +184,19 @@ Groupはボード内で使います。チケットを別のボードへ移すと
 
 ## 14. ボード設定を使う
 
-サイドバーの歯車から、Board name、Completion lanes、Data operations（Export / Import）、Deleteを区分して表示します。
+サイドバーの歯車を開くと、ボード名の変更、完了レーンの設定、データの書き出し・読み込み、ボードの削除ができます。
 
-歯車を開くと現在のボード名が表示されます。ボード名の横にあるペンアイコンをクリックすると、ボード名をその場で編集できます。入力後に Enter で保存し、Esc またはフォーカス移動でキャンセルできます。
+**ボード名の変更**：名前の横のペンアイコンを押し、入力後に **Enter** で保存します。**Esc** でキャンセルできます。
 
-Completion lanesには現在の設定が表示されます。Change（未設定ならSet up）からレーンを選んでSaveを押し、既存チケットに影響する場合は件数を確認して確定します。レーン名は従来どおりレーン上で直接編集します。
+**完了レーンの設定**：**Completion lanes** の **Set up**（設定済みなら **Change**）を押し、レーンを選んで **Save** を押します。チケットの完了状態が変わる場合は、表示された件数を確認して確定してください。
 
-![Board settings](../assets/user-guide/12-board-settings.png)
+![ボード設定](../assets/user-guide/12-board-settings.png)
 
 ## 15. ダークモード
 
-Kanbalone にはアプリ内の Light / Dark 切り替えボタンはありません。
+OSやブラウザの外観設定をダークモードにすると、Kanbaloneも自動で切り替わります。
 
-OS やブラウザの外観設定がダークモードの場合、自動的にダークテーマで表示されます。
-
-![Dark mode](../assets/user-guide/13-dark-mode.png)
+![ダークモード](../assets/user-guide/13-dark-mode.png)
 
 ## Docker で試す
 
@@ -296,6 +213,6 @@ docker run --rm \
 http://127.0.0.1:3000
 ```
 
-データは `/app/data/kanbalone.sqlite` に保存されます。Docker の named volume を使うと、コンテナを作り直してもデータを残せます。
+このコマンドでは、データを `kanbalone-data` に保存します。コンテナを作り直してもデータは残ります。
 
 Kanbalone には認証機能はありません。信頼できないネットワークへ直接公開しないでください。
