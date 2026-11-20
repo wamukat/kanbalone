@@ -511,7 +511,7 @@ export function createKanbanBoardModule(ctx, options) {
     handleLaneDragOver,
     createLane,
     cancelLaneCreate,
-    renameLane,
     deleteLane,
+    renameLane,
   };
 }

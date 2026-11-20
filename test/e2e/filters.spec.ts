@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { createCompletionLane, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test("ticket filters combine results and active styling", async ({ page }) => {
   const app = buildApp({
@@ -27,6 +27,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     expect(tagResponse.status()).toBe(201);
     const tag = await tagResponse.json();
 
+    const completedLane = await createCompletionLane(page.request, baseUrl, boardPayload.board.id);
     const ticketData = [
       {
         laneId: todoLane.id,
@@ -35,7 +36,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
         tagIds: [tag.id],
       },
       {
-        laneId: reviewLane.id,
+        laneId: completedLane.id,
         title: "Focus resolved",
         priority: 3,
         isResolved: true,

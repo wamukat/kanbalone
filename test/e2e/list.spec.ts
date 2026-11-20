@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { buildApp, createBoard, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+import { buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
 
 async function gotoListAndWaitForBoardEvents(page: Page, baseUrl: string, boardId: number) {
   const eventsResponse = page.waitForResponse((response) =>
@@ -191,7 +191,8 @@ test("list title column shows hierarchy icons and parent icon selects the family
       laneId,
       title: "Resolved list child",
     });
-    await updateTicket(page.request, baseUrl, resolvedChild.id, { parentTicketId: resolvedChildParent.id, isResolved: true });
+    const completedLane = await createCompletionLane(page.request, baseUrl, boardPayload.board.id);
+    await updateTicket(page.request, baseUrl, resolvedChild.id, { parentTicketId: resolvedChildParent.id, laneId: completedLane.id });
 
     await gotoListAndWaitForBoardEvents(page, baseUrl, boardPayload.board.id);
 

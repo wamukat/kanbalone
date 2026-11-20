@@ -1,4 +1,5 @@
 import type Database from "better-sqlite3";
+import { laneCompletion } from "./lane-completion.js";
 
 import { sanitizePriority } from "./mappers.js";
 import {
@@ -124,7 +125,7 @@ export function createTicket(
         validateParentTicket(sqlite, null, input.parentTicketId, input.boardId),
         input.title,
         input.bodyMarkdown ?? "",
-        input.isResolved ? 1 : 0,
+        Number(laneCompletion(sqlite, input.laneId, input.isResolved, input.boardId)),
         input.isArchived ? 1 : 0,
         sanitizePriority(input.priority),
         position,
@@ -193,7 +194,7 @@ export function updateTicket(
         ),
         input.title ?? current.title,
         input.bodyMarkdown ?? current.bodyMarkdown,
-        typeof input.isResolved === "boolean" ? Number(input.isResolved) : Number(current.isResolved),
+        Number(laneCompletion(sqlite, nextLaneId, input.isResolved, nextBoardId)),
         typeof input.isArchived === "boolean" ? Number(input.isArchived) : Number(current.isArchived),
         input.priority == null ? current.priority : sanitizePriority(input.priority),
         now(),

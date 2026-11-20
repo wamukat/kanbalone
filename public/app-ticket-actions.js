@@ -43,7 +43,6 @@ export function createTicketActionsModule(ctx, options) {
       laneId: Number(elements.ticketLane.value),
       parentTicketId: nextParentTicketId,
       priority: Number(elements.ticketPriority.value || 0),
-      isResolved: elements.ticketResolved.checked,
       bodyMarkdown: elements.ticketBody.value,
       tagIds,
       blockerIds,
@@ -98,6 +97,7 @@ export function createTicketActionsModule(ctx, options) {
         ctx.showToast("Ticket created");
       }
       await ctx.refreshBoardDetail();
+      if (!editingTicketId) await ctx.onTicketCreated?.(savedTicket.boardId);
       return savedTicket;
     } catch (error) {
       setSaveState("error", "Save failed");

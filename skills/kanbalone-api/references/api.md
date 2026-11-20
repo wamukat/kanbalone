@@ -85,7 +85,6 @@ Create:
   "tagIds": [1, 2],
   "blockerIds": [],
   "parentTicketId": null,
-  "isResolved": false,
   "isArchived": false
 }
 ```
@@ -100,7 +99,7 @@ Read/update/delete:
 Transition by lane name:
 
 - `PATCH /api/tickets/:ticketId/transition`
-- Body: `{ "laneName": "In progress", "isResolved": false }`
+- Body: `{ "laneName": "In progress" }`
 - Use this when moving within the same board and lane names are stable.
 
 Reorder within a lane or move to a position on the same board:
@@ -144,10 +143,10 @@ External references:
 
 Bulk:
 
-- `POST /api/boards/:boardId/tickets/bulk-complete`
-  - Body: `{ "ticketIds": [1, 2], "isResolved": true }`
+- `POST /api/boards/:boardId/tickets/bulk-complete` (legacy)
+  - Completion assertions only: `{ "ticketIds": [1, 2], "isResolved": true }`. Returns 409 if any ticket's lane disagrees; use bulk-transition to change state.
 - `POST /api/boards/:boardId/tickets/bulk-transition`
-  - Body: `{ "ticketIds": [1, 2], "laneName": "Done", "isResolved": true }`
+  - Body: `{ "ticketIds": [1, 2], "laneName": "Done" }`
 - `POST /api/boards/:boardId/tickets/bulk-archive`
   - Body: `{ "ticketIds": [1, 2], "isArchived": true }`
 
@@ -183,3 +182,27 @@ Send `{ "appendMarkdown": "\n\n- Additional task" }` to `PATCH /api/tickets/:tic
 ### Register MR/PR External References
 
 Use `PUT /api/tickets/:ticketId/external-references/:kind` with `resourceType: "pull_request"` for a PR or `resourceType: "merge_request"` for an MR, along with `provider`, `instanceUrl`, `projectKey`, `issueKey`, `displayRef`, and `url`. The same ticket/kind is replaced on PUT; use distinct kinds such as `pr-main` / `mr-followup` for multiple references. Read them through the ticket's `externalReferences`. Currently this stores and displays links only; open/merged states are not fetched or refreshed automatically.
+
+## Lane Completion
+
+Lane responses include `isCompletionLane`. POST a lane with `{ "name": "Accepted", "isCompletionLane": true }`, or PATCH `/api/lanes/:laneId` with `{ "isCompletionLane": true }`. PATCH changes completion for every ticket in the lane, including archived tickets, and keeps archive flags unchanged.
+
+Ticket `isResolved` and legacy `isCompleted` responses reflect the lane. Optional request flags must agree with each other and with the destination lane; mismatches return 409 atomically. Omit these flags on new requests. Use `laneId` or `transition` / `bulk-transition` to resolve or reopen tickets. Custom lane names default to normal lanes; do not infer completion from names. Standard boards include a normal Acceptance lane for human acceptance.
+
+For a reviewed board-wide selection, use `PUT /api/boards/:boardId/completion-lanes`. `laneIds` replaces the entire selection; an empty array clears all completion lanes. `expectedLanes` must contain every current lane, including zero-ticket lanes, with its current completion attribute and ticket count including archived tickets. Read `GET /api/boards/:boardId/lanes` and `GET /api/boards/:boardId/tickets?archived=all` without other filters to compute these expectations.
+
+Example only: board 4 has exactly lanes 9–12 as shown below. Switching completion from lane 11 to lane 12 reopens the two tickets in lane 11; lane 12 is empty. Resolve the real IDs, attributes and counts before sending a request.
+
+```bash
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PUT /api/boards/4/completion-lanes '{
+  "laneIds": [12],
+  "expectedLanes": [
+    {"id":9,"isCompletionLane":false,"ticketCount":3},
+    {"id":10,"isCompletionLane":false,"ticketCount":1},
+    {"id":11,"isCompletionLane":true,"ticketCount":2},
+    {"id":12,"isCompletionLane":false,"ticketCount":0}
+  ]
+}'
+```
+
+The response is `{ lanes }`. The full selection and ticket state updates are atomic. Invalid/duplicate selection IDs return 400; a missing board returns 404. If the lane set, completion attributes, or any lane's ticket count differ from `expectedLanes`, the API returns 409 without changes. Fetch current data and review the effect again before retrying. Individual lane PATCH requests do not provide this expectation guard. Removing completion reopens all tickets in that lane, including archived tickets, without changing their archive flags.

@@ -128,6 +128,7 @@ test("editor form focus and detail header badges use the shared visual language"
       name: "Editor Visuals",
       laneNames: ["todo"],
     });
+    await page.request.patch(`${baseUrl}/api/lanes/${boardPayload.lanes[0].id}`, { data: { isCompletionLane: true } });
     const ticket = await createTicket(
       page.request,
       baseUrl,

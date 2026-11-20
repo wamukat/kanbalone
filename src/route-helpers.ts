@@ -86,6 +86,9 @@ export function parseBooleanQuery(value: string | undefined): boolean | undefine
 export function resolveResolvedFlag(
   body: { isResolved?: boolean; isCompleted?: boolean } | undefined,
 ): boolean | undefined {
+  if (typeof body?.isResolved === "boolean" && typeof body?.isCompleted === "boolean" && body.isResolved !== body.isCompleted) {
+    throw Object.assign(new Error("isResolved and isCompleted must agree"), { statusCode: 409 });
+  }
   if (typeof body?.isResolved === "boolean") {
     return body.isResolved;
   }

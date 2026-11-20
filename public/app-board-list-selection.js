@@ -1,19 +1,6 @@
 export function createListSelectionModule(ctx) {
   const { state } = ctx;
 
-  async function updateSelectedListTickets(isResolved) {
-    const ticketIds = [...state.selectedListTicketIds];
-    if (ticketIds.length === 0) {
-      return;
-    }
-    await ctx.sendJson(`/api/boards/${state.activeBoardId}/tickets/bulk-complete`, {
-      method: "POST",
-      body: { ticketIds, isResolved },
-    });
-    state.selectedListTicketIds = [];
-    await ctx.refreshBoardDetail();
-  }
-
   async function updateSelectedListArchive(isArchived) {
     const ticketIds = [...state.selectedListTicketIds];
     if (ticketIds.length === 0) {
@@ -197,6 +184,5 @@ export function createListSelectionModule(ctx) {
     handleListTicketSelection,
     moveSelectedListTickets,
     updateSelectedListArchive,
-    updateSelectedListTickets,
   };
 }

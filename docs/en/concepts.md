@@ -4,7 +4,7 @@
 
 - Boards contain lanes, tags, and tickets.
 - Lanes represent workflow position.
-- `isResolved` is the API field for the Resolved state and is independent from the lane.
+- `isResolved` reflects the lane’s `isCompletionLane` attribute; completion is not independently editable.
 - `isArchived` hides tickets from normal board lists.
 - Tags are scoped to a board.
 - Comments belong to tickets.
@@ -21,7 +21,7 @@
 
 ## Ticket State
 
-- `laneId` and `isResolved` are separate fields. In the UI, `isResolved` is shown as Resolved.
+- Moving to a completion lane resolves the ticket; moving to a normal lane reopens it. `Acceptance` is a normal lane for human acceptance; `done` is a completion lane in the standard board.
 - Archived tickets are hidden from board lists by default.
 - Tickets include canonical refs: `ref` and `shortRef`.
 - The UI and API use the same priority scale: `1 = low`, `2 = medium`, `3 = high`, and `4 = urgent`.
@@ -38,7 +38,7 @@
 - Tickets are fetched separately with `GET /api/boards/:boardId/tickets`.
 - The ticket list route returns lightweight summaries for board rendering and automation scans.
 - Use `GET /api/tickets/:ticketId` for full ticket detail.
-- Use board-scoped bulk endpoints for batch resolved state and lane-name-based transitions.
+- Use board-scoped bulk transitions to change lane and completion together.
 - Use dedicated endpoints for remote import, remote refresh, and remote comment push.
 
 ## API References

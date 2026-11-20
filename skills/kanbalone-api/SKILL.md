@@ -49,7 +49,6 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
   "tagIds": [],
   "blockerIds": [],
   "parentTicketId": null,
-  "isResolved": false,
   "isArchived": false
 }'
 ```
@@ -71,7 +70,7 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PA
 Move within a board:
 
 ```bash
-python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID"/transition '{"laneName":"doing","isResolved":false}'
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PATCH /api/tickets/"$TICKET_ID"/transition '{"laneName":"doing"}'
 ```
 
 Reorder within the current lane (example: lane 12, move to the start):
@@ -87,6 +86,14 @@ Move to another board:
 ```bash
 python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/move '{"boardId":4,"laneId":12}'
 ```
+
+## Completion And Acceptance
+
+Completion comes from the lane's `isCompletionLane`, not its name. Read the board lanes before choosing a destination. Move tickets to resolve or reopen them; do not PATCH completion flags independently. Old `isResolved` / `isCompleted` request fields are compatibility assertions and conflicting values return 409.
+
+For a human acceptance workflow, hand completed AI work off to the normal `Acceptance` lane. The human moves accepted work to a completion lane. Changing a lane's completion attribute affects every ticket in it, including archived tickets; it is not a shortcut for resolving one ticket. Archive remains independent.
+
+For board-wide completion configuration, use the atomic `PUT /api/boards/:boardId/completion-lanes` endpoint with the full desired selection and reviewed expectations for every lane. Read the [completion contract and example](references/api.md#lane-completion) before doing so. On 409, re-read and reassess the impact; do not blindly retry or fall back to individual PATCH calls to bypass the check.
 
 ## Operating Workflow
 
@@ -109,7 +116,7 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
    - Reorder within a lane or move to a specific position with `PATCH /api/tickets/:ticketId/position`.
    - Move between lanes by lane name with `PATCH /api/tickets/:ticketId/transition`.
    - Move between boards with `POST /api/tickets/:ticketId/move` after resolving the target `boardId` and `laneId`.
-   - Archive/resolve/update with `PATCH /api/tickets/:ticketId`.
+   - Archive/update with `PATCH /api/tickets/:ticketId`; resolve or reopen by moving to the appropriate lane.
 
 4. Verify after mutation:
    - Re-read the ticket or board.

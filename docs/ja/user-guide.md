@@ -1,5 +1,7 @@
 # Kanbalone ユーザーガイド
 
+既存DBを更新する場合は、先に[完了状態の移行ガイド](./migration-guide.md)を確認してください。バックアップ・自動移行・照合・ロールバックとAI向け作業契約をまとめています。
+
 Kanbalone は、ひとりの作業・小さなリリース計画・AI エージェントとの共同作業を、軽いカンバンで整理するためのツールです。
 
 このガイドは、初めて使う時の流れに沿って説明します。
@@ -66,7 +68,7 @@ Relations では、ブロッカーや親チケットを設定できます。
 
 詳細画面右上のペンアイコンで編集できます。
 
-編集画面では、Lane / Priority / Resolved、Tags、Relations、本文などを変更できます。
+編集画面では、Lane / Priority、Tags、Relations、本文などを変更できます。
 
 remote tracked ticket では、title は remote 由来の read-only 値になります。実装のために編集する本文は `Local Body` 側です。
 
@@ -189,7 +191,11 @@ push 済み comment は、MVP では編集・削除できません。修正が�
 
 ## 9. チケットを完了・整理する
 
-終わった作業は Resolved にできます。Done レーンへ移動することもできます。
+受入済みの作業を完了レーンへ移すとResolvedになります。通常レーンへ戻すと再開します。人間の受入を行う場合、AIの作業終了時は通常レーンのAcceptanceへ渡し、人間が確認してDoneへ移します。レーン名ではなく属性が完了状態を決めます。サイドバーの歯車領域では、ボード名・Completion lanes・データ操作・削除を分けて表示します。Completion lanesは普段は現在値とChange（未設定ならSet up）のみを表示します。Changeからレーン一覧を選び、Saveで保存します。既存チケットに影響するときは同じ領域で完了／未完了になる件数（アーカイブ済みを含む）を確認して確定します。選択しただけでは状態は変わりません。確認後にレーン属性や件数が変わると保存を拒否し、再確認を求めます。
+
+完了レーンがないボードで最初のチケットを画面から作成すると、作成を妨げない案内が一度表示されます。Set upで同じ設定欄へ進み、Laterで閉じられます。案内済みの記録はブラウザごとに保存します。レーン名の編集は従来どおりレーン上で行います。
+
+既存データの更新時は、完了済みチケットがあるボードに `Completed (migration)` という完了レーンを自動作成し、完了済みだけを移します。同名があれば連番を付けます。既存のDoneなどは通常レーンとして残り、未完了チケットの配置は変わりません。アーカイブ状態も維持されます。
 
 もう普段見る必要がないチケットは Archive できます。Archived チケットは通常のボードから隠れます。
 
@@ -231,15 +237,17 @@ List 表示では、Resolved / Archive 状態や優先度を一覧で確認で�
 
 List 表示でチェックを入れると、選択したチケットに対する一括操作が表示されます。
 
-複数チケットをまとめて Resolved にする、Open に戻す、Archive / Restore する、といった操作ができます。
+Moveで複数チケットを完了レーン／通常レーンへ移動できます。Archive / Restoreは独立した操作です。
 
 ![List bulk actions](../assets/user-guide/09-list-bulk-actions.png)
 
 ## 13. ボード設定を使う
 
-ボード名の変更、Export / Import、Delete は、サイドバー下部の歯車から開きます。
+サイドバーの歯車から、Board name、Completion lanes、Data operations（Export / Import）、Deleteを区分して表示します。
 
 歯車を開くと現在のボード名が表示されます。ボード名の横にあるペンアイコンをクリックすると、ボード名をその場で編集できます。入力後に Enter で保存し、Esc またはフォーカス移動でキャンセルできます。
+
+Completion lanesには現在の設定が表示されます。Change（未設定ならSet up）からレーンを選んでSaveを押し、既存チケットに影響する場合は件数を確認して確定します。レーン名は従来どおりレーン上で直接編集します。
 
 ![Board settings](../assets/user-guide/12-board-settings.png)
 
@@ -257,7 +265,7 @@ OS やブラウザの外観設定がダークモードの場合、自動的に�
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v0.9.35
+  ghcr.io/wamukat/kanbalone:v0.10.0
 ```
 
 ブラウザで開きます。

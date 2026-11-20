@@ -37,6 +37,7 @@ export function mapBoard(row: BoardRow): BoardView {
 
 export function mapLane(row: LaneRow): LaneView {
   return {
+    isCompletionLane: Boolean(row.is_completion_lane),
     id: row.id,
     boardId: row.board_id,
     name: row.name,

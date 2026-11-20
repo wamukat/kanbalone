@@ -1,6 +1,6 @@
 ---
 name: kanbalone-ticket-flow
-description: Project-specific workflow for processing wamukat/kanbalone tickets from GitHub issue intake through local Kanbalone tracking, implementation, sub-agent review when requested, release, GitHub issue closure, and local board closure. Use when the user asks to handle Kanbalone project tickets, import GitHub issues into the local Kanbalone board, proceed to the next ticket step, release Kanbalone, close related GitHub/local tickets, or update the local kanban on port 3470.
+description: Project-specific workflow for processing wamukat/kanbalone tickets from GitHub issue intake through local Kanbalone tracking, implementation, sub-agent review when requested, release, GitHub issue closure, and local acceptance handoff. Use when the user asks to handle Kanbalone project tickets, import GitHub issues into the local Kanbalone board, proceed to the next ticket step, release Kanbalone, close related GitHub/local tickets, or update the local kanban on port 3470.
 ---
 
 # Kanbalone Ticket Flow
@@ -11,7 +11,7 @@ description: Project-specific workflow for processing wamukat/kanbalone tickets 
 - Workspace: `/Users/takuma/workspace/kanbalone`
 - Local Kanbalone tracking board: `http://127.0.0.1:3470/boards/4`
 - Local board name: `Kanbalone`
-- Local board lanes: `todo`, `doing`, `done`
+- Resolve current lanes from the board API. Work moves through `todo`, `doing`, and the normal `Acceptance` lane. Identify final completion lanes by `isCompletionLane`, not their names; migrated boards may retain a normal lane named `done`.
 - Default release cadence: next patch version from the latest `vX.Y.Z` tag
 - Docker image: `ghcr.io/wamukat/kanbalone`
 
@@ -80,21 +80,21 @@ docker build -t kanbalone:release-check .
      - short summary of what fulfilled the issue
    - Verify the GitHub issue state is `CLOSED`.
 
-9. Close local Kanbalone tickets:
+9. Hand off local Kanbalone tickets for acceptance:
    - Add a release completion comment if not already present.
-   - Move each local ticket to `done` and set `isResolved: true`:
+   - Move each local ticket to the normal `Acceptance` lane for human acceptance:
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
   --base http://127.0.0.1:3470/boards/4 \
   PATCH /api/tickets/<ticket-id>/transition \
-  '{"laneName":"done","isResolved":true}'
+  '{"laneName":"Acceptance"}'
 ```
 
-   - Re-read each ticket and verify `laneId` is the `done` lane and `isResolved` is true.
+   - Re-read each ticket and verify it is in the normal `Acceptance` lane and `isResolved` is false. Human acceptance moves it to a completion lane.
 
 10. Final response:
-   - State the release URL, Docker image tags, closed GitHub issues, closed local ticket IDs, and key verification commands.
+   - State the release URL, Docker image tags, closed GitHub issues, local ticket IDs awaiting acceptance, and key verification commands.
    - Explicitly mention anything not done, such as local runtime upgrade on port `3470`.
 
 ## Local Kanbalone API Recipes

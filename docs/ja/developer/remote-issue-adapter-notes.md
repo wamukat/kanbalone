@@ -250,7 +250,7 @@ remote tracked ticket に対する既存 mutation endpoint の挙動は、次の
 - `PATCH /api/tickets/:ticketId`
   - `title` の更新は受け付けない
   - `title` が変更されている場合は `400` を返す
-  - `bodyMarkdown`, `laneId`, `priority`, `tagIds`, `blockerIds`, `parentTicketId`, `isResolved`, `isArchived` などローカル編集可能項目のみ更新可能とする
+  - `bodyMarkdown`, `laneId`, `priority`, `tagIds`, `blockerIds`, `parentTicketId`, `isArchived` などローカル編集可能項目のみ更新可能とする
 - `PATCH /api/comments/:commentId`
 - `pushed` 済み comment の編集は MVP では受け付けない
 - `pushed` 済み comment の削除も MVP では受け付けない

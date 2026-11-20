@@ -135,7 +135,7 @@ test("positioning one ticket moves it without requiring hidden board tickets", (
   const moving = db.createTicket({ boardId: board.board.id, laneId: todoLaneId, title: "Moving" });
   const after = db.createTicket({ boardId: board.board.id, laneId: doneLaneId, title: "After" });
   for (let index = 0; index < 10; index += 1) {
-    db.createTicket({ boardId: board.board.id, laneId: todoLaneId, title: `Resolved ${index}`, isResolved: true });
+    db.createTicket({ boardId: board.board.id, laneId: todoLaneId, title: `Archived ${index}`, isArchived: true });
   }
 
   const moved = db.positionTicket(moving.id, { laneId: doneLaneId, position: 0 });
@@ -161,6 +161,7 @@ test("positioning one ticket honors visible anchors when target lane has hidden 
   const todoLaneId = board.lanes[0].id;
   const doneLaneId = board.lanes[1].id;
   const moving = db.createTicket({ boardId: board.board.id, laneId: todoLaneId, title: "Moving" });
+  db.updateLane(doneLaneId, { isCompletionLane: true });
   const resolved = Array.from({ length: 10 }, (_, index) =>
     db.createTicket({ boardId: board.board.id, laneId: doneLaneId, title: `Resolved ${index}`, isResolved: true })
   );
@@ -272,6 +273,7 @@ test("bulk resolve and bulk transition operate on board ticket sets", async () =
   assert.equal(createdBoardResponse.statusCode, 201);
   const board = createdBoardResponse.json();
   const [todoLane, doingLane, doneLane] = board.lanes;
+  await app.inject({ method: "PATCH", url: `/api/lanes/${doneLane.id}`, payload: { isCompletionLane: true } });
 
   const first = (await app.inject({
     method: "POST",
@@ -289,11 +291,8 @@ test("bulk resolve and bulk transition operate on board ticket sets", async () =
     url: `/api/boards/${board.board.id}/tickets/bulk-complete`,
     payload: { ticketIds: [first.id, second.id], isResolved: true },
   });
-  assert.equal(bulkResolve.statusCode, 200);
-  assert.deepEqual(
-    bulkResolve.json().tickets.map((ticket: { id: number; isResolved: boolean }) => [ticket.id, ticket.isResolved]),
-    [[first.id, true], [second.id, true]],
-  );
+  assert.equal(bulkResolve.statusCode, 409);
+  assert.equal((await app.inject({ method: "GET", url: `/api/tickets/${first.id}` })).json().isResolved, false);
 
   const bulkTransition = await app.inject({
     method: "POST",

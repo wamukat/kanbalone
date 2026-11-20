@@ -233,7 +233,7 @@ linux/amd64
 
 ## 関連チケットのクローズ
 
-GitHub Release 作成後、release で完了した GitHub issue と local Kanbalone ticket をすべて close します。両方の状態を更新するまで、リリース作業は完了扱いにしません。
+GitHub Release作成後、releaseで完了したGitHub issueをcloseし、local Kanbalone ticketはAcceptanceへ引き渡します。local ticketの最終完了は人間の受入後に行います。
 
 関連する GitHub issue ごとに release comment を追加し、issue を close します。
 
@@ -257,13 +257,13 @@ gh issue view <issue-number> \
   --json number,state,url
 ```
 
-プロジェクト board 上の関連 local Kanbalone ticket ごとに、必要なら release 完了 comment を追加し、`done` lane へ移動して `isResolved: true` にします。
+プロジェクト board 上の関連 local Kanbalone ticket ごとに、必要なら release 完了 comment を追加し、通常レーンの `Acceptance` へ移動して人間の受入を待ちます。
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
   --base http://127.0.0.1:3470/boards/4 \
   PATCH /api/tickets/<ticket-id>/transition \
-  '{"laneName":"done","isResolved":true}'
+  '{"laneName":"Acceptance"}'
 ```
 
 local ticket ごとに確認します。
@@ -276,10 +276,10 @@ python3 skills/kanbalone-api/scripts/kanbalone_api.py \
 
 期待する local state:
 
-- `laneId` が board の `done` lane と一致している
-- `isResolved` が `true`
+- `laneId` が board の通常レーン `Acceptance` と一致している
+- `isResolved` が `false`（人間の受入後に完了レーンへ移動）
 
-GitHub issue を import した ticket を扱った release では、upstream GitHub issue と import 済み local Kanbalone ticket の両方を close します。
+GitHub issue を import した ticket を扱った release では、upstream GitHub issue を close し、import 済み local Kanbalone ticket は Acceptance へ引き渡します。
 
 ## パッケージ公開状態の確認
 
@@ -312,3 +312,6 @@ linux/arm64
 Docker Image を公開済みの release tag は移動しません。
 
 追加修正が必要な場合は、新しい patch release を作成します。
+
+
+完了状態のレーン移行を含むリリースを公開するときは、[移行ガイド](../migration-guide.md)の日英両方で対象リリース番号を確定し、リリースノートからリンクしてください。既存ユーザー向けにDBバックアップとAPIクライアント／インストール済みスキルの更新が必要なことを案内します。

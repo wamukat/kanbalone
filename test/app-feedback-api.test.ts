@@ -16,10 +16,11 @@ function fixture(t: { after: (fn: () => Promise<void>) => void }) {
 }
 
 test("list filters combine exact lane names, direct parent, resolved and archived state", async (t) => {
-  const { app, board, lane, otherLane, create } = fixture(t);
+  const { app, db, board, lane, otherLane, create } = fixture(t);
   const parent = create("Parent");
   const child = create("Child", { parentTicketId: parent.id });
-  create("Resolved child", { parentTicketId: parent.id, isResolved: true });
+  const done = db.createLane({ boardId: board.board.id, name: "Done", isCompletionLane: true });
+  create("Resolved child", { parentTicketId: parent.id, laneId: done.id });
   const archived = create("Archived child", { parentTicketId: parent.id, isArchived: true });
   create("Other lane", { parentTicketId: parent.id, laneId: otherLane.id });
   const list = async (query: string) => {
@@ -63,7 +64,8 @@ test("comment limits run after deterministic timestamp and ID ordering", async (
 
 test("lane reorder preserves omitted and archived order and rejects invalid subsets atomically", async (t) => {
   const { app, db, board, lane, otherLane, create } = fixture(t);
-  const first = create("First"), second = create("Second"), third = create("Third", { isResolved: true });
+  db.updateLane(lane.id, { isCompletionLane: true });
+  const first = create("First"), second = create("Second"), third = create("Third");
   const archived = create("Archived", { isArchived: true });
   const other = create("Other", { laneId: otherLane.id });
   const otherBoard = db.createBoard({ name: "Other board", laneNames: ["Todo"] });

@@ -78,3 +78,11 @@ export async function updateTicket(request: APIRequestContext, baseUrl: string, 
   }
   return response.json();
 }
+
+export async function createCompletionLane(request: APIRequestContext, baseUrl: string, boardId: number) {
+  const response = await request.post(`${baseUrl}/api/boards/${boardId}/lanes`, {
+    data: { name: "Accepted", isCompletionLane: true },
+  });
+  if (response.status() !== 201) throw new Error(`Failed to create completion lane: ${response.status()}`);
+  return response.json();
+}
