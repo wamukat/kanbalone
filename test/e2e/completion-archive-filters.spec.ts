@@ -153,6 +153,9 @@ for (const width of [1280, 980, 390]) for (const locale of ["en-US", "ja-JP"]) {
       expect(await geometry()).toEqual(before);
       const overflow = await page.locator(".toolbar").evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth }));
       expect(overflow.scroll).toBeLessThanOrEqual(overflow.width + 1);
+      // Checking the input can scroll its focus target independently of the label.
+      // Bring the whole label back into view to verify horizontal reachability.
+      if (width <= 900) await page.locator(".archive-filter").scrollIntoViewIfNeeded();
       // Compact toolbar intentionally scrolls horizontally; verify the interacted label is reachable.
       for (const selector of width <= 900 ? [".archive-filter"] : ["#status-filter", ".archive-filter"]) {
         const r = await page.locator(selector).boundingBox();

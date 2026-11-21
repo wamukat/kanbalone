@@ -56,3 +56,7 @@ Ticket image embeds require this server. These original files remain available i
 - Supplementary dark images: [390px Japanese](after-narrow-dark.png), [980px English](after-medium-dark.png). These use the regression fixture with four tickets, so they supplement rather than replace the matching before/after fixture.
 - Seven before/after image embeds were loaded from the actual #1494 ticket page; dimensions and load results are recorded in ticket-image-loads.json. The local image server must remain running to display them there.
 - Decision: accept for human review. No product/API data migration is needed; browser preference migration and its semantics are documented. No release or production runtime replacement is included.
+
+## CI follow-up before merge
+
+The first GitHub run passed 118/119 E2E cases. English at 390px failed the reachability assertion: focusing the checkbox had scrolled its input independently of the surrounding label. Trace geometry was identical before/after (the label stayed 209.21875px wide), so this was not a layout resize. The test now scrolls the whole label into view again before checking reachability, without changing production code or relaxing bounds/geometry assertions.
