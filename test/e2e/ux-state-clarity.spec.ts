@@ -34,7 +34,7 @@ test("Kanban blocker count survives search and archived blockers and clears only
   } finally { await close(); }
 });
 
-test("combined status names and empty result explain filters and reset to open tickets", async ({ page }) => {
+test("combined status names and empty result explain filters and reset to unarchived tickets", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
     const board = await createBoard(page.request, baseUrl, { name: "Filter clarity", laneNames: ["Todo"] });
@@ -43,7 +43,6 @@ test("combined status names and empty result explain filters and reset to open t
     const summary = page.locator("#status-filter-summary");
     const before = await summary.boundingBox();
     await page.locator("#status-filter .filter-menu-edge-toggle").click();
-    await page.locator('[data-status-filter="resolved"]').click();
     await expect(summary).toHaveText("Open + Resolved");
     await expect(page.locator('[data-status-filter="resolved"]')).toHaveAttribute("aria-pressed", "true");
     const statusToggle = page.locator("#status-filter .filter-menu-edge-toggle");
@@ -55,7 +54,7 @@ test("combined status names and empty result explain filters and reset to open t
     await expect(page.locator("#list-board .empty-state")).toContainText("Search: “does not exist <text>”");
     await page.getByRole("button", { name: "Reset filters", exact: true }).last().click();
     await expect(page.locator("#search-input")).toHaveValue("");
-    await expect(summary).toHaveText("Open");
+    await expect(summary).toHaveText("Open + Resolved");
     await expect(page.locator("#list-board")).toContainText("Open task");
   } finally { await close(); }
 });
@@ -84,7 +83,7 @@ for (const width of [1280, 980]) {
       await page.locator('[data-status-filter="resolved"]').click();
       const statusToggle = page.locator("#status-filter .filter-menu-edge-toggle");
       if (await statusToggle.getAttribute("aria-expanded") === "true") await statusToggle.click();
-      await expect(statusToggle).toHaveAccessibleName("Status: Open + Resolved");
+      await expect(statusToggle).toHaveAccessibleName("Status: Open");
       await expect(page.locator('[data-status-clear]')).toBeVisible();
       expect(await geometry()).toEqual(before);
       const selectedSize = await page.locator("#status-filter-summary").evaluate((element) => ({
@@ -97,6 +96,8 @@ for (const width of [1280, 980]) {
       expect(selectedSize.textOverflow).not.toBe("ellipsis");
       await statusToggle.click();
       await expect(page.locator("#status-filter-summary")).toBeHidden();
+      await page.locator('[data-status-filter="resolved"]').click();
+      if (await statusToggle.getAttribute("aria-expanded") !== "true") await statusToggle.click();
       await page.locator('[data-status-filter="archived"]').click();
       if (await statusToggle.getAttribute("aria-expanded") === "true") await statusToggle.click();
       await expect(page.locator("#status-filter-summary")).toHaveText("All");
@@ -111,7 +112,7 @@ for (const width of [1280, 980]) {
       expect(longestFits).toBe(true);
       await page.screenshot({ path: `coverage/ux-status-full-label-${width}.png` });
       await page.locator('[data-status-clear]').click();
-      await expect(statusToggle).toHaveAccessibleName("Status: Open");
+      await expect(statusToggle).toHaveAccessibleName("Status: Open + Resolved");
       await expect(page.locator('[data-status-clear]')).toBeHidden();
       expect(await geometry()).toEqual(before);
     } finally { await close(); }

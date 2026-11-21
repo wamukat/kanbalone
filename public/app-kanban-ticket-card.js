@@ -55,6 +55,9 @@ export function createKanbanTicketCard(ctx, ticket) {
     card.classList.remove("dragging");
     const laneBoard = card.closest(".lane-board");
     laneBoard?.classList.remove("is-dragging-ticket");
+    for (const target of laneBoard?.querySelectorAll(".is-ticket-drop-before, .is-ticket-drop-after") ?? []) {
+      target.classList.remove("is-ticket-drop-before", "is-ticket-drop-after");
+    }
     for (const lane of laneBoard?.querySelectorAll(".lane.is-drag-over") ?? []) {
       lane.classList.remove("is-drag-over");
     }

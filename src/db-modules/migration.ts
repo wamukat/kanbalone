@@ -1,7 +1,7 @@
 import { migrateGroups } from "./groups.js";
 import type Database from "better-sqlite3";
 
-import { migrateLaneCompletion } from "./lane-completion.js";
+import { migrateCompletionTime, migrateLaneCompletion } from "./lane-completion.js";
 
 import { normalizeBoardPositions } from "./ordering.js";
 
@@ -290,6 +290,7 @@ export function migrate(sqlite: Database.Database): void {
   ensureTicketRemoteLinksShape(sqlite);
   ensureCommentRemoteSyncShape(sqlite);
   migrateLaneCompletion(sqlite);
+  migrateCompletionTime(sqlite);
   migrateGroups(sqlite);
 }
 

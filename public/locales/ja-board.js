@@ -1,4 +1,8 @@
 export default {
+  "Show {count} more ({remaining} remaining)": "さらに{count}件表示（残り{remaining}件）",
+  "Show latest 5": "最近の5件に戻す",
+  "Completion lanes show the most recently completed tickets first.": "完了レーンは最近完了した順に表示します。",
+
   "Low": "低",
   "Medium": "中",
   "High": "高",

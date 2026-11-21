@@ -1,0 +1,17 @@
+[
+  {
+    "target": "1",
+    "trusted": true,
+    "type": "dragstart"
+  },
+  {
+    "target": "2",
+    "trusted": true,
+    "type": "drop"
+  },
+  {
+    "target": "1",
+    "trusted": true,
+    "type": "dragend"
+  }
+]

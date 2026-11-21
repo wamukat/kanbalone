@@ -2458,6 +2458,11 @@ components:
           type: boolean
           readOnly: true
           description: Completion derived from the lane.
+        resolvedAt:
+          type: [string, 'null']
+          format: date-time
+          readOnly: true
+          description: Time of the latest arrival in a completion lane, including a move between completion lanes. Reopening clears it; edits and reordering preserve it. Null for unresolved tickets or unknown historical completion dates. Millisecond precision; equal timestamps have no chronological ordering guarantee.
         isArchived:
           type: boolean
         priority:
@@ -2544,6 +2549,7 @@ components:
       - bodyMarkdown
       - bodyHtml
       - isResolved
+      - resolvedAt
       - isArchived
       - priority
       - position
@@ -2587,6 +2593,11 @@ components:
           type: boolean
           readOnly: true
           description: Completion derived from the lane.
+        resolvedAt:
+          type: [string, 'null']
+          format: date-time
+          readOnly: true
+          description: Time of the latest arrival in a completion lane, including a move between completion lanes. Reopening clears it; edits and reordering preserve it. Null for unresolved tickets or unknown historical completion dates. Millisecond precision; equal timestamps have no chronological ordering guarantee.
         isArchived:
           type: boolean
         priority:
@@ -2649,6 +2660,7 @@ components:
       - hasChildren
       - title
       - isResolved
+      - resolvedAt
       - isArchived
       - priority
       - position
@@ -2785,6 +2797,10 @@ components:
           items:
             type: object
             properties:
+              resolvedAt:
+                type: [string, 'null']
+                format: date-time
+                description: Completion arrival time, maintained by the server in ordinary ticket APIs. Preserved on import for completed tickets; omitted legacy values are imported as null. Non-null values on unresolved tickets are rejected.
               groupId:
                 type:
                 - integer

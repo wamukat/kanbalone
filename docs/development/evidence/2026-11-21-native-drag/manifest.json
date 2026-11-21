@@ -1,0 +1,44 @@
+{
+  "baselineCommit": "df3b465d86cae0974fb43f684d96c26a615b3706",
+  "baselineNote": "Includes accepted, uncommitted #1492 changes before this fix",
+  "captured": "2026-11-21",
+  "viewport": [
+    1280,
+    844
+  ],
+  "theme": "light",
+  "before": {
+    "app-kanban-board.js": "4654df489d15ab6007c034526ed0b2239bfa8385c36992876acddfa04f71e4f9",
+    "app-kanban-ticket-card.js": "65dd029859c2a75307a010778c0418d3ca515f6e2657cf3da6b526b49b91016b",
+    "styles/ticket-cards.css": "170362e5d98aba23b0df9d5ec79ab0239884e886ab755dfd8becf507fbe8b129"
+  },
+  "after": {
+    "app-kanban-board.js": "2498bca4a307b1a996f267620e429c7ab614e29a4aa5c237b5f920451a434bdf",
+    "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+    "styles/ticket-cards.css": "a1787dc2f78b83adaff9c1846930087fe9402638a192be4f3b05c7599fc56bd7"
+  },
+  "evidence": {
+    "before-events.json": "1d61e57af202a582e39f7d44cef4552082956db4fb9c638b61b07d77de17033d",
+    "after-ja-reloaded.png": "9ee58b7acbfc2a4d557891a183208647694778b98ac90227dded3209738499c3",
+    "after-en-reloaded.png": "2d6d634216d43fc9c37d1e2fa7c2be044cb354726ee31757140dfd470eb7ca40",
+    "before-en-dropped.png": "fb6259d192b862956992daecb132ead93e89b0a6ee6a50b7f3e49e06910a3c78",
+    "after-en-initial.png": "e9785c54d1031a911842ea7b75f249bc6dccccd69a499126d75fb2f8994cf992",
+    "before-en-initial.png": "e9785c54d1031a911842ea7b75f249bc6dccccd69a499126d75fb2f8994cf992",
+    "diagnostic-mouse-attempt.png": "3572c286f63f5491cbb60bf8b67ece99ee1950cf8993ba2b3b5aa4a0629d9a56",
+    "after-en-dropped.png": "2d6d634216d43fc9c37d1e2fa7c2be044cb354726ee31757140dfd470eb7ca40",
+    "before-dropped-ticket.json": "6dec49383f08d3c6f08d5730b4a24413602e5680f30d3f4a01c0dffa3bc76141",
+    "after-en-completed.png": "340c4a0174c79c34f7b47d6bb809fd350a8fe23a80ab229c03b87c2ff6023e0d",
+    "after-en-completed-reloaded.png": "73ccbe05cee185ed1a0b5a70aa23184d07a3cff39695f635e85e115884054326",
+    "README.md": "86c10476cc226cf2cf8c0b27881ff44ffd2ec0e97fef2145d7dd95422b5c91dc",
+    "after-dropped-ticket.json": "2b4650868e4ef17a149457ae983cc2c3892acb7b38ef7fc1a747dba8b3c70749",
+    "after-native-drag-preview.png": "b622d15dfc3b64b24fc7bedd95d88b378815cab92be6db611e40911e3ae8107f",
+    "after-events.json": "66675708d83372b95f4e0107da586321e5e1300dc8bc07410c3907620538001d",
+    "before-ja-dropped.png": "04dbca630381d661ee44473f2edee5feeabedb419dc85eefc26dd4decd4733ab",
+    "after-ja-initial.png": "3f8c5bfe2034dda86961ce0b3761df6471b04b0c486085a5b9671fd8d1dc9c1d",
+    "after-completed-ticket.json": "f70787862e200d82ab7f9f4807891aefd16654ed6aaba58e25739359b80d7b54",
+    "before-ja-reloaded.png": "9eab0c7a5c186052a7e06ea4216b1091630b37597cd932456393c3718c3a4fb3",
+    "before-ja-initial.png": "3f8c5bfe2034dda86961ce0b3761df6471b04b0c486085a5b9671fd8d1dc9c1d",
+    "before-en-reloaded.png": "e9785c54d1031a911842ea7b75f249bc6dccccd69a499126d75fb2f8994cf992",
+    "after-ja-dropped.png": "85d2659499856081a045174f23d17e1c4c4f38000a366b013becfa49496cf0e1"
+  }
+}

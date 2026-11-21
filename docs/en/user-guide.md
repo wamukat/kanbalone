@@ -120,7 +120,9 @@ Set completion lanes under the sidebar gear → **Completion lanes**. Naming a l
 
 Use **Archive** in ticket details to hide a ticket from your everyday view.
 
-To find finished or archived tickets, open **Status >** above Kanban or List and select **Resolved** or **Archived**. Clear the filter with its **×** button.
+Kanban and List initially show both open and resolved tickets. If an earlier status selection is still saved, use the **×** in **Status** to reset it. To see archived tickets, select **Archived** under **Status >**.
+
+Completion lanes in Kanban show the five most recently completed tickets. Use **Show 50 more** to reveal the next batch, or **Show latest 5** to collapse it. Newly completed tickets appear first. Completion lanes use completion order rather than manual drag ordering. This limit does not apply to List.
 
 ![Showing archived tickets](../assets/user-guide/11-archived-filter.png)
 

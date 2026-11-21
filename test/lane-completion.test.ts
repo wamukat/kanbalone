@@ -126,6 +126,8 @@ test("removed completion/reorder APIs are absent and resolved is the only comple
 
 function makeLegacy(db: KanbanDb) {
   db.sqlite.exec(`DROP TRIGGER ticket_completion_insert; DROP TRIGGER ticket_completion_update; DROP TRIGGER lane_completion_update;
+    DROP TRIGGER ticket_completion_time_insert; DROP TRIGGER ticket_completion_time_update;
+    ALTER TABLE tickets DROP COLUMN resolved_at;
     ALTER TABLE lanes DROP COLUMN is_completion_lane;`);
 }
 
@@ -146,6 +148,7 @@ test("legacy lanes keep their meaning while resolved tickets move once to a sepa
     assert.equal(migrated.getTicket(ticket.id)!.laneId, lanes[2].id);
     assert.equal(migrated.getLane(board.lanes[1].id)!.isCompletionLane, false);
     assert.equal(migrated.getTicket(ticket.id)!.isResolved, true);
+    assert.equal(migrated.getTicket(ticket.id)!.resolvedAt, null);
     assert.equal(migrated.getTicket(ticket.id)!.isArchived, true);
     migrated.close();
   }

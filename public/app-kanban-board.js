@@ -4,6 +4,8 @@ import { createKanbanLane, createKanbanLaneInputColumn } from "./app-kanban-lane
 import { createKanbanTicketCard } from "./app-kanban-ticket-card.js";
 import { icon } from "./icons.js";
 
+const COMPLETION_PREVIEW_COUNT = 5;
+const COMPLETION_PAGE_SIZE = 50;
 const INACTIVE_COLLAPSE_THRESHOLD = 8;
 const INACTIVE_PREVIEW_COUNT = 3;
 const INACTIVE_SHOW_MORE_COUNT = 50;
@@ -14,6 +16,9 @@ export function createKanbanBoardModule(ctx, options) {
   let kanbanNextLaneIndex = 0;
   let laneDragPreview = null;
   const laneScrollTopById = new Map();
+  const completionLimits = new Map();
+  const previousCompletionIds = new Map();
+  let completionBoardId = null;
 
   function cancelPendingRender() {
     kanbanRenderToken += 1;
@@ -24,20 +29,42 @@ export function createKanbanBoardModule(ctx, options) {
     const renderToken = ++kanbanRenderToken;
     kanbanNextLaneIndex = 0;
     const scrollState = captureKanbanScrollState();
+    if (completionBoardId !== state.activeBoardId) {
+      completionLimits.clear();
+      previousCompletionIds.clear();
+      completionBoardId = state.activeBoardId;
+    }
     elements.laneBoard.className = "lane-board";
     elements.laneBoard.innerHTML = "";
     const laneQueues = [];
 
     for (const lane of detail.lanes.sort((a, b) => a.position - b.position)) {
       const laneTickets = detail.tickets.filter((item) => item.laneId === lane.id).sort((a, b) => a.position - b.position);
-      const { visibleTickets, hiddenInactiveTickets, inactiveTotal } = getKanbanLaneTicketGroups(laneTickets);
+      if (lane.isCompletionLane) {
+        laneTickets.sort((a, b) => {
+          const aTime = a.resolvedAt ? Date.parse(a.resolvedAt) || 0 : 0;
+          const bTime = b.resolvedAt ? Date.parse(b.resolvedAt) || 0 : 0;
+          return bTime - aTime || a.position - b.position || b.id - a.id;
+        });
+      }
+      const limit = completionLimits.get(lane.id) ?? COMPLETION_PREVIEW_COUNT;
+      const { visibleTickets, hiddenInactiveTickets, inactiveTotal } = lane.isCompletionLane
+        ? { visibleTickets: laneTickets.slice(0, limit), hiddenInactiveTickets: [], inactiveTotal: 0 }
+        : getKanbanLaneTicketGroups(laneTickets);
       const { laneElement, list } = createKanbanLane(ctx, lane, laneTickets, {
         bindDropZone,
         bindLaneDrag,
         deleteLane,
         renameLane,
       });
-      const restoreScrollTop = scrollState.laneScrollTopById.get(lane.id) ?? 0;
+      const previousIds = previousCompletionIds.get(lane.id);
+      const hasArrival = lane.isCompletionLane && previousIds
+        && laneTickets.some((ticket) => !previousIds.has(ticket.id));
+      if (lane.isCompletionLane) {
+        previousCompletionIds.set(lane.id, new Set(laneTickets.map((ticket) => ticket.id)));
+      }
+      const restoreScrollTop = hasArrival ? 0 : scrollState.laneScrollTopById.get(lane.id) ?? 0;
+      if (hasArrival) laneScrollTopById.set(lane.id, 0);
       const queue = {
         laneId: lane.id,
         list,
@@ -45,9 +72,11 @@ export function createKanbanBoardModule(ctx, options) {
         restoreScrollTop,
         tickets: visibleTickets,
         index: 0,
-        afterRender: hiddenInactiveTickets.length > 0
-          ? () => list.append(createInactiveTicketsSummary(ctx, hiddenInactiveTickets, inactiveTotal))
-          : null,
+        afterRender: lane.isCompletionLane && laneTickets.length > COMPLETION_PREVIEW_COUNT
+          ? () => list.append(createCompletionSummary(lane, laneTickets, list, visibleTickets.length))
+          : hiddenInactiveTickets.length > 0
+            ? () => list.append(createInactiveTicketsSummary(ctx, hiddenInactiveTickets, inactiveTotal))
+            : null,
         afterRenderDone: false,
       };
       trackLaneScroll(list, queue);
@@ -71,6 +100,51 @@ export function createKanbanBoardModule(ctx, options) {
 
     restoreKanbanBoardScrollState(scrollState);
     renderKanbanTicketsInBatches(renderToken, laneQueues);
+  }
+
+  function createCompletionSummary(lane, tickets, list, initialCount) {
+    const summary = document.createElement("div");
+    summary.className = "completion-ticket-summary";
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "completion-show-more";
+    const collapse = document.createElement("button");
+    collapse.type = "button";
+    collapse.className = "completion-collapse ghost";
+    collapse.textContent = tr("Show latest 5");
+    summary.append(more, collapse);
+    let shown = initialCount;
+    function sync() {
+      const remaining = tickets.length - shown;
+      more.hidden = remaining <= 0;
+      more.textContent = tr("Show {count} more ({remaining} remaining)", {
+        count: formatCount(Math.min(COMPLETION_PAGE_SIZE, remaining)),
+        remaining: formatCount(remaining),
+      });
+      collapse.hidden = shown <= COMPLETION_PREVIEW_COUNT;
+    }
+    more.addEventListener("click", () => {
+      const next = tickets.slice(shown, shown + COMPLETION_PAGE_SIZE);
+      const fragment = document.createDocumentFragment();
+      next.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
+      list.insertBefore(fragment, summary);
+      shown += next.length;
+      completionLimits.set(lane.id, shown);
+      sync();
+      if (more.hidden) collapse.focus({ preventScroll: true });
+    });
+    collapse.addEventListener("click", () => {
+      const cards = [...list.querySelectorAll(":scope > .ticket-card")];
+      cards.slice(COMPLETION_PREVIEW_COUNT).forEach((card) => card.remove());
+      shown = Math.min(COMPLETION_PREVIEW_COUNT, tickets.length);
+      completionLimits.set(lane.id, COMPLETION_PREVIEW_COUNT);
+      list.scrollTop = 0;
+      laneScrollTopById.set(lane.id, 0);
+      sync();
+      more.focus({ preventScroll: true });
+    });
+    sync();
+    return summary;
   }
 
   function captureKanbanScrollState() {
@@ -225,26 +299,34 @@ export function createKanbanBoardModule(ctx, options) {
 
   function bindDropZone(list) {
     list.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      const dragging = document.querySelector(".ticket-card.dragging");
+      const dragging = elements.laneBoard.querySelector(".ticket-card.dragging");
       if (!dragging) {
         return;
       }
+      event.preventDefault();
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
       setActiveDropLane(list);
-      const afterElement = getDragAfterElement(list, event.clientY);
-      if (!afterElement) {
-        list.append(dragging);
-        return;
+      clearTicketInsertionFeedback();
+      // Keep the native drag source and hit targets in place until drop. Moving
+      // the source during dragover can prevent the browser from emitting drop.
+      const afterElement = getTicketDropAnchor(list, event.clientY);
+      if (afterElement) {
+        afterElement.classList.add("is-ticket-drop-before");
+      } else {
+        [...list.querySelectorAll(":scope > .ticket-card:not(.dragging)")].at(-1)?.classList.add("is-ticket-drop-after");
       }
-      list.insertBefore(dragging, afterElement);
     });
 
     list.addEventListener("drop", async (event) => {
-      const dragging = document.querySelector(".ticket-card.dragging");
+      const dragging = elements.laneBoard.querySelector(".ticket-card.dragging");
       if (!dragging) {
         return;
       }
       event.preventDefault();
+      const afterElement = getTicketDropAnchor(list, event.clientY);
+      // Place cards before the paging controls when dropping at the end.
+      const endControl = list.querySelector(".completion-ticket-summary, .inactive-ticket-summary");
+      list.insertBefore(dragging, afterElement ?? endControl);
       clearDropLaneFeedback();
       await persistTicketPosition(dragging, list);
     });
@@ -254,7 +336,21 @@ export function createKanbanBoardModule(ctx, options) {
         return;
       }
       list.closest(".lane")?.classList.remove("is-drag-over");
+      clearTicketInsertionFeedback(list);
     });
+  }
+
+  function getTicketDropAnchor(list, y) {
+    const lane = state.boardDetail?.lanes.find((item) => item.id === Number(list.dataset.laneId));
+    return lane?.isCompletionLane
+      ? list.querySelector(":scope > .ticket-card:not(.dragging)")
+      : getDragAfterElement(list, y);
+  }
+
+  function clearTicketInsertionFeedback(container = elements.laneBoard) {
+    for (const card of container.querySelectorAll(".is-ticket-drop-before, .is-ticket-drop-after")) {
+      card.classList.remove("is-ticket-drop-before", "is-ticket-drop-after");
+    }
   }
 
   function setActiveDropLane(list) {
@@ -269,6 +365,7 @@ export function createKanbanBoardModule(ctx, options) {
   }
 
   function clearDropLaneFeedback() {
+    clearTicketInsertionFeedback();
     elements.laneBoard.classList.remove("is-dragging-ticket");
     for (const lane of elements.laneBoard.querySelectorAll(".lane.is-drag-over")) {
       lane.classList.remove("is-drag-over");
@@ -371,7 +468,7 @@ export function createKanbanBoardModule(ctx, options) {
   }
 
   function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll(".ticket-card:not(.dragging)")];
+    const draggableElements = [...container.querySelectorAll(":scope > .ticket-card:not(.dragging)")];
     return draggableElements.reduce(
       (closest, child) => {
         const box = child.getBoundingClientRect();
@@ -406,6 +503,13 @@ export function createKanbanBoardModule(ctx, options) {
     }
     const ticketId = Number(card.dataset.ticketId);
     const laneId = Number(list.dataset.laneId);
+    const targetLane = state.boardDetail.lanes.find((lane) => lane.id === laneId);
+    const sourceTicket = state.boardDetail.tickets.find((ticket) => ticket.id === ticketId);
+    if (targetLane?.isCompletionLane && sourceTicket?.laneId === laneId) {
+      await ctx.refreshBoardDetail();
+      ctx.showToast(tr("Completion lanes show the most recently completed tickets first."));
+      return;
+    }
     const cards = [...list.querySelectorAll(".ticket-card[data-ticket-id]")];
     const position = cards.indexOf(card);
     const beforeTicketId = cards[position + 1]?.dataset.ticketId ? Number(cards[position + 1].dataset.ticketId) : null;
@@ -415,9 +519,9 @@ export function createKanbanBoardModule(ctx, options) {
         method: "PATCH",
         body: JSON.stringify({
           laneId,
-          position: Math.max(0, position),
-          beforeTicketId,
-          afterTicketId,
+          position: targetLane?.isCompletionLane ? 0 : Math.max(0, position),
+          beforeTicketId: targetLane?.isCompletionLane ? null : beforeTicketId,
+          afterTicketId: targetLane?.isCompletionLane ? null : afterTicketId,
         }),
       });
       await ctx.refreshBoardDetail();

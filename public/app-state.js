@@ -28,7 +28,7 @@ export function createAppState() {
     filters: {
       q: "",
       lane: "",
-      status: ["open"],
+      status: ["open", "resolved"],
       priority: [],
       tag: "",
     },

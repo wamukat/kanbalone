@@ -147,6 +147,16 @@ export function importBoardPayload(
           .map((tag) => tagByName.get(tag.name))
           .filter((value): value is number => typeof value === "number"),
       });
+      // Older exports have no completion date. Keep that history unknown, rather than
+      // treating import time as completion time. Current exports retain their order.
+      let resolvedAt: string | null = null;
+      if (ticket.resolvedAt != null) {
+        if (typeof ticket.resolvedAt !== "string" || !Number.isFinite(Date.parse(ticket.resolvedAt)) || !createdTicket.isResolved) {
+          throw new Error("Invalid ticket completion date");
+        }
+        resolvedAt = new Date(ticket.resolvedAt).toISOString();
+      }
+      sqlite.prepare("UPDATE tickets SET resolved_at = ? WHERE id = ?").run(resolvedAt, createdTicket.id);
       createdTicketIds.set(ticket.id, createdTicket.id);
       if (ticket.groupId != null) sqlite.prepare("UPDATE tickets SET group_id=? WHERE id=?").run(groupById.get(ticket.groupId), createdTicket.id);
       ticket.comments.forEach((comment) => {
