@@ -1,0 +1,40 @@
+{
+  "baseline": "71e7bb6edceedf140d0254e82c8c05ebd0d49753",
+  "date": "2026-11-21",
+  "viewport": "1280x844",
+  "theme": "light",
+  "ports": {
+    "before": 3485,
+    "after": 3486
+  },
+  "fixture": "Isolated synthetic board 1, Groups 1/2, tickets 1-11; no production test writes",
+  "comparedFields": [
+    "id",
+    "title",
+    "bodyMarkdown",
+    "laneId",
+    "parentTicketId",
+    "groupId",
+    "isResolved",
+    "isArchived"
+  ],
+  "dataEquality": "passed",
+  "assets": {
+    "public/app-group-view.js": "b0e556bf8f8003948790ddf5c80cacfca15c2700207da448249f0c5732fc4593",
+    "public/styles/groups.css": "7b3802ee9fcbe368011db7e544ec2e1ade46eccdecf64109dd9661e57acff3d2"
+  },
+  "images": {
+    "after-en-archived.png": "52cb28250226e2c46a0cae7b7868d127499092beeea491f404aadfc462665ecc",
+    "after-ja-archived.png": "366d21e4327e4db3a294abb939d0a48fbf2dfbef106563d1c2f1ff8747c7593d",
+    "before-en-parent.png": "66cf17feb62c9692f4ef81db498493758b11660dff292ccee67f4ed541060040",
+    "before-ja-parent.png": "9d0d90d87a9b27dd9eeb311c9fc8563ceed250f62cab041e654b4a7afcd51a6a",
+    "after-ja-parent.png": "3bbe88bf632b8cc5b9620cfb03278b36e23d93578b8f8158d7a9150cd4a38b8a",
+    "after-en-parent.png": "e6d82e75512093f3337c6d2eeeff7a61cf082ec24f7861336c47cc61694c1eb7",
+    "before-ja-mixed.png": "a8db637c19af0697e1244bc23c24941efd484931f8e05b92da71cb29cb8854d8",
+    "after-ja-mixed.png": "a5157055478c5cce5566292ebddedcd013aca65a912b0c4384080fdbe35c1d17",
+    "before-en-mixed.png": "2afcf32661a1dfdd773fae3b2d0ecd5cc734ee3192f281e5510d8c7de1a8815a",
+    "after-en-mixed.png": "b440e9175da76127593b47a9a4cad0235291c092e387ae6052c6d12111872a34",
+    "before-en-archived.png": "5c148e5addbd6910a5fcd00951da2877f99077143b58777a77e214afed5d2382",
+    "before-ja-archived.png": "7f206b13c0f7567dced9315a69d7741d5107bb9260862a5aef9a5ffdbe62dee2"
+  }
+}

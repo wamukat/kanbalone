@@ -61,6 +61,10 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     }
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await page.locator("#status-filter .filter-menu-edge-toggle").click();
+    await page.locator('[data-status-filter="resolved"]').click();
+    await page.locator("#status-filter .filter-menu-edge-toggle").click();
     await expect(page.locator(".ticket-card")).toHaveCount(2);
 
     const waitForTicketQuery = (expected: Record<string, string>) =>
@@ -154,7 +158,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
       .locator("#status-filter [data-status-filter='resolved']")
       .click();
     await resolvedResponse;
-    await expect(page.locator("#status-filter")).toHaveClass(
+    await expect(page.locator("#status-filter")).not.toHaveClass(
       /is-filter-active/,
     );
     await expect(page.locator(".ticket-card")).toHaveCount(2);

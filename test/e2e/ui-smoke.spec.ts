@@ -69,7 +69,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
     await expect(page.locator("#board-title")).toHaveText("UI Smoke");
     await expect(page.locator("#status-filter [data-status-filter='open']")).toHaveClass(/active/);
-    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await expect(page.locator(".ticket-card")).toHaveCount(4);
     await expect(page.locator("#search-input")).toHaveAttribute("placeholder", "Search keywords or #123");
     await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     const smokeTicket = await ticketResponse.json();
@@ -79,7 +79,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".ticket-card")).toContainText("Smoke ticket");
     await page.locator("#search-input").fill("");
     await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
-    const highPriorityResponse = page.waitForResponse((response) => response.url().includes(`/api/boards/${boardPayload.board.id}/tickets?resolved=false`) && response.status() === 200);
+    const highPriorityResponse = page.waitForResponse((response) => response.url().includes(`/api/boards/${boardPayload.board.id}/tickets`) && response.status() === 200);
     await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await expect(page.locator("#priority-filter [data-priority-filter='high'] use[href='/icons.svg#priority-high']")).toHaveCount(1);
     await page.locator("#priority-filter [data-priority-filter='high']").click();
@@ -87,10 +87,10 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator("#lane-board")).toContainText("Smoke ticket");
     await expect(page.locator("#priority-filter")).toHaveClass(/is-filter-active/);
-    const highUrgentPriorityResponse = page.waitForResponse((response) => response.url().includes(`/api/boards/${boardPayload.board.id}/tickets?resolved=false`) && response.status() === 200);
+    const highUrgentPriorityResponse = page.waitForResponse((response) => response.url().includes(`/api/boards/${boardPayload.board.id}/tickets`) && response.status() === 200);
     await page.locator("#priority-filter [data-priority-filter='urgent']").click();
     await highUrgentPriorityResponse;
-    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await expect(page.locator(".ticket-card")).toHaveCount(4);
     await expect(page.locator("#lane-board")).toContainText("Smoke ticket");
     await expect(page.locator("#lane-board")).toContainText("Blocker candidate");
     await expect(page.locator("#lane-board")).toContainText("Child candidate");
@@ -98,7 +98,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator("#priority-filter [data-priority-filter='urgent']").click();
     await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator("#priority-filter")).not.toHaveClass(/is-filter-active/);
-    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await expect(page.locator(".ticket-card")).toHaveCount(4);
     await expect(page.locator(".board-title-row")).toBeHidden();
     await page.locator("#new-board-button").click();
     await expect(page.locator("[data-board-create-input]")).toBeFocused();
@@ -144,7 +144,6 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".lane-title", { hasText: "review" })).toBeVisible();
     await page.locator("#status-filter .filter-menu-edge-toggle").click();
     await expect(page.locator("#status-filter [data-status-filter='resolved'] use[href='/icons.svg#check']")).toHaveCount(1);
-    await page.locator("#status-filter [data-status-filter='resolved']").click();
     await expect(page.locator(".ticket-card")).toHaveCount(4);
     const openSidebarSearchOffset = await page.locator(".toolbar-search").evaluate((search) => {
       const firstLane = document.querySelector(".lane:not(.lane-create-column)");
@@ -265,7 +264,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-bulk-archive='false'] use[href='/icons.svg#rotate-ccw']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await page.locator("#status-filter [data-status-filter='archived']").click();
-    await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(4);
 
     const bulkDeleteTicketResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {

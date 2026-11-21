@@ -297,7 +297,13 @@ test("kanban ticket drag persists when inactive tickets are hidden", async ({ pa
             dataTransfer,
           }),
         );
-        targetList.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer }));
+        targetList.dispatchEvent(new DragEvent("drop", {
+          bubbles: true,
+          cancelable: true,
+          clientX: targetBox.left + 8,
+          clientY: targetBox.bottom + 12,
+          dataTransfer,
+        }));
       }, { targetLaneId: doneLane.id, ticketId: movingTicket.id }),
     ]);
 
@@ -432,4 +438,96 @@ test("kanban horizontal overflow stays inside the lane board", async ({ page }) 
     await page.close();
     await closeTestApp(app);
   }
+});
+
+test("completion lanes show five then fifty at a time and keep newly completed tickets visible", async ({ page }) => {
+  test.setTimeout(90_000);
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Completion paging", laneNames: ["Doing"] });
+    const completed = await createCompletionLane(page.request, baseUrl, board.id);
+    const moving = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Finish this ticket" });
+    for (let index = 0; index < 6; index++) {
+      await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: `Open work ${index}` });
+    }
+    const completedIds: number[] = [];
+    for (let index = 0; index < 108; index++) {
+      // Keep the last fixture completion outside the prior millisecond, so the
+      // assertion tests recency rather than the tie-break for a bulk timestamp.
+      if (index === 107) await new Promise(resolve => setTimeout(resolve, 5));
+      const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: completed.id, title: `Completed work ${index}` });
+      completedIds.push(ticket.id);
+    }
+    const archived = await createTicket(page.request, baseUrl, board.id, { laneId: completed.id, title: "Archived history", isArchived: true });
+    const snapshot = async () => (await (await page.request.get(`${baseUrl}/api/boards/${board.id}/tickets?archived=all`)).json()).tickets;
+    const before = await snapshot();
+    await page.goto(`${baseUrl}/boards/${board.id}`);
+    const doneList = page.locator(`.ticket-list[data-lane-id="${completed.id}"]`);
+    const doneCards = doneList.locator(".ticket-card");
+    const summary = doneList.locator(".completion-ticket-summary");
+    await expect(page.locator(`.ticket-list[data-lane-id="${lanes[0].id}"] .ticket-card`)).toHaveCount(7);
+    await expect(doneCards).toHaveCount(5);
+    await expect(doneCards.first()).toHaveAttribute("data-ticket-id", String(completedIds.at(-1)));
+    await expect(page.locator(`.ticket-card[data-ticket-id="${archived.id}"]`)).toHaveCount(0);
+
+    for (const locale of ["en", "ja"] as const) {
+      if (locale === "ja") {
+        await page.locator("#board-settings-toggle-button").click();
+        await page.locator("#language-select").selectOption(locale);
+        await expect(page.locator("html")).toHaveAttribute("lang", locale);
+      }
+      const moreName = (count: number, remaining: number) => locale === "en"
+        ? `Show ${count} more (${remaining} remaining)`
+        : `さらに${count}件表示（残り${remaining}件）`;
+      const collapseName = locale === "en" ? "Show latest 5" : "最近の5件に戻す";
+      await expect(doneCards).toHaveCount(5);
+      await summary.getByRole("button", { name: moreName(50, 103), exact: true }).click();
+      await expect(doneCards).toHaveCount(55);
+      // Collapse remains available before all history has been loaded.
+      await summary.getByRole("button", { name: collapseName, exact: true }).click();
+      await expect(doneCards).toHaveCount(5);
+      await summary.getByRole("button", { name: moreName(50, 103), exact: true }).click();
+      await summary.getByRole("button", { name: moreName(50, 53), exact: true }).click();
+      await expect(doneCards).toHaveCount(105);
+      await summary.getByRole("button", { name: moreName(3, 3), exact: true }).click();
+      await expect(doneCards).toHaveCount(108);
+      expect(new Set(await doneCards.evaluateAll(cards => cards.map(card => card.getAttribute("data-ticket-id")))).size).toBe(108);
+      await summary.getByRole("button", { name: collapseName, exact: true }).click();
+      await expect(doneCards).toHaveCount(5);
+    }
+    expect(await snapshot()).toEqual(before);
+
+    // Drop near the end of the displayed lane: completion recency must win over
+    // the pointer's insertion position, including after a full page reload.
+    await Promise.all([
+      page.waitForResponse(response => response.url().endsWith(`/api/tickets/${moving.id}/position`) && response.request().method() === "PATCH" && response.ok()),
+      page.evaluate(({ laneId, ticketId }) => {
+        const card = document.querySelector(`.ticket-card[data-ticket-id="${ticketId}"]`);
+        const list = document.querySelector(`.ticket-list[data-lane-id="${laneId}"]`);
+        if (!card || !list) throw new Error("Completion drag fixture missing");
+        const last = [...list.querySelectorAll(".ticket-card")].at(-1)!;
+        const box = last.getBoundingClientRect();
+        const dataTransfer = new DataTransfer();
+        card.dispatchEvent(new DragEvent("dragstart", { bubbles: true, cancelable: true, dataTransfer }));
+        list.dispatchEvent(new DragEvent("dragover", { bubbles: true, cancelable: true, dataTransfer, clientX: box.left + 8, clientY: box.bottom + 12 }));
+        list.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer }));
+      }, { laneId: completed.id, ticketId: moving.id }),
+    ]);
+    await expect(doneCards).toHaveCount(5);
+    await expect(doneCards.first()).toHaveAttribute("data-ticket-id", String(moving.id));
+    await expect(doneCards.first()).toBeInViewport();
+    const persisted = await (await page.request.get(`${baseUrl}/api/tickets/${moving.id}`)).json();
+    expect(persisted.laneId).toBe(completed.id);
+    expect(persisted.isResolved).toBe(true);
+    await page.reload();
+    await expect(doneCards).toHaveCount(5);
+    await expect(doneCards.first()).toHaveAttribute("data-ticket-id", String(moving.id));
+    // Editing an older completed ticket is not a new completion.
+    await updateTicket(page.request, baseUrl, completedIds[0], { title: "Edited old completed ticket" });
+    await page.reload();
+    await expect(doneCards.first()).toHaveAttribute("data-ticket-id", String(moving.id));
+    const after = await snapshot();
+    expect(after).toHaveLength(before.length);
+    expect(after.find((ticket: { id: number }) => ticket.id === archived.id).isArchived).toBe(true);
+  } finally { await close(); }
 });

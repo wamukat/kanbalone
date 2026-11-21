@@ -90,3 +90,25 @@ export function setCompletionLanes(sqlite: Database.Database, boardId: number, l
     sqlite.prepare("UPDATE boards SET updated_at = ? WHERE id = ?").run(new Date().toISOString(), boardId);
   }).immediate();
 }
+
+/** Record new completion arrivals without inventing dates for existing completed tickets. */
+export function migrateCompletionTime(sqlite: Database.Database): void {
+  const columns = sqlite.prepare("PRAGMA table_info(tickets)").all() as Array<{ name: string }>;
+  if (!columns.some((column) => column.name === "resolved_at")) {
+    sqlite.exec("ALTER TABLE tickets ADD COLUMN resolved_at TEXT");
+  }
+  sqlite.exec(`
+    CREATE TRIGGER IF NOT EXISTS ticket_completion_time_insert AFTER INSERT ON tickets
+    WHEN (SELECT is_completion_lane FROM lanes WHERE id = NEW.lane_id) = 1
+    BEGIN
+      UPDATE tickets SET resolved_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = NEW.id;
+    END;
+    CREATE TRIGGER IF NOT EXISTS ticket_completion_time_update AFTER UPDATE OF lane_id, is_resolved ON tickets
+    WHEN OLD.lane_id <> NEW.lane_id OR OLD.is_resolved <> NEW.is_resolved
+    BEGIN
+      UPDATE tickets SET resolved_at = CASE
+        WHEN (SELECT is_completion_lane FROM lanes WHERE id = NEW.lane_id) = 1
+        THEN strftime('%Y-%m-%dT%H:%M:%fZ', 'now') ELSE NULL END WHERE id = NEW.id;
+    END;
+  `);
+}

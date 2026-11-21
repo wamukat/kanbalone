@@ -329,3 +329,9 @@ RELEASE_SHA="$revision" RELEASE_VERSION="$version" \
 Use a clean checkout so the SHA identifies the candidate source. Docker and network access to the public source images are required. The bind-mount test uses the invoking user's UID/GID; the volume test uses the image's default runtime user. Temporary containers and storage are removed. Reports, full synthetic snapshots and injected-failure logs remain in `coverage/upgrade-restore/`; CI retains them as `upgrade-restore-RUN_ATTEMPT` for 30 days.
 
 A passing report proves these representative paths only. It does not test every historical version, native installations, other architectures, live database copying, disk exhaustion, filesystem-specific failures or provider authentication. This command does not upgrade your running instance. Follow the backup and reconciliation steps above for an actual upgrade. JSON export is not a full database backup, and restoring an old backup discards later changes unless separately reconciled.
+
+## Completion timestamps and Kanban display (next release)
+
+Upgrade automatically adds the completion timestamp column without changing existing lanes, resolution, archive flags or positions. Historical timestamps are not guessed: existing tickets expose `resolvedAt: null`. Future arrival in a completion lane records a timestamp, preserved by ordinary edits. Unknown historical times retain position order; newly completed tickets appear ahead of them.
+
+Completion lanes initially show five tickets and reveal fifty more per action. Collapsing does not delete data. Default status selection becomes open plus resolved. Existing saved selections are preserved; reset Status if completed tickets remain hidden. JSON export/import preserves the timestamp; older exports without it load as null. Follow the existing backup and original-version restore instructions in this guide.

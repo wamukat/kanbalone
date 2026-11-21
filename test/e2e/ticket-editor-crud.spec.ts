@@ -79,7 +79,6 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.getByRole("button", { name: "Updated from editor" })).toHaveCount(0);
 
     await page.locator("#status-filter .filter-menu-edge-toggle").click();
-    await page.locator("#status-filter [data-status-filter='resolved']").click();
     await page.locator("#status-filter [data-status-filter='archived']").click();
     await page.getByRole("button", { name: "Updated from editor" }).click();
     await expect(page.locator("#editor-header-state .ticket-state-pill > span")).toHaveText(["Resolved", "Archived"]);

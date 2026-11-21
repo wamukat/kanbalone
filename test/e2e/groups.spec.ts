@@ -1,5 +1,75 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createCompletionLane, createTicket, startTestApp } from "./helpers.js";
+
+test("Group keeps completed work visible and aligns completion and archive markers in both languages", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 844 });
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Mixed status", laneNames: ["Todo"] });
+    const done = await createCompletionLane(page.request, baseUrl, board.id);
+    const group = await (await page.request.post(`${baseUrl}/api/boards/${board.id}/groups`, { data: { name: "Release" } })).json();
+    const parent = await createTicket(page.request, baseUrl, board.id, { laneId: done.id, title: "Completed parent", groupId: group.id });
+    const child = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Open child", parentTicketId: parent.id });
+    const completedChild = await createTicket(page.request, baseUrl, board.id, { laneId: done.id, title: "Completed child", parentTicketId: parent.id });
+    const standalone = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Open standalone", groupId: group.id });
+    const archived = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Archived open", groupId: group.id, isArchived: true });
+    const both = await createTicket(page.request, baseUrl, board.id, { laneId: done.id, title: "Archived completed", groupId: group.id, isArchived: true });
+    const savedBefore = await (await page.request.get(`${baseUrl}/api/boards/${board.id}/tickets?groupId=${group.id}&archived=all`)).json();
+    const row = (id: number) => page.locator(".group-ticket-row").filter({ has: page.locator(`[data-group-ticket="${id}"]`) });
+    const titleBounds = async (id: number) => page.locator(`[data-group-ticket="${id}"]`).boundingBox();
+    const left = async (id: number, selector: string) => (await row(id).locator(selector).boundingBox())!.x;
+    await page.goto(`${baseUrl}/boards/${board.id}/group`);
+
+    for (const locale of ["en", "ja"]) {
+      if (locale === "ja") {
+        await page.locator("#board-settings-toggle-button").click();
+        await page.locator("#language-select").selectOption(locale);
+        await expect(page.locator("html")).toHaveAttribute("lang", locale);
+      }
+      await expect(page.locator(".group-ticket-row")).toHaveCount(4);
+      await expect(row(parent.id)).toBeVisible();
+      await expect(row(completedChild.id)).toBeVisible();
+      await expect(row(child.id)).toBeVisible();
+      await expect(row(archived.id)).toHaveCount(0);
+      await expect(row(both.id)).toHaveCount(0);
+
+      const resolvedLabel = locale === "ja" ? "完了" : "Resolved";
+      const archivedLabel = locale === "ja" ? "アーカイブ済み" : "Archived";
+      for (const id of [parent.id, completedChild.id]) {
+        await expect(row(id).locator(".ticket-status-icon-resolved")).toHaveAttribute("aria-label", resolvedLabel);
+        await expect(row(id).locator(".ticket-status-icon-resolved")).toHaveAttribute("title", resolvedLabel);
+      }
+      await expect(row(child.id).locator(".ticket-status-icon-resolved")).toHaveCount(0);
+      const parentStyle = await row(parent.id).locator(".group-ticket-title").evaluate(e => ({ color: getComputedStyle(e).color, weight: Number(getComputedStyle(e).fontWeight) }));
+      const childStyle = await row(child.id).locator(".group-ticket-title").evaluate(e => ({ color: getComputedStyle(e).color, weight: Number(getComputedStyle(e).fontWeight) }));
+      expect(childStyle.color).not.toBe(parentStyle.color);
+      expect(childStyle.weight).toBeGreaterThan(parentStyle.weight);
+      const before = await Promise.all([parent.id, child.id, completedChild.id, standalone.id].map(titleBounds));
+
+      await page.locator('[data-group-action="archive"]').click();
+      await expect(page.locator(".group-ticket-row")).toHaveCount(6);
+      expect(await Promise.all([parent.id, child.id, completedChild.id, standalone.id].map(titleBounds))).toEqual(before);
+      for (const id of [archived.id, both.id]) {
+        await expect(row(id).locator(".ticket-status-icon-archived")).toHaveAttribute("aria-label", archivedLabel);
+        await expect(row(id).locator(".ticket-status-icon-archived")).toHaveAttribute("title", archivedLabel);
+      }
+      const doneX = await left(parent.id, ".ticket-status-icon-resolved");
+      expect(await left(completedChild.id, ".ticket-status-icon-resolved")).toBeCloseTo(doneX, 1);
+      expect(await left(both.id, ".ticket-status-icon-resolved")).toBeCloseTo(doneX, 1);
+      const archiveX = await left(archived.id, ".ticket-status-icon-archived");
+      expect(await left(both.id, ".ticket-status-icon-archived")).toBeCloseTo(archiveX, 1);
+      expect(archiveX).toBeGreaterThan(doneX);
+      const laneX = await left(parent.id, ".group-ticket-meta");
+      for (const id of [child.id, completedChild.id, standalone.id, archived.id, both.id]) {
+        expect(await left(id, ".group-ticket-meta")).toBeCloseTo(laneX, 1);
+      }
+      await page.locator('[data-group-action="archive"]').click();
+      await expect(page.locator(".group-ticket-row")).toHaveCount(4);
+      expect(await Promise.all([parent.id, child.id, completedChild.id, standalone.id].map(titleBounds))).toEqual(before);
+    }
+    expect(await (await page.request.get(`${baseUrl}/api/boards/${board.id}/tickets?groupId=${group.id}&archived=all`)).json()).toEqual(savedBefore);
+  } finally { await close(); }
+});
 
 test("Groups create, describe, search whole parent/child sets and remove with confirmation", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);

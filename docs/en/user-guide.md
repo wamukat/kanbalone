@@ -120,7 +120,9 @@ Set completion lanes under the sidebar gear → **Completion lanes**. Naming a l
 
 Use **Archive** in ticket details to hide a ticket from your everyday view.
 
-To find finished or archived tickets, open **Status >** above Kanban or List and select **Resolved** or **Archived**. Clear the filter with its **×** button.
+Kanban and List initially show both open and resolved tickets. If an earlier status selection is still saved, use the **×** in **Status** to reset it. To see archived tickets, select **Archived** under **Status >**.
+
+Completion lanes in Kanban show the five most recently completed tickets. Use **Show 50 more** to reveal the next batch, or **Show latest 5** to collapse it. Newly completed tickets appear first. Completion lanes use completion order rather than manual drag ordering. This limit does not apply to List.
 
 ![Showing archived tickets](../assets/user-guide/11-archived-filter.png)
 
@@ -177,6 +179,8 @@ Click the Group name to rename it, or **Add description** to write a Markdown de
 - **Sort Groups**: use the calendar or text icon to sort by creation date or name. Press again to reverse the order.
 - **Remove membership**: use the trash icon on a ticket row. This does not delete the ticket. To move a ticket to another Group, remove it first, then add it there.
 - **View archived tickets**: choose **Show archived tickets**. An archived parent remains visible when it has unarchived children, so their relationship stays clear.
+
+Completed tickets stay in the list with a check mark and subdued text. Unfinished children remain emphasized even when their parent is completed.
 
 **Active** shows Groups with unresolved, unarchived tickets, plus empty Groups. Find Groups whose work is finished under **All**.
 

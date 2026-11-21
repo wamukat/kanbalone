@@ -1,7 +1,7 @@
 import { t as tr } from "./app-i18n.js";
 export function createFiltersModule(ctx, options) {
   const { state, elements } = ctx;
-  const DEFAULT_BOARD_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
+  const DEFAULT_BOARD_FILTERS = { q: "", lane: "", status: ["open", "resolved"], priority: [], tag: "" };
   const STATUS_LABELS = {
     open: tr("Open"),
     resolved: tr("Resolved"),
@@ -94,7 +94,7 @@ export function createFiltersModule(ctx, options) {
     return {
       q: filters?.q ?? "",
       lane: filters?.lane ?? "",
-      status: Array.isArray(filters?.status) && filters.status.length ? [...filters.status] : ["open"],
+      status: Array.isArray(filters?.status) && filters.status.length ? [...filters.status] : [...DEFAULT_BOARD_FILTERS.status],
       priority: Array.isArray(filters?.priority) ? [...filters.priority] : [],
       tag: filters?.tag ?? "",
     };
@@ -196,7 +196,7 @@ export function createFiltersModule(ctx, options) {
           ? state.filters.status.filter((item) => item !== value)
           : [...state.filters.status, value];
         if (state.filters.status.length === 0) {
-          state.filters.status = ["open"];
+          state.filters.status = [...DEFAULT_BOARD_FILTERS.status];
         }
         saveBoardFilters();
         syncStatusFilter();
@@ -206,7 +206,7 @@ export function createFiltersModule(ctx, options) {
       });
     });
     elements.statusFilterClearButton.addEventListener("click", async () => {
-      state.filters.status = ["open"];
+      state.filters.status = [...DEFAULT_BOARD_FILTERS.status];
       saveBoardFilters();
       syncStatusFilter();
       syncActiveFilterStyles();
@@ -268,7 +268,7 @@ export function createFiltersModule(ctx, options) {
       button.classList.toggle("active", state.filters.status.includes(button.dataset.statusFilter ?? ""));
       button.setAttribute("aria-pressed", String(state.filters.status.includes(button.dataset.statusFilter ?? "")));
     });
-    const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || tr("Open");
+    const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || DEFAULT_BOARD_FILTERS.status.map((key) => STATUS_LABELS[key]).join(" + ");
     elements.statusFilterSummary.textContent = state.filters.status.length === 3 ? tr("All") : selectedLabels;
     elements.statusFilterSummary.title = selectedLabels;
     elements.statusFilterToggles.forEach((toggle) => {
@@ -321,7 +321,7 @@ export function createFiltersModule(ctx, options) {
   }
 
   function isDefaultStatusFilter() {
-    return state.filters.status.length === 1 && state.filters.status[0] === "open";
+    return state.filters.status.length === 2 && state.filters.status.includes("open") && state.filters.status.includes("resolved");
   }
 
   function summarizeFilter(values, labels, fallback) {

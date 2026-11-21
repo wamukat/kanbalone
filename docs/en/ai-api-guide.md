@@ -55,6 +55,7 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 - Inspect `lanes[].isCompletionLane`; names do not determine completion.
 - Moving to a completion lane resolves a ticket. Moving to a normal lane reopens it.
 - Read-only `isResolved` reflects the lane. Ticket writes reject `isResolved` and `isCompleted` with 400, without changes; omit both fields. The `isCompleted` response alias and `completed` query alias have been removed. Use `resolved` to filter completion.
+- Read-only `resolvedAt` records arrival in the current completion lane. Moving to another completion lane updates it; reopening clears it to `null`. Ordinary edits and same-lane reordering preserve it. It is also `null` when the historical completion time is unknown. Omit it from ticket create/update inputs. Kanban sorts completion lanes by this time descending, with existing position as the fallback for unknown times; the API `position` contract is unchanged.
 - The standard board has `todo`, `doing`, `Acceptance` (normal lanes), and `done` (completion lane). Custom lane names default to normal; configure completion explicitly.
 - For human acceptance workflows, AI hands work off to `Acceptance`; the human moves accepted work to `done`.
 - `PATCH /api/lanes/:laneId` with `{ "isCompletionLane": true }` changes completion for every ticket in that lane, including archived tickets. Archive flags do not change.

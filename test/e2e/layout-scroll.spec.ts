@@ -251,15 +251,14 @@ test("kanban status expansion collapses large completed groups", async ({ page }
       .locator("#status-filter [data-filter-expand=\"status\"]")
       .last()
       .click();
-    await page.locator("#status-filter [data-status-filter=\"resolved\"]").click();
     await page.locator("#status-filter [data-status-filter=\"archived\"]").click();
-    await expect(page.locator(".ticket-card")).toHaveCount(3);
-    await expect(page.locator(".inactive-ticket-summary")).toContainText("33 hidden tickets");
-    await expect(page.locator(".inactive-ticket-summary-button")).toHaveText("Show remaining 33");
+    await expect(page.locator(".ticket-card")).toHaveCount(5);
+    await expect(page.locator(".completion-ticket-summary")).toContainText("Show 31 more (31 remaining)");
+    await expect(page.locator(".completion-show-more")).toHaveText("Show 31 more (31 remaining)");
 
     const layout = await page.evaluate(() => {
       const laneBoard = document.querySelector("#lane-board");
-      const summary = document.querySelector(".inactive-ticket-summary");
+      const summary = document.querySelector(".completion-ticket-summary");
       const ticketList = document.querySelector(".ticket-list");
       if (!laneBoard || !summary || !ticketList) {
         throw new Error("Kanban archived summary fixture is missing");
@@ -277,15 +276,18 @@ test("kanban status expansion collapses large completed groups", async ({ page }
     });
 
     expect(layout.documentHeight).toBeLessThan(layout.viewportHeight * 2);
-    expect(layout.summaryText).toContain("33 hidden tickets");
+    expect(layout.summaryText).toContain("Show 31 more (31 remaining)");
     expect(layout.ticketListScrollHeight).toBeLessThanOrEqual(
       layout.ticketListClientHeight + 1,
     );
     expect(layout.ticketListOverflowY).toBe("auto");
 
-    await page.locator(".inactive-ticket-summary-button").click();
+    await page.locator(".completion-show-more").click();
     await expect(page.locator(".ticket-card")).toHaveCount(36);
-    await expect(page.locator(".inactive-ticket-summary-button")).toHaveText("Hide resolved or archived");
+    await expect(page.locator(".completion-show-more")).toBeHidden();
+    await page.getByRole("button", { name: "Show latest 5", exact: true }).click();
+    await expect(page.locator(".ticket-card")).toHaveCount(5);
+    await expect(page.locator(".completion-show-more")).toHaveText("Show 31 more (31 remaining)");
   } finally {
     await close();
   }

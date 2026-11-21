@@ -45,7 +45,7 @@ for (const locale of ["en-US", "ja-JP"]) {
       });
       await page.goto(`${baseUrl}/boards/${board.id}`);
       await expect(page.locator(".ticket-card")).toContainText(ticket.title);
-      await expect(page.locator("#status-filter-summary")).toHaveText(japanese ? "未完了" : "Open");
+      await expect(page.locator("#status-filter-summary")).toHaveText(japanese ? "未完了 + 完了" : "Open + Resolved");
       await page.locator('[data-view-mode="list"]').click();
       await expect(page.locator("#list-board")).toContainText(ticket.title);
       await page.locator('[data-view-mode="group"]').click();

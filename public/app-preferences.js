@@ -3,7 +3,7 @@
 const UI_PREFERENCES_KEY = "kanbalone:ui-preferences";
 const UI_PREFERENCES_VERSION = 1;
 const EDITOR_DIALOG_SIZE_KEY = "kanbalone:editor-dialog-size";
-const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
+const DEFAULT_FILTERS = { q: "", lane: "", status: ["open", "resolved"], priority: [], tag: "" };
 
 /**
  * @typedef {"kanban" | "list" | "group"} BoardViewMode

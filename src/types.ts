@@ -36,6 +36,7 @@ export type TicketRow = {
   title: string;
   body_markdown: string;
   is_resolved: number;
+  resolved_at: string | null;
   is_archived: number;
   priority: number;
   position: number;
@@ -204,6 +205,7 @@ export type TicketView = {
   bodyMarkdown: string;
   bodyHtml: string;
   isResolved: boolean;
+  resolvedAt: string | null;
   isArchived: boolean;
   priority: number;
   position: number;
@@ -234,6 +236,7 @@ export type TicketSummaryView = {
   hasChildren: boolean;
   title: string;
   isResolved: boolean;
+  resolvedAt: string | null;
   isArchived: boolean;
   priority: number;
   position: number;
@@ -364,7 +367,8 @@ export type BoardExport = {
   lanes: LaneView[];
   tags: TagView[];
   tickets: Array<
-    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken"> & {
+    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken" | "resolvedAt"> & {
+      resolvedAt?: string | null;
       comments: Array<Omit<CommentView, "sync">>;
       isCompleted?: boolean;
     }
