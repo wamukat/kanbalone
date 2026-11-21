@@ -11,6 +11,7 @@ export type GroupTicket = Pick<
   | "priority"
   | "tags"
   | "isArchived"
+  | "isResolved"
 > & { hasChildren?: boolean };
 export type GroupTarget = Pick<GroupView, "id" | "revision">;
 export type GroupPreview = {

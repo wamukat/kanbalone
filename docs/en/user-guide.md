@@ -178,6 +178,8 @@ Click the Group name to rename it, or **Add description** to write a Markdown de
 - **Remove membership**: use the trash icon on a ticket row. This does not delete the ticket. To move a ticket to another Group, remove it first, then add it there.
 - **View archived tickets**: choose **Show archived tickets**. An archived parent remains visible when it has unarchived children, so their relationship stays clear.
 
+Completed tickets stay in the list with a check mark and subdued text. Unfinished children remain emphasized even when their parent is completed.
+
 **Active** shows Groups with unresolved, unarchived tickets, plus empty Groups. Find Groups whose work is finished under **All**.
 
 A ticket can belong to one Group. Parent and child tickets are added or removed together. When connecting tickets from different Groups, choose which Group they should share.

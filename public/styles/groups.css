@@ -482,3 +482,26 @@
   font-size: var(--font-size-label);
   white-space: nowrap;
 }
+
+/* Reserve independent status slots even when one or both icons are absent. */
+.group-ticket-status {
+  display: grid;
+  grid-template-columns: repeat(2, 1.25rem);
+  gap: 0.25rem;
+  width: 2.75rem;
+  flex: 0 0 2.75rem;
+}
+.group-ticket-status .ticket-status-icon {
+  grid-row: 1;
+}
+.group-ticket-status .ticket-status-icon-resolved {
+  grid-column: 1;
+}
+.group-ticket-status .ticket-status-icon-archived {
+  grid-column: 2;
+}
+.group-ticket-resolved .group-ticket-title,
+.group-ticket-archived .group-ticket-title {
+  color: var(--text-muted);
+  font-weight: var(--font-weight-regular);
+}
