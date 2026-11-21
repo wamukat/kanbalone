@@ -66,7 +66,15 @@ jobs:
 
           Review and complete both Japanese and English release notes, including breaking changes, migration instructions and limitations. Remove the draft marker only after that review. CI must pass before merging.
 
-          After merging, run the Release workflow on main with this version and the full merged commit SHA. Start with dry-run.
+          Follow the team rules in docs/en/developer/release.md. After merging, run Release on main with the full merged commit SHA, starting with dry-run. Record the following here before publication:
+
+          - Release owner and target SHA:
+          - Dry-run URL and image ID:
+          - Local candidate verification: steps, results and limitations:
+          - Upgrade, backup and restoration verification, or reason not applicable:
+          - Publication decision:
+
+          After publication, add the Release URL and verification of the published image. A merge does not authorize publication or an update to an existing runtime.
 
           If this PR was created with GITHUB_TOKEN, approve its pending CI workflow runs on GitHub. A configured RELEASE_APP_ID avoids that additional workflow approval.
           BODY
