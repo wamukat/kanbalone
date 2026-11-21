@@ -8,8 +8,8 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 
 - Keep `main` releasable. Do not maintain a long-lived `develop` branch or permanent release branches.
 - Start a short-lived `codex/<ticket>-<topic>` branch from current `main` and open a PR with one purpose. Documentation and CI changes follow the same process.
-- Merging requires **Required checks** to pass and one approval from a reviewer other than the author. AI review supports, but does not replace, GitHub approval. Update against current main, normally squash merge, and delete the work branch after merging.
-- Do not use administrator bypass for routine work. For an incident requiring an exception, the repository owner records the reason, verification results and follow-up PR. An unavailable reviewer is not a reason to routinely push directly to main.
+- Merging requires passing **Required checks** and user acceptance in chat. GitHub approval counts are not required; the agent checks review findings, CI results and the accepted diff, then performs the merge. If the content changes after acceptance, explain the changes and obtain acceptance again. AI review alone does not constitute user acceptance. Update against current main, normally squash merge, and delete the work branch after merging.
+- Do not use administrator bypass for routine work. For an incident requiring an exception, the repository owner records the reason, verification results and follow-up PR. Do not skip acceptance in chat or routinely push directly to main.
 - Use the Actions-created `codex/release-VERSION` branch for release preparation. Hold unrelated main merges from preparation until the target SHA is fixed, then resume normal development.
 - Hotfixes also use a short-lived branch from main, a PR and a patch release. Resolve unreleasable changes on main first. Supporting an older release independently requires a separate decision; the current workflow only publishes SHAs contained in main.
 
@@ -18,7 +18,7 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 | When | Owner | Required work and record |
 | --- | --- | --- |
 | Before opening an implementation PR | Author | Run relevant local tests and exercise the changed behavior. Record steps, results and limitations. For UI changes, check affected Japanese and English screens, consistency with existing screens, and before/after images. |
-| Before merging an implementation PR | Reviewer | Review the diff, CI results and manual verification record. E2E success alone does not establish visual or interaction quality. |
+| Before merging an implementation PR | User accepts; agent verifies and operates | Review the diff, CI results and manual verification record. E2E success alone does not establish visual or interaction quality. |
 | Release preparation PR | Release owner and reviewer | Review changes since the previous published version; complete the version, bilingual notes and migration guide. Record the full merged SHA. |
 | After dry-run, before publication | Release owner | Run the target image artifact locally in isolation; verify principal changes and basic operations. Record the SHA, Actions URL, image ID and results in the preparation PR, then decide whether to publish. |
 | After publication | Release owner | Check tags, bilingual notes and published image. Run the published version in isolation and check its version and basic operations. Add the Release URL to the preparation PR. |
@@ -42,7 +42,7 @@ If the candidate SHA changes, repeat dry-run and the relevant local checks. Dry-
 
 Before the first release, a repository administrator must verify:
 
-- The `main` branch rules require PR review and the **Required checks** status check from CI.
+- The `main` branch rules require a PR and the **Required checks** status check, with zero required GitHub approvals. User acceptance in chat is an operating rule.
 - Actions can create pull requests and the repository permits the workflow permissions used below.
 - GHCR permits this repository to publish its package, and consumers can pull it without authentication.
 - Optionally, configure repository variable `RELEASE_APP_ID` and secret `RELEASE_APP_PRIVATE_KEY` for an installed GitHub App with repository contents and pull request write permissions.
