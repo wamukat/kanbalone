@@ -36,7 +36,7 @@ test("every move path derives completion and preserves archive state", (t) => {
   assert.equal(db.positionTicket(first.id, { laneId: done.id }).isResolved, true);
   assert.equal(db.moveTicket(second.id, { boardId: board.board.id, laneId: todo.id }).isResolved, false);
   assert.equal(db.getTicket(second.id)!.isArchived, true);
-  db.reorderTickets(board.board.id, [{ ticketId: first.id, laneId: acceptance.id, position: 0 }]);
+  db.positionTicket(first.id, { laneId: acceptance.id, position: 0 });
   assert.equal(db.getTicket(first.id)!.isResolved, false);
   db.bulkTransitionTickets({ boardId: board.board.id, ticketIds: [first.id, second.id], laneName: done.name });
   assert.ok([first.id, second.id].every((id) => db.getTicket(id)!.isResolved));
@@ -64,29 +64,64 @@ test("lane changes update archived tickets, relationships and filtered reads con
   assert.equal(db.getTicket(child.id)!.isResolved, false);
 });
 
-test("legacy flags are assertions: conflicts reject the whole request, matching aliases remain readable", async (t) => {
+test("retired completion flags reject matching and conflicting values without mutation", async (t) => {
   const { db, app, board, todo, done } = fixture(t);
   const ticket = db.createTicket({ boardId: board.board.id, laneId: todo.id, title: "Unchanged" });
-  const attempts = [
-    { method: "PATCH" as const, url: `/api/tickets/${ticket.id}`, payload: { title: "Changed", isResolved: true } },
-    { method: "PATCH" as const, url: `/api/tickets/${ticket.id}/transition`, payload: { laneName: done.name, isResolved: false } },
-    { method: "PATCH" as const, url: `/api/tickets/${ticket.id}`, payload: { isResolved: false, isCompleted: true } },
-    { method: "POST" as const, url: `/api/boards/${board.board.id}/tickets`, payload: { laneId: done.id, title: "Invalid", isCompleted: false } },
-    { method: "POST" as const, url: `/api/boards/${board.board.id}/tickets/bulk-complete`, payload: { ticketIds: [ticket.id], isResolved: true } },
-    { method: "POST" as const, url: `/api/boards/${board.board.id}/tickets/bulk-transition`, payload: { ticketIds: [ticket.id], laneName: done.name, isResolved: false } },
-  ];
-  for (const request of attempts) {
-    const response = await app.inject(request);
-    assert.equal(response.statusCode, 409, response.body);
-    assert.equal(db.getTicket(ticket.id)!.title, "Unchanged");
-    assert.equal(db.getTicket(ticket.id)!.laneId, todo.id);
+  const initial = db.getTicket(ticket.id);
+  const initialCount = db.listTickets(board.board.id).length;
+  for (const key of ["isResolved", "isCompleted"]) {
+    for (const value of [true, false, null, "false", 0]) {
+      const retired = { [key]: value };
+      const attempts = [
+        { method: "PATCH" as const, url: `/api/tickets/${ticket.id}`, payload: { title: "Changed", ...retired } },
+        { method: "PATCH" as const, url: `/api/tickets/${ticket.id}/transition`, payload: { laneName: done.name, ...retired } },
+        { method: "POST" as const, url: `/api/boards/${board.board.id}/tickets`, payload: { laneId: done.id, title: "Invalid", ...retired } },
+        { method: "POST" as const, url: `/api/boards/${board.board.id}/tickets/preview`, payload: { laneId: done.id, title: "Invalid", ...retired } },
+        { method: "POST" as const, url: `/api/tickets/${ticket.id}/change-preview`, payload: { title: "Changed", ...retired } },
+        { method: "POST" as const, url: `/api/boards/${board.board.id}/tickets/bulk-transition`, payload: { ticketIds: [ticket.id], laneName: done.name, ...retired } },
+      ];
+      for (const request of attempts) {
+        const response = await app.inject(request);
+        assert.equal(response.statusCode, 400, `${request.url}: ${response.body}`);
+        assert.match(response.json().error, /Completion flags are not accepted/);
+        assert.deepEqual(db.getTicket(ticket.id), initial);
+        assert.equal(db.listTickets(board.board.id).length, initialCount);
+      }
+    }
   }
-  const moved = await app.inject({ method: "PATCH", url: `/api/tickets/${ticket.id}/transition`, payload: { laneName: done.name, isCompleted: true } });
+  const moved = await app.inject({ method: "PATCH", url: `/api/tickets/${ticket.id}/transition`, payload: { laneName: done.name } });
   assert.equal(moved.statusCode, 200, moved.body);
   assert.equal(moved.json().isResolved, true);
-  assert.equal(moved.json().isCompleted, true);
-  const matching = await app.inject({ method: "POST", url: `/api/boards/${board.board.id}/tickets/bulk-complete`, payload: { ticketIds: [ticket.id], isResolved: true } });
-  assert.equal(matching.statusCode, 200);
+  assert.ok(!Object.hasOwn(moved.json(), "isCompleted"));
+});
+
+test("removed completion/reorder APIs are absent and resolved is the only completion filter", async (t) => {
+  const { db, app, board, todo, done } = fixture(t);
+  const parent = db.createTicket({ boardId: board.board.id, laneId: todo.id, title: "Open" });
+  const child = db.createTicket({ boardId: board.board.id, laneId: done.id, title: "Done", parentTicketId: parent.id });
+  for (const query of ["completed=true", "completed=false", "completed=", "resolved=false&completed=true"]) {
+    const response = await app.inject({ method: "GET", url: `/api/boards/${board.board.id}/tickets?${query}` });
+    assert.equal(response.statusCode, 400, response.body);
+    assert.match(response.json().error, /Use resolved instead/);
+  }
+  for (const path of ["bulk-complete", "reorder"]) {
+    const response = await app.inject({ method: "POST", url: `/api/boards/${board.board.id}/tickets/${path}`,
+      payload: { ticketIds: [parent.id], isResolved: true, items: [{ ticketId: parent.id, laneId: done.id, position: 0 }] } });
+    assert.equal(response.statusCode, 404, response.body);
+    assert.equal(db.getTicket(parent.id)!.laneId, todo.id);
+  }
+  const exported = await app.inject({ method: "GET", url: `/api/boards/${board.board.id}/export` });
+  assert.equal(exported.statusCode, 200);
+  assert.doesNotMatch(exported.body, /"isCompleted"/);
+  const filtered = await app.inject({ method: "GET", url: `/api/boards/${board.board.id}/tickets?resolved=true` });
+  assert.equal(filtered.statusCode, 200);
+  assert.deepEqual(filtered.json().tickets.map((ticket: {id: number}) => ticket.id), [child.id]);
+  assert.doesNotMatch(filtered.body, /"isCompleted"/);
+  for (const path of [`/api/tickets/${parent.id}`, `/api/tickets/${parent.id}/relations`, `/api/tickets/${child.id}`]) {
+    const response = await app.inject({ method: "GET", url: path });
+    assert.equal(response.statusCode, 200, response.body);
+    assert.doesNotMatch(response.body, /"isCompleted"/);
+  }
 });
 
 function makeLegacy(db: KanbanDb) {
@@ -174,6 +209,12 @@ test("exports preserve lane attributes; legacy mixed imports migrate and conflic
   assert.throws(() => db.importBoard(invalid), /Completion is determined/);
   assert.equal(db.listBoards().length, before);
   for (const lane of invalid.lanes) delete (lane as Partial<typeof lane>).isCompletionLane;
+  // Old backup files may contain only isCompleted. Keep this read-only
+  // migration path even though new exports and interactive APIs omit it.
+  for (const ticket of invalid.tickets) {
+    ticket.isCompleted = ticket.isResolved;
+    delete (ticket as Partial<typeof ticket>).isResolved;
+  }
   const legacy = db.importBoard(invalid);
   assert.equal(legacy.tickets.find((ticket) => ticket.title === "Open")!.isResolved, false);
   const resolved = legacy.tickets.find((ticket) => ticket.title === "Resolved")!;

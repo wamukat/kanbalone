@@ -1,5 +1,7 @@
 # API Examples
 
+This development-branch guide includes API removals planned for the next release after v0.11.0. For a released instance, use the documentation and skill from its release tag. See the [migration table](./migration-guide.md#deprecated-api-removal).
+
 Completion is determined by `isCompletionLane`, not the lane name. The examples below assume lane 11 / `Done` is configured as a completion lane and lane 9 is normal. Configure a lane explicitly:
 
 ```bash
@@ -207,22 +209,6 @@ Verify the resulting order using each ticket's `position`:
 
 ```bash
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?lane_id=9'
-```
-
-## Reorder All Board Tickets (Legacy API)
-
-`items` must contain every non-archived ticket on the board. This example assumes those tickets are only 4, 5, and 6. Use the `position` endpoint above to reorder one ticket within a lane.
-
-```bash
-curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/reorder \
-  -H 'content-type: application/json' \
-  --data '{
-    "items": [
-      { "ticketId": 4, "laneId": 9, "position": 0 },
-      { "ticketId": 5, "laneId": 9, "position": 1 },
-      { "ticketId": 6, "laneId": 11, "position": 0 }
-    ]
-  }'
 ```
 
 ## Export Board

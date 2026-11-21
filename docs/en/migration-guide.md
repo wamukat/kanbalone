@@ -4,6 +4,7 @@ This guide covers the change from per-ticket completion flags to completion dete
 
 **Lane-based completion migration was introduced in v0.10.0.** It applies when upgrading a v0.9.x or earlier database to v0.10.0 or later.
 
+- **v0.11.0 → next release (unreleased)**: update clients using the removal table in section 7; old DB migration and import support remain.
 - **v0.10.0 → v0.11.0**: follow the [Group migration](#group-migration).
 - **v0.9.x or earlier → v0.11.0**: follow both the completion migration and Group migration. Verify the destination lanes of resolved tickets against the completion migration rules.
 
@@ -19,7 +20,7 @@ Use the official tag/image for your target release. Commands below are examples;
 | Archive | Independent from completion | Still independent; archive/restore does not change completion |
 | Lane names | Independent from completion | Names do not determine completion; a lane named Done can be normal |
 
-In SQLite, `lanes.is_completion_lane` becomes the source of truth. `tickets.is_resolved` is retained as an indexed projection maintained by database triggers, rather than independent state. Stop directly updating ticket completion columns. API responses keep `isResolved` and the compatibility alias `isCompleted`.
+In SQLite, `lanes.is_completion_lane` becomes the source of truth. `tickets.is_resolved` is retained as an indexed projection maintained by database triggers, rather than independent state. Stop directly updating ticket completion columns. API responses use read-only `isResolved`. v0.10.0–v0.11.0 also returned the compatibility alias `isCompleted`; see section 7 for its removal in the next release.
 
 ## 2. Automatic Migration On First Startup
 
@@ -155,42 +156,41 @@ Resolved tickets becoming grouped in the new lane is expected. Resolved and arch
 
 ## 7. Update API Clients And AI Skills
 
-- Responses retain `isResolved`/`isCompleted`, and `resolved`/`completed` filters remain supported.
+<a id="deprecated-api-removal"></a>
+
+### Next release: remove deprecated API compatibility
+
+These removals are implemented on the development branch after v0.11.0. They are **not part of the published v0.11.0 release**; confirm the target release notes and image before upgrading. v0.10.0–v0.11.0 accepted matching completion flags as compatibility assertions and returned both completion response names. The next release removes that compatibility layer.
+
+| Removed API surface | Replacement | Behavior after removal |
+| --- | --- | --- |
+| `isCompleted` in ticket, summary, relation responses and new board exports | Read `isResolved` | The alias is absent |
+| `completed=true/false` query filter | Use `resolved=true/false` | 400, including when combined with `resolved` |
+| `isResolved` / `isCompleted` in ticket create, update, transition, bulk-transition and create/change-preview requests | Select `laneId` or `laneName`; omit both flags | 400 without changes, even if a supplied value matches the lane |
+| `POST /api/boards/:boardId/tickets/bulk-complete` | `POST /api/boards/:boardId/tickets/bulk-transition` | 404 |
+| `POST /api/boards/:boardId/tickets/reorder` | `PATCH /api/tickets/:ticketId/position` for one ticket; `POST /api/lanes/:laneId/tickets/reorder` for an ordered lane prefix | 404 |
+
+Read-only `isResolved`, the `resolved` filter, lane-scoped ordering and ticket position updates remain supported. A replacement for the removed full-board reorder must be planned as separate lane or ticket operations; several requests are not one atomic board-wide operation.
+
+This API cleanup does not remove old database migration or old board-export import support. Existing data still follows the migration rules in this guide. Do not rewrite stored completion columns or edit backup files to remove old fields.
+
 - Resolve/reopen by moving tickets. Determine destinations by `isCompletionLane`, not names.
-- Request `isResolved`/`isCompleted` fields are compatibility assertions. Conflicting aliases or a value inconsistent with the destination lane return 409 without changes. Omit them in new requests.
-- Legacy `bulk-complete` cannot independently change completion. It accepts already-matching values only and returns 409 on mismatch. Replace it with lane movement such as `bulk-transition`.
 - Changing a lane's completion attribute affects every ticket in it, including archived tickets. Do not use it as a shortcut to resolve one ticket.
 - Use `PUT /api/boards/:boardId/completion-lanes` for reviewed board-wide configuration. Send the complete selection and expectations; on 409 re-read and review. Do not bypass checks with individual PATCH calls.
-- Update the distributed `kanbalone-api` skill, reference and helper together. The new endpoint uses PUT, which older helpers may not support. Updating the repository does not update skills already installed in each AI environment.
+- Update the distributed `kanbalone-api` skill, reference and helper together. Updating the repository does not update skills already installed in each AI environment.
 
-### API Contract: Before And After
+### Rewrite requests
 
-**Setting a completion flag no longer changes completion. Resolve or reopen by selecting a destination lane.** In this version, request fields `isResolved`/`isCompleted` are still accepted for compatibility, but only as assertions matching the lane. They cannot independently change state. Response fields are not removed.
+These examples pair API paths with JSON bodies. Fetch lanes first. Assume board 1 has lane 12 with `isCompletionLane: true` and lane 11 with `false`, verified from the API. Replace IDs and names with actual values. An existing Done lane is not necessarily a completion lane after automatic migration.
 
-| Operation or field | Before | After / client change |
+| Goal | Removed request | Replacement |
 | --- | --- | --- |
-| Create `POST /api/boards/:boardId/tickets` | Lane and completion flag set independently | Set the destination `laneId`; omit completion flags |
-| Update `PATCH /api/tickets/:ticketId` | Set `isResolved: true/false` to resolve/reopen | Select a completion/normal `laneId`. If omitted, the current lane determines completion |
-| Transition `PATCH /api/tickets/:ticketId/transition` | Send `laneName` and a completion flag | Send `laneName` only. Completion follows the destination lane |
-| Bulk completion `POST /api/boards/:boardId/tickets/bulk-complete` | Resolve/reopen using a flag | Deprecated; replace with lane movement such as `bulk-transition` |
-| Bulk transition `POST /api/boards/:boardId/tickets/bulk-transition` | Send `ticketIds`, `laneName` and a completion flag | Send `ticketIds` and `laneName`; omit completion flags |
-| List lanes `GET /api/boards/:boardId/lanes` | No completion attribute | Select destinations using `isCompletionLane`, never the name |
-| Read fields and filters | Completion flags and filters | `isResolved`/`isCompleted` and `resolved`/`completed` remain; values derive from lanes |
-| Archive | Hide tickets using `isArchived` | Unchanged and independent; archiving does not resolve a ticket |
+| Resolve via `PATCH /api/tickets/123` | `{"isResolved":true}` | `{"laneId":12}` |
+| Reopen via `PATCH /api/tickets/123` | `{"isCompleted":false}` | `{"laneId":11}` |
+| Create a resolved ticket via `POST /api/boards/1/tickets` | `{"title":"Work","laneId":11,"isResolved":true}` | `{"title":"Work","laneId":12}` |
+| Transition via `PATCH /api/tickets/123/transition` | `{"laneName":"Done","isResolved":true}` | `{"laneName":"Done"}`, only after confirming that lane's completion attribute |
 
-### Request Migration Examples
-
-These examples pair API paths with JSON bodies. Fetch lanes first. Assume board 1 has lane 12 with `isCompletionLane: true` and lane 11 with `false`, verified from the API. Replace example IDs and names with actual values. An existing `Done` lane is not necessarily a completion lane after automatic migration.
-
-**Resolve/reopen one ticket** — change the body of the same `PATCH /api/tickets/123` request.
-
-| Intent | Old request | New request |
-| --- | --- | --- |
-| Resolve | `{"isResolved":true}` | `{"laneId":12}` |
-| Reopen | `{"isResolved":false}` | `{"laneId":11}` |
-| Create resolved (`POST /api/boards/1/tickets`) | `{"title":"Task","laneId":11,"isResolved":true}` | `{"title":"Task","laneId":12}` |
-
-**Resolve multiple tickets** — change both the endpoint and body. Here the verified name of completion lane 12 is `Completed (migration)`.
+**Resolve multiple tickets** — replace both the endpoint and body:
 
 Before (`POST /api/boards/1/tickets/bulk-complete`):
 
@@ -198,24 +198,19 @@ Before (`POST /api/boards/1/tickets/bulk-complete`):
 {"ticketIds":[123,124],"isResolved":true}
 ```
 
-After (`POST /api/boards/1/tickets/bulk-transition`):
+After (`POST /api/boards/1/tickets/bulk-transition`), using the verified completion lane name:
 
 ```json
 {"ticketIds":[123,124],"laneName":"Completed (migration)"}
 ```
 
-To reopen, use the same `bulk-transition` endpoint with a verified normal lane name. Movement changes placement too; when several destinations are possible, choose the intended workflow destination before sending the request.
+To reopen, use the same endpoint with a verified normal lane name. Moving changes placement too; decide the intended destination before sending the request.
 
-### 409 Responses For Old Clients
+### Handle failures without changing user intent
 
-- Sending only `{"isResolved":true}` for a ticket in a normal lane returns 409. The server does not automatically choose a completion lane and move it.
-- Sending a conflicting destination and flag, such as `{"laneId":12,"isResolved":false}`, also returns 409. The server does not ignore the flag and move it.
-- Conflicting values for `isResolved` and `isCompleted` return 409.
-- Matching legacy flags are accepted, but new clients should omit them. `bulk-complete` accepts a request only when all selected tickets already match the requested state; any mismatch fails the entire operation without changes.
+For removed flags or aliases, correct the client request rather than retrying the same request. For removed endpoints, choose the documented replacement. Do not catch a 400/404 and silently move tickets, reclassify lanes, or retry direct DB writes. A 409 from supported operations still requires reading the current state and reviewing the conflict.
 
-On 409, re-read the current lanes and attributes, confirm the intended destination, and replace the request with lane movement without completion flags. Repeating the flag or directly modifying the DB is not a solution.
-
-See the [AI API guide](./ai-api-guide.md) and [API examples](./api-examples.md). Do not attempt to fix 409 by editing DB columns or repeatedly forcing `isResolved: true`.
+See the [AI API guide](./ai-api-guide.md) and [API examples](./api-examples.md) for supported operations.
 
 ## 8. Later Lane Reorganization Is A Separate Operation
 

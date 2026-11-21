@@ -53,7 +53,6 @@ export function toBoardExport(detail: BoardDetailView): BoardExport {
     }) => ({
       ...ticket,
       comments: ticket.comments.map(({ sync: _sync, ...comment }) => comment),
-      isCompleted: ticket.isResolved,
     })),
   };
 }

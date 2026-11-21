@@ -49,13 +49,12 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
       bodyMarkdown: "Needs **attention**",
       priority: 4,
       tagIds: [bugTag.id],
-      isResolved: false,
     },
   });
   assert.equal(firstTicketResponse.statusCode, 201);
   const firstTicket = firstTicketResponse.json();
   assert.equal(firstTicket.isResolved, false);
-  assert.equal(firstTicket.isCompleted, false);
+  assert.ok(!Object.hasOwn(firstTicket, "isCompleted"));
 
   const secondTicketResponse = await app.inject({
     method: "POST",
@@ -67,12 +66,11 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
       bodyMarkdown: "Link [guide](https://example.com)",
       priority: 2,
       tagIds: [docsTag.id],
-      isResolved: true,
     },
   });
   const secondTicket = secondTicketResponse.json();
   assert.equal(secondTicket.isResolved, true);
-  assert.equal(secondTicket.isCompleted, true);
+  assert.ok(!Object.hasOwn(secondTicket, "isCompleted"));
   assert.equal(secondTicket.priority, 2);
   assert.equal(secondTicket.parentTicketId, firstTicket.id);
   assert.deepEqual(secondTicket.blockerIds, []);
@@ -110,7 +108,7 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
 
   const filteredResponse = await app.inject({
     method: "GET",
-    url: `/api/boards/${boardId}/tickets?tag=bug&completed=false&q=parser`,
+    url: `/api/boards/${boardId}/tickets?tag=bug&resolved=false&q=parser`,
   });
   assert.equal(filteredResponse.statusCode, 200);
   const filtered = filteredResponse.json();
@@ -184,17 +182,12 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
     assert.equal(invalidPriorityUpdateResponse.statusCode, 400);
   }
 
-  const reorderResponse = await app.inject({
-    method: "POST",
-    url: `/api/boards/${boardId}/tickets/reorder`,
-    payload: {
-      items: [
-        { ticketId: secondTicket.id, laneId: doingLane.id, position: 0 },
-        { ticketId: firstTicket.id, laneId: todoLane.id, position: 0 },
-      ],
-    },
-  });
-  assert.equal(reorderResponse.statusCode, 200);
+  for (const [ticketId, laneId] of [[secondTicket.id, doingLane.id], [firstTicket.id, todoLane.id]]) {
+    const positionResponse = await app.inject({
+      method: "PATCH", url: `/api/tickets/${ticketId}/position`, payload: { laneId, position: 0 },
+    });
+    assert.equal(positionResponse.statusCode, 200);
+  }
 
   const reorderedActivityResponse = await app.inject({
     method: "GET",

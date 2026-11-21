@@ -1,54 +1,14 @@
+import { rejectCompletionFlags } from "./ticket-input.js";
 import type { FastifyInstance } from "fastify";
 
 import type { RegisterTicketRoutesContext } from "./ticket-route-context.js";
 import { getBodyBoolean, getBodyNumber, getBodyNumberArray, getBodyString } from "../route-helpers.js";
 
 export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTicketRoutesContext): void {
-  const { db, getIdParam, publishBoardEvent, resolveResolvedFlag, schemas, serializeTicketSummaries } = ctx;
-
-  app.post("/api/boards/:boardId/tickets/bulk-complete", {
-    schema: {
-      params: schemas.idParamsSchema("boardId"),
-      body: schemas.bulkResolveTicketsBodySchema,
-      response: {
-        200: schemas.ticketsResponseSchema,
-        400: schemas.errorSchema,
-        409: schemas.errorSchema,
-        404: schemas.errorSchema,
-      },
-    },
-  }, async (request, reply) => {
-    const boardId = getIdParam(request.params, "boardId");
-    const ticketIds = getBodyNumberArray(request.body, "ticketIds");
-    const isResolvedBody = {
-      isResolved: getBodyBoolean(request.body, "isResolved"),
-      isCompleted: getBodyBoolean(request.body, "isCompleted"),
-    };
-    if (!db.getBoard(boardId)) {
-      return reply.code(404).send({ error: "board not found" });
-    }
-    if (!ticketIds || ticketIds.length === 0) {
-      return reply.code(400).send({ error: "ticketids is required" });
-    }
-    try {
-      const isResolved = resolveResolvedFlag(isResolvedBody);
-      if (typeof isResolved !== "boolean") {
-        return reply.code(400).send({ error: "isresolved is required" });
-      }
-      const tickets = db.bulkResolveTickets({
-        boardId,
-        ticketIds,
-        isResolved,
-      });
-      publishBoardEvent(boardId);
-      return { tickets: serializeTicketSummaries(tickets) };
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "bulk complete failed";
-      return reply.code((error as { statusCode?: number }).statusCode === 409 ? 409 : 400).send({ error: message.toLowerCase() });
-    }
-  });
+  const { db, getIdParam, publishBoardEvent, schemas, serializeTicketSummaries } = ctx;
 
   app.post("/api/boards/:boardId/tickets/bulk-transition", {
+    preValidation: rejectCompletionFlags,
     schema: {
       params: schemas.idParamsSchema("boardId"),
       body: schemas.bulkTransitionTicketsBodySchema,
@@ -63,10 +23,6 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
     const boardId = getIdParam(request.params, "boardId");
     const ticketIds = getBodyNumberArray(request.body, "ticketIds");
     const laneName = getBodyString(request.body, "laneName");
-    const isResolvedBody = {
-      isResolved: getBodyBoolean(request.body, "isResolved"),
-      isCompleted: getBodyBoolean(request.body, "isCompleted"),
-    };
     if (!db.getBoard(boardId)) {
       return reply.code(404).send({ error: "board not found" });
     }
@@ -81,7 +37,6 @@ export function registerTicketBulkRoutes(app: FastifyInstance, ctx: RegisterTick
         boardId,
         ticketIds,
         laneName,
-        isResolved: resolveResolvedFlag(isResolvedBody),
       });
       publishBoardEvent(boardId);
       return { tickets: serializeTicketSummaries(tickets) };

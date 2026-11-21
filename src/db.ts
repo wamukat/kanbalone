@@ -49,23 +49,19 @@ import {
 import {
   bulkMoveTickets as bulkMoveTicketRecords,
   bulkArchiveTickets as bulkArchiveTicketRecords,
-  bulkResolveTickets as bulkResolveTicketRecords,
   bulkTransitionTickets as bulkTransitionTicketRecords,
   createTicket as createTicketRecord,
   deleteTicket as deleteTicketRecord,
   moveTicket as moveTicketRecord,
   positionTicket as positionTicketRecord,
-  reorderTickets as reorderTicketRecords,
   transitionTicket as transitionTicketRecord,
   updateTicket as updateTicketRecord,
   type BulkMoveTicketsInput,
   type BulkArchiveTicketsInput,
-  type BulkResolveTicketsInput,
   type BulkTransitionTicketsInput,
   type CreateTicketInput,
   type MoveTicketInput,
   type PositionTicketInput,
-  type ReorderTicketInput,
   type UpdateTicketInput,
 } from "./db-modules/ticket-mutations.js";
 import { importBoardPayload, toBoardExport } from "./db-modules/board-transfer.js";
@@ -451,16 +447,8 @@ export class KanbanDb {
     return getTicketRelationRecords(this.sqlite, ticketId);
   }
 
-  transitionTicket(ticketId: Id, laneName: string, isResolved?: boolean): TicketView {
-    return transitionTicketRecord(this.sqlite, ticketId, laneName, isResolved, this.now.bind(this));
-  }
-
-  reorderTickets(boardId: Id, items: ReorderTicketInput[]): TicketView[] {
-    return reorderTicketRecords(this.sqlite, boardId, items, this.now.bind(this));
-  }
-
-  bulkResolveTickets(input: BulkResolveTicketsInput): TicketSummaryView[] {
-    return bulkResolveTicketRecords(this.sqlite, input, this.now.bind(this));
+  transitionTicket(ticketId: Id, laneName: string): TicketView {
+    return transitionTicketRecord(this.sqlite, ticketId, laneName, this.now.bind(this));
   }
 
   bulkTransitionTickets(input: BulkTransitionTicketsInput): TicketSummaryView[] {

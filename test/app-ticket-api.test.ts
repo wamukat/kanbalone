@@ -263,7 +263,7 @@ test("comment list, relations, transition, and canonical refs", async () => {
   const transitionResponse = await app.inject({
     method: "PATCH",
     url: `/api/tickets/${parent.id}/transition`,
-    payload: { laneName: "Done", isResolved: true },
+    payload: { laneName: "Done" },
   });
   assert.equal(transitionResponse.statusCode, 200);
   assert.equal(transitionResponse.json().laneId, board.lanes[2].id);

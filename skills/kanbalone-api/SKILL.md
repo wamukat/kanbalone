@@ -89,7 +89,7 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
 
 ## Completion And Acceptance
 
-Completion comes from the lane's `isCompletionLane`, not its name. Read the board lanes before choosing a destination. Move tickets to resolve or reopen them; do not PATCH completion flags independently. Old `isResolved` / `isCompleted` request fields are compatibility assertions and conflicting values return 409.
+Completion comes from the lane's `isCompletionLane`, not its name. Read the board lanes before choosing a destination. Move tickets to resolve or reopen them; do not PATCH completion flags independently. Ticket writes reject `isResolved` / `isCompleted` with 400 even when the value matches the lane. Read the canonical `isResolved` response and use the `resolved` query filter; the `isCompleted` response and `completed` query aliases have been removed.
 
 For a human acceptance workflow, hand completed AI work off to the normal `Acceptance` lane. The human moves accepted work to a completion lane. Changing a lane's completion attribute affects every ticket in it, including archived tickets; it is not a shortcut for resolving one ticket. Archive remains independent.
 

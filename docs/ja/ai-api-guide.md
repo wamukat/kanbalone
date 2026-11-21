@@ -1,5 +1,7 @@
 # Kanbalone AI API ガイド
 
+この開発ブランチのガイドは、v0.11.0の次回リリースで行うAPI削除を反映しています。公開済み環境には、そのリリースタグのドキュメントとスキルを使用してください。[移行一覧](./migration-guide.md#deprecated-api-removal)を参照してください。
+
 既存DBを更新する場合は、先に[完了状態の移行ガイド](./migration-guide.md)を確認してください。バックアップ・自動移行・照合・ロールバックとAI向け作業契約をまとめています。
 
 この API は、ローカル環境で動作する単一ユーザー向けの Kanbalone API です。
@@ -53,7 +55,7 @@ Codex は Kanbalone container の外側で動くため、skill はホスト側�
 
 - `lanes[].isCompletionLane` を確認します。名前から完了を判定しません。
 - 完了レーンへの移動で完了、通常レーンへの移動で再開します。
-- レスポンスの `isResolved` と互換名 `isCompleted` はレーンの状態を表します。リクエストで旧フィールドを指定する場合、移動先レーンと一致する値だけ受理し、不一致は無変更で409を返します。
+- 読み取り専用の `isResolved` はレーンの状態を表します。チケットへの書き込みで `isResolved`／`isCompleted` を指定すると、無変更で400を返します。どちらも送らないでください。レスポンスの `isCompleted` とクエリの `completed` は削除済みです。完了状態の絞り込みには `resolved` を使います。
 - 標準ボードは `todo`、`doing`、`Acceptance`（通常）、`done`（完了）です。任意のレーン名を指定して作ったレーンは通常扱いです。完了属性を明示設定してください。
 - 人間による受入を行う運用では、AIはAcceptanceへ渡し、人間が受け入れてdoneへ移します。
 - `PATCH /api/lanes/:laneId` に `{ "isCompletionLane": true }` を指定すると、アーカイブ済みを含む全所属チケットの完了状態が変わります。アーカイブ状態は変えません。
@@ -173,7 +175,7 @@ ID ベース:
 複数チケットをまとめて Resolved / Unresolved にしたい:
 
 - `POST /api/boards/:boardId/tickets/bulk-transition` に `ticketIds` と移動先 `laneName` を指定する。
-- 旧 `bulk-complete` は既にレーンと一致する値だけ受理し、独立した完了変更は409で拒否する。
+- 複数件の完了・再開は `bulk-transition` で移動先レーンを指定する。削除済みの `bulk-complete` は404を返す。
 
 複数チケットを lane 名でまとめて遷移したい:
 
@@ -198,7 +200,7 @@ Content-Type: application/json
 - チケット5の直前なら `{ "laneId": 9, "beforeTicketId": 5 }`、直後なら `{ "laneId": 9, "afterTicketId": 5 }` を送ります。指定するチケットは移動先レーンに属し、移動対象自身とは異なる必要があります。
 - 絞り込みで一部のチケットだけ見えている場合は、表示上のインデックスではなく `beforeTicketId` / `afterTicketId` を使います。指定の優先順位は `beforeTicketId` → `afterTicketId` → `position` です。
 - 成功時は更新後のチケットが返ります。`GET /api/boards/:boardId/tickets?lane_id=9` で各チケットの `position` を確認できます。
-- 従来の `POST /api/boards/:boardId/tickets/reorder` はボード全体用で、全非アーカイブチケットを `items` に含める必要があります。1件の並べ替えには `position` API を使います。
+- 1件の並べ替えには `position`、同じレーン内の複数件には `POST /api/lanes/:laneId/tickets/reorder` を使います。削除済みのボード全体の並べ替えAPIは404を返します。
 
 ### Relation を取得したい
 

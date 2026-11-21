@@ -20,7 +20,6 @@ import {
 import type {
   BulkArchiveTicketsInput,
   BulkMoveTicketsInput,
-  BulkResolveTicketsInput,
   BulkTransitionTicketsInput,
 } from "./ticket-mutations.js";
 import type { Id, LaneRow, TicketSummaryView } from "../types.js";
@@ -81,39 +80,6 @@ export function bulkMoveTickets(
   return listTicketSummariesByIds(sqlite, input.boardId, input.ticketIds);
 }
 
-export function bulkResolveTickets(
-  sqlite: Database.Database,
-  input: BulkResolveTicketsInput,
-  now: Now,
-): TicketSummaryView[] {
-  const rows = getTicketRowsForBoard(sqlite, input.boardId, input.ticketIds);
-  if (rows.length !== input.ticketIds.length) {
-    throw new Error("Some tickets do not belong to board");
-  }
-  if (rows.length === 0) {
-    return [];
-  }
-  const updatedAt = now();
-  const stmt = sqlite.prepare("UPDATE tickets SET is_resolved = ?, updated_at = ? WHERE id = ?");
-  const tx = sqlite.transaction(() => {
-    rows.forEach((row) => laneCompletion(sqlite, row.lane_id, input.isResolved, input.boardId));
-    rows.forEach((row) => stmt.run(input.isResolved ? 1 : 0, updatedAt, row.id));
-    rows.forEach((row) =>
-      addTicketActivity(
-        sqlite,
-        now,
-        input.boardId,
-        row.id,
-        input.isResolved ? "ticket_resolved" : "ticket_reopened",
-        input.isResolved ? "Ticket resolved" : "Ticket reopened",
-      ),
-    );
-    touchBoard(sqlite, input.boardId, now());
-  });
-  tx();
-  return listTicketSummariesByIds(sqlite, input.boardId, input.ticketIds);
-}
-
 export function bulkTransitionTickets(
   sqlite: Database.Database,
   input: BulkTransitionTicketsInput,
@@ -147,7 +113,7 @@ export function bulkTransitionTickets(
     let targetPosition = nextPosition;
     for (const ticketId of input.ticketIds) {
       const row = rowsById.get(ticketId)!;
-      const nextResolved = Number(laneCompletion(sqlite, lane.id, input.isResolved, input.boardId));
+      const nextResolved = Number(laneCompletion(sqlite, lane.id, undefined, input.boardId));
       if (row.lane_id === lane.id) {
         updateSameLaneStmt.run(nextResolved, updatedAt, row.id);
         addTicketActivity(sqlite, now, input.boardId, row.id, "ticket_transitioned", `Moved to ${input.laneName}`);

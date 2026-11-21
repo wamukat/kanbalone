@@ -64,15 +64,6 @@ export function getBodyNumberArray(body: unknown, key: string): number[] | undef
   return Array.isArray(value) && value.every((item) => typeof item === "number") ? value : undefined;
 }
 
-export function getBodyArray<T>(
-  body: unknown,
-  key: string,
-  isItem: (item: unknown) => item is T,
-): T[] | undefined {
-  const value = getBodyRecord(body)[key];
-  return Array.isArray(value) && value.every(isItem) ? value : undefined;
-}
-
 export function parseBooleanQuery(value: string | undefined): boolean | undefined {
   if (value === "true") {
     return true;
@@ -81,18 +72,6 @@ export function parseBooleanQuery(value: string | undefined): boolean | undefine
     return false;
   }
   return undefined;
-}
-
-export function resolveResolvedFlag(
-  body: { isResolved?: boolean; isCompleted?: boolean } | undefined,
-): boolean | undefined {
-  if (typeof body?.isResolved === "boolean" && typeof body?.isCompleted === "boolean" && body.isResolved !== body.isCompleted) {
-    throw Object.assign(new Error("isResolved and isCompleted must agree"), { statusCode: 409 });
-  }
-  if (typeof body?.isResolved === "boolean") {
-    return body.isResolved;
-  }
-  return body?.isCompleted;
 }
 
 export function parseTicketMutationBody(body: unknown): TicketMutationBody {
@@ -112,8 +91,6 @@ export function parseTicketMutationBody(body: unknown): TicketMutationBody {
     title: typeof input.title === "string" ? input.title.trim() : undefined,
     bodyMarkdown: input.bodyMarkdown,
     appendMarkdown: input.appendMarkdown,
-    isResolved: resolveResolvedFlag(input),
-    isCompleted: input.isCompleted,
     isArchived: input.isArchived,
     priority: typeof input.priority === "number" ? input.priority : undefined,
     tagIds: Array.isArray(input.tagIds) ? input.tagIds : undefined,

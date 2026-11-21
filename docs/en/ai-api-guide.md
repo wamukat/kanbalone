@@ -1,5 +1,7 @@
 # Kanbalone AI API Guide
 
+This development-branch guide includes API removals planned for the next release after v0.11.0. For a released instance, use the documentation and skill from its release tag. See the [migration table](./migration-guide.md#deprecated-api-removal).
+
 Before upgrading an existing database, read the [completion-state migration guide](./migration-guide.md) for backup, automatic migration, reconciliation, rollback and the AI execution contract.
 
 This API is a local, single-user Kanbalone API. The base URL is usually `http://127.0.0.1:3000`.
@@ -52,7 +54,7 @@ The skill is installed on the host because Codex runs outside the Kanbalone cont
 
 - Inspect `lanes[].isCompletionLane`; names do not determine completion.
 - Moving to a completion lane resolves a ticket. Moving to a normal lane reopens it.
-- `isResolved` and the legacy `isCompleted` response field reflect the lane. In requests, these optional compatibility fields must agree with the destination lane or the API returns 409 without changes.
+- Read-only `isResolved` reflects the lane. Ticket writes reject `isResolved` and `isCompleted` with 400, without changes; omit both fields. The `isCompleted` response alias and `completed` query alias have been removed. Use `resolved` to filter completion.
 - The standard board has `todo`, `doing`, `Acceptance` (normal lanes), and `done` (completion lane). Custom lane names default to normal; configure completion explicitly.
 - For human acceptance workflows, AI hands work off to `Acceptance`; the human moves accepted work to `done`.
 - `PATCH /api/lanes/:laneId` with `{ "isCompletionLane": true }` changes completion for every ticket in that lane, including archived tickets. Archive flags do not change.
@@ -168,7 +170,7 @@ To move one ticket to a specific position, use `PATCH /api/tickets/:ticketId/pos
 Mark multiple tickets resolved or open:
 
 - Use `POST /api/boards/:boardId/tickets/bulk-transition` with `ticketIds` and the target `laneName`.
-- Legacy `bulk-complete` only accepts already-matching states; it cannot change completion independently and returns 409 on conflict.
+- Resolve or reopen multiple tickets with `bulk-transition` and a destination lane. The removed `bulk-complete` endpoint returns 404.
 
 Transition multiple tickets by lane name:
 
@@ -193,7 +195,7 @@ Content-Type: application/json
 - To insert immediately before ticket 5, send `{ "laneId": 9, "beforeTicketId": 5 }`; immediately after it, send `{ "laneId": 9, "afterTicketId": 5 }`. Anchors must belong to the target lane and must not be the moving ticket itself.
 - When filters hide some tickets, use `beforeTicketId` / `afterTicketId` instead of an index in the filtered view. Precedence is `beforeTicketId`, then `afterTicketId`, then `position`.
 - Success returns the updated ticket. Use `GET /api/boards/:boardId/tickets?lane_id=9` to verify each ticket's `position`.
-- The legacy `POST /api/boards/:boardId/tickets/reorder` endpoint operates on the whole board and requires every non-archived ticket in `items`. Use the `position` endpoint for a single-ticket reorder.
+- Reorder one ticket with `position`, or several tickets in one lane with `POST /api/lanes/:laneId/tickets/reorder`. The removed board-wide reorder endpoint returns 404.
 
 ### Fetch Relations
 

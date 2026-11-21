@@ -106,10 +106,7 @@ test("reordering visible tickets preserves stable archived positions on restore"
   const third = db.createTicket({ boardId: board.board.id, laneId, title: "Third" });
 
   db.updateTicket(second.id, { isArchived: true });
-  db.reorderTickets(board.board.id, [
-    { ticketId: third.id, laneId, position: 0 },
-    { ticketId: first.id, laneId, position: 1 },
-  ]);
+  db.reorderLaneTickets(laneId, [third.id, first.id]);
 
   db.updateTicket(second.id, { isArchived: false });
 
@@ -259,7 +256,7 @@ test("deleting a lane compacts remaining lane positions", () => {
   db.close();
 });
 
-test("bulk resolve and bulk transition operate on board ticket sets", async () => {
+test("bulk transition operates on board ticket sets", async () => {
   const app = buildApp({
     dbFile: createDbFile(),
     staticDir: path.join(process.cwd(), "public"),
@@ -286,18 +283,10 @@ test("bulk resolve and bulk transition operate on board ticket sets", async () =
     payload: { laneId: doingLane.id, title: "Two" },
   })).json();
 
-  const bulkResolve = await app.inject({
-    method: "POST",
-    url: `/api/boards/${board.board.id}/tickets/bulk-complete`,
-    payload: { ticketIds: [first.id, second.id], isResolved: true },
-  });
-  assert.equal(bulkResolve.statusCode, 409);
-  assert.equal((await app.inject({ method: "GET", url: `/api/tickets/${first.id}` })).json().isResolved, false);
-
   const bulkTransition = await app.inject({
     method: "POST",
     url: `/api/boards/${board.board.id}/tickets/bulk-transition`,
-    payload: { ticketIds: [first.id, second.id], laneName: "Done", isResolved: true },
+    payload: { ticketIds: [first.id, second.id], laneName: "Done" },
   });
   assert.equal(bulkTransition.statusCode, 200);
   const transitioned = bulkTransition.json().tickets;
@@ -344,8 +333,8 @@ test("bulk resolve and bulk transition operate on board ticket sets", async () =
 
   const missingTicket = await app.inject({
     method: "POST",
-    url: `/api/boards/${board.board.id}/tickets/bulk-complete`,
-    payload: { ticketIds: [first.id, 99999], isResolved: false },
+    url: `/api/boards/${board.board.id}/tickets/bulk-transition`,
+    payload: { ticketIds: [first.id, 99999], laneName: "Todo" },
   });
   assert.equal(missingTicket.statusCode, 400);
 

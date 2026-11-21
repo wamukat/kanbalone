@@ -29,12 +29,10 @@ import {
 export {
   bulkArchiveTickets,
   bulkMoveTickets,
-  bulkResolveTickets,
   bulkTransitionTickets,
 } from "./ticket-bulk-mutations.js";
 export {
   positionTicket,
-  reorderTickets,
 } from "./ticket-positioning.js";
 import type {
   Id,
@@ -61,12 +59,6 @@ export type UpdateTicketInput = Partial<CreateTicketInput> & {
   title?: string;
 };
 
-export type ReorderTicketInput = {
-  ticketId: Id;
-  laneId: Id;
-  position: number;
-};
-
 export type MoveTicketInput = {
   boardId: Id;
   laneId: Id;
@@ -84,17 +76,10 @@ export type PositionTicketInput = {
   afterTicketId?: Id | null;
 };
 
-export type BulkResolveTicketsInput = {
-  boardId: Id;
-  ticketIds: Id[];
-  isResolved: boolean;
-};
-
 export type BulkTransitionTicketsInput = {
   boardId: Id;
   ticketIds: Id[];
   laneName: string;
-  isResolved?: boolean;
 };
 
 export type BulkArchiveTicketsInput = {
@@ -329,7 +314,6 @@ export function transitionTicket(
   sqlite: Database.Database,
   ticketId: Id,
   laneName: string,
-  isResolved: boolean | undefined,
   now: Now,
 ): TicketView {
   const current = getTicket(sqlite, ticketId);
@@ -344,6 +328,5 @@ export function transitionTicket(
   }
   return updateTicket(sqlite, ticketId, {
     laneId: lane.id,
-    isResolved,
   }, now);
 }

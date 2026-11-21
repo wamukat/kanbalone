@@ -4,6 +4,7 @@
 
 **完了状態の移行はv0.10.0で導入されました。** v0.9.x以前からv0.10.0以降へ更新する際に適用します。
 
+- **v0.11.0 → 次回リリース（未公開）**：7節の削除一覧に従ってクライアントを更新します。旧DBの移行と旧Exportの取り込みは維持します。
 - **v0.10.0 → v0.11.0**：[Group移行手順](#group-migration)を参照してください。
 - **v0.9.x以前 → v0.11.0**：このガイドの完了状態移行とGroup移行の両方を確認してください。完了済みチケットの移動先レーンは、完了状態移行のルールで照合します。
 
@@ -19,7 +20,7 @@
 | アーカイブ | 完了とは独立 | 引き続き独立。アーカイブ・復元では完了を変えない |
 | レーン名 | 完了フラグとは独立 | 名前では判定しない。Doneという名前でも通常レーンになり得る |
 
-DBでは `lanes.is_completion_lane` が判定元になります。`tickets.is_resolved` 列は削除せず、検索用の派生値としてDBトリガーでレーンと同期します。チケットの列を直接更新する運用はやめてください。APIレスポンスの `isResolved` と互換名 `isCompleted` は維持します。
+DBでは `lanes.is_completion_lane` が判定元になります。`tickets.is_resolved` 列は削除せず、検索用の派生値としてDBトリガーでレーンと同期します。チケットの列を直接更新する運用はやめてください。APIレスポンスは読み取り専用の `isResolved` を使用します。v0.10.0〜v0.11.0では互換名 `isCompleted` も返していましたが、次回リリースでの削除は7節を参照してください。
 
 ## 2. 初回起動時の自動移行
 
@@ -155,44 +156,43 @@ PY
 
 完了済みが移行先へまとまるため、見た目の配置が変わるのは正常です。完了・アーカイブは通常一覧のフィルターで隠れる場合があります。見えないだけで消失と判断せず、必ずアーカイブ込みで確認してください。
 
-## 7. APIクライアントとAIスキルの更新
+## 7. APIクライアント・AIスキルの更新
 
-- 読み取りの `isResolved`／`isCompleted` と `resolved`／`completed` フィルターは維持します。
+<a id="deprecated-api-removal"></a>
+
+### 次回リリース：非推奨APIの互換処理を削除
+
+以下はv0.11.0以降の開発ブランチで実装した変更です。**公開済みv0.11.0には含まれません。** 更新対象のリリースノートとイメージを確認してください。v0.10.0〜v0.11.0では、レーンと一致する完了フラグを互換用に受理し、完了状態を2つのレスポンス項目名で返していました。次回リリースではこの互換処理を削除します。
+
+| 削除対象 | 置き換え先 | 削除後の動作 |
+| --- | --- | --- |
+| チケット・一覧・関連チケット・新規ボードExportの `isCompleted` | `isResolved` を読む | 旧項目は返さない |
+| クエリ `completed=true/false` | `resolved=true/false` | `resolved` と併記していても400 |
+| 作成・更新・移動・一括移動・作成／変更プレビューのリクエスト `isResolved`／`isCompleted` | `laneId` または `laneName` を指定し、両フラグを省略 | レーンと一致する値でも、無変更で400 |
+| `POST /api/boards/:boardId/tickets/bulk-complete` | `POST /api/boards/:boardId/tickets/bulk-transition` | 404 |
+| `POST /api/boards/:boardId/tickets/reorder` | 1件は `PATCH /api/tickets/:ticketId/position`、レーン内の複数件は `POST /api/lanes/:laneId/tickets/reorder` | 404 |
+
+読み取り専用の `isResolved`、クエリの `resolved`、レーン内の並べ替え、チケットの位置変更は維持します。旧ボード全体の並べ替えを複数リクエストに置き換える場合、ボード全体を一括更新する原子性はありません。必要なレーン・チケットごとの操作を計画してください。
+
+今回のAPI整理でも、旧DBの自動移行と旧JSON Exportの取り込みは維持します。既存データにはこのガイドの移行規則を適用します。旧フィールドを消すために、DBの完了列やバックアップファイルを手作業で書き換えないでください。
+
 - 完了・再開はレーン移動で行います。移動先は `isCompletionLane` で判断し、名前から推測しません。
-- `isResolved`／`isCompleted` の書き込みは互換用の一致確認です。両者の矛盾、または移動先レーンの状態との矛盾は無変更で409になります。新しいリクエストでは省略してください。
-- 旧 `bulk-complete` は独立した完了変更には使えません。既にレーンと一致する値のみ受理し、不一致は409です。`bulk-transition` などのレーン移動へ置き換えます。
 - レーンの完了属性を変更すると、そのレーンの全チケット（アーカイブ済みを含む）が変わります。1件を完了させる代わりにレーン属性を変更しないでください。
 - ボード全体の設定変更には `PUT /api/boards/:boardId/completion-lanes` を使用します。全選択と期待値を送り、409時は再取得・再確認します。個別PATCHで検査を回避しません。
-- 配布された `kanbalone-api` スキル、参照資料、ヘルパーを一緒に更新します。新APIはPUTを使うため、旧ヘルパーでは実行できない場合があります。リポジトリの更新だけでは、各AI環境にインストール済みのスキルは更新されません。
-
-### API仕様の変更前／変更後
-
-**完了フラグを指定して状態を変更する仕様は廃止します。完了・再開は移動先レーンで指定します。** ただし現バージョンでは、互換性のためリクエストの `isResolved`／`isCompleted` 自体は受理します。これは一致確認に限られ、独立した状態変更には使えません。レスポンスから削除されるわけでもありません。
-
-| 操作・項目 | 変更前 | 変更後・クライアントの修正 |
-| --- | --- | --- |
-| チケット作成 `POST /api/boards/:boardId/tickets` | レーンと完了フラグを別々に指定 | `laneId` で配置先を指定し、完了フラグは送らない |
-| 更新 `PATCH /api/tickets/:ticketId` | `isResolved: true/false` で完了・再開 | 完了／通常レーンの `laneId` を指定する。省略時は現在のレーンの状態を使う |
-| 移動 `PATCH /api/tickets/:ticketId/transition` | `laneName` と完了フラグを指定できる | `laneName` のみ指定。移動先が完了レーンなら完了、通常レーンなら未完了 |
-| 一括完了 `POST /api/boards/:boardId/tickets/bulk-complete` | フラグで複数件を完了・再開 | 非推奨。`bulk-transition` などのレーン移動に置き換える |
-| 一括移動 `POST /api/boards/:boardId/tickets/bulk-transition` | `ticketIds`・`laneName`・完了フラグを指定できる | `ticketIds` と `laneName` を送り、完了フラグは送らない |
-| レーン取得 `GET /api/boards/:boardId/lanes` | 完了属性なし | `isCompletionLane` を参照して移動先を選ぶ。レーン名では判定しない |
-| 読み取り・絞り込み | 完了フラグとフィルター | `isResolved`／`isCompleted` と `resolved`／`completed` は維持。値はレーンから決まる |
-| アーカイブ | `isArchived` で表示対象から退避 | 変更なし。完了とは独立し、アーカイブしても完了にはならない |
+- 配布された `kanbalone-api` スキル、参照資料、ヘルパーを一緒に更新します。リポジトリの更新だけでは、各AI環境にインストール済みのスキルは更新されません。
 
 ### リクエストの書き換え例
 
-以下はAPIパスとJSONボディの対応例です。実行前にレーン一覧を取得してください。例ではボード1のレーン12が `isCompletionLane: true`、レーン11が `false` であることを確認済みとします。ID・名前は例であり、実環境の値に置き換えます。自動移行後も、既存の `Done` が完了レーンになるとは限りません。
+以下はAPIパスとJSONボディの対応例です。実行前にレーン一覧を取得してください。例ではボード1のレーン12が `isCompletionLane: true`、レーン11が `false` であることを確認済みとします。ID・名前は実環境の値に置き換えます。自動移行後も、既存のDoneが完了レーンになるとは限りません。
 
-**1件を完了／再開する場合** — 同じ `PATCH /api/tickets/123` のボディを変更します。
-
-| 目的 | 旧リクエスト | 新リクエスト |
+| 目的 | 削除されたリクエスト | 置き換え先 |
 | --- | --- | --- |
-| 完了 | `{"isResolved":true}` | `{"laneId":12}` |
-| 再開 | `{"isResolved":false}` | `{"laneId":11}` |
-| 完了済みとして作成（`POST /api/boards/1/tickets`） | `{"title":"作業","laneId":11,"isResolved":true}` | `{"title":"作業","laneId":12}` |
+| `PATCH /api/tickets/123` で完了 | `{"isResolved":true}` | `{"laneId":12}` |
+| `PATCH /api/tickets/123` で再開 | `{"isCompleted":false}` | `{"laneId":11}` |
+| `POST /api/boards/1/tickets` で完了済みとして作成 | `{"title":"作業","laneId":11,"isResolved":true}` | `{"title":"作業","laneId":12}` |
+| `PATCH /api/tickets/123/transition` で移動 | `{"laneName":"Done","isResolved":true}` | `{"laneName":"Done"}`。事前にレーンの完了属性を確認する |
 
-**複数件を完了する場合** — エンドポイントとボディの両方を変更します。ここでは一覧で確認した完了レーン12の名前が `Completed (migration)` であるとします。
+**複数件を完了する場合** — エンドポイントとボディの両方を変更します。
 
 変更前（`POST /api/boards/1/tickets/bulk-complete`）:
 
@@ -200,24 +200,19 @@ PY
 {"ticketIds":[123,124],"isResolved":true}
 ```
 
-変更後（`POST /api/boards/1/tickets/bulk-transition`）:
+変更後（`POST /api/boards/1/tickets/bulk-transition`）。事前に確認した完了レーン名を指定します:
 
 ```json
 {"ticketIds":[123,124],"laneName":"Completed (migration)"}
 ```
 
-再開は、同じ `bulk-transition` で確認済みの通常レーン名を指定します。移動は配置も変えるので、複数の候補がある場合は運用上の移動先を決めてから送信します。
+再開は、同じエンドポイントで確認済みの通常レーン名を指定します。移動は配置も変えるので、運用上の移動先を決めてから送信します。
 
-### 旧クライアントで発生する409
+### エラー時にユーザーの意図を変えない
 
-- 通常レーンのチケットへ `{"isResolved":true}` だけを送ると409です。自動で完了レーンを選んで移動することはありません。
-- `{"laneId":12,"isResolved":false}` のように移動先と矛盾する指定も409です。フラグを無視して移動することはありません。
-- `isResolved` と `isCompleted` の値が違う場合も409です。
-- 一致する旧フラグは受理しますが、新規実装では送らないでください。`bulk-complete` も全対象が既に指定状態の場合だけ受理し、1件でも不一致なら全体を無変更で失敗させます。
+削除されたフラグ・別名はクライアント側で修正します。削除されたエンドポイントは対応するAPIへ置き換えます。400／404を受けて勝手にチケットを移動したり、レーン属性を変えたり、DBを直接更新したりしないでください。現行APIの競合による409は、現在値を読み直して判断します。
 
-409時は現在のレーンと属性を読み直し、意図した移動先を確認して、フラグを含めない移動リクエストに修正します。同じフラグの再送やDB直接更新では解決しません。
-
-詳細と例は [AI APIガイド](./ai-api-guide.md) と [API例](./api-examples.md) を参照してください。DB列の直接操作や `isResolved: true` の強制再試行で409を解消しようとしないでください。
+対応する操作は [AI APIガイド](./ai-api-guide.md) と [API例](./api-examples.md) を参照してください。
 
 ## 8. 移行後のレーン整理は別の操作
 

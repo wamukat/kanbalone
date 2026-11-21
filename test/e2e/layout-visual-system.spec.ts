@@ -137,7 +137,6 @@ test("editor form focus and detail header badges use the shared visual language"
         laneId: boardPayload.lanes[0].id,
         title: "Resolved archived visual ticket",
         priority: 3,
-        isResolved: true,
         isArchived: true,
       },
     );

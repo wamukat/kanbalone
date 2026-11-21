@@ -15,7 +15,6 @@ import {
   getIdParam,
   parseBooleanQuery,
   parseTicketMutationBody,
-  resolveResolvedFlag,
   sanitizeStringArray,
   setErrorHandler,
 } from "./route-helpers.js";
@@ -118,7 +117,6 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     parseBooleanQuery,
     parseTicketMutationBody,
     publishBoardEvent: boardEventHub.publish,
-    resolveResolvedFlag,
     remoteAdapters,
     schemas: routeSchemas,
     serializeTicket,

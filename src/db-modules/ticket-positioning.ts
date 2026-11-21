@@ -1,13 +1,10 @@
 import type Database from "better-sqlite3";
 
-import { listLanes } from "./board.js";
 import {
   normalizeVisibleAndArchivedTicketPositions,
 } from "./ordering.js";
-import { getTicketRowsForBoard } from "./ticket-queries.js";
 import {
   getTicket,
-  listTickets,
   listTicketSummaries,
 } from "./ticket-read-model.js";
 import {
@@ -15,7 +12,7 @@ import {
   touchBoard,
   type Now,
 } from "./ticket-mutation-shared.js";
-import type { PositionTicketInput, ReorderTicketInput } from "./ticket-mutations.js";
+import type { PositionTicketInput } from "./ticket-mutations.js";
 import type { Id, LaneRow, TicketView } from "../types.js";
 
 export function positionTicket(
@@ -87,55 +84,6 @@ export function positionTicket(
   });
   tx();
   return getTicket(sqlite, ticketId)!;
-}
-
-export function reorderTickets(
-  sqlite: Database.Database,
-  boardId: Id,
-  items: ReorderTicketInput[],
-  now: Now,
-): TicketView[] {
-  const tickets = listTickets(sqlite, boardId);
-  if (tickets.length !== items.length || tickets.some((ticket) => !items.find((item) => item.ticketId === ticket.id))) {
-    throw new Error("Ticket order does not match board tickets");
-  }
-  const laneRows = listLanes(sqlite, boardId);
-  const lanes = new Set(laneRows.map((lane) => lane.id));
-  const laneNameById = new Map(laneRows.map((lane) => [lane.id, lane.name]));
-  const currentRows = getTicketRowsForBoard(sqlite, boardId, items.map((item) => item.ticketId));
-  const currentRowsById = new Map(currentRows.map((row) => [row.id, row]));
-  const updateStmt = sqlite.prepare("UPDATE tickets SET lane_id = ?, position = ?, updated_at = ? WHERE id = ?");
-  const tx = sqlite.transaction(() => {
-    const updatedAt = now();
-    const affectedLaneIds = new Set<Id>();
-    currentRows.forEach((row) => affectedLaneIds.add(row.lane_id));
-    items.forEach((item) => {
-      if (!lanes.has(item.laneId)) {
-        throw new Error("Lane does not belong to board");
-      }
-      affectedLaneIds.add(item.laneId);
-      updateStmt.run(item.laneId, item.position, updatedAt, item.ticketId);
-      const current = currentRowsById.get(item.ticketId);
-      if (current && current.lane_id !== item.laneId) {
-        addTicketActivity(
-          sqlite,
-          now,
-          boardId,
-          item.ticketId,
-          "ticket_transitioned",
-          `Moved to ${laneNameById.get(item.laneId) ?? "lane"}`,
-          {
-            fromLaneId: current.lane_id,
-            toLaneId: item.laneId,
-          },
-        );
-      }
-    });
-    affectedLaneIds.forEach((laneId) => normalizeVisibleAndArchivedTicketPositions(sqlite, laneId));
-    touchBoard(sqlite, boardId, now());
-  });
-  tx();
-  return listTickets(sqlite, boardId);
 }
 
 export function reorderLaneTickets(sqlite: Database.Database, laneId: Id, ticketIds: Id[], now: Now) {

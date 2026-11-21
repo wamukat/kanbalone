@@ -539,7 +539,7 @@ paths:
     get:
       summary: List ticket summaries
       description: Lightweight summary endpoint for board rendering, filtering, search, and automation on large boards. Fetch individual ticket
-        detail separately when body, comments, or expanded relations are needed.
+        detail separately when body, comments, or expanded relations are needed. Use resolved for completion filtering; the removed completed query alias returns 400.
       operationId: listTickets
       parameters:
       - $ref: '#/components/parameters/BoardId'
@@ -565,12 +565,6 @@ paths:
           type: string
       - name: resolved
         in: query
-        schema:
-          type: boolean
-      - name: completed
-        in: query
-        deprecated: true
-        description: Legacy alias for resolved.
         schema:
           type: boolean
       - name: archived
@@ -699,54 +693,6 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
-  /api/boards/{boardId}/tickets/bulk-complete:
-    post:
-      summary: Assert existing resolved state (legacy)
-      deprecated: true
-      description: Accepts only values matching every selected ticket lane. Conflicts return 409 without changes. Use bulk-transition to change completion by selecting a destination lane.
-      operationId: bulkResolveTickets
-      parameters:
-        - $ref: "#/components/parameters/BoardId"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                ticketIds:
-                  type: array
-                  items:
-                    type: integer
-                isResolved:
-                  type: boolean
-                  description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
-                isCompleted:
-                  type: boolean
-                  deprecated: true
-                  description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
-              required: [ticketIds]
-      responses:
-        "200":
-          description: Updated ticket summaries
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  tickets:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/TicketSummary"
-                required: [tickets]
-        "400":
-          $ref: "#/components/responses/Error"
-        "404":
-          $ref: "#/components/responses/Error"
-
-        "409":
-          $ref: "#/components/responses/Error"
-
   /api/boards/{boardId}/tickets/bulk-transition:
     post:
       summary: Bulk transition tickets by lane name
@@ -759,6 +705,15 @@ paths:
           application/json:
             schema:
               type: object
+              description: Resolve or reopen by destination lane. Completion flags are rejected with 400.
+              not:
+                anyOf:
+                  - properties:
+                      isResolved: {}
+                    required: [isResolved]
+                  - properties:
+                      isCompleted: {}
+                    required: [isCompleted]
               properties:
                 ticketIds:
                   type: array
@@ -766,13 +721,6 @@ paths:
                     type: integer
                 laneName:
                   type: string
-                isResolved:
-                  type: boolean
-                  description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
-                isCompleted:
-                  type: boolean
-                  deprecated: true
-                  description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
               required: [ticketIds, laneName]
       responses:
         "200":
@@ -874,50 +822,6 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
-  /api/boards/{boardId}/tickets/reorder:
-    post:
-      summary: Reorder tickets and move between lanes
-      description: Legacy full-board reorder endpoint. The request must include every non-archived ticket returned by the board detail for the board. UI clients should prefer `/api/tickets/{ticketId}/position` for single-ticket drag-and-drop moves.
-      deprecated: true
-      operationId: reorderTickets
-      parameters:
-        - $ref: "#/components/parameters/BoardId"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                items:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      ticketId:
-                        type: integer
-                      laneId:
-                        type: integer
-                      position:
-                        type: integer
-                    required: [ticketId, laneId, position]
-              required: [items]
-      responses:
-        "200":
-          description: Reordered tickets
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  tickets:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Ticket"
-                required: [tickets]
-        "400":
-          $ref: "#/components/responses/Error"
-
   /api/boards/{boardId}/export:
     get:
       summary: Export board
@@ -1000,15 +904,17 @@ paths:
           application/json:
             schema:
               type: object
+              description: Resolve or reopen by destination lane. Completion flags are rejected with 400.
+              not:
+                anyOf:
+                  - properties:
+                      isResolved: {}
+                    required: [isResolved]
+                  - properties:
+                      isCompleted: {}
+                    required: [isCompleted]
               properties:
                 laneName: { type: string }
-                isResolved:
-                  type: boolean
-                  description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
-                isCompleted:
-                  type: boolean
-                  deprecated: true
-                  description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
               required: [laneName]
       responses:
         "200":
@@ -2308,13 +2214,8 @@ components:
           type: integer
         isResolved:
           type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts
-            return 409.
-        isCompleted:
-          type: boolean
-          deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both
-            completion flags when writing.
+          readOnly: true
+          description: Completion derived from the lane.
         priority:
           type: integer
           enum:
@@ -2339,7 +2240,6 @@ components:
       - title
       - laneId
       - isResolved
-      - isCompleted
       - priority
       - ref
       - shortRef
@@ -2556,13 +2456,8 @@ components:
           type: string
         isResolved:
           type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts
-            return 409.
-        isCompleted:
-          type: boolean
-          deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both
-            completion flags when writing.
+          readOnly: true
+          description: Completion derived from the lane.
         isArchived:
           type: boolean
         priority:
@@ -2649,7 +2544,6 @@ components:
       - bodyMarkdown
       - bodyHtml
       - isResolved
-      - isCompleted
       - isArchived
       - priority
       - position
@@ -2691,13 +2585,8 @@ components:
           type: string
         isResolved:
           type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts
-            return 409.
-        isCompleted:
-          type: boolean
-          deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both
-            completion flags when writing.
+          readOnly: true
+          description: Completion derived from the lane.
         isArchived:
           type: boolean
         priority:
@@ -2760,7 +2649,6 @@ components:
       - hasChildren
       - title
       - isResolved
-      - isCompleted
       - isArchived
       - priority
       - position
@@ -2823,19 +2711,21 @@ components:
           - appendMarkdown
     TicketUpsert:
       type: object
+      description: Completion is derived from the lane. isResolved and isCompleted are rejected in ticket writes with 400, even when they match the lane.
+      not:
+        anyOf:
+          - properties:
+              isResolved: {}
+            required: [isResolved]
+          - properties:
+              isCompleted: {}
+            required: [isCompleted]
       properties:
         laneId: { type: integer }
         parentTicketId:
           type: [integer, "null"]
         title: { type: string }
         bodyMarkdown: { type: string }
-        isResolved:
-          type: boolean
-          description: Completion derived from the lane. In requests, this optional compatibility assertion must match the destination lane; conflicts return 409.
-        isCompleted:
-          type: boolean
-          deprecated: true
-          description: Legacy alias for isResolved. Request values must agree with isResolved and the destination lane. New clients should omit both completion flags when writing.
         isArchived: { type: boolean }
         priority:
           type: integer

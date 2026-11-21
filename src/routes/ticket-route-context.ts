@@ -15,8 +15,6 @@ export type TicketMutationBody = {
   title?: string;
   bodyMarkdown?: string;
   appendMarkdown?: string;
-  isResolved?: boolean;
-  isCompleted?: boolean;
   isArchived?: boolean;
   priority?: number;
   tagIds?: number[];
@@ -26,8 +24,6 @@ export type TicketMutationBody = {
 
 export type TicketTransitionBody = {
   laneName?: string;
-  isResolved?: boolean;
-  isCompleted?: boolean;
 };
 
 export type TicketMoveBody = {
@@ -57,13 +53,11 @@ export type TicketRoutesSchemas = {
   activityLogsResponseSchema: RouteJsonSchema;
   bulkArchiveTicketsBodySchema: RouteJsonSchema;
   bulkMoveTicketsBodySchema: RouteJsonSchema;
-  bulkResolveTicketsBodySchema: RouteJsonSchema;
   bulkTransitionTicketsBodySchema: RouteJsonSchema;
   commentViewSchema: RouteJsonSchema;
   commentsResponseSchema: RouteJsonSchema;
   errorSchema: RouteJsonSchema;
   idParamsSchema(key: string): RouteJsonSchema;
-  reorderTicketsBodySchema: RouteJsonSchema;
   ticketCommentBodySchema: RouteJsonSchema;
   ticketCommentUpdateBodySchema: RouteJsonSchema;
   ticketEventCreateBodySchema: RouteJsonSchema;
@@ -95,7 +89,6 @@ export type RegisterTicketRoutesContext = {
   parseTicketMutationBody(body: unknown): TicketMutationBody;
   publishBoardEvent(boardId: Id, event?: string): void;
   remoteAdapters: RemoteAdapterRegistry;
-  resolveResolvedFlag(body: { isResolved?: boolean; isCompleted?: boolean } | undefined): boolean | undefined;
   schemas: TicketRoutesSchemas;
   serializeTicket(ticket: TicketView): unknown;
   serializeTicketRelation(relation: TicketRelationView): unknown;

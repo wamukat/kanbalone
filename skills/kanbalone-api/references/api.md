@@ -64,7 +64,6 @@ List:
   - `lane_id=<id>`
   - `tag=<name>`
   - `resolved=true|false`
-  - `completed=true|false` alias of resolved
   - `archived=true|false|all`
   - `q=<search text>`
     - Searches title, body Markdown, local refs such as `#10`, tracked remote refs, and external references.
@@ -94,7 +93,7 @@ Read/update/delete:
 
 - `GET /api/tickets/:ticketId`
 - `PATCH /api/tickets/:ticketId`
-  - Partial body. Supported fields: `laneId`, `parentTicketId`, `title`, `bodyMarkdown`, `isResolved`, `isCompleted`, `isArchived`, `priority`, `tagIds`, `blockerIds`.
+  - Partial body. Supported fields: `laneId`, `parentTicketId`, `title`, `bodyMarkdown`, `isArchived`, `priority`, `tagIds`, `blockerIds`.
 - `DELETE /api/tickets/:ticketId`
 
 Transition by lane name:
@@ -112,7 +111,7 @@ Reorder within a lane or move to a position on the same board:
 - `position` is zero-based. Anchors must belong to the target lane and must not be the moving ticket itself. Precedence is `beforeTicketId`, then `afterTicketId`, then `position`.
 - Prefer anchors when filters hide some tickets; a filtered view's index is not the lane's full position.
 - Returns the updated ticket. The server reindexes affected lanes; no full-board ticket list is required. Verify order via the `position` fields from `GET /api/boards/:boardId/tickets?lane_id=9`.
-- The legacy `POST /api/boards/:boardId/tickets/reorder` requires every non-archived board ticket in `items`. Prefer `/position` for single-ticket reordering.
+- For several tickets in one lane, use `POST /api/lanes/:laneId/tickets/reorder`. The old board-wide reorder endpoint has been removed (404).
 
 Move between boards:
 
@@ -144,8 +143,6 @@ External references:
 
 Bulk:
 
-- `POST /api/boards/:boardId/tickets/bulk-complete` (legacy)
-  - Completion assertions only: `{ "ticketIds": [1, 2], "isResolved": true }`. Returns 409 if any ticket's lane disagrees; use bulk-transition to change state.
 - `POST /api/boards/:boardId/tickets/bulk-transition`
   - Body: `{ "ticketIds": [1, 2], "laneName": "Done" }`
 - `POST /api/boards/:boardId/tickets/bulk-archive`
@@ -188,7 +185,7 @@ Use `PUT /api/tickets/:ticketId/external-references/:kind` with `resourceType: "
 
 Lane responses include `isCompletionLane`. POST a lane with `{ "name": "Accepted", "isCompletionLane": true }`, or PATCH `/api/lanes/:laneId` with `{ "isCompletionLane": true }`. PATCH changes completion for every ticket in the lane, including archived tickets, and keeps archive flags unchanged.
 
-Ticket `isResolved` and legacy `isCompleted` responses reflect the lane. Optional request flags must agree with each other and with the destination lane; mismatches return 409 atomically. Omit these flags on new requests. Use `laneId` or `transition` / `bulk-transition` to resolve or reopen tickets. Custom lane names default to normal lanes; do not infer completion from names. Standard boards include a normal Acceptance lane for human acceptance.
+Read-only ticket `isResolved` reflects the lane. Ticket writes reject `isResolved` and `isCompleted` with 400 without changes. Omit both flags. The `isCompleted` response alias, `completed` query alias, and `bulk-complete` endpoint have been removed; use `resolved` for filtering. Removed query aliases return 400; removed endpoints return 404. Use `laneId` or `transition` / `bulk-transition` to resolve or reopen tickets. Custom lane names default to normal lanes; do not infer completion from names. Standard boards include a normal Acceptance lane for human acceptance.
 
 For a reviewed board-wide selection, use `PUT /api/boards/:boardId/completion-lanes`. `laneIds` replaces the entire selection; an empty array clears all completion lanes. `expectedLanes` must contain every current lane, including zero-ticket lanes, with its current completion attribute and ticket count including archived tickets. Read `GET /api/boards/:boardId/lanes` and `GET /api/boards/:boardId/tickets?archived=all` without other filters to compute these expectations.
 

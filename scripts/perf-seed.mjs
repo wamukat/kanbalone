@@ -83,9 +83,9 @@ function buildPayload() {
   };
 
   const lanes = [
-    { id: 1, boardId: 1, name: "todo", position: 0 },
-    { id: 2, boardId: 1, name: "doing", position: 1 },
-    { id: 3, boardId: 1, name: "done", position: 2 },
+    { id: 1, boardId: 1, name: "todo", isCompletionLane: false, position: 0 },
+    { id: 2, boardId: 1, name: "doing", isCompletionLane: false, position: 1 },
+    { id: 3, boardId: 1, name: "done", isCompletionLane: true, position: 2 },
   ];
 
   const tags = Array.from({ length: TAG_COUNT }, (_, index) => ({
@@ -117,8 +117,8 @@ function buildPayload() {
 
     const parentTicketId = ticketId % 10 === 2 ? ticketId - 1 : null;
     const blockerIds = ticketId > 1 && ticketId % 7 === 0 ? [ticketId - 1] : [];
-    const isCompleted = laneId === 3;
-    const priority = randomInt(0, 5);
+    const isResolved = laneId === 3;
+    const priority = randomInt(1, 4);
 
     const ticket = {
       id: ticketId,
@@ -135,7 +135,7 @@ function buildPayload() {
         "- Validate list rendering",
         "- Validate detail endpoint latency",
       ].join("\n"),
-      isCompleted,
+      isResolved,
       priority,
       position,
       tags: selectedTags,

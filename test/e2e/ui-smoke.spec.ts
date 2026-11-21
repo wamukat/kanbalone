@@ -60,7 +60,6 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
           laneId: ticket.isResolved ? completedLane.id : todoLane.id,
           title: ticket.title,
           priority: ticket.priority,
-          isResolved: ticket.isResolved ?? false,
           isArchived: ticket.isArchived ?? false,
         },
       });

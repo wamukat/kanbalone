@@ -1,5 +1,7 @@
 # API 例
 
+この開発ブランチのガイドは、v0.11.0の次回リリースで行うAPI削除を反映しています。公開済み環境には、そのリリースタグのドキュメントとスキルを使用してください。[移行一覧](./migration-guide.md#deprecated-api-removal)を参照してください。
+
 完了状態は名前ではなく `isCompletionLane` で決まります。以下はレーン11 / `Done` が完了レーン、レーン9が通常レーンとして設定済みの例です。レーン属性を明示的に設定できます。
 
 ```bash
@@ -207,22 +209,6 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/4/position \
 
 ```bash
 curl -s 'http://127.0.0.1:3000/api/boards/3/tickets?lane_id=9'
-```
-
-## ボード全体のチケット並び替え（従来のAPI）
-
-`items` にはボード内の全非アーカイブチケットが必要です。以下は対象がチケット4・5・6だけの場合の例です。レーン内の1件の並べ替えには上記の `position` API を使います。
-
-```bash
-curl -s -X POST http://127.0.0.1:3000/api/boards/3/tickets/reorder \
-  -H 'content-type: application/json' \
-  --data '{
-    "items": [
-      { "ticketId": 4, "laneId": 9, "position": 0 },
-      { "ticketId": 5, "laneId": 9, "position": 1 },
-      { "ticketId": 6, "laneId": 11, "position": 0 }
-    ]
-  }'
 ```
 
 ## ボードを Export する

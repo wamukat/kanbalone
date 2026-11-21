@@ -22,7 +22,6 @@ test("ticket detail supports focused inline updates", async ({ page }) => {
       title: "Inline detail ticket",
       bodyMarkdown: "Original **body**",
       priority: 2,
-      isResolved: true,
       isArchived: true,
     });
 

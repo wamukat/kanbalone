@@ -231,7 +231,6 @@ test("kanban status expansion collapses large completed groups", async ({ page }
           title: `Archived resolved ticket ${index + 1}`,
           bodyMarkdown: "",
           isResolved: true,
-          isCompleted: true,
           isArchived: true,
           priority: 2,
           position: index,

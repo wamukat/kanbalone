@@ -11,8 +11,6 @@ export const ticketMutationBodySchema = {
     },
     title: { type: "string", minLength: 1 },
     bodyMarkdown: { type: "string" },
-    isResolved: { type: "boolean" },
-    isCompleted: { type: "boolean" },
     isArchived: { type: "boolean" },
     priority: ticketPrioritySchema,
     tagIds: optionalPositiveIntegerArraySchema,
@@ -53,8 +51,6 @@ export const ticketTransitionBodySchema = {
   additionalProperties: false,
   properties: {
     laneName: { type: "string", minLength: 1 },
-    isResolved: { type: "boolean" },
-    isCompleted: { type: "boolean" },
   },
 } as const;
 
@@ -147,7 +143,6 @@ export const ticketListQuerySchema = {
     parent: { type: "string", pattern: "^(none|[1-9][0-9]*)$" },
     tag: { type: "string" },
     resolved: { type: "string", enum: ["true", "false"] },
-    completed: { type: "string", enum: ["true", "false"] },
     archived: { type: "string", enum: ["true", "false", "all"] },
     q: { type: "string" },
   },
@@ -183,26 +178,5 @@ export const ticketExternalReferenceSetBodySchema = {
     displayRef: { type: "string", minLength: 1 },
     url: { type: "string", minLength: 1 },
     title: { anyOf: [{ type: "string" }, { type: "null" }] },
-  },
-} as const;
-
-export const reorderTicketsBodySchema = {
-  type: "object",
-  required: ["items"],
-  additionalProperties: false,
-  properties: {
-    items: {
-      type: "array",
-      items: {
-        type: "object",
-        required: ["ticketId", "laneId", "position"],
-        additionalProperties: false,
-        properties: {
-          ticketId: positiveIntegerSchema,
-          laneId: positiveIntegerSchema,
-          position: { type: "integer", minimum: 0 },
-        },
-      },
-    },
   },
 } as const;

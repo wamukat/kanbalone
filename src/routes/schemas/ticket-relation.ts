@@ -4,7 +4,7 @@ import { positiveIntegerSchema, ticketPrioritySchema } from "./common.js";
 export const ticketRelationSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["id", "title", "laneId", "isResolved", "isCompleted", "priority", "ref", "shortRef"],
+  required: ["id", "title", "laneId", "isResolved", "priority", "ref", "shortRef"],
   properties: {
     groupId: nullableGroupIdSchema,
     group: groupReferenceSchema,
@@ -12,7 +12,6 @@ export const ticketRelationSchema = {
     title: { type: "string" },
     laneId: positiveIntegerSchema,
     isResolved: { type: "boolean" },
-    isCompleted: { type: "boolean" },
     priority: ticketPrioritySchema,
     ref: { type: "string" },
     shortRef: { type: "string" },

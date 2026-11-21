@@ -1,16 +1,5 @@
 import { optionalPositiveIntegerArraySchema, positiveIntegerSchema } from "./common.js";
 
-export const bulkResolveTicketsBodySchema = {
-  type: "object",
-  required: ["ticketIds"],
-  additionalProperties: false,
-  properties: {
-    ticketIds: optionalPositiveIntegerArraySchema,
-    isResolved: { type: "boolean" },
-    isCompleted: { type: "boolean" },
-  },
-} as const;
-
 export const bulkTransitionTicketsBodySchema = {
   type: "object",
   required: ["ticketIds", "laneName"],
@@ -18,8 +7,6 @@ export const bulkTransitionTicketsBodySchema = {
   properties: {
     ticketIds: optionalPositiveIntegerArraySchema,
     laneName: { type: "string", minLength: 1 },
-    isResolved: { type: "boolean" },
-    isCompleted: { type: "boolean" },
   },
 } as const;
 

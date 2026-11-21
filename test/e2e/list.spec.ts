@@ -278,7 +278,7 @@ test("list view refreshes after background API create move and delete", async ({
     await expect(listBoard.getByRole("button", { name: "Created behind list" })).toBeVisible();
 
     const transitionResponse = await page.request.patch(`${baseUrl}/api/tickets/${createdTicket.id}/transition`, {
-      data: { laneName: doneLane.name, isResolved: false },
+      data: { laneName: doneLane.name },
     });
     expect(transitionResponse.status()).toBe(200);
     await expect(listBoard.locator(".list-row", { hasText: "Created behind list" })).toContainText("Done");
