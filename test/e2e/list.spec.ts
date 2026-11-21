@@ -213,6 +213,27 @@ test("list title column shows hierarchy icons and parent icon selects the family
     await parentRow.locator("[data-select-family-ticket-id]").click();
     await expect(page.locator(`[data-list-ticket-id="${parent.id}"]`)).not.toBeChecked();
     await expect(page.locator(`[data-list-ticket-id="${child.id}"]`)).not.toBeChecked();
+
+    for (const locale of ["ja", "en"]) {
+      await page.locator("#board-settings-toggle-button").click();
+      await page.locator("#language-select").selectOption(locale);
+      await expect(page.locator("html")).toHaveAttribute("lang", locale);
+      const familyLabel = locale === "ja" ? "親子チケットをまとめて選択" : "Select parent and child tickets";
+      for (const attribute of ["title", "aria-label"]) {
+        await expect(parentRow.locator("[data-select-family-ticket-id]")).toHaveAttribute(attribute, familyLabel);
+        await expect(childRow.locator(".ticket-hierarchy-icon-child")).toHaveAttribute(attribute, locale === "ja" ? "子チケット" : "Child ticket");
+        await expect(standaloneRow.locator(".ticket-hierarchy-icon-single")).toHaveAttribute(attribute, locale === "ja" ? "単独チケット" : "Standalone ticket");
+      }
+      await parentRow.getByRole("button", { name: familyLabel, exact: true }).click();
+      await expect(page.locator(`[data-list-ticket-id="${parent.id}"]`)).toBeChecked();
+      await expect(page.locator(`[data-list-ticket-id="${child.id}"]`)).toBeChecked();
+      await expect(page.locator(`[data-list-ticket-id="${standalone.id}"]`)).not.toBeChecked();
+      await parentRow.getByRole("button", { name: familyLabel, exact: true }).click();
+      await expect(page.locator(`[data-list-ticket-id="${parent.id}"]`)).not.toBeChecked();
+      await expect(page.locator(`[data-list-ticket-id="${child.id}"]`)).not.toBeChecked();
+      const stored = await (await page.request.get(`${baseUrl}/api/tickets/${parent.id}`)).json();
+      expect(stored.title).toBe("Parent list ticket");
+    }
   } finally {
     await close();
   }

@@ -1,0 +1,37 @@
+{
+  "lang": "ja",
+  "icons": [
+    {
+      "title": "親チケット",
+      "ariaLabel": "親チケット"
+    },
+    {
+      "title": "子チケット",
+      "ariaLabel": "子チケット"
+    },
+    {
+      "title": "単独チケット",
+      "ariaLabel": "単独チケット"
+    },
+    {
+      "title": "単独チケット",
+      "ariaLabel": "単独チケット"
+    },
+    {
+      "title": "親子チケットをまとめて選択",
+      "ariaLabel": "親子チケットをまとめて選択"
+    },
+    {
+      "title": "子チケット",
+      "ariaLabel": "子チケット"
+    },
+    {
+      "title": "単独チケット",
+      "ariaLabel": "単独チケット"
+    },
+    {
+      "title": "単独チケット",
+      "ariaLabel": "単独チケット"
+    }
+  ]
+}
