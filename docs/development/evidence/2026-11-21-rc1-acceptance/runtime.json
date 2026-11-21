@@ -1,0 +1,66 @@
+{
+  "base": "http://127.0.0.1:3481",
+  "prefix": "kanbalone-rc1-acceptance-15ab740d",
+  "volume": "kanbalone-rc1-acceptance-15ab740d",
+  "oldContainer": "kanbalone-rc1-acceptance-15ab740d-old",
+  "sourceImageId": "sha256:1b7dcf541ddbbfaaf1b18cefbbbd9682779e4681f5b67fa79aa611b31cc117ff",
+  "sourceDigests": [
+    "ghcr.io/wamukat/kanbalone@sha256:40a53ad652a1578972a588e6fa3448666fc020ba1e745121ffdffae98aba6f9e"
+  ],
+  "boardId": 1,
+  "groupId": 1,
+  "parentId": 1,
+  "childId": 2,
+  "standaloneId": 3,
+  "lanes": [
+    {
+      "isCompletionLane": false,
+      "id": 1,
+      "boardId": 1,
+      "name": "Todo",
+      "position": 0
+    },
+    {
+      "isCompletionLane": false,
+      "id": 2,
+      "boardId": 1,
+      "name": "Acceptance",
+      "position": 1
+    },
+    {
+      "isCompletionLane": false,
+      "id": 3,
+      "boardId": 1,
+      "name": "Done",
+      "position": 2
+    }
+  ],
+  "candidateSha": "a050e2bb484cd35c9b41ed582308cd218a48e187",
+  "dryRun": "https://github.com/wamukat/kanbalone/actions/runs/44876216393",
+  "backup": {
+    "file": "pre-upgrade-data.tar",
+    "sha256": "21eee73c02e85a7cf8ce02288fd0690e2490ecaa20adf5dcd027f4aa386a3472",
+    "files": [
+      "./",
+      "./kanbalone.sqlite",
+      "./kanbalone.sqlite-shm",
+      "./kanbalone.sqlite-wal"
+    ]
+  },
+  "localImageId": "sha256:1e0533ce332ea2d70658b2552e086a038e1b0f560f77a3f82a86933292a30ecd",
+  "candidateContainer": "kanbalone-rc1-acceptance-15ab740d-candidate",
+  "artifactManifest": {
+    "schemaVersion": 1,
+    "version": "1.0.0-rc.1",
+    "sha": "a050e2bb484cd35c9b41ed582308cd218a48e187",
+    "imageId": "sha256:aa0a658ea665da21ebbe096bff93c2b23dda9b7c888249ba7c4ccfb61cd02397",
+    "image": "kanbalone:release-check",
+    "imageFile": "image.tar",
+    "imageSha256": "ed82ef921a6d956f18b542c7faa1214b8cc68c864e364966652391a0871035ae",
+    "platform": "linux/amd64",
+    "verifiedAt": "2026-11-21T06:43:54.225Z",
+    "smoke": {
+      "persistenceVerified": true
+    }
+  }
+}

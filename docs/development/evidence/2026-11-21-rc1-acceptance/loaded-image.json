@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0-rc.1",
+  "sha": "a050e2bb484cd35c9b41ed582308cd218a48e187",
+  "imageSha256": "ed82ef921a6d956f18b542c7faa1214b8cc68c864e364966652391a0871035ae",
+  "ciImageId": "sha256:aa0a658ea665da21ebbe096bff93c2b23dda9b7c888249ba7c4ccfb61cd02397",
+  "configId": "sha256:1e0533ce332ea2d70658b2552e086a038e1b0f560f77a3f82a86933292a30ecd",
+  "localImageId": "sha256:1e0533ce332ea2d70658b2552e086a038e1b0f560f77a3f82a86933292a30ecd",
+  "platform": "linux/amd64",
+  "verifiedAt": "2026-11-21T06:54:07.728Z"
+}

@@ -23,7 +23,7 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 | After dry-run, before publication | Release owner | Run the target image artifact locally in isolation; verify principal changes and basic operations. Record the SHA, Actions URL, image ID and results in the preparation PR, then decide whether to publish. |
 | After publication | Release owner | Check tags, bilingual notes and published image. Run the published version in isolation and check its version and basic operations. Add the Release URL to the preparation PR. |
 
-Implementation testing does not replace release-candidate verification. For the local pre-publication check, load `image.tar` from the dry-run artifact and run the image ID in `manifest.json`, using a dedicated port and volume. Do not overwrite an existing runtime.
+Implementation testing does not replace release-candidate verification. For the local pre-publication check, use the verified loading procedure below and run `localImageId` from `loaded-image.json`, using a dedicated port and volume. Do not overwrite an existing runtime.
 
 For changes affecting the database, storage format or upgrade procedure, prepare test data with the previous published version, back it up, upgrade to the candidate, compare its contents and verify restoration from the backup before publishing. For UI/API-only changes, record why this does not apply. Use only consistent copies of real user data, and keep personal information out of screenshots and logs.
 
@@ -73,6 +73,19 @@ Open **Actions → Release → Run workflow** on `main` and enter:
 The workflow validates the target, version and release notes, then runs the shared checks and Chromium E2E tests. It builds a `linux/amd64` image and tests startup, API writes and persistence after restart using an isolated temporary volume.
 
 Review the run and its `release-image-VERSION` artifact. It contains the tested image and `manifest.json` with its SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image. The image job also verifies upgrades from v0.9.35, v0.10.0 and v0.11.0, including backup restoration, on isolated fixtures before packaging the image. Review the `upgrade-restore-RUN_ATTEMPT` artifact. This does not replace local candidate acceptance or validation of user-specific deployment settings. See the [migration verification procedure](../migration-guide.md#automated-upgrade-verification).
+
+### Load the artifact locally
+
+Keep the downloaded `image.tar` and `manifest.json` together. Supply the reviewed version and full commit SHA:
+
+```bash
+RELEASE_VERSION=1.0.0-rc.1 RELEASE_SHA=reviewed-40-character-sha \
+  node scripts/load-release-image.mjs release-artifact
+```
+
+The loader verifies the archive checksum, approved version/SHA, the saved manifest-to-config digest relationship and the loaded filesystem layers. On success it writes `loaded-image.json`. Start its `localImageId` using a dedicated port and volume.
+
+The CI `imageId` and local ID can differ across Docker image stores. In the practical check, CI used a manifest digest while the local store used its config digest. Do not guess an ID or substitute an image based only on matching labels; use the verified identity relationship. Keep the original `manifest.json` unchanged and record both IDs in the preparation PR. Only a single Linux/amd64 image is supported. See [Docker's image-store documentation](https://docs.docker.com/engine/storage/containerd/) for background.
 
 ## 3. Publish
 

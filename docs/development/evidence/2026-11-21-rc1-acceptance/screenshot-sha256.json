@@ -1,0 +1,21 @@
+{
+  "parent-removed.png": "b8cebe1b5d3e36518db06c33bc09caa3537e19de6bf32ce623f3a8be7e8c36fe",
+  "before-kanban.png": "93ff5320985945eef6b0d4f10becd25483657d718d70984466cec1ce02c65e6a",
+  "new-group-en.png": "598ff7a0555bb47e2932775044e2da9f2c446954948006bc952d3b26ae004886",
+  "settings-en.png": "b7077164f76614d21375939a59f6ded02293f66bbce1a8c5a891e2154dca05e9",
+  "settings-ja.png": "a3491671e1b2ab416420f8779e112f14afa26e787868abb4d066e2ef584232d9",
+  "after-group-ja-initial.png": "1fa57cb69c6d30e8d15788014071651cc2ce9ff92a4fe077c27cb1bfcb3f7e33",
+  "saved-ticket-ja.png": "dc80f4f29d62ad0d100be55c6836a0bf886adc68f7f911674ba2246a0c78aa17",
+  "created-ticket-en.png": "f006da108ef72c1015edca87fd2be67ba3a07a6e607ce822d612f1a2f2274454",
+  "list-ja-untranslated-label.png": "cd5222f43c4cee1132de9f16960161ebe66333d7427cb46106446313a2a9af2b",
+  "after-group-en.png": "d65f9b41d2050eb95467517e1d4f276e80c1fc2b0bdc1fe049c1cd2e7ab5ad54",
+  "group-added.png": "c1538cf02607ac68f97f86a6205037ac92b996bf4d78ec8adada548f75f63fd6",
+  "kanban-ja.png": "a747af919bb897339e0e5c78f589c0a4e519623ca2aed4880a499a2088c61f31",
+  "kanban-en.png": "886ba1302803e802bba216b11a551b61d7f79d307a4567ca2590626708675bd8",
+  "before-group.png": "2105a72540cf5839279fd99f200d9613443bc2dc32a49e142763dcb739d71fe8",
+  "unsaved-confirmation-en.png": "7d0f4c5a5113ce324cd35a5c1547f1444a26a1485e91100e68e6b4c4b76e6ff7",
+  "list-en.png": "69239a2f70616f9455e2934943016de2758452d866c31202144d2de2d973fd4b",
+  "list-ja.png": "f96df0cb6bcff851df52d57c2cb31d76fc46e37496f1b751a83eb856a696f85b",
+  "group-ja.png": "98b65b397fffda65b68e653a20117a6fde346ed01e73b6019a839798086a38a3",
+  "parent-removal-confirmation.png": "d20f75772ce8e4c6a99bbda3f4f74ac583ff2766517e615f879e524595afe1dc"
+}

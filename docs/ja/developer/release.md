@@ -23,7 +23,7 @@ GitHub Actionsでリリースを準備・公開します。どちらのワーク
 | dry-run成功後・公開前 | リリース責任者 | 対象SHAのイメージartifactをローカルの隔離環境で起動し、主な変更と基本操作を確認。対象SHA・Actions URL・image ID・確認結果を準備PRに追記し、公開可否を決める。 |
 | 公開後 | リリース責任者 | 公開されたタグ・日英ノート・イメージを確認し、公開版を隔離環境で起動してバージョンと基本操作を確認。Release URLを準備PRへ追記する。 |
 
-実装時の確認は、公開前の候補版確認の代わりにはなりません。公開前のローカル確認にはdry-run artifactの`image.tar`を読み込み、`manifest.json`のimage IDを指定して起動します。専用のポート・volumeを使い、既存の稼働環境へ上書きしません。
+実装時の確認は、公開前の候補版確認の代わりにはなりません。公開前のローカル確認には、下記の検証付きロード手順でdry-run artifactの`image.tar`を読み込み、`loaded-image.json`の`localImageId`を指定して起動します。専用のポート・volumeを使い、既存の稼働環境へ上書きしません。
 
 DB・保存形式・更新手順に影響する変更では、公開前に旧公開版で用意した検証データをバックアップし、候補版への更新・内容照合・バックアップからの復元を確認します。UIやAPIだけの変更では、その非該当理由を記録します。実ユーザーデータを使う場合は整合性の取れたコピーのみとし、画像やログに個人情報を含めません。
 
@@ -73,6 +73,19 @@ App未設定の場合、Prepare releaseは`GITHUB_TOKEN`を使用します。準
 対象SHA・バージョン・リリースノートを検証し、共通チェックとChromium E2Eを実行します。続いて`linux/amd64`イメージをビルドし、隔離した一時volumeで起動・API書き込み・再起動後の永続化を確認します。
 
 実行結果と`release-image-VERSION` artifactを確認してください。検証済みイメージと、SHA・イメージID・アーカイブのチェックサムを含む`manifest.json`が保存されます。dry-runではタグ・GitHub Release・GHCRイメージを公開しません。同じイメージの保存前に、v0.9.35・v0.10.0・v0.11.0からの更新とバックアップ復元を検証専用データで確認します。`upgrade-restore-RUN_ATTEMPT` artifactも確認してください。候補版のローカル受入確認や利用者固有の構成の確認は別途必要です。[更新検証の手順](../migration-guide.md#automated-upgrade-verification)を参照してください。
+
+### ローカルへ成果物を読み込む
+
+取得した`image.tar`と`manifest.json`を同じディレクトリに置き、レビュー済みのバージョン・完全なSHAを指定します。
+
+```bash
+RELEASE_VERSION=1.0.0-rc.1 RELEASE_SHA=レビュー済みの40文字SHA \
+  node scripts/load-release-image.mjs release-artifact
+```
+
+この手順はarchiveのチェックサム、対象版・SHA、保存されたmanifestとconfigのdigestの関係、読み込み後のレイヤー構成を照合します。成功時に`loaded-image.json`を作成します。そこに記録された`localImageId`で、専用のポート・volumeを使って起動してください。
+
+Dockerの保存方式によってCIの`imageId`とローカルのIDが異なる場合があります。実地確認ではCIのmanifest digestに対し、ローカルではconfig digestが使われました。IDを推測したり、ラベルが一致するだけの別イメージを使ったりせず、この検証で対応を確定してください。元の`manifest.json`は書き換えず、両方のIDを準備PRに記録します。対象は単一のLinux/amd64イメージです。イメージストアの違いは[Docker公式資料](https://docs.docker.com/engine/storage/containerd/)も参照してください。
 
 ## 3. 公開する
 

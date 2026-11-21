@@ -1,0 +1,14 @@
+{
+  "id": 2,
+  "boardId": 1,
+  "name": "RCで作成 / New Group",
+  "isActive": true,
+  "totalTicketCount": 0,
+  "openTicketCount": 0,
+  "archivedTicketCount": 0,
+  "revision": 2,
+  "createdAt": "2026-11-21T06:49:53.867Z",
+  "updatedAt": "2026-11-21T06:50:07.760Z",
+  "descriptionMarkdown": "**保存確認** / Saved Group description",
+  "descriptionHtml": "<p><strong>保存確認</strong> / Saved Group description</p>\n"
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0-rc.1",
+  "sha": "a050e2bb484cd35c9b41ed582308cd218a48e187",
+  "imageId": "sha256:aa0a658ea665da21ebbe096bff93c2b23dda9b7c888249ba7c4ccfb61cd02397",
+  "image": "kanbalone:release-check",
+  "imageFile": "image.tar",
+  "imageSha256": "ed82ef921a6d956f18b542c7faa1214b8cc68c864e364966652391a0871035ae",
+  "platform": "linux/amd64",
+  "verifiedAt": "2026-11-21T06:43:54.225Z",
+  "smoke": {
+    "persistenceVerified": true
+  }
+}

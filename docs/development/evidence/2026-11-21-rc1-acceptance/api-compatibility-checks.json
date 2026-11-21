@@ -1,0 +1,46 @@
+[
+  {
+    "endpoint": "/api/tickets/1",
+    "method": "PATCH",
+    "status": 400,
+    "response": {
+      "error": "Completion flags are not accepted. Choose a destination lane instead."
+    }
+  },
+  {
+    "endpoint": "/api/tickets/1",
+    "method": "PATCH",
+    "status": 400,
+    "response": {
+      "error": "Completion flags are not accepted. Choose a destination lane instead."
+    }
+  },
+  {
+    "endpoint": "/api/boards/1/tickets?completed=false",
+    "method": "GET",
+    "status": 400,
+    "response": {
+      "error": "The completed filter is not accepted. Use resolved instead."
+    }
+  },
+  {
+    "endpoint": "/api/boards/1/tickets/bulk-complete",
+    "method": "POST",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/boards/1/tickets/bulk-complete not found",
+      "error": "Not Found",
+      "statusCode": 404
+    }
+  },
+  {
+    "endpoint": "/api/boards/1/tickets/reorder",
+    "method": "POST",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/boards/1/tickets/reorder not found",
+      "error": "Not Found",
+      "statusCode": 404
+    }
+  }
+]
