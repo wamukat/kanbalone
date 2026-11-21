@@ -118,7 +118,7 @@ See [Remote provider sandbox](docs/en/developer/remote-provider-sandbox.md).
 
 ## Codex Skill
 
-Kanbalone includes a Codex skill for API-only kanban operations:
+Kanbalone distributes the `kanbalone-api` skill for API-only kanban operations:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"

@@ -118,7 +118,7 @@ Kanbalone は remote provider credential が 1 つ以上設定されている場
 
 ## Codex Skill
 
-Kanbalone には、API だけで Kanban を操作するための Codex skill を同梱しています。
+利用者向けには、APIでKanbanを操作する `kanbalone-api` スキルを配布しています。
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"

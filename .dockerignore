@@ -14,3 +14,6 @@ scripts
 test
 *.md
 playwright.config.ts
+# Skills run on the host, not inside the application image.
+skills
+dev

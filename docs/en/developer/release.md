@@ -317,3 +317,11 @@ If a release needs a follow-up fix, create a new patch release instead.
 
 
 When publishing the release that introduces lane-based completion, replace the unassigned target release in both language versions of the [migration guide](../migration-guide.md) and link it from the release notes. Tell existing users to back up the DB and update API clients and installed skills.
+
+## Check skill distribution
+
+Only `skills/kanbalone-api` is intended for users. Development skills under `dev/skills` are available in Git checkouts and excluded from source archives by `.gitattributes`. Host-side skills are not included in the Docker runtime.
+
+At the release commit, inspect `git archive --format=tar HEAD | tar -tf -`. Confirm the API skill, reference, helper and agent definition are present, with no `dev/skills` files or other `SKILL.md` files. Any custom ZIP or Release attachment must use an explicit list of consumer files rather than copying all skill directories.
+
+The exclusion applies to future tags. Do not rewrite published tags or historical archives.

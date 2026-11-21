@@ -319,3 +319,11 @@ Docker Image を公開済みの release tag は移動しません。
 ## CIからのリリース自動化案
 
 検証から公開までをActionsへ移す設計は[リリースCI計画](./release-ci-plan.md)を参照してください。現時点では設計段階であり、上記の現行リリース手順を置き換えるものではありません。
+
+## 配布スキルの確認
+
+利用者向けの配布対象は `skills/kanbalone-api` のみです。開発用の `dev/skills` はGit checkout用で、`.gitattributes` によりソースアーカイブから除外します。Dockerにはホスト実行用スキルを含めません。
+
+リリース対象のコミットで `git archive --format=tar HEAD | tar -tf -` を確認し、APIスキル本体・参照資料・ヘルパー・エージェント定義が揃い、`dev/skills` や他の `SKILL.md` が混入していないことを確認してください。独自のZIPやRelease添付を作る場合も、ディレクトリ全体ではなく配布対象を明示します。
+
+この除外は今後のタグに適用されます。公開済みタグ・過去のアーカイブは書き換えません。

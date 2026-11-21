@@ -51,6 +51,7 @@ flowchart TD
 - Playwright Chromiumを依存ライブラリ込みで準備し、全E2Eを実行。日英・入力内容保持・破棄確認を含む。
 - Playwrightレポート・失敗画像・trace、テストログをartifact化。保存期間の案は30日。
 - テスト不成功を`continue-on-error`や条件式で成功に見せない。結果集約ジョブも前提ジョブの失敗・中断・予期しないskipを失敗として扱う。
+- 配布するスキルは `skills/kanbalone-api` のみ。対象SHAのアーカイブ内容を検査し、`dev/skills` や他のスキルが混入したら失敗させる。独自のRelease添付も配布対象を明示する。
 - 公開用jobに進むのは、同一SHAの全必須検証が成功した場合だけ。
 
 ### リリース準備

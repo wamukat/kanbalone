@@ -1,0 +1,2 @@
+# Project-maintenance skills are for source checkouts, not release consumers.
+dev/skills export-ignore
