@@ -1,11 +1,11 @@
 import { t as tr } from "./app-i18n.js";
+import { normalizeStoredFilters } from "./app-preferences.js";
 export function createFiltersModule(ctx, options) {
   const { state, elements } = ctx;
-  const DEFAULT_BOARD_FILTERS = { q: "", lane: "", status: ["open", "resolved"], priority: [], tag: "" };
+  const DEFAULT_BOARD_FILTERS = { q: "", lane: "", status: ["open", "resolved"], includeArchived: false, priority: [], tag: "" };
   const STATUS_LABELS = {
     open: tr("Open"),
     resolved: tr("Resolved"),
-    archived: tr("Archived"),
   };
   const PRIORITY_LABELS = {
     low: tr("Low"),
@@ -13,6 +13,49 @@ export function createFiltersModule(ctx, options) {
     high: tr("High"),
     urgent: tr("Urgent"),
   };
+
+  const toolbar = elements.shell.querySelector(".toolbar");
+  const main = elements.shell.querySelector(".main");
+  let measuredMainWidth = -1;
+  const toolbarResizeObserver = new ResizeObserver(() => {
+    const width = main.getBoundingClientRect().width;
+    if (width !== measuredMainWidth) {
+      measuredMainWidth = width;
+      syncSharedToolbarHeight();
+    }
+  });
+  toolbarResizeObserver.observe(main);
+  document.fonts.ready.then(syncSharedToolbarHeight);
+
+  // Measure the existing controls in List mode, then restore them synchronously
+  // before paint. All views share that footprint without moving their controls.
+  function syncSharedToolbarHeight() {
+    const viewClasses = ["view-kanban", "view-list", "view-group"];
+    const savedClasses = viewClasses.filter((name) => elements.shell.classList.contains(name));
+    const laneHidden = elements.laneFilter.hidden;
+    const resetHidden = elements.resetFiltersButton.hidden;
+    const minHeight = toolbar.style.minHeight;
+    const filters = toolbar.querySelector(".toolbar-filters");
+    const scrollLeft = filters.scrollLeft;
+    let height;
+    try {
+      toolbar.style.minHeight = "0px";
+      elements.shell.classList.remove(...viewClasses);
+      elements.shell.classList.add("view-list");
+      elements.laneFilter.hidden = false;
+      // Reserving this existing action prevents the first active filter adding a row.
+      elements.resetFiltersButton.hidden = false;
+      height = toolbar.getBoundingClientRect().height;
+    } finally {
+      elements.shell.classList.remove(...viewClasses);
+      elements.shell.classList.add(...savedClasses);
+      elements.laneFilter.hidden = laneHidden;
+      elements.resetFiltersButton.hidden = resetHidden;
+      toolbar.style.minHeight = minHeight;
+      filters.scrollLeft = scrollLeft;
+    }
+    toolbar.style.setProperty("--shared-toolbar-height", `${height}px`);
+  }
 
   function syncViewMode() {
     elements.viewModeButtons.forEach((button) => {
@@ -25,6 +68,7 @@ export function createFiltersModule(ctx, options) {
     elements.laneBoard.hidden = state.viewMode !== "kanban";
     elements.listBoard.hidden = state.viewMode !== "list";
     elements.laneFilter.hidden = state.viewMode !== "list";
+    syncSharedToolbarHeight();
   }
 
   function resetBoardFilters() {
@@ -85,25 +129,20 @@ export function createFiltersModule(ctx, options) {
     syncSearchClearButton();
     elements.laneFilter.value = state.filters.lane;
     syncStatusFilter();
+    elements.includeArchivedInput.checked = state.filters.includeArchived;
     syncPriorityFilter();
     elements.tagFilter.value = state.filters.tag;
     syncActiveFilterStyles();
   }
 
   function cloneFilters(filters) {
-    return {
-      q: filters?.q ?? "",
-      lane: filters?.lane ?? "",
-      status: Array.isArray(filters?.status) && filters.status.length ? [...filters.status] : [...DEFAULT_BOARD_FILTERS.status],
-      priority: Array.isArray(filters?.priority) ? [...filters.priority] : [],
-      tag: filters?.tag ?? "",
-    };
+    return normalizeStoredFilters(filters);
   }
 
   function buildTicketListUrl(filters = {}) {
     const params = new URLSearchParams();
     const status = filters.status ?? state.filters.status;
-    if (status.includes("archived")) {
+    if (filters.includeArchived ?? state.filters.includeArchived) {
       params.set("archived", "all");
     }
     if (status.length === 1 && status[0] === "open") {
@@ -129,6 +168,7 @@ export function createFiltersModule(ctx, options) {
     return state.filters.q !== ""
       || (state.viewMode === "list" && state.filters.lane !== "")
       || !isDefaultStatusFilter()
+      || state.filters.includeArchived
       || state.filters.priority.length > 0
       || state.filters.tag !== "";
   }
@@ -170,6 +210,12 @@ export function createFiltersModule(ctx, options) {
     });
     elements.laneFilter.addEventListener("change", async (event) => {
       state.filters.lane = event.target.value;
+      saveBoardFilters();
+      syncActiveFilterStyles();
+      await options.refreshBoardDetail();
+    });
+    elements.includeArchivedInput.addEventListener("change", async () => {
+      state.filters.includeArchived = elements.includeArchivedInput.checked;
       saveBoardFilters();
       syncActiveFilterStyles();
       await options.refreshBoardDetail();
@@ -269,10 +315,10 @@ export function createFiltersModule(ctx, options) {
       button.setAttribute("aria-pressed", String(state.filters.status.includes(button.dataset.statusFilter ?? "")));
     });
     const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || DEFAULT_BOARD_FILTERS.status.map((key) => STATUS_LABELS[key]).join(" + ");
-    elements.statusFilterSummary.textContent = state.filters.status.length === 3 ? tr("All") : selectedLabels;
+    elements.statusFilterSummary.textContent = selectedLabels;
     elements.statusFilterSummary.title = selectedLabels;
     elements.statusFilterToggles.forEach((toggle) => {
-      toggle.setAttribute("aria-label", tr("Status: {labels}", { labels: selectedLabels }));
+      toggle.setAttribute("aria-label", tr("Completion: {labels}", { labels: selectedLabels }));
     });
     elements.statusFilterClearButton.hidden = isDefaultStatusFilter();
   }
@@ -305,6 +351,7 @@ export function createFiltersModule(ctx, options) {
     filter.classList.toggle("is-expanded", expanded);
     optionsElement.hidden = !expanded;
     filter.querySelector(".filter-menu-edge-toggle use")?.setAttribute("href", expanded ? "/icons.svg#chevron-left" : "/icons.svg#chevron-right");
+    syncSharedToolbarHeight();
   }
 
   function syncSearchClearButton() {
@@ -315,9 +362,11 @@ export function createFiltersModule(ctx, options) {
     elements.searchInput.closest(".toolbar-search")?.classList.toggle("is-filter-active", state.filters.q !== "");
     elements.laneFilter.classList.toggle("is-filter-active", state.viewMode === "list" && state.filters.lane !== "");
     elements.statusFilter.classList.toggle("is-filter-active", !isDefaultStatusFilter());
+    elements.includeArchivedInput.closest(".archive-filter")?.classList.toggle("is-filter-active", state.filters.includeArchived);
     elements.priorityFilter.classList.toggle("is-filter-active", state.filters.priority.length > 0);
     elements.tagFilter.classList.toggle("is-filter-active", state.filters.tag !== "");
     elements.resetFiltersButton.hidden = !hasActiveTicketFilters();
+    syncSharedToolbarHeight();
   }
 
   function isDefaultStatusFilter() {
@@ -335,16 +384,8 @@ export function createFiltersModule(ctx, options) {
   }
 
   function matchesStatusFilter(ticket) {
-    const status = state.filters.status;
-    return status.some((item) => {
-      if (item === "archived") {
-        return ticket.isArchived;
-      }
-      if (item === "resolved") {
-        return !ticket.isArchived && ticket.isResolved;
-      }
-      return !ticket.isArchived && !ticket.isResolved;
-    });
+    return (state.filters.includeArchived || !ticket.isArchived)
+      && state.filters.status.includes(ticket.isResolved ? "resolved" : "open");
   }
 
   function matchesPriorityFilter(ticket) {

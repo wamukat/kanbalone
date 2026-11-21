@@ -24,6 +24,7 @@ export function getAppElements() {
     searchClearButton: document.querySelector("#search-clear-button"),
     laneFilter: document.querySelector("#lane-filter"),
     viewModeButtons: [...document.querySelectorAll("#view-mode-toggle button")],
+    includeArchivedInput: document.querySelector("#include-archived-filter"),
     statusFilter: document.querySelector("#status-filter"),
     statusFilterToggles: [...document.querySelectorAll("#status-filter [data-filter-expand='status']")],
     statusFilterButtons: [...document.querySelectorAll("#status-filter [data-status-filter]")],

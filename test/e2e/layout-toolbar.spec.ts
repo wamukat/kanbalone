@@ -180,7 +180,9 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
       };
     });
 
-    expect(toolbarMetrics.rowCount).toBe(1);
+    // The independent archive control adds a second row at this constrained width.
+    // Reset must remain compact rather than squeezing or overlapping the full label.
+    expect(toolbarMetrics.rowCount).toBe(2);
     expect(toolbarMetrics.resetWidth).toBeLessThan(42);
     expect(toolbarMetrics.resetLabelPosition).toBe("absolute");
     expect(toolbarMetrics.resetLabelWidth).toBeLessThanOrEqual(1);

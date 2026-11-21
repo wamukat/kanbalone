@@ -182,10 +182,10 @@ test("ticket filters combine results and active styling", async ({ page }) => {
       archived: "all",
     });
     await page
-      .locator("#status-filter [data-status-filter='archived']")
+      .locator("#include-archived-filter")
       .click();
     await archivedResponse;
-    await expect(page.locator("#status-filter")).toHaveClass(
+    await expect(page.locator("#status-filter")).not.toHaveClass(
       /is-filter-active/,
     );
     await expect(page.locator(".ticket-card")).toHaveCount(3);
@@ -222,7 +222,6 @@ test("ticket filters combine results and active styling", async ({ page }) => {
       [
         ".toolbar-search",
         "#priority-filter",
-        "#status-filter",
         "#tag-filter",
         "#lane-filter",
       ].map((selector) => {

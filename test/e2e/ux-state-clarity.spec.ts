@@ -50,7 +50,7 @@ test("combined status names and empty result explain filters and reset to unarch
     const after = await summary.boundingBox();
     expect(after?.width).toBe(before?.width);
     await page.locator("#search-input").fill("does not exist <text>");
-    await expect(page.locator("#list-board .empty-state")).toContainText("Status: Open + Resolved");
+    await expect(page.locator("#list-board .empty-state")).toContainText("Completion: Open + Resolved");
     await expect(page.locator("#list-board .empty-state")).toContainText("Search: “does not exist <text>”");
     await page.getByRole("button", { name: "Reset filters", exact: true }).last().click();
     await expect(page.locator("#search-input")).toHaveValue("");
@@ -83,7 +83,7 @@ for (const width of [1280, 980]) {
       await page.locator('[data-status-filter="resolved"]').click();
       const statusToggle = page.locator("#status-filter .filter-menu-edge-toggle");
       if (await statusToggle.getAttribute("aria-expanded") === "true") await statusToggle.click();
-      await expect(statusToggle).toHaveAccessibleName("Status: Open");
+      await expect(statusToggle).toHaveAccessibleName("Completion: Open");
       await expect(page.locator('[data-status-clear]')).toBeVisible();
       expect(await geometry()).toEqual(before);
       const selectedSize = await page.locator("#status-filter-summary").evaluate((element) => ({
@@ -98,21 +98,21 @@ for (const width of [1280, 980]) {
       await expect(page.locator("#status-filter-summary")).toBeHidden();
       await page.locator('[data-status-filter="resolved"]').click();
       if (await statusToggle.getAttribute("aria-expanded") !== "true") await statusToggle.click();
-      await page.locator('[data-status-filter="archived"]').click();
+      await page.locator('#include-archived-filter').click();
       if (await statusToggle.getAttribute("aria-expanded") === "true") await statusToggle.click();
-      await expect(page.locator("#status-filter-summary")).toHaveText("All");
+      await expect(page.locator("#status-filter-summary")).toHaveText("Open + Resolved");
       expect(await geometry()).toEqual(before);
       await statusToggle.click();
       await page.locator('[data-status-filter="open"]').click();
       if (await statusToggle.getAttribute("aria-expanded") === "true") await statusToggle.click();
-      await expect(page.locator("#status-filter-summary")).toHaveText("Resolved + Archived");
+      await expect(page.locator("#status-filter-summary")).toHaveText("Resolved");
       expect(await geometry()).toEqual(before);
       const longestFits = await page.locator("#status-filter-summary").evaluate((element) =>
         element.scrollWidth <= element.clientWidth && element.scrollHeight <= element.clientHeight);
       expect(longestFits).toBe(true);
       await page.screenshot({ path: `coverage/ux-status-full-label-${width}.png` });
       await page.locator('[data-status-clear]').click();
-      await expect(statusToggle).toHaveAccessibleName("Status: Open + Resolved");
+      await expect(statusToggle).toHaveAccessibleName("Completion: Open + Resolved");
       await expect(page.locator('[data-status-clear]')).toBeHidden();
       expect(await geometry()).toEqual(before);
     } finally { await close(); }

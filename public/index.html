@@ -148,9 +148,9 @@
               </select>
               <div id="status-filter" class="filter-menu status-filter">
                 <button type="button" class="filter-menu-toggle" data-filter-expand="status" aria-expanded="false">
-                  <span data-i18n="Status">Status</span>
+                  <span data-i18n="Completion">Completion</span>
                 </button>
-                <div class="filter-menu-options" role="group" aria-label="Status filter" data-i18n-aria-label="Status filter" hidden>
+                <div class="filter-menu-options" role="group" aria-label="Completion filter" data-i18n-aria-label="Completion filter" hidden>
                   <button type="button" data-status-filter="open">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#circle"></use></svg>
                     <span data-i18n="Open">Open</span>
@@ -159,21 +159,22 @@
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#check"></use></svg>
                     <span data-i18n="Resolved">Resolved</span>
                   </button>
-                  <button type="button" data-status-filter="archived">
-                    <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
-                    <span data-i18n="Archived">Archived</span>
-                  </button>
                 </div>
                 <span id="status-filter-summary" class="filter-menu-summary" data-i18n="Open">Open</span>
                 <span class="filter-clear-slot">
-                  <button type="button" class="filter-clear-button" data-status-clear aria-label="Clear status filter" data-i18n-aria-label="Clear status filter" hidden>
+                  <button type="button" class="filter-clear-button" data-status-clear aria-label="Clear completion filter" data-i18n-aria-label="Clear completion filter" hidden>
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
                   </button>
                 </span>
-                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="status" aria-expanded="false" aria-label="Expand status filter" data-i18n-aria-label="Expand status filter">
+                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="status" aria-expanded="false" aria-label="Expand completion filter" data-i18n-aria-label="Expand completion filter">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
                 </button>
               </div>
+              <label class="archive-filter">
+                <input id="include-archived-filter" type="checkbox" />
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
+                <span data-i18n="Include archived tickets">Include archived tickets</span>
+              </label>
               <button id="reset-filters-button" type="button" class="toolbar-reset-filters action-with-icon" hidden>
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#rotate-ccw"></use></svg>
                 <span data-i18n="Reset filters">Reset filters</span>

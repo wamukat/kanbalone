@@ -120,11 +120,13 @@ Set completion lanes under the sidebar gear → **Completion lanes**. Naming a l
 
 Use **Archive** in ticket details to hide a ticket from your everyday view.
 
-Kanban and List initially show both open and resolved tickets. If an earlier status selection is still saved, use the **×** in **Status** to reset it. To see archived tickets, select **Archived** under **Status >**.
+Kanban and List initially show both open and resolved tickets. Click **Completion >**, then toggle **Open** and **Resolved**. Select both to show both, or use **×** to reset the selection.
+
+Check **Include archived tickets** to also show archived tickets that match the selected completion state.
 
 Completion lanes in Kanban show the five most recently completed tickets. Use **Show 50 more** to reveal the next batch, or **Show latest 5** to collapse it. Newly completed tickets appear first. Completion lanes use completion order rather than manual drag ordering. This limit does not apply to List.
 
-![Showing archived tickets](../assets/user-guide/11-archived-filter.png)
+![Showing archived tickets](../assets/user-guide/11-archived-filter-en.png)
 
 ## 10. Find Tickets
 
@@ -153,6 +155,8 @@ Add tags to classify tickets by type or purpose. Use the tag filter to show tick
 ## 12. Review In List View
 
 Open **List** in the sidebar to see ticket priorities and resolved or archived states in a table.
+
+Choose a lane to narrow the list. If the lane and completion state do not match, such as a completion lane with Open selected, the empty list explains why. Choose **Include resolved tickets** or **Clear lane filter** to adjust the selection. Your search and tag filters stay in place.
 
 ![List view](../assets/user-guide/08-list-view.png)
 

@@ -23,16 +23,19 @@ export function createBoardModule(ctx) {
   const sidebarTagsModule = createSidebarTagsModule(ctx);
   const groupModule = createGroupBoardModule(ctx);
 
-  function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "", actionIcon = "plus" }) {
+  function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "", actionIcon = "plus", secondaryActionLabel = "", secondaryActionAttr = "" }) {
     const action = actionLabel && actionAttr
       ? `<button type="button" class="empty-state-action action-with-icon" ${actionAttr}>${icon(actionIcon)}<span>${actionLabel}</span></button>`
+      : "";
+    const secondaryAction = secondaryActionLabel && secondaryActionAttr
+      ? `<button type="button" class="empty-state-action" ${secondaryActionAttr}>${ctx.escapeHtml(secondaryActionLabel)}</button>`
       : "";
     return `
       <div class="empty-state">
         <span class="empty-state-icon">${icon(iconName)}</span>
         <strong>${ctx.escapeHtml(title)}</strong>
         <p>${ctx.escapeHtml(body)}</p>
-        ${action}
+        ${secondaryAction ? `<div class="empty-state-actions">${action}${secondaryAction}</div>` : action}
       </div>
     `;
   }
@@ -112,7 +115,8 @@ export function createBoardModule(ctx) {
       || (state.viewMode === "list" && state.filters.lane !== "")
       || state.filters.priority.length > 0
       || state.filters.tag !== ""
-      || !(state.filters.status.length === 1 && state.filters.status[0] === "open");
+      || state.filters.includeArchived
+      || !(state.filters.status.length === 2 && state.filters.status.includes("open") && state.filters.status.includes("resolved"));
   }
 
   elements.boardList.addEventListener("dragover", sidebarBoardsModule.handleBoardListDragOver);

@@ -334,4 +334,10 @@ A passing report proves these representative paths only. It does not test every 
 
 Upgrade automatically adds the completion timestamp column without changing existing lanes, resolution, archive flags or positions. Historical timestamps are not guessed: existing tickets expose `resolvedAt: null`. Future arrival in a completion lane records a timestamp, preserved by ordinary edits. Unknown historical times retain position order; newly completed tickets appear ahead of them.
 
-Completion lanes initially show five tickets and reveal fifty more per action. Collapsing does not delete data. Default status selection becomes open plus resolved. Existing saved selections are preserved; reset Status if completed tickets remain hidden. JSON export/import preserves the timestamp; older exports without it load as null. Follow the existing backup and original-version restore instructions in this guide.
+Completion lanes initially show five tickets and reveal fifty more per action. Collapsing does not delete data. Default status selection becomes open plus resolved. Existing open/resolved selections are preserved; reset Completion if completed tickets remain hidden. JSON export/import preserves the timestamp; older exports without it load as null. Follow the existing backup and original-version restore instructions in this guide.
+
+## Saved completion and archive filters (next release)
+
+Completion state and archive visibility are now separate. An old browser-saved `status` containing `archived` becomes `includeArchived: true`. Existing `open` and `resolved` selections are retained; if neither was selected (archived only), both are selected.
+
+Completion filters now also apply to archived tickets. For example, old “Open + Archived” becomes Open with Include archived tickets enabled, so resolved archived tickets are no longer shown. Old “Archived only” becomes both completion states including archived and unarchived tickets. Adjust **Completion** as needed. Stored ticket data and API query behavior do not change.
