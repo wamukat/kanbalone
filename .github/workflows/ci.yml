@@ -22,7 +22,7 @@ jobs:
   docker:
     name: Docker persistence smoke
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
         with:
@@ -50,6 +50,19 @@ jobs:
           RELEASE_VERSION: ${{ steps.package.outputs.version }}
           RELEASE_SHA: ${{ github.sha }}
         run: node scripts/smoke-image.mjs kanbalone:release-check
+      - name: Verify existing-data upgrades and restoration
+        env:
+          RELEASE_VERSION: ${{ steps.package.outputs.version }}
+          RELEASE_SHA: ${{ github.sha }}
+        run: node scripts/verify-upgrade-restore.mjs kanbalone:release-check
+      - name: Retain upgrade and restore evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upgrade-restore-${{ github.run_attempt }}
+          path: coverage/upgrade-restore/
+          retention-days: 30
+          if-no-files-found: warn
 
   required:
     name: Required checks

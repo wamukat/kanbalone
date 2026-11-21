@@ -1,0 +1,225 @@
+{
+  "status": "passed",
+  "target": {
+    "image": "kanbalone:upgrade-check",
+    "version": "0.11.0",
+    "sha": "c6a5aafe44c5dcb559ac79fdd73805877c5efbc8",
+    "imageId": "sha256:e02da13cb31401f07abc737609b92d72e9a52d94a5e5283a730b60a7838288cd"
+  },
+  "startedAt": "2026-11-21T05:47:15.931Z",
+  "cases": [
+    {
+      "version": "0.9.35",
+      "storage": "volume",
+      "sourceImageId": "sha256:baa683a7d1b8c311c5f570ce068c4ed62627e581468a76058438ad4ecb1bca55",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:79ceea17473a7479037179ab44742dd21aadc5ffcac608965f9ba55af37ddf7f"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "failed_migration_atomic_rollback",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "f1c1d714b195aa1795c50ed2db1795613d868a07340cbf0b1a563384fdfebdcf"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "a5050e154ad5925713f562767f880b5fa4bccc2be5978afa8aa2b337baab8a34"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 935272,
+          "sha256": "5c53c9506e32d4bc7028768219b0957b2be248a83ecb6e1eab87c7af02561a11"
+        }
+      ],
+      "cleanup": "passed"
+    },
+    {
+      "version": "0.9.35",
+      "storage": "bind",
+      "sourceImageId": "sha256:baa683a7d1b8c311c5f570ce068c4ed62627e581468a76058438ad4ecb1bca55",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:79ceea17473a7479037179ab44742dd21aadc5ffcac608965f9ba55af37ddf7f"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "failed_migration_atomic_rollback",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "f1c1d714b195aa1795c50ed2db1795613d868a07340cbf0b1a563384fdfebdcf"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "6b35db883fa11dfa4c9d70f4de0f46b4ccbd6068dd5c8cd6ccbad93fea6ebd67"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 935272,
+          "sha256": "18e1765eadc3d27104fe75c8cdbfcd61fffb9fa67080caf5b244ee46de35714b"
+        }
+      ],
+      "cleanup": "passed"
+    },
+    {
+      "version": "0.10.0",
+      "storage": "volume",
+      "sourceImageId": "sha256:10c102f6901d8d9c5ff69639164caedfc01f165815e4c9f8e3aa047d372fe33f",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:d8a96b1b535b0f1d18e4dff668bb2289cba6331a24c557f286b0d251675bf5e6"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "89a2318c76452be80e1d743f163f3dd96623b2b05604aa06985c6b5501238362"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "a131f348d39578cdfb52b925070cec242eb2f253fd413929fae071267cb8dae2"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 696312,
+          "sha256": "01241fc128b7752de57bd0cb43b5839cec4364527a913c931efe958fe7b4b5da"
+        }
+      ],
+      "cleanup": "passed"
+    },
+    {
+      "version": "0.10.0",
+      "storage": "bind",
+      "sourceImageId": "sha256:10c102f6901d8d9c5ff69639164caedfc01f165815e4c9f8e3aa047d372fe33f",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:d8a96b1b535b0f1d18e4dff668bb2289cba6331a24c557f286b0d251675bf5e6"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "89a2318c76452be80e1d743f163f3dd96623b2b05604aa06985c6b5501238362"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "ab70bc6153fb7894af71aca45cf60982821030139dfbbe1a1299181f56e58750"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 696312,
+          "sha256": "123c67cf773dacf28fc83d922bb0a51ad1d81569403458be797f49dd1928420b"
+        }
+      ],
+      "cleanup": "passed"
+    },
+    {
+      "version": "0.11.0",
+      "storage": "volume",
+      "sourceImageId": "sha256:1b7dcf541ddbbfaaf1b18cefbbbd9682779e4681f5b67fa79aa611b31cc117ff",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:40a53ad652a1578972a588e6fa3448666fc020ba1e745121ffdffae98aba6f9e"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "89a2318c76452be80e1d743f163f3dd96623b2b05604aa06985c6b5501238362"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "a624b39302a0dc540fb5a81f71625535392496bcbba6318f12c0fafed60c7f0f"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 807552,
+          "sha256": "63cd945ee735fcbaeaae86116c6e9eb343e79e1803b11a9e68519019a7673e3b"
+        }
+      ],
+      "cleanup": "passed"
+    },
+    {
+      "version": "0.11.0",
+      "storage": "bind",
+      "sourceImageId": "sha256:1b7dcf541ddbbfaaf1b18cefbbbd9682779e4681f5b67fa79aa611b31cc117ff",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:40a53ad652a1578972a588e6fa3448666fc020ba1e745121ffdffae98aba6f9e"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "89a2318c76452be80e1d743f163f3dd96623b2b05604aa06985c6b5501238362"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "8523312d1d51a9ce929f8f8184bef1acb365448c341561c404ad8aeed654eb12"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 807552,
+          "sha256": "b22333a88acb64453a7d8382aa6531377a97e2dc0332a3f68f01f4d42896902d"
+        }
+      ],
+      "cleanup": "passed"
+    }
+  ],
+  "finishedAt": "2026-11-21T05:54:58.033Z"
+}

@@ -301,3 +301,33 @@ importは新しいボードを作り、チケットとGroupの両方のIDを再�
 新しいプロセスを停止し、更新前のDBバックアップを復元してから旧ビルドを起動します。旧アプリはGroupの整合性を保てないため、更新後のDBをそのまま開かないでください。バックアップ後に行った変更は復元先には含まれないため、必要なら別途照合します。
 
 形式2のJSONを旧版へimportする方法はロールバックとして使いません。旧版が未知フィールドを拒否せず、Group情報を無視して取り込む可能性があります。更新前のバックアップと旧ビルドを組み合わせて戻してください。
+
+<a id="automated-upgrade-verification"></a>
+## 更新・復元の自動検証
+
+CIとリリースワークフローでは、公開済みのv0.9.35・v0.10.0・v0.11.0から候補イメージへの更新をLinux/amd64で検証します。各版についてDocker volumeとbind mountの両方を確認します。チケットや外部参照はすべて検証専用データです。既存の利用者DBをマウントしたり、Issueプロバイダーへアクセスしたりしません。
+
+確認する内容は次のとおりです。
+
+- SQLiteのWALにデータが残った状態で停止し、DB一式をバックアップ。ファイルサイズとSHA-256を記録。
+- 完了状態の移行、レーン名の重複、アーカイブ、親子・関連チケット、タグ、コメント、イベント、外部参照の保持。v0.11.0では所属あり／空のGroupも確認。
+- 移行仕様で変更する項目を除く既存の全保存項目、DB整合性、外部キー、APIでの読み出し、再起動による変更がないこと。
+- 完了状態の移行を意図的に失敗させ、スキーマとデータがまとめて元に戻ること。
+- 更新後に書き込み、旧DB一式と旧イメージに戻して元のデータと完全一致すること。バックアップ後の書き込みは復元されないこと。
+
+ローカルの候補版を検証する場合は、次を実行します。
+
+```bash
+revision=$(git rev-parse HEAD)
+version=$(node -p 'JSON.parse(require("fs").readFileSync("package.json", "utf8")).version')
+docker build --platform linux/amd64 \
+  --label "org.opencontainers.image.revision=$revision" \
+  --label "org.opencontainers.image.version=$version" \
+  -t kanbalone:upgrade-check .
+RELEASE_SHA="$revision" RELEASE_VERSION="$version" \
+  node scripts/verify-upgrade-restore.mjs kanbalone:upgrade-check
+```
+
+SHAで候補版を特定できるよう、変更のないチェックアウトを使用してください。Dockerと公開イメージを取得できるネットワークが必要です。bind mountでは実行者のUID/GID、volumeではイメージ既定のユーザーで起動します。一時コンテナと検証用ストレージは削除されます。結果・検証用データの全スナップショット・意図的な失敗のログは`coverage/upgrade-restore/`に残り、CIでは`upgrade-restore-RUN_ATTEMPT`として30日間保存します。
+
+成功結果が示すのは、この代表的な更新経路の検証です。全旧版・ネイティブ起動・他アーキテクチャ・稼働中のDBコピー・ディスク不足・ファイルシステム固有の障害・プロバイダー認証は対象外です。このコマンドは稼働中の環境を更新しません。実際の更新では上記のバックアップと照合手順を実施してください。JSON ExportはDB全体のバックアップではなく、古いバックアップに戻すと、その後の変更は別途照合しない限り失われます。
