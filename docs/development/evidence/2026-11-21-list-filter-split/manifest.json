@@ -11,7 +11,7 @@
     "docs/development/evidence/2026-11-21-list-filter-split/before-ja-conflict.png": "2c093f433ecfc3e5cae8c9b3c454c1cfc28f0ebc74c3f27fe19d30c672f6a983",
     "docs/development/evidence/2026-11-21-list-filter-split/after-en-preferences.json": "c094bd384d0d833447d0856fe957d80af9cd53df8b95c48fe3677a45496bf3cd",
     "docs/development/evidence/2026-11-21-list-filter-split/after-narrow-dark.png": "7e4ae0e608d055d11288a51c43b64f92e01188dc6208ac554a72f8e8531df0aa",
-    "docs/development/evidence/2026-11-21-list-filter-split/README.md": "c6f778ddf727d7d8da2cc3d8215773450a2d97fc54c5270603596c514edb3133",
+    "docs/development/evidence/2026-11-21-list-filter-split/README.md": "515e6bc63305f8186630a32f1db5f1ab7b2d5a7bfdc05a8693daa088fe78811f",
     "docs/development/evidence/2026-11-21-list-filter-split/after-ja-preferences.json": "c094bd384d0d833447d0856fe957d80af9cd53df8b95c48fe3677a45496bf3cd",
     "docs/development/evidence/2026-11-21-list-filter-split/before-interactions-data.json": "4d09e7addc621921a67584cc404032c833a68d327086dbf510cc86470f0848ae",
     "docs/development/evidence/2026-11-21-list-filter-split/after-en-recovered.png": "0977705de48000a212410523cb2deecfe31536598311dfd65c57afe48e9c19e8",
@@ -43,6 +43,6 @@
     "test/e2e/ticket-editor-crud.spec.ts": "e27224b043594ec158a73dac38f2beb32e74538a35afd423e552c9d08470e0a6",
     "test/e2e/ui-smoke.spec.ts": "48b707444f8ed20d93ee9c645855c22f75287eb355fbba78947578d46c949793",
     "test/e2e/ux-state-clarity.spec.ts": "5a52ba3f2d747f55058c8f0c913347ae554fd6b943d7dadb172903cdeea7eb1d",
-    "test/e2e/completion-archive-filters.spec.ts": "e275574233ae3ec642298949f92c13a1ef857996055ba938e81860b45e33cb95"
+    "test/e2e/completion-archive-filters.spec.ts": "d003e624acdd36956db7bd508214d81e2c9caea3b6cc1d730498ea93ea940d70"
   }
 }

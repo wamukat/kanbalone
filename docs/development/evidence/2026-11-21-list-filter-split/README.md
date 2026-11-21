@@ -60,3 +60,5 @@ Ticket image embeds require this server. These original files remain available i
 ## CI follow-up before merge
 
 The first GitHub run passed 118/119 E2E cases. English at 390px failed the reachability assertion: focusing the checkbox had scrolled its input independently of the surrounding label. Trace geometry was identical before/after (the label stayed 209.21875px wide), so this was not a layout resize. The test now scrolls the whole label into view again before checking reachability, without changing production code or relaxing bounds/geometry assertions.
+
+A second Linux run showed that scrollIntoViewIfNeeded did not fully reveal the label. The test now explicitly scrolls the existing horizontal toolbar to its end and retains the original bounds assertions. The sidebar height test now waits for the existing grid transition to finish before recording its baseline; two frames could capture an intermediate height. These are test-only changes.

@@ -143,7 +143,7 @@ for (const width of [1280, 980, 390]) for (const locale of ["en-US", "ja-JP"]) {
       await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
       await page.locator("#search-input").fill("Focus"); // Keep reset visible for both measurements.
       await expect(page.locator(".list-row")).toHaveCount(2);
-      if (width <= 900) await page.locator(".archive-filter").scrollIntoViewIfNeeded();
+      if (width <= 900) await page.locator(".toolbar-filters").evaluate(el => { el.scrollLeft = el.scrollWidth; });
       const geometry = () => page.evaluate(() => ["#status-filter", ".archive-filter", "#reset-filters-button"].map(selector => {
         const r = document.querySelector(selector)!.getBoundingClientRect(); const scroll = document.querySelector(".toolbar-filters")!.scrollLeft; return { x: r.x + scroll, y: r.y, width: r.width, height: r.height };
       }));
@@ -154,8 +154,8 @@ for (const width of [1280, 980, 390]) for (const locale of ["en-US", "ja-JP"]) {
       const overflow = await page.locator(".toolbar").evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth }));
       expect(overflow.scroll).toBeLessThanOrEqual(overflow.width + 1);
       // Checking the input can scroll its focus target independently of the label.
-      // Bring the whole label back into view to verify horizontal reachability.
-      if (width <= 900) await page.locator(".archive-filter").scrollIntoViewIfNeeded();
+      // Scroll to the end, like a horizontal swipe, to verify full reachability.
+      if (width <= 900) await page.locator(".toolbar-filters").evaluate(el => { el.scrollLeft = el.scrollWidth; });
       // Compact toolbar intentionally scrolls horizontally; verify the interacted label is reachable.
       for (const selector of width <= 900 ? [".archive-filter"] : ["#status-filter", ".archive-filter"]) {
         const r = await page.locator(selector).boundingBox();
@@ -214,7 +214,11 @@ for (const locale of ["en-US", "ja-JP"]) {
     try {
       await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
       const top = async (selector: string) => (await page.locator(selector).boundingBox())!.y;
-      const settled = () => page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      const settled = () => page.evaluate(async () => {
+        // Two frames can still be inside the sidebar grid transition on CI.
+        await Promise.all(document.querySelector(".shell")!.getAnimations({ subtree: true }).map(animation => animation.finished.catch(() => {})));
+        await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      });
       for (const width of [1440, 980, 1280]) {
         await page.setViewportSize({ width, height: 900 });
         await page.locator('[data-view-mode="list"]').click();
