@@ -1,0 +1,467 @@
+{
+  "capturedDate": "2026-11-21",
+  "baseline": {
+    "tag": "v0.11.0",
+    "commit": "ec783016396a65e8aba60e2e9391cb53ef220516",
+    "origin": "http://127.0.0.1:3473"
+  },
+  "after": {
+    "head": "8fbee987949697fb5813163bf8fc33d5ef6369bb",
+    "uncommitted": true,
+    "runtimeSha256": "abbe3c66764fbad8df236bbefecae2a221c05d5648e8d09033d98e70c429f7da",
+    "origin": "http://127.0.0.1:3474"
+  },
+  "viewport": "1280x844; #1480 only 650x844",
+  "theme": "light",
+  "browser": "agent-browser / Chromium",
+  "fixture": "identical synthetic boards and tickets; no existing user data",
+  "remoteImport": "#1482 uses fixed duplicate-preview fixture on ports3475/3476, not live GitHub",
+  "cases": [
+    {
+      "ticketId": 1474,
+      "title": "一括Moveの初期ボード",
+      "steps": "UX evidenceのListで全6件を選択しMoveを開く。",
+      "before": "Other projectを初期選択。",
+      "after": "現在のUX evidenceを初期選択。",
+      "images": [
+        "bulk-move-before",
+        "bulk-move-after"
+      ]
+    },
+    {
+      "ticketId": 1475,
+      "title": "ボード移動後の編集",
+      "steps": "チケット#3をOther project / InboxへMoveし、編集フォームを見る。",
+      "before": "Laneが空欄で旧候補が残る。",
+      "after": "Inboxが選択済み。補足画像は本文保存後の再読込。",
+      "images": [
+        "move-editor-before",
+        "move-editor-after",
+        "move-persisted-after"
+      ]
+    },
+    {
+      "ticketId": 1476,
+      "title": "詳細のレーン表示",
+      "steps": "チケット#1を詳細表示で開く。",
+      "before": "現在レーンの表示がない。",
+      "after": "Group行の上にLane: Todoを表示。",
+      "images": [
+        "detail-before",
+        "detail-after"
+      ]
+    },
+    {
+      "ticketId": 1477,
+      "title": "Markdownチェック状態",
+      "steps": "同じ本文の- [x]と- [ ]を詳細表示する。",
+      "before": "2項目とも通常の箇条書き。",
+      "after": "完了と未完了のチェック状態を表示。",
+      "images": [
+        "detail-before",
+        "detail-after"
+      ]
+    },
+    {
+      "ticketId": 1478,
+      "title": "Kanbanのブロッカー",
+      "steps": "#1を未完了ブロッカーに持つ#2を見る。",
+      "before": "#2の下段に依存状態が表示されない。",
+      "after": "#2の下段に未完了ブロッカー1件を表示。",
+      "images": [
+        "blocker-before",
+        "blocker-after"
+      ]
+    },
+    {
+      "ticketId": 1479,
+      "title": "未保存本文の保護",
+      "steps": "#1の本文にUNSAVED REVIEW NOTEを入力してEscape。",
+      "before": "入力が確認なしで消える。",
+      "after": "破棄確認を表示。Cancel後も入力を保持。",
+      "images": [
+        "dirty-before",
+        "dirty-after",
+        "dirty-input-before",
+        "dirty-input-after",
+        "dirty-kept-after"
+      ]
+    },
+    {
+      "ticketId": 1480,
+      "title": "狭い画面の主作業領域",
+      "steps": "保存済み開閉設定なし。7ボード、650×844で再読込。",
+      "before": "サイドバーが主作業を下へ押し下げる。",
+      "after": "初期折りたたみでチケットが見える。",
+      "images": [
+        "narrow-before",
+        "narrow-after"
+      ]
+    },
+    {
+      "ticketId": 1481,
+      "title": "Statusと結果ゼロ",
+      "steps": "OpenとResolvedを選択。次に検索No matching workとPriority Lowを指定。",
+      "before": "2 selected。空結果で条件の説明が不足。",
+      "after": "状態名を全文表示。空結果に現在条件とResetを表示。",
+      "images": [
+        "status-before",
+        "status-after",
+        "empty-before",
+        "empty-after"
+      ]
+    },
+    {
+      "ticketId": 1482,
+      "title": "重複Importの既存チケット",
+      "steps": "固定応答の隔離環境でexample/project#9をPreview。",
+      "before": "既存#5はテキストのみ。",
+      "after": "既存#5を開くリンク。Import無効は維持。",
+      "images": [
+        "import-before",
+        "import-after"
+      ]
+    },
+    {
+      "ticketId": 1483,
+      "title": "Active対象なしの案内",
+      "steps": "所属が全てアーカイブ済みのFinished workボードでGroup / Activeを見る。",
+      "before": "未作成と紛らわしいNo groups/Create案内。",
+      "after": "非表示理由とShow all Groupsを表示。",
+      "images": [
+        "inactive-before",
+        "inactive-after"
+      ]
+    },
+    {
+      "ticketId": 1484,
+      "title": "Restore/Exportの結果表示",
+      "steps": "同じアーカイブ済み#4の編集でRestore。別途設定を開いてExport。",
+      "before": "Restore後も編集のまま。Export通知なし。",
+      "after": "Restore後は詳細へ。ExportはDownload startedを表示。",
+      "images": [
+        "restore-before",
+        "restore-after",
+        "restore-input-before",
+        "restore-input-after",
+        "export-before",
+        "export-after"
+      ]
+    },
+    {
+      "ticketId": 1485,
+      "title": "Group間移し替えの案内",
+      "steps": "親子2件を持つGroupでAdd existing ticketsを開く。解除確認も比較。",
+      "before": "他Groupから移す手順の説明がない。",
+      "after": "先に所属解除する案内を追加。親子2件の確認は維持。",
+      "images": [
+        "group-add-before",
+        "group-add-after",
+        "group-remove-before",
+        "group-remove-after"
+      ]
+    }
+  ],
+  "images": {
+    "blocker-after.png": {
+      "sha256": "cfa6d467d57567c48d531c03e50d3298f2d284132f5e0a8c20a786c63a61ff60",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:38.956798+00:00"
+    },
+    "blocker-before.png": {
+      "sha256": "1d878017c4f79fb1c522508e9a67184e2c7645c2cc5bf75b72f5b4ee5475bb9b",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:33.912336+00:00"
+    },
+    "bulk-move-after.png": {
+      "sha256": "2ca64ab67c93a6345f0c95bbc2ab1a5ba58dc69a2aa3de338483c2d02ddd03fe",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:58.057142+00:00"
+    },
+    "bulk-move-before.png": {
+      "sha256": "dffe2879ffd1249fb2cc891171738a2c6f60b6aa8d29841fb8ecf514f361bf4a",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:55.216251+00:00"
+    },
+    "detail-after.png": {
+      "sha256": "ad1e24e6c6311ed1e3820054edd8d57c8dd2b0c96178e74ff01c3cf48af24d29",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:43:51.154132+00:00"
+    },
+    "detail-before.png": {
+      "sha256": "85e911431c0f6492f8b035ac44140dd7b6340325fa5f561c03479188ff3676fb",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:43:45.932795+00:00"
+    },
+    "dirty-after.png": {
+      "sha256": "89f1cc30a073acd3ebd8e5991d9d6bd992619fe5283139cd37cae9e1dbbdfd2e",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:18.528097+00:00"
+    },
+    "dirty-before.png": {
+      "sha256": "1866b0e3134315f976cd0e7c8a9e0e15069143bf89761d1a4cba9d724887c4a8",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:15.724697+00:00"
+    },
+    "dirty-input-after.png": {
+      "sha256": "cbcb0e95a77636c0ea2182af3f3df8142fecfbf659a872f3e2eba56cbe923f9f",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:17.296871+00:00"
+    },
+    "dirty-input-before.png": {
+      "sha256": "26586d6d5c900b28a5f2b3c6bbed35a8da07b530702ad20affe40433ee2a13ba",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:14.508632+00:00"
+    },
+    "dirty-kept-after.png": {
+      "sha256": "c7d222dd7c68817e4dcd8c60cf227331989b5df2bd6029e41ed4e23b0b5acb99",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:51:39.286818+00:00"
+    },
+    "empty-after.png": {
+      "sha256": "8e814996dde05d62a0695c756e9373e4f69060c3c6c1db1dffedde1fa0a560d8",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:48:16.554490+00:00"
+    },
+    "empty-before.png": {
+      "sha256": "78680a1502d06018ee57f55b444ee3f43ea0ab1a9ba53304f00ef2e55e88fe1f",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:48:11.534119+00:00"
+    },
+    "export-after.png": {
+      "sha256": "16feee77cfc4e06ed29b57326af37485ef38f13a33efbf0efbedcf6ba8e4ed74",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:52:25.157620+00:00"
+    },
+    "export-before.png": {
+      "sha256": "f9d078d9d7d03f34c2313a23eb491bc3f250a7a3cf172a95bb04c33df5102fce",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:52:27.687346+00:00"
+    },
+    "group-add-after.png": {
+      "sha256": "ddc16575a1eedaf329a0352a7ba22dd6b6a60556cdd845b0651c11b379477b78",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:27.354149+00:00"
+    },
+    "group-add-before.png": {
+      "sha256": "8a7577368da5a33dc79a11f3516848203e7881ec460bd941e9a0f8b4dc4073aa",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:00.222056+00:00"
+    },
+    "group-remove-after.png": {
+      "sha256": "a67d4843f556bf0ef9742d5cf2cf3e1da13ae4d332ec5f8944e33ff8790aaf63",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:30.668502+00:00"
+    },
+    "group-remove-before.png": {
+      "sha256": "a67d4843f556bf0ef9742d5cf2cf3e1da13ae4d332ec5f8944e33ff8790aaf63",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:29.054105+00:00"
+    },
+    "import-after.png": {
+      "sha256": "ee6371aae12019c116f44ad09f636fbab4324994e95e2abdc969347c5b48a5e3",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:51:17.087051+00:00"
+    },
+    "import-before.png": {
+      "sha256": "f11b1e1ab4d61f6c0d6192ff56522e94aef7f1a8e61d0dd04e35dc9b554a679f",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:51:15.457183+00:00"
+    },
+    "inactive-after.png": {
+      "sha256": "c07572d9dd79bcd65a0b00afe57df6aea0dc8336749990dbe05676546efc09f1",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:01.807702+00:00"
+    },
+    "inactive-before.png": {
+      "sha256": "eaf616bb030d1c707ff05ea1db180ad19932387a5a29e64cbb8753fa1c4a36cb",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:45:29.468640+00:00"
+    },
+    "move-editor-after.png": {
+      "sha256": "e091ff4807f6d296a840998bba2a62c15aaec9d61c43e333bd38c84497ada534",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:45:22.506281+00:00"
+    },
+    "move-editor-before.png": {
+      "sha256": "62bef0b36a4353a0057e3af73b788006ee878cb3415db2de528f7771b4b9dcce",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:45:18.461140+00:00"
+    },
+    "move-persisted-after.png": {
+      "sha256": "1eddf2f05c17e817ed1436e96c10c3ddb2125d8c10d1871f32b1c19748901174",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:51:43.707734+00:00"
+    },
+    "narrow-after.png": {
+      "sha256": "65a00b1c0235153a9821f78ccf1f06ea4a107cb919a58097940a739385cdb8fe",
+      "width": 650,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:41.210227+00:00"
+    },
+    "narrow-before.png": {
+      "sha256": "0dc5fee1c3348cdcb83c2dac29c42e49cf8b5a224276cb89356baf46f7625356",
+      "width": 650,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:44:35.898713+00:00"
+    },
+    "restore-after.png": {
+      "sha256": "6b91f43e8e0b34f655a1a1bc8196d2d3fc0a518b81abb43f595c0bed6a025cb7",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:51.604365+00:00"
+    },
+    "restore-before.png": {
+      "sha256": "c8bacc220249d29b834cecb3c396cec905aa4049abb872bff07def4528bf058b",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:48.410690+00:00"
+    },
+    "restore-input-after.png": {
+      "sha256": "1006d6614e17dfdd339dcebc3a417e449c7cf8d64f3a22b8f9d875c532aad625",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:50.404270+00:00"
+    },
+    "restore-input-before.png": {
+      "sha256": "1006d6614e17dfdd339dcebc3a417e449c7cf8d64f3a22b8f9d875c532aad625",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:47:47.254003+00:00"
+    },
+    "status-after.png": {
+      "sha256": "3e44a9a88dc0482d87cac6681ec46aefcc143d4eb098eb54ba5ddb4cc6c7da20",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:48:14.214508+00:00"
+    },
+    "status-before.png": {
+      "sha256": "d142dc3b8bf844c54c23481b6878a8250458d3b76122d7b0b368bff8dec970cf",
+      "width": 1280,
+      "height": 844,
+      "capturedAt": "2026-11-21T03:48:09.154397+00:00"
+    }
+  },
+  "persistedChecks": {
+    "3473": {
+      "1": {
+        "id": 1,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "- [x] Existing patterns reviewed\n- [ ] Confirm keyboard flow",
+        "isArchived": false,
+        "groupId": null,
+        "parentTicketId": null
+      },
+      "3": {
+        "id": 3,
+        "boardId": 1,
+        "laneId": 1,
+        "bodyMarkdown": "Keep this body after moving",
+        "isArchived": false,
+        "groupId": null,
+        "parentTicketId": null
+      },
+      "4": {
+        "id": 4,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "Restore this ticket",
+        "isArchived": false,
+        "groupId": null,
+        "parentTicketId": null
+      },
+      "6": {
+        "id": 6,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "Keep parent-child membership together",
+        "isArchived": false,
+        "groupId": 1,
+        "parentTicketId": null
+      },
+      "7": {
+        "id": 7,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "Review together",
+        "isArchived": false,
+        "groupId": 1,
+        "parentTicketId": 6
+      }
+    },
+    "3474": {
+      "1": {
+        "id": 1,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "- [x] Existing patterns reviewed\n- [ ] Confirm keyboard flow",
+        "isArchived": false,
+        "groupId": null,
+        "parentTicketId": null
+      },
+      "3": {
+        "id": 3,
+        "boardId": 1,
+        "laneId": 1,
+        "bodyMarkdown": "Verified after moving to Inbox.",
+        "isArchived": false,
+        "groupId": null,
+        "parentTicketId": null
+      },
+      "4": {
+        "id": 4,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "Restore this ticket",
+        "isArchived": false,
+        "groupId": null,
+        "parentTicketId": null
+      },
+      "6": {
+        "id": 6,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "Keep parent-child membership together",
+        "isArchived": false,
+        "groupId": 1,
+        "parentTicketId": null
+      },
+      "7": {
+        "id": 7,
+        "boardId": 2,
+        "laneId": 3,
+        "bodyMarkdown": "Review together",
+        "isArchived": false,
+        "groupId": 1,
+        "parentTicketId": 6
+      }
+    }
+  }
+}

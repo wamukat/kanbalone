@@ -59,6 +59,7 @@ For smoke tests or demonstrations, create a disposable test ticket and mutate th
 List:
 
 - `GET /api/boards/:boardId/tickets`
+- Each summary includes read-only `unresolvedBlockerCount`. It counts unresolved blockers, including archived blockers, independently of list filters. Do not send it in create/update requests.
 - Query params:
   - `lane_id=<id>`
   - `tag=<name>`

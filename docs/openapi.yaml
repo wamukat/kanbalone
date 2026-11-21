@@ -2720,6 +2720,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
+        unresolvedBlockerCount:
+          type: integer
+          minimum: 0
+          readOnly: true
+          description: Number of unresolved blockers, including archived blockers. Independent of ticket-list filters.
         blockerIds:
           type: array
           items:
@@ -2763,6 +2768,7 @@ components:
       - updatedAt
       - tags
       - blockerIds
+      - unresolvedBlockerCount
       - relatedIds
       - ref
       - shortRef

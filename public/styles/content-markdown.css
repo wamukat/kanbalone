@@ -94,3 +94,8 @@
 .markdown > :first-child {
   margin-top: 0;
 }
+
+/* Task markers replace bullets, while ordinary Markdown lists keep theirs. */
+.markdown li:has(> .task-checkbox) {
+  list-style: none;
+}

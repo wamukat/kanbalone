@@ -62,7 +62,7 @@ test("ticket detail supports focused inline updates", async ({ page }) => {
     expect((await priorityResponse).status()).toBe(200);
     await expect(page.locator("#editor-header-priority")).toContainText("Urgent");
 
-    await expect(page.locator("#ticket-view-meta")).not.toContainText("Lane");
+    await expect(page.locator("#ticket-view-meta")).toContainText("Lane: Todo");
     await expect(page.locator("[data-detail-edit='lane']")).toHaveCount(0);
 
     await expect(page.locator("[data-detail-state-action='resolved']")).toHaveCount(0);

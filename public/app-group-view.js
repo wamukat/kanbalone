@@ -135,7 +135,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
   }
   function addForm() {
     const count = chosen.flatMap((id) => related(id, candidates)).length;
-    return `<form data-group-form="members" class="group-edit-form"><label for="group-ticket-search">Find unassigned tickets</label><div class="group-selection" aria-live="polite">${chosen
+    return `<form data-group-form="members" class="group-edit-form"><label for="group-ticket-search">Find unassigned tickets</label><p class="muted">To move tickets here from another Group, remove them from that Group first.</p><div class="group-selection" aria-live="polite">${chosen
       .map((id) => {
         const family = related(id, candidates);
         return `<span class="group-selected-ticket">#${id} ${esc(family[0].title)}${family.length > 1 ? ` · ${family.length} tickets` : ""}<button type="button" class="ghost icon-button" aria-label="Deselect #${id}" data-group-unpick="${id}">${icon("x")}</button></span>`;
@@ -189,7 +189,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
       `<button data-group-action="all" class="${all ? "active" : ""}">All</button></div>`,
       sortButtons(sort),
       "</div>",
-      `<div class="group-choices">${choices || '<p class="muted">No groups to show.</p>'}</div>`,
+      `<div class="group-choices">${choices || (groups.length ? '<p class="muted">No active Groups. All tickets in your Groups are completed or archived.</p><button class="ghost group-text-action" data-group-action="all">Show all Groups</button>' : '<p class="muted">No Groups yet.</p>')}</div>`,
       groupCreateForm(),
       "</div>",
     ].join("");
@@ -241,7 +241,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
             ? '<button class="ghost danger group-delete" data-group-action="delete">Delete empty Group</button>'
             : "",
         ].join("")
-      : '<p class="group-empty muted">Create a Group to organize tickets.</p>';
+      : `<p class="group-empty muted">${groups.length ? "Select All to see your inactive Groups." : "Create a Group to organize tickets."}</p>`;
     return `<div class="group-content-panel">${content}<p class="group-error" role="alert">${esc(error)}</p></div>`;
   }
 

@@ -13,6 +13,10 @@ renderer.code = ({ text, lang }) => {
   return `<pre><code class="hljs${languageClass}">${highlighted}</code></pre>\n`;
 };
 
+// Task state is content, not an editable form control. Keep raw HTML inputs disallowed.
+renderer.checkbox = ({ checked }) =>
+  `<span class="task-checkbox" role="img" aria-label="${checked ? "Completed" : "Not completed"}">${checked ? "☑" : "☐"}</span> `;
+
 marked.setOptions({
   breaks: true,
   gfm: true,
@@ -40,7 +44,7 @@ export function renderMarkdown(markdown: string): string {
       a: ["href", "name", "target", "rel"],
       code: ["class"],
       img: ["src", "alt", "title"],
-      span: ["class"],
+      span: ["class", "role", "aria-label"],
     },
     allowedSchemes: ["http", "https", "mailto"],
   });

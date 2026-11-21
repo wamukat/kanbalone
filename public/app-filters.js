@@ -265,8 +265,14 @@ export function createFiltersModule(ctx, options) {
   function syncStatusFilter() {
     elements.statusFilterButtons.forEach((button) => {
       button.classList.toggle("active", state.filters.status.includes(button.dataset.statusFilter ?? ""));
+      button.setAttribute("aria-pressed", String(state.filters.status.includes(button.dataset.statusFilter ?? "")));
     });
-    elements.statusFilterSummary.textContent = summarizeFilter(state.filters.status, STATUS_LABELS, "Open");
+    const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || "Open";
+    elements.statusFilterSummary.textContent = state.filters.status.length === 3 ? "All" : selectedLabels;
+    elements.statusFilterSummary.title = selectedLabels;
+    elements.statusFilterToggles.forEach((toggle) => {
+      toggle.setAttribute("aria-label", `Status: ${selectedLabels}`);
+    });
     elements.statusFilterClearButton.hidden = isDefaultStatusFilter();
   }
 

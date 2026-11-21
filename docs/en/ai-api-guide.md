@@ -64,6 +64,7 @@ The selection and all affected ticket states update in one transaction. Invalid 
 ### 2. Blockers Are Dependencies Of This Ticket
 
 - `ticket.blockerIds = [6]` means this ticket is blocked by `#6`.
+- Ticket-list summaries include read-only `unresolvedBlockerCount`: the number of unresolved blockers, including archived blockers. Search and filters do not change this count.
 - A ticket cannot block itself.
 - Reciprocal blockers are not allowed.
   - If `#1` is blocked by `#2`, then `#2` cannot also be blocked by `#1`.

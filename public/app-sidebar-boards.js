@@ -1,3 +1,4 @@
+import { readSidebarCollapsed } from "./app-preferences.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 
 export function createSidebarBoardsModule(ctx, options) {
@@ -7,7 +8,10 @@ export function createSidebarBoardsModule(ctx, options) {
     const hasBoards = state.boards.length > 0;
     if (!hasBoards && state.sidebarCollapsed) {
       state.sidebarCollapsed = false;
-      localStorage.setItem("kanbalone:sidebar-collapsed", "false");
+      options.syncSidebar();
+    }
+    if (hasBoards && elements.shell.classList.contains("no-boards")) {
+      state.sidebarCollapsed = readSidebarCollapsed();
       options.syncSidebar();
     }
     elements.shell.classList.toggle("no-boards", !hasBoards);

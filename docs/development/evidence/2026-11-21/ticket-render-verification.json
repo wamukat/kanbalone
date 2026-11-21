@@ -1,0 +1,206 @@
+[
+  {
+    "url": "http://127.0.0.1:3470/tickets/1474",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/bulk-move-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/bulk-move-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1475",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/move-editor-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/move-editor-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/move-persisted-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1476",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/detail-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/detail-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1477",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/detail-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/detail-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1478",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/blocker-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/blocker-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1479",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/dirty-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/dirty-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/dirty-input-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/dirty-input-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/dirty-kept-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1480",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/narrow-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/narrow-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1481",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/status-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/status-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/empty-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/empty-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1482",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/import-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/import-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1483",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/inactive-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/inactive-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1484",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/restore-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/restore-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/restore-input-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/restore-input-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/export-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/export-after.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:3470/tickets/1485",
+    "images": [
+      {
+        "src": "http://127.0.0.1:3472/group-add-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/group-add-after.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/group-remove-before.png",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3472/group-remove-after.png",
+        "loaded": true
+      }
+    ]
+  }
+]

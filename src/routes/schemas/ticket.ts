@@ -217,6 +217,7 @@ export const ticketSummarySchema = {
     "updatedAt",
     "tags",
     "blockerIds",
+    "unresolvedBlockerCount",
     "relatedIds",
     "ref",
     "shortRef",
@@ -243,6 +244,7 @@ export const ticketSummarySchema = {
       type: "array",
       items: tagViewSchema,
     },
+    unresolvedBlockerCount: { type: "integer", minimum: 0 },
     blockerIds: {
       type: "array",
       items: positiveIntegerSchema,

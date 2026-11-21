@@ -110,6 +110,7 @@ export function mapTicketSummary(
   remote: Pick<TicketRemoteLinkView, "provider" | "displayRef" | "url"> | null,
   externalReferences: TicketExternalReferenceView[],
   groupFields: Pick<TicketSummaryView, "groupId" | "group"> = {},
+  unresolvedBlockerCount = 0,
 ): TicketSummaryView {
   return {
     id: row.id,
@@ -126,6 +127,7 @@ export function mapTicketSummary(
     updatedAt: row.updated_at,
     tags,
     blockerIds,
+    unresolvedBlockerCount,
     relatedIds,
     ref: formatTicketRef(boardName, row.id),
     shortRef: formatShortRef(row.id),

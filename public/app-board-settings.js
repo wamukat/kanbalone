@@ -129,6 +129,7 @@ export function createBoardSettingsModule(ctx) {
     link.download = `${payload.board.name.replace(/\s+/g, "-").toLowerCase() || "board"}.json`;
     link.click();
     URL.revokeObjectURL(url);
+    ctx.showToast("Download started");
   }
 
   async function importBoard(event) {

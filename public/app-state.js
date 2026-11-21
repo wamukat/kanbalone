@@ -1,4 +1,4 @@
-import { readEditorDialogSize, readUiPreferences } from "./app-preferences.js";
+import { readEditorDialogSize, readUiPreferences, readSidebarCollapsed } from "./app-preferences.js";
 
 export function createAppState() {
   const storedPreferences = readUiPreferences();
@@ -23,7 +23,7 @@ export function createAppState() {
     confirmingCommentDeleteId: null,
     viewMode: "kanban",
     selectedListTicketIds: [],
-    sidebarCollapsed: localStorage.getItem("kanbalone:sidebar-collapsed") === "true",
+    sidebarCollapsed: readSidebarCollapsed(),
     boardSettingsExpanded: false,
     filters: {
       q: "",

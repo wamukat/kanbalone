@@ -1,0 +1,32 @@
+{
+  "3473": {
+    "board": 2,
+    "lane": 3,
+    "tickets": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "group": 1,
+    "inactiveBoard": 3
+  },
+  "3474": {
+    "board": 2,
+    "lane": 3,
+    "tickets": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "group": 1,
+    "inactiveBoard": 3
+  }
+}

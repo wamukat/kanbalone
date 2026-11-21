@@ -206,7 +206,7 @@
 
 @container toolbar-filters (max-width: 620px) {
   #tag-filter {
-    width: 112px;
+    width: 88px;
   }
 
   .toolbar-reset-filters {
@@ -226,4 +226,33 @@
     white-space: nowrap;
     border: 0;
   }
+}
+
+/* Reserve enough space for selected names; a compact toolbar uses two lines. */
+#status-filter-summary {
+  display: flex;
+  width: 11rem;
+  height: 2rem;
+  box-sizing: border-box;
+  white-space: nowrap;
+  line-height: 1rem;
+  text-align: center;
+}
+
+#status-filter.is-expanded #status-filter-summary {
+  display: none;
+}
+
+@container toolbar-filters (max-width: 800px) {
+  #status-filter-summary {
+    width: 7rem;
+    white-space: normal;
+  }
+}
+
+/* Keep the clear action's slot, including when only Open is selected. */
+#status-filter .filter-clear-slot {
+  display: inline-flex;
+  width: 1.75rem;
+  min-height: 1.75rem;
 }

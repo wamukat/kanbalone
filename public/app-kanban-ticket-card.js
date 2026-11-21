@@ -1,3 +1,4 @@
+import { icon } from "./icons.js";
 import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
 import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
@@ -17,6 +18,7 @@ export function createKanbanTicketCard(ctx, ticket) {
         <span class="ticket-card-meta-icons">
           ${renderTicketHierarchyIcon(ticket, state.boardTickets ?? [])}
           ${renderPriorityIcon(ticket.priority)}
+          ${renderBlockerIndicator(ticket)}
         </span>
       </span>
       <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
@@ -57,4 +59,11 @@ export function createKanbanTicketCard(ctx, ticket) {
     }
   });
   return card;
+}
+
+function renderBlockerIndicator(ticket) {
+  const count = ticket.unresolvedBlockerCount ?? 0;
+  if (!count) return "";
+  const label = `Blocked by ${count} unresolved ticket${count === 1 ? "" : "s"}`;
+  return `<span class="ticket-blocker-indicator" title="${label}" aria-label="${label}">${icon("octagon-alert")}<span>${count}</span></span>`;
 }

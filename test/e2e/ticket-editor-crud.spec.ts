@@ -97,7 +97,9 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     );
     await page.locator("#archive-ticket-button").click();
     expect((await restoreResponse).status()).toBe(200);
-    await expect(page.locator("#editor-form")).toBeVisible();
+    await expect(page.locator("#ticket-view")).toBeVisible();
+    await expect(page.locator("#editor-header-state")).not.toContainText("Archived");
+    await page.locator("#header-edit-button").click();
     await expect(page.locator("#archive-ticket-button")).toContainText("Archive");
 
     const deleteCandidate = await createTicket(page.request, baseUrl, boardPayload.board.id, {

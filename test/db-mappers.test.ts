@@ -95,3 +95,13 @@ test("sanitizePriority defaults missing priority and rejects out-of-range values
   assert.throws(() => sanitizePriority(3.9), /Priority must be 1, 2, 3, or 4/);
   assert.throws(() => sanitizePriority(100), /Priority must be 1, 2, 3, or 4/);
 });
+
+
+test("Markdown task states survive sanitization without enabling form controls", () => {
+  const html = renderMarkdown("- [ ] Pending **review** #123\n- [x] Reviewed\n  - [X] Nested checked\n\n<input type=checkbox onclick=alert(1)><script>alert(1)</script><span onclick=alert(1)>safe</span>");
+  assert.match(html, /aria-label="Not completed">☐<\/span>/);
+  assert.equal((html.match(/aria-label="Completed">☑<\/span>/g) || []).length, 2);
+  assert.match(html, /<strong>review<\/strong>/);
+  assert.match(html, /href="\/tickets\/123"/);
+  assert.doesNotMatch(html, /<input|<script|onclick=/);
+});

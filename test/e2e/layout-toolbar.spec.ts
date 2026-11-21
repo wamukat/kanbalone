@@ -114,6 +114,7 @@ test("sidebar toggle stays usable on narrow screens", async ({ page }) => {
       laneNames: ["todo"],
     });
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
+    await page.getByRole("button", { name: "Open sidebar", exact: true }).click();
     await expect(page.locator("#sidebar-toggle-button")).toBeVisible();
 
     const toggleBox = await page

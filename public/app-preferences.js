@@ -25,6 +25,19 @@ const DEFAULT_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: 
  * @typedef {{ width: number; height: number }} EditorDialogSize
  */
 
+/** Initial layout follows screen width until the user explicitly toggles the sidebar.
+ * @returns {boolean}
+ */
+export function readSidebarCollapsed() {
+  try {
+    const stored = localStorage.getItem("kanbalone:sidebar-collapsed");
+    if (stored === "true" || stored === "false") return stored === "true";
+  } catch {
+    // The responsive default also works when browser storage is unavailable.
+  }
+  return window.matchMedia("(max-width: 900px)").matches;
+}
+
 /** @returns {UiPreferences} */
 export function readUiPreferences() {
   try {

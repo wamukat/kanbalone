@@ -22,9 +22,9 @@ export function createBoardModule(ctx) {
   const sidebarTagsModule = createSidebarTagsModule(ctx);
   const groupModule = createGroupBoardModule(ctx);
 
-  function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "" }) {
+  function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "", actionIcon = "plus" }) {
     const action = actionLabel && actionAttr
-      ? `<button type="button" class="empty-state-action action-with-icon" ${actionAttr}>${icon("plus")}<span>${actionLabel}</span></button>`
+      ? `<button type="button" class="empty-state-action action-with-icon" ${actionAttr}>${icon(actionIcon)}<span>${actionLabel}</span></button>`
       : "";
     return `
       <div class="empty-state">

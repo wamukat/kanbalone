@@ -1,3 +1,4 @@
+import { describeTicketFilters } from "./app-filter-summary.js";
 import { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
 export { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
 import { calculateVisibleWindow } from "./app-board-utils.js";
@@ -62,7 +63,10 @@ export function createListBoardModule(ctx, options) {
         ? renderEmptyState({
           iconName: "search",
           title: "No matching tickets",
-          body: "Try a different search, tag, lane, or resolved filter.",
+          body: describeTicketFilters(state.filters, detail.lanes),
+          actionLabel: "Reset filters",
+          actionAttr: "data-empty-reset-filters",
+          actionIcon: "rotate-ccw",
         })
         : renderEmptyState({
           iconName: "list",
@@ -171,6 +175,10 @@ export function createListBoardModule(ctx, options) {
     const familySelectButton = event.target.closest("[data-select-family-ticket-id]");
     if (familySelectButton && elements.listBoard.contains(familySelectButton)) {
       listSelection.handleListFamilySelection(Number(familySelectButton.dataset.selectFamilyTicketId));
+      return;
+    }
+    if (event.target.closest("[data-empty-reset-filters]")) {
+      document.querySelector("#reset-filters-button")?.click();
       return;
     }
     const createTicketButton = event.target.closest("[data-empty-create-ticket]");

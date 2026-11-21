@@ -38,7 +38,7 @@ Use the buttons at the top right of each lane to rename or delete it. Choose whi
 
 ## 4. Create A Ticket
 
-Click **＋** in a lane and enter a title and body. The body supports Markdown.
+Click **＋** in a lane and enter a title and body. The body supports Markdown. Use `- [ ]` and `- [x]` to display unchecked and checked tasks.
 
 Set **Lane**, **Priority**, and **Tags** as needed. Under **Relations**, you can choose a parent ticket or blockers—tickets that must be finished first.
 
@@ -56,7 +56,9 @@ Click a ticket to read its body, related tickets, and comments. Open the **Activ
 
 Click the pencil icon at the top right of ticket details. Change the body, lane, priority, tags, parent-child relationships, or blockers, then click **Save**.
 
-Use **Move** to send a ticket to another board or lane. Moving to another board clears parent-child relationships, blockers, and Group membership. Tags with matching names are kept.
+If you have unsaved changes, confirm before closing. Choose **Cancel** to keep editing or **Discard changes** to discard them.
+
+Choose **Lane** in the editor to move within the same board. Use **Move** to send a ticket to another board. Moving to another board clears parent-child relationships, blockers, and Group membership. Tags with matching names are kept.
 
 ![Editing a ticket](../assets/user-guide/07-ticket-edit-relations.png)
 

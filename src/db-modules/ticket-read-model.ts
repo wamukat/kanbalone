@@ -143,6 +143,7 @@ function mapTicketSummaries(
   const ticketIds = rows.map((row) => row.id);
   const tagsByTicket = getTagsForTicketIds(sqlite, ticketIds);
   const blockerIdsByTicket = getBlockerIdsForTicketIds(sqlite, ticketIds);
+  const unresolvedBlockerCounts = getUnresolvedBlockerCounts(sqlite, ticketIds);
   const childCountsByTicket = getChildCountsForTicketIds(sqlite, ticketIds);
   const relatedIdsByTicket = getRelatedIdsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
@@ -165,6 +166,7 @@ function mapTicketSummaries(
         : null,
       externalReferencesByTicket.get(row.id) ?? [],
       ticketGroupFields(sqlite, row),
+      unresolvedBlockerCounts.get(row.id) ?? 0,
     ),
   );
 }
@@ -186,4 +188,17 @@ function getChildCountsForTicketIds(sqlite: Database.Database, ticketIds: Id[]):
     childCountsByTicket.set(row.ticket_id, row.child_count);
   });
   return childCountsByTicket;
+}
+
+function getUnresolvedBlockerCounts(sqlite: Database.Database, ticketIds: Id[]): Map<Id, number> {
+  if (!ticketIds.length) return new Map();
+  const placeholders = ticketIds.map(() => "?").join(", ");
+  const rows = sqlite.prepare(`
+    SELECT tb.ticket_id, COUNT(*) AS count
+    FROM ticket_blockers tb
+    INNER JOIN tickets blocker ON blocker.id = tb.blocker_ticket_id
+    WHERE tb.ticket_id IN (${placeholders}) AND blocker.is_resolved = 0
+    GROUP BY tb.ticket_id
+  `).all(...ticketIds) as Array<{ ticket_id: Id; count: number }>;
+  return new Map(rows.map((row) => [row.ticket_id, row.count]));
 }

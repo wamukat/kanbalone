@@ -14,7 +14,9 @@ export function createTicketDetailRenderers(ctx) {
     const tags = ticket.tags
       .map((tag) => renderTag(tag, ctx.escapeHtml))
       .join("");
+    const lane = ctx.state.boardDetail?.lanes?.find((item) => item.id === ticket.laneId);
     return `
+      <div class="ticket-meta-row ticket-lane-meta"><span class="muted">Lane:</span> <span>${ctx.escapeHtml(lane?.name ?? "Unknown lane")}</span></div>
       <div class="ticket-meta-row">${tags}</div>
       <div class="ticket-meta-row ticket-group-meta"><span class="muted">Group:</span> ${ticket.group ? `<a href="/boards/${ticket.boardId}/group" data-ticket-group="${ticket.group.id}">${ctx.escapeHtml(ticket.group.name)}</a>` : '<span class="muted">Unassigned</span>'}</div>
     `;

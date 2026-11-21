@@ -115,13 +115,13 @@ function bindEvents() {
   elements.deleteTicketButton.addEventListener("click", deleteTicket);
   elements.archiveTicketButton.addEventListener("click", toggleTicketArchive);
   elements.moveTicketButton.addEventListener("click", moveTicketToBoard);
-  elements.headerEditButton.addEventListener("click", () => setDialogMode("edit"));
-  elements.cancelEditButton.addEventListener("click", () => {
-    if (state.editingTicketId) {
-      setDialogMode("view");
-      return;
-    }
-    closeEditor();
+  elements.headerEditButton.addEventListener("click", async () => {
+    if (await confirmDiscardChanges()) setDialogMode("edit");
+  });
+  elements.cancelEditButton.addEventListener("click", cancelEditorEdit);
+  elements.editorDialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    requestCloseEditor();
   });
   elements.editorDialog.addEventListener("close", () => {
     state.editorDialogResize = null;
@@ -133,6 +133,7 @@ function bindEvents() {
   elements.uxCancelButton.addEventListener("click", () => finishUxDialog(null));
   elements.uxDismissButton.addEventListener("click", () => finishUxDialog(null));
   elements.uxDialog.addEventListener("close", () => {
+    if (elements.uxDialog.open) return;
     state.uxDialogDrag = null;
     elements.uxDialog.classList.remove("dragging");
     finishUxDialog(null);
@@ -142,7 +143,15 @@ function bindEvents() {
   elements.exportBoardButton.addEventListener("click", exportBoard);
   elements.importBoardInput.addEventListener("change", importBoard);
   elements.laneBoard.addEventListener("dragover", handleLaneDragOver);
-  window.addEventListener("popstate", () => {
+  window.addEventListener("beforeunload", (event) => {
+    if (hasUnsavedChanges() || state.editorSaving) { event.preventDefault(); event.returnValue = ""; }
+  });
+  window.addEventListener("popstate", async () => {
+    if (!await confirmDiscardChanges()) {
+      if (state.editingTicketId) syncTicketUrl(state.editingTicketId, { replace: true });
+      else syncBoardUrl(true);
+      return;
+    }
     applyRouteFromLocation().catch((error) => {
       console.error(error);
       showToast(error.message, "error");
@@ -154,6 +163,13 @@ function bindEvents() {
   window.addEventListener("pointerup", handleEditorDialogResizePointerUp);
   window.addEventListener("pointermove", handleUxHeaderPointerMove);
   window.addEventListener("pointerup", handleUxHeaderPointerUp);
+  document.addEventListener("click", (event) => {
+    if ((!hasUnsavedChanges() && !state.editorSaving) || elements.uxDialog.open || !(event.target instanceof Node)
+        || elements.editorDialog.contains(event.target)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    requestCloseEditor();
+  }, true);
   document.addEventListener("click", handleDocumentClick);
   document.addEventListener("keydown", handleDocumentKeydown);
 }
@@ -173,7 +189,7 @@ function handleDialogBackdropClick(event) {
     return;
   }
   if (dialog === elements.editorDialog) {
-    closeEditor();
+    requestCloseEditor();
     return;
   }
   finishUxDialog(null);
@@ -191,7 +207,7 @@ function handleDocumentKeydown(event) {
     closeRemoteImportSheet();
     return;
   }
-  closeEditor();
+  requestCloseEditor();
 }
 
 async function refreshBoards() {
@@ -347,6 +363,10 @@ const editorModule = createEditorModule({
 });
 
 const {
+  hasUnsavedChanges,
+  confirmDiscardChanges,
+  requestCloseEditor,
+  cancelEditorEdit,
   addComment,
   handleCommentAction,
   toggleCommentComposer,

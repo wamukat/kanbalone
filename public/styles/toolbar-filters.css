@@ -23,7 +23,7 @@
   display: grid;
   align-items: center;
   gap: var(--space-3);
-  grid-template-columns: minmax(180px, 276px) minmax(0, 1fr);
+  grid-template-columns: minmax(180px, 216px) minmax(0, 1fr);
   justify-content: stretch;
   width: 100%;
 }

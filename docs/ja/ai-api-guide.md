@@ -65,6 +65,7 @@ Codex は Kanbalone container の外側で動くため、skill はホスト側�
 ### 2. Blocker は「このチケットが依存している相手」
 
 - `ticket.blockerIds = [6]` は「このチケットは `#6` に blocked される」を意味します。
+- チケット一覧のサマリーには読み取り専用の `unresolvedBlockerCount` が含まれます。未完了のブロッカー数で、アーカイブ済みも含みます。検索やフィルターによってこの数は変わりません。
 - 自分自身は blocker にできません。
 - 相互 blocker は禁止です。
   - `#1` が `#2` に blocked されているなら、`#2` を `#1` に blocked させることはできません。

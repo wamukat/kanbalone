@@ -189,10 +189,16 @@ export function createTicketDetailModule(ctx) {
     syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
   }
 
-  function cancelInlineEdit() {
+  function hasUnsavedBody() {
+    const input = elements.ticketViewBody.querySelector("[data-detail-body-input]");
+    return activeInlineEdit === "body" && input && input.value !== (state.dialogTicket?.bodyMarkdown ?? "");
+  }
+
+  async function cancelInlineEdit() {
     if (!activeInlineEdit) {
       return;
     }
+    if (hasUnsavedBody() && !await ctx.confirmDiscardChanges()) return;
     activeInlineEdit = null;
     syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
   }
@@ -201,7 +207,6 @@ export function createTicketDetailModule(ctx) {
     if (!state.dialogTicket || !ctx.updateDialogTicket) {
       return;
     }
-    activeInlineEdit = null;
     expandedStateAction = null;
     await ctx.updateDialogTicket(patch, savedMessage);
   }
@@ -210,10 +215,11 @@ export function createTicketDetailModule(ctx) {
     if (state.detailBodyTab === "remote") {
       return;
     }
+    const draft = activeInlineEdit === "body" ? elements.ticketViewBody.querySelector("[data-detail-body-input]")?.value : undefined;
     activeInlineEdit = "body";
     elements.ticketViewBody.classList.add("ticket-detail-body-editing");
     elements.ticketViewBody.innerHTML = `
-      <textarea class="ticket-detail-body-input" data-detail-body-input rows="10" aria-label="Ticket body">${ctx.escapeHtml(state.dialogTicket?.bodyMarkdown ?? "")}</textarea>
+      <textarea class="ticket-detail-body-input" data-detail-body-input rows="10" aria-label="Ticket body" ${state.editorSaving ? "readonly" : ""}>${ctx.escapeHtml(draft ?? state.dialogTicket?.bodyMarkdown ?? "")}</textarea>
       <div class="ticket-detail-body-actions">
         <span class="muted">Ctrl+Enter / Cmd+Enter to save</span>
         <div class="editor-actions-right">
@@ -260,10 +266,15 @@ export function createTicketDetailModule(ctx) {
     }
   }
 
-  function handleDetailClick(event) {
+  async function handleDetailClick(event) {
     const target = event.target;
     if (!(target instanceof Element) || state.dialogMode !== "view") {
       return;
+    }
+    if (hasUnsavedBody() && target.closest("[data-ticket-group], [data-ticket-body-tab], [data-refresh-remote-ticket], [data-detail-edit], [data-detail-state-action]")) {
+      event.preventDefault();
+      if (!await ctx.confirmDiscardChanges()) return;
+      activeInlineEdit = null;
     }
     const groupLink = target.closest("[data-ticket-group]");
     if (groupLink) { event.preventDefault(); ctx.openGroup?.(Number(groupLink.getAttribute("data-ticket-group"))).catch(error => ctx.showToast(error.message, "error")); return; }
@@ -375,6 +386,8 @@ export function createTicketDetailModule(ctx) {
   }
 
   return {
+    resetInlineEdit: () => { activeInlineEdit = null; },
+    hasUnsavedBody,
     setBodyTab,
     setDetailTab,
     handleDetailChange,

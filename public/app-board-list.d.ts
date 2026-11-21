@@ -77,6 +77,7 @@ type ListBoardOptions = {
     body: string;
     actionLabel?: string;
     actionAttr?: string;
+    actionIcon?: string;
   }): string;
   renderTicketStatusIcons(ticket: ListBoardTicket): string;
 };

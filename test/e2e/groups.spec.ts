@@ -37,6 +37,8 @@ test("Groups create, describe, search whole parent/child sets and remove with co
     await page.getByRole("button", { name: "Delete empty Group", exact: true }).click();
     await page.locator("#ux-submit-button").click();
     await expect(page.locator(".group-choice")).toHaveCount(0);
+    await expect(page.locator(".group-choices")).toContainText("No Groups yet.");
+    await expect(page.getByRole("button", { name: "Show all Groups", exact: true })).toHaveCount(0);
   } finally { await close(); }
 });
 
@@ -109,9 +111,13 @@ test("inactive Group detail links reveal All and duplicate names stay editable",
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Archived work", groupId: group.id, isArchived: true });
     await page.goto(`${baseUrl}/boards/${board.id}/group`);
     await expect(page.locator(".group-choice")).toHaveCount(0);
+    await expect(page.locator(".group-choices")).toContainText("No active Groups");
+    await expect(page.locator(".group-content-panel")).not.toContainText("Create a Group");
+    await page.getByRole("button", { name: "Show all Groups", exact: true }).click();
+    await expect(page.locator(".group-choice")).toHaveCount(1);
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await page.locator("[data-ticket-group]").click();
-    await expect(page.locator('[data-group-action="all"]')).toHaveClass("active");
+    await expect(page.getByRole("button", { name: "All", exact: true })).toHaveClass("active");
     await expect(page.locator(".group-name")).toHaveText("Old work");
     await page.getByRole("button", { name: "Show archived tickets (1)", exact: true }).click();
     await expect(page.locator(`[data-group-ticket="${ticket.id}"]`)).toBeVisible();

@@ -45,7 +45,10 @@ export function registerTicketReorderRoutes(app: FastifyInstance, ctx: RegisterT
     try {
       const tickets = db.reorderTickets(boardId, items);
       publishBoardEvent(boardId);
-      return { tickets: serializeTicketSummaries(tickets) };
+      return { tickets: serializeTicketSummaries(tickets.map((ticket) => ({
+        ...ticket,
+        unresolvedBlockerCount: ticket.blockers.filter((blocker) => !blocker.isResolved).length,
+      }))) };
     } catch (error) {
       const message = error instanceof Error ? error.message : "ticket reorder failed";
       return reply.code(400).send({ error: message });

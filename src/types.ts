@@ -241,6 +241,7 @@ export type TicketSummaryView = {
   updatedAt: string;
   tags: TagView[];
   blockerIds: Id[];
+  unresolvedBlockerCount: number;
   relatedIds: Id[];
   ref: string;
   shortRef: string;

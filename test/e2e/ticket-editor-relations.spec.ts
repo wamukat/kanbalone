@@ -80,6 +80,8 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await page.locator("[data-remove-tag-id]").click();
     await expect(page.locator("#ticket-tag-summary")).not.toContainText("Cancel tag");
     await page.locator("#cancel-edit-button").click();
+    await expect(page.locator("#ux-title")).toHaveText("Discard changes?");
+    await page.locator("#ux-submit-button").click();
     await expect(page.locator("#ticket-view-meta")).toContainText("Cancel tag");
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#ticket-tag-summary")).toContainText("Cancel tag");

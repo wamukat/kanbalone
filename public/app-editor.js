@@ -14,6 +14,47 @@ export function createEditorModule(ctx) {
   }
 
   let relationsModule;
+  let savedForm = "";
+  let discardPending = null;
+
+  function formSnapshot() {
+    return JSON.stringify([
+      elements.ticketTitle.value, elements.ticketBody.value, elements.ticketPriority.value,
+      elements.ticketLane.value, elements.ticketParent.value,
+      ...[state.editorTagIds, state.editorBlockerIds, state.editorRelatedIds, state.editorChildIds]
+        .map((ids) => [...ids].sort((a, b) => a - b)),
+    ]);
+  }
+
+  function hasUnsavedChanges() {
+    if (!elements.editorDialog.open) return false;
+    return (state.dialogMode === "edit" && savedForm !== formSnapshot()) || detailModule.hasUnsavedBody();
+  }
+
+  async function confirmDiscardChanges() {
+    if (state.editorSaving) { ctx.showToast("Please wait until saving finishes"); return false; }
+    if (!hasUnsavedChanges()) return true;
+    if (discardPending) return discardPending;
+    discardPending = ctx.confirmAndRun({
+      title: "Discard changes?",
+      message: "Your unsaved changes will be lost.",
+      submitLabel: "Discard changes",
+      run: async () => {},
+    });
+    try { return await discardPending; }
+    finally { discardPending = null; }
+  }
+
+  async function requestCloseEditor() {
+    if (await confirmDiscardChanges()) closeEditor();
+  }
+
+  async function cancelEditorEdit() {
+    if (!await confirmDiscardChanges()) return;
+    if (state.editingTicketId) setDialogMode("view");
+    else closeEditor();
+  }
+
 
   const tagPicker = createTicketTagPicker({
     ...ctx,
@@ -27,11 +68,13 @@ export function createEditorModule(ctx) {
   const detailModule = createTicketDetailModule({
     ...ctx,
     getBlockingTickets: relationsModule.getBlockingTickets,
+    confirmDiscardChanges,
     refreshDialogTicket,
     updateDialogTicket,
   });
 
   const actionsModule = createTicketActionsModule(ctx, {
+    confirmDiscardChanges,
     closeEditor,
     getSelectedTagIds,
     refreshDialogTicket,
@@ -80,6 +123,7 @@ export function createEditorModule(ctx) {
 
   function setDialogMode(mode) {
     if (mode === "edit" && state.dialogTicket) {
+      detailModule.resetInlineEdit();
       hydrateEditorForm(state.dialogTicket);
     }
     state.dialogMode = mode;
@@ -202,6 +246,7 @@ export function createEditorModule(ctx) {
     tagPicker.syncOptions();
     relationsModule.syncOptions();
     syncEditorBodyPresentation(ticket);
+    savedForm = formSnapshot();
   }
 
   function syncEditorBodyPresentation(ticket) {
@@ -252,15 +297,19 @@ export function createEditorModule(ctx) {
   }
 
   async function updateDialogTicket(patch, savedMessage = "Saved") {
-    if (!state.editingTicketId) {
+    if (!state.editingTicketId || state.editorSaving) {
       return null;
     }
+    state.editorSaving = true;
+    const inlineInputs = [...elements.editorDialog.querySelectorAll("[data-detail-body-input], [data-detail-title-input]")];
+    for (const input of inlineInputs) input.readOnly = true;
     setSaveState("saving", "Saving...");
     try {
       const updated = await ctx.sendJson(`/api/tickets/${state.editingTicketId}`, {
         method: "PATCH",
         body: patch,
       });
+      detailModule.resetInlineEdit();
       await refreshDialogTicket(state.editingTicketId);
       await ctx.refreshBoardDetail();
       setSaveState("saved", savedMessage);
@@ -268,13 +317,17 @@ export function createEditorModule(ctx) {
     } catch (error) {
       setSaveState("error", "Save failed");
       throw error;
+    } finally {
+      for (const input of elements.editorDialog.querySelectorAll("[data-detail-body-input], [data-detail-title-input]")) input.readOnly = false;
+      state.editorSaving = false;
     }
   }
 
   async function openEditor(ticketId = null, mode = "edit", defaultLaneId = null, creationGroup = null) {
-    if (!state.boardDetail) {
+    if (!state.boardDetail || state.editorSaving) {
       return;
     }
+    detailModule.resetInlineEdit();
     state.editingTicketId = ticketId;
     state.editorCreateGroup = ticketId ? null : creationGroup;
     state.boardTickets = (await ctx.api(`/api/boards/${state.activeBoardId}/tickets?archived=all`)).tickets;
@@ -337,6 +390,7 @@ export function createEditorModule(ctx) {
     relationsModule.syncOptions();
     syncEditorBodyPresentation(ticket);
     setDialogMode(ticketId ? mode : "edit");
+    savedForm = formSnapshot();
     detailModule.setDetailTab("comments");
     detailModule.setBodyTab("local");
     const scrollX = window.scrollX;
@@ -402,11 +456,15 @@ export function createEditorModule(ctx) {
       return;
     }
     if (!elements.uxDialog.open && !elements.editorDialog.contains(target) && !eventPath.includes(elements.editorDialog)) {
-      closeEditor();
+      requestCloseEditor();
     }
   }
 
   return {
+    hasUnsavedChanges,
+    confirmDiscardChanges,
+    requestCloseEditor,
+    cancelEditorEdit,
     addComment: commentsModule.addComment,
     closeEditor,
     deleteTicket,

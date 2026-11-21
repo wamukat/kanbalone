@@ -1,6 +1,7 @@
 @media (max-width: 900px) {
-  .shell {
-    grid-template-columns: 1fr;
+  .shell,
+  .shell.sidebar-collapsed {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .sidebar {

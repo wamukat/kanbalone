@@ -153,8 +153,11 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
 
   function renderPreview(preview, input) {
     const stateLabel = preview.state || "Unknown state";
+    const existingRef = preview.existingTicketRef || `#${preview.existingTicketId}`;
     const duplicateText = preview.duplicate
-      ? `Already imported as ${preview.existingTicketRef || `#${preview.existingTicketId}`}`
+      ? Number.isSafeInteger(preview.existingTicketId) && preview.existingTicketId > 0
+        ? `Already imported as <a href="/tickets/${preview.existingTicketId}" target="_blank" rel="noopener" title="Open imported ticket in a new tab" aria-label="Open ${ctx.escapeHtml(existingRef)} in a new tab">${ctx.escapeHtml(existingRef)}</a>`
+        : "Already imported"
       : "Ready to import";
     state.editorRemoteImportPreview = {
       ...preview,
@@ -167,7 +170,7 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
         <span class="editor-remote-import-preview-state">${ctx.escapeHtml(stateLabel)}</span>
       </div>
       <div class="editor-remote-import-preview-title">${ctx.escapeHtml(preview.title)}</div>
-      <div class="editor-remote-import-preview-meta${preview.duplicate ? " duplicate" : ""}">${ctx.escapeHtml(duplicateText)}</div>
+      <div class="editor-remote-import-preview-meta${preview.duplicate ? " duplicate" : ""}">${duplicateText}</div>
     `;
     syncActions();
   }
