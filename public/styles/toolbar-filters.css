@@ -130,3 +130,5 @@
   height: 2.45rem;
   padding: 0 0.65rem;
 }
+
+:lang(ja) #lane-filter { width: 144px; }

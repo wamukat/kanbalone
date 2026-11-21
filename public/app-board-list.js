@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { describeTicketFilters } from "./app-filter-summary.js";
 import { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
 export { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
@@ -62,19 +63,19 @@ export function createListBoardModule(ctx, options) {
       elements.listBoard.innerHTML = hasUserTicketFilters()
         ? renderEmptyState({
           iconName: "search",
-          title: "No matching tickets",
+          title: tr("No matching tickets"),
           body: describeTicketFilters(state.filters, detail.lanes),
-          actionLabel: "Reset filters",
+          actionLabel: tr("Reset filters"),
           actionAttr: "data-empty-reset-filters",
           actionIcon: "rotate-ccw",
         })
         : renderEmptyState({
           iconName: "list",
-          title: state.filters.status.length === 1 && state.filters.status[0] === "open" ? "No open tickets" : "No tickets yet",
+          title: state.filters.status.length === 1 && state.filters.status[0] === "open" ? tr("No open tickets") : tr("No tickets yet"),
           body: state.filters.status.length === 1 && state.filters.status[0] === "open"
-            ? "Create a ticket or switch the status filter."
-            : "Create the first ticket, then switch between Kanban and List as it grows.",
-          actionLabel: firstLaneId ? "Create ticket" : "",
+            ? tr("Create a ticket or switch the status filter.")
+            : tr("Create the first ticket, then switch between Kanban and List as it grows."),
+          actionLabel: firstLaneId ? tr("Create ticket") : "",
           actionAttr: firstLaneId ? `data-empty-create-ticket="${firstLaneId}"` : "",
         });
       listModel = null;
@@ -94,12 +95,12 @@ export function createListBoardModule(ctx, options) {
       ${actions}
       <div class="list-header">
         <div><input type="checkbox" id="list-select-all" ${allSelected ? "checked" : ""} /></div>
-        ${renderSortableListHeader("id", "ID / Title")}
-        <div>Blockers</div>
-        ${renderSortableListHeader("tags", "Tags")}
-        ${renderSortableListHeader("priority", "Priority")}
-        <div>Lane</div>
-        <div>Status</div>
+        ${renderSortableListHeader("id", tr("ID / Title"))}
+        <div>${tr("Blockers")}</div>
+        ${renderSortableListHeader("tags", tr("Tags"))}
+        ${renderSortableListHeader("priority", tr("Priority"))}
+        <div>${tr("Lane")}</div>
+        <div>${tr("Status")}</div>
       </div>
       <div class="list-viewport">
         <div class="list-spacer" style="height:${orderedTickets.length * LIST_ROW_HEIGHT}px">
@@ -126,8 +127,8 @@ export function createListBoardModule(ctx, options) {
     const nextDirection = !isActive ? "asc" : listSort.direction === "asc" ? "desc" : "none";
     const iconName = !isActive ? "arrow-up-down" : listSort.direction === "asc" ? "arrow-up" : "arrow-down";
     const sortLabel = isActive
-      ? `${label}, sorted ${listSort.direction === "asc" ? "ascending" : "descending"}`
-      : `${label}, not sorted`;
+      ? tr("{label}, sorted {direction}", { label, direction: listSort.direction === "asc" ? tr("ascending") : tr("descending") })
+      : tr("{label}, not sorted", { label });
     return `
       <button
         type="button"

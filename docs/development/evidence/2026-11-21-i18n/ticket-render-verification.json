@@ -1,0 +1,110 @@
+[
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-kanban.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-kanban.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-kanban.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-list.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-list.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-list.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-group.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-group.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-group.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-detail.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-detail.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-detail.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-editor.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-editor.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-editor.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-confirmation.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-confirmation.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-confirmation.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-settings.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-settings.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-settings.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/before-narrow-group.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/en-narrow-group.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-narrow-group.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-language-draft.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-language-confirmation.png"
+  },
+  {
+    "loaded": true,
+    "src": "http://127.0.0.1:3477/ja-language-cancelled.png"
+  }
+]

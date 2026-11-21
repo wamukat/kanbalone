@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { readSidebarCollapsed } from "./app-preferences.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 
@@ -36,17 +37,17 @@ export function createSidebarBoardsModule(ctx, options) {
     elements.newBoardButton.hidden = state.isCreatingBoard;
     const shouldGuideBoardCreate = !hasBoards && !state.isCreatingBoard;
     elements.newBoardButton.classList.toggle("is-empty-target", shouldGuideBoardCreate);
-    elements.newBoardButton.title = shouldGuideBoardCreate ? "Create your first board" : "New board";
+    elements.newBoardButton.title = shouldGuideBoardCreate ? tr("Create your first board") : tr("New board");
     elements.newBoardButton.setAttribute(
       "aria-label",
-      shouldGuideBoardCreate ? "Create your first board" : "New board",
+      shouldGuideBoardCreate ? tr("Create your first board") : tr("New board"),
     );
   }
 
   function createBoardInputRow() {
     return createInlineTextForm({
       className: "board-create-row",
-      html: '<input type="text" data-board-create-input aria-label="Board name" placeholder="Board name" autocomplete="off" />',
+      html: `<input type="text" data-board-create-input aria-label="${tr("Board name")}" placeholder="${tr("Board name")}" autocomplete="off" />`,
       inputSelector: "[data-board-create-input]",
       onSubmit: submitBoardCreate,
       onCancel: cancelBoardCreate,

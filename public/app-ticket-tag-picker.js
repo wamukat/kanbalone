@@ -1,10 +1,11 @@
+import { t } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { formatTagLabel, tagBackgroundStyle, tagToneClass } from "./app-tags.js";
 
 export function renderTicketTagChip(tag, escapeHtml) {
   const { name, label } = formatTagLabel(tag);
   const fullName = escapeHtml(name);
-  return `<button type="button" class="ticket-tag-chip${tagToneClass(tag)}" data-remove-tag-id="${tag.id}"${tagBackgroundStyle(tag, escapeHtml)} title="Remove tag: ${fullName}" aria-label="Remove tag: ${fullName}"><span class="ticket-tag-chip-text" aria-hidden="true">${escapeHtml(label)}</span>${icon("x")}</button>`;
+  return `<button type="button" class="ticket-tag-chip${tagToneClass(tag)}" data-remove-tag-id="${tag.id}"${tagBackgroundStyle(tag, escapeHtml)} title="${t("Remove tag: {name}", { name: fullName })}" aria-label="${t("Remove tag: {name}", { name: fullName })}"><span class="ticket-tag-chip-text" aria-hidden="true">${escapeHtml(label)}</span>${icon("x")}</button>`;
 }
 
 export function createTicketTagPicker(ctx) {
@@ -53,12 +54,12 @@ export function createTicketTagPicker(ctx) {
             `;
           })
           .join("")
-      : '<div class="tag-picker-empty">No matching tags</div>';
+      : `<div class="tag-picker-empty">${t("No matching tags")}</div>`;
     const createHtml = createLabel && !hasExactMatch
       ? `
         <button type="button" class="tag-picker-item tag-picker-create" data-create-tag-from-query="${ctx.escapeHtml(createLabel)}">
           ${icon("plus")}
-          <span>Create "${ctx.escapeHtml(createLabel)}"</span>
+          <span>${ctx.escapeHtml(t('Create "{name}"', { name: createLabel }))}</span>
         </button>
       `
       : "";
@@ -219,7 +220,7 @@ export function createTicketTagPicker(ctx) {
     elements.ticketTagSearch.value = "";
     syncOptions();
     closeOptions();
-    ctx.showToast("Tag created");
+    ctx.showToast(t("Tag created"));
   }
 
   return {

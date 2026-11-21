@@ -1,4 +1,5 @@
 // @ts-check
+import { t as tr } from "./app-i18n.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
@@ -270,10 +271,10 @@ export function createGroupBoardModule(ctx) {
       })
     );
     const confirmed = await ctx.openFormDialog({
-      title: "Remove from Group?",
-      message: `Remove ${preview.tickets.length} ticket(s) from “${group.name}”? Parent/child relationships and ticket status stay unchanged.`,
-      fields: `<ul class="group-impact-list">${preview.tickets.map((t) => `<li>#${t.id} ${esc(t.title)}${t.isArchived ? ' <span class="muted">Archived</span>' : ""}</li>`).join("")}</ul>`,
-      submitLabel: "Remove from Group",
+      title: tr("Remove from Group?"),
+      message: tr("Remove {count} ticket(s) from “{name}”? Parent/child relationships and ticket status stay unchanged.", { count: preview.tickets.length, name: group.name }),
+      fields: `<ul class="group-impact-list">${preview.tickets.map((t) => `<li>#${t.id} ${esc(t.title)}${t.isArchived ? ` <span class="muted">${tr("Archived")}</span>` : ""}</li>`).join("")}</ul>`,
+      submitLabel: tr("Remove from Group"),
     });
     if (!confirmed) return;
     await ctx.sendJson(`/api/boards/${boardId}/group-memberships`, {
@@ -423,10 +424,10 @@ export function createGroupBoardModule(ctx) {
         {
           const deleting = { ...selected };
           await ctx.confirmAndRun({
-            title: "Delete Group",
-            message: `Delete Group “${deleting.name}”?`,
-            warning: "This action cannot be undone.",
-            submitLabel: "Delete",
+            title: tr("Delete Group"),
+            message: tr("Delete Group “{name}”?", { name: deleting.name }),
+            warning: tr("This action cannot be undone."),
+            submitLabel: tr("Delete"),
             run: async () => {
               await ctx.api(`/api/groups/${deleting.id}`, {
                 method: "DELETE",
@@ -505,7 +506,7 @@ export function createGroupBoardModule(ctx) {
           JSON.stringify(preview.tickets.map((t) => t.id).sort((a, b) => a - b))
         )
           throw new Error(
-            "Parent/child tickets changed. Cancel and search again before adding.",
+            tr("Parent/child tickets changed. Cancel and search again before adding."),
           );
         await ctx.sendJson(`/api/boards/${boardId}/group-memberships`, {
           method: "PUT",

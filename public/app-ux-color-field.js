@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 export function renderUxColorField(field, escapeHtml) {
   const fieldId = escapeHtml(field.id);
   const inputId = `ux-field-${fieldId}`;
@@ -10,12 +11,12 @@ export function renderUxColorField(field, escapeHtml) {
       <label for="${inputId}">${escapeHtml(field.label)}</label>
       <span class="ux-color-row">
         ${field.allowNone ? `
-          <label class="ux-color-enable-switch" title="Use color">
+          <label class="ux-color-enable-switch" title="${t("Use color")}">
             <input
               class="toggle-switch-input"
               data-color-enabled-for="${fieldId}"
               type="checkbox"
-              aria-label="Use color"
+              aria-label="${t("Use color")}"
               ${colorEnabled ? "checked" : ""}
             />
             <span class="toggle-switch-control" aria-hidden="true">
@@ -40,7 +41,7 @@ export function renderUxColorField(field, escapeHtml) {
             data-color-picker-for="${fieldId}"
             type="color"
             value="${escapeHtml(pickerValue)}"
-            aria-label="${escapeHtml(field.label)} picker"
+            aria-label="${escapeHtml(t("{label} picker", { label: field.label }))}"
             ${colorEnabled ? "" : "disabled"}
           />
           <span class="ux-color-none-preview" aria-hidden="true"></span>

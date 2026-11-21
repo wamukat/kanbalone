@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { createTicketDetailRenderers } from "./app-ticket-detail-renderers.js";
 
@@ -21,7 +22,7 @@ export function createTicketDetailModule(ctx) {
 
   function setBodyTab(tab = "local") {
     if (activeInlineEdit === "body" && tab !== "local") {
-      ctx.showToast("Save or cancel the local body edit before switching tabs", "error");
+      ctx.showToast(t("Save or cancel the local body edit before switching tabs"), "error");
       return;
     }
     state.detailBodyTab = (tab === "remote" || tab === "diff") && state.dialogTicket?.remote ? tab : "local";
@@ -83,7 +84,7 @@ export function createTicketDetailModule(ctx) {
     elements.headerEditButton.hidden = state.dialogMode !== "view";
     elements.archiveTicketButton.hidden = state.dialogMode !== "edit";
     const archiveIcon = ticket.isArchived ? "rotate-ccw" : "archive";
-    const archiveLabel = ticket.isArchived ? "Restore" : "Archive";
+    const archiveLabel = ticket.isArchived ? t("Restore") : t("Archive");
     elements.archiveTicketButton.innerHTML = `${icon(archiveIcon)}<span>${ctx.escapeHtml(archiveLabel)}</span>`;
   }
 
@@ -119,7 +120,7 @@ export function createTicketDetailModule(ctx) {
     }
     if (activeInlineEdit === "title") {
       elements.editorHeaderTitle.innerHTML = `
-        <input class="ticket-inline-title-input" data-detail-title-input value="${ctx.escapeHtml(ticket.title)}" aria-label="Ticket title" />
+        <input class="ticket-inline-title-input" data-detail-title-input value="${ctx.escapeHtml(ticket.title)}" aria-label="${t("Ticket title")}" />
       `;
       queueMicrotask(() => {
         const input = elements.editorHeaderTitle.querySelector("[data-detail-title-input]");
@@ -147,15 +148,15 @@ export function createTicketDetailModule(ctx) {
   function renderHeaderStatePills(ticket) {
     const pills = [];
     if (ticket.isResolved) {
-      pills.push(`<span class="ticket-state-pill ticket-state-pill-resolved" title="Completion is determined by the lane. Move to a normal lane to reopen.">${icon("check")}<span>Resolved</span></span>`);
+      pills.push(`<span class="ticket-state-pill ticket-state-pill-resolved" title="${t("Completion is determined by the lane. Move to a normal lane to reopen.")}">${icon("check")}<span>${t("Resolved")}</span></span>`);
     }
     if (ticket.isArchived) {
       pills.push(renderStatePill({
         key: "archived",
-        label: "Archived",
+        label: t("Archived"),
         iconName: "archive",
-        actionLabel: "Restore",
-        actionAriaLabel: "Restore ticket",
+        actionLabel: t("Restore"),
+        actionAriaLabel: t("Restore ticket"),
       }));
     }
     return pills.join("");
@@ -203,7 +204,7 @@ export function createTicketDetailModule(ctx) {
     syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
   }
 
-  async function updateInlineTicket(patch, savedMessage = "Saved") {
+  async function updateInlineTicket(patch, savedMessage = t("Saved")) {
     if (!state.dialogTicket || !ctx.updateDialogTicket) {
       return;
     }
@@ -219,12 +220,12 @@ export function createTicketDetailModule(ctx) {
     activeInlineEdit = "body";
     elements.ticketViewBody.classList.add("ticket-detail-body-editing");
     elements.ticketViewBody.innerHTML = `
-      <textarea class="ticket-detail-body-input" data-detail-body-input rows="10" aria-label="Ticket body" ${state.editorSaving ? "readonly" : ""}>${ctx.escapeHtml(draft ?? state.dialogTicket?.bodyMarkdown ?? "")}</textarea>
+      <textarea class="ticket-detail-body-input" data-detail-body-input rows="10" aria-label="${t("Ticket body")}" ${state.editorSaving ? "readonly" : ""}>${ctx.escapeHtml(draft ?? state.dialogTicket?.bodyMarkdown ?? "")}</textarea>
       <div class="ticket-detail-body-actions">
-        <span class="muted">Ctrl+Enter / Cmd+Enter to save</span>
+        <span class="muted">${t("Ctrl+Enter / Cmd+Enter to save")}</span>
         <div class="editor-actions-right">
-          <button type="button" class="ghost" data-detail-cancel="body">Cancel</button>
-          <button type="button" class="primary-action" data-detail-save-body>Save</button>
+          <button type="button" class="ghost" data-detail-cancel="body">${t("Cancel")}</button>
+          <button type="button" class="primary-action" data-detail-save-body>${t("Save")}</button>
         </div>
       </div>
     `;
@@ -235,7 +236,7 @@ export function createTicketDetailModule(ctx) {
     elements.ticketViewBody.classList.remove("ticket-detail-body-editing");
     if (ticket?.remote && state.detailBodyTab === "remote") {
       elements.ticketViewBody.innerHTML = `
-        <div class="ticket-remote-body-note muted">Read-only remote Markdown snapshot</div>
+        <div class="ticket-remote-body-note muted">${t("Read-only remote Markdown snapshot")}</div>
         ${renderers.renderRemoteBody(ticket.remote.bodyHtml)}
       `;
       return;
@@ -245,9 +246,9 @@ export function createTicketDetailModule(ctx) {
       return;
     }
     elements.ticketViewBody.innerHTML = `
-      <div class="ticket-detail-body-content">${ticket?.bodyHtml || '<p class="muted">No description</p>'}</div>
+      <div class="ticket-detail-body-content">${ticket?.bodyHtml || `<p class="muted">${t("No description")}</p>`}</div>
       <button type="button" class="ticket-detail-inline-edit-button" data-detail-edit="body">
-        ${icon("pencil")}<span>Edit local body</span>
+        ${icon("pencil")}<span>${t("Edit local body")}</span>
       </button>
     `;
   }
@@ -260,7 +261,7 @@ export function createTicketDetailModule(ctx) {
       await ctx.api(`/api/tickets/${state.dialogTicket.id}/remote-refresh`, { method: "POST" });
       await ctx.refreshDialogTicket(state.dialogTicket.id);
       await ctx.refreshBoardDetail();
-      ctx.showToast("Remote snapshot refreshed");
+      ctx.showToast(t("Remote snapshot refreshed"));
     } catch (error) {
       ctx.showToast(error.message, "error");
     }
@@ -301,7 +302,7 @@ export function createTicketDetailModule(ctx) {
     if (stateAction) {
       const action = stateAction.getAttribute("data-detail-state-action");
       if (action === "archived") {
-        updateInlineTicket({ isArchived: false }, "Restored").catch((error) => ctx.showToast(error.message, "error"));
+        updateInlineTicket({ isArchived: false }, t("Restored")).catch((error) => ctx.showToast(error.message, "error"));
       }
       return;
     }

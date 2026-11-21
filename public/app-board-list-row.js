@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { renderTag } from "./app-tags.js";
 import { renderPriorityBadge } from "./app-priority.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
@@ -36,7 +37,7 @@ export function renderListRow(entry, options) {
         ${!tags && !remoteReferences ? '<span class="muted">-</span>' : ""}
       </div>
       <div class="list-cell list-priority-cell">${renderPriorityBadge(ticket.priority) || '<span class="muted">-</span>'}</div>
-      <div class="list-cell muted">${options.escapeHtml(lane?.name || "Open")}</div>
+      <div class="list-cell muted">${options.escapeHtml(lane?.name || tr("Open"))}</div>
       <div class="list-cell list-status-cell">${statusIcons || '<span class="muted">-</span>'}</div>
     </div>
   `;

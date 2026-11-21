@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { createListBoardModule } from "./app-board-list.js";
 import { createBoardSettingsModule } from "./app-board-settings.js";
@@ -39,10 +40,9 @@ export function createBoardModule(ctx) {
   function renderBoardDetail() {
     const detail = state.boardDetail;
     if (!detail) {
-      elements.boardTitle.textContent = "No board selected";
+      elements.boardTitle.textContent = tr("No board selected");
       elements.sidebarTagSection.hidden = true;
-      elements.sidebarBoardSection.hidden = true;
-      state.boardSettingsExpanded = false;
+      elements.sidebarBoardSection.hidden = false;
       state.isRenamingBoard = false;
       state.boardRenameError = "";
       state.isCreatingLane = false;
@@ -51,20 +51,20 @@ export function createBoardModule(ctx) {
       state.confirmingSidebarTagDeleteId = null;
       state.sidebarTagError = "";
       boardSettingsModule.syncBoardSettingsPanel();
-      elements.tagFilter.innerHTML = '<option value="">All tags</option>';
-      elements.laneFilter.innerHTML = '<option value="">All lanes</option>';
+      elements.tagFilter.innerHTML = `<option value="">${tr("All tags")}</option>`;
+      elements.laneFilter.innerHTML = `<option value="">${tr("All lanes")}</option>`;
       elements.laneBoard.className = "lane-board empty";
       elements.laneBoard.innerHTML = renderEmptyState({
         iconName: "columns-3",
-        title: "No boards yet",
-        body: "Use the + button in the sidebar to create your first board.",
+        title: tr("No boards yet"),
+        body: tr("Use the + button in the sidebar to create your first board."),
       });
       elements.groupBoard.innerHTML = "";
       elements.listBoard.className = "list-board empty";
       elements.listBoard.innerHTML = renderEmptyState({
         iconName: "columns-3",
-        title: "No boards yet",
-        body: "Use the + button in the sidebar to create your first board.",
+        title: tr("No boards yet"),
+        body: tr("Use the + button in the sidebar to create your first board."),
       });
       state.selectedListTicketIds = [];
       kanbanModule.cancelPendingRender();
@@ -79,7 +79,7 @@ export function createBoardModule(ctx) {
     boardSettingsModule.syncBoardSettingsPanel();
     sidebarTagsModule.renderSidebarTags();
     elements.tagFilter.innerHTML =
-      '<option value="">All tags</option>' +
+      `<option value="">${tr("All tags")}</option>` +
       detail.tags
         .map(
           (tag) =>
@@ -87,7 +87,7 @@ export function createBoardModule(ctx) {
         )
         .join("");
     elements.laneFilter.innerHTML =
-      '<option value="">All lanes</option>' +
+      `<option value="">${tr("All lanes")}</option>` +
       detail.lanes
         .map(
           (lane) =>

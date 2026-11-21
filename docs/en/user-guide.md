@@ -184,13 +184,15 @@ A ticket can belong to one Group. Parent and child tickets are added or removed 
 
 Groups belong to a board. Moving a ticket to another board removes its Group membership. To delete a Group, first remove all its tickets, including archived ones.
 
-## 14. Use Board Settings
+## 14. Settings
 
 Open the sidebar gear to rename the board, set completion lanes, export or import data, or delete the board.
 
 **Rename the board**: click the pencil beside its name, edit it, and press **Enter** to save. Press **Esc** to cancel.
 
 **Set completion lanes**: under **Completion lanes**, click **Set up** (or **Change**), select lanes, and click **Save**. If ticket completion states will change, review the counts before confirming.
+
+**Language**: choose **日本語** or **English** in the gear panel. Kanbalone initially follows your browser language and remembers your choice in this browser. Board names and ticket content stay as you wrote them.
 
 ![Board settings](../assets/user-guide/12-board-settings.png)
 

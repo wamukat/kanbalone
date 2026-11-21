@@ -1,16 +1,17 @@
+import { t as tr } from "./app-i18n.js";
 export function createFiltersModule(ctx, options) {
   const { state, elements } = ctx;
   const DEFAULT_BOARD_FILTERS = { q: "", lane: "", status: ["open"], priority: [], tag: "" };
   const STATUS_LABELS = {
-    open: "Open",
-    resolved: "Resolved",
-    archived: "Archived",
+    open: tr("Open"),
+    resolved: tr("Resolved"),
+    archived: tr("Archived"),
   };
   const PRIORITY_LABELS = {
-    low: "Low",
-    medium: "Medium",
-    high: "High",
-    urgent: "Urgent",
+    low: tr("Low"),
+    medium: tr("Medium"),
+    high: tr("High"),
+    urgent: tr("Urgent"),
   };
 
   function syncViewMode() {
@@ -258,7 +259,7 @@ export function createFiltersModule(ctx, options) {
     elements.priorityFilterButtons.forEach((button) => {
       button.classList.toggle("active", state.filters.priority.includes(button.dataset.priorityFilter ?? ""));
     });
-    elements.priorityFilterSummary.textContent = summarizeFilter(state.filters.priority, PRIORITY_LABELS, "Any");
+    elements.priorityFilterSummary.textContent = summarizeFilter(state.filters.priority, PRIORITY_LABELS, tr("Any"));
     elements.priorityFilterClearButton.hidden = state.filters.priority.length === 0;
   }
 
@@ -267,11 +268,11 @@ export function createFiltersModule(ctx, options) {
       button.classList.toggle("active", state.filters.status.includes(button.dataset.statusFilter ?? ""));
       button.setAttribute("aria-pressed", String(state.filters.status.includes(button.dataset.statusFilter ?? "")));
     });
-    const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || "Open";
-    elements.statusFilterSummary.textContent = state.filters.status.length === 3 ? "All" : selectedLabels;
+    const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || tr("Open");
+    elements.statusFilterSummary.textContent = state.filters.status.length === 3 ? tr("All") : selectedLabels;
     elements.statusFilterSummary.title = selectedLabels;
     elements.statusFilterToggles.forEach((toggle) => {
-      toggle.setAttribute("aria-label", `Status: ${selectedLabels}`);
+      toggle.setAttribute("aria-label", tr("Status: {labels}", { labels: selectedLabels }));
     });
     elements.statusFilterClearButton.hidden = isDefaultStatusFilter();
   }
@@ -330,7 +331,7 @@ export function createFiltersModule(ctx, options) {
     if (values.length === 1) {
       return labels[values[0]] ?? values[0];
     }
-    return `${values.length} selected`;
+    return tr("{count} selected", { count: values.length });
   }
 
   function matchesStatusFilter(ticket) {

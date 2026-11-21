@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { createTicketActionsModule } from "./app-ticket-actions.js";
 import { createTicketCommentsModule } from "./app-ticket-comments.js";
 import { createTicketDetailModule } from "./app-ticket-detail.js";
@@ -32,13 +33,13 @@ export function createEditorModule(ctx) {
   }
 
   async function confirmDiscardChanges() {
-    if (state.editorSaving) { ctx.showToast("Please wait until saving finishes"); return false; }
+    if (state.editorSaving) { ctx.showToast(t("Please wait until saving finishes")); return false; }
     if (!hasUnsavedChanges()) return true;
     if (discardPending) return discardPending;
     discardPending = ctx.confirmAndRun({
-      title: "Discard changes?",
-      message: "Your unsaved changes will be lost.",
-      submitLabel: "Discard changes",
+      title: t("Discard changes?"),
+      message: t("Your unsaved changes will be lost."),
+      submitLabel: t("Discard changes"),
       run: async () => {},
     });
     try { return await discardPending; }
@@ -259,7 +260,7 @@ export function createEditorModule(ctx) {
     elements.ticketTitleReadonly.hidden = !hasRemote;
     elements.ticketTitleReadonly.innerHTML = hasRemote
       ? `
-        <div class="editor-readonly-label">Remote Title</div>
+        <div class="editor-readonly-label">${t("Remote Title")}</div>
         <div class="editor-readonly-value">${ctx.escapeHtml(ticket.title)}</div>
       `
       : "";
@@ -277,7 +278,7 @@ export function createEditorModule(ctx) {
 
   function renderRemoteBodyPanel(bodyHtml) {
     if (!bodyHtml) {
-      return '<p class="muted">No remote body snapshot.</p>';
+      return `<p class="muted">${t("No remote body snapshot.")}</p>`;
     }
     return `<div class="markdown ticket-remote-body-rendered">${bodyHtml}</div>`;
   }
@@ -296,14 +297,14 @@ export function createEditorModule(ctx) {
     return ticket;
   }
 
-  async function updateDialogTicket(patch, savedMessage = "Saved") {
+  async function updateDialogTicket(patch, savedMessage = t("Saved")) {
     if (!state.editingTicketId || state.editorSaving) {
       return null;
     }
     state.editorSaving = true;
     const inlineInputs = [...elements.editorDialog.querySelectorAll("[data-detail-body-input], [data-detail-title-input]")];
     for (const input of inlineInputs) input.readOnly = true;
-    setSaveState("saving", "Saving...");
+    setSaveState("saving", t("Saving..."));
     try {
       const updated = await ctx.sendJson(`/api/tickets/${state.editingTicketId}`, {
         method: "PATCH",
@@ -315,7 +316,7 @@ export function createEditorModule(ctx) {
       setSaveState("saved", savedMessage);
       return updated;
     } catch (error) {
-      setSaveState("error", "Save failed");
+      setSaveState("error", t("Save failed"));
       throw error;
     } finally {
       for (const input of elements.editorDialog.querySelectorAll("[data-detail-body-input], [data-detail-title-input]")) input.readOnly = false;
@@ -332,7 +333,7 @@ export function createEditorModule(ctx) {
     state.editorCreateGroup = ticketId ? null : creationGroup;
     state.boardTickets = (await ctx.api(`/api/boards/${state.activeBoardId}/tickets?archived=all`)).tickets;
     const groupContext = elements.editorForm.querySelector(".editor-group-context");
-    if (groupContext) { groupContext.hidden = !creationGroup; groupContext.textContent = creationGroup ? `Group: ${creationGroup.name}` : ""; }
+    if (groupContext) { groupContext.hidden = !creationGroup; groupContext.textContent = creationGroup ? t("Group: {name}", { name: creationGroup.name }) : ""; }
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
         ctx.api(`/api/tickets/${ticketId}`),

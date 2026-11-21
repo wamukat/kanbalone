@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 import { icon } from "./icons.js";
 
@@ -10,15 +11,15 @@ export function createKanbanLane(ctx, lane, laneTickets, handlers) {
   header.className = "lane-header";
   header.innerHTML = `
     <div class="lane-title-row">
-      <h3 class="lane-title" data-action="drag-lane" title="Drag to reorder">${ctx.escapeHtml(lane.name)}</h3>
+      <h3 class="lane-title" data-action="drag-lane" title="${tr("Drag to reorder")}">${ctx.escapeHtml(lane.name)}</h3>
       <span class="lane-count">${laneTickets.length}</span>
-      ${lane.isCompletionLane ? `<span title="Tickets in this lane are resolved" aria-label="Completion lane">${icon("check")}</span>` : ""}
+      ${lane.isCompletionLane ? `<span title="${tr("Tickets in this lane are resolved")}" aria-label="${tr("Completion lane")}">${icon("check")}</span>` : ""}
     </div>
     <div class="lane-actions">
-      <button type="button" class="icon-button action-menu-toggle" data-action="toggle-lane-actions" title="Lane actions" aria-label="Lane actions" aria-expanded="false">${icon("ellipsis")}</button>
+      <button type="button" class="icon-button action-menu-toggle" data-action="toggle-lane-actions" title="${tr("Lane actions")}" aria-label="${tr("Lane actions")}" aria-expanded="false">${icon("ellipsis")}</button>
       <span class="inline-action-menu" hidden>
-        <button type="button" class="icon-button" data-action="rename-lane" title="Rename lane" aria-label="Rename lane">${icon("pencil")}</button>
-        <button type="button" class="icon-button danger" data-action="delete-lane" title="Delete lane" aria-label="Delete lane">${icon("trash-2")}</button>
+        <button type="button" class="icon-button" data-action="rename-lane" title="${tr("Rename lane")}" aria-label="${tr("Rename lane")}">${icon("pencil")}</button>
+        <button type="button" class="icon-button danger" data-action="delete-lane" title="${tr("Delete lane")}" aria-label="${tr("Delete lane")}">${icon("trash-2")}</button>
       </span>
     </div>
   `;
@@ -32,8 +33,8 @@ export function createKanbanLane(ctx, lane, laneTickets, handlers) {
   addTicketButton.type = "button";
   addTicketButton.className = "add-ticket-button icon-button";
   addTicketButton.innerHTML = icon("plus");
-  addTicketButton.title = "New ticket";
-  addTicketButton.setAttribute("aria-label", "New ticket");
+  addTicketButton.title = tr("New ticket");
+  addTicketButton.setAttribute("aria-label", tr("New ticket"));
   addTicketButton.addEventListener("click", () => ctx.openEditor(null, "edit", lane.id));
 
   header.querySelector("[data-action='rename-lane']").addEventListener("click", () => {
@@ -53,8 +54,8 @@ export function createKanbanLaneInputColumn(onSubmit, onCancel) {
   return createInlineTextForm({
     className: "lane lane-create-column",
     html: `
-      <label class="lane-create-label" for="lane-create-input">New lane</label>
-      <input id="lane-create-input" type="text" data-lane-create-input aria-label="Lane name" placeholder="Lane name" autocomplete="off" />
+      <label class="lane-create-label" for="lane-create-input">${tr("New lane")}</label>
+      <input id="lane-create-input" type="text" data-lane-create-input aria-label="${tr("Lane name")}" placeholder="${tr("Lane name")}" autocomplete="off" />
     `,
     inputSelector: "[data-lane-create-input]",
     onSubmit,
@@ -84,7 +85,7 @@ function startLaneRename(ctx, header, lane, handlers) {
   const form = createInlineTextForm({
     className: "lane-title-edit-form",
     html: `
-      <input class="lane-title-edit-input" type="text" data-lane-rename-input aria-label="Lane name" value="${ctx.escapeHtml(lane.name)}" autocomplete="off" />
+      <input class="lane-title-edit-input" type="text" data-lane-rename-input aria-label="${tr("Lane name")}" value="${ctx.escapeHtml(lane.name)}" autocomplete="off" />
     `,
     inputSelector: "[data-lane-rename-input]",
     onSubmit: async (input) => {

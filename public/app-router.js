@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 export function createRouterModule(ctx, options) {
   const { state, elements, api } = ctx;
 
@@ -35,7 +36,7 @@ export function createRouterModule(ctx, options) {
         }
         return;
       } catch {
-        options.showToast("Ticket not found", "error");
+        options.showToast(t("Ticket not found"), "error");
       }
     }
 
@@ -60,7 +61,7 @@ export function createRouterModule(ctx, options) {
         }
         return;
       }
-      options.showToast("Board not found", "error");
+      options.showToast(t("Board not found"), "error");
     }
 
     if (state.boards.length > 0) {

@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { takeRoundRobinBatch } from "./app-board-utils.js";
 import { createKanbanLane, createKanbanLaneInputColumn } from "./app-kanban-lane.js";
 import { createKanbanTicketCard } from "./app-kanban-ticket-card.js";
@@ -62,8 +63,8 @@ export function createKanbanBoardModule(ctx, options) {
       addLaneButton.type = "button";
       addLaneButton.className = "add-lane-button icon-button";
       addLaneButton.innerHTML = icon("plus");
-      addLaneButton.title = "New lane";
-      addLaneButton.setAttribute("aria-label", "New lane");
+      addLaneButton.title = tr("New lane");
+      addLaneButton.setAttribute("aria-label", tr("New lane"));
       addLaneButton.addEventListener("click", createLane);
       elements.laneBoard.append(addLaneButton);
     }
@@ -127,8 +128,8 @@ export function createKanbanBoardModule(ctx, options) {
     const hiddenCount = hiddenTickets.length;
     summary.innerHTML = [
       '<div class="inactive-ticket-summary-text">',
-      `<strong>${formatCount(hiddenCount)} hidden tickets</strong>`,
-      `<span>${formatCount(inactiveTotal)} resolved or archived in this lane</span>`,
+      `<strong>${tr("{count} hidden tickets", { count: formatCount(hiddenCount) })}</strong>`,
+      `<span>${tr("{count} resolved or archived in this lane", { count: formatCount(inactiveTotal) })}</span>`,
       '</div>',
       '<div class="inactive-ticket-summary-list" hidden></div>',
       `<button type="button" class="inactive-ticket-summary-button">${getShowMoreText(hiddenCount)}</button>`,
@@ -153,7 +154,7 @@ export function createKanbanBoardModule(ctx, options) {
       renderedCount += nextTickets.length;
       list.hidden = false;
       const remaining = hiddenTickets.length - renderedCount;
-      button.textContent = remaining > 0 ? getShowMoreText(remaining) : "Hide resolved or archived";
+      button.textContent = remaining > 0 ? getShowMoreText(remaining) : tr("Hide resolved or archived");
     });
 
     return summary;
@@ -166,8 +167,8 @@ export function createKanbanBoardModule(ctx, options) {
   function getShowMoreText(remaining) {
     const count = Math.min(INACTIVE_SHOW_MORE_COUNT, remaining);
     return remaining <= INACTIVE_SHOW_MORE_COUNT
-      ? `Show remaining ${formatCount(remaining)}`
-      : `Show ${formatCount(count)} more`;
+      ? tr("Show remaining {count}", { count: formatCount(remaining) })
+      : tr("Show {count} more", { count: formatCount(count) });
   }
 
   function createLaneInputColumn() {
@@ -490,14 +491,14 @@ export function createKanbanBoardModule(ctx, options) {
 
   async function deleteLane(lane) {
     await ctx.confirmAndRun({
-      title: "Delete Lane",
-      message: `Delete lane "${lane.name}"?`,
+      title: tr("Delete Lane"),
+      message: tr("Delete lane \"{name}\"?", { name: lane.name }),
       details: [
-        `Lane "${lane.name}"`,
-        "All tickets, comments, tags, and relations in this lane",
+        tr("Lane \"{name}\"", { name: lane.name }),
+        tr("All tickets, comments, tags, and relations in this lane"),
       ],
-      warning: "Only empty lanes can be deleted. This action cannot be undone.",
-      submitLabel: "Delete",
+      warning: tr("Only empty lanes can be deleted. This action cannot be undone."),
+      submitLabel: tr("Delete"),
       run: async () => {
         await ctx.api(`/api/lanes/${lane.id}`, { method: "DELETE" });
         await ctx.refreshBoardDetail();

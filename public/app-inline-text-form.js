@@ -21,7 +21,10 @@ export function createInlineTextForm({
     event.preventDefault();
     onCancel();
   });
-  form.addEventListener("focusout", () => {
+  form.addEventListener("focusout", (event) => {
+    // Language selection may open a discard confirmation. Keep this draft until
+    // that choice is made, rather than cancelling it as the selector takes focus.
+    if (event.relatedTarget === document.querySelector("#language-select")) return;
     window.setTimeout(() => {
       const input = form.querySelector(inputSelector);
       if (

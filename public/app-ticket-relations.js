@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { createTicketRelationPicker } from "./app-ticket-relation-picker.js";
 import { createTicketRelationRenderers } from "./app-ticket-relation-renderers.js";
 
@@ -299,10 +300,10 @@ export function createTicketRelationsModule(ctx, options) {
       relatedPicker.closeOptions();
     },
     getAvailableTickets: getAvailableChildTickets,
-    getPlaceholder: () => (state.editingTicketId ? (getSelectedParentId() != null ? "Clear parent to edit children" : "") : "Save ticket first"),
+    getPlaceholder: () => (state.editingTicketId ? (getSelectedParentId() != null ? t("Clear parent to edit children") : "") : t("Save ticket first")),
     getQuery: () => state.childQuery,
     getSelectedTicketIds: () => [...state.editorChildIds],
-    getUnavailableMessage: () => (!state.editingTicketId || getSelectedParentId() != null ? "Children cannot be edited while this ticket has a parent" : ""),
+    getUnavailableMessage: () => (!state.editingTicketId || getSelectedParentId() != null ? t("Children cannot be edited while this ticket has a parent") : ""),
     removeTicket: toggleChild,
     selectTicket: toggleChild,
     setQuery: (value) => {

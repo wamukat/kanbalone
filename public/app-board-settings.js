@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { createCompletionSettingsModule } from "./app-completion-settings.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 import { icon } from "./icons.js";
@@ -20,7 +21,7 @@ export function createBoardSettingsModule(ctx) {
     if (state.isRenamingBoard) {
       const form = createInlineTextForm({
         className: "sidebar-board-name-form",
-        html: `<input id="board-rename-input" data-board-rename-input type="text" value="${ctx.escapeHtml(board.name)}" aria-label="Board name" autocomplete="off" />`,
+        html: `<input id="board-rename-input" data-board-rename-input type="text" value="${ctx.escapeHtml(board.name)}" aria-label="${tr("Board name")}" autocomplete="off" />`,
         inputSelector: "[data-board-rename-input]",
         onSubmit: submitBoardRename,
         onCancel: cancelBoardRename,
@@ -39,7 +40,7 @@ export function createBoardSettingsModule(ctx) {
       <div class="sidebar-board-name-display">
         <div class="sidebar-board-name-row">
           <span class="sidebar-board-name-text" title="${ctx.escapeHtml(board.name)}">${ctx.escapeHtml(board.name)}</span>
-          <button type="button" class="ghost icon-button" data-board-rename-start title="Rename board" aria-label="Rename board">
+          <button type="button" class="ghost icon-button" data-board-rename-start title="${tr("Rename board")}" aria-label="${tr("Rename board")}">
             ${icon("pencil")}
           </button>
         </div>
@@ -92,16 +93,16 @@ export function createBoardSettingsModule(ctx) {
     const board = state.boardDetail.board;
     const nextBoard = state.boards.find((entry) => entry.id !== board.id) ?? null;
     await ctx.confirmAndRun({
-      title: "Delete Board",
-      message: `Delete board "${board.name}"?`,
+      title: tr("Delete Board"),
+      message: tr("Delete board \"{name}\"?", { name: board.name }),
       details: [
-        `Board "${board.name}"`,
-        "All lanes in this board",
-        "All tickets, comments, tags, and relations in this board",
-        "Board activity history",
+        tr("Board \"{name}\"", { name: board.name }),
+        tr("All lanes in this board"),
+        tr("All tickets, comments, tags, and relations in this board"),
+        tr("Board activity history"),
       ],
-      warning: "This action cannot be undone.",
-      submitLabel: "Delete",
+      warning: tr("This action cannot be undone."),
+      submitLabel: tr("Delete"),
       run: async () => {
         await ctx.api(`/api/boards/${board.id}`, { method: "DELETE" });
         delete state.filtersByBoardId[String(board.id)];
@@ -129,7 +130,7 @@ export function createBoardSettingsModule(ctx) {
     link.download = `${payload.board.name.replace(/\s+/g, "-").toLowerCase() || "board"}.json`;
     link.click();
     URL.revokeObjectURL(url);
-    ctx.showToast("Download started");
+    ctx.showToast(tr("Download started"));
   }
 
   async function importBoard(event) {
@@ -184,7 +185,7 @@ export function createBoardSettingsModule(ctx) {
     if (state.boardDetail?.lanes.some((lane) => lane.isCompletionLane) && hintBoardId === state.activeBoardId) hintBoardId = null;
     hint.hidden = !state.activeBoardId || hintBoardId !== state.activeBoardId;
     if (hint.hidden) return;
-    hint.innerHTML = `<div><strong>Ticket created. No completion lane is configured.</strong><p>Choose which lanes should treat tickets as resolved. You can also set this up later in board settings.</p></div><div class="completion-hint-actions"><button type="button" class="primary-action" data-hint-setup>Set up</button><button type="button" class="ghost" data-hint-later>Later</button></div>`;
+    hint.innerHTML = `<div><strong>${tr("Ticket created. No completion lane is configured.")}</strong><p>${tr("Choose which lanes should treat tickets as resolved. You can also set this up later in board settings.")}</p></div><div class="completion-hint-actions"><button type="button" class="primary-action" data-hint-setup>${tr("Set up")}</button><button type="button" class="ghost" data-hint-later>${tr("Later")}</button></div>`;
     hint.querySelector("[data-hint-later]").addEventListener("click", () => { hintBoardId = null; renderCompletionHint(); });
     hint.querySelector("[data-hint-setup]").addEventListener("click", () => {
       hintBoardId = null;
@@ -202,6 +203,9 @@ export function createBoardSettingsModule(ctx) {
   }
 
   function syncBoardSettingsPanel() {
+    for (const section of elements.sidebarBoardActionsPanel.querySelectorAll("[data-board-setting]")) {
+      section.hidden = !state.boardDetail;
+    }
     elements.sidebarBoardSection.classList.toggle("expanded", state.boardSettingsExpanded);
     elements.boardSettingsToggleButton.setAttribute("aria-expanded", String(state.boardSettingsExpanded));
     elements.sidebarBoardActionsPanel.toggleAttribute("inert", !state.boardSettingsExpanded);

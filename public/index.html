@@ -15,31 +15,31 @@
     <div class="shell">
       <aside class="sidebar" id="sidebar">
         <div id="board-list" class="board-list"></div>
-        <button id="new-board-button" type="button" class="board-add-button icon-button" title="New board" aria-label="New board">
+        <button id="new-board-button" type="button" class="board-add-button icon-button" title="New board" data-i18n-title="New board" aria-label="New board" data-i18n-aria-label="New board">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
         </button>
 
         <section id="sidebar-view-section" class="sidebar-section">
           <div class="sidebar-section-head">
-            <h3>View</h3>
+            <h3 data-i18n="View">View</h3>
           </div>
-          <div id="view-mode-toggle" class="filter-toggle sidebar-toggle" role="group" aria-label="View mode">
+          <div id="view-mode-toggle" class="filter-toggle sidebar-toggle" role="group" aria-label="View mode" data-i18n-aria-label="View mode">
             <button type="button" data-view-mode="kanban" class="active">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#columns-3"></use></svg>
-              <span>Kanban</span>
+              <span data-i18n="Kanban">Kanban</span>
             </button>
             <button type="button" data-view-mode="list">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#list"></use></svg>
-              <span>List</span>
+              <span data-i18n="List">List</span>
             </button>
-            <button type="button" data-view-mode="group"><svg class="icon" aria-hidden="true"><use href="/icons.svg#folder-tree"></use></svg><span>Group</span></button>
+            <button type="button" data-view-mode="group"><svg class="icon" aria-hidden="true"><use href="/icons.svg#folder-tree"></use></svg><span data-i18n="Group">Group</span></button>
           </div>
         </section>
 
         <section id="sidebar-tag-section" class="sidebar-section" hidden>
           <div class="sidebar-section-head">
-            <h3>Tags</h3>
-            <button id="new-sidebar-tag-button" type="button" class="icon-button" title="New tag" aria-label="New tag">
+            <h3 data-i18n="Tags">Tags</h3>
+            <button id="new-sidebar-tag-button" type="button" class="icon-button" title="New tag" data-i18n-title="New tag" aria-label="New tag" data-i18n-aria-label="New tag">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
             </button>
           </div>
@@ -48,31 +48,35 @@
 
         <section id="sidebar-board-section" class="sidebar-section" hidden>
           <div class="sidebar-section-head sidebar-board-control">
-            <button id="board-settings-toggle-button" type="button" class="icon-button sidebar-board-settings-toggle" title="Board settings" aria-label="Board settings" aria-expanded="false" aria-controls="sidebar-board-actions-panel">
+            <button id="board-settings-toggle-button" type="button" class="icon-button sidebar-board-settings-toggle" title="Board settings" data-i18n-title="Board settings" aria-label="Board settings" data-i18n-aria-label="Board settings" aria-expanded="false" aria-controls="sidebar-board-actions-panel">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#settings"></use></svg>
             </button>
           </div>
           <div id="sidebar-board-actions-panel" class="sidebar-board-actions-panel">
-            <section class="sidebar-setting-group"><h3 class="sidebar-setting-label">Board name</h3><div id="board-rename-inline-host" class="sidebar-board-name"></div></section>
-            <div id="sidebar-lane-settings" class="sidebar-lane-settings sidebar-setting-group"></div>
-            <div class="sidebar-board-actions sidebar-setting-group">
-              <h3 class="sidebar-setting-label">Data operations</h3>
+            <section id="language-settings" class="sidebar-setting-group">
+              <label for="language-select" class="sidebar-setting-label" data-i18n="Language">Language</label>
+              <select id="language-select"><option value="ja">日本語</option><option value="en">English</option></select>
+            </section>
+            <section data-board-setting class="sidebar-setting-group"><h3 class="sidebar-setting-label" data-i18n="Board name">Board name</h3><div id="board-rename-inline-host" class="sidebar-board-name"></div></section>
+            <div data-board-setting id="sidebar-lane-settings" class="sidebar-lane-settings sidebar-setting-group"></div>
+            <div data-board-setting class="sidebar-board-actions sidebar-setting-group">
+              <h3 class="sidebar-setting-label" data-i18n="Data operations">Data operations</h3>
               <div class="sidebar-board-transfer">
                 <button id="export-board-button" type="button" class="action-with-icon">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#download"></use></svg>
-                  <span>Export</span>
+                  <span data-i18n="Export">Export</span>
                 </button>
-                <label class="import-button action-with-icon" title="Import board">
+                <label class="import-button action-with-icon" title="Import board" data-i18n-title="Import board">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#upload"></use></svg>
-                  <span>Import</span>
+                  <span data-i18n="Import">Import</span>
                   <input id="import-board-input" type="file" accept="application/json" hidden />
                 </label>
               </div>
             </div>
-            <div class="sidebar-board-delete">
+            <div data-board-setting class="sidebar-board-delete">
               <button id="delete-board-button" type="button" class="danger action-with-icon">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
-                <span>Delete</span>
+                <span data-i18n="Delete">Delete</span>
               </button>
             </div>
           </div>
@@ -84,95 +88,95 @@
           </a>
         </footer>
       </aside>
-      <button id="sidebar-toggle-button" type="button" class="sidebar-edge-toggle icon-button ghost" title="Toggle sidebar" aria-label="Toggle sidebar">
+      <button id="sidebar-toggle-button" type="button" class="sidebar-edge-toggle icon-button ghost" title="Toggle sidebar" data-i18n-title="Toggle sidebar" aria-label="Toggle sidebar" data-i18n-aria-label="Toggle sidebar">
         <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-left"></use></svg>
       </button>
 
       <main class="main">
         <header class="toolbar">
           <div class="board-title-row">
-            <button id="sidebar-reopen-button" type="button" class="icon-button ghost" title="Open sidebar" aria-label="Open sidebar" hidden>
+            <button id="sidebar-reopen-button" type="button" class="icon-button ghost" title="Open sidebar" data-i18n-title="Open sidebar" aria-label="Open sidebar" data-i18n-aria-label="Open sidebar" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#menu"></use></svg>
             </button>
-            <h2 id="board-title" class="collapsed-board-title">No board selected</h2>
-            <span class="group-view-label">Group</span>
+            <h2 id="board-title" class="collapsed-board-title" data-i18n="No board selected">No board selected</h2>
+            <span class="group-view-label" data-i18n="Group">Group</span>
           </div>
           <div class="toolbar-actions">
             <label class="toolbar-search" for="search-input">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#search"></use></svg>
-              <input id="search-input" type="search" placeholder="Search keywords or #123" />
-              <button id="search-clear-button" type="button" class="search-clear-button" aria-label="Clear search" hidden>
+              <input id="search-input" type="search" placeholder="Search keywords or #123" data-i18n-placeholder="Search keywords or #123" />
+              <button id="search-clear-button" type="button" class="search-clear-button" aria-label="Clear search" data-i18n-aria-label="Clear search" hidden>
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
               </button>
             </label>
             <div class="toolbar-filters">
               <select id="lane-filter" hidden>
-                <option value="">All lanes</option>
+                <option value="" data-i18n="All lanes">All lanes</option>
               </select>
               <div id="priority-filter" class="filter-menu priority-filter">
                 <button type="button" class="filter-menu-toggle" data-filter-expand="priority" aria-expanded="false">
-                  <span>Priority</span>
+                  <span data-i18n="Priority">Priority</span>
                 </button>
-                <div class="filter-menu-options" role="group" aria-label="Priority filter" hidden>
+                <div class="filter-menu-options" role="group" aria-label="Priority filter" data-i18n-aria-label="Priority filter" hidden>
                   <button type="button" data-priority-filter="low">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#priority-low"></use></svg>
-                    <span>Low</span>
+                    <span data-i18n="Low">Low</span>
                   </button>
                   <button type="button" data-priority-filter="medium">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#priority-medium"></use></svg>
-                    <span>Medium</span>
+                    <span data-i18n="Medium">Medium</span>
                   </button>
                   <button type="button" data-priority-filter="high">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#priority-high"></use></svg>
-                    <span>High</span>
+                    <span data-i18n="High">High</span>
                   </button>
                   <button type="button" data-priority-filter="urgent">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#circle-alert"></use></svg>
-                    <span>Urgent</span>
+                    <span data-i18n="Urgent">Urgent</span>
                   </button>
                 </div>
-                <span id="priority-filter-summary" class="filter-menu-summary">Any</span>
-                <button type="button" class="filter-clear-button" data-priority-clear aria-label="Clear priority filter" hidden>
+                <span id="priority-filter-summary" class="filter-menu-summary" data-i18n="Any">Any</span>
+                <button type="button" class="filter-clear-button" data-priority-clear aria-label="Clear priority filter" data-i18n-aria-label="Clear priority filter" hidden>
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
                 </button>
-                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="priority" aria-expanded="false" aria-label="Expand priority filter">
+                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="priority" aria-expanded="false" aria-label="Expand priority filter" data-i18n-aria-label="Expand priority filter">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
                 </button>
               </div>
               <select id="tag-filter">
-                <option value="">All tags</option>
+                <option value="" data-i18n="All tags">All tags</option>
               </select>
               <div id="status-filter" class="filter-menu status-filter">
                 <button type="button" class="filter-menu-toggle" data-filter-expand="status" aria-expanded="false">
-                  <span>Status</span>
+                  <span data-i18n="Status">Status</span>
                 </button>
-                <div class="filter-menu-options" role="group" aria-label="Status filter" hidden>
+                <div class="filter-menu-options" role="group" aria-label="Status filter" data-i18n-aria-label="Status filter" hidden>
                   <button type="button" data-status-filter="open">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#circle"></use></svg>
-                    <span>Open</span>
+                    <span data-i18n="Open">Open</span>
                   </button>
                   <button type="button" data-status-filter="resolved">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#check"></use></svg>
-                    <span>Resolved</span>
+                    <span data-i18n="Resolved">Resolved</span>
                   </button>
                   <button type="button" data-status-filter="archived">
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
-                    <span>Archived</span>
+                    <span data-i18n="Archived">Archived</span>
                   </button>
                 </div>
-                <span id="status-filter-summary" class="filter-menu-summary">Open</span>
+                <span id="status-filter-summary" class="filter-menu-summary" data-i18n="Open">Open</span>
                 <span class="filter-clear-slot">
-                  <button type="button" class="filter-clear-button" data-status-clear aria-label="Clear status filter" hidden>
+                  <button type="button" class="filter-clear-button" data-status-clear aria-label="Clear status filter" data-i18n-aria-label="Clear status filter" hidden>
                     <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
                   </button>
                 </span>
-                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="status" aria-expanded="false" aria-label="Expand status filter">
+                <button type="button" class="filter-menu-edge-toggle" data-filter-expand="status" aria-expanded="false" aria-label="Expand status filter" data-i18n-aria-label="Expand status filter">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
                 </button>
               </div>
               <button id="reset-filters-button" type="button" class="toolbar-reset-filters action-with-icon" hidden>
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#rotate-ccw"></use></svg>
-                <span>Reset filters</span>
+                <span data-i18n="Reset filters">Reset filters</span>
               </button>
             </div>
           </div>
@@ -181,11 +185,11 @@
         <aside id="completion-hint" class="completion-hint" role="status" hidden></aside>
         <section id="lane-board" class="lane-board empty">
           <div class="empty-state">
-            <p>Create a board to start tracking tasks.</p>
+            <p data-i18n="Create a board to start tracking tasks.">Create a board to start tracking tasks.</p>
           </div>
         </section>
         <section id="list-board" class="list-board" hidden></section>
-        <section id="group-board" class="group-board" aria-label="Groups" hidden></section>
+        <section id="group-board" class="group-board" aria-label="Groups" data-i18n-aria-label="Groups" hidden></section>
       </main>
     </div>
 
@@ -203,8 +207,8 @@
             </div>
           </div>
           <div class="editor-header-actions">
-            <div id="editor-save-state" class="editor-save-state" hidden>Saved</div>
-            <button id="header-edit-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Edit ticket" title="Edit" hidden>
+            <div id="editor-save-state" class="editor-save-state" hidden data-i18n="Saved">Saved</div>
+            <button id="header-edit-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Edit ticket" data-i18n-aria-label="Edit ticket" title="Edit" data-i18n-title="Edit" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#pencil"></use></svg>
             </button>
           </div>
@@ -213,17 +217,17 @@
         <section id="ticket-view" class="ticket-view" hidden>
           <div id="ticket-view-meta" class="ticket-view-meta"></div>
           <section id="ticket-remote-summary" class="ticket-remote-summary" hidden></section>
-          <div id="ticket-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" hidden>
-            <button type="button" id="ticket-local-body-tab-button" class="detail-tab active" data-ticket-body-tab="local" role="tab" aria-selected="true">Local Body</button>
-            <button type="button" id="ticket-remote-body-tab-button" class="detail-tab" data-ticket-body-tab="remote" role="tab" aria-selected="false">Remote Body</button>
-            <button type="button" id="ticket-diff-body-tab-button" class="detail-tab" data-ticket-body-tab="diff" role="tab" aria-selected="false">Diff</button>
+          <div id="ticket-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" data-i18n-aria-label="Ticket body" hidden>
+            <button type="button" id="ticket-local-body-tab-button" class="detail-tab active" data-ticket-body-tab="local" role="tab" aria-selected="true" data-i18n="Local Body">Local Body</button>
+            <button type="button" id="ticket-remote-body-tab-button" class="detail-tab" data-ticket-body-tab="remote" role="tab" aria-selected="false" data-i18n="Remote Body">Remote Body</button>
+            <button type="button" id="ticket-diff-body-tab-button" class="detail-tab" data-ticket-body-tab="diff" role="tab" aria-selected="false" data-i18n="Diff">Diff</button>
           </div>
           <div id="ticket-view-body" class="markdown ticket-view-body"></div>
           <div id="ticket-relations" class="ticket-relations"></div>
 
-          <div id="ticket-view-tabs" class="detail-tabs" role="tablist" aria-label="Ticket details">
-            <button type="button" id="comments-tab-button" class="detail-tab active" role="tab" aria-selected="true">Comments</button>
-            <button type="button" id="activity-tab-button" class="detail-tab" role="tab" aria-selected="false">Activity</button>
+          <div id="ticket-view-tabs" class="detail-tabs" role="tablist" aria-label="Ticket details" data-i18n-aria-label="Ticket details">
+            <button type="button" id="comments-tab-button" class="detail-tab active" role="tab" aria-selected="true" data-i18n="Comments">Comments</button>
+            <button type="button" id="activity-tab-button" class="detail-tab" role="tab" aria-selected="false" data-i18n="Activity">Activity</button>
           </div>
 
           <section id="activity-section" class="activity-section" hidden>
@@ -233,17 +237,17 @@
           <section id="comments-section" class="comments-section">
             <button id="comment-compose-toggle" type="button" class="ghost action-with-icon comment-compose-toggle" aria-expanded="false" aria-controls="comment-form">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
-              <span>Add Comment</span>
+              <span data-i18n="Add Comment">Add Comment</span>
             </button>
             <form id="comment-form" class="comment-form" hidden>
               <label>
-                Add Comment
+                <span data-i18n="Add Comment">Add Comment</span>
                 <textarea id="comment-body" rows="5"></textarea>
               </label>
               <div class="editor-actions">
                 <div id="comment-save-state" class="editor-save-state comment-save-state" hidden></div>
                 <div class="editor-actions-right">
-                  <button id="save-comment-button" type="button" class="primary-action">Add Comment</button>
+                  <button id="save-comment-button" type="button" class="primary-action" data-i18n="Add Comment">Add Comment</button>
                 </div>
               </div>
             </form>
@@ -254,33 +258,33 @@
         <form id="editor-form" method="dialog" class="editor-mode" hidden>
           <div class="editor-title-field">
             <p class="editor-group-context" hidden></p>
-            <input id="ticket-title" name="title" required placeholder="Title" />
-            <button id="remote-import-create-button" type="button" class="ghost icon-button remote-import-create-button" title="Import remote issue" aria-label="Import remote issue" hidden>
+            <input id="ticket-title" name="title" required placeholder="Title" data-i18n-placeholder="Title" />
+            <button id="remote-import-create-button" type="button" class="ghost icon-button remote-import-create-button" title="Import remote issue" data-i18n-title="Import remote issue" aria-label="Import remote issue" data-i18n-aria-label="Import remote issue" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#link-plus"></use></svg>
             </button>
           </div>
           <div id="ticket-title-readonly" class="editor-title-readonly" hidden></div>
 
-          <div id="ticket-edit-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" hidden>
-            <button type="button" id="ticket-edit-local-body-tab-button" class="detail-tab active" role="tab" aria-selected="true">Local Body</button>
-            <button type="button" id="ticket-edit-remote-body-tab-button" class="detail-tab" role="tab" aria-selected="false">Remote Body</button>
+          <div id="ticket-edit-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" data-i18n-aria-label="Ticket body" hidden>
+            <button type="button" id="ticket-edit-local-body-tab-button" class="detail-tab active" role="tab" aria-selected="true" data-i18n="Local Body">Local Body</button>
+            <button type="button" id="ticket-edit-remote-body-tab-button" class="detail-tab" role="tab" aria-selected="false" data-i18n="Remote Body">Remote Body</button>
           </div>
-          <textarea id="ticket-body" name="bodyMarkdown" rows="10" aria-label="Ticket body" placeholder="Write details in Markdown"></textarea>
+          <textarea id="ticket-body" name="bodyMarkdown" rows="10" aria-label="Ticket body" data-i18n-aria-label="Ticket body" placeholder="Write details in Markdown" data-i18n-placeholder="Write details in Markdown"></textarea>
           <div id="ticket-remote-body-panel" class="ticket-remote-body-panel" hidden></div>
 
           <div class="editor-inline-row">
              <label class="editor-compact-label">
-              <span>Lane</span>
+              <span data-i18n="Lane">Lane</span>
               <select id="ticket-lane" name="laneId"></select>
             </label>
 
              <label class="editor-compact-label">
-              <span>Priority</span>
+              <span data-i18n="Priority">Priority</span>
               <select id="ticket-priority" name="priority">
-                <option value="1">Low</option>
-                <option value="2" selected>Medium</option>
-                <option value="3">High</option>
-                <option value="4">Urgent</option>
+                <option value="1" data-i18n="Low">Low</option>
+                <option value="2" selected data-i18n="Medium">Medium</option>
+                <option value="3" data-i18n="High">High</option>
+                <option value="4" data-i18n="Urgent">Urgent</option>
               </select>
             </label>
 
@@ -289,37 +293,37 @@
           </div>
 
           <div class="editor-field">
-            <div class="editor-field-label">Tags</div>
+            <div class="editor-field-label" data-i18n="Tags">Tags</div>
             <div class="ticket-tag-field">
               <div id="ticket-tag-toggle" class="ticket-tag-input" aria-expanded="false" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-tag-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-tag-search" type="text" class="ticket-tag-search" placeholder="Add tags" autocomplete="off" />
+                <input id="ticket-tag-search" type="text" class="ticket-tag-search" placeholder="Add tags" data-i18n-placeholder="Add tags" autocomplete="off" />
               </div>
               <div id="ticket-tag-options" class="ticket-tag-options" hidden></div>
             </div>
           </div>
 
           <div id="ticket-relation-add" class="editor-field-label editor-section-label editor-relation-add">
-            <span>Relations</span>
-            <button id="ticket-relation-add-button" type="button" class="ghost icon-button editor-relation-add-button" aria-label="Add relation" title="Add relation" aria-expanded="false" aria-controls="ticket-relation-add-options">
+            <span data-i18n="Relations">Relations</span>
+            <button id="ticket-relation-add-button" type="button" class="ghost icon-button editor-relation-add-button" aria-label="Add relation" data-i18n-aria-label="Add relation" title="Add relation" data-i18n-title="Add relation" aria-expanded="false" aria-controls="ticket-relation-add-options">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
             </button>
-            <div id="ticket-relation-add-options" class="editor-relation-add-options" aria-label="Relation type">
+            <div id="ticket-relation-add-options" class="editor-relation-add-options" aria-label="Relation type" data-i18n-aria-label="Relation type">
               <button type="button" class="ghost editor-relation-type-button action-with-icon" data-relation-add-type="blocker">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#octagon-alert"></use></svg>
-                <span>Blocked by</span>
+                <span data-i18n="Blocked by">Blocked by</span>
               </button>
               <button type="button" class="ghost editor-relation-type-button action-with-icon" data-relation-add-type="related">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#link-plus"></use></svg>
-                <span>Related</span>
+                <span data-i18n="Related">Related</span>
               </button>
               <button type="button" class="ghost editor-relation-type-button action-with-icon" data-relation-add-type="parent">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#folder-up"></use></svg>
-                <span>Parent</span>
+                <span data-i18n="Parent">Parent</span>
               </button>
               <button type="button" class="ghost editor-relation-type-button action-with-icon" data-relation-add-type="child">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#folder-tree"></use></svg>
-                <span>Child</span>
+                <span data-i18n="Child">Child</span>
               </button>
             </div>
           </div>
@@ -328,11 +332,11 @@
             <div id="ticket-blocker-row" class="ticket-tag-field editor-relation-row" hidden>
               <div class="editor-relation-row-label">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#octagon-alert"></use></svg>
-                <span>Blocked by</span>
+                <span data-i18n="Blocked by">Blocked by</span>
               </div>
               <div id="ticket-blocker-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-blocker-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-blocker-search" type="text" class="ticket-tag-search" placeholder="Add blockers by ID or title" autocomplete="off" />
+                <input id="ticket-blocker-search" type="text" class="ticket-tag-search" placeholder="Add blockers by ID or title" data-i18n-placeholder="Add blockers by ID or title" autocomplete="off" />
               </div>
               <div id="ticket-blocker-options" class="ticket-tag-options" hidden></div>
             </div>
@@ -340,11 +344,11 @@
             <div id="ticket-related-row" class="ticket-tag-field editor-relation-row" hidden>
               <div class="editor-relation-row-label">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#link-plus"></use></svg>
-                <span>Related</span>
+                <span data-i18n="Related">Related</span>
               </div>
               <div id="ticket-related-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-related-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-related-search" type="text" class="ticket-tag-search" placeholder="Add related tickets by ID or title" autocomplete="off" />
+                <input id="ticket-related-search" type="text" class="ticket-tag-search" placeholder="Add related tickets by ID or title" data-i18n-placeholder="Add related tickets by ID or title" autocomplete="off" />
               </div>
               <div id="ticket-related-options" class="ticket-tag-options" hidden></div>
             </div>
@@ -352,11 +356,11 @@
             <div id="ticket-parent-row" class="ticket-tag-field editor-relation-row" hidden>
               <div class="editor-relation-row-label">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#folder-up"></use></svg>
-                <span>Parent</span>
+                <span data-i18n="Parent">Parent</span>
               </div>
               <div id="ticket-parent-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-parent-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-parent-search" type="text" class="ticket-tag-search" placeholder="Set parent by ID or title" autocomplete="off" />
+                <input id="ticket-parent-search" type="text" class="ticket-tag-search" placeholder="Set parent by ID or title" data-i18n-placeholder="Set parent by ID or title" autocomplete="off" />
               </div>
               <div id="ticket-parent-options" class="ticket-tag-options" hidden></div>
               <input id="ticket-parent" name="parentTicketId" type="hidden" value="" />
@@ -365,11 +369,11 @@
             <div id="ticket-children-row" class="ticket-tag-field editor-relation-row" hidden>
               <div class="editor-relation-row-label">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#folder-tree"></use></svg>
-                <span>Children</span>
+                <span data-i18n="Children">Children</span>
               </div>
               <div id="ticket-child-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-child-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-child-search" type="text" class="ticket-tag-search" placeholder="Add children by ID or title" autocomplete="off" />
+                <input id="ticket-child-search" type="text" class="ticket-tag-search" placeholder="Add children by ID or title" data-i18n-placeholder="Add children by ID or title" autocomplete="off" />
               </div>
               <div id="ticket-child-options" class="ticket-tag-options" hidden></div>
             </div>
@@ -378,36 +382,36 @@
           <div class="editor-actions">
             <button id="delete-ticket-button" type="button" class="danger action-with-icon">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#trash-2"></use></svg>
-              <span>Delete</span>
+              <span data-i18n="Delete">Delete</span>
             </button>
             <button id="archive-ticket-button" type="button" class="ghost archive-ticket-button action-with-icon" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
-              <span>Archive</span>
+              <span data-i18n="Archive">Archive</span>
             </button>
             <button id="move-ticket-button" type="button" class="ghost action-with-icon" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
-              <span>Move</span>
+              <span data-i18n="Move">Move</span>
             </button>
             <div class="editor-actions-right">
-              <button id="cancel-edit-button" type="button" class="ghost">Cancel</button>
-              <button id="save-ticket-button" type="submit" class="primary-action">Save</button>
+              <button id="cancel-edit-button" type="button" class="ghost" data-i18n="Cancel">Cancel</button>
+              <button id="save-ticket-button" type="submit" class="primary-action" data-i18n="Save">Save</button>
             </div>
           </div>
         </form>
         <aside id="editor-remote-import-sheet" class="editor-remote-import-sheet" hidden aria-hidden="true">
           <div class="editor-remote-import-sheet-head">
             <div>
-              <h3 class="editor-remote-import-sheet-title">Import Remote Issue</h3>
-              <p class="editor-remote-import-sheet-copy muted">Create one tracked ticket from a remote issue snapshot.</p>
+              <h3 class="editor-remote-import-sheet-title" data-i18n="Import Remote Issue">Import Remote Issue</h3>
+              <p class="editor-remote-import-sheet-copy muted" data-i18n="Create one tracked ticket from a remote issue snapshot.">Create one tracked ticket from a remote issue snapshot.</p>
             </div>
-            <button id="editor-remote-import-close-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Hide import panel" title="Hide import panel">
+            <button id="editor-remote-import-close-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Hide import panel" data-i18n-aria-label="Hide import panel" title="Hide import panel" data-i18n-title="Hide import panel">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
             </button>
           </div>
           <form id="editor-remote-import-form" class="editor-remote-import-form">
             <fieldset class="editor-field editor-remote-provider-fieldset">
-              <legend class="editor-field-label">Provider</legend>
-              <div id="editor-remote-provider-switch" class="editor-remote-provider-switch" role="radiogroup" aria-label="Provider">
+              <legend class="editor-field-label" data-i18n="Provider">Provider</legend>
+              <div id="editor-remote-provider-switch" class="editor-remote-provider-switch" role="radiogroup" aria-label="Provider" data-i18n-aria-label="Provider">
                 <button type="button" class="editor-remote-provider-option active" data-remote-provider-option="github" role="radio" aria-checked="true" title="GitHub">
                   <span class="remote-provider-icon remote-provider-icon-github" aria-hidden="true">
                     <svg class="icon" focusable="false"><use href="/icons.svg#github"></use></svg>
@@ -431,34 +435,34 @@
               <input id="editor-remote-provider" type="hidden" value="github" required />
             </fieldset>
             <label class="editor-field">
-              <span class="editor-field-label">Issue URL</span>
+              <span class="editor-field-label" data-i18n="Issue URL">Issue URL</span>
               <input id="editor-remote-url" type="url" required placeholder="https://github.com/owner/repo/issues/123" />
             </label>
             <label class="editor-field">
-              <span class="editor-field-label">Lane</span>
+              <span class="editor-field-label" data-i18n="Lane">Lane</span>
               <select id="editor-remote-lane" required></select>
             </label>
             <label class="editor-field editor-remote-backlink-toggle">
               <input id="editor-remote-backlink-comment" type="checkbox" />
-              <span>Post backlink comment to remote</span>
+              <span data-i18n="Post backlink comment to remote">Post backlink comment to remote</span>
             </label>
             <label id="editor-remote-backlink-url-row" class="editor-field" hidden>
-              <span class="editor-field-label">Kanbalone URL</span>
+              <span class="editor-field-label" data-i18n="Kanbalone URL">Kanbalone URL</span>
               <input id="editor-remote-backlink-url" type="url" placeholder="https://kanbalone.example.com/boards/1/tickets/123" />
             </label>
             <div id="editor-remote-import-preview" class="editor-remote-import-preview" hidden></div>
             <div id="editor-remote-import-error" class="danger" hidden></div>
             <div class="editor-actions">
               <div class="editor-actions-right">
-                <button id="editor-remote-import-cancel-button" type="button" class="ghost">Cancel</button>
-                <button id="editor-remote-import-preview-button" type="button" class="ghost">Preview</button>
-                <button id="editor-remote-import-submit-button" type="submit" class="primary-action">Import</button>
+                <button id="editor-remote-import-cancel-button" type="button" class="ghost" data-i18n="Cancel">Cancel</button>
+                <button id="editor-remote-import-preview-button" type="button" class="ghost" data-i18n="Preview">Preview</button>
+                <button id="editor-remote-import-submit-button" type="submit" class="primary-action" data-i18n="Import">Import</button>
               </div>
             </div>
           </form>
         </aside>
       </div>
-      <button id="editor-dialog-resize-handle" type="button" class="editor-dialog-resize-handle" aria-label="Resize ticket dialog" title="Resize"></button>
+      <button id="editor-dialog-resize-handle" type="button" class="editor-dialog-resize-handle" aria-label="Resize ticket dialog" data-i18n-aria-label="Resize ticket dialog" title="Resize" data-i18n-title="Resize"></button>
     </dialog>
 
     
@@ -466,8 +470,8 @@
     <dialog id="ux-dialog" class="ux-dialog">
       <form id="ux-form" class="ux-form" method="dialog">
         <div class="editor-header">
-          <h3 id="ux-title">Action</h3>
-          <button id="ux-cancel-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Close dialog" title="Close">
+          <h3 id="ux-title" data-i18n="Action">Action</h3>
+          <button id="ux-cancel-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Close dialog" data-i18n-aria-label="Close dialog" title="Close" data-i18n-title="Close">
             <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
           </button>
         </div>
@@ -476,8 +480,8 @@
         <div id="ux-error" class="danger" hidden></div>
         <div class="editor-actions">
           <div class="editor-actions-right">
-            <button id="ux-dismiss-button" type="button" class="ghost">Cancel</button>
-            <button id="ux-submit-button" type="submit" class="primary-action">Save</button>
+            <button id="ux-dismiss-button" type="button" class="ghost" data-i18n="Cancel">Cancel</button>
+            <button id="ux-submit-button" type="submit" class="primary-action" data-i18n="Save">Save</button>
           </div>
         </div>
       </form>

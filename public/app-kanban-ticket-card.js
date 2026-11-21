@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
@@ -64,6 +65,6 @@ export function createKanbanTicketCard(ctx, ticket) {
 function renderBlockerIndicator(ticket) {
   const count = ticket.unresolvedBlockerCount ?? 0;
   if (!count) return "";
-  const label = `Blocked by ${count} unresolved ticket${count === 1 ? "" : "s"}`;
+  const label = tr(count === 1 ? "Blocked by {count} unresolved ticket" : "Blocked by {count} unresolved tickets", { count });
   return `<span class="ticket-blocker-indicator" title="${label}" aria-label="${label}">${icon("octagon-alert")}<span>${count}</span></span>`;
 }

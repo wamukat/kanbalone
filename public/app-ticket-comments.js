@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { createTicketCommentRenderers } from "./app-ticket-comment-renderers.js";
 
@@ -18,8 +19,8 @@ export function createTicketCommentsModule(ctx) {
     elements.commentForm.hidden = !isCommentComposerOpen;
     elements.commentComposeToggle.setAttribute("aria-expanded", String(isCommentComposerOpen));
     elements.commentComposeToggle.innerHTML = isCommentComposerOpen
-      ? `${icon("x")}<span>Hide Comment Form</span>`
-      : `${icon("plus")}<span>Add Comment</span>`;
+      ? `${icon("x")}<span>${t("Hide Comment Form")}</span>`
+      : `${icon("plus")}<span>${t("Add Comment")}</span>`;
     ctx.syncDialogScrollLock?.();
   }
 
@@ -81,7 +82,7 @@ export function createTicketCommentsModule(ctx) {
     }
     const bodyMarkdown = elements.commentBody.value.trim();
     if (!bodyMarkdown) {
-      ctx.showToast("Comment is required", "error");
+      ctx.showToast(t("Comment is required"), "error");
       return;
     }
     try {
@@ -94,9 +95,9 @@ export function createTicketCommentsModule(ctx) {
       await ctx.refreshDialogTicket(ticket.id);
       elements.commentBody.value = "";
       await ctx.refreshBoardDetail();
-      setCommentState("saved", "Comment saved");
+      setCommentState("saved", t("Comment saved"));
     } catch (error) {
-      setCommentState("error", "Save failed");
+      setCommentState("error", t("Save failed"));
       ctx.showToast(error.message, "error");
     } finally {
       elements.saveCommentButton.disabled = false;
@@ -221,21 +222,21 @@ export function createTicketCommentsModule(ctx) {
     const textarea = item?.querySelector("[data-comment-edit-body]");
     const bodyMarkdown = textarea?.value.trim() ?? "";
     if (!bodyMarkdown) {
-      ctx.showToast("Comment is required", "error");
+      ctx.showToast(t("Comment is required"), "error");
       return;
     }
     try {
       saveButton.disabled = true;
-      setCommentState("saving", "Saving...");
+      setCommentState("saving", t("Saving..."));
       await ctx.sendJson(`/api/comments/${saveButton.dataset.saveCommentId}`, {
         method: "PATCH",
         body: { bodyMarkdown },
       });
       await ctx.refreshDialogTicket();
       await ctx.refreshBoardDetail();
-      setCommentState("saved", "Saved");
+      setCommentState("saved", t("Saved"));
     } catch (error) {
-      setCommentState("error", "Save failed");
+      setCommentState("error", t("Save failed"));
       ctx.showToast(error.message, "error");
     } finally {
       saveButton.disabled = false;
@@ -279,14 +280,14 @@ export function createTicketCommentsModule(ctx) {
   async function deleteComment(commentId, deleteButton) {
     try {
       deleteButton.disabled = true;
-      setCommentState("saving", "Deleting...");
+      setCommentState("saving", t("Deleting..."));
       await ctx.api(`/api/comments/${commentId}`, { method: "DELETE" });
       state.confirmingCommentDeleteId = null;
       await ctx.refreshDialogTicket();
       await ctx.refreshBoardDetail();
-      setCommentState("saved", "Deleted");
+      setCommentState("saved", t("Deleted"));
     } catch (error) {
-      setCommentState("error", "Delete failed");
+      setCommentState("error", t("Delete failed"));
       ctx.showToast(error.message, "error");
     } finally {
       deleteButton.disabled = false;
@@ -300,16 +301,16 @@ export function createTicketCommentsModule(ctx) {
     }
     try {
       pushButton.disabled = true;
-      setCommentState("saving", "Pushing to remote...");
+      setCommentState("saving", t("Pushing to remote..."));
       await ctx.api(`/api/comments/${commentId}/push-remote`, { method: "POST" });
       await ctx.refreshDialogTicket();
       await ctx.refreshBoardDetail();
       expandedRemoteErrorCommentId = null;
-      setCommentState("saved", "Pushed to remote");
+      setCommentState("saved", t("Pushed to remote"));
     } catch (error) {
       await ctx.refreshDialogTicket().catch(() => null);
       await ctx.refreshBoardDetail().catch(() => null);
-      setCommentState("error", "Push failed");
+      setCommentState("error", t("Push failed"));
       ctx.showToast(humanizeRemoteSyncError(error.message), "error");
     } finally {
       pushButton.disabled = false;

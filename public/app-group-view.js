@@ -1,4 +1,5 @@
 // @ts-check
+import { t as tr } from "./app-i18n.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { icon } from "./icons.js";
 import { getListTicketComparator } from "./app-ticket-sort.js";
@@ -39,10 +40,10 @@ export function renderGroupOptions(state, esc) {
       ? matches
           .map(
             (t, i) =>
-              `<button type="button" role="option" id="group-option-${t.id}" aria-selected="${i === activeOption}" data-group-pick="${t.id}"><span>#${t.id} ${esc(t.title)}</span><small>${relatedTickets(t.id, candidates).length > 1 ? `${relatedTickets(t.id, candidates).length} parent/child tickets` : "Single ticket"}${t.isArchived ? " · Archived" : ""}</small></button>`,
+              `<button type="button" role="option" id="group-option-${t.id}" aria-selected="${i === activeOption}" data-group-pick="${t.id}"><span>#${t.id} ${esc(t.title)}</span><small>${relatedTickets(t.id, candidates).length > 1 ? tr("{count} parent/child tickets", { count: relatedTickets(t.id, candidates).length }) : tr("Single ticket")}${t.isArchived ? tr(" · Archived") : ""}</small></button>`,
           )
           .join("")
-      : '<p class="muted">No unassigned tickets match.</p>';
+      : `<p class="muted">${tr("No unassigned tickets match.")}</p>`;
 }
 
 /** @param {import("./app-group-types.js").GroupViewState} view @param {import("./app-group-types.js").GroupViewOptions} options */
@@ -75,16 +76,16 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
   const optionsHtml = () => renderGroupOptions(view, esc);
   /** @param {GroupSummary} g */
   const counts = (g) =>
-    `${g.openTicketCount} open · ${g.totalTicketCount} total`;
+    tr("{open} open · {total} total", { open: g.openTicketCount, total: g.totalTicketCount });
   /** @param {GroupTicket} t @param {boolean} [parent] @param {boolean} [context] */
   const row = (
     t,
     parent = false,
     context = false,
   ) => `<div class="group-ticket-row ${context ? "group-ticket-context" : ""}">
-    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets)}${context ? `<span class="list-ticket-link group-ticket-title" title="Archived parent · shown for context"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}${t.isArchived ? `<span class="ticket-status-icons">${renderTicketStatusIcons(t, { showResolved: false })}</span>` : ""}</div>
+    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets)}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}${t.isArchived ? `<span class="ticket-status-icons">${renderTicketStatusIcons(t, { showResolved: false })}</span>` : ""}</div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
-    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="Remove ${related(t.id).length} ticket(s) from Group" aria-label="${related(t.id).length > 1 ? `Remove ${related(t.id).length} tickets from Group` : "Remove from Group"}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
+    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: related(t.id).length })}" aria-label="${related(t.id).length > 1 ? tr("Remove {count} tickets from Group", { count: related(t.id).length }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
   </div>`;
   function ticketRows() {
     const comparator = getListTicketComparator(null);
@@ -108,9 +109,9 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
   function description() {
     if (!selected) return "";
     if (descriptionEditing)
-      return `<form data-group-form="description" class="group-edit-form"><label>Description <span class="muted">Markdown</span><textarea name="description" rows="7" maxlength="100000">${esc(descriptionDraft)}</textarea></label>${descriptionPreview !== null ? `<div class="markdown group-description-preview">${descriptionPreview}</div>` : ""}<div class="group-actions"><button type="button" data-group-action="preview-description">Preview</button><button type="submit" class="primary-action" ${busy ? "disabled" : ""}>Save</button><button type="button" class="ghost" data-group-action="cancel-description">Cancel</button></div></form>`;
+      return `<form data-group-form="description" class="group-edit-form"><label>${tr("Description")} <span class="muted">Markdown</span><textarea name="description" rows="7" maxlength="100000">${esc(descriptionDraft)}</textarea></label>${descriptionPreview !== null ? `<div class="markdown group-description-preview">${descriptionPreview}</div>` : ""}<div class="group-actions"><button type="button" data-group-action="preview-description">${tr("Preview")}</button><button type="submit" class="primary-action" ${busy ? "disabled" : ""}>${tr("Save")}</button><button type="button" class="ghost" data-group-action="cancel-description">${tr("Cancel")}</button></div></form>`;
     if (!selected.descriptionMarkdown)
-      return `<button class="ghost group-description-add group-text-action" data-group-action="edit-description">${icon("pencil")}Add description</button>`;
+      return `<button class="ghost group-description-add group-text-action" data-group-action="edit-description">${icon("pencil")}${tr("Add description")}</button>`;
     // Parse the already-sanitized HTML in an inert template. A plain summary cannot
     // leave invisible links, tables or images focusable behind a CSS height clip.
     const template = document.createElement("template");
@@ -131,44 +132,44 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
       );
     const summary =
       first.length > 180 ? `${first.slice(0, 177).trimEnd()}…` : first;
-    return `<div class="group-description"><div id="group-description-body" class="${long && !expanded ? "group-description-summary" : "markdown group-description-body"}">${long && !expanded ? esc(summary) : selected.descriptionHtml}</div><div class="group-description-actions">${long ? `<button class="ghost group-text-action" data-group-action="expand-description" aria-controls="group-description-body" aria-expanded="${expanded}">${icon(expanded ? "chevron-left" : "chevron-right")}${expanded ? "Show less" : "Read more"}</button>` : "<span></span>"}<button class="ghost group-text-action" data-group-action="edit-description">${icon("pencil")}Edit description</button></div></div>`;
+    return `<div class="group-description"><div id="group-description-body" class="${long && !expanded ? "group-description-summary" : "markdown group-description-body"}">${long && !expanded ? esc(summary) : selected.descriptionHtml}</div><div class="group-description-actions">${long ? `<button class="ghost group-text-action" data-group-action="expand-description" aria-controls="group-description-body" aria-expanded="${expanded}">${icon(expanded ? "chevron-left" : "chevron-right")}${expanded ? tr("Show less") : tr("Read more")}</button>` : "<span></span>"}<button class="ghost group-text-action" data-group-action="edit-description">${icon("pencil")}${tr("Edit description")}</button></div></div>`;
   }
   function addForm() {
     const count = chosen.flatMap((id) => related(id, candidates)).length;
-    return `<form data-group-form="members" class="group-edit-form"><label for="group-ticket-search">Find unassigned tickets</label><p class="muted">To move tickets here from another Group, remove them from that Group first.</p><div class="group-selection" aria-live="polite">${chosen
+    return `<form data-group-form="members" class="group-edit-form"><label for="group-ticket-search">${tr("Find unassigned tickets")}</label><p class="muted">${tr("To move tickets here from another Group, remove them from that Group first.")}</p><div class="group-selection" aria-live="polite">${chosen
       .map((id) => {
         const family = related(id, candidates);
-        return `<span class="group-selected-ticket">#${id} ${esc(family[0].title)}${family.length > 1 ? ` · ${family.length} tickets` : ""}<button type="button" class="ghost icon-button" aria-label="Deselect #${id}" data-group-unpick="${id}">${icon("x")}</button></span>`;
+        return `<span class="group-selected-ticket">#${id} ${esc(family[0].title)}${family.length > 1 ? tr(" · {count} tickets", { count: family.length }) : ""}<button type="button" class="ghost icon-button" aria-label="${tr("Deselect #{id}", { id })}" data-group-unpick="${id}">${icon("x")}</button></span>`;
       })
       .join(
         "",
-      )}</div><input id="group-ticket-search" role="combobox" aria-autocomplete="list" aria-controls="group-ticket-options" aria-expanded="${!!query.trim()}" autocomplete="off" placeholder="Title or #123" value="${esc(query)}"><div id="group-ticket-options" class="group-ticket-options" role="listbox" aria-label="Unassigned tickets">${optionsHtml()}</div><div class="group-actions"><button type="submit" class="primary-action" ${!count || busy ? "disabled" : ""}>Add ${count || ""} tickets</button><button type="button" class="ghost" data-group-action="cancel-add">Cancel</button></div></form>`;
+      )}</div><input id="group-ticket-search" role="combobox" aria-autocomplete="list" aria-controls="group-ticket-options" aria-expanded="${!!query.trim()}" autocomplete="off" placeholder="${tr("Title or #123")}" value="${esc(query)}"><div id="group-ticket-options" class="group-ticket-options" role="listbox" aria-label="${tr("Unassigned tickets")}">${optionsHtml()}</div><div class="group-actions"><button type="submit" class="primary-action" ${!count || busy ? "disabled" : ""}>${tr("Add {count} tickets", { count: count || "" })}</button><button type="button" class="ghost" data-group-action="cancel-add">${tr("Cancel")}</button></div></form>`;
   }
   /** @param {string} value */
   function sortButtons(value) {
     const [current, direction] = value.split(":");
     const options = [
-      { key: "createdAt", label: "Created", subjectIcon: "calendar" },
-      { key: "name", label: "Name", subjectIcon: "type" },
+      { key: "createdAt", label: tr("Created"), subjectIcon: "calendar" },
+      { key: "name", label: tr("Name"), subjectIcon: "type" },
     ];
-    return `<div class="group-sort-buttons" role="group" aria-label="Group order">${options
+    return `<div class="group-sort-buttons" role="group" aria-label="${tr("Group order")}">${options
       .map(({ key, label, subjectIcon }) => {
         const active = current === key;
-        const tooltip = `${label}: ${active ? (direction === "asc" ? "ascending" : "descending") : "not sorted"}. Click for ${active && direction === "asc" ? "descending" : "ascending"} order.`;
-        return `<button type="button" id="group-sort-groups-${key}" class="list-sort-button icon-button group-sort-button ${active ? "active" : ""}" title="${tooltip}" data-group-sort-key="${key}" aria-pressed="${active}" aria-label="${label}, ${active ? `sorted ${direction === "asc" ? "ascending" : "descending"}` : "not sorted"}">${icon(subjectIcon)}<span class="list-sort-indicator" aria-hidden="true">${icon(active ? (direction === "asc" ? "arrow-up" : "arrow-down") : "arrow-up-down")}</span></button>`;
+        const tooltip = tr("{label}: {direction}. Click for {next} order.", { label, direction: active ? (direction === "asc" ? tr("ascending") : tr("descending")) : tr("not sorted"), next: active && direction === "asc" ? tr("descending") : tr("ascending") });
+        return `<button type="button" id="group-sort-groups-${key}" class="list-sort-button icon-button group-sort-button ${active ? "active" : ""}" title="${tooltip}" data-group-sort-key="${key}" aria-pressed="${active}" aria-label="${label}, ${active ? tr("sorted {direction}", { direction: direction === "asc" ? tr("ascending") : tr("descending") }) : tr("not sorted")}">${icon(subjectIcon)}<span class="list-sort-indicator" aria-hidden="true">${icon(active ? (direction === "asc" ? "arrow-up" : "arrow-down") : "arrow-up-down")}</span></button>`;
       })
       .join("")}</div>`;
   }
 
   function groupCreateForm() {
     if (!creating) {
-      return `<button class="ghost group-add-button" data-group-action="create" aria-label="Add Group" title="Add Group">${icon("plus")}</button>`;
+      return `<button class="ghost group-add-button" data-group-action="create" aria-label="${tr("Add Group")}" title="${tr("Add Group")}">${icon("plus")}</button>`;
     }
     return [
       '<form data-group-form="create" class="group-edit-form">',
-      `<label>Group name<input name="name" value="${esc(createName)}" required maxlength="100" autocomplete="off"></label>`,
-      '<div class="group-actions"><button type="submit" class="primary-action">Create</button>',
-      '<button type="button" class="ghost" data-group-action="cancel-create">Cancel</button></div></form>',
+      `<label>${tr("Group name")}<input name="name" value="${esc(createName)}" required maxlength="100" autocomplete="off"></label>`,
+      `<div class="group-actions"><button type="submit" class="primary-action">${tr("Create")}</button>`,
+      `<button type="button" class="ghost" data-group-action="cancel-create">${tr("Cancel")}</button></div></form>`,
     ].join("");
   }
 
@@ -178,18 +179,18 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
       .map((g) =>
         [
           `<button class="ghost group-choice ${g.id === selectedId ? "selected" : ""}" data-select-group="${g.id}" aria-current="${g.id === selectedId}">`,
-          `<span>${esc(g.name)}</span><small>${counts(g)}${g.isActive ? "" : " · Inactive"}</small></button>`,
+          `<span>${esc(g.name)}</span><small>${counts(g)}${g.isActive ? "" : tr(" · Inactive")}</small></button>`,
         ].join(""),
       )
       .join("");
     return [
-      '<div class="group-list-panel"><div class="group-list-heading"><h3>Groups</h3></div>',
-      '<div class="group-list-controls"><div class="filter-toggle" aria-label="Group visibility">',
-      `<button data-group-action="active" class="${!all ? "active" : ""}">Active</button>`,
-      `<button data-group-action="all" class="${all ? "active" : ""}">All</button></div>`,
+      `<div class="group-list-panel"><div class="group-list-heading"><h3>${tr("Groups")}</h3></div>`,
+      `<div class="group-list-controls"><div class="filter-toggle" aria-label="${tr("Group visibility")}">`,
+      `<button data-group-action="active" class="${!all ? "active" : ""}">${tr("Active")}</button>`,
+      `<button data-group-action="all" class="${all ? "active" : ""}">${tr("All")}</button></div>`,
       sortButtons(sort),
       "</div>",
-      `<div class="group-choices">${choices || (groups.length ? '<p class="muted">No active Groups. All tickets in your Groups are completed or archived.</p><button class="ghost group-text-action" data-group-action="all">Show all Groups</button>' : '<p class="muted">No Groups yet.</p>')}</div>`,
+      `<div class="group-choices">${choices || (groups.length ? `<p class="muted">${tr("No active Groups. All tickets in your Groups are completed or archived.")}</p><button class="ghost group-text-action" data-group-action="all">${tr("Show all Groups")}</button>` : `<p class="muted">${tr("No Groups yet.")}</p>`)}</div>`,
       groupCreateForm(),
       "</div>",
     ].join("");
@@ -200,14 +201,14 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
     if (renaming) {
       return [
         '<form data-group-form="rename" class="group-edit-form">',
-        `<label>Group name<input name="name" value="${esc(renameName)}" required maxlength="100"></label>`,
-        '<div class="group-actions"><button type="submit" class="primary-action">Save</button>',
-        '<button type="button" class="ghost" data-group-action="cancel-rename">Cancel</button></div></form>',
+        `<label>${tr("Group name")}<input name="name" value="${esc(renameName)}" required maxlength="100"></label>`,
+        `<div class="group-actions"><button type="submit" class="primary-action">${tr("Save")}</button>`,
+        `<button type="button" class="ghost" data-group-action="cancel-rename">${tr("Cancel")}</button></div></form>`,
       ].join("");
     }
     return [
       '<div class="group-detail-heading"><h3>',
-      `<button class="ghost group-name" data-group-action="rename" title="Rename Group">${esc(group.name)}</button></h3>`,
+      `<button class="ghost group-name" data-group-action="rename" title="${tr("Rename Group")}">${esc(group.name)}</button></h3>`,
       `<span class="muted group-ticket-count">${counts(group)}</span></div>`,
     ].join("");
   }
@@ -218,7 +219,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
     return [
       `<button class="ghost group-archive-toggle group-text-action" data-group-action="archive" aria-expanded="${showArchived}">`,
       icon(showArchived ? "chevron-left" : "chevron-right"),
-      `${showArchived ? "Hide" : "Show"} archived tickets (${count})</button>`,
+      `${showArchived ? tr("Hide archived tickets ({count})", { count }) : tr("Show archived tickets ({count})", { count })}</button>`,
     ].join("");
   }
 
@@ -228,20 +229,20 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
           groupHeading(selected),
           description(),
           '<div class="group-ticket-toolbar">',
-          '<button class="ghost group-text-action" data-group-action="add">Add existing tickets</button>',
-          '<button class="ghost group-text-action" data-group-action="new-ticket">Create ticket</button></div>',
+          `<button class="ghost group-text-action" data-group-action="add">${tr("Add existing tickets")}</button>`,
+          `<button class="ghost group-text-action" data-group-action="new-ticket">${tr("Create ticket")}</button></div>`,
           !selected.isActive
-            ? '<p class="muted">This Group is inactive because it has no open, unarchived tickets.</p>'
+            ? `<p class="muted">${tr("This Group is inactive because it has no open, unarchived tickets.")}</p>`
             : "",
           adding ? addForm() : "",
           ticketRows() ||
-            `<p class="group-empty muted">${tickets.length ? "All tickets are archived." : "Add or create tickets to get started."}</p>`,
+            `<p class="group-empty muted">${tickets.length ? tr("All tickets are archived.") : tr("Add or create tickets to get started.")}</p>`,
           archiveToggle(),
           !tickets.length
-            ? '<button class="ghost danger group-delete" data-group-action="delete">Delete empty Group</button>'
+            ? `<button class="ghost danger group-delete" data-group-action="delete">${tr("Delete empty Group")}</button>`
             : "",
         ].join("")
-      : `<p class="group-empty muted">${groups.length ? "Select All to see your inactive Groups." : "Create a Group to organize tickets."}</p>`;
+      : `<p class="group-empty muted">${groups.length ? tr("Select All to see your inactive Groups.") : tr("Create a Group to organize tickets.")}</p>`;
     return `<div class="group-content-panel">${content}<p class="group-error" role="alert">${esc(error)}</p></div>`;
   }
 

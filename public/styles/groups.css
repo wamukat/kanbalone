@@ -474,3 +474,11 @@
 .group-ticket-toolbar > .group-text-action:hover {
   border-color: var(--accent);
 }
+
+:lang(ja) .group-list-controls { column-gap: var(--space-2); }
+:lang(ja) .group-list-controls .filter-toggle button {
+  min-width: 0;
+  padding-inline: var(--space-1);
+  font-size: var(--font-size-label);
+  white-space: nowrap;
+}

@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 import { tagBackgroundStyle, tagToneClass } from "./app-tags.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 import {
@@ -32,7 +33,7 @@ export function createSidebarTagsModule(ctx) {
     }
 
     if (tags.length === 0 && !state.isCreatingSidebarTag) {
-      elements.sidebarTagList.innerHTML = '<p class="tag-manager-empty muted">No tags yet.</p>';
+      elements.sidebarTagList.innerHTML = `<p class="tag-manager-empty muted">${tr("No tags yet.")}</p>`;
       return;
     }
 
@@ -43,7 +44,7 @@ export function createSidebarTagsModule(ctx) {
         row.append(createTagEditForm(tag));
       } else {
         row.innerHTML = `
-          <button type="button" class="sidebar-tag-badge${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)} title="Edit tag: ${ctx.escapeHtml(tag.name)}" aria-label="Edit tag: ${ctx.escapeHtml(tag.name)}">
+          <button type="button" class="sidebar-tag-badge${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)} title="${tr("Edit tag: {name}", { name: ctx.escapeHtml(tag.name) })}" aria-label="${tr("Edit tag: {name}", { name: ctx.escapeHtml(tag.name) })}">
             <span>${ctx.escapeHtml(tag.name)}</span>
             ${icon("pencil")}
           </button>
@@ -57,7 +58,7 @@ export function createSidebarTagsModule(ctx) {
   function createTagCreateRow() {
     const form = createInlineTextForm({
       className: "sidebar-tag-row sidebar-tag-create-row",
-      html: '<input id="sidebar-tag-create-input" data-sidebar-tag-name type="text" placeholder="Tag name" aria-label="Tag name" autocomplete="off" />',
+      html: `<input id="sidebar-tag-create-input" data-sidebar-tag-name type="text" placeholder="${tr("Tag name")}" aria-label="${tr("Tag name")}" autocomplete="off" />`,
       inputSelector: "[data-sidebar-tag-name]",
       onSubmit: submitTagCreate,
       onCancel: cancelTagEdit,
@@ -74,10 +75,10 @@ export function createSidebarTagsModule(ctx) {
     form.dataset.sidebarTagEditForm = String(tag.id);
     form.innerHTML = `
       ${renderTagPreviewBadge(tag)}
-      <input id="sidebar-tag-name-${tag.id}" data-sidebar-tag-name type="text" value="${ctx.escapeHtml(tag.name)}" aria-label="Tag name" autocomplete="off" required />
+      <input id="sidebar-tag-name-${tag.id}" data-sidebar-tag-name type="text" value="${ctx.escapeHtml(tag.name)}" aria-label="${tr("Tag name")}" autocomplete="off" required />
       ${renderUxColorField({
         id: "color",
-        label: "Color",
+        label: tr("Color"),
         value: tag.color || "#1f6f5f",
         required: true,
         type: "color",
@@ -88,17 +89,17 @@ export function createSidebarTagsModule(ctx) {
       <div class="sidebar-tag-form-actions sidebar-tag-form-actions-split">
         ${isConfirmingDelete ? `
           <div class="sidebar-tag-delete-confirm">
-            <span>Delete this tag?</span>
+            <span>${tr("Delete this tag?")}</span>
             <div class="sidebar-tag-delete-confirm-actions">
-              <button type="button" class="ghost" data-sidebar-tag-delete-cancel>Cancel</button>
-              <button type="button" class="danger action-with-icon danger-confirm-action" data-sidebar-tag-delete-confirm>${icon("trash-2")}<span>Delete</span></button>
+              <button type="button" class="ghost" data-sidebar-tag-delete-cancel>${tr("Cancel")}</button>
+              <button type="button" class="danger action-with-icon danger-confirm-action" data-sidebar-tag-delete-confirm>${icon("trash-2")}<span>${tr("Delete")}</span></button>
             </div>
           </div>
         ` : `
-          <button type="button" class="danger icon-button" data-sidebar-tag-delete title="Delete tag" aria-label="Delete tag">${icon("trash-2")}</button>
+          <button type="button" class="danger icon-button" data-sidebar-tag-delete title="${tr("Delete tag")}" aria-label="${tr("Delete tag")}">${icon("trash-2")}</button>
           <span class="sidebar-tag-action-spacer"></span>
-          <button type="button" class="ghost" data-sidebar-tag-cancel>Cancel</button>
-          <button type="submit" class="primary-action">Save</button>
+          <button type="button" class="ghost" data-sidebar-tag-cancel>${tr("Cancel")}</button>
+          <button type="submit" class="primary-action">${tr("Save")}</button>
         `}
       </div>
     `;
@@ -138,7 +139,7 @@ export function createSidebarTagsModule(ctx) {
 
   function renderTagPreviewBadge(tag) {
     return `
-      <div class="sidebar-tag-preview" aria-label="Editing tag">
+      <div class="sidebar-tag-preview" aria-label="${tr("Editing tag")}">
         <span class="sidebar-tag-badge sidebar-tag-preview-badge${tagToneClass(tag)}"${tagBackgroundStyle(tag, ctx.escapeHtml)} title="${ctx.escapeHtml(tag.name)}">
           <span>${ctx.escapeHtml(tag.name)}</span>
         </span>
@@ -192,7 +193,7 @@ export function createSidebarTagsModule(ctx) {
     state.isCreatingSidebarTag = false;
     state.sidebarTagError = "";
     await refreshTagsAfterChange();
-    ctx.showToast("Tag created");
+    ctx.showToast(tr("Tag created"));
   }
 
   async function submitTagEdit(event, tag) {
@@ -201,12 +202,12 @@ export function createSidebarTagsModule(ctx) {
     const name = form.querySelector("[data-sidebar-tag-name]")?.value.trim() ?? "";
     const colorInput = form.querySelector("[data-field-id='color'][data-field-type='color']");
     if (!name) {
-      state.sidebarTagError = "Tag name is required";
+      state.sidebarTagError = tr("Tag name is required");
       renderSidebarTags();
       return;
     }
     if (colorInput && !isUxColorNoneSelected(colorInput, form) && !isHexColor(colorInput.value.trim())) {
-      state.sidebarTagError = "Color must be a HEX color like #1F6F5F";
+      state.sidebarTagError = tr("Color must be a HEX color like #1F6F5F");
       renderSidebarTags();
       return;
     }
@@ -221,7 +222,7 @@ export function createSidebarTagsModule(ctx) {
     state.confirmingSidebarTagDeleteId = null;
     state.sidebarTagError = "";
     await refreshTagsAfterChange();
-    ctx.showToast("Tag updated");
+    ctx.showToast(tr("Tag updated"));
   }
 
   async function deleteTag(tagId) {
@@ -231,7 +232,7 @@ export function createSidebarTagsModule(ctx) {
     state.sidebarTagError = "";
     state.editorTagIds = state.editorTagIds.filter((id) => id !== tagId);
     await refreshTagsAfterChange();
-    ctx.showToast("Tag deleted");
+    ctx.showToast(tr("Tag deleted"));
   }
 
   async function refreshTagsAfterChange() {

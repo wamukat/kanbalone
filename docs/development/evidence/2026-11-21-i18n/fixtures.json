@@ -1,0 +1,11 @@
+{
+  "ports": [
+    3473,
+    3474
+  ],
+  "boardId": 2,
+  "laneId": 3,
+  "ticketId": 1,
+  "groupId": 1,
+  "syntheticDataOnly": true
+}

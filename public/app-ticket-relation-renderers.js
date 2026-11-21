@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { icon } from "./icons.js";
 
 export function createTicketRelationRenderers(ctx) {
@@ -16,11 +17,11 @@ export function createTicketRelationRenderers(ctx) {
   }
 
   function renderTicketSummaryChip(ticket, removeAttr) {
-    return `<button type="button" class="ticket-tag-chip ticket-ref-chip" ${removeAttr}="${ticket.id}" title="Remove ${ctx.escapeHtml(formatTicketChoice(ticket))}"><span class="ticket-ref-chip-id">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span>${icon("x")}</button>`;
+    return `<button type="button" class="ticket-tag-chip ticket-ref-chip" ${removeAttr}="${ticket.id}" title="${ctx.escapeHtml(t("Remove {ticket}", { ticket: formatTicketChoice(ticket) }))}"><span class="ticket-ref-chip-id">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span>${icon("x")}</button>`;
   }
 
   function renderTicketOption(ticket, attrName, isSelected) {
-    const meta = ticket.isResolved ? '<span class="ticket-picker-meta">Resolved</span>' : "";
+    const meta = ticket.isResolved ? `<span class="ticket-picker-meta">${t("Resolved")}</span>` : "";
     return `
       <button type="button" class="tag-picker-item ${isSelected ? "selected" : ""}" ${attrName}="${ticket.id}" role="option" aria-selected="${isSelected}">
         <span class="ticket-picker-id">#${ticket.id}</span>

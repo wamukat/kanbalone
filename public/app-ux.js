@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { createToastModule } from "./app-toast.js";
 import { icon } from "./icons.js";
 
@@ -41,7 +42,7 @@ export function createUxModule(ctx) {
     });
   }
 
-  function openFormDialog({ title, message = "", fields = "", submitLabel = "Save" }) {
+  function openFormDialog({ title, message = "", fields = "", submitLabel = t("Save") }) {
     return new Promise((resolve) => {
       state.uxResolver = resolve;
       elements.uxTitle.textContent = title;
@@ -64,7 +65,7 @@ export function createUxModule(ctx) {
     return [
       message ? `<span>${ctx.escapeHtml(message)}</span>` : "",
       details.length
-        ? `<span class="ux-confirm-section-label">This will delete:</span><ul class="ux-confirm-detail-list">${details.map((item) => `<li>${ctx.escapeHtml(item)}</li>`).join("")}</ul>`
+        ? `<span class="ux-confirm-section-label">${t("This will delete:")}</span><ul class="ux-confirm-detail-list">${details.map((item) => `<li>${ctx.escapeHtml(item)}</li>`).join("")}</ul>`
         : "",
       warning ? `<strong class="ux-confirm-warning">${ctx.escapeHtml(warning)}</strong>` : "",
     ].filter(Boolean).join("");

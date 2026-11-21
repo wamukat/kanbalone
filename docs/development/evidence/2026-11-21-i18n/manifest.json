@@ -1,0 +1,342 @@
+{
+  "ticketId": 1487,
+  "baselineCommit": "69636ccb544315b0d420f7a88cf873a08e591687",
+  "changedRevision": "working tree on baseline",
+  "runtimeSha256": "1c6a726378fddd89667ca7d8c5b663b48cbd2657de7d69ecea4cdd7056fc9e25",
+  "captureDate": "2026-11-21T04:27:06.793131+00:00",
+  "environment": {
+    "browser": "agent-browser Chromium",
+    "theme": "light",
+    "desktopViewport": [
+      1280,
+      844
+    ],
+    "narrowViewport": [
+      650,
+      844
+    ],
+    "baselineUrl": "http://127.0.0.1:3473",
+    "changedUrl": "http://127.0.0.1:3474",
+    "isolatedFixtures": true
+  },
+  "persistedTicketChecks": [
+    {
+      "ticketId": 1,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 2,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 3,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 4,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 5,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 6,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 7,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    },
+    {
+      "ticketId": 8,
+      "unchanged": true,
+      "fields": [
+        "id",
+        "boardId",
+        "laneId",
+        "parentTicketId",
+        "title",
+        "bodyMarkdown",
+        "isResolved",
+        "isArchived",
+        "priority",
+        "groupId",
+        "blockerIds",
+        "relatedIds"
+      ]
+    }
+  ],
+  "images": [
+    {
+      "file": "before-confirmation.png",
+      "sha256": "6d59976ce5bf9d5b11e67a63707b0a39e841c41c7af7d4ebd831b9489e5e6386"
+    },
+    {
+      "file": "before-detail.png",
+      "sha256": "79fa8a7d88f3858b7d160200c295fb883c4d5e7068b3e3444a69605098c48a79"
+    },
+    {
+      "file": "before-editor.png",
+      "sha256": "9c5d53d89eac940f94fff9d754a027562e8d38e4bcbe365ae140ff358e73450c"
+    },
+    {
+      "file": "before-group.png",
+      "sha256": "67c03388fd80191b2fc0fc1f93d85c9734d9ff3c30f380bcbb3db27610f48b90"
+    },
+    {
+      "file": "before-kanban.png",
+      "sha256": "51b6bd048454c04054be17698b1b0d5d12e6768ea928bb7383326703925e37e2"
+    },
+    {
+      "file": "before-list.png",
+      "sha256": "bd680812a233a09efcd18cfb0449e3f7a796ad39df2ec7f1ee675441d020d411"
+    },
+    {
+      "file": "before-narrow-group.png",
+      "sha256": "12b45984f5060a616eb46d5cee4163586b79e8267424e7a18104e32c74c76213"
+    },
+    {
+      "file": "before-settings.png",
+      "sha256": "24c436466166163f937fd4e602519a766f29879c48dcc2bbcbae7365834500c6"
+    },
+    {
+      "file": "en-confirmation.png",
+      "sha256": "6d59976ce5bf9d5b11e67a63707b0a39e841c41c7af7d4ebd831b9489e5e6386"
+    },
+    {
+      "file": "en-detail.png",
+      "sha256": "79fa8a7d88f3858b7d160200c295fb883c4d5e7068b3e3444a69605098c48a79"
+    },
+    {
+      "file": "en-editor.png",
+      "sha256": "9c5d53d89eac940f94fff9d754a027562e8d38e4bcbe365ae140ff358e73450c"
+    },
+    {
+      "file": "en-group.png",
+      "sha256": "67c03388fd80191b2fc0fc1f93d85c9734d9ff3c30f380bcbb3db27610f48b90"
+    },
+    {
+      "file": "en-kanban.png",
+      "sha256": "cfa6d467d57567c48d531c03e50d3298f2d284132f5e0a8c20a786c63a61ff60"
+    },
+    {
+      "file": "en-list.png",
+      "sha256": "bd680812a233a09efcd18cfb0449e3f7a796ad39df2ec7f1ee675441d020d411"
+    },
+    {
+      "file": "en-narrow-group.png",
+      "sha256": "12b45984f5060a616eb46d5cee4163586b79e8267424e7a18104e32c74c76213"
+    },
+    {
+      "file": "en-settings.png",
+      "sha256": "2c136e71fdfe8483d543d1cdc5a90494f5892ddc98af385a767e339ee5ddca79"
+    },
+    {
+      "file": "ja-confirmation.png",
+      "sha256": "abd0993fd82d5d213dc6af8ffaff276aad3e33b58cadaff5a2b4400fd9ef97bb"
+    },
+    {
+      "file": "ja-detail.png",
+      "sha256": "de4390788e5ecb7a849167ae4527c667886af63fdf26f6f21591a7f2211cb2be"
+    },
+    {
+      "file": "ja-editor.png",
+      "sha256": "a12b4a044011095864544868abb2300f8a4b761121f8d20c31c3ce7a2a3eacae"
+    },
+    {
+      "file": "ja-group.png",
+      "sha256": "4143e180d0c7b26eab57385c8cf556fbf66ebd3ad16b8784671b7c9f03ce6106"
+    },
+    {
+      "file": "ja-kanban.png",
+      "sha256": "4d02c77015b118d0f7d9f09a9d2088cbce75a26593337a398481df72fa324084"
+    },
+    {
+      "file": "ja-language-cancelled.png",
+      "sha256": "ffa1d411b88fd88e16c73999fd9e605e3b77e9e7838e374008cf7da39510e1ee"
+    },
+    {
+      "file": "ja-language-confirmation.png",
+      "sha256": "a531571e555d065cc1244e4f9423e2e3f83b37bc6ba6bba662514b42479680d2"
+    },
+    {
+      "file": "ja-language-draft.png",
+      "sha256": "7cbb29fc0ed60419d9f89fdd57826d688a395d6e25d212b5228aa7146b3bae62"
+    },
+    {
+      "file": "ja-list.png",
+      "sha256": "bde7dd7054ddc8961882b43f96afae04e088dad2c8b951d1b93c274eae9445ec"
+    },
+    {
+      "file": "ja-narrow-group.png",
+      "sha256": "dc34ef54356d7aeab853d13ea8f678f26334bda13e3451a0b458592330390376"
+    },
+    {
+      "file": "ja-settings.png",
+      "sha256": "7a0da7300212ed378a2b3a5aed2b3cf2a0fc5043a562bb70ffb03820d9e8369b"
+    }
+  ],
+  "cases": [
+    {
+      "key": "kanban",
+      "title": "カンバン",
+      "steps": "ボード2を開く",
+      "expectedAndObserved": "UIのラベルとツールチップを翻訳。レーン名・チケット名は保持。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "list",
+      "title": "リスト",
+      "steps": "リスト表示に切り替える",
+      "expectedAndObserved": "見出し・優先度・フィルターを翻訳。ユーザーのチケット内容は保持。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "group",
+      "title": "グループ",
+      "steps": "Group表示に切り替える",
+      "expectedAndObserved": "件数・追加操作・ソートを翻訳。日本語でも一覧の操作を1段に維持。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "detail",
+      "title": "チケット詳細",
+      "steps": "チケット1を開く",
+      "expectedAndObserved": "レーン・所属・コメントを翻訳。Markdown本文は保持。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "editor",
+      "title": "チケット編集",
+      "steps": "詳細の編集ボタンを押す",
+      "expectedAndObserved": "ラベル・優先度・操作ボタンを翻訳。入力値とAPI値は保持。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "confirmation",
+      "title": "削除確認",
+      "steps": "編集画面の削除を押す（確定せずキャンセル）",
+      "expectedAndObserved": "確認内容・影響・取消不能の警告を翻訳。既存チケットは削除しない。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "settings",
+      "title": "設定",
+      "steps": "歯車を開き、削除ボタンが見える位置までサイドバーをスクロール",
+      "expectedAndObserved": "言語選択が追加され、選択で日英を切り替えられる。",
+      "baseline": "英語固定、言語設定なし"
+    },
+    {
+      "key": "narrow-group",
+      "title": "幅650pxのグループ",
+      "steps": "幅650pxでGroup画面を再読み込み",
+      "expectedAndObserved": "サイドバーを閉じた初期状態で内容を表示。操作は両言語で利用可能。",
+      "baseline": "英語固定、言語設定なし"
+    }
+  ],
+  "draftSequence": {
+    "input": "Keep the workflow simple. 未保存の編集 / unsaved draft",
+    "action": "Choose English, then Cancel",
+    "observed": "Same draft remains; language selector returns to ja",
+    "persistedDescription": "Keep the workflow simple."
+  }
+}

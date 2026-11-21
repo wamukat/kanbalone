@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 import { chooseGroupResolution } from "./app-group-conflict.js";
 
 export function createTicketActionsModule(ctx, options) {
@@ -67,7 +68,7 @@ export function createTicketActionsModule(ctx, options) {
     const wasInert = elements.editorForm.inert;
     elements.editorForm.inert = true;
     try {
-      setSaveState("saving", "Saving...");
+      setSaveState("saving", t("Saving..."));
       if (editingTicketId || nextParentTicketId != null || creationGroup) {
         const preview = await ctx.sendJson(editingTicketId ? `${endpoint}/change-preview` : `${endpoint}/preview`, { method: "POST", body: payload });
         const resolution = await chooseGroupResolution(ctx, preview);
@@ -79,17 +80,17 @@ export function createTicketActionsModule(ctx, options) {
       if (editingTicketId) {
         await options.refreshDialogTicket(editingTicketId);
         options.setDialogMode("view");
-        setSaveState("saved", "Saved");
+        setSaveState("saved", t("Saved"));
       } else {
         options.closeEditor();
-        ctx.showToast("Ticket created");
+        ctx.showToast(t("Ticket created"));
       }
       await ctx.refreshBoardDetail();
       if (!editingTicketId) await ctx.onTicketCreated?.(savedTicket.boardId);
       if (!editingTicketId && creationGroup && savedTicket.groupId != null && savedTicket.groupId !== creationGroup.id) await ctx.openGroup?.(savedTicket.groupId);
       return savedTicket;
     } catch (error) {
-      setSaveState("error", "Save failed");
+      setSaveState("error", t("Save failed"));
       ctx.showToast(error.message, "error");
       return null;
     } finally {
@@ -109,7 +110,7 @@ export function createTicketActionsModule(ctx, options) {
     elements.editorForm.inert = true;
     try {
       const current = await ctx.api(`/api/tickets/${ticketId}`);
-      setSaveState("saving", current.isArchived ? "Restoring..." : "Archiving...");
+      setSaveState("saving", current.isArchived ? t("Restoring...") : t("Archiving..."));
       await ctx.sendJson(`/api/tickets/${ticketId}`, {
         method: "PATCH",
         body: { isArchived: !current.isArchived },
@@ -117,14 +118,14 @@ export function createTicketActionsModule(ctx, options) {
       await ctx.refreshBoardDetail();
       if (!current.isArchived && !state.filters.status.includes("archived")) {
         options.closeEditor();
-        ctx.showToast("Archived");
+        ctx.showToast(t("Archived"));
         return;
       }
       await options.refreshDialogTicket(ticketId);
       options.setDialogMode("view");
-      setSaveState("saved", current.isArchived ? "Restored" : "Archived");
+      setSaveState("saved", current.isArchived ? t("Restored") : t("Archived"));
     } catch (error) {
-      setSaveState("error", "Save failed");
+      setSaveState("error", t("Save failed"));
       ctx.showToast(error.message, "error");
     } finally {
       elements.editorForm.inert = wasInert;
@@ -139,15 +140,15 @@ export function createTicketActionsModule(ctx, options) {
     const ticketId = state.editingTicketId;
     const ticketTitle = state.dialogTicket?.title ?? `#${ticketId}`;
     await ctx.confirmAndRun({
-      title: "Delete Ticket",
-      message: `Delete ticket "${ticketTitle}"?`,
+      title: t("Delete Ticket"),
+      message: t('Delete ticket "{title}"?', { title: ticketTitle }),
       details: [
-        `Ticket #${ticketId}`,
-        "Comments and relations on this ticket",
-        "The ticket will disappear from Kanban and List views",
+        t("Ticket #{id}", { id: ticketId }),
+        t("Comments and relations on this ticket"),
+        t("The ticket will disappear from Kanban and List views"),
       ],
-      warning: "This action cannot be undone.",
-      submitLabel: "Delete",
+      warning: t("This action cannot be undone."),
+      submitLabel: t("Delete"),
       run: async () => {
         await ctx.api(`/api/tickets/${ticketId}`, { method: "DELETE" });
         options.closeEditor();
@@ -168,7 +169,7 @@ export function createTicketActionsModule(ctx, options) {
     if (!isCurrentEditor()) return;
     const targetBoards = state.boards.filter((board) => board.id !== sourceBoardId);
     if (targetBoards.length === 0) {
-      ctx.showToast("Create another board before moving tickets", "error");
+      ctx.showToast(t("Create another board before moving tickets"), "error");
       return;
     }
 
@@ -183,10 +184,10 @@ export function createTicketActionsModule(ctx, options) {
     if (!isCurrentEditor() || !await options.confirmDiscardChanges() || !isCurrentEditor()) return;
     const initialLaneId = getDefaultTargetLaneId(initialBoard.lanes, sourceLane?.name);
     const dialogPromise = ctx.openFormDialog({
-      title: "Move Ticket",
-      message: "Move this ticket to another board. Matching tag names will be kept. Group membership will be cleared. Parent, child, and blocker links outside the destination board will be cleared.",
+      title: t("Move Ticket"),
+      message: t("Move this ticket to another board. Matching tag names will be kept. Group membership will be cleared. Parent, child, and blocker links outside the destination board will be cleared."),
       fields: renderMoveFields(state.boards, sourceBoardId, initialBoard.lanes, initialLaneId),
-      submitLabel: "Move",
+      submitLabel: t("Move"),
     });
     const boardSelect = elements.uxFields.querySelector("[data-move-board]");
     const laneSelect = elements.uxFields.querySelector("[data-move-lane]");
@@ -196,7 +197,7 @@ export function createTicketActionsModule(ctx, options) {
     boardSelect?.addEventListener("change", async () => {
       const currentRequest = ++requestId;
       laneSelect.disabled = true;
-      laneSelect.innerHTML = '<option value="">Loading lanes...</option>';
+      laneSelect.innerHTML = `<option value="">${t("Loading lanes...")}</option>`;
       elements.uxSubmitButton.disabled = true;
       try {
         const board = await ctx.api(`/api/boards/${Number(boardSelect.value)}`);
@@ -206,7 +207,7 @@ export function createTicketActionsModule(ctx, options) {
         elements.uxSubmitButton.disabled = board.lanes.length === 0;
       } catch (error) {
         if (!dialogOpen || currentRequest !== requestId) return;
-        laneSelect.innerHTML = '<option value="">Could not load lanes</option>';
+        laneSelect.innerHTML = `<option value="">${t("Could not load lanes")}</option>`;
         ctx.showToast(error.message, "error");
       }
     });
@@ -221,7 +222,7 @@ export function createTicketActionsModule(ctx, options) {
     const boardId = Number(boardSelect?.value);
     const laneId = Number(laneSelect?.value);
     if (!Number.isInteger(boardId) || boardId <= 0 || !Number.isInteger(laneId) || laneId <= 0 || laneSelect.disabled) {
-      ctx.showToast("Choose a destination board and lane", "error");
+      ctx.showToast(t("Choose a destination board and lane"), "error");
       return;
     }
 
@@ -230,7 +231,7 @@ export function createTicketActionsModule(ctx, options) {
     const wasInert = elements.editorForm.inert;
     elements.editorForm.inert = true;
     try {
-      setSaveState("saving", "Moving...");
+      setSaveState("saving", t("Moving..."));
       moved = await ctx.sendJson(`/api/tickets/${ticketId}/move`, {
         method: "POST",
         body: { boardId, laneId },
@@ -240,14 +241,14 @@ export function createTicketActionsModule(ctx, options) {
       elements.ticketLane.innerHTML = renderLaneOptions(state.boardDetail.lanes, moved.laneId);
       await options.refreshDialogTicket(moved.id);
       ctx.syncTicketUrl(moved.id);
-      setSaveState("saved", "Moved");
-      ctx.showToast("Ticket moved");
+      setSaveState("saved", t("Moved"));
+      ctx.showToast(t("Ticket moved"));
     } catch (error) {
       if (moved) {
         options.closeEditor();
-        ctx.showToast("Ticket moved, but the view could not refresh. Reload to continue.", "error");
+        ctx.showToast(t("Ticket moved, but the view could not refresh. Reload to continue."), "error");
       } else {
-        setSaveState("error", "Move failed");
+        setSaveState("error", t("Move failed"));
         ctx.showToast(error.message, "error");
       }
     } finally {
@@ -259,7 +260,7 @@ export function createTicketActionsModule(ctx, options) {
   function renderMoveFields(boards, currentBoardId, lanes, selectedLaneId) {
     return `
       <label class="editor-field">
-        <span class="editor-field-label">Board</span>
+        <span class="editor-field-label">${t("Board")}</span>
         <select data-move-board>
           ${boards
             .filter((board) => board.id !== currentBoardId)
@@ -268,7 +269,7 @@ export function createTicketActionsModule(ctx, options) {
         </select>
       </label>
       <label class="editor-field">
-        <span class="editor-field-label">Lane</span>
+        <span class="editor-field-label">${t("Lane")}</span>
         <select data-move-lane>
           ${renderLaneOptions(lanes, selectedLaneId)}
         </select>
@@ -277,7 +278,7 @@ export function createTicketActionsModule(ctx, options) {
   }
 
   function renderLaneOptions(lanes, selectedLaneId) {
-    if (lanes.length === 0) return '<option value="">No lanes — choose another board</option>';
+    if (lanes.length === 0) return `<option value="">${t("No lanes — choose another board")}</option>`;
     return lanes
       .map((lane) => `<option value="${lane.id}" ${lane.id === selectedLaneId ? "selected" : ""}>${ctx.escapeHtml(lane.name)}</option>`)
       .join("");

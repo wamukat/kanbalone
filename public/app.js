@@ -1,3 +1,4 @@
+import { getLocale, initializeLanguage, saveLocale, t } from "./app-i18n.js";
 import { api, createSendJson } from "./app-api.js";
 import { createBoardEventsModule } from "./app-board-events.js";
 import { createBoardModule } from "./app-board.js";
@@ -10,6 +11,7 @@ import { createRouterModule } from "./app-router.js";
 import { createAppState } from "./app-state.js";
 import { createUxModule } from "./app-ux.js";
 
+initializeLanguage();
 const state = createAppState();
 
 const {
@@ -59,6 +61,35 @@ async function loadAppMeta() {
 }
 
 function bindEvents() {
+  const languageSelect = document.querySelector("#language-select");
+  languageSelect.value = getLocale();
+  languageSelect.addEventListener("change", async () => {
+    const selected = languageSelect.value;
+    if (selected === getLocale()) return;
+    languageSelect.focus();
+    if (!await confirmDiscardChanges()) {
+      languageSelect.value = getLocale();
+      return;
+    }
+    // Inline board/Group forms are outside the ticket dialog. Reloading must not
+    // silently lose these drafts (including selections without a text field).
+    const inlineEditing = [...document.querySelectorAll(".sidebar form, .main form, .completion-options")]
+      .some((element) => element.getClientRects().length > 0);
+    if (inlineEditing && !await openFormDialog({
+      title: t("Change language?"),
+      message: t("Changing language reloads the page. Unsaved edits will be discarded."),
+      submitLabel: t("Change language"),
+    })) {
+      languageSelect.value = getLocale();
+      return;
+    }
+    if (!saveLocale(selected)) {
+      languageSelect.value = getLocale();
+      showToast(t("Language settings could not be saved. Allow browser storage and try again."), "error");
+      return;
+    }
+    window.location.reload();
+  });
   elements.sidebarToggleButton.addEventListener("click", toggleSidebar);
   elements.sidebarReopenButton.addEventListener("click", toggleSidebar);
   elements.newBoardButton.addEventListener("click", createBoard);

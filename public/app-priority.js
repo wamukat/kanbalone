@@ -1,12 +1,13 @@
 // @ts-check
+import { t as tr } from "./app-i18n.js";
 
 import { icon } from "./icons.js";
 
 const PRIORITY_LEVELS = {
-  low: { value: 1, label: "Low", icon: "priority-low" },
-  medium: { value: 2, label: "Medium", icon: "priority-medium" },
-  high: { value: 3, label: "High", icon: "priority-high" },
-  urgent: { value: 4, label: "Urgent", icon: "circle-alert" },
+  low: { value: 1, label: tr("Low"), icon: "priority-low" },
+  medium: { value: 2, label: tr("Medium"), icon: "priority-medium" },
+  high: { value: 3, label: tr("High"), icon: "priority-high" },
+  urgent: { value: 4, label: tr("Urgent"), icon: "circle-alert" },
 };
 
 /** @param {unknown} priority */
@@ -35,13 +36,13 @@ export function getPriorityInputValue(priority) {
 /** @param {unknown} priority */
 export function renderPriorityBadge(priority) {
   const level = getPriorityLevel(priority);
-  const label = `${level.label} priority`;
+  const label = tr("{priority} priority", { priority: level.label });
   return `<span class="ticket-priority-badge ticket-priority-${level.key}" title="${label}" aria-label="${label}">${icon(level.icon)}<span>${level.label}</span></span>`;
 }
 
 /** @param {unknown} priority */
 export function renderPriorityIcon(priority) {
   const level = getPriorityLevel(priority);
-  const label = `${level.label} priority`;
+  const label = tr("{priority} priority", { priority: level.label });
   return `<span class="ticket-priority-icon ticket-priority-${level.key}" title="${label}" aria-label="${label}">${icon(level.icon)}</span>`;
 }

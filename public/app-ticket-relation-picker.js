@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 export function createTicketRelationPicker(ctx) {
   const { elements } = ctx;
   let activeOptionIndex = 0;
@@ -40,7 +41,7 @@ export function createTicketRelationPicker(ctx) {
 
     elements.options.innerHTML = visibleTickets.length
       ? visibleTickets.map((ticket) => ctx.renderOption(ticket, ctx.optionAttr, selectedIds.includes(ticket.id))).join("")
-      : '<div class="tag-picker-empty">No matching tickets</div>';
+      : `<div class="tag-picker-empty">${t("No matching tickets")}</div>`;
     syncActiveOption();
   }
 

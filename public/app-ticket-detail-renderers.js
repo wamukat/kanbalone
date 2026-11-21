@@ -1,3 +1,4 @@
+import { t, getLocale } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { renderPriorityBadge } from "./app-priority.js";
 import { renderRemoteProviderBadge, renderRemoteRefLink } from "./app-remote-provider.js";
@@ -16,9 +17,9 @@ export function createTicketDetailRenderers(ctx) {
       .join("");
     const lane = ctx.state.boardDetail?.lanes?.find((item) => item.id === ticket.laneId);
     return `
-      <div class="ticket-meta-row ticket-lane-meta"><span class="muted">Lane:</span> <span>${ctx.escapeHtml(lane?.name ?? "Unknown lane")}</span></div>
+      <div class="ticket-meta-row ticket-lane-meta"><span class="muted">${t("Lane:")}</span> <span>${ctx.escapeHtml(lane?.name ?? t("Unknown lane"))}</span></div>
       <div class="ticket-meta-row">${tags}</div>
-      <div class="ticket-meta-row ticket-group-meta"><span class="muted">Group:</span> ${ticket.group ? `<a href="/boards/${ticket.boardId}/group" data-ticket-group="${ticket.group.id}">${ctx.escapeHtml(ticket.group.name)}</a>` : '<span class="muted">Unassigned</span>'}</div>
+      <div class="ticket-meta-row ticket-group-meta"><span class="muted">${t("Group:")}</span> ${ticket.group ? `<a href="/boards/${ticket.boardId}/group" data-ticket-group="${ticket.group.id}">${ctx.escapeHtml(ticket.group.name)}</a>` : `<span class="muted">${t("Unassigned")}</span>`}</div>
     `;
   }
 
@@ -41,19 +42,19 @@ export function createTicketDetailRenderers(ctx) {
             <div class="ticket-remote-summary-title">
               ${renderRemoteProviderBadge(ticket.remote.provider, ctx.escapeHtml)}
               ${renderRemoteRefLink(ticket.remote, ctx.escapeHtml)}
-              <span class="ticket-remote-state muted">${ctx.escapeHtml(ticket.remote.state ?? "state unknown")}</span>
-              ${freshness?.isStale ? `<span class="ticket-remote-stale-pill">${icon("circle-alert")}<span>Possibly stale</span></span>` : ""}
+              <span class="ticket-remote-state muted">${ctx.escapeHtml(ticket.remote.state ?? t("state unknown"))}</span>
+              ${freshness?.isStale ? `<span class="ticket-remote-stale-pill">${icon("circle-alert")}<span>${t("Possibly stale")}</span></span>` : ""}
             </div>
             <div class="ticket-remote-summary-actions">
               <button type="button" class="ghost action-with-icon" data-refresh-remote-ticket>
-                ${icon("rotate-ccw")}<span>Refresh</span>
+                ${icon("rotate-ccw")}<span>${t("Refresh")}</span>
               </button>
             </div>
           </div>
           <div class="ticket-remote-summary-meta muted">
-            <span>Imported snapshot</span>
-            <span>Last sync ${ctx.escapeHtml(formatDateTime(ticket.remote.lastSyncedAt))}</span>
-            <span>Remote updated ${ctx.escapeHtml(formatDateTime(ticket.remote.remoteUpdatedAt))}</span>
+            <span>${t("Imported snapshot")}</span>
+            <span>${ctx.escapeHtml(t("Last sync {date}", { date: formatDateTime(ticket.remote.lastSyncedAt) }))}</span>
+            <span>${ctx.escapeHtml(t("Remote updated {date}", { date: formatDateTime(ticket.remote.remoteUpdatedAt) }))}</span>
             ${freshness?.isStale ? `<span>${ctx.escapeHtml(freshness.message)}</span>` : ""}
           </div>
         ` : ""}
@@ -83,19 +84,19 @@ export function createTicketDetailRenderers(ctx) {
     const parts = [];
     const blocking = ctx.getBlockingTickets(ticket.id);
     if (ticket.parent) {
-      parts.push(renderRelationRow("Parent", "folder-up", renderRelationChip(ticket.parent, "parent")));
+      parts.push(renderRelationRow(t("Parent"), "folder-up", renderRelationChip(ticket.parent, "parent")));
     }
     if (ticket.children.length) {
-      parts.push(renderRelationRow("Children", "folder-tree", ticket.children.map((child) => renderRelationChip(child, "child")).join("")));
+      parts.push(renderRelationRow(t("Children"), "folder-tree", ticket.children.map((child) => renderRelationChip(child, "child")).join("")));
     }
     if (ticket.blockers.length) {
-      parts.push(renderRelationRow("Blocked By", "octagon-alert", ticket.blockers.map((blocker) => renderRelationChip(blocker, "blocked-by")).join("")));
+      parts.push(renderRelationRow(t("Blocked By"), "octagon-alert", ticket.blockers.map((blocker) => renderRelationChip(blocker, "blocked-by")).join("")));
     }
     if (blocking.length) {
-      parts.push(renderRelationRow("Blocks", "octagon-alert", blocking.map((blocked) => renderRelationChip(blocked, "blocks")).join("")));
+      parts.push(renderRelationRow(t("Blocks"), "octagon-alert", blocking.map((blocked) => renderRelationChip(blocked, "blocks")).join("")));
     }
     if (ticket.related.length) {
-      parts.push(renderRelationRow("Related", "link-plus", ticket.related.map((related) => renderRelationChip(related, "related")).join("")));
+      parts.push(renderRelationRow(t("Related"), "link-plus", ticket.related.map((related) => renderRelationChip(related, "related")).join("")));
     }
     return parts.join("");
   }
@@ -119,7 +120,7 @@ export function createTicketDetailRenderers(ctx) {
       ...events.map((entry) => ({ type: "event", createdAt: entry.createdAt, entry })),
     ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     if (!timeline.length) {
-      return '<p class="muted">No activity yet.</p>';
+      return `<p class="muted">${t("No activity yet.")}</p>`;
     }
     return timeline
       .map((item) => {
@@ -134,17 +135,24 @@ export function createTicketDetailRenderers(ctx) {
         }
         return `
           <article class="activity-item">
-            <div class="activity-meta muted">${new Date(item.entry.createdAt).toLocaleString()}</div>
-            <div class="activity-message">${ctx.escapeHtml(item.entry.message)}</div>
+            <div class="activity-meta muted">${new Date(item.entry.createdAt).toLocaleString(getLocale())}</div>
+            <div class="activity-message">${ctx.escapeHtml(formatActivityMessage(item.entry))}</div>
           </article>
         `;
       })
       .join("");
   }
 
+  function formatActivityMessage(entry) {
+    if (entry.action === "ticket_moved_board" && typeof entry.details?.toBoardName === "string" && typeof entry.details?.toLaneName === "string") {
+      return t("Moved to {board} / {lane}", { board: entry.details.toBoardName, lane: entry.details.toLaneName });
+    }
+    return t(entry.message);
+  }
+
   function renderRemoteBody(bodyHtml) {
     if (!bodyHtml) {
-      return '<p class="muted">No remote body snapshot.</p>';
+      return `<p class="muted">${t("No remote body snapshot.")}</p>`;
     }
     return `<div class="markdown ticket-remote-body-rendered">${bodyHtml}</div>`;
   }
@@ -152,10 +160,10 @@ export function createTicketDetailRenderers(ctx) {
   function renderBodyDiff(remoteMarkdown, localMarkdown) {
     const rows = buildBodyDiffRows(remoteMarkdown, localMarkdown);
     if (!rows.length) {
-      return '<p class="muted">No remote or local body content.</p>';
+      return `<p class="muted">${t("No remote or local body content.")}</p>`;
     }
     return `
-      <div class="ticket-body-diff" role="table" aria-label="Remote and local body diff">
+      <div class="ticket-body-diff" role="table" aria-label="${t("Remote and local body diff")}">
         ${rows.map((row) => `
           <div class="ticket-body-diff-row ticket-body-diff-row-${row.type}" role="row">
             <div class="ticket-body-diff-marker" role="cell">${ctx.escapeHtml(row.marker)}</div>
@@ -169,12 +177,12 @@ export function createTicketDetailRenderers(ctx) {
   function renderPrioritySelect(ticket) {
     const value = String(ticket.priority === 4 ? 4 : ticket.priority || 2);
     return `
-      <select class="ticket-detail-select ticket-detail-priority-select" data-detail-priority-select aria-label="Priority">
+      <select class="ticket-detail-select ticket-detail-priority-select" data-detail-priority-select aria-label="${t("Priority")}">
         ${[
-          ["1", "Low"],
-          ["2", "Medium"],
-          ["3", "High"],
-          ["4", "Urgent"],
+          ["1", t("Low")],
+          ["2", t("Medium")],
+          ["3", t("High")],
+          ["4", t("Urgent")],
         ].map(([optionValue, label]) => `<option value="${optionValue}" ${value === optionValue ? "selected" : ""}>${label}</option>`).join("")}
       </select>
     `;
@@ -189,7 +197,7 @@ export function createTicketDetailRenderers(ctx) {
   }
 
   function renderEventMeta(entry) {
-    const parts = [new Date(entry.createdAt).toLocaleString(), entry.source, entry.kind];
+    const parts = [new Date(entry.createdAt).toLocaleString(getLocale()), entry.source, entry.kind];
     if (entry.severity) {
       parts.push(entry.severity);
     }
@@ -198,13 +206,13 @@ export function createTicketDetailRenderers(ctx) {
 
   function formatDateTime(value) {
     if (!value) {
-      return "unknown";
+      return t("unknown");
     }
-    return new Date(value).toLocaleString();
+    return new Date(value).toLocaleString(getLocale());
   }
 
   function formatExternalReferenceKind(kind) {
-    return String(kind || "reference").replace(/[-_]+/g, " ");
+    return String(kind || t("reference")).replace(/[-_]+/g, " ");
   }
 
   return {
@@ -224,13 +232,13 @@ export function getRemoteSnapshotFreshness(remote, now = Date.now()) {
   if (!Number.isFinite(lastSyncedAt)) {
     return {
       isStale: true,
-      message: "Refresh recommended: last sync is unknown",
+      message: t("Refresh recommended: last sync is unknown"),
     };
   }
   if (now - lastSyncedAt > REMOTE_STALE_THRESHOLD_MS) {
     return {
       isStale: true,
-      message: "Refresh recommended: last sync is over 24 hours old",
+      message: t("Refresh recommended: last sync is over 24 hours old"),
     };
   }
   return {

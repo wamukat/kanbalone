@@ -79,3 +79,11 @@
 #sidebar-reopen-button {
   margin-right: 0.1rem;
 }
+
+/* Japanese labels fit the same three-way switch without splitting words. */
+:lang(ja) .sidebar-toggle button {
+  padding-inline: 0.3rem;
+  gap: 0.25rem;
+  white-space: nowrap;
+  font-size: var(--font-size-label);
+}

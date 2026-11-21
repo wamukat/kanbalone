@@ -1,3 +1,4 @@
+import { t as tr } from "./app-i18n.js";
 export function createListSelectionModule(ctx) {
   const { state } = ctx;
 
@@ -21,7 +22,7 @@ export function createListSelectionModule(ctx) {
     }
     const targetBoards = state.boards;
     if (targetBoards.length === 0) {
-      ctx.showToast("Create another board or lane before moving tickets", "error");
+      ctx.showToast(tr("Create another board or lane before moving tickets"), "error");
       return;
     }
 
@@ -37,10 +38,10 @@ export function createListSelectionModule(ctx) {
     const initialTargetLanes = getMoveTargetLanes(initialBoard.lanes, initialBoardId, selectedLaneIds);
     const initialLaneId = getDefaultTargetLaneId(initialTargetLanes, sourceLaneName);
     const dialogPromise = ctx.openFormDialog({
-      title: "Move Tickets",
-      message: "Move selected tickets to another lane or board.",
+      title: tr("Move Tickets"),
+      message: tr("Move selected tickets to another lane or board."),
       fields: renderMoveFields(targetBoards, initialBoardId, initialBoard.lanes, initialLaneId, selectedLaneIds),
-      submitLabel: "Move",
+      submitLabel: tr("Move"),
     });
     const boardSelect = ctx.elements.uxFields.querySelector("[data-bulk-move-board-select]");
     const laneSelect = ctx.elements.uxFields.querySelector("[data-bulk-move-lane-select]");
@@ -51,15 +52,15 @@ export function createListSelectionModule(ctx) {
       laneSelect.disabled = lanes.length === 0;
       ctx.elements.uxSubmitButton.disabled = lanes.length === 0;
       ctx.elements.uxMessage.textContent = boardId === state.activeBoardId
-        ? "Move selected tickets to another lane or board."
-        : "Matching tag names will be kept. Group membership and parent, child, and blocker links outside the destination board will be cleared.";
+        ? tr("Move selected tickets to another lane or board.")
+        : tr("Matching tag names will be kept. Group membership and parent, child, and blocker links outside the destination board will be cleared.");
     };
     updateDestination(initialBoardId, initialTargetLanes);
     boardSelect?.addEventListener("change", async () => {
       const currentRequest = ++requestId;
       const boardId = Number(boardSelect.value);
       laneSelect.disabled = true;
-      laneSelect.innerHTML = '<option value="">Loading lanes...</option>';
+      laneSelect.innerHTML = `<option value="">${tr("Loading lanes...")}</option>`;
       ctx.elements.uxSubmitButton.disabled = true;
       try {
         const board = boardId === state.activeBoardId ? state.boardDetail : await ctx.api(`/api/boards/${boardId}`);
@@ -67,7 +68,7 @@ export function createListSelectionModule(ctx) {
         updateDestination(boardId, getMoveTargetLanes(board.lanes, boardId, selectedLaneIds));
       } catch (error) {
         if (!dialogOpen || currentRequest !== requestId) return;
-        laneSelect.innerHTML = '<option value="">Could not load lanes</option>';
+        laneSelect.innerHTML = `<option value="">${tr("Could not load lanes")}</option>`;
         ctx.showToast(error.message, "error");
       }
     });
@@ -82,7 +83,7 @@ export function createListSelectionModule(ctx) {
     const boardId = Number(boardSelect?.value);
     const laneId = Number(laneSelect?.value);
     if (!Number.isInteger(boardId) || boardId <= 0 || !Number.isInteger(laneId) || laneId <= 0 || laneSelect.disabled) {
-      ctx.showToast("Choose a destination board and lane", "error");
+      ctx.showToast(tr("Choose a destination board and lane"), "error");
       return;
     }
     try {
@@ -92,7 +93,7 @@ export function createListSelectionModule(ctx) {
       });
       state.selectedListTicketIds = [];
       await ctx.refreshBoardDetail();
-      ctx.showToast(`${ticketIds.length} ticket${ticketIds.length === 1 ? "" : "s"} moved`);
+      ctx.showToast(tr(ticketIds.length === 1 ? "{count} ticket moved" : "{count} tickets moved", { count: ticketIds.length }));
     } catch (error) {
       ctx.showToast(error.message, "error");
     }
@@ -104,15 +105,15 @@ export function createListSelectionModule(ctx) {
       return;
     }
     await ctx.confirmAndRun({
-      title: "Delete Tickets",
-      message: `Delete ${ticketIds.length} selected ticket${ticketIds.length === 1 ? "" : "s"}?`,
+      title: tr("Delete Tickets"),
+      message: tr(ticketIds.length === 1 ? "Delete {count} selected ticket?" : "Delete {count} selected tickets?", { count: ticketIds.length }),
       details: [
-        `${ticketIds.length} selected ticket${ticketIds.length === 1 ? "" : "s"}`,
-        "Comments and relations on the selected tickets",
-        "The selected tickets will disappear from Kanban and List views",
+        tr(ticketIds.length === 1 ? "{count} selected ticket" : "{count} selected tickets", { count: ticketIds.length }),
+        tr("Comments and relations on the selected tickets"),
+        tr("The selected tickets will disappear from Kanban and List views"),
       ],
-      warning: "This action cannot be undone.",
-      submitLabel: "Delete",
+      warning: tr("This action cannot be undone."),
+      submitLabel: tr("Delete"),
       run: async () => {
         for (const ticketId of ticketIds) {
           await ctx.api(`/api/tickets/${ticketId}`, { method: "DELETE" });
@@ -161,13 +162,13 @@ export function createListSelectionModule(ctx) {
   function renderMoveFields(targetBoards, selectedBoardId, lanes, selectedLaneId, selectedLaneIds) {
     return `
       <label class="editor-field">
-        <span class="editor-field-label">Board</span>
+        <span class="editor-field-label">${tr("Board")}</span>
         <select data-bulk-move-board-select>
           ${targetBoards.map((board) => `<option value="${board.id}" ${board.id === selectedBoardId ? "selected" : ""}>${ctx.escapeHtml(board.name)}</option>`).join("")}
         </select>
       </label>
       <label class="editor-field">
-        <span class="editor-field-label">Lane</span>
+        <span class="editor-field-label">${tr("Lane")}</span>
         <select data-bulk-move-lane-select>
           ${renderLaneOptions(getMoveTargetLanes(lanes, selectedBoardId, selectedLaneIds), selectedLaneId)}
         </select>
@@ -176,7 +177,7 @@ export function createListSelectionModule(ctx) {
   }
 
   function renderLaneOptions(lanes, selectedLaneId) {
-    if (lanes.length === 0) return '<option value="">No other lanes — choose another board</option>';
+    if (lanes.length === 0) return `<option value="">${tr("No other lanes — choose another board")}</option>`;
     return lanes
       .map((lane) => `<option value="${lane.id}" ${lane.id === selectedLaneId ? "selected" : ""}>${ctx.escapeHtml(lane.name)}</option>`)
       .join("");

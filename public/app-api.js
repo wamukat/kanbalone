@@ -1,4 +1,5 @@
 // @ts-check
+import { translateError } from "./app-i18n.js";
 
 /**
  * @param {string | URL} url
@@ -17,7 +18,7 @@ export async function api(url, init = {}) {
   });
   if (!response.ok) {
     const payload = /** @type {{ error?: string; code?: string; details?: unknown }} */ (await response.json().catch(() => ({ error: response.statusText })));
-    throw Object.assign(new Error(payload.error ?? response.statusText), { status: response.status, code: payload.code, details: payload.details });
+    throw Object.assign(new Error(translateError(payload.error ?? response.statusText)), { status: response.status, code: payload.code, details: payload.details });
   }
   if (response.status === 204) {
     return null;

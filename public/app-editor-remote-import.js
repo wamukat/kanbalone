@@ -1,3 +1,4 @@
+import { t } from "./app-i18n.js";
 const DEFAULT_REMOTE_PROVIDER_ORDER = ["github", "gitlab", "redmine"];
 
 export function createEditorRemoteImportModule(ctx, options = {}) {
@@ -143,22 +144,22 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
 
   function validateInput(input) {
     if (!input.provider || !Number.isInteger(input.laneId) || !input.url) {
-      return "Provider, lane, and issue URL are required";
+      return t("Provider, lane, and issue URL are required");
     }
     if (!isProviderEnabled(input.provider)) {
-      return `${optionProviderLabel(input.provider)} requires a configured credential`;
+      return t("{provider} requires a configured credential", { provider: optionProviderLabel(input.provider) });
     }
     return "";
   }
 
   function renderPreview(preview, input) {
-    const stateLabel = preview.state || "Unknown state";
+    const stateLabel = preview.state || t("Unknown state");
     const existingRef = preview.existingTicketRef || `#${preview.existingTicketId}`;
     const duplicateText = preview.duplicate
       ? Number.isSafeInteger(preview.existingTicketId) && preview.existingTicketId > 0
-        ? `Already imported as <a href="/tickets/${preview.existingTicketId}" target="_blank" rel="noopener" title="Open imported ticket in a new tab" aria-label="Open ${ctx.escapeHtml(existingRef)} in a new tab">${ctx.escapeHtml(existingRef)}</a>`
-        : "Already imported"
-      : "Ready to import";
+        ? t("Already imported as {link}", { link: `<a href="/tickets/${preview.existingTicketId}" target="_blank" rel="noopener" title="${t("Open imported ticket in a new tab")}" aria-label="${ctx.escapeHtml(t("Open {ref} in a new tab", { ref: existingRef }))}">${ctx.escapeHtml(existingRef)}</a>` })
+        : t("Already imported")
+      : t("Ready to import");
     state.editorRemoteImportPreview = {
       ...preview,
       key: inputKey(input),
@@ -226,12 +227,12 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
     }
     if (!state.editorRemoteImportPreview || state.editorRemoteImportPreview.key !== inputKey(input)) {
       elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = "Preview the remote issue before importing";
+      elements.editorRemoteImportError.textContent = t("Preview the remote issue before importing");
       return;
     }
     if (state.editorRemoteImportPreview.duplicate) {
       elements.editorRemoteImportError.hidden = false;
-      elements.editorRemoteImportError.textContent = "This remote issue is already imported";
+      elements.editorRemoteImportError.textContent = t("This remote issue is already imported");
       return;
     }
     elements.editorRemoteImportSubmitButton.disabled = true;
@@ -248,7 +249,7 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
       syncSheet();
       await ctx.refreshBoardDetail();
       await options.openImportedTicket?.(ticket.id);
-      ctx.showToast("Remote issue imported");
+      ctx.showToast(t("Remote issue imported"));
     } catch (error) {
       elements.editorRemoteImportError.hidden = false;
       elements.editorRemoteImportError.textContent = error.message;
