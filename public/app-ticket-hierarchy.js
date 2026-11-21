@@ -1,7 +1,12 @@
+// @ts-check
+/** @typedef {{ id: number; parentTicketId: number | null; hasChildren?: boolean }} HierarchyTicket */
 import { icon } from "./icons.js";
 
+/** @param {HierarchyTicket} ticket @param {HierarchyTicket[]} boardTickets */
 export function getTicketHierarchyState(ticket, boardTickets) {
-  const hasChildren = ticket.hasChildren ?? boardTickets.some((candidate) => candidate.parentTicketId === ticket.id);
+  const hasChildren =
+    ticket.hasChildren ??
+    boardTickets.some((candidate) => candidate.parentTicketId === ticket.id);
   if (ticket.parentTicketId != null) {
     return {
       key: "child",
@@ -23,6 +28,7 @@ export function getTicketHierarchyState(ticket, boardTickets) {
   };
 }
 
+/** @param {HierarchyTicket} ticket @param {HierarchyTicket[]} boardTickets @param {{selectableParent?: boolean}} [options] */
 export function renderTicketHierarchyIcon(ticket, boardTickets, options = {}) {
   const state = getTicketHierarchyState(ticket, boardTickets);
   const className = `ticket-hierarchy-icon ticket-hierarchy-icon-${state.key}`;

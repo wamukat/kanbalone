@@ -1,3 +1,5 @@
+import { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
+export { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
 import { calculateVisibleWindow } from "./app-board-utils.js";
 import { renderListActions } from "./app-board-list-actions.js";
 import { renderListRow } from "./app-board-list-row.js";
@@ -8,62 +10,6 @@ export { renderListActions } from "./app-board-list-actions.js";
 
 export const LIST_ROW_HEIGHT = 64;
 export const LIST_OVERSCAN = 12;
-export const LIST_SORT_KEYS = new Set(["id", "tags", "priority"]);
-
-function comparePriorityDescending(a, b) {
-  return b.priority - a.priority || a.id - b.id;
-}
-
-function compareIdAscending(a, b) {
-  return a.id - b.id;
-}
-
-function getTagSortValue(ticket) {
-  return [...(ticket.tags ?? [])]
-    .map((tag) => String(tag.name ?? "").trim().toLocaleLowerCase())
-    .sort()
-    .join("\u0000");
-}
-
-function compareTags(a, b, direction = "asc") {
-  const left = getTagSortValue(a);
-  const right = getTagSortValue(b);
-  if (left !== right) {
-    if (!left) {
-      return 1;
-    }
-    if (!right) {
-      return -1;
-    }
-    const result = left.localeCompare(right);
-    return direction === "desc" ? -result : result;
-  }
-  return compareIdAscending(a, b);
-}
-
-function comparePriority(a, b, direction = "asc") {
-  const priorityDifference = a.priority - b.priority;
-  if (priorityDifference !== 0) {
-    return direction === "desc" ? -priorityDifference : priorityDifference;
-  }
-  return compareIdAscending(a, b);
-}
-
-export function getListTicketComparator(sort = null) {
-  if (!sort || !LIST_SORT_KEYS.has(sort.key)) {
-    return comparePriorityDescending;
-  }
-  if (sort.key === "tags") {
-    return (a, b) => compareTags(a, b, sort.direction);
-  }
-  if (sort.key === "priority") {
-    return (a, b) => comparePriority(a, b, sort.direction);
-  }
-  return sort.direction === "desc"
-    ? (a, b) => b.id - a.id
-    : compareIdAscending;
-}
-
 export function getListTickets(tickets, sort = null) {
   const compareTickets = getListTicketComparator(sort);
   if (sort && LIST_SORT_KEYS.has(sort.key)) {

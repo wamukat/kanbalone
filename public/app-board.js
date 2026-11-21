@@ -1,3 +1,4 @@
+import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { createListBoardModule } from "./app-board-list.js";
 import { createBoardSettingsModule } from "./app-board-settings.js";
 import { createKanbanBoardModule } from "./app-kanban-board.js";
@@ -112,17 +113,6 @@ export function createBoardModule(ctx) {
       || state.filters.priority.length > 0
       || state.filters.tag !== ""
       || !(state.filters.status.length === 1 && state.filters.status[0] === "open");
-  }
-
-  function renderTicketStatusIcons(ticket) {
-    return [
-      ticket.isResolved
-        ? `<span class="ticket-status-icon ticket-status-icon-resolved" title="Resolved" aria-label="Resolved">${icon("check")}</span>`
-        : "",
-      ticket.isArchived
-        ? `<span class="ticket-status-icon ticket-status-icon-archived" title="Archived" aria-label="Archived">${icon("archive")}</span>`
-        : "",
-    ].join("");
   }
 
   elements.boardList.addEventListener("dragover", sidebarBoardsModule.handleBoardListDragOver);

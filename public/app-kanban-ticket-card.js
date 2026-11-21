@@ -2,7 +2,7 @@ import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
 import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
-import { icon } from "./icons.js";
+import { renderTicketStatusIcons } from "./app-ticket-status.js";
 
 export function createKanbanTicketCard(ctx, ticket) {
   const { state } = ctx;
@@ -57,15 +57,4 @@ export function createKanbanTicketCard(ctx, ticket) {
     }
   });
   return card;
-}
-
-function renderTicketStatusIcons(ticket) {
-  return [
-    ticket.isResolved
-      ? `<span class="ticket-status-icon ticket-status-icon-resolved" title="Resolved" aria-label="Resolved">${icon("check")}</span>`
-      : "",
-    ticket.isArchived
-      ? `<span class="ticket-status-icon ticket-status-icon-archived" title="Archived" aria-label="Archived">${icon("archive")}</span>`
-      : "",
-  ].join("");
 }

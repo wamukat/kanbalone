@@ -7,8 +7,13 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2022", "DOM"],
-    "skipLibCheck": true
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": [
     "public/app-api.js",
@@ -17,6 +22,9 @@
     "public/app-preferences.js",
     "public/app-priority.js",
     "public/app-remote-provider.js",
-    "public/app-tags.js"
+    "public/app-tags.js",
+    "public/app-group-*.js",
+    "public/app-ticket-sort.js",
+    "public/app-ticket-hierarchy.js"
   ]
 }
