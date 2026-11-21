@@ -42,7 +42,10 @@ export async function startTestApp(page?: Page) {
     baseUrl,
     close: async () => {
       await page?.close();
-      await app.close();
+      const closing = app.close();
+      // SSE and in-flight browser requests must not keep a test server alive.
+      app.server.closeAllConnections();
+      await closing;
     },
   };
 }
