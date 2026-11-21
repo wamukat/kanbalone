@@ -1,327 +1,62 @@
-# Release Guide
+# Release guide
 
-This document describes how to publish a Kanbalone release.
+Prepare and publish releases from GitHub Actions. Run both workflows from `main`; pushing a tag does not publish a release.
 
-## Release Outputs
+## Repository setup
 
-A release currently publishes:
+Before the first release, a repository administrator must verify:
 
-- A Git tag, for example `v0.9.0`.
-- A GitHub Release for that tag.
-- A Docker image on GitHub Container Registry.
+- The `main` branch rules require PR review and the **Required checks** status check from CI.
+- Actions can create pull requests and the repository permits the workflow permissions used below.
+- GHCR permits this repository to publish its package, and consumers can pull it without authentication.
+- Optionally, configure repository variable `RELEASE_APP_ID` and secret `RELEASE_APP_PRIVATE_KEY` for an installed GitHub App with repository contents and pull request write permissions.
 
-Published Docker image:
+Without the App, Prepare release uses `GITHUB_TOKEN`. Approve the resulting PR workflow runs when GitHub requests it. An App token avoids this extra run approval. See [GitHub's token behavior](https://docs.github.com/en/actions/concepts/security/github_token).
 
-```text
-ghcr.io/wamukat/kanbalone
-```
+Adding workflow files does not configure branch protection, package visibility or the App. Confirm these settings separately.
 
-For a tag such as `v0.9.0`, the publish workflow creates:
+## 1. Prepare the release PR
 
-```text
-ghcr.io/wamukat/kanbalone:v0.9.0
-ghcr.io/wamukat/kanbalone:0.9.0
-ghcr.io/wamukat/kanbalone:latest
-```
+1. Open **Actions → Prepare release → Run workflow**, select `main`, and enter a version without `v`, such as `1.0.0-rc.1` or `1.0.0`.
+2. The workflow creates `codex/release-VERSION` and a PR updating `package.json`, OpenAPI, current installation examples and `docs/releases/vVERSION.md`.
+3. Complete the Japanese and English release notes. Explain user-visible changes, breaking API changes, migration steps and known limitations. Link a migration guide when needed. Remove placeholders and the `RELEASE_NOTES_DRAFT` marker only after reviewing both languages.
+4. Review the diff, wait for **Required checks**, and merge the PR. Record the full 40-character commit SHA on `main` that contains the reviewed release.
 
-The current Docker image target is:
+If the preparation branch already exists, update its PR rather than overwriting it. If branch creation succeeded but PR creation failed, correct the repository setting or permission and open a PR from that existing branch. Historical migration examples and evidence retain their original versions.
 
-```text
-linux/amd64
-```
+## 2. Validate without publishing
 
-## Before Release
+Open **Actions → Release → Run workflow** on `main` and enter:
 
-Start from a clean working tree on `main`.
+| Input | Value |
+| --- | --- |
+| `version` | Reviewed version, without `v` |
+| `sha` | Full lowercase 40-character commit SHA on `main` |
+| `publish` | `false` |
 
-```bash
-git status --short
-git branch --show-current
-```
+The workflow validates the target, version and release notes, then runs the shared checks and Chromium E2E tests. It builds a `linux/amd64` image and tests startup, API writes and persistence after restart using an isolated temporary volume.
 
-Run local checks:
+Review the run and its `release-image-VERSION` artifact. It contains the tested image and `manifest.json` with its SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image. It does not test existing-user upgrades or backup restoration; those remain a separate release readiness requirement.
 
-```bash
-pnpm check
-pnpm exec playwright test --project=chromium
-docker build -t kanbalone:release-check .
-```
+## 3. Publish
 
-`pnpm check` runs OpenAPI lint, unit/API tests, TypeScript build, and GitHub Pages build. Run Playwright E2E for releases that change UI or UX behavior.
+Run **Release** again with the same version and SHA, this time setting `publish` to `true`. This run repeats validation and builds its own image. Within that run, publication uses the exact tested image artifact without rebuilding it.
 
-Verify that version numbers match the release tag.
+Publication creates the version tag and a draft GitHub Release, pushes `vVERSION` and `VERSION` image tags, and verifies an unauthenticated pull against the tested image identity and labels. It then publishes the bilingual notes and verification records. Stable releases newer than the current latest advance `latest`; prereleases such as RCs do not.
 
-```bash
-node -p "require('./package.json').version"
-rg -n "version: " docs/openapi.yaml
-```
+Confirm the published release notes, version tags and public image pull. CI logs, test reports and release artifacts are retained for 30 days. The publication record includes registry digests; these are distinct from the local Docker image ID.
 
-`package.json` `version` is used by the app footer and `/api/meta`. When releasing `vX.Y.Z`, update `package.json` to `X.Y.Z` before creating the tag.
+## Failure and retry
 
-`docs/openapi.yaml` `info.version` is the API version shown in the OpenAPI document. If the project keeps the API document version aligned with the app release, update it to the same `X.Y.Z`.
+- A failed validation stops publication. Fix the issue and prepare a reviewed commit before retrying.
+- If publication partially succeeds, rerun the failed jobs in the same Actions run to reuse its verified image artifact. Existing tags, releases and images must match; conflicting contents stop the workflow.
+- Do not move published tags or overwrite a version with a newly built image. If the artifact has expired, stop and investigate; use a new patch version when the original verified artifact cannot be recovered.
+- Published-version defects require a new patch release. The workflow does not roll back users' databases or update their running containers.
 
-Optionally verify runtime behavior:
+## What CI checks
 
-```bash
-docker run --rm -d \
-  --name kanbalone-release-check \
-  -p 3001:3000 \
-  -v kanbalone-release-check-data:/app/data \
-  kanbalone:release-check
+`ci.yml` runs for all PRs and pushes to `main`, without path filters. `verify.yml` performs frozen installation, `pnpm check` and Chromium E2E. CI also builds and smoke-tests Docker; **Required checks** fails if a prerequisite fails, is cancelled or is skipped.
 
-curl http://127.0.0.1:3001/api/health
+The source archive check permits only the consumer skill `skills/kanbalone-api`. Development skills in `dev/skills` must not enter the archive; Docker excludes skills entirely. `pages.yml` publishes the documentation site separately from product releases.
 
-docker rm -f kanbalone-release-check
-docker volume rm kanbalone-release-check-data
-```
-
-## Update Documentation
-
-When releasing a new version, update Docker usage examples that pin an image tag.
-
-For example, replace:
-
-```text
-ghcr.io/wamukat/kanbalone:v0.9.0
-```
-
-with:
-
-```text
-ghcr.io/wamukat/kanbalone:vX.Y.Z
-```
-
-Also check files that may reference the release version:
-
-```bash
-rg -n "v[0-9]+\\.[0-9]+\\.[0-9]+|version" README.md README.ja.md docs package.json
-```
-
-Commit and push documentation changes before tagging.
-
-```bash
-git add README.md docs
-git commit -m "Document vX.Y.Z Docker usage"
-git push origin main
-```
-
-Skip this step when no release-specific documentation changes are needed.
-
-## Create And Push Tag
-
-Create an annotated tag from the release commit.
-
-```bash
-git tag -a vX.Y.Z -m "Release vX.Y.Z"
-git push origin main
-git push origin vX.Y.Z
-```
-
-Pushing the tag triggers `.github/workflows/docker-publish.yml`.
-
-## Verify GitHub Actions
-
-Watch the publish workflow:
-
-```bash
-gh run list --repo wamukat/kanbalone --limit 10
-gh run watch <run-id> --repo wamukat/kanbalone --exit-status
-```
-
-Expected workflows:
-
-- `Docker Image` on `main`
-- `Publish Docker Image` on `vX.Y.Z`
-
-Both should complete successfully.
-
-## Verify Published Image
-
-Pull all expected tags:
-
-```bash
-docker pull ghcr.io/wamukat/kanbalone:vX.Y.Z
-docker pull ghcr.io/wamukat/kanbalone:X.Y.Z
-docker pull ghcr.io/wamukat/kanbalone:latest
-```
-
-Run the published image:
-
-```bash
-docker run --rm -d \
-  --name kanbalone-ghcr-check \
-  -p 3001:3000 \
-  -v kanbalone-ghcr-check-data:/app/data \
-  ghcr.io/wamukat/kanbalone:vX.Y.Z
-
-curl http://127.0.0.1:3001/api/health
-
-docker rm -f kanbalone-ghcr-check
-docker volume rm kanbalone-ghcr-check-data
-```
-
-Expected response:
-
-```json
-{"ok":true}
-```
-
-## Create GitHub Release
-
-Create the release after the Docker image publish succeeds.
-
-```bash
-gh release create vX.Y.Z \
-  --repo wamukat/kanbalone \
-  --title "Kanbalone vX.Y.Z" \
-  --notes-file /path/to/release-notes.md
-```
-
-Release notes should include:
-
-- Published Docker image tags.
-- Basic `docker run` command.
-- Docker Compose command using `docker-compose.image.yml`.
-- Persistence path: `/app/data/kanbalone.sqlite`.
-- Backup note.
-- No-authentication warning.
-- Current platform support.
-
-Release notes template:
-
-````markdown
-## What's Changed
-
-- Describe the main user-facing changes.
-- Mention notable bug fixes.
-- Mention test or documentation updates when useful.
-
-## Docker Image
-
-Published image:
-
-```text
-ghcr.io/wamukat/kanbalone:vX.Y.Z
-ghcr.io/wamukat/kanbalone:X.Y.Z
-ghcr.io/wamukat/kanbalone:latest
-```
-
-Run with Docker:
-
-```bash
-docker run --rm -d \
-  --name kanbalone \
-  -p 3000:3000 \
-  -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:vX.Y.Z
-```
-
-Run with Docker Compose:
-
-```bash
-docker compose -f docker-compose.image.yml up -d
-```
-
-Persistent data is stored at `/app/data/kanbalone.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
-
-Platform support:
-
-```text
-linux/amd64
-```
-````
-
-## Close Related Tickets
-
-After the GitHub Release exists, close the GitHub issues completed by the release and hand the local Kanbalone tickets off to Acceptance. Local completion follows human acceptance.
-
-For each related GitHub issue, add a release comment and close the issue:
-
-```bash
-gh issue close <issue-number> \
-  --repo wamukat/kanbalone \
-  --comment 'Released in vX.Y.Z.
-
-Release: https://github.com/wamukat/kanbalone/releases/tag/vX.Y.Z
-Implementation commit: <sha> (<subject>)
-Release commit: <sha> (<subject>)
-
-<short fulfillment summary>'
-```
-
-Verify closure:
-
-```bash
-gh issue view <issue-number> \
-  --repo wamukat/kanbalone \
-  --json number,state,url
-```
-
-For each related local Kanbalone ticket on the project board, add a release completion comment if needed, move it to the normal `Acceptance` lane for human acceptance:
-
-```bash
-python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
-  PATCH /api/tickets/<ticket-id>/transition \
-  '{"laneName":"Acceptance"}'
-```
-
-Verify each local ticket:
-
-```bash
-python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
-  GET /api/tickets/<ticket-id>
-```
-
-Expected local state:
-
-- `laneId` matches the board's normal `Acceptance` lane.
-- `isResolved` is `false` until a human moves the ticket to a completion lane.
-
-If the release is associated with imported GitHub issues, close the upstream GitHub issue and move its imported local ticket to Acceptance.
-
-## Package Visibility
-
-After the first package publish, verify in GitHub Packages that:
-
-```text
-ghcr.io/wamukat/kanbalone
-```
-
-is public.
-
-The GitHub CLI token used locally may not have `read:packages`, so the GitHub web UI is the most reliable place to confirm package visibility.
-
-## Platform Notes
-
-Current published platform:
-
-```text
-linux/amd64
-```
-
-Future work:
-
-```text
-linux/arm64
-```
-
-Adding `linux/arm64` requires validating native dependency behavior for `better-sqlite3`.
-
-## Do Not Rewrite Released Tags
-
-Do not move a release tag after it has been pushed and a Docker image has been published.
-
-If a release needs a follow-up fix, create a new patch release instead.
-
-
-When publishing the release that introduces lane-based completion, replace the unassigned target release in both language versions of the [migration guide](../migration-guide.md) and link it from the release notes. Tell existing users to back up the DB and update API clients and installed skills.
-
-## Check skill distribution
-
-Only `skills/kanbalone-api` is intended for users. Development skills under `dev/skills` are available in Git checkouts and excluded from source archives by `.gitattributes`. Host-side skills are not included in the Docker runtime.
-
-At the release commit, inspect `git archive --format=tar HEAD | tar -tf -`. Confirm the API skill, reference, helper and agent definition are present, with no `dev/skills` files or other `SKILL.md` files. Any custom ZIP or Release attachment must use an explicit list of consumer files rather than copying all skill directories.
-
-The exclusion applies to future tags. Do not rewrite published tags or historical archives.
+See the [CI implementation and remaining rollout checks](../../ja/developer/release-ci-plan.md).

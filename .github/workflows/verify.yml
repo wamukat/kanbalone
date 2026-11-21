@@ -1,0 +1,72 @@
+name: Verify
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Exact revision to verify
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Unit, API, types and docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 26.13.1
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate source distribution
+        run: node scripts/check-skill-distribution.mjs
+      - name: Run checks
+        shell: bash
+        run: |
+          mkdir -p coverage/ci
+          set -o pipefail
+          pnpm check 2>&1 | tee coverage/ci/check.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: check-logs-${{ github.run_attempt }}
+          path: coverage/ci/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  e2e:
+    name: Chromium E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 26.13.1
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run browser tests
+        run: pnpm exec playwright test --project=chromium --workers=2 --reporter=line,html
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-results-${{ github.run_attempt }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
+          if-no-files-found: ignore

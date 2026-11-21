@@ -1,329 +1,62 @@
 # リリース手順
 
-Kanbalone のリリース方法を説明します。
+GitHub Actionsでリリースを準備・公開します。どちらのワークフローも`main`から実行します。タグのpushだけでは公開されません。
 
-## リリース成果物
+## リポジトリの設定
 
-現在のリリースでは以下を公開します。
+初回リリース前に、管理者が次を確認します。
 
-- `v0.9.0` のような Git tag
-- その tag に対する GitHub Release
-- GitHub Container Registry 上の Docker Image
+- `main`のルールでPRレビューとCIの **Required checks** を必須にする。
+- ActionsからのPR作成と、以下のワークフローで使用する権限を許可する。
+- このリポジトリからGHCRへ公開でき、利用者が認証なしでイメージを取得できる。
+- 必要に応じて、contents／pull requestsのwrite権限を持つGitHub Appをインストールし、リポジトリ変数`RELEASE_APP_ID`とシークレット`RELEASE_APP_PRIVATE_KEY`を設定する。
 
-公開 Docker Image:
+App未設定の場合、Prepare releaseは`GITHUB_TOKEN`を使用します。準備PRのワークフロー実行が承認待ちになったら承認してください。Appのトークンを使うと、この追加の実行承認を省けます。[GitHub公式のトークン仕様](https://docs.github.com/en/actions/concepts/security/github_token)
 
-```text
-ghcr.io/wamukat/kanbalone
-```
+ワークフローを追加しただけでは、ブランチ保護・パッケージ公開範囲・Appは設定されません。別途確認してください。
 
-`v0.9.0` のような tag では、publish workflow が次の tag を作成します。
+## 1. リリース準備PRを作る
 
-```text
-ghcr.io/wamukat/kanbalone:v0.9.0
-ghcr.io/wamukat/kanbalone:0.9.0
-ghcr.io/wamukat/kanbalone:latest
-```
+1. **Actions → Prepare release → Run workflow**で`main`を選び、`v`なしのバージョン（例：`1.0.0-rc.1`、`1.0.0`）を入力します。
+2. `codex/release-VERSION`ブランチとPRが作成されます。`package.json`、OpenAPI、現在のインストール例、`docs/releases/vVERSION.md`が更新されます。
+3. 日英のリリースノートを完成させます。利用者にとっての変更点、破壊的API変更、移行手順、既知の制約を記載し、必要なら移行ガイドをリンクします。両言語のレビュー後にプレースホルダーと`RELEASE_NOTES_DRAFT`マーカーを削除します。
+4. 差分をレビューし、**Required checks**の成功を確認してマージします。レビュー済みのリリース内容を含む`main`の完全な40文字のコミットSHAを控えます。
 
-現在の Docker Image target:
+準備ブランチが既にある場合は、上書きせず既存PRを更新します。ブランチ作成後にPR作成だけ失敗した場合は、設定や権限を修正して、その既存ブランチからPRを作成します。過去の移行例やエビデンスのバージョンは変更しません。
 
-```text
-linux/amd64
-```
+## 2. 公開せずに検証する
 
-## リリース前
+**Actions → Release → Run workflow**で`main`を選び、次を入力します。
 
-`main` の clean working tree から開始します。
+| 入力 | 値 |
+| --- | --- |
+| `version` | レビュー済みバージョン。`v`なし |
+| `sha` | `main`に含まれる完全な40文字の小文字コミットSHA |
+| `publish` | `false` |
 
-```bash
-git status --short
-git branch --show-current
-```
+対象SHA・バージョン・リリースノートを検証し、共通チェックとChromium E2Eを実行します。続いて`linux/amd64`イメージをビルドし、隔離した一時volumeで起動・API書き込み・再起動後の永続化を確認します。
 
-ローカルチェックを実行します。
+実行結果と`release-image-VERSION` artifactを確認してください。検証済みイメージと、SHA・イメージID・アーカイブのチェックサムを含む`manifest.json`が保存されます。dry-runではタグ・GitHub Release・GHCRイメージを公開しません。既存データの更新やバックアップ復元はこのスモークテストの対象外で、別途リリース前の確認が必要です。
 
-```bash
-pnpm check
-pnpm exec playwright test --project=chromium
-docker build -t kanbalone:release-check .
-```
+## 3. 公開する
 
-`pnpm check` は OpenAPI lint、unit/API test、TypeScript build、GitHub Pages build をまとめて実行します。UI/UX を変更した release では、Playwright E2E も実行します。
+同じバージョン・SHAを指定し、`publish`を`true`にして **Release**を再実行します。この実行でも検証とビルドを行います。その実行内では、検証したイメージartifactを再ビルドせず公開します。
 
-リリース番号が tag と一致していることを確認します。
+バージョンタグと下書きGitHub Releaseを作成し、`vVERSION`／`VERSION`タグでイメージをpushします。認証なしでpullし、検証済みイメージの実体・ラベルとの一致を確認してから、日英ノートと検証記録を公開します。現在のlatestより新しい安定版のみ`latest`を更新し、RCなどのプレリリースでは更新しません。
 
-```bash
-node -p "require('./package.json').version"
-rg -n "version: " docs/openapi.yaml
-```
+公開後はリリースノート、バージョンタグ、認証なしのイメージ取得を確認します。CIログ・テストレポート・リリースartifactの保存期間は30日です。公開記録のregistry digestと、ローカルDockerイメージIDは別の識別子です。
 
-`package.json` の `version` は、アプリ画面のフッタや `/api/meta` の表示に使われます。`vX.Y.Z` をリリースする場合は、`package.json` を `X.Y.Z` に更新してから tag を作成します。
+## 失敗時の対応
 
-`docs/openapi.yaml` の `info.version` は OpenAPI ドキュメント上の API version です。アプリのリリース番号と揃えて運用する場合は、同じ `X.Y.Z` に更新します。
+- 検証に失敗すると公開へ進みません。修正し、レビュー済みのコミットで再検証します。
+- 途中まで公開された場合は、同じActions実行の失敗ジョブを再実行し、検証済みイメージartifactを再利用します。既存タグ・Release・イメージが一致しなければ処理は停止します。
+- 公開済みタグの移動や、再ビルドした別イメージでの同一バージョン上書きは禁止です。artifactが失効したら調査し、元の検証済み成果物を復旧できない場合は新しいpatch版を準備します。
+- 公開済み版の不具合は新しいpatch版で修正します。ユーザーDBのロールバックや稼働中コンテナの更新は、このワークフローでは行いません。
 
-必要に応じて runtime を確認します。
+## CIの検証範囲
 
-```bash
-docker run --rm -d \
-  --name kanbalone-release-check \
-  -p 3001:3000 \
-  -v kanbalone-release-check-data:/app/data \
-  kanbalone:release-check
+`ci.yml`は全PRと`main`へのpushで動作し、パスによる除外はありません。`verify.yml`でfrozen install、`pnpm check`、Chromium E2Eを実行します。CIではDockerのビルドとスモークテストも実施し、前提ジョブの失敗・中断・skipを **Required checks** の失敗として扱います。
 
-curl http://127.0.0.1:3001/api/health
+ソースアーカイブには利用者向けの`skills/kanbalone-api`だけを許可し、`dev/skills`などの開発用スキルの混入を検出します。Dockerにはスキルを含めません。`pages.yml`によるドキュメントサイトの公開は、製品リリースとは独立しています。
 
-docker rm -f kanbalone-release-check
-docker volume rm kanbalone-release-check-data
-```
-
-## ドキュメント更新
-
-新しいバージョンをリリースする時は、Docker 使用例に固定 tag があれば更新します。
-
-例:
-
-```text
-ghcr.io/wamukat/kanbalone:v0.9.0
-```
-
-を次に置き換えます。
-
-```text
-ghcr.io/wamukat/kanbalone:vX.Y.Z
-```
-
-あわせて、リリース番号を参照するファイルを確認します。
-
-```bash
-rg -n "v[0-9]+\\.[0-9]+\\.[0-9]+|version" README.md README.ja.md docs package.json
-```
-
-Tag を作る前に commit / push します。
-
-```bash
-git add README.md docs
-git commit -m "Document vX.Y.Z Docker usage"
-git push origin main
-```
-
-リリース固有のドキュメント変更がない場合、この手順は省略できます。
-
-## Tag の作成と push
-
-リリース対象の commit から annotated tag を作成します。
-
-```bash
-git tag -a vX.Y.Z -m "Release vX.Y.Z"
-git push origin main
-git push origin vX.Y.Z
-```
-
-Tag push により `.github/workflows/docker-publish.yml` が実行されます。
-
-## GitHub Actions の確認
-
-Publish workflow を確認します。
-
-```bash
-gh run list --repo wamukat/kanbalone --limit 10
-gh run watch <run-id> --repo wamukat/kanbalone --exit-status
-```
-
-期待する workflow:
-
-- `Docker Image` on `main`
-- `Publish Docker Image` on `vX.Y.Z`
-
-どちらも成功していることを確認します。
-
-## 公開 Image の確認
-
-期待する tag を pull します。
-
-```bash
-docker pull ghcr.io/wamukat/kanbalone:vX.Y.Z
-docker pull ghcr.io/wamukat/kanbalone:X.Y.Z
-docker pull ghcr.io/wamukat/kanbalone:latest
-```
-
-公開 Image を起動します。
-
-```bash
-docker run --rm -d \
-  --name kanbalone-ghcr-check \
-  -p 3001:3000 \
-  -v kanbalone-ghcr-check-data:/app/data \
-  ghcr.io/wamukat/kanbalone:vX.Y.Z
-
-curl http://127.0.0.1:3001/api/health
-
-docker rm -f kanbalone-ghcr-check
-docker volume rm kanbalone-ghcr-check-data
-```
-
-期待レスポンス:
-
-```json
-{"ok":true}
-```
-
-## GitHub Release 作成
-
-Docker Image の publish 成功後に release を作成します。
-
-```bash
-gh release create vX.Y.Z \
-  --repo wamukat/kanbalone \
-  --title "Kanbalone vX.Y.Z" \
-  --notes-file /path/to/release-notes.md
-```
-
-リリースノートには以下を含めます。
-
-- 公開 Docker Image tags
-- 基本的な `docker run` command
-- `docker-compose.image.yml` を使う Docker Compose command
-- Persistence path: `/app/data/kanbalone.sqlite`
-- Backup note
-- 認証なしの注意
-- 現在の platform support
-
-リリースノート雛形:
-
-````markdown
-## What's Changed
-
-- Describe the main user-facing changes.
-- Mention notable bug fixes.
-- Mention test or documentation updates when useful.
-
-## Docker Image
-
-Published image:
-
-```text
-ghcr.io/wamukat/kanbalone:vX.Y.Z
-ghcr.io/wamukat/kanbalone:X.Y.Z
-ghcr.io/wamukat/kanbalone:latest
-```
-
-Run with Docker:
-
-```bash
-docker run --rm -d \
-  --name kanbalone \
-  -p 3000:3000 \
-  -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:vX.Y.Z
-```
-
-Run with Docker Compose:
-
-```bash
-docker compose -f docker-compose.image.yml up -d
-```
-
-Persistent data is stored at `/app/data/kanbalone.sqlite`. Back up that SQLite file before upgrades. Kanbalone currently runs without built-in authentication, so expose it only on trusted networks or behind your own authentication layer.
-
-Platform support:
-
-```text
-linux/amd64
-```
-````
-
-## 関連チケットのクローズ
-
-GitHub Release作成後、releaseで完了したGitHub issueをcloseし、local Kanbalone ticketはAcceptanceへ引き渡します。local ticketの最終完了は人間の受入後に行います。
-
-関連する GitHub issue ごとに release comment を追加し、issue を close します。
-
-```bash
-gh issue close <issue-number> \
-  --repo wamukat/kanbalone \
-  --comment 'Released in vX.Y.Z.
-
-Release: https://github.com/wamukat/kanbalone/releases/tag/vX.Y.Z
-Implementation commit: <sha> (<subject>)
-Release commit: <sha> (<subject>)
-
-<short fulfillment summary>'
-```
-
-close 状態を確認します。
-
-```bash
-gh issue view <issue-number> \
-  --repo wamukat/kanbalone \
-  --json number,state,url
-```
-
-プロジェクト board 上の関連 local Kanbalone ticket ごとに、必要なら release 完了 comment を追加し、通常レーンの `Acceptance` へ移動して人間の受入を待ちます。
-
-```bash
-python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
-  PATCH /api/tickets/<ticket-id>/transition \
-  '{"laneName":"Acceptance"}'
-```
-
-local ticket ごとに確認します。
-
-```bash
-python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
-  GET /api/tickets/<ticket-id>
-```
-
-期待する local state:
-
-- `laneId` が board の通常レーン `Acceptance` と一致している
-- `isResolved` が `false`（人間の受入後に完了レーンへ移動）
-
-GitHub issue を import した ticket を扱った release では、upstream GitHub issue を close し、import 済み local Kanbalone ticket は Acceptance へ引き渡します。
-
-## パッケージ公開状態の確認
-
-初回 package publish 後、GitHub Packages で次が public であることを確認します。
-
-```text
-ghcr.io/wamukat/kanbalone
-```
-
-ローカルの GitHub CLI token には `read:packages` がない場合があるため、GitHub web UI で確認するのが確実です。
-
-## プラットフォームメモ
-
-現在の公開 platform:
-
-```text
-linux/amd64
-```
-
-今後の候補:
-
-```text
-linux/arm64
-```
-
-`linux/arm64` を追加するには、native dependency である `better-sqlite3` の挙動確認が必要です。
-
-## 公開済み Tag を書き換えない
-
-Docker Image を公開済みの release tag は移動しません。
-
-追加修正が必要な場合は、新しい patch release を作成します。
-
-
-完了状態のレーン移行を含むリリースを公開するときは、[移行ガイド](../migration-guide.md)の日英両方で対象リリース番号を確定し、リリースノートからリンクしてください。既存ユーザー向けにDBバックアップとAPIクライアント／インストール済みスキルの更新が必要なことを案内します。
-
-## CIからのリリース自動化案
-
-検証から公開までをActionsへ移す設計は[リリースCI計画](./release-ci-plan.md)を参照してください。現時点では設計段階であり、上記の現行リリース手順を置き換えるものではありません。
-
-## 配布スキルの確認
-
-利用者向けの配布対象は `skills/kanbalone-api` のみです。開発用の `dev/skills` はGit checkout用で、`.gitattributes` によりソースアーカイブから除外します。Dockerにはホスト実行用スキルを含めません。
-
-リリース対象のコミットで `git archive --format=tar HEAD | tar -tf -` を確認し、APIスキル本体・参照資料・ヘルパー・エージェント定義が揃い、`dev/skills` や他の `SKILL.md` が混入していないことを確認してください。独自のZIPやRelease添付を作る場合も、ディレクトリ全体ではなく配布対象を明示します。
-
-この除外は今後のタグに適用されます。公開済みタグ・過去のアーカイブは書き換えません。
+[CIの実装状況と導入時の確認事項](./release-ci-plan.md)も参照してください。

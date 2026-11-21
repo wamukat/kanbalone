@@ -52,24 +52,12 @@ Use the `kanbalone-api` skill for local Kanbalone API mutations. Use the GitHub 
    - Commit implementation separately from release/version bumps when practical.
    - Use direct commit messages, e.g. `Add ticket tag reasons and structured events`, `Release v0.9.21`.
 
-7. Release:
-   - Follow `docs/en/developer/release.md`.
-   - Bump `package.json` and `docs/openapi.yaml` to the release version.
-   - Update pinned Docker tag references in README and docs.
-   - Run:
-
-```bash
-pnpm check
-pnpm exec playwright test --project=chromium
-docker build -t kanbalone:release-check .
-```
-
-   - Create an annotated tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z"`.
-   - Push `main` and the tag.
-   - Watch GitHub Actions, especially `Publish Docker Image`.
-   - Pull `ghcr.io/wamukat/kanbalone:vX.Y.Z`, `X.Y.Z`, and `latest`.
-   - Run the published image and verify `/api/health` and `/api/meta`.
-   - Create the GitHub Release with release notes that include changes, Docker tags, run command, and verification.
+7. Release (when requested by the user):
+   - Follow [the release guide](../../../docs/en/developer/release.md).
+   - Run the `Prepare release` workflow to create a version/notes PR; review and complete its release notes, then merge after CI passes.
+   - Run `Release` with the version and the merged, full commit SHA. Use its default dry-run first; set `publish` to true only within the user's release authorization.
+   - The workflow verifies the fixed SHA, tests and packages one Docker image, and publishes that verified artifact. Do not manually push release tags or rebuild the image for publication.
+   - Watch the workflow to completion and inspect its release record and GitHub Release. Follow the guide's recovery steps on failure; never overwrite an existing version with a different image.
 
 8. Close upstream GitHub issues:
    - After the release exists, close each related GitHub issue.
@@ -155,7 +143,7 @@ gh run watch <run-id> --repo wamukat/kanbalone --exit-status
 
 ## Guardrails
 
-- Do not mark work complete after only releasing; close both GitHub issues and local Kanbalone tickets.
+- After a requested release, close the related GitHub issues and hand local tickets to Acceptance; human acceptance determines local completion.
 - Do not close GitHub issues before a release is published unless the user explicitly asks.
 - Do not move or rewrite published release tags. If a released tag has a problem, create a new patch release.
 - Do not update the local `:3470` runtime silently; mention whether it has or has not been upgraded.
