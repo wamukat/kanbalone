@@ -1,0 +1,44 @@
+[
+  {
+    "src": "http://127.0.0.1:3503/before-ja-expanded.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  },
+  {
+    "src": "http://127.0.0.1:3503/after-ja-expanded.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  },
+  {
+    "src": "http://127.0.0.1:3503/before-ja-conflict.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  },
+  {
+    "src": "http://127.0.0.1:3503/after-ja-conflict.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  },
+  {
+    "src": "http://127.0.0.1:3503/after-ja-recovered.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  },
+  {
+    "src": "http://127.0.0.1:3503/before-en-archived.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  },
+  {
+    "src": "http://127.0.0.1:3503/after-en-archived.png",
+    "complete": true,
+    "width": 1280,
+    "height": 844
+  }
+]

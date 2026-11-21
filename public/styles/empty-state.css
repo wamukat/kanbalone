@@ -38,3 +38,10 @@
 .empty-state-action {
   margin-top: 0.2rem;
 }
+
+.empty-state-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

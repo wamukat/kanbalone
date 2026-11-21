@@ -29,6 +29,7 @@ export function createAppState() {
       q: "",
       lane: "",
       status: ["open", "resolved"],
+      includeArchived: false,
       priority: [],
       tag: "",
     },

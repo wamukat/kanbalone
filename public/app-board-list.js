@@ -60,6 +60,24 @@ export function createListBoardModule(ctx, options) {
     if (detail.tickets.length === 0) {
       elements.listBoard.className = "list-board empty";
       const firstLaneId = state.boardDetail?.lanes?.[0]?.id;
+      const selectedLane = detail.lanes.find((lane) => String(lane.id) === String(state.filters.lane));
+      const excludedStatus = selectedLane?.isCompletionLane ? "resolved" : "open";
+      if (selectedLane && !state.filters.status.includes(excludedStatus)) {
+        elements.listBoard.innerHTML = renderEmptyState({
+          iconName: "search",
+          title: tr("No matching tickets"),
+          body: tr(selectedLane.isCompletionLane
+            ? "{lane} is a completion lane, so it has no open tickets."
+            : "{lane} is not a completion lane, so it has no resolved tickets.", { lane: selectedLane.name }),
+          actionLabel: tr(selectedLane.isCompletionLane ? "Include resolved tickets" : "Include open tickets"),
+          actionAttr: `data-empty-include-status="${excludedStatus}"`,
+          actionIcon: selectedLane.isCompletionLane ? "check" : "circle",
+          secondaryActionLabel: tr("Clear lane filter"),
+          secondaryActionAttr: "data-empty-clear-lane",
+        });
+        listModel = null;
+        return;
+      }
       elements.listBoard.innerHTML = hasUserTicketFilters()
         ? renderEmptyState({
           iconName: "search",
@@ -180,6 +198,17 @@ export function createListBoardModule(ctx, options) {
     }
     if (event.target.closest("[data-empty-reset-filters]")) {
       document.querySelector("#reset-filters-button")?.click();
+      return;
+    }
+    const includeStatusButton = event.target.closest("[data-empty-include-status]");
+    if (includeStatusButton && elements.listBoard.contains(includeStatusButton)) {
+      const status = includeStatusButton.dataset.emptyIncludeStatus;
+      elements.statusFilterButtons.find((button) => button.dataset.statusFilter === status)?.click();
+      return;
+    }
+    if (event.target.closest("[data-empty-clear-lane]")) {
+      elements.laneFilter.value = "";
+      elements.laneFilter.dispatchEvent(new Event("change", { bubbles: true }));
       return;
     }
     const createTicketButton = event.target.closest("[data-empty-create-ticket]");

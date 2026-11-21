@@ -3,11 +3,11 @@
 const UI_PREFERENCES_KEY = "kanbalone:ui-preferences";
 const UI_PREFERENCES_VERSION = 1;
 const EDITOR_DIALOG_SIZE_KEY = "kanbalone:editor-dialog-size";
-const DEFAULT_FILTERS = { q: "", lane: "", status: ["open", "resolved"], priority: [], tag: "" };
+const DEFAULT_FILTERS = { q: "", lane: "", status: ["open", "resolved"], includeArchived: false, priority: [], tag: "" };
 
 /**
  * @typedef {"kanban" | "list" | "group"} BoardViewMode
- * @typedef {{ q: string; lane: string; status: string[]; priority: string[]; tag: string }} BoardFilters
+ * @typedef {{ q: string; lane: string; status: string[]; includeArchived: boolean; priority: string[]; tag: string }} BoardFilters
  * @typedef {{ status: boolean; priority: boolean }} FilterExpansion
  * @typedef {{
  *   activeBoardId: number | null;
@@ -241,7 +241,8 @@ function normalizeStoredFiltersByBoard(value) {
 }
 
 /** @param {any} filters @returns {BoardFilters} */
-function normalizeStoredFilters(filters) {
+export function normalizeStoredFilters(filters) {
+  /** @type {string[]} */
   const status = Array.isArray(filters?.status)
     ? filters.status.filter(/** @param {unknown} item */ (item) => typeof item === "string" && ["open", "resolved", "archived"].includes(item))
     : [];
@@ -251,7 +252,8 @@ function normalizeStoredFilters(filters) {
   return {
     q: typeof filters?.q === "string" ? filters.q : DEFAULT_FILTERS.q,
     lane: typeof filters?.lane === "string" ? filters.lane : DEFAULT_FILTERS.lane,
-    status: status.length ? [...new Set(status)] : [...DEFAULT_FILTERS.status],
+    status: status.some((item) => item !== "archived") ? [...new Set(status.filter((item) => item !== "archived"))] : [...DEFAULT_FILTERS.status],
+    includeArchived: typeof filters?.includeArchived === "boolean" ? filters.includeArchived : status.includes("archived"),
     priority: [...new Set(priority)],
     tag: typeof filters?.tag === "string" ? filters.tag : DEFAULT_FILTERS.tag,
   };

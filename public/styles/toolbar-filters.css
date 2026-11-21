@@ -10,8 +10,9 @@
 }
 
 .toolbar {
+  min-height: var(--shared-toolbar-height, 0px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-4);
   justify-content: space-between;
   flex: 0 0 auto;
@@ -21,7 +22,7 @@
 
 .toolbar-actions {
   display: grid;
-  align-items: center;
+  align-items: start;
   gap: var(--space-3);
   grid-template-columns: minmax(180px, 216px) minmax(0, 1fr);
   justify-content: stretch;

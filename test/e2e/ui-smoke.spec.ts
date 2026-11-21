@@ -253,8 +253,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#board-rename-inline-host")).toContainText("UI Smoke");
     await expect(page.locator("[data-board-rename-start] use[href='/icons.svg#pencil']")).toHaveCount(1);
     await expect(page.locator("#delete-board-button use[href='/icons.svg#trash-2']")).toHaveCount(1);
-    await page.locator("#status-filter [data-status-filter='archived']").click();
-    await expect(page.locator("#status-filter")).toHaveClass(/is-filter-active/);
+    await page.locator("#include-archived-filter").check();
+    await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(5);
     await expect(page.locator("#lane-board")).not.toContainText("No matching tickets");
     await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
@@ -263,7 +263,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator(".list-row", { hasText: "Archived candidate" }).locator("[data-list-ticket-id]").check();
     await expect(page.locator("[data-bulk-archive='false'] use[href='/icons.svg#rotate-ccw']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
-    await page.locator("#status-filter [data-status-filter='archived']").click();
+    await page.locator("#include-archived-filter").click();
     await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(4);
 
