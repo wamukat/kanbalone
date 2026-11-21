@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+import { closeTestApp, buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
 
 test("kanban cards show parent child and standalone hierarchy icons", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -224,7 +224,7 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
     await expect(page.locator(".lane-title", { hasText: "Gamma" })).toHaveCount(0);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -314,7 +314,7 @@ test("kanban ticket drag persists when inactive tickets are hidden", async ({ pa
     await expect(page.locator(".lane", { has: page.getByRole("button", { name: "Move with hidden inactive" }) }).locator(".lane-title")).toHaveText("Done");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -363,7 +363,7 @@ test("kanban lane reorder refreshes back after persistence failure", async ({ pa
     await expect(page.locator(".lane-title").first()).toHaveText("Alpha");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -430,6 +430,6 @@ test("kanban horizontal overflow stays inside the lane board", async ({ page }) 
     expect(collapsedOverflow.targetScrollWidth).toBeGreaterThan(collapsedOverflow.targetClientWidth);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });

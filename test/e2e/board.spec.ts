@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test("empty board onboarding focuses inline board creation", async ({ page }) => {
   const app = buildApp({
@@ -49,7 +49,7 @@ test("empty board onboarding focuses inline board creation", async ({ page }) =>
     expect(addButtonBox?.width).toBeLessThanOrEqual(33);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -153,7 +153,7 @@ test("sidebar board settings actions are wired", async ({ page }) => {
     expect(consoleErrors).toEqual([]);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -214,7 +214,7 @@ test("board rename inline edit cancels with Escape and delete dialog closes with
     await expect(page.locator("#board-title")).toHaveText("Dialog Close Board");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -273,7 +273,7 @@ test("sidebar board list create and reorder are wired", async ({ page }) => {
     await expect(page.locator("#board-list .board-button").first()).toHaveText("Gamma Board");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -311,6 +311,6 @@ test("sidebar board reorder refreshes back after persistence failure", async ({ 
     await expect(page.locator("#board-list .board-button").first()).toHaveText("Alpha Board");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });

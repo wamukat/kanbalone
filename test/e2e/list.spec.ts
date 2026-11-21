@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+import { closeTestApp, buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
 
 async function gotoListAndWaitForBoardEvents(page: Page, baseUrl: string, boardId: number) {
   const eventsResponse = page.waitForResponse((response) =>
@@ -56,7 +56,7 @@ test("lane filter does not leak from List view into Kanban view", async ({ page 
     await expect(page.locator(".list-row")).toContainText("Review ticket");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -331,7 +331,7 @@ test("list virtual scrolling repaints visible rows", async ({ page }) => {
     await expect(page.locator(".list-window")).toContainText("Virtual ticket 01");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -376,7 +376,7 @@ test("list ticket titles use subdued app link styling", async ({ page }) => {
     await expect(titleLink).toHaveCSS("text-decoration-line", "none");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -436,7 +436,7 @@ test("list bulk move moves selected tickets to another board", async ({ page }) 
     await expect(page.locator(".list-row", { hasText: "Move second" })).toContainText("todo");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 

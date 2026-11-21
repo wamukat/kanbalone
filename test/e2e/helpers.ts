@@ -29,6 +29,13 @@ export async function getFreePort(): Promise<number> {
   });
 }
 
+export async function closeTestApp(app: ReturnType<typeof buildApp>) {
+  const closing = app.close();
+  // SSE and in-flight browser requests must not keep a test server alive.
+  app.server.closeAllConnections();
+  await closing;
+}
+
 export async function startTestApp(page?: Page) {
   const app = buildApp({
     dbFile: createDbFile(),
@@ -42,10 +49,7 @@ export async function startTestApp(page?: Page) {
     baseUrl,
     close: async () => {
       await page?.close();
-      const closing = app.close();
-      // SSE and in-flight browser requests must not keep a test server alive.
-      app.server.closeAllConnections();
-      await closing;
+      await closeTestApp(app);
     },
   };
 }

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { createCompletionLane, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, createCompletionLane, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test("ticket filters combine results and active styling", async ({ page }) => {
   const app = buildApp({
@@ -252,7 +252,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     await expect(page.locator(".ticket-card")).toHaveCount(3);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -379,6 +379,6 @@ test("ticket filters are preserved per board during the session", async ({ page 
     await expect(page.locator("#lane-board")).toContainText("Second board ticket");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });

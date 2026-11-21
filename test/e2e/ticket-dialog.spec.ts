@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path, startTestApp, createBoard, createTicket, updateTicket } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path, startTestApp, createBoard, createTicket, updateTicket } from "./helpers.js";
 
 test("ticket detail dialog closes with Escape and backdrop click", async ({ page }) => {
   const app = buildApp({
@@ -49,7 +49,7 @@ test("ticket detail dialog closes with Escape and backdrop click", async ({ page
     await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -176,7 +176,7 @@ test("remote refresh button updates the open ticket detail", async ({ page }) =>
     await expect(page.getByText("Remote snapshot refreshed")).toBeVisible();
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 

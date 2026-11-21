@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test("last board, view, and filters restore from localStorage", async ({ page }) => {
   const app = buildApp({
@@ -65,7 +65,7 @@ test("last board, view, and filters restore from localStorage", async ({ page })
     await expect(page.locator("#list-board")).toContainText("Persisted review");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -128,6 +128,6 @@ test("board view mode and filter menus restore per board", async ({ page }) => {
     await expect(page.locator("#priority-filter")).not.toHaveClass(/is-expanded/);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });

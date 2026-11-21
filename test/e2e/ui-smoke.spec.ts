@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test.setTimeout(60_000);
 
@@ -506,6 +506,6 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     expect(consoleErrors).toEqual([]);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });

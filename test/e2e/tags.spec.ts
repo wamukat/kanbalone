@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
 
 test("sidebar tag create and edit stay inline", async ({ page }) => {
   const app = buildApp({
@@ -94,7 +94,7 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await expect(page.locator("#sidebar-tag-list")).toContainText("No tags yet.");
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -198,7 +198,7 @@ test("long tag labels are constrained across ticket surfaces", async ({ page }) 
     await expect(page.locator("#ticket-tag-options .tag-picker-item[data-tag-id]")).toHaveAttribute("aria-label", candidateTagName);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
 
@@ -308,6 +308,6 @@ test("long tag labels remain safe without Intl.Segmenter", async ({ page }) => {
     await expect(page.locator("#ticket-tag-options .tag-picker-item[data-tag-id]")).toHaveAttribute("aria-label", candidateTagName);
   } finally {
     await page.close();
-    await app.close();
+    await closeTestApp(app);
   }
 });
