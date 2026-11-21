@@ -299,3 +299,33 @@ Legacy exports are accepted only when they omit the format version and all Group
 Stop the new application and restore the pre-upgrade database backup before running the old build. Do not open the upgraded DB with the old application: it does not enforce Group invariants. Changes made after the backup are not present in that restore and must be reconciled separately if needed.
 
 Do not use a format-2 JSON import into an old release as a rollback path. Older releases may ignore unknown fields instead of rejecting them, losing Group data. Use the original backup and original build together.
+
+<a id="automated-upgrade-verification"></a>
+## Automated upgrade and restore verification
+
+CI and the release workflow test published v0.9.35, v0.10.0 and v0.11.0 images against the candidate image on Linux/amd64. Each source runs with a Docker volume and a bind mount. All boards, tickets and external references in these tests are synthetic; the test never mounts an existing user database or contacts an issue provider.
+
+The checks cover:
+
+- Stopped backups containing a nonempty SQLite WAL, with file sizes and SHA-256 hashes recorded.
+- Completion migration, lane-name collisions, archived tickets, parent/child links, relationships, tags, comments, events and stored remote references. v0.11.0 fixtures also include populated and empty Groups.
+- Every pre-existing stored field, allowing only documented migration changes; integrity and foreign-key checks; API reads; unchanged data after restart.
+- An injected completion-migration failure, verifying that schema and data changes roll back together.
+- A write after upgrading, followed by restoration of the original database set and original image. Restored data must exactly match the baseline; the later write must be absent.
+
+To test a locally built candidate:
+
+```bash
+revision=$(git rev-parse HEAD)
+version=$(node -p 'JSON.parse(require("fs").readFileSync("package.json", "utf8")).version')
+docker build --platform linux/amd64 \
+  --label "org.opencontainers.image.revision=$revision" \
+  --label "org.opencontainers.image.version=$version" \
+  -t kanbalone:upgrade-check .
+RELEASE_SHA="$revision" RELEASE_VERSION="$version" \
+  node scripts/verify-upgrade-restore.mjs kanbalone:upgrade-check
+```
+
+Use a clean checkout so the SHA identifies the candidate source. Docker and network access to the public source images are required. The bind-mount test uses the invoking user's UID/GID; the volume test uses the image's default runtime user. Temporary containers and storage are removed. Reports, full synthetic snapshots and injected-failure logs remain in `coverage/upgrade-restore/`; CI retains them as `upgrade-restore-RUN_ATTEMPT` for 30 days.
+
+A passing report proves these representative paths only. It does not test every historical version, native installations, other architectures, live database copying, disk exhaustion, filesystem-specific failures or provider authentication. This command does not upgrade your running instance. Follow the backup and reconciliation steps above for an actual upgrade. JSON export is not a full database backup, and restoring an old backup discards later changes unless separately reconciled.

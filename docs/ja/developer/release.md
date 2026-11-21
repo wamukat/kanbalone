@@ -72,7 +72,7 @@ App未設定の場合、Prepare releaseは`GITHUB_TOKEN`を使用します。準
 
 対象SHA・バージョン・リリースノートを検証し、共通チェックとChromium E2Eを実行します。続いて`linux/amd64`イメージをビルドし、隔離した一時volumeで起動・API書き込み・再起動後の永続化を確認します。
 
-実行結果と`release-image-VERSION` artifactを確認してください。検証済みイメージと、SHA・イメージID・アーカイブのチェックサムを含む`manifest.json`が保存されます。dry-runではタグ・GitHub Release・GHCRイメージを公開しません。既存データの更新やバックアップ復元はこのスモークテストの対象外で、別途リリース前の確認が必要です。
+実行結果と`release-image-VERSION` artifactを確認してください。検証済みイメージと、SHA・イメージID・アーカイブのチェックサムを含む`manifest.json`が保存されます。dry-runではタグ・GitHub Release・GHCRイメージを公開しません。同じイメージの保存前に、v0.9.35・v0.10.0・v0.11.0からの更新とバックアップ復元を検証専用データで確認します。`upgrade-restore-RUN_ATTEMPT` artifactも確認してください。候補版のローカル受入確認や利用者固有の構成の確認は別途必要です。[更新検証の手順](../migration-guide.md#automated-upgrade-verification)を参照してください。
 
 ## 3. 公開する
 

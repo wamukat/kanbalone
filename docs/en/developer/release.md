@@ -72,7 +72,7 @@ Open **Actions → Release → Run workflow** on `main` and enter:
 
 The workflow validates the target, version and release notes, then runs the shared checks and Chromium E2E tests. It builds a `linux/amd64` image and tests startup, API writes and persistence after restart using an isolated temporary volume.
 
-Review the run and its `release-image-VERSION` artifact. It contains the tested image and `manifest.json` with its SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image. It does not test existing-user upgrades or backup restoration; those remain a separate release readiness requirement.
+Review the run and its `release-image-VERSION` artifact. It contains the tested image and `manifest.json` with its SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image. The image job also verifies upgrades from v0.9.35, v0.10.0 and v0.11.0, including backup restoration, on isolated fixtures before packaging the image. Review the `upgrade-restore-RUN_ATTEMPT` artifact. This does not replace local candidate acceptance or validation of user-specific deployment settings. See the [migration verification procedure](../migration-guide.md#automated-upgrade-verification).
 
 ## 3. Publish
 
