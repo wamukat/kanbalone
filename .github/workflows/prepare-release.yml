@@ -41,6 +41,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 26.13.1
+          package-manager-cache: false
       - name: Prepare version and reviewable release notes
         env:
           RELEASE_VERSION: ${{ inputs.version }}

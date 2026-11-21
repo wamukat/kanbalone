@@ -30,6 +30,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 26.13.1
+          package-manager-cache: false
       - id: package
         run: echo "version=$(node -p 'JSON.parse(require("fs").readFileSync("package.json", "utf8")).version')" >> "$GITHUB_OUTPUT"
       - uses: docker/setup-buildx-action@v4

@@ -45,6 +45,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 26.13.1
+          package-manager-cache: false
       - name: Enforce trusted main ancestry before running target scripts
         env:
           RELEASE_SHA: ${{ inputs.sha }}
@@ -77,6 +78,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 26.13.1
+          package-manager-cache: false
       - uses: docker/setup-buildx-action@v4
       - name: Build once for test and publication
         uses: docker/build-push-action@v7
@@ -121,6 +123,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 26.13.1
+          package-manager-cache: false
       - uses: actions/download-artifact@v4
         with:
           name: release-image-${{ inputs.version }}
