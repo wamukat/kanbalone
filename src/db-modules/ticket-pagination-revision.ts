@@ -14,6 +14,7 @@ export function migrateTicketPagination(sqlite: Database.Database): void {
       INSERT INTO ticket_list_revisions(board_id) VALUES(NEW.id);
     END;
     CREATE INDEX IF NOT EXISTS tickets_paging_id_idx ON tickets(board_id, id);
+    CREATE INDEX IF NOT EXISTS tickets_paging_position_idx ON tickets(board_id, lane_id, is_archived, position, id);
     CREATE INDEX IF NOT EXISTS tickets_paging_completed_idx ON tickets(board_id, lane_id,
       COALESCE(CAST(round((julianday(resolved_at) - 2440587.5) * 86400000) AS INTEGER), 0) DESC, position ASC, id DESC);
   `);

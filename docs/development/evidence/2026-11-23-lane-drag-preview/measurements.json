@@ -1,0 +1,574 @@
+{
+  "imageEvidence": {
+    "ticketId": 1543,
+    "captureDate": "2026-11-23 JST",
+    "baseRevision": "88c74f4911212912f04f1f214861fdc13818daaa",
+    "productVersion": "1.1.0",
+    "baselineKanbanBoardSha256": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+    "candidateKanbanBoardSha256": "73d4e012b8da074c9c824b3fa466b6eeb4233fe38643f5a6aa283cc75e47a0df",
+    "pairs": [
+      {
+        "fixture": "dense-1016",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "Source lane scrolled to 3900px before native pointer drag",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "b178703366119e75c4625c6c6dd16bf4fa5312bacb201637c402bd896454f938",
+            "filename": "1543-baseline-lane-drag-before.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "b178703366119e75c4625c6c6dd16bf4fa5312bacb201637c402bd896454f938",
+            "filename": "1543-preview-clipped-lane-drag-before.png"
+          }
+        ]
+      },
+      {
+        "fixture": "dense-1016",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "App-created preview element shown for diagnostic capture after native dragstart; the OS cursor image is not captured",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "cedcc8af25eda3f5526d3795ff1132b3c47699c51bc9cad5c171e5f3fc95f681",
+            "filename": "1543-baseline-preview-dom.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "cedcc8af25eda3f5526d3795ff1132b3c47699c51bc9cad5c171e5f3fc95f681",
+            "filename": "1543-preview-clipped-preview-dom.png"
+          }
+        ]
+      },
+      {
+        "fixture": "dense-1016",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "Native pointer drag feedback after moving the source lane beyond the second lane, before pointer release",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "0765939fe9fa42d19dfd8d949af3b2a172e592cfd5dc13c4cc66af6b6f7822f6",
+            "filename": "1543-baseline-lane-drag-moved.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "0765939fe9fa42d19dfd8d949af3b2a172e592cfd5dc13c4cc66af6b6f7822f6",
+            "filename": "1543-preview-clipped-lane-drag-moved.png"
+          }
+        ]
+      },
+      {
+        "fixture": "dense-1016",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "Lane move saved and reloaded in order [6,5,7,8]",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "ba8cf2abfdffe1d074e61a73582e6dcfeb958ac975cd5acf35f82631ce436c72",
+            "filename": "1543-baseline-lane-drag-reloaded.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "ba8cf2abfdffe1d074e61a73582e6dcfeb958ac975cd5acf35f82631ce436c72",
+            "filename": "1543-preview-clipped-lane-drag-reloaded.png"
+          }
+        ]
+      },
+      {
+        "fixture": "empty",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "Preview element from an empty source lane during native drag, shown for diagnostic capture before cancelling",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "e2b963c170383e8ef3d4b5dfa527c81e1a976dfae4a04b3b876c694e3dc521c4",
+            "filename": "1543-baseline-empty-preview-dom.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "e2b963c170383e8ef3d4b5dfa527c81e1a976dfae4a04b3b876c694e3dc521c4",
+            "filename": "1543-preview-clipped-empty-preview-dom.png"
+          }
+        ]
+      },
+      {
+        "fixture": "medium-7",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "Preview element from a seven-card lane that fits its original viewport but overflows the capped preview, shown for diagnostic capture before cancelling",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "7649b35dcb1a1900cada30e15f4a3ed8b97de2ce225355493f16334b9c002f59",
+            "filename": "1543-baseline-source-fits-preview-overflows-preview-dom.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "7649b35dcb1a1900cada30e15f4a3ed8b97de2ce225355493f16334b9c002f59",
+            "filename": "1543-preview-clipped-source-fits-preview-overflows-preview-dom.png"
+          }
+        ]
+      },
+      {
+        "fixture": "expanded-inactive-53",
+        "locale": "en",
+        "theme": "light",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "state": "Preview element after expanding the inactive-ticket summary to show 53 source cards, shown for diagnostic capture before cancelling",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "a1df3e931453aec089db2b645fc7b1d5ecf0898c676ba651123e42429aeaed23",
+            "filename": "1543-baseline-expanded-inactive-preview-dom.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "a1df3e931453aec089db2b645fc7b1d5ecf0898c676ba651123e42429aeaed23",
+            "filename": "1543-preview-clipped-expanded-inactive-preview-dom.png"
+          }
+        ]
+      }
+    ],
+    "supplementalPairs": [
+      {
+        "fixture": "medium-7",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": [
+          390,
+          1000
+        ],
+        "state": "Preview element from a seven-card lane during native drag, positioned for diagnostic capture before cancelling",
+        "tool": "Playwright Chromium 159.0.8154.6",
+        "images": [
+          {
+            "label": "Before",
+            "variant": "baseline",
+            "sha256": "ff9e7e3ed159913bec2f58098646d106635833eb2da1158ccffdd119bd31effb",
+            "filename": "1543-baseline-narrow-dark-preview-dom.png"
+          },
+          {
+            "label": "After",
+            "variant": "preview-clipped",
+            "sha256": "ff9e7e3ed159913bec2f58098646d106635833eb2da1158ccffdd119bd31effb",
+            "filename": "1543-preview-clipped-narrow-dark-preview-dom.png"
+          }
+        ]
+      }
+    ],
+    "attachedCommentId": 4585,
+    "attachedImagesDecoded": 14
+  },
+  "denseNativeLaneDrag": [
+    {
+      "variant": "baseline",
+      "round": 0,
+      "warmup": true,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 295.222084,
+      "eventDispatchToCaptureMs": 32.70000000298023,
+      "captureToSetDragImageMs": 140.59999999403954,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 140.70000000298023,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "preview-clipped",
+      "round": 0,
+      "warmup": true,
+      "previewCards": 5,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 107.30603200000041,
+      "eventDispatchToCaptureMs": 16.700000002980232,
+      "captureToSetDragImageMs": 24.400000005960464,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 24.5,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "preview-clipped",
+      "round": 1,
+      "warmup": false,
+      "previewCards": 5,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 107.95411700000113,
+      "eventDispatchToCaptureMs": 17.299999997019768,
+      "captureToSetDragImageMs": 24.799999997019768,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 24.899999991059303,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "baseline",
+      "round": 1,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 317.24274199999854,
+      "eventDispatchToCaptureMs": 16.600000008940697,
+      "captureToSetDragImageMs": 151.59999999403954,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 151.59999999403954,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "baseline",
+      "round": 2,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 294.2763559999985,
+      "eventDispatchToCaptureMs": 18.700000002980232,
+      "captureToSetDragImageMs": 134.5,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 134.5,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "preview-clipped",
+      "round": 2,
+      "warmup": false,
+      "previewCards": 5,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 105.69759200000044,
+      "eventDispatchToCaptureMs": 18.099999994039536,
+      "captureToSetDragImageMs": 23.700000002980232,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 23.700000002980232,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "preview-clipped",
+      "round": 3,
+      "warmup": false,
+      "previewCards": 5,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 103.08068099999946,
+      "eventDispatchToCaptureMs": 16.899999991059303,
+      "captureToSetDragImageMs": 21.200000002980232,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 21.299999997019768,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "baseline",
+      "round": 3,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "previewScrollHeight": 104466,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "hostMoveToObservedDragStartMs": 271.1334080000015,
+      "eventDispatchToCaptureMs": 17.5,
+      "captureToSetDragImageMs": 127.90000000596046,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 127.90000000596046,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    }
+  ],
+  "edgeCases": [
+    {
+      "name": "empty",
+      "variant": "baseline",
+      "sourceScrollHeight": 16,
+      "sourceClientHeight": 16,
+      "previewCards": 0,
+      "previewScrollHeight": 16,
+      "previewClientHeight": 16,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.625
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "e2b963c170383e8ef3d4b5dfa527c81e1a976dfae4a04b3b876c694e3dc521c4",
+      "storedOrderAfterCancel": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "source-fits-preview-overflows",
+      "variant": "baseline",
+      "sourceScrollHeight": 611,
+      "sourceClientHeight": 611,
+      "previewCards": 7,
+      "previewScrollHeight": 611,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.625
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "7649b35dcb1a1900cada30e15f4a3ed8b97de2ce225355493f16334b9c002f59",
+      "storedOrderAfterCancel": [
+        3,
+        4
+      ]
+    },
+    {
+      "name": "expanded-inactive",
+      "variant": "baseline",
+      "sourceScrollHeight": 4629,
+      "sourceClientHeight": 772,
+      "previewCards": 53,
+      "previewScrollHeight": 4629,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.625
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "a1df3e931453aec089db2b645fc7b1d5ecf0898c676ba651123e42429aeaed23",
+      "storedOrderAfterCancel": [
+        5,
+        6
+      ]
+    },
+    {
+      "name": "empty",
+      "variant": "preview-clipped",
+      "sourceScrollHeight": 16,
+      "sourceClientHeight": 16,
+      "previewCards": 0,
+      "previewScrollHeight": 16,
+      "previewClientHeight": 16,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.625
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "e2b963c170383e8ef3d4b5dfa527c81e1a976dfae4a04b3b876c694e3dc521c4",
+      "storedOrderAfterCancel": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "source-fits-preview-overflows",
+      "variant": "preview-clipped",
+      "sourceScrollHeight": 611,
+      "sourceClientHeight": 611,
+      "previewCards": 6,
+      "previewScrollHeight": 611,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.625
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "7649b35dcb1a1900cada30e15f4a3ed8b97de2ce225355493f16334b9c002f59",
+      "storedOrderAfterCancel": [
+        3,
+        4
+      ]
+    },
+    {
+      "name": "expanded-inactive",
+      "variant": "preview-clipped",
+      "sourceScrollHeight": 4629,
+      "sourceClientHeight": 772,
+      "previewCards": 5,
+      "previewScrollHeight": 4629,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.625
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "a1df3e931453aec089db2b645fc7b1d5ecf0898c676ba651123e42429aeaed23",
+      "storedOrderAfterCancel": [
+        5,
+        6
+      ]
+    }
+  ],
+  "narrowDark": [
+    {
+      "name": "source-fits-preview-overflows",
+      "variant": "baseline",
+      "sourceScrollHeight": 611,
+      "sourceClientHeight": 611,
+      "previewCards": 7,
+      "previewScrollHeight": 611,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.53125
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "ff9e7e3ed159913bec2f58098646d106635833eb2da1158ccffdd119bd31effb",
+      "storedOrderAfterCancel": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "source-fits-preview-overflows",
+      "variant": "preview-clipped",
+      "sourceScrollHeight": 611,
+      "sourceClientHeight": 611,
+      "previewCards": 6,
+      "previewScrollHeight": 611,
+      "previewClientHeight": 327,
+      "previewScrollTop": 0,
+      "anchor": [
+        24,
+        25.53125
+      ],
+      "negativeAnchor": [
+        24,
+        18
+      ],
+      "previewImageSha": "ff9e7e3ed159913bec2f58098646d106635833eb2da1158ccffdd119bd31effb",
+      "storedOrderAfterCancel": [
+        1,
+        2
+      ]
+    }
+  ]
+}
