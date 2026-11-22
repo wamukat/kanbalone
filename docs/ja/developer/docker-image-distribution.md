@@ -32,6 +32,7 @@ Kanbalone は引き続き single-user / single-process app です。
 | Default host | `0.0.0.0` |
 | Data directory | `/app/data` |
 | Default database file | `/app/data/kanbalone.sqlite` |
+| 添付画像の既定ディレクトリ | `/app/data/attachments/` |
 | Health endpoint | `GET /api/health` |
 
 公開 Image:
@@ -133,7 +134,7 @@ Compose file は以下を満たします。
 - `docker compose up --build` で `http://127.0.0.1:3000` に起動する。
 - `docker compose ps` で `kanbalone-kanbalone-1` のような predictable service container name が表示される。
 - `KANBAN_PORT=3457 docker compose up --build` で `http://127.0.0.1:3457` に起動する。
-- SQLite database が default では `kanbalone-data` named volume に永続化される。
+- SQLite DBと添付画像は既定の `kanbalone-data` named volumeに永続化される。
 
 ### ユーザードキュメント
 
@@ -143,7 +144,7 @@ Compose file は以下を満たします。
 - Plain Docker での build / run。
 - Host port の変更方法。
 - Data storage location。
-- SQLite database の backup 方法。
+- SQLite DBと添付画像のバックアップ・復元方法。
 - Kanbalone には認証がなく、信頼できない network に直接公開しないこと。
 
 ### リリース公開
@@ -191,11 +192,8 @@ pnpm test:e2e
 
 ## 運用メモ
 
-- SQLite database が主な backup target です。
-- Default database path は `/app/data/kanbalone.sqlite` です。
-- Default Docker Compose setup では database は `kanbalone-data` named volume に保存されます。
-- Bind mount を使う場合、host copy は通常 `./data/kanbalone.sqlite` です。
-- 単純で一貫した backup のため、database copy 前に container を停止してください。
+- SQLite DBと同じ場所にある `attachments/` ディレクトリを一組として扱います。既定のDocker Composeでは両方を `kanbalone-data` named volumeに保存します。bind mountでは両方を対応するホスト側ディレクトリに保存します。
+- 同梱の[バックアップ・復元ツール](../migration-guide.md#database-and-image-backup)で一貫したスナップショットを取得し、検証後に新しい場所へ復元します。
 - 同じ SQLite file に対して複数 Kanbalone container を起動しないでください。
 - Kanbalone には現在認証がないため、public internet に直接公開しないでください。
 

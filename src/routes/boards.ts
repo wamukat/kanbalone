@@ -209,11 +209,9 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
       },
     },
   }, async (request, reply) => {
-    try {
-      return db.exportBoard(getIdParam(request.params, "boardId"));
-    } catch {
-      return reply.code(404).send({ error: "board not found" });
-    }
+    const boardId = getIdParam(request.params, "boardId");
+    if (!db.getBoard(boardId)) return reply.code(404).send({ error: "board not found" });
+    return db.exportBoard(boardId);
   });
 
   app.post("/api/boards/import", async (request, reply) => {
@@ -226,6 +224,8 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
       publishBoardEvent(board.board.id, "board_imported");
       return reply.code(201).send(serializeBoardDetail(board));
     } catch (error) {
+      if (error instanceof Error && "statusCode" in error &&
+          (error.statusCode === 413 || error.statusCode === 415 || error.statusCode === 500)) throw error;
       const message = error instanceof Error ? error.message : "import failed";
       return reply.code(400).send({ error: message });
     }

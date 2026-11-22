@@ -1,0 +1,419 @@
+{
+  "phase": "before",
+  "baseline": "5ff44622f74c2116147d60c11be7f86fbc2208d2",
+  "node": "v26.13.1",
+  "records": {
+    "ja-light-1440": {
+      "settings": {
+        "locale": "ja",
+        "theme": "light",
+        "width": 1440,
+        "height": 900
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 900,
+        "locale": "ja",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 1440
+      },
+      "captureFiles": [
+        "before-ja-light-1440-ticket-creation.png",
+        "before-ja-light-1440-ticket-creation-reloaded.png",
+        "before-ja-light-1440-ticket-full-edit.png",
+        "before-ja-light-1440-ticket-inline-edit.png",
+        "before-ja-light-1440-ticket-inline-edit-reloaded.png",
+        "before-ja-light-1440-comment-creation.png",
+        "before-ja-light-1440-comment-creation-reloaded.png",
+        "before-ja-light-1440-comment-inline-edit.png",
+        "before-ja-light-1440-comment-inline-edit-reloaded.png"
+      ],
+      "uploads": [],
+      "observations": {
+        "ticket-creation": {
+          "operation": "drop",
+          "original": "作成時の確認画像です。",
+          "file": {
+            "bytes": 13798,
+            "consumed": false,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "作成時の確認画像です。",
+          "attachment": null,
+          "asset": null,
+          "stored": "作成時の確認画像です。",
+          "reloaded": 0
+        },
+        "ticket-full-edit": {
+          "operation": "paste",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13655,
+            "consumed": false,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "attachment": null,
+          "asset": null,
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "reloaded": 0
+        },
+        "ticket-inline-edit": {
+          "operation": "drop",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13730,
+            "consumed": false,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "attachment": null,
+          "asset": null,
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "reloaded": 0
+        },
+        "comment-creation": {
+          "operation": "paste",
+          "original": "再確認時の表示です。",
+          "file": {
+            "bytes": 13999,
+            "consumed": false,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "再確認時の表示です。",
+          "attachment": null,
+          "asset": null,
+          "stored": "再確認時の表示です。",
+          "reloaded": 0
+        },
+        "comment-inline-edit": {
+          "operation": "drop",
+          "original": "一覧の並びを確認しました。",
+          "file": {
+            "bytes": 13902,
+            "consumed": false,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "一覧の並びを確認しました。",
+          "attachment": null,
+          "asset": null,
+          "stored": "一覧の並びを確認しました。",
+          "reloaded": 0
+        }
+      }
+    },
+    "en-light-1440": {
+      "settings": {
+        "locale": "en",
+        "theme": "light",
+        "width": 1440,
+        "height": 900
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 900,
+        "locale": "en",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 1440
+      },
+      "captureFiles": [
+        "before-en-light-1440-ticket-creation.png",
+        "before-en-light-1440-ticket-full-edit.png",
+        "before-en-light-1440-ticket-inline-edit.png",
+        "before-en-light-1440-comment-creation.png",
+        "before-en-light-1440-comment-inline-edit.png"
+      ],
+      "uploads": [],
+      "observations": {
+        "ticket-creation": {
+          "operation": "paste",
+          "original": "This is the initial review image.",
+          "file": {
+            "bytes": 13798,
+            "consumed": false,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "This is the initial review image.",
+          "attachment": null,
+          "asset": null,
+          "stored": "This is the initial review image.",
+          "reloaded": 0
+        },
+        "ticket-full-edit": {
+          "operation": "drop",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13655,
+            "consumed": false,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.",
+          "attachment": null,
+          "asset": null,
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.",
+          "reloaded": 0
+        },
+        "ticket-inline-edit": {
+          "operation": "paste",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13730,
+            "consumed": false,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.",
+          "attachment": null,
+          "asset": null,
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.",
+          "reloaded": 0
+        },
+        "comment-creation": {
+          "operation": "drop",
+          "original": "Here is the follow-up result.",
+          "file": {
+            "bytes": 13999,
+            "consumed": false,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "Here is the follow-up result.",
+          "attachment": null,
+          "asset": null,
+          "stored": "Here is the follow-up result.",
+          "reloaded": 0
+        },
+        "comment-inline-edit": {
+          "operation": "paste",
+          "original": "The list order is correct.",
+          "file": {
+            "bytes": 13902,
+            "consumed": false,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "The list order is correct.",
+          "attachment": null,
+          "asset": null,
+          "stored": "The list order is correct.",
+          "reloaded": 0
+        }
+      }
+    },
+    "ja-dark-390": {
+      "settings": {
+        "locale": "ja",
+        "theme": "dark",
+        "width": 390,
+        "height": 844
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 844,
+        "locale": "ja",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 390
+      },
+      "captureFiles": [
+        "before-ja-dark-390-ticket-creation.png",
+        "before-ja-dark-390-ticket-full-edit.png",
+        "before-ja-dark-390-ticket-inline-edit.png",
+        "before-ja-dark-390-comment-creation.png",
+        "before-ja-dark-390-comment-inline-edit.png"
+      ],
+      "uploads": [],
+      "observations": {
+        "ticket-creation": {
+          "operation": "drop",
+          "original": "作成時の確認画像です。",
+          "file": {
+            "bytes": 13798,
+            "consumed": false,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "作成時の確認画像です。",
+          "attachment": null,
+          "asset": null,
+          "stored": "作成時の確認画像です。",
+          "reloaded": 0
+        },
+        "ticket-full-edit": {
+          "operation": "paste",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13655,
+            "consumed": false,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "attachment": null,
+          "asset": null,
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "reloaded": 0
+        },
+        "ticket-inline-edit": {
+          "operation": "drop",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13730,
+            "consumed": false,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "attachment": null,
+          "asset": null,
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "reloaded": 0
+        },
+        "comment-creation": {
+          "operation": "paste",
+          "original": "再確認時の表示です。",
+          "file": {
+            "bytes": 13999,
+            "consumed": false,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "再確認時の表示です。",
+          "attachment": null,
+          "asset": null,
+          "stored": "再確認時の表示です。",
+          "reloaded": 0
+        },
+        "comment-inline-edit": {
+          "operation": "drop",
+          "original": "一覧の並びを確認しました。",
+          "file": {
+            "bytes": 13902,
+            "consumed": false,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "一覧の並びを確認しました。",
+          "attachment": null,
+          "asset": null,
+          "stored": "一覧の並びを確認しました。",
+          "reloaded": 0
+        }
+      }
+    },
+    "en-dark-390": {
+      "settings": {
+        "locale": "en",
+        "theme": "dark",
+        "width": 390,
+        "height": 844
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 844,
+        "locale": "en",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 390
+      },
+      "captureFiles": [
+        "before-en-dark-390-ticket-creation.png",
+        "before-en-dark-390-ticket-creation-reloaded.png",
+        "before-en-dark-390-ticket-full-edit.png",
+        "before-en-dark-390-ticket-inline-edit.png",
+        "before-en-dark-390-ticket-inline-edit-reloaded.png",
+        "before-en-dark-390-comment-creation.png",
+        "before-en-dark-390-comment-creation-reloaded.png",
+        "before-en-dark-390-comment-inline-edit.png",
+        "before-en-dark-390-comment-inline-edit-reloaded.png"
+      ],
+      "uploads": [],
+      "observations": {
+        "ticket-creation": {
+          "operation": "paste",
+          "original": "This is the initial review image.",
+          "file": {
+            "bytes": 13798,
+            "consumed": false,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "This is the initial review image.",
+          "attachment": null,
+          "asset": null,
+          "stored": "This is the initial review image.",
+          "reloaded": 0
+        },
+        "ticket-full-edit": {
+          "operation": "drop",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13655,
+            "consumed": false,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.",
+          "attachment": null,
+          "asset": null,
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.",
+          "reloaded": 0
+        },
+        "ticket-inline-edit": {
+          "operation": "paste",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13730,
+            "consumed": false,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.",
+          "attachment": null,
+          "asset": null,
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.",
+          "reloaded": 0
+        },
+        "comment-creation": {
+          "operation": "drop",
+          "original": "Here is the follow-up result.",
+          "file": {
+            "bytes": 13999,
+            "consumed": false,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "Here is the follow-up result.",
+          "attachment": null,
+          "asset": null,
+          "stored": "Here is the follow-up result.",
+          "reloaded": 0
+        },
+        "comment-inline-edit": {
+          "operation": "paste",
+          "original": "The list order is correct.",
+          "file": {
+            "bytes": 13902,
+            "consumed": false,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "The list order is correct.",
+          "attachment": null,
+          "asset": null,
+          "stored": "The list order is correct.",
+          "reloaded": 0
+        }
+      }
+    }
+  }
+}

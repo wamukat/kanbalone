@@ -254,6 +254,20 @@
   gap: 0.3rem;
 }
 
+.image-attachment-feedback {
+  display: grid;
+  overflow-wrap: anywhere;
+  font-size: var(--font-size-label);
+}
+
+.image-attachment-feedback > span {
+  grid-area: 1 / 1;
+}
+
+.image-attachment-feedback:has([data-image-upload-status]:not(:empty)) > .muted {
+  visibility: hidden;
+}
+
 .ux-fields label {
   display: grid;
   gap: 0.3rem;

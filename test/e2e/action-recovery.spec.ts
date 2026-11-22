@@ -93,6 +93,12 @@ for (const locale of ["en-US", "ja-JP"]) {
       await expect(page.locator("#toast")).toHaveText(locale === "ja-JP" ? "ボードをエクスポートできませんでした。もう一度お試しください。" : "Could not export board. Please try again.");
       await expect(page.locator("#export-board-button")).toBeFocused();
       await page.unroute(`**/api/boards/${board.id}/export`);
+      await page.route(`**/api/boards/${board.id}/export`, route => route.fulfill({ status: 413, json: { error: "Attachment size limit" } }));
+      await page.locator("#export-board-button").press("Enter");
+      await expect(page.locator("#toast")).toHaveText(locale === "ja-JP"
+        ? "画像を含むボードがエクスポートの容量上限を超えています。データベースと画像ファイルのバックアップを使用してください。"
+        : "The board exceeds the export size limit with its images. Use a backup of the database and image files.");
+      await page.unroute(`**/api/boards/${board.id}/export`);
       const download = page.waitForEvent("download");
       await page.locator("#export-board-button").press("Enter");
       expect(await (await download).failure()).toBeNull();

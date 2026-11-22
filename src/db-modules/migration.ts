@@ -8,6 +8,12 @@ import { normalizeBoardPositions } from "./ordering.js";
 
 export function migrate(sqlite: Database.Database): void {
   sqlite.exec(`
+    CREATE TABLE IF NOT EXISTS attachments (
+      id TEXT PRIMARY KEY NOT NULL,
+      media_type TEXT NOT NULL,
+      byte_size INTEGER NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS boards (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,

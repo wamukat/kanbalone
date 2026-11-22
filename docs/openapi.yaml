@@ -10,6 +10,62 @@ servers:
   - url: http://127.0.0.1:3000
 security: []
 paths:
+  /api/attachments:
+    post:
+      operationId: uploadAttachment
+      summary: Store an immutable local image
+      description: Accepts one raw raster file up to 10 MiB. The server checks the declared MIME type and container structure without decoding pixels. Identical bytes share one file. Files are retained when edits are cancelled or Markdown references are removed.
+      requestBody:
+        required: true
+        content:
+          image/png: {}
+          image/jpeg: {}
+          image/gif: {}
+          image/webp: {}
+      responses:
+        "201":
+          description: Stored image and root-relative URL for use in Markdown
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, mediaType, byteSize, url]
+                properties:
+                  id: { type: string, pattern: '^[a-f0-9]{64}$' }
+                  mediaType: { type: string, enum: [image/png, image/jpeg, image/gif, image/webp] }
+                  byteSize: { type: integer, minimum: 1, maximum: 10485760 }
+                  url: { type: string, pattern: '^/api/attachments/[a-f0-9]{64}$' }
+        "400":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
+        "415":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+
+  /api/attachments/{id}:
+    get:
+      operationId: getAttachment
+      summary: Read the original bytes of an uploaded image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, pattern: '^[a-f0-9]{64}$' }
+      responses:
+        "200":
+          description: Verified image file with its original media type and X-Content-Type-Options nosniff
+          content:
+            image/png: {}
+            image/jpeg: {}
+            image/gif: {}
+            image/webp: {}
+        "404":
+          $ref: "#/components/responses/Error"
+        "500":
+          $ref: "#/components/responses/Error"
+
   /api/health:
     get:
       summary: Health check
@@ -169,7 +225,7 @@ paths:
   /api/boards/import:
     post:
       summary: Import a board
-      description: Supports local board import payloads, including larger seed datasets used for bulk local setup and performance testing.
+      description: Accepts legacy, version 2 and portable version 3 boards up to 64 MiB. Version 3 validates every embedded image digest, media type and rendered local reference before committing the board.
       operationId: importBoard
       requestBody:
         required: true
@@ -185,6 +241,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/BoardDetail"
         "400":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
+        "415":
+          $ref: "#/components/responses/Error"
+        "500":
           $ref: "#/components/responses/Error"
 
   /api/boards/{boardId}:
@@ -853,7 +915,6 @@ paths:
           $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
-
         "409":
           $ref: "#/components/responses/Error"
 
@@ -939,6 +1000,7 @@ paths:
   /api/boards/{boardId}/export:
     get:
       summary: Export board
+      description: Boards with root-relative attachment URLs in rendered ticket, comment or Group Markdown use format 3 and embed each referenced file once. An incomplete or oversized portable export fails. Use a database and attachments backup for transfers exceeding 64 MiB.
       operationId: exportBoard
       parameters:
         - $ref: "#/components/parameters/BoardId"
@@ -950,6 +1012,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/BoardExport"
         "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
+        "500":
           $ref: "#/components/responses/Error"
 
   /api/tickets/{ticketId}:
@@ -1041,7 +1109,6 @@ paths:
           $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
-
         "409":
           $ref: "#/components/responses/Error"
 
@@ -2157,6 +2224,8 @@ components:
                 formatVersion: {}
               required:
               - formatVersion
+            - properties: { attachments: {} }
+              required: [attachments]
             - properties:
                 groups: {}
               required:
@@ -2948,7 +3017,16 @@ components:
             - groupId
         formatVersion:
           type: integer
-          const: 2
+          enum: [2, 3]
+        attachments:
+          type: array
+          items:
+            type: object
+            required: [id, mediaType, dataBase64]
+            properties:
+              id: { type: string, pattern: '^[a-f0-9]{64}$' }
+              mediaType: { type: string, enum: [image/png, image/jpeg, image/gif, image/webp] }
+              dataBase64: { type: string, contentEncoding: base64, maxLength: 13981016 }
         groups:
           type: array
           items:
@@ -2960,5 +3038,15 @@ components:
       - tickets
       - formatVersion
       - groups
-      description: Format 2. Includes all Groups and all tickets, including inactive and archived records. Import remaps IDs and validates parent/child
+      allOf:
+      - if:
+          properties: { formatVersion: { const: 3 } }
+        then:
+          properties: { attachments: {} }
+          required: [attachments]
+        else:
+          not:
+            properties: { attachments: {} }
+            required: [attachments]
+      description: Format 2 or 3. Includes all Groups and all tickets, including inactive and archived records. Import remaps IDs and validates parent/child
         membership.

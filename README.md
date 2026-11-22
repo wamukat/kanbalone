@@ -80,13 +80,15 @@ Change the host port:
 KANBAN_PORT=3457 docker compose -f docker-compose.image.yml up
 ```
 
-The app stores its SQLite database at:
+The app stores its SQLite database and attached images here:
 
 ```text
 /app/data/kanbalone.sqlite
+/app/data/attachments/
 ```
 
 The provided Compose file uses a Docker named volume, `kanbalone-data`, for persistence.
+Keep the database and image files together when taking a backup or restoring data. See the [backup and restore instructions](docs/en/migration-guide.md#database-and-image-backup).
 
 On Windows, use Docker Desktop or Rancher Desktop with WSL2 and keep the named volume setup.
 

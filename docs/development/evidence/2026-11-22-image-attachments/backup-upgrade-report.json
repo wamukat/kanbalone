@@ -1,0 +1,134 @@
+{
+  "status": "passed",
+  "target": {
+    "image": "kanbalone:1529-image-backup-check",
+    "version": "1.0.0",
+    "sha": "5ff44622f74c2116147d60c11be7f86fbc2208d2",
+    "imageId": "sha256:20f075f213240c9d8ad65f3979dea33092651a206c6354c2a090551f5207c849"
+  },
+  "startedAt": "2026-11-22T13:49:01.628Z",
+  "cases": [
+    {
+      "version": "0.11.0",
+      "storage": "volume",
+      "sourceImageId": "sha256:1b7dcf541ddbbfaaf1b18cefbbbd9682779e4681f5b67fa79aa611b31cc117ff",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:40a53ad652a1578972a588e6fa3448666fc020ba1e745121ffdffae98aba6f9e"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "image_backup_restored_database_markdown_and_http_bytes",
+        "image_restore_preserved_live_dataset_and_excluded_later_upload",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "89a2318c76452be80e1d743f163f3dd96623b2b05604aa06985c6b5501238362"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "fd1476450f14ad9d2a968fff3a5f8a701966f004f4783d1a6a8b23bb7d1af6eb"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 807552,
+          "sha256": "867ad4878dbd2ce0d2392dcf43b5414d836b3cf08d5dfa8ab2dd6aba02877f68"
+        }
+      ],
+      "imageBackup": {
+        "manifest": {
+          "formatVersion": 1,
+          "database": {
+            "name": "kanbalone.sqlite",
+            "byteSize": 253952,
+            "sha256": "b4d93b1ba9b2fb1f927862813decfd0d13769e1c2126cbc6e81cb460c1ffa071"
+          },
+          "attachmentCount": 1
+        },
+        "restoredImage": {
+          "id": "8585ea861e21c5ef3ea37adb45a822569aec65a2db1b7aeb09b8fecc4dbe8120",
+          "mediaType": "image/png",
+          "byteSize": 68,
+          "url": "/api/attachments/8585ea861e21c5ef3ea37adb45a822569aec65a2db1b7aeb09b8fecc4dbe8120"
+        },
+        "postBackupImage": {
+          "id": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+          "mediaType": "image/gif",
+          "byteSize": 42,
+          "url": "/api/attachments/ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629"
+        }
+      },
+      "cleanup": "passed"
+    },
+    {
+      "version": "0.11.0",
+      "storage": "bind",
+      "sourceImageId": "sha256:1b7dcf541ddbbfaaf1b18cefbbbd9682779e4681f5b67fa79aa611b31cc117ff",
+      "sourceDigests": [
+        "ghcr.io/wamukat/kanbalone@sha256:40a53ad652a1578972a588e6fa3448666fc020ba1e745121ffdffae98aba6f9e"
+      ],
+      "status": "passed",
+      "checks": [
+        "stopped_backup_with_wal_integrity",
+        "all_tables_and_api_preserved",
+        "restart_idempotent",
+        "post_upgrade_write",
+        "image_backup_restored_database_markdown_and_http_bytes",
+        "image_restore_preserved_live_dataset_and_excluded_later_upload",
+        "old_image_and_backup_exact_restore",
+        "post_backup_changes_excluded_on_restore"
+      ],
+      "backupFiles": [
+        {
+          "name": "kanbalone.sqlite",
+          "size": 4096,
+          "sha256": "89a2318c76452be80e1d743f163f3dd96623b2b05604aa06985c6b5501238362"
+        },
+        {
+          "name": "kanbalone.sqlite-shm",
+          "size": 32768,
+          "sha256": "21b6b8602e4880b95be00290f71b255db2bb5eb52f370dc506fe3098a4229fb5"
+        },
+        {
+          "name": "kanbalone.sqlite-wal",
+          "size": 807552,
+          "sha256": "36b6e0f9d239c40b1a7143b8fe5dad85af733932fc19e6a0d060aac63e69db07"
+        }
+      ],
+      "imageBackup": {
+        "manifest": {
+          "formatVersion": 1,
+          "database": {
+            "name": "kanbalone.sqlite",
+            "byteSize": 253952,
+            "sha256": "f575823d569a9ce577e99d6f51e13c6a3a1b9d9ce60bc5bd165df72b16d63fe6"
+          },
+          "attachmentCount": 1
+        },
+        "restoredImage": {
+          "id": "8585ea861e21c5ef3ea37adb45a822569aec65a2db1b7aeb09b8fecc4dbe8120",
+          "mediaType": "image/png",
+          "byteSize": 68,
+          "url": "/api/attachments/8585ea861e21c5ef3ea37adb45a822569aec65a2db1b7aeb09b8fecc4dbe8120"
+        },
+        "postBackupImage": {
+          "id": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+          "mediaType": "image/gif",
+          "byteSize": 42,
+          "url": "/api/attachments/ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629"
+        }
+      },
+      "cleanup": "passed"
+    }
+  ],
+  "finishedAt": "2026-11-22T13:55:36.681Z",
+  "buildContext": "Intermediate dirty implementation worktree based on 5ff4462; target.sha is the build label, not a committed implementation SHA. Subsequent shared image-policy validation was tested separately."
+}

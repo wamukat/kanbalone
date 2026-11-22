@@ -3,6 +3,7 @@ import { createTicketActionsModule } from "./app-ticket-actions.js";
 import { createTicketCommentsModule } from "./app-ticket-comments.js";
 import { createTicketDetailModule } from "./app-ticket-detail.js";
 import { createEditorRemoteImportModule } from "./app-editor-remote-import.js";
+import { createImageAttachments } from "./app-image-attachments.js";
 import { createTicketRelationsModule } from "./app-ticket-relations.js";
 import { createTicketTagPicker } from "./app-ticket-tag-picker.js";
 import { getPriorityInputValue } from "./app-priority.js";
@@ -19,7 +20,13 @@ export function createEditorModule(ctx) {
   let discardPending = null;
   let editorOriginVersion;
   let editorOpenGeneration = 0;
+  let dialogSession = 0;
+  let dialogBoardId = null;
   let composing = false;
+  const imageAttachments = createImageAttachments(ctx.api, ctx.showToast);
+  const isDialogCurrent = () => elements.editorDialog.open && state.activeBoardId === dialogBoardId;
+
+  imageAttachments.bind(elements.ticketBody, () => isDialogCurrent() && state.dialogMode === "edit");
 
   function formSnapshot() {
     return JSON.stringify([
@@ -32,11 +39,15 @@ export function createEditorModule(ctx) {
 
   function hasUnsavedChanges() {
     if (!elements.editorDialog.open) return false;
-    return (state.dialogMode === "edit" && savedForm !== formSnapshot()) || detailModule.hasUnsavedBody();
+    return imageAttachments.hasPending() || (state.dialogMode === "edit" && savedForm !== formSnapshot())
+      || detailModule.hasUnsavedBody() || commentsModule.hasUnsavedComments();
   }
 
   async function confirmDiscardChanges() {
-    if (state.editorSaving) { ctx.showToast(t("Please wait until saving finishes")); return false; }
+    if (state.editorSaving || commentsModule.isSaving()) {
+      ctx.showToast(t("Please wait until saving finishes"));
+      return false;
+    }
     if (!hasUnsavedChanges()) return true;
     if (discardPending) return discardPending;
     discardPending = ctx.confirmAndRun({
@@ -74,6 +85,8 @@ export function createEditorModule(ctx) {
     confirmDiscardChanges,
     refreshDialogTicket,
     updateDialogTicket,
+    imageAttachments,
+    isDialogCurrent,
   });
 
   function restoreActionFocus(preferred) {
@@ -96,6 +109,7 @@ export function createEditorModule(ctx) {
     confirmDiscardChanges,
     closeEditor,
     getSelectedTagIds,
+    canSaveBody: () => imageAttachments.canSave(elements.ticketBody),
     restoreActionFocus,
     refreshDialogTicket,
     setDialogMode,
@@ -114,6 +128,9 @@ export function createEditorModule(ctx) {
     ...ctx,
     refreshDialogTicket,
     setSaveState,
+    imageAttachments,
+    isDialogCurrent,
+    captureDialogScope,
   });
 
   const remoteImportModule = createEditorRemoteImportModule(ctx, {
@@ -142,7 +159,9 @@ export function createEditorModule(ctx) {
   }
 
   function setDialogMode(mode) {
+    if (mode !== state.dialogMode) dialogSession++;
     if (mode === "edit" && state.dialogTicket) {
+      commentsModule.discardDrafts();
       detailModule.resetInlineEdit();
       hydrateEditorForm(state.dialogTicket);
     }
@@ -166,6 +185,7 @@ export function createEditorModule(ctx) {
     elements.commentsTabButton.hidden = mode !== "view";
     elements.activityTabButton.hidden = mode !== "view";
     if (mode !== "edit") {
+      imageAttachments.reset(elements.ticketBody);
       tagPicker.closeOptions();
       relationsModule.closeOptions();
       state.editorRemoteImportOpen = false;
@@ -178,6 +198,11 @@ export function createEditorModule(ctx) {
   }
 
   function resetDialogState() {
+    dialogSession++;
+    dialogBoardId = null;
+    imageAttachments.reset(elements.ticketBody);
+    detailModule.resetInlineEdit();
+    commentsModule.resetImageUploads();
     relationsModule.resetCandidates();
     composing = false;
     editorOpenGeneration += 1;
@@ -223,6 +248,9 @@ export function createEditorModule(ctx) {
   }
 
   function closeEditor() {
+    imageAttachments.reset(elements.ticketBody);
+    commentsModule.resetImageUploads();
+    detailModule.resetInlineEdit();
     relationsModule.resetCandidates();
     if (elements.editorDialog.open) {
       elements.editorDialog.close();
@@ -238,13 +266,14 @@ export function createEditorModule(ctx) {
     state.dialogActivity = activity;
     state.dialogEvents = events;
     detailModule.syncTicketDetail(ticket, activity, events);
-    elements.ticketComments.innerHTML = commentsModule.renderComments(ticket.comments ?? []);
-    hydrateEditorForm(ticket);
+    commentsModule.syncComments(ticket.comments ?? []);
+    if (state.dialogMode !== "edit" || state.editorSaving) hydrateEditorForm(ticket);
     detailModule.setDetailTab("comments");
     detailModule.setBodyTab("local");
   }
 
   function hydrateEditorForm(ticket) {
+    imageAttachments.reset(elements.ticketBody);
     elements.ticketTitle.value = ticket.title;
     elements.ticketPriority.value = getPriorityInputValue(ticket.priority);
     elements.ticketBody.value = ticket.bodyMarkdown;
@@ -295,6 +324,7 @@ export function createEditorModule(ctx) {
     elements.ticketEditRemoteBodyTabButton.classList.toggle("active", showRemoteBody);
     elements.ticketEditRemoteBodyTabButton.setAttribute("aria-selected", String(showRemoteBody));
     elements.ticketBody.hidden = showRemoteBody;
+    imageAttachments.setHidden(elements.ticketBody, showRemoteBody);
     elements.ticketRemoteBodyPanel.hidden = !showRemoteBody;
     elements.ticketRemoteBodyPanel.innerHTML = showRemoteBody
       ? renderRemoteBodyPanel(ticket.remote?.bodyHtml ?? "")
@@ -308,15 +338,26 @@ export function createEditorModule(ctx) {
     return `<div class="markdown ticket-remote-body-rendered">${bodyHtml}</div>`;
   }
 
+  function captureDialogScope() {
+    const session = dialogSession;
+    const boardId = state.activeBoardId;
+    const ticketId = state.editingTicketId;
+    return () => elements.editorDialog.open && session === dialogSession
+      && boardId === state.activeBoardId && ticketId === state.editingTicketId;
+  }
+
   async function refreshDialogTicket(ticketId = state.editingTicketId) {
-    if (!ticketId) {
+    if (!ticketId || ticketId !== state.editingTicketId) {
       return null;
     }
+    const isCurrent = captureDialogScope();
     const [ticket, activityPayload, eventsPayload] = await Promise.all([
       ctx.api(`/api/tickets/${ticketId}`),
       ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
       ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
     ]);
+    if (!isCurrent()) return null;
+    dialogBoardId = ticket.boardId;
     hydrateDialogTicket(ticket, activityPayload.activity ?? [], eventsPayload.events ?? []);
     ctx.syncDialogScrollLock?.();
     return ticket;
@@ -370,6 +411,10 @@ export function createEditorModule(ctx) {
       : [null, { activity: [] }, { events: [] }];
     if (!isCurrent()) return;
     editorOriginVersion = originVersion;
+    dialogSession++;
+    dialogBoardId = boardId;
+    imageAttachments.reset(elements.ticketBody);
+    commentsModule.resetImageUploads();
     detailModule.resetInlineEdit();
     state.editingTicketId = ticketId;
     state.editorCreateGroup = ticketId ? null : creationGroup;
@@ -387,8 +432,7 @@ export function createEditorModule(ctx) {
     elements.ticketBody.value = ticket?.bodyMarkdown ?? "";
     elements.ticketTitle.disabled = Boolean(ticket?.remote);
     detailModule.syncTicketDetail(ticket, activity, events);
-    elements.ticketComments.innerHTML = commentsModule.renderComments(ticket?.comments ?? []);
-    elements.commentBody.value = "";
+    commentsModule.syncComments(ticket?.comments ?? [], { preserveEdits: false });
     commentsModule.resetCommentComposer();
     const selectedLaneId = ticket?.laneId ?? defaultLaneId;
     elements.ticketLane.innerHTML = state.boardDetail.lanes

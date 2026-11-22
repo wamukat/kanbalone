@@ -59,9 +59,9 @@ Provide these inputs before executing changes. Do not print credentials in logs 
 | --- | --- |
 | Instance | Actual API base URL; do not assume a port |
 | Runtime | Docker/Compose/direct execution, service name and startup method |
-| Storage | Actual SQLite path and persistent volume/bind mount; older installations may use soloboard.sqlite |
+| Storage | Actual SQLite path, its sibling `attachments/` directory if present, and persistent volume/bind mount. Older installations may use soloboard.sqlite |
 | Source and target builds | Recoverable old image/source and a confirmed migration-capable new build |
-| Backup | Destination, capacity and a workable database restore method |
+| Backup | Destination, capacity and a way to restore the database with its image files |
 | Scope | Instance to upgrade, downtime and whether later workflow reconfiguration is included |
 
 Execution rules:
@@ -78,14 +78,58 @@ Execution rules:
 1. Identify the instance using `GET /api/health`, `GET /api/meta` and `GET /api/boards`.
 2. With writes paused, save each board's lanes and `GET /api/boards/:boardId/tickets?archived=all`. Do not add search, lane, completion or other filters; obtain every ticket.
 3. Record each ticket's ID, boardId, laneId, isResolved (or legacy isCompleted), isArchived and parentTicketId, and each existing lane's ID, name and position. Count boards containing resolved tickets.
-4. Stop the app and every DB writer. Back up the entire DB, and retain the old image identity and startup configuration. Keep configuration backups private because they may contain credentials.
+4. Stop the app and every DB writer. Back up the SQLite database together with its attachment files. Retain the old image identity and startup configuration. Keep configuration backups private because they may contain credentials.
 5. Confirm the backup can be opened and `PRAGMA integrity_check` returns `ok`. When possible, rehearse migration on an isolated copy before touching the live DB.
 
-For SQLite WAL mode, copying only a running `.sqlite` file is not a valid backup. Copy the DB, `-wal` and `-shm` together after all writers stop, or use SQLite's consistent backup API. A board JSON Export is not a DB backup: Import creates another board and does not guarantee original IDs or full restoration of external integration data.
+Use the [database and image backup tool](#database-and-image-backup) to include committed SQLite WAL data and the matching images. A stopped filesystem backup must include the SQLite file, any `-wal` and `-shm` sidecars, and its sibling `attachments/` directory. Board JSON Import creates another board and does not restore the full instance or preserve its IDs.
 
 Recording the old image identity is not enough: verify it can be retrieved by digest or retained locally. If needed, save it with `docker image save` before upgrading, and do not remove it until recovery has been verified.
 
-### Docker Stop-And-Copy Example
+<a id="database-and-image-backup"></a>
+### Database and image backup
+
+The default Docker paths are `/app/data/kanbalone.sqlite` and `/app/data/attachments/`. With a custom `KANBALONE_DB_FILE`, the app puts `attachments/` beside that file. Keep both paths on persistent storage.
+
+The backup tool takes a consistent SQLite snapshot and copies each image recorded in it. It checks database integrity, verifies attachment metadata against the app's image type and size limits, and verifies each file's size and SHA-256. Keep the entire backup directory, including `manifest.json`, `database.sqlite`, and `attachments/` when present, in private storage outside the app's data volume. The tool also supports databases from before image attachments.
+
+Each command takes an existing source and a new destination directory with an existing parent. Restore validates the backup before publishing the destination. It restores the original database filename and puts the matching image files beside it. Use the same compatible version of Kanbalone that wrote the data, or a newer version that can migrate it. Keep the original data and switch the startup configuration to the restored data only after verifying an isolated startup and fetching a restored image. For upgrades, take the backup with writers stopped so it matches the reconciliation baseline. Routine backups can take a snapshot while Kanbalone is running.
+
+#### Native installation or checkout
+
+From the source checkout with dependencies installed, substitute your actual paths:
+
+```bash
+node scripts/kanbalone-backup.mjs backup /path/to/data/kanbalone.sqlite /private/backups/kanbalone-1
+node scripts/kanbalone-backup.mjs restore /private/backups/kanbalone-1 /path/to/recovered-data
+```
+
+Set `KANBALONE_DB_FILE=/path/to/recovered-data/kanbalone.sqlite` for the recovered instance, using the restored filename.
+
+#### Docker
+
+Use an image that includes the tool. Set the source container name and the actual paths. The example uses the source container's volume or bind mount at `/app/data`. Create the two host parent directories with permissions for the helper container's runtime user to write them. The standard image runs as UID 1000.
+
+```bash
+KANBALONE_CONTAINER='replace-with-your-container'
+KANBALONE_BACKUP_IMAGE='replace-with-image-that-includes-the-backup-tool'
+BACKUP_PARENT='/absolute/private/backup-parent'
+RECOVERY_PARENT='/absolute/private/recovery-parent'
+
+docker run --rm --network none --volumes-from "$KANBALONE_CONTAINER" \
+  --mount "type=bind,source=$BACKUP_PARENT,target=/backup" \
+  "$KANBALONE_BACKUP_IMAGE" node scripts/kanbalone-backup.mjs \
+  backup /app/data/kanbalone.sqlite /backup/kanbalone-1
+
+docker run --rm --network none \
+  --mount "type=bind,source=$BACKUP_PARENT,target=/backup,readonly" \
+  --mount "type=bind,source=$RECOVERY_PARENT,target=/recovery" \
+  "$KANBALONE_BACKUP_IMAGE" node scripts/kanbalone-backup.mjs \
+  restore /backup/kanbalone-1 /recovery/kanbalone-1
+```
+
+To start from this restored copy, mount the host's `$RECOVERY_PARENT/kanbalone-1` as `/app/data` in the recovered app. For a named volume, mount a new volume at `/app/data` in the restore helper, restore to `/app/data/kanbalone-1`, then mount that volume in the app and set `KANBALONE_DB_FILE=/app/data/kanbalone-1/kanbalone.sqlite`.
+
+### Docker stop-and-copy for older versions
 
 This example applies only to a confirmed container whose DB is under `/app/data`. Replace the container name and absolute private backup path. For Compose, verify the project/service; do not use `down -v`.
 
@@ -104,7 +148,7 @@ docker cp "$MIGRATION_CONTAINER:/app/data" "$MIGRATION_BACKUP/data"
 
 Check each command, including `mkdir`, succeeded before proceeding. Do not keep the only backup on the DB's own volume. If the DB lives elsewhere, back up that location. The same requirements for stopping writes, WAL consistency and private storage apply to bind mounts and direct execution.
 
-The following checks the copied DB and creates a standalone backup for restoration. Run it on a host with Python 3. Replace `kanbalone.sqlite` with the actual filename.
+For a data directory from before image attachments, the following checks the copied DB and creates a standalone backup for restoration. Run it on a host with Python 3. Replace `kanbalone.sqlite` with the actual filename. For a directory with images, keep the whole stopped copy together or run the [database and image backup tool](#database-and-image-backup) against the copied data.
 
 ```bash
 python3 - "$MIGRATION_BACKUP/data/kanbalone.sqlite" "$MIGRATION_BACKUP/before.sqlite" <<'PY'
@@ -231,10 +275,10 @@ A startup migration failure rolls back its transaction. Fix the cause and retry 
 To return to the old version, **reverting the image alone is insufficient**.
 
 1. Stop the new app and all writers.
-2. Save the current post-migration DB separately. If usage resumed, restoring the pre-migration backup loses subsequent changes; confirm the recovery scope with the user.
-3. Restore the verified pre-migration backup to the confirmed original DB path, retaining ownership and permissions.
-4. For a standalone `before.sqlite` restore, move aside the target DB's post-migration `-wal`/`-shm` files while all processes are stopped; do not mix them with the restored DB. For a DB/WAL/SHM set, use files from the same backup instant. Do not touch another database's files.
-5. Restore the recorded old image/source and startup configuration, start it, and verify health, database integrity and agreement with pre-migration data.
+2. Save the current post-migration database and its images together in a separate location. If usage resumed, restoring the pre-migration backup loses subsequent changes; confirm the recovery scope with the user.
+3. [Restore the verified backup](#database-and-image-backup) to a new data directory and configure the old version to use the restored database path. Retain appropriate ownership and permissions.
+4. For a stopped filesystem copy, restore the original database, any `-wal`/`-shm` sidecars, and any attachments from the same snapshot to a new data directory. For a legacy standalone `before.sqlite` backup, use a new data directory so the restored database starts with no sidecars from later runs.
+5. Start the recorded old image or source with its settings and the restored database path. Verify health, database integrity, agreement with pre-migration data, and image downloads if the backup includes attachments.
 6. Resume usage only after recovery is verified. JSON Import or manually reversing ticket moves is not a substitute for DB restoration.
 
 ## 10. AI Completion Report
@@ -280,8 +324,8 @@ Membership is board-local and shared by connected parent/child tickets. Do not w
 ### Upgrade And Reconciliation For Humans Or AI
 
 1. Identify the actual instance URL, runtime, data path and both source/target builds. Do not assume the published v0.10.0 image is Group-capable.
-2. Stop writes and take a consistent, restorable SQLite backup using the backup procedure above. Do not copy only the live `.sqlite` file while ignoring its WAL.
-3. Before upgrading, record board/lane/ticket counts and export every board. Include archived tickets when recording the baseline. Export is additional reconciliation data, not a substitute for a full database backup.
+2. Stop writes and take a consistent backup of SQLite and any attachments using the backup procedure above.
+3. Before upgrading, record board/lane/ticket counts and export every board for reconciliation. Include archived tickets when recording the baseline.
 4. Start the verified Group-capable build against the same storage. Do not run old and new writers together.
 5. Verify health and board/ticket totals. `GET /api/boards/:boardId/groups?status=all` should initially be empty; all existing tickets should have `groupId:null` and `group:null`. Compare lane IDs, completion/archive flags and parent links with the baseline.
 6. Verify a Group workflow on a disposable test board: create, add a parent/child set, detach membership, delete the empty Group, and export/import. Do not reorganize the user's existing tickets merely to test the migration.
@@ -297,7 +341,7 @@ Legacy exports are accepted only when they omit the format version and all Group
 
 ### Rollback
 
-Stop the new application and restore the pre-upgrade database backup before running the old build. Do not open the upgraded DB with the old application: it does not enforce Group invariants. Changes made after the backup are not present in that restore and must be reconciled separately if needed.
+Stop the new application and restore the pre-upgrade data backup before running the old build. Do not open the upgraded DB with the old application: it does not enforce Group invariants. Changes made after the backup are not present in that restore and must be reconciled separately if needed.
 
 Do not use a format-2 JSON import into an old release as a rollback path. Older releases may ignore unknown fields instead of rejecting them, losing Group data. Use the original backup and original build together.
 
@@ -313,6 +357,7 @@ The checks cover:
 - Every pre-existing stored field, allowing only documented migration changes; integrity and foreign-key checks; API reads; unchanged data after restart.
 - An injected completion-migration failure, verifying that schema and data changes roll back together.
 - A write after upgrading, followed by restoration of the original database set and original image. Restored data must exactly match the baseline; the later write must be absent.
+- On the candidate upgraded from v0.11.0, a live backup with an embedded image followed by restore to a new directory. The restored app returns identical ticket Markdown and image bytes over HTTP. The post-backup image remains in the original app and is absent from the restored app.
 
 To test a locally built candidate:
 
@@ -329,7 +374,7 @@ RELEASE_SHA="$revision" RELEASE_VERSION="$version" \
 
 Use a clean checkout so the SHA identifies the candidate source. Docker and network access to the public source images are required. The bind-mount test uses the invoking user's UID/GID; the volume test uses the image's default runtime user. Temporary containers and storage are removed. Reports, full synthetic snapshots and injected-failure logs remain in `coverage/upgrade-restore/`; CI retains them as `upgrade-restore-RUN_ATTEMPT` for 30 days.
 
-A passing report proves these representative paths only. It does not test every historical version, native installations, other architectures, live database copying, disk exhaustion, filesystem-specific failures or provider authentication. This command does not upgrade your running instance. Follow the backup and reconciliation steps above for an actual upgrade. JSON export is not a full database backup, and restoring an old backup discards later changes unless separately reconciled.
+A passing report covers these representative paths. The verification uses isolated containers on Linux/amd64 and synthetic local data. Follow the backup and reconciliation steps above for an actual upgrade. Restoring an old backup discards later changes unless separately reconciled.
 
 ## Completion timestamps and Kanban display (v1.0.0)
 
@@ -347,4 +392,4 @@ Completion filters now also apply to archived tickets. For example, old “Open 
 
 Existing API callers require no changes. Lists without `limit` and `cursor` retain their full count, order and response shape. See [pagination examples](./api-examples.md#paged-ticket-lists).
 
-Startup adds ticket-list revision and cursor-signing tables, triggers and indexes. Existing tickets and lane meanings are unchanged. Back up the database and verify preservation with the candidate as for other upgrades. Cursors survive a restart alone, but continuation is not guaranteed after list changes, switching databases or restoring a backup. Discard stored cursors and restart on an invalid-cursor 400 or a changed-list 409. Correct the arguments for other 400 errors.
+Startup adds ticket-list revision and cursor-signing tables, triggers and indexes. Existing tickets and lane meanings are unchanged. Back up the database and any attachments and verify preservation with the candidate as for other upgrades. Cursors survive a restart alone, but continuation is not guaranteed after list changes, switching databases or restoring a backup. Discard stored cursors and restart on an invalid-cursor 400 or a changed-list 409. Correct the arguments for other 400 errors.

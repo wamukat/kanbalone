@@ -11,6 +11,61 @@ export function createTicketCommentsModule(ctx) {
     getExpandedRemoteErrorCommentId: () => expandedRemoteErrorCommentId,
   });
   const { humanizeRemoteSyncError, renderComments } = commentRenderers;
+  const isCurrent = () => ctx.isDialogCurrent() && state.dialogMode === "view";
+  ctx.imageAttachments.bind(elements.commentBody, isCurrent);
+
+  function inlineInputs() {
+    return [...elements.ticketComments.querySelectorAll("[data-comment-edit-body]")];
+  }
+
+  function resetImageUploads() {
+    ctx.imageAttachments.reset(elements.commentBody);
+    for (const input of inlineInputs()) ctx.imageAttachments.reset(input);
+  }
+
+  function hasUnsavedComments() {
+    if (state.dialogMode !== "view") return false;
+    const composer = elements.commentBody;
+    if (composer.value.trim()) return true;
+    return inlineInputs().some(input => input.readOnly || input.value !== input.defaultValue);
+  }
+
+  function isSaving() {
+    return elements.commentBody.readOnly || inlineInputs().some(input => input.readOnly);
+  }
+
+  function syncComments(comments, { preserveEdits = true } = {}) {
+    const list = elements.ticketComments;
+    const template = document.createElement("template");
+    template.innerHTML = renderComments(comments);
+    const active = document.activeElement;
+    const drafts = new Map();
+    if (preserveEdits) {
+      for (const input of inlineInputs()) {
+        if (input.closest("form").hidden || input.closest("form").dataset.saved) continue;
+        const item = input.closest(".comment-item");
+        drafts.set(item.dataset.commentId, item);
+      }
+    }
+    if (drafts.size === 0) {
+      for (const input of inlineInputs()) ctx.imageAttachments.reset(input);
+      list.replaceChildren(template.content);
+      return;
+    }
+    const desiredItems = [...template.content.children].map((item) =>
+      item.querySelector("[data-edit-comment-id]") ? drafts.get(item.dataset.commentId) ?? item : item);
+    const retained = new Set(desiredItems);
+    for (const oldItem of [...list.children]) {
+      if (retained.has(oldItem)) continue;
+      ctx.imageAttachments.reset(oldItem.querySelector("[data-comment-edit-body]"));
+      oldItem.remove();
+    }
+    for (const [index, item] of desiredItems.entries()) {
+      const currentItem = list.children[index];
+      if (item !== currentItem) list.insertBefore(item, currentItem ?? null);
+    }
+    if (active instanceof HTMLElement && list.contains(active) && document.activeElement !== active) active.focus({ preventScroll: true });
+  }
 
   function syncCommentComposer() {
     if (!elements.commentForm || !elements.commentComposeToggle) {
@@ -37,9 +92,17 @@ export function createTicketCommentsModule(ctx) {
 
   function resetCommentComposer() {
     isCommentComposerOpen = false;
+    ctx.imageAttachments.reset(elements.commentBody);
     elements.commentBody.value = "";
+    elements.commentBody.readOnly = false;
+    elements.saveCommentButton.disabled = false;
     clearCommentState();
     syncCommentComposer();
+  }
+
+  function discardDrafts() {
+    resetCommentComposer();
+    syncComments(state.dialogTicket?.comments ?? [], { preserveEdits: false });
   }
 
   function clearCommentState() {
@@ -77,9 +140,11 @@ export function createTicketCommentsModule(ctx) {
 
   async function addComment(event) {
     event?.preventDefault?.();
-    if (!state.editingTicketId) {
+    const ticketId = state.editingTicketId;
+    if (!ticketId || !isCurrent() || elements.saveCommentButton.disabled || !ctx.imageAttachments.canSave(elements.commentBody)) {
       return;
     }
+    const stillCurrent = ctx.captureDialogScope();
     const bodyMarkdown = elements.commentBody.value.trim();
     if (!bodyMarkdown) {
       ctx.showToast(t("Comment is required"), "error");
@@ -87,20 +152,28 @@ export function createTicketCommentsModule(ctx) {
     }
     try {
       elements.saveCommentButton.disabled = true;
-      await ctx.sendJson(`/api/tickets/${state.editingTicketId}/comments`, {
+      elements.commentBody.readOnly = true;
+      await ctx.sendJson(`/api/tickets/${ticketId}/comments`, {
         method: "POST",
         body: { bodyMarkdown },
       });
-      const ticket = await ctx.api(`/api/tickets/${state.editingTicketId}`);
-      await ctx.refreshDialogTicket(ticket.id);
+      if (!stillCurrent()) return;
+      await ctx.refreshDialogTicket(ticketId);
+      if (!stillCurrent()) return;
+      ctx.imageAttachments.reset(elements.commentBody);
       elements.commentBody.value = "";
       await ctx.refreshBoardDetail();
-      setCommentState("saved", t("Comment saved"));
+      if (stillCurrent()) setCommentState("saved", t("Comment saved"));
     } catch (error) {
-      setCommentState("error", t("Save failed"));
-      ctx.showToast(error.message, "error");
+      if (stillCurrent()) {
+        setCommentState("error", t("Save failed"));
+        ctx.showToast(error.message, "error");
+      }
     } finally {
-      elements.saveCommentButton.disabled = false;
+      if (stillCurrent()) {
+        elements.saveCommentButton.disabled = false;
+        elements.commentBody.readOnly = false;
+      }
     }
   }
 
@@ -198,7 +271,9 @@ export function createTicketCommentsModule(ctx) {
     item.querySelector(".comment-display").hidden = true;
     const form = item.querySelector("[data-comment-edit-form]");
     form.hidden = false;
-    form.querySelector("[data-comment-edit-body]")?.focus();
+    const input = form.querySelector("[data-comment-edit-body]");
+    ctx.imageAttachments.bind(input, isCurrent);
+    input.focus();
     ctx.syncDialogScrollLock?.();
   }
 
@@ -210,6 +285,8 @@ export function createTicketCommentsModule(ctx) {
     const form = item.querySelector("[data-comment-edit-form]");
     const textarea = item.querySelector("[data-comment-edit-body]");
     if (textarea) {
+      if (textarea.readOnly) return;
+      ctx.imageAttachments.reset(textarea);
       textarea.value = textarea.defaultValue;
     }
     form.hidden = true;
@@ -220,6 +297,9 @@ export function createTicketCommentsModule(ctx) {
   async function saveCommentInline(saveButton) {
     const item = saveButton.closest(".comment-item");
     const textarea = item?.querySelector("[data-comment-edit-body]");
+    if (!isCurrent() || saveButton.disabled || !ctx.imageAttachments.canSave(textarea)) return;
+    const ticketId = state.editingTicketId;
+    const stillCurrent = ctx.captureDialogScope();
     const bodyMarkdown = textarea?.value.trim() ?? "";
     if (!bodyMarkdown) {
       ctx.showToast(t("Comment is required"), "error");
@@ -227,19 +307,27 @@ export function createTicketCommentsModule(ctx) {
     }
     try {
       saveButton.disabled = true;
+      textarea.readOnly = true;
       setCommentState("saving", t("Saving..."));
       await ctx.sendJson(`/api/comments/${saveButton.dataset.saveCommentId}`, {
         method: "PATCH",
         body: { bodyMarkdown },
       });
-      await ctx.refreshDialogTicket();
+      if (!stillCurrent()) return;
+      textarea.closest("form").dataset.saved = "true";
+      await ctx.refreshDialogTicket(ticketId);
+      if (!stillCurrent()) return;
       await ctx.refreshBoardDetail();
-      setCommentState("saved", t("Saved"));
+      if (stillCurrent()) setCommentState("saved", t("Saved"));
     } catch (error) {
-      setCommentState("error", t("Save failed"));
-      ctx.showToast(error.message, "error");
+      if (stillCurrent()) {
+        setCommentState("error", t("Save failed"));
+        ctx.showToast(error.message, "error");
+      }
     } finally {
       saveButton.disabled = false;
+      textarea.readOnly = false;
+      delete textarea.closest("form").dataset.saved;
     }
   }
 
@@ -322,14 +410,18 @@ export function createTicketCommentsModule(ctx) {
       return;
     }
     expandedRemoteErrorCommentId = expandedRemoteErrorCommentId === commentId ? null : commentId;
-    elements.ticketComments.innerHTML = renderComments(state.dialogTicket?.comments ?? []);
+    syncComments(state.dialogTicket?.comments ?? []);
   }
 
   return {
     addComment,
     clearCommentState,
+    discardDrafts,
     handleCommentAction,
-    renderComments,
+    hasUnsavedComments,
+    isSaving,
+    syncComments,
+    resetImageUploads,
     resetCommentComposer,
     toggleCommentComposer,
   };

@@ -10,7 +10,8 @@ test-results
 .env
 .env.*
 docs
-scripts
+scripts/*
+!scripts/kanbalone-backup.mjs
 test
 *.md
 playwright.config.ts
