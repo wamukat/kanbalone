@@ -1,0 +1,5203 @@
+{
+  "baseline": "3b6519dae6b5e1e3499647e7b2c93edd8319abff",
+  "countOnly": "3119e721a49d4d838fae7d9498b0ea603d97f69e",
+  "combined": "42db2d6dfd0f1fe48415b7035564cf1fd309bc67",
+  "api": {
+    "production-count-0": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 304724,
+      "variant": "mixed",
+      "delayMs": 0,
+      "records": [
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 69.55773700000009,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 4.947697000000062,
+          "generationMs": 11.619340000000193
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 22.000035000000025,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 2.6438069999999243,
+          "generationMs": 7.868859999999586
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 12.297427000000425,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 1.312579999999798,
+          "generationMs": 5.857733999999255
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 12.669261000000006,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 1.6880129999999554,
+          "generationMs": 6.776255999999648
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 12.062141000000338,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 1.2608379999996941,
+          "generationMs": 6.115132999999332
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 11.410179999999855,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 1.2735199999997349,
+          "generationMs": 5.386557999999695
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 15.255306000000019,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 2.011833000000024,
+          "generationMs": 6.191475000000082
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 11.18939599999976,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 1.2368820000001506,
+          "generationMs": 5.948628000001008
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 229.80629,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 4.2487419999997655,
+          "generationMs": 163.21054900000036
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 116.58733399999983,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.607730000000174,
+          "generationMs": 55.02825099999791
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 109.10595999999987,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.311565999999857,
+          "generationMs": 52.448353000001134
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 245.0956110000002,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 4.931153999999879,
+          "generationMs": 176.38961600000175
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 242.839829,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 4.302079999999933,
+          "generationMs": 175.65730000000076
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 106.69355199999973,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.5133200000000215,
+          "generationMs": 51.3276620000006
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 106.23168200000009,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.428074999999808,
+          "generationMs": 52.348008999998456
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 217.30769599999985,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 3.945394000000306,
+          "generationMs": 157.4861689999998
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 32.47340399999939,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 4.4686970000002475,
+          "generationMs": 9.289521000000605
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 22.027176999999938,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 2.7237050000003364,
+          "generationMs": 6.603904999999031
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 10.096885000000839,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 1.6503499999998894,
+          "generationMs": 5.123496000000159
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 13.883217000000514,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 1.7174610000001849,
+          "generationMs": 6.162287999998625
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 10.100781000000097,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 1.8013620000001538,
+          "generationMs": 5.779505999999856
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 9.872218999999859,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 1.8463470000006055,
+          "generationMs": 5.3826480000025185
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 9.858948000000055,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 2.328762999999526,
+          "generationMs": 5.837385999999242
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 9.066302999999607,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 1.6746039999998175,
+          "generationMs": 5.2471230000001015
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 134.1891310000001,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 5.419249000000491,
+          "generationMs": 93.18236999999772
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 109.02015399999982,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.365235999999641,
+          "generationMs": 75.62443899999926
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 117.56504599999971,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 6.145317999999861,
+          "generationMs": 79.97097299999768
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 127.95073000000048,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 5.390695000000051,
+          "generationMs": 91.96559100000195
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 125.33046699999977,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 5.3057810000000245,
+          "generationMs": 90.22276099999908
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 113.30651500000022,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.8842500000000655,
+          "generationMs": 78.80668800000421
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 117.63853199999994,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.924771000000874,
+          "generationMs": 80.98375600000145
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 127.50629200000003,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 5.295264000000316,
+          "generationMs": 90.12038199999824
+        }
+      ]
+    },
+    "production-page-0": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 276292,
+      "variant": "mixed",
+      "delayMs": 0,
+      "records": [
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 69.67196999999987,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 4.83653900000013,
+          "generationMs": 11.38700800000015
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 29.191705000000184,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 4.098365000000058,
+          "generationMs": 7.646304999999984
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 10.590747000000192,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 2.965523999999732,
+          "generationMs": 4.782768999999462
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 15.208930999999666,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 1.678331000000071,
+          "generationMs": 6.929450999999517
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 11.231320000000323,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 1.3386700000000928,
+          "generationMs": 5.533493999999791
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 8.154997000000094,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 2.516378999999688,
+          "generationMs": 3.8502509999998438
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 8.102425999999923,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 2.5457220000002962,
+          "generationMs": 3.897849000000406
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 11.17668999999978,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 213043,
+          "maxBodyBytes": 42734,
+          "maxGenerationMs": 1.3106199999997443,
+          "generationMs": 5.434115999999904
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 121.72039099999984,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.854718999999932,
+          "generationMs": 58.33165899999949
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 74.44196999999986,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 4.060273999999936,
+          "generationMs": 36.59549000000061
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 72.65958800000044,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 3.5183380000003126,
+          "generationMs": 35.78624899999977
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 109.70836400000007,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.622320999999829,
+          "generationMs": 53.60496999999896
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 114.64982000000009,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.307937999999922,
+          "generationMs": 54.4803450000004
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 72.53057899999976,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 3.571545000000242,
+          "generationMs": 35.62856300000021
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 68.94844499999999,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 3.477867999999944,
+          "generationMs": 35.12835199999927
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 111.42059500000005,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2147566,
+          "maxBodyBytes": 43140,
+          "maxGenerationMs": 3.606390999999803,
+          "generationMs": 54.6988899999983
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 35.06680899999992,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 4.056016,
+          "generationMs": 8.86086800000021
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 20.814178000000084,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 2.7967760000001363,
+          "generationMs": 5.404242999999951
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 7.266628999999739,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 1.8053150000000642,
+          "generationMs": 3.6990099999998165
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 10.302470999999969,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 1.7825109999998858,
+          "generationMs": 5.472988000000441
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 10.53704400000015,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 1.7857049999997798,
+          "generationMs": 5.622273999999834
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 5.876299999999901,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 1.6786300000003394,
+          "generationMs": 3.2722350000003644
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 5.6651439999996,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 1.5805919999997968,
+          "generationMs": 3.194821999999931
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 9.886813000000075,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119738,
+          "maxBodyBytes": 20888,
+          "maxGenerationMs": 1.746690999999828,
+          "generationMs": 5.345662999999149
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 114.71297300000015,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.389263000000028,
+          "generationMs": 75.64096899999913
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 53.37071900000001,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 5.889674999999897,
+          "generationMs": 32.37207999999873
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 48.97042499999998,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 5.0340070000002015,
+          "generationMs": 30.489638999999897
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 112.85353900000018,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.058434999999918,
+          "generationMs": 75.7428589999995
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 110.99589099999957,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.205394999999953,
+          "generationMs": 74.97540399999616
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 51.31613700000025,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 5.286376000000018,
+          "generationMs": 31.897284000001036
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 50.36286700000028,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 5.536675000000287,
+          "generationMs": 31.270469000001412
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 108.22176099999979,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1074009,
+          "maxBodyBytes": 21376,
+          "maxGenerationMs": 5.178214000000025,
+          "generationMs": 74.09916199999998
+        }
+      ]
+    },
+    "production-combined-0": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 253420,
+      "variant": "mixed",
+      "delayMs": 0,
+      "records": [
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 83.92900199999985,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 4.76638899999989,
+          "generationMs": 12.963299000000461
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 20.351595999999972,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 3.712789000000157,
+          "generationMs": 7.073582000000442
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 10.611712999999781,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 3.0756539999997585,
+          "generationMs": 4.7386289999994915
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 16.733592000000044,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 1.6968080000001464,
+          "generationMs": 8.186208000000988
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 13.813928000000033,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 1.4670700000001489,
+          "generationMs": 7.119865000000118
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 9.249974999999722,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 2.915647000000263,
+          "generationMs": 4.424967000000379
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 9.364200999999866,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 2.867612999999892,
+          "generationMs": 4.4186689999996815
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 18.503201999999874,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 1.9030900000002475,
+          "generationMs": 7.964763999999377
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 253.17418100000032,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 5.10692999999992,
+          "generationMs": 181.3516210000007
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 83.73688900000025,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 4.2881339999999,
+          "generationMs": 42.701522000000296
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 93.5986710000002,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 4.201215000000047,
+          "generationMs": 42.4784350000009
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 264.6652759999997,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 4.543339000000287,
+          "generationMs": 192.29363000000194
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 263.81262000000015,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 4.407727999999679,
+          "generationMs": 190.16485299999886
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 76.22358600000007,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 3.8465400000000045,
+          "generationMs": 38.59772899999871
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 74.98576200000025,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 3.8124979999997777,
+          "generationMs": 38.623670999999376
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 245.4996689999998,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 4.047895000000153,
+          "generationMs": 178.76476600000024
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 43.45442700000012,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 4.402398999999605,
+          "generationMs": 10.037834000000657
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 22.973736000000372,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 3.232643999999709,
+          "generationMs": 6.059857000000193
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 7.992203999999674,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 2.0536409999999705,
+          "generationMs": 4.032933999999841
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 12.005543000000216,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 2.120166999999583,
+          "generationMs": 6.711693999999625
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 11.572467999999844,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 2.0581389999997555,
+          "generationMs": 6.513538000000153
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 6.843796000000111,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 1.9429620000000796,
+          "generationMs": 3.8051839999998265
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 6.908973999999944,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 1.882282000000032,
+          "generationMs": 3.836847999999918
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 11.784985000000233,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 2.1401609999998072,
+          "generationMs": 6.497928999999658
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 144.31794900000023,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 7.351863000000321,
+          "generationMs": 100.06032600000162
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 60.99901200000022,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 6.176776000000245,
+          "generationMs": 36.91478900000311
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 66.59171200000037,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 6.027919000000111,
+          "generationMs": 37.281199000000925
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 137.41857900000014,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 6.883970999999292,
+          "generationMs": 96.98114500000156
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 139.89196400000037,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 5.745190999999977,
+          "generationMs": 97.9672320000027
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 63.059573999999884,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 5.197433999999703,
+          "generationMs": 36.52520099999856
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 55.000294000000395,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 6.0339930000000095,
+          "generationMs": 35.15517099999761
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 127.8675059999996,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 6.324979999999414,
+          "generationMs": 92.22718499999519
+        }
+      ]
+    },
+    "production-combined-15": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 249040,
+      "variant": "mixed",
+      "delayMs": 15,
+      "records": [
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 181.17609300000004,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 8.989211999999952,
+          "generationMs": 18.75002900000004
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 58.726316,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 4.942025999999942,
+          "generationMs": 9.178887999999915
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 47.889624999999796,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 4.502879000000121,
+          "generationMs": 6.832281000000421
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 106.86988299999985,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 3.2966629999996258,
+          "generationMs": 12.84965499999953
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 105.05849399999988,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 5,
+          "bodyBytes": 212975,
+          "maxBodyBytes": 42717,
+          "maxGenerationMs": 2.7977419999997437,
+          "generationMs": 12.765417999999954
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 46.244044999999915,
+          "count": 1000,
+          "hash": "49b0aede8886bb078757bd077062798e83e694c676e488d469e071e9e71df888",
+          "health": [],
+          "requestCount": 2,
+          "bodyBytes": 212221,
+          "maxBodyBytes": 169894,
+          "maxGenerationMs": 4.266377999999804,
+          "generationMs": 6.979274999999689
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 1177.2211129999996,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 5.917867999999999,
+          "generationMs": 260.3858879999998
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 338.5906679999998,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 5.567586000000119,
+          "generationMs": 58.62127400000054
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 335.62056699999994,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 4.931131999999707,
+          "generationMs": 56.50401299999976
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 1164.7919269999993,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 5.86214899999959,
+          "generationMs": 252.09739699999682
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 1169.7358020000001,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 50,
+          "bodyBytes": 2146640,
+          "maxBodyBytes": 43122,
+          "maxGenerationMs": 5.887337999999545,
+          "generationMs": 260.477476
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 326.73485900000014,
+          "count": 10000,
+          "hash": "35b3a504afae00e4b286ea92d4c9583d9c5686d71ab0120d2f2682aa54ff19f8",
+          "health": [],
+          "requestCount": 14,
+          "bodyBytes": 2137519,
+          "maxBodyBytes": 171720,
+          "maxGenerationMs": 5.603312000000187,
+          "generationMs": 56.602913999999146
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 121.62618199999997,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 5.836862999999539,
+          "generationMs": 14.734760000001188
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 66.51177800000005,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 4.882325999999921,
+          "generationMs": 9.013774000000012
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 42.69250699999975,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 2.775029999999788,
+          "generationMs": 5.973519000000124
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 96.55480199999965,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 2.663607000000411,
+          "generationMs": 8.528814999999668
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 98.6705780000002,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 6,
+          "bodyBytes": 119674,
+          "maxBodyBytes": 20872,
+          "maxGenerationMs": 2.725920999999289,
+          "generationMs": 9.628234999999222
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 1,
+          "elapsedMs": 38.06396700000005,
+          "count": 30,
+          "referenceCount": 995,
+          "hash": "76e57260490fb3187a5b65f0d9fdf93058f7906b6a7241c6387bc94d9c555bae",
+          "health": [],
+          "requestCount": 3,
+          "bodyBytes": 118892,
+          "maxBodyBytes": 81925,
+          "maxGenerationMs": 2.072826000000532,
+          "generationMs": 4.04067600000144
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 1042.3527570000006,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 6.748204999999871,
+          "generationMs": 155.88746699999774
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 309.94746699999996,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 8.14852400000018,
+          "generationMs": 53.05035599999792
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 308.0336350000016,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 7.494681000000128,
+          "generationMs": 49.61124400000335
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 1041.8173330000009,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 7.619758000000729,
+          "generationMs": 157.06454400000985
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 1041.0704139999998,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 51,
+          "bodyBytes": 1073146,
+          "maxBodyBytes": 21358,
+          "maxGenerationMs": 7.527385999999751,
+          "generationMs": 158.80025599999317
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "list-partial",
+          "boardId": 2,
+          "elapsedMs": 309.9451399999998,
+          "count": 30,
+          "referenceCount": 9995,
+          "hash": "1da9b07f7d5b33c4077356970c0ab93f65c5bfe81246fcd06dadf30bd74b9a2b",
+          "health": [],
+          "requestCount": 15,
+          "bodyBytes": 1063627,
+          "maxBodyBytes": 84374,
+          "maxGenerationMs": 7.327900999998747,
+          "generationMs": 49.56493600000067
+        }
+      ]
+    },
+    "production-dense-baseline-0": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 262424,
+      "variant": "dense-tags",
+      "delayMs": 0,
+      "records": [
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 163.1450450000002,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 56.957474999999704,
+              "delayedMs": 22.235927000000174
+            },
+            {
+              "kind": "comment",
+              "httpMs": 64.55697299999974,
+              "delayedMs": 56.50428899999997
+            },
+            {
+              "kind": "health",
+              "httpMs": 1.8635720000002038,
+              "delayedMs": 63.3367659999999
+            }
+          ],
+          "requestCount": 5,
+          "bodyBytes": 954575,
+          "maxBodyBytes": 212717,
+          "maxGenerationMs": 9.928384000000278,
+          "generationMs": 22.1626040000001
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 42.036294,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.838482999999997,
+              "delayedMs": 12.770101999999952
+            },
+            {
+              "kind": "comment",
+              "httpMs": 12.008216000000175,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.2298500000001695,
+              "delayedMs": 2.0837940000001254
+            }
+          ],
+          "requestCount": 5,
+          "bodyBytes": 954575,
+          "maxBodyBytes": 212717,
+          "maxGenerationMs": 3.9655009999996764,
+          "generationMs": 15.48568000000023
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 39.329311999999845,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 10.938481000000138,
+              "delayedMs": 15.527781999999661
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.925690000000031,
+              "delayedMs": 1.0011320000003252
+            },
+            {
+              "kind": "health",
+              "httpMs": 2.916902000000391,
+              "delayedMs": 0.3524909999996453
+            }
+          ],
+          "requestCount": 5,
+          "bodyBytes": 954575,
+          "maxBodyBytes": 212717,
+          "maxGenerationMs": 4.052000000000135,
+          "generationMs": 16.029218000000128
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 33.77005199999985,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 6.824226000000181,
+              "delayedMs": 11.664503999999852
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.001262999999653,
+              "delayedMs": 3.266852000000199
+            }
+          ],
+          "requestCount": 5,
+          "bodyBytes": 954575,
+          "maxBodyBytes": 212717,
+          "maxGenerationMs": 4.158680000000004,
+          "generationMs": 14.968542999999954
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 339.3815890000001,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.879018999999971,
+              "delayedMs": 9.479699999999866
+            },
+            {
+              "kind": "comment",
+              "httpMs": 19.70451200000025,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.540404999999737,
+              "delayedMs": 15.811350000000402
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.467461999999614,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.96697099999983,
+              "delayedMs": 14.160515999999916
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.34027500000002,
+              "delayedMs": 1.2466599999997925
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.452890999999909,
+              "delayedMs": 0.27935000000024957
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.254226000000017,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 10.011083999999755,
+              "delayedMs": 0.22347000000036132
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.863988999999947,
+              "delayedMs": 12.314642999999705
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.336534000000029,
+              "delayedMs": 10.40435400000024
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.448045000000093,
+              "delayedMs": 1.9463099999998121
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.473291000000245,
+              "delayedMs": 11.000027000000046
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.04187899999988,
+              "delayedMs": 0.3730319999999665
+            },
+            {
+              "kind": "health",
+              "httpMs": 10.240701000000172,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 15.388778999999886,
+              "delayedMs": 9.759155000000192
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.516204000000016,
+              "delayedMs": 10.472378999999819
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.232665999999881,
+              "delayedMs": 0.7090250000001106
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.667026000000078,
+              "delayedMs": 12.066209999999955
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.287972000000082,
+              "delayedMs": 0.7996929999999338
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.759184000000005,
+              "delayedMs": 0.20160699999996723
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.282210999999734,
+              "delayedMs": 0.6339250000000902
+            }
+          ],
+          "requestCount": 50,
+          "bodyBytes": 2832240,
+          "maxBodyBytes": 214320,
+          "maxGenerationMs": 5.600717999999688,
+          "generationMs": 199.69904999999744
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 332.9925330000001,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.919585000000097,
+              "delayedMs": 14.954295999999886
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.764979999999923,
+              "delayedMs": 11.240093000000343
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.478117999999995,
+              "delayedMs": 10.094016999999894
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.090330999999878,
+              "delayedMs": 2.401416000000154
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.679611999999906,
+              "delayedMs": 14.228428999999778
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.220460000000003,
+              "delayedMs": 10.260772000000088
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.462088000000222,
+              "delayedMs": 10.824686999999813
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.962982999999895,
+              "delayedMs": 0.7081740000003265
+            },
+            {
+              "kind": "health",
+              "httpMs": 8.821628000000146,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.683244000000286,
+              "delayedMs": 3.9361949999997705
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.266017999999804,
+              "delayedMs": 0.6033140000004096
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.8487769999997,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.535229999999956,
+              "delayedMs": 3.559823999999935
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.09517599999981,
+              "delayedMs": 0.33539199999995617
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.121581999999762,
+              "delayedMs": 0.15298200000006545
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.64992600000005,
+              "delayedMs": 1.1186869999996816
+            },
+            {
+              "kind": "health",
+              "httpMs": 8.571597999999994,
+              "delayedMs": 9.845966000000317
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.793858,
+              "delayedMs": 3.6549119999999675
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.508471999999983,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.116428999999698,
+              "delayedMs": 0.3332510000000184
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.210612999999739,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.227986999999757,
+              "delayedMs": 0.8280859999999848
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.6042059999999765,
+              "delayedMs": 9.564499999999953
+            }
+          ],
+          "requestCount": 50,
+          "bodyBytes": 2832240,
+          "maxBodyBytes": 214320,
+          "maxGenerationMs": 6.220586999999796,
+          "generationMs": 194.7228580000001
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 314.3699899999997,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.668871999999737,
+              "delayedMs": 15.555272999999943
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.288860000000113,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.002614999999878,
+              "delayedMs": 15.001703000000361
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.745006000000103,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.588828000000376,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.480196000000433,
+              "delayedMs": 0.34840299999996205
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.185589000000164,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.177907000000232,
+              "delayedMs": 0.31520499999987805
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.720929999999953,
+              "delayedMs": 13.154277000000093
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.13496699999996,
+              "delayedMs": 0.8533590000001823
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.425467000000026,
+              "delayedMs": 0.21130300000004354
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.084325000000263,
+              "delayedMs": 0.07844799999975294
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.65878500000008,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.958353999999872,
+              "delayedMs": 9.789307999999892
+            },
+            {
+              "kind": "health",
+              "httpMs": 8.538694999999734,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 15.065226000000166,
+              "delayedMs": 2.787924999999632
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.0564509999999245,
+              "delayedMs": 15.105853000000025
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.007204999999885,
+              "delayedMs": 0.5115020000002914
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.451317999999901,
+              "delayedMs": 14.47805100000005
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.540103000000272,
+              "delayedMs": 0.7901810000003024
+            },
+            {
+              "kind": "health",
+              "httpMs": 4.6308570000001055,
+              "delayedMs": 1.584899999999834
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.608908000000156,
+              "delayedMs": 2.8481480000000374
+            },
+            {
+              "kind": "health",
+              "httpMs": 1.3293219999995927,
+              "delayedMs": 1.842040000000452
+            }
+          ],
+          "requestCount": 50,
+          "bodyBytes": 2832240,
+          "maxBodyBytes": 214320,
+          "maxGenerationMs": 5.957421999999951,
+          "generationMs": 185.35342500000115
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 334.25834399999985,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.386610000000474,
+              "delayedMs": 14.862205999999787
+            },
+            {
+              "kind": "comment",
+              "httpMs": 20.256698000000142,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.174913000000743,
+              "delayedMs": 21.149209999999584
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.297676999999567,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.024194999999963,
+              "delayedMs": 2.6728860000002896
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.63482699999986,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.793234000000666,
+              "delayedMs": 0.4682679999996253
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.70113500000025,
+              "delayedMs": 10.05841700000019
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.677832000000308,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.553539999999884,
+              "delayedMs": 0.5470380000006116
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.356797999999799,
+              "delayedMs": 15.553861999999754
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.785396999999648,
+              "delayedMs": 1.8796860000002198
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.797308999999586,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.52831100000003,
+              "delayedMs": 2.0659829999995054
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.230282999999872,
+              "delayedMs": 10.24225700000079
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.623161999999866,
+              "delayedMs": 0.010221999999885156
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.364788000000772,
+              "delayedMs": 3.6946469999993496
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.419383999999809,
+              "delayedMs": 2.03291900000022
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.41532400000051,
+              "delayedMs": 0.49413000000004104
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.627969000000121,
+              "delayedMs": 2.058078000000023
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.96520800000053,
+              "delayedMs": 12.094914999999673
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.952347999999802,
+              "delayedMs": 1.1504360000008091
+            },
+            {
+              "kind": "health",
+              "httpMs": 4.822730999999294,
+              "delayedMs": 9.669726000000082
+            }
+          ],
+          "requestCount": 50,
+          "bodyBytes": 2832240,
+          "maxBodyBytes": 214320,
+          "maxGenerationMs": 5.599868000000242,
+          "generationMs": 200.44749399999637
+        }
+      ]
+    },
+    "production-dense-candidate-0": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 230912,
+      "variant": "dense-tags",
+      "delayMs": 0,
+      "records": [
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 105.41767599999957,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 53.25467600000002,
+              "delayedMs": 21.802066000000195
+            },
+            {
+              "kind": "comment",
+              "httpMs": 65.39318000000003,
+              "delayedMs": 63.52268499999991
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 9.80619999999999,
+          "generationMs": 17.671764000000167
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 23.663866999999755,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 6.496550999999727,
+              "delayedMs": 18.17207099999996
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 7.080645999999888,
+          "generationMs": 10.099793999999747
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 27.97655500000019,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.023517000000083,
+              "delayedMs": 21.844086999999945
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 8.652042000000165,
+          "generationMs": 11.843971000000238
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 19.652423999999883,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 5.064816000000064,
+              "delayedMs": 15.283323999999993
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 6.8118030000000545,
+          "generationMs": 9.590677000000142
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 106.67917699999998,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 11.210419000000002,
+              "delayedMs": 21.788606999999956
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.749528999999711,
+              "delayedMs": 13.781488000000081
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.130462999999963,
+              "delayedMs": 1.8165650000000824
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.937928999999713,
+              "delayedMs": 1.869662999999946
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.224097999999685,
+              "delayedMs": 10.005564999999933
+            },
+            {
+              "kind": "comment",
+              "httpMs": 6.591800000000148,
+              "delayedMs": 0.2557389999997213
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 8.387242999999671,
+          "generationMs": 45.60621999999967
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 119.97640700000011,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 10.094440999999733,
+              "delayedMs": 21.226030000000264
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.223797000000104,
+              "delayedMs": 12.177486999999928
+            },
+            {
+              "kind": "health",
+              "httpMs": 7.1030329999998685,
+              "delayedMs": 1.294170000000122
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.019100999999864,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 7.119808999999805,
+              "delayedMs": 9.914608000000044
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.682663000000048,
+              "delayedMs": 3.5439910000000054
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.948279000000184,
+              "delayedMs": 1.7509799999997995
+            },
+            {
+              "kind": "comment",
+              "httpMs": 4.677794000000176,
+              "delayedMs": 0.011207999999896856
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 7.4110530000002655,
+          "generationMs": 47.6743990000009
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 127.57375000000002,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 13.83802999999989,
+              "delayedMs": 11.599643000000015
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.56068600000026,
+              "delayedMs": 13.948493999999755
+            },
+            {
+              "kind": "health",
+              "httpMs": 7.332023999999819,
+              "delayedMs": 1.6325690000003306
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.088799999999992,
+              "delayedMs": 3.709497999999712
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.2702039999999215,
+              "delayedMs": 0.1441500000000815
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.808534000000236,
+              "delayedMs": 3.3913269999998192
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.938198000000284,
+              "delayedMs": 11.550212999999985
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.005787000000055,
+              "delayedMs": 2.909281000000192
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 8.648350000000391,
+          "generationMs": 52.3097119999984
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 175.6685520000001,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 22.871190000000297,
+              "delayedMs": 10.87342499999977
+            },
+            {
+              "kind": "comment",
+              "httpMs": 31.19507999999996,
+              "delayedMs": 18.588422000000264
+            },
+            {
+              "kind": "health",
+              "httpMs": 43.77015299999994,
+              "delayedMs": 31.14796299999989
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.084825999999794,
+              "delayedMs": 39.283248000000185
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.922434000000067,
+              "delayedMs": 0.1532760000000053
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.740179999999782,
+              "delayedMs": 3.438224999999875
+            },
+            {
+              "kind": "health",
+              "httpMs": 1.314049999999952,
+              "delayedMs": 11.445545000000038
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 36.345327,
+          "generationMs": 95.80670500000087
+        }
+      ]
+    },
+    "production-dense-400-vs-800-0": {
+      "runtime": "v26.13.1",
+      "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "maxRssKiB": 338896,
+      "variant": "dense-tags",
+      "delayMs": 0,
+      "records": [
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 151.91425199999958,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 45.117583000000195,
+              "delayedMs": 21.317568000000392
+            },
+            {
+              "kind": "comment",
+              "httpMs": 68.0496949999997,
+              "delayedMs": 45.30813000000035
+            }
+          ],
+          "requestCount": 3,
+          "bodyBytes": 954095,
+          "maxBodyBytes": 425194,
+          "maxGenerationMs": 7.197653000000173,
+          "generationMs": 17.066321000001153
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 32.97784599999977,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 4.193674000000101,
+              "delayedMs": 11.053066999999828
+            },
+            {
+              "kind": "comment",
+              "httpMs": 14.201063000000431,
+              "delayedMs": 6.391802999999527
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 8.371184999999969,
+          "generationMs": 12.947782000000188
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 26.515803000000233,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 17.079681000000164,
+              "delayedMs": 10.150708000000122
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 8.015567999999803,
+          "generationMs": 11.010129000000234
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 26.61541699999998,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.878663999999844,
+              "delayedMs": 15.831874999999854
+            }
+          ],
+          "requestCount": 3,
+          "bodyBytes": 954095,
+          "maxBodyBytes": 425194,
+          "maxGenerationMs": 6.481509999999616,
+          "generationMs": 13.68300999999883
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 23.62556399999994,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 7.865690000000541,
+              "delayedMs": 13.876401999999871
+            }
+          ],
+          "requestCount": 3,
+          "bodyBytes": 954095,
+          "maxBodyBytes": 425194,
+          "maxGenerationMs": 4.924544000000424,
+          "generationMs": 11.03294300000016
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 22.5368840000001,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 4.422040999999808,
+              "delayedMs": 18.726990000000114
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 7.66604499999994,
+          "generationMs": 10.511234999999942
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 20.61444500000016,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 5.050232999999935,
+              "delayedMs": 16.230641000000105
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 7.589050999999927,
+          "generationMs": 10.498759000000064
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 25.347272999999404,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.571864999999889,
+              "delayedMs": 14.697329999999965
+            }
+          ],
+          "requestCount": 3,
+          "bodyBytes": 954095,
+          "maxBodyBytes": 425194,
+          "maxGenerationMs": 5.601929999999811,
+          "generationMs": 12.615255999999135
+        },
+        {
+          "phase": "baseline",
+          "run": 4,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 26.71421399999963,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.156650000000809,
+              "delayedMs": 16.902886999999282
+            }
+          ],
+          "requestCount": 3,
+          "bodyBytes": 954095,
+          "maxBodyBytes": 425194,
+          "maxGenerationMs": 5.42094200000065,
+          "generationMs": 12.29470400000082
+        },
+        {
+          "phase": "candidate",
+          "run": 4,
+          "scenario": "group-members",
+          "boardId": 1,
+          "elapsedMs": 22.621472000000722,
+          "count": 1000,
+          "hash": "45c057fb60e57657891b799138e2a6df33be55a1ede28b813d6cd51cf662d8d3",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 5.498255000000427,
+              "delayedMs": 17.892619999999624
+            }
+          ],
+          "requestCount": 2,
+          "bodyBytes": 953821,
+          "maxBodyBytes": 741494,
+          "maxGenerationMs": 8.522969999999987,
+          "generationMs": 11.507705999999416
+        },
+        {
+          "phase": "baseline",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 130.36633900000015,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.667053000000124,
+              "delayedMs": 17.063176999999996
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.413100000000668,
+              "delayedMs": 0.7128640000000814
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.24727299999995,
+              "delayedMs": 11.274454000000333
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.197965999999724,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.6456359999992856,
+              "delayedMs": 0.6361370000004172
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.323177000000214,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.9114110000000437,
+              "delayedMs": 0.8528050000004441
+            },
+            {
+              "kind": "comment",
+              "httpMs": 5.868408999999701,
+              "delayedMs": 0.02980999999999767
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.996276000000762,
+              "delayedMs": 0.5703639999992447
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.07999800000016,
+              "delayedMs": 0.5716460000003281
+            }
+          ],
+          "requestCount": 26,
+          "bodyBytes": 2826468,
+          "maxBodyBytes": 428399,
+          "maxGenerationMs": 6.000006000000212,
+          "generationMs": 53.7927929999978
+        },
+        {
+          "phase": "candidate",
+          "run": 0,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 106.81568900000002,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.539609999999811,
+              "delayedMs": 20.230389999999716
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.25,
+              "delayedMs": 11.287311000000045
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.46124299999974,
+              "delayedMs": 4.805602000000363
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.295783999999912,
+              "delayedMs": 10.779365999999754
+            },
+            {
+              "kind": "health",
+              "httpMs": 10.626683999999841,
+              "delayedMs": 0.9863340000001699
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.458634999999958,
+              "delayedMs": 0.6843849999995655
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 8.493341000000328,
+          "generationMs": 47.77849700000115
+        },
+        {
+          "phase": "candidate",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 102.14024299999983,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 24.068512000000737,
+              "delayedMs": 10.002001999999266
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.270614999999452,
+              "delayedMs": 24.922178000000713
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.580011000000013,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.866898000000219,
+              "delayedMs": 0.26855499999965105
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.0873899999996866,
+              "delayedMs": 2.519532000000254
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.81087800000023,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.22377299999971,
+              "delayedMs": 0
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 9.087720999999874,
+          "generationMs": 45.24503200000072
+        },
+        {
+          "phase": "baseline",
+          "run": 1,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 127.28659700000026,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.070443000000523,
+              "delayedMs": 16.006389000000127
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.160239000000729,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 4.660936999999649,
+              "delayedMs": 1.6003680000003442
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.320714999999836,
+              "delayedMs": 1.8880129999997735
+            },
+            {
+              "kind": "health",
+              "httpMs": 4.157583999999588,
+              "delayedMs": 1.0706140000002051
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.011352999999872,
+              "delayedMs": 1.777447000000393
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.6907570000003034,
+              "delayedMs": 0.1872669999993377
+            },
+            {
+              "kind": "comment",
+              "httpMs": 6.719871000000239,
+              "delayedMs": 0.07438799999999901
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.265921999999591,
+              "delayedMs": 0.742511000000377
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.3764320000000225,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.043525000000045,
+              "delayedMs": 0.8356240000002799
+            }
+          ],
+          "requestCount": 26,
+          "bodyBytes": 2826468,
+          "maxBodyBytes": 428399,
+          "maxGenerationMs": 5.136100000000624,
+          "generationMs": 52.8107940000009
+        },
+        {
+          "phase": "baseline",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 129.0366209999993,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 11.276677000000745,
+              "delayedMs": 17.4794609999999
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.850981000000502,
+              "delayedMs": 1.321668999999929
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.6221340000001874,
+              "delayedMs": 1.1420230000003357
+            },
+            {
+              "kind": "comment",
+              "httpMs": 6.665292000000591,
+              "delayedMs": 0.015285999999832711
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.9646209999991697,
+              "delayedMs": 0.13224500000069384
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.22835699999996,
+              "delayedMs": 0.4909719999996014
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.6539530000000013,
+              "delayedMs": 0.5074210000002495
+            },
+            {
+              "kind": "comment",
+              "httpMs": 11.31153600000016,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.6838449999995646,
+              "delayedMs": 1.361229000000094
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.086205999999947,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.3749330000000555,
+              "delayedMs": 0.33133600000019214
+            }
+          ],
+          "requestCount": 26,
+          "bodyBytes": 2826468,
+          "maxBodyBytes": 428399,
+          "maxGenerationMs": 5.6367010000003575,
+          "generationMs": 52.41460300000108
+        },
+        {
+          "phase": "candidate",
+          "run": 2,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 104.42424399999982,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 21.53063799999927,
+              "delayedMs": 9.115365999999995
+            },
+            {
+              "kind": "comment",
+              "httpMs": 17.069578999999976,
+              "delayedMs": 13.330783999999767
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.215664000000288,
+              "delayedMs": 12.662301999999727
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.927678999999443,
+              "delayedMs": 1.614900000000489
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.450402000000395,
+              "delayedMs": 0.5029139999996914
+            },
+            {
+              "kind": "comment",
+              "httpMs": 12.393433999999615,
+              "delayedMs": 1.1119920000001002
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 8.463587000000189,
+          "generationMs": 46.89068799999859
+        },
+        {
+          "phase": "candidate",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 102.44635300000027,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 20.257284000000254,
+              "delayedMs": 11.940403999999944
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.559432000000015,
+              "delayedMs": 11.772119000000203
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.761968999999226,
+              "delayedMs": 10.755780000000414
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.914087999999538,
+              "delayedMs": 10.522347000000082
+            },
+            {
+              "kind": "health",
+              "httpMs": 13.497863999999936,
+              "delayedMs": 0.6030449999998382
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 8.387870999999905,
+          "generationMs": 47.33995499999946
+        },
+        {
+          "phase": "baseline",
+          "run": 3,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 123.98342099999991,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 8.312681000000339,
+              "delayedMs": 16.524085999999443
+            },
+            {
+              "kind": "comment",
+              "httpMs": 10.115936000000147,
+              "delayedMs": 0.2742600000001403
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.681666999999834,
+              "delayedMs": 9.85682100000031
+            },
+            {
+              "kind": "comment",
+              "httpMs": 9.733696999999665,
+              "delayedMs": 1.6049910000001546
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.9303009999994174,
+              "delayedMs": 9.49038500000006
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.072954000000209,
+              "delayedMs": 0.8408509999999296
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.6345039999996516,
+              "delayedMs": 0.48426000000017666
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.34955699999955,
+              "delayedMs": 0.4919639999998253
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.0989120000003822,
+              "delayedMs": 0.7489409999998315
+            }
+          ],
+          "requestCount": 26,
+          "bodyBytes": 2826468,
+          "maxBodyBytes": 428399,
+          "maxGenerationMs": 5.759729000000334,
+          "generationMs": 54.568592000002354
+        },
+        {
+          "phase": "baseline",
+          "run": 4,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 126.30243799999971,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 9.198663000000124,
+              "delayedMs": 9.99355900000046
+            },
+            {
+              "kind": "comment",
+              "httpMs": 13.09097600000041,
+              "delayedMs": 1.9893849999998565
+            },
+            {
+              "kind": "health",
+              "httpMs": 6.330187000000478,
+              "delayedMs": 10.930062999999791
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.306811999999809,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.5697689999997237,
+              "delayedMs": 0.5839990000004036
+            },
+            {
+              "kind": "comment",
+              "httpMs": 6.6985410000006596,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 5.95810100000017,
+              "delayedMs": 1.4464029999999184
+            },
+            {
+              "kind": "comment",
+              "httpMs": 7.058669000000009,
+              "delayedMs": 0
+            },
+            {
+              "kind": "health",
+              "httpMs": 3.473579000000427,
+              "delayedMs": 0
+            },
+            {
+              "kind": "comment",
+              "httpMs": 6.985074000000168,
+              "delayedMs": 0.0024309999998877174
+            },
+            {
+              "kind": "health",
+              "httpMs": 2.298660999999811,
+              "delayedMs": 0
+            }
+          ],
+          "requestCount": 26,
+          "bodyBytes": 2826468,
+          "maxBodyBytes": 428399,
+          "maxGenerationMs": 5.459397000000536,
+          "generationMs": 52.16128700000172
+        },
+        {
+          "phase": "candidate",
+          "run": 4,
+          "scenario": "group-members",
+          "boardId": 2,
+          "elapsedMs": 97.34546899999987,
+          "count": 10000,
+          "hash": "6f9b180645514aedf41c7d218b704ce0497953d3e9dd25ea73eb0e4dd9f5f71b",
+          "health": [
+            {
+              "kind": "health",
+              "httpMs": 12.236367999999857,
+              "delayedMs": 19.040004999999837
+            },
+            {
+              "kind": "comment",
+              "httpMs": 8.718738999999914,
+              "delayedMs": 12.488312000000406
+            },
+            {
+              "kind": "health",
+              "httpMs": 9.18510200000037,
+              "delayedMs": 0.36095099999965896
+            },
+            {
+              "kind": "comment",
+              "httpMs": 12.168901000000005,
+              "delayedMs": 0.7652760000000853
+            },
+            {
+              "kind": "health",
+              "httpMs": 11.369393999999375,
+              "delayedMs": 12.947944000000462
+            }
+          ],
+          "requestCount": 14,
+          "bodyBytes": 2823119,
+          "maxBodyBytes": 685119,
+          "maxGenerationMs": 8.044509999999718,
+          "generationMs": 43.69417700000031
+        }
+      ]
+    }
+  },
+  "browser": {
+    "en-light": {
+      "browser": "159.0.8154.6",
+      "dimensions": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "locale": "en-US",
+        "colorScheme": "light"
+      },
+      "records": [
+        {
+          "phase": "baseline",
+          "boardId": 1,
+          "run": 0,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 234.1000000089407,
+          "timing": {
+            "firstRow": 375.09999999403954,
+            "allRows": 567.1999999880791
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 260.29999999701977,
+              "end": 300.59999999403954,
+              "bytes": 42310
+            },
+            {
+              "limit": 200,
+              "start": 301.59999999403954,
+              "end": 305.19999998807907,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 305.8999999910593,
+              "end": 309.19999998807907,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 310,
+              "end": 313.09999999403954,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 313.79999999701977,
+              "end": 317.5,
+              "bytes": 42514
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 1,
+          "run": 0,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 206,
+          "timing": {
+            "firstRow": 332,
+            "allRows": 530.2999999970198
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 252.70000000298023,
+              "end": 258.59999999403954,
+              "bytes": 42327
+            },
+            {
+              "limit": 800,
+              "start": 259.5,
+              "end": 266.90000000596046,
+              "bytes": 169894
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 1,
+          "run": 1,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 161.6000000089407,
+          "timing": {
+            "firstRow": 277,
+            "allRows": 466.30000001192093
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 202.80000001192093,
+              "end": 207.40000000596046,
+              "bytes": 42327
+            },
+            {
+              "limit": 800,
+              "start": 208.40000000596046,
+              "end": 214.30000001192093,
+              "bytes": 169894
+            }
+          ]
+        },
+        {
+          "phase": "baseline",
+          "boardId": 1,
+          "run": 1,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 168.69999998807907,
+          "timing": {
+            "firstRow": 273.79999999701977,
+            "allRows": 446.79999999701977
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 191.20000000298023,
+              "end": 196.20000000298023,
+              "bytes": 42310
+            },
+            {
+              "limit": 200,
+              "start": 197.09999999403954,
+              "end": 200.8999999910593,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 201.70000000298023,
+              "end": 205.20000000298023,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 206,
+              "end": 209.29999999701977,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 210.09999999403954,
+              "end": 213.29999999701977,
+              "bytes": 42514
+            }
+          ]
+        },
+        {
+          "phase": "baseline",
+          "boardId": 1,
+          "run": 2,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 161.29999999701977,
+          "timing": {
+            "firstRow": 287,
+            "allRows": 484.8999999910593
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 200,
+              "end": 205.20000000298023,
+              "bytes": 42310
+            },
+            {
+              "limit": 200,
+              "start": 206.09999999403954,
+              "end": 209.5,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 210.29999999701977,
+              "end": 214,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 214.8999999910593,
+              "end": 218.5,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 219.29999999701977,
+              "end": 222.8999999910593,
+              "bytes": 42514
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 1,
+          "run": 2,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 127.79999999701977,
+          "timing": {
+            "firstRow": 250,
+            "allRows": 422.3999999910593
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 180.5,
+              "end": 185,
+              "bytes": 42327
+            },
+            {
+              "limit": 800,
+              "start": 185.79999999701977,
+              "end": 191.69999998807907,
+              "bytes": 169894
+            }
+          ]
+        },
+        {
+          "phase": "baseline",
+          "boardId": 2,
+          "run": 0,
+          "count": 10000,
+          "rowHash": "a6afff7a515a69bd38e13e74d2afbe447e9296dfd728420fed31ac69e0b19952",
+          "interactionMs": 487.5,
+          "timing": {
+            "firstRow": 1078.5,
+            "allRows": 2880.699999988079
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 200.5,
+              "end": 209.5,
+              "bytes": 42755
+            },
+            {
+              "limit": 200,
+              "start": 210.3999999910593,
+              "end": 215.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 216.69999998807907,
+              "end": 222.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 223.3999999910593,
+              "end": 229.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 229.8999999910593,
+              "end": 235.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 236.69999998807907,
+              "end": 242.59999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 243.29999999701977,
+              "end": 248.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 249.69999998807907,
+              "end": 255.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 255.79999999701977,
+              "end": 261.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 262,
+              "end": 267.3999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 268.19999998807907,
+              "end": 274.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 274.79999999701977,
+              "end": 280.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 281,
+              "end": 287.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 288.19999998807907,
+              "end": 293.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 294.5,
+              "end": 299.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 300.59999999403954,
+              "end": 306,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 306.59999999403954,
+              "end": 311.79999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 312.5,
+              "end": 317.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 318.59999999403954,
+              "end": 323.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 324.5,
+              "end": 329.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 330.59999999403954,
+              "end": 336.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 336.69999998807907,
+              "end": 342.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 343,
+              "end": 348.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 349.19999998807907,
+              "end": 354.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 354.8999999910593,
+              "end": 360,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 360.69999998807907,
+              "end": 366.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 366.69999998807907,
+              "end": 372.19999998807907,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 372.8999999910593,
+              "end": 378.19999998807907,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 378.79999999701977,
+              "end": 384.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 384.59999999403954,
+              "end": 389.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 390.59999999403954,
+              "end": 395.19999998807907,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 395.79999999701977,
+              "end": 400.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 400.8999999910593,
+              "end": 405.3999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 406.09999999403954,
+              "end": 411,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 411.69999998807907,
+              "end": 416.79999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 417.3999999910593,
+              "end": 422.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 423.19999998807907,
+              "end": 428.19999998807907,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 428.8999999910593,
+              "end": 434.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 434.79999999701977,
+              "end": 439.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 440.79999999701977,
+              "end": 446,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 446.69999998807907,
+              "end": 451.8999999910593,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 452.79999999701977,
+              "end": 457.79999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 458.69999998807907,
+              "end": 463.79999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 464.59999999403954,
+              "end": 470.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 471.09999999403954,
+              "end": 476.79999999701977,
+              "bytes": 42923
+            },
+            {
+              "limit": 200,
+              "start": 477.59999999403954,
+              "end": 483.5,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 484.19999998807907,
+              "end": 489.79999999701977,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 490.59999999403954,
+              "end": 495.8999999910593,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 496.69999998807907,
+              "end": 501.8999999910593,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 502.69999998807907,
+              "end": 507.79999999701977,
+              "bytes": 42914
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 2,
+          "run": 0,
+          "count": 10000,
+          "rowHash": "a6afff7a515a69bd38e13e74d2afbe447e9296dfd728420fed31ac69e0b19952",
+          "interactionMs": 488.90000000596046,
+          "timing": {
+            "firstRow": 835.5,
+            "allRows": 2893.7000000029802
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 205,
+              "end": 214.40000000596046,
+              "bytes": 42774
+            },
+            {
+              "limit": 800,
+              "start": 215.29999999701977,
+              "end": 220.70000000298023,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 222.70000000298023,
+              "end": 228.5,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 230.20000000298023,
+              "end": 235.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 237,
+              "end": 242.29999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 243.70000000298023,
+              "end": 249.20000000298023,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 250.5,
+              "end": 255.79999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 257.09999999403954,
+              "end": 262.70000000298023,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 264,
+              "end": 269.29999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 270.59999999403954,
+              "end": 275.90000000596046,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 277.40000000596046,
+              "end": 282.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 284,
+              "end": 289,
+              "bytes": 170921
+            },
+            {
+              "limit": 800,
+              "start": 290.40000000596046,
+              "end": 295.70000000298023,
+              "bytes": 171720
+            },
+            {
+              "limit": 800,
+              "start": 297,
+              "end": 299.79999999701977,
+              "bytes": 42914
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 2,
+          "run": 1,
+          "count": 10000,
+          "rowHash": "a6afff7a515a69bd38e13e74d2afbe447e9296dfd728420fed31ac69e0b19952",
+          "interactionMs": 477.09999999403954,
+          "timing": {
+            "firstRow": 838.5,
+            "allRows": 2671.4000000059605
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 210.20000000298023,
+              "end": 219.5,
+              "bytes": 42774
+            },
+            {
+              "limit": 800,
+              "start": 220.40000000596046,
+              "end": 225.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 227.5,
+              "end": 233,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 234.59999999403954,
+              "end": 239.90000000596046,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 241.40000000596046,
+              "end": 246.79999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 248.20000000298023,
+              "end": 253.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 255.09999999403954,
+              "end": 260.90000000596046,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 262.40000000596046,
+              "end": 267.79999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 269.09999999403954,
+              "end": 274.29999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 275.90000000596046,
+              "end": 280.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 282,
+              "end": 286.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 288,
+              "end": 293.09999999403954,
+              "bytes": 170921
+            },
+            {
+              "limit": 800,
+              "start": 294.59999999403954,
+              "end": 299.90000000596046,
+              "bytes": 171720
+            },
+            {
+              "limit": 800,
+              "start": 301.40000000596046,
+              "end": 304.29999999701977,
+              "bytes": 42914
+            }
+          ]
+        },
+        {
+          "phase": "baseline",
+          "boardId": 2,
+          "run": 1,
+          "count": 10000,
+          "rowHash": "a6afff7a515a69bd38e13e74d2afbe447e9296dfd728420fed31ac69e0b19952",
+          "interactionMs": 487.09999999403954,
+          "timing": {
+            "firstRow": 1045.800000011921,
+            "allRows": 2814
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 192.20000000298023,
+              "end": 201.80000001192093,
+              "bytes": 42755
+            },
+            {
+              "limit": 200,
+              "start": 202.80000001192093,
+              "end": 208.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 209.1000000089407,
+              "end": 214.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 215.40000000596046,
+              "end": 221,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 221.80000001192093,
+              "end": 227.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 228.30000001192093,
+              "end": 233.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 234.70000000298023,
+              "end": 240.6000000089407,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 241.30000001192093,
+              "end": 248.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 249.20000000298023,
+              "end": 254.70000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 255.5,
+              "end": 260.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 261.70000000298023,
+              "end": 267.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 268,
+              "end": 273.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 274.70000000298023,
+              "end": 280.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 281.5,
+              "end": 287.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 288.30000001192093,
+              "end": 294.30000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 295.1000000089407,
+              "end": 300.70000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 301.5,
+              "end": 306.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 307.6000000089407,
+              "end": 312.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 313.6000000089407,
+              "end": 319.30000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 320,
+              "end": 325.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 326.6000000089407,
+              "end": 332.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 333.1000000089407,
+              "end": 338.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 339.1000000089407,
+              "end": 344.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 345.6000000089407,
+              "end": 350.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 351.5,
+              "end": 356.6000000089407,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 357.40000000596046,
+              "end": 362.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 363.40000000596046,
+              "end": 368.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 369.5,
+              "end": 374.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 375.80000001192093,
+              "end": 380.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 381.6000000089407,
+              "end": 387.1000000089407,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 387.70000000298023,
+              "end": 393.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 394.20000000298023,
+              "end": 399.70000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 400.5,
+              "end": 405.70000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 406.40000000596046,
+              "end": 411.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 412.1000000089407,
+              "end": 417.30000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 418,
+              "end": 423.30000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 424,
+              "end": 429.30000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 429.90000000596046,
+              "end": 435.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 436.20000000298023,
+              "end": 441.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 442.40000000596046,
+              "end": 447.6000000089407,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 448.40000000596046,
+              "end": 453.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 454.5,
+              "end": 459.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 460.20000000298023,
+              "end": 465.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 465.90000000596046,
+              "end": 471.80000001192093,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 472.6000000089407,
+              "end": 477.90000000596046,
+              "bytes": 42923
+            },
+            {
+              "limit": 200,
+              "start": 478.70000000298023,
+              "end": 483.80000001192093,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 484.6000000089407,
+              "end": 489.90000000596046,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 490.70000000298023,
+              "end": 496.20000000298023,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 497,
+              "end": 502.30000001192093,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 502.90000000596046,
+              "end": 510,
+              "bytes": 42914
+            }
+          ]
+        },
+        {
+          "phase": "baseline",
+          "boardId": 2,
+          "run": 2,
+          "count": 10000,
+          "rowHash": "a6afff7a515a69bd38e13e74d2afbe447e9296dfd728420fed31ac69e0b19952",
+          "interactionMs": 512.2999999970198,
+          "timing": {
+            "firstRow": 1172.2999999970198,
+            "allRows": 3033.4000000059605
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 190,
+              "end": 198.79999999701977,
+              "bytes": 42755
+            },
+            {
+              "limit": 200,
+              "start": 199.70000000298023,
+              "end": 205.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 206.29999999701977,
+              "end": 211.79999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 212.59999999403954,
+              "end": 217.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 218.70000000298023,
+              "end": 224.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 225.29999999701977,
+              "end": 231.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 232.29999999701977,
+              "end": 238.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 238.90000000596046,
+              "end": 244.70000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 245.5,
+              "end": 251.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 252.29999999701977,
+              "end": 258.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 259.20000000298023,
+              "end": 265.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 266,
+              "end": 272,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 272.90000000596046,
+              "end": 279.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 280.40000000596046,
+              "end": 286.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 287.20000000298023,
+              "end": 293,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 293.70000000298023,
+              "end": 299.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 300.20000000298023,
+              "end": 306.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 307.09999999403954,
+              "end": 313.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 313.79999999701977,
+              "end": 320.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 321.29999999701977,
+              "end": 327.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 328.79999999701977,
+              "end": 335.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 336.20000000298023,
+              "end": 342.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 343.79999999701977,
+              "end": 350.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 351.79999999701977,
+              "end": 358.70000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 359.29999999701977,
+              "end": 368.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 369,
+              "end": 376.20000000298023,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 376.90000000596046,
+              "end": 384.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 384.79999999701977,
+              "end": 391.59999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 392.59999999403954,
+              "end": 399,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 399.79999999701977,
+              "end": 406.09999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 407.09999999403954,
+              "end": 413.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 414.29999999701977,
+              "end": 420.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 421.29999999701977,
+              "end": 427.40000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 428.20000000298023,
+              "end": 434,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 434.70000000298023,
+              "end": 440.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 441.29999999701977,
+              "end": 447,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 447.79999999701977,
+              "end": 453.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 454.59999999403954,
+              "end": 460.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 461.29999999701977,
+              "end": 466.90000000596046,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 467.70000000298023,
+              "end": 473.59999999403954,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 474.5,
+              "end": 480.5,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 481.40000000596046,
+              "end": 487.29999999701977,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 488.20000000298023,
+              "end": 494,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 494.79999999701977,
+              "end": 501,
+              "bytes": 42920
+            },
+            {
+              "limit": 200,
+              "start": 501.79999999701977,
+              "end": 507.79999999701977,
+              "bytes": 42923
+            },
+            {
+              "limit": 200,
+              "start": 508.59999999403954,
+              "end": 514.2000000029802,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 515.0999999940395,
+              "end": 520.9000000059605,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 521.5,
+              "end": 527.5999999940395,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 528.2999999970198,
+              "end": 534.0999999940395,
+              "bytes": 43122
+            },
+            {
+              "limit": 200,
+              "start": 534.7999999970198,
+              "end": 540.5999999940395,
+              "bytes": 42914
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 2,
+          "run": 2,
+          "count": 10000,
+          "rowHash": "a6afff7a515a69bd38e13e74d2afbe447e9296dfd728420fed31ac69e0b19952",
+          "interactionMs": 488.59999999403954,
+          "timing": {
+            "firstRow": 852.0999999940395,
+            "allRows": 2724.2999999970198
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 188.70000000298023,
+              "end": 197.20000000298023,
+              "bytes": 42774
+            },
+            {
+              "limit": 800,
+              "start": 198.20000000298023,
+              "end": 203.5,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 205.20000000298023,
+              "end": 210.59999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 212.3999999910593,
+              "end": 217.79999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 219.3999999910593,
+              "end": 225.29999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 226.8999999910593,
+              "end": 232.79999999701977,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 234.3999999910593,
+              "end": 239.20000000298023,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 240.5,
+              "end": 245.20000000298023,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 246.5,
+              "end": 251.09999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 252.5,
+              "end": 257.09999999403954,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 258.59999999403954,
+              "end": 263.20000000298023,
+              "bytes": 170919
+            },
+            {
+              "limit": 800,
+              "start": 264.5,
+              "end": 269.59999999403954,
+              "bytes": 170921
+            },
+            {
+              "limit": 800,
+              "start": 271,
+              "end": 276,
+              "bytes": 171720
+            },
+            {
+              "limit": 800,
+              "start": 277.29999999701977,
+              "end": 279.8999999910593,
+              "bytes": 42914
+            }
+          ]
+        }
+      ]
+    },
+    "ja-dark": {
+      "browser": "159.0.8154.6",
+      "dimensions": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "locale": "ja-JP",
+        "colorScheme": "dark"
+      },
+      "records": [
+        {
+          "phase": "baseline",
+          "boardId": 1,
+          "run": 0,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 238.5,
+          "timing": {
+            "firstRow": 423,
+            "allRows": 641.4000000059605
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 308.1000000089407,
+              "end": 345,
+              "bytes": 42310
+            },
+            {
+              "limit": 200,
+              "start": 346.40000000596046,
+              "end": 350.70000000298023,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 351.40000000596046,
+              "end": 354.80000001192093,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 355.40000000596046,
+              "end": 358.20000000298023,
+              "bytes": 42717
+            },
+            {
+              "limit": 200,
+              "start": 358.80000001192093,
+              "end": 362.20000000298023,
+              "bytes": 42514
+            }
+          ]
+        },
+        {
+          "phase": "candidate",
+          "boardId": 1,
+          "run": 0,
+          "count": 1000,
+          "rowHash": "a4c4ae46dbc4c9c3a9723dbcef8ce7c48a130d2b156d2194cabe411a26f1cb0d",
+          "interactionMs": 173.59999999403954,
+          "timing": {
+            "firstRow": 363.90000000596046,
+            "allRows": 561.4000000059605
+          },
+          "requests": [
+            {
+              "limit": 200,
+              "start": 288.30000001192093,
+              "end": 293.40000000596046,
+              "bytes": 42327
+            },
+            {
+              "limit": 800,
+              "start": 294.1000000089407,
+              "end": 301.6000000089407,
+              "bytes": 169894
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "screenshots": {
+    "projection-en-light-1-baseline.png": "0d72f089caf072757fcedb529f48db246ddfe1799506d542fe06a614d965462d",
+    "projection-en-light-1-candidate.png": "0d72f089caf072757fcedb529f48db246ddfe1799506d542fe06a614d965462d",
+    "projection-en-light-2-baseline.png": "62098eeb1f00a8666b047639f4795ee98bc3ddb854834fa509077a9e227438be",
+    "projection-en-light-2-candidate.png": "62098eeb1f00a8666b047639f4795ee98bc3ddb854834fa509077a9e227438be",
+    "projection-ja-dark-1-baseline.png": "fdf10b6c1b05121d308b69ae8292fb8798dbfd9e51c82d7e4c0de56b47d8bcb1",
+    "projection-ja-dark-1-candidate.png": "fdf10b6c1b05121d308b69ae8292fb8798dbfd9e51c82d7e4c0de56b47d8bcb1"
+  }
+}
