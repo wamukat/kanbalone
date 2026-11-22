@@ -1,0 +1,56 @@
+{
+  "baseline": "b7dc02e8885f740afd9a47f12fab4c9079346041",
+  "capturedAt": "2026-11-22T05:58:15.270886+00:00",
+  "files": {
+    "public/app-board-keyboard.js": "08c7ef785bfe0664a21a291f8d637d3da74cb433b87f00a34dc89e135dc225db",
+    "public/app-board.js": "d5dbac43a7711ebc581d9bbe92be9280315e6efad53687848b65fe12d0f19bfb",
+    "public/app-editor.js": "c5643551a2390a4e5bf0545ec2af03eb42135155441d3809c43778ee7b376f2b",
+    "public/app-group-board.js": "d6a904c06ca602f354bdcc81db260e1d0537d180fd2a8392573dcbce19d1f982",
+    "public/app-group-types.d.ts": "3ba33d0ff835ddfc7bcd84e5473067f142083cd379c7de10af1be9739170046c",
+    "public/app.js": "1a4d24be841d53f218f78f2b8459fe6d26eb580428b127e6b519359680489b77",
+    "public/locales/ja-editor.js": "c8f643754add2a798373178e5ada856a4a4084f6f2940ab92b9209bf000eb72e"
+  },
+  "fingerprint": "d844c9a6599820229c2f4804c11bd3487d3f939acb900ab45b958b64a6b85c0b",
+  "servedFiles": {
+    "public/app-board-keyboard.js": {
+      "before": "dba91f9765f679355d59ea1ef362f38967e170dad04c9b99b8e489aee87c752a",
+      "after": "08c7ef785bfe0664a21a291f8d637d3da74cb433b87f00a34dc89e135dc225db"
+    },
+    "public/app-board.js": {
+      "before": "b1c7b301ac623e7351afffcdaa8bf5c05b37381d613d864e65ade30a511f92f8",
+      "after": "d5dbac43a7711ebc581d9bbe92be9280315e6efad53687848b65fe12d0f19bfb"
+    },
+    "public/app-editor.js": {
+      "before": "35dae9fe87f2996d1d4dcd7be7ecae7d10ebd6a1c1b241196b296b66ee81e5fe",
+      "after": "c5643551a2390a4e5bf0545ec2af03eb42135155441d3809c43778ee7b376f2b"
+    },
+    "public/app-group-board.js": {
+      "before": "98f84a53598a8db03b71c618fea0df460f39c473d888470ad23901cb6e298cd7",
+      "after": "d6a904c06ca602f354bdcc81db260e1d0537d180fd2a8392573dcbce19d1f982"
+    },
+    "public/app.js": {
+      "before": "d8d85a148029511dfb877e5ca01806c934a4f3c37b051cf7c4d737be1f0bfe45",
+      "after": "1a4d24be841d53f218f78f2b8459fe6d26eb580428b127e6b519359680489b77"
+    },
+    "public/locales/ja-editor.js": {
+      "before": "81b4ad4288fa3302e24fe3c1d2527e290f107bf6874954539cf7fa55e497e1e6",
+      "after": "c8f643754add2a798373178e5ada856a4a4084f6f2940ab92b9209bf000eb72e"
+    }
+  },
+  "viewport": [
+    1440,
+    1000
+  ],
+  "theme": "light",
+  "supplementalViewport": [
+    1280,
+    720
+  ],
+  "supplementalThemes": [
+    "light",
+    "dark"
+  ],
+  "node": "26.13.1",
+  "browserTool": "agent-browser 0.26.0",
+  "testFileSha256": "0c0816a1c4b16afc01bd7f7d93b7ee3a981ddfa566e144e1683a764aa1a5268c"
+}

@@ -1,0 +1,128 @@
+[
+  {
+    "lang": "ja",
+    "view": "list",
+    "before": {
+      "scroll": 0,
+      "text": "\n          #7\n          Notification 007: Review delivery behavior\n        "
+    },
+    "after": {
+      "saved": [
+        {
+          "group": "",
+          "id": 300,
+          "lane": "todo",
+          "title": "配信結果を確認する",
+          "view": "list"
+        }
+      ],
+      "scroll": 0,
+      "text": "\n          #7\n          Notification 007: Review delivery behavior\n        "
+    }
+  },
+  {
+    "lang": "ja",
+    "view": "kanban",
+    "before": {
+      "scroll": 0,
+      "text": "Notification 003: Review delivery behavior"
+    },
+    "after": {
+      "saved": [
+        {
+          "group": "",
+          "id": 300,
+          "lane": "todo",
+          "title": "配信結果を確認する",
+          "view": "kanban"
+        }
+      ],
+      "scroll": 0,
+      "text": "Notification 003: Review delivery behavior"
+    }
+  },
+  {
+    "lang": "ja",
+    "view": "group",
+    "before": {
+      "scroll": 0,
+      "text": "#7Notification 007: Review delivery behavior"
+    },
+    "after": {
+      "saved": [
+        {
+          "group": "Improve notification delivery",
+          "id": 300,
+          "lane": "todo",
+          "title": "配信結果を確認する",
+          "view": "group"
+        }
+      ],
+      "scroll": 0,
+      "text": "#7Notification 007: Review delivery behavior"
+    }
+  },
+  {
+    "lang": "en",
+    "view": "list",
+    "before": {
+      "scroll": 0,
+      "text": "\n          #7\n          Notification 007: Review delivery behavior\n        "
+    },
+    "after": {
+      "saved": [
+        {
+          "group": "",
+          "id": 300,
+          "lane": "todo",
+          "title": "Verify notification delivery",
+          "view": "list"
+        }
+      ],
+      "scroll": 0,
+      "text": "\n          #7\n          Notification 007: Review delivery behavior\n        "
+    }
+  },
+  {
+    "lang": "en",
+    "view": "kanban",
+    "before": {
+      "scroll": 0,
+      "text": "Notification 003: Review delivery behavior"
+    },
+    "after": {
+      "saved": [
+        {
+          "group": "",
+          "id": 300,
+          "lane": "todo",
+          "title": "Verify notification delivery",
+          "view": "kanban"
+        }
+      ],
+      "scroll": 0,
+      "text": "Notification 003: Review delivery behavior"
+    }
+  },
+  {
+    "lang": "en",
+    "view": "group",
+    "before": {
+      "scroll": 0,
+      "text": "#7Notification 007: Review delivery behavior"
+    },
+    "after": {
+      "saved": [
+        {
+          "group": "Improve notification delivery",
+          "id": 300,
+          "lane": "todo",
+          "title": "Verify notification delivery",
+          "view": "group"
+        }
+      ],
+      "scroll": 0,
+      "text": "#7Notification 007: Review delivery behavior"
+    }
+  }
+]

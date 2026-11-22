@@ -49,6 +49,8 @@ export type GroupContext = {
     laneId?: number | null,
     group?: { id: number; name: string },
   ): Promise<void>;
+  beforeGroupRender?(): void;
+  afterGroupRender?(): void;
   saveBoardViewMode?(): void;
   syncViewMode(): void;
   syncBoardUrl(): void;

@@ -46,6 +46,16 @@ Click **Save** to add the ticket.
 
 ![Ticket creation](../assets/user-guide/04-ticket-create-dialog.png)
 
+### Create With The Keyboard
+
+Focus a ticket title and press **N** to open a new ticket. Enter a title and press **Ctrl+Enter** (**⌘+Enter** on Mac) to save and return to your starting point.
+
+- **Kanban**: create in the focused ticket's lane.
+- **List**: create in the board's first lane.
+- **Group**: create in the first lane and the displayed Group. You can also focus the selected Group name and press **N**.
+
+Check or change **Lane** before saving. A ticket created in a completion lane is completed immediately. Press **Esc** to cancel; if you have unsaved changes, confirm whether to discard them.
+
 ## 5. Read A Ticket
 
 Click a ticket to read its body, related tickets, and comments. Open the **Activity** tab to see its history.

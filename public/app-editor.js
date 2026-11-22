@@ -19,6 +19,7 @@ export function createEditorModule(ctx) {
   let discardPending = null;
   let editorOriginVersion;
   let editorOpenGeneration = 0;
+  let composing = false;
 
   function formSnapshot() {
     return JSON.stringify([
@@ -77,6 +78,7 @@ export function createEditorModule(ctx) {
   });
 
   function restoreActionFocus(preferred) {
+    if (!elements.editorDialog.open && ctx.restoreEditorOrigin?.(editorOriginVersion)) return;
     const visible = (element) => element instanceof HTMLElement
       && element.getClientRects().length > 0
       && !element.closest("[hidden], [inert]")
@@ -177,6 +179,7 @@ export function createEditorModule(ctx) {
   }
 
   function resetDialogState() {
+    composing = false;
     editorOpenGeneration += 1;
     state.editingTicketId = null;
     state.dialogMode = "view";
@@ -352,7 +355,8 @@ export function createEditorModule(ctx) {
     const boardId = state.activeBoardId;
     const viewMode = state.viewMode;
     const originVersion = ctx.captureEditorOrigin?.();
-    const isCurrent = () => request === editorOpenGeneration && boardId === state.activeBoardId && viewMode === state.viewMode;
+    const isCurrent = () => request === editorOpenGeneration && boardId === state.activeBoardId && viewMode === state.viewMode
+      && (!creationGroup || ctx.isActiveGroup(creationGroup.id));
     const boardTickets = (await ctx.api(`/api/boards/${boardId}/tickets?archived=all`)).tickets;
     if (!isCurrent()) return;
     const [ticket, activityPayload, eventsPayload] = ticketId
@@ -368,8 +372,7 @@ export function createEditorModule(ctx) {
     state.editingTicketId = ticketId;
     state.editorCreateGroup = ticketId ? null : creationGroup;
     state.boardTickets = boardTickets;
-    const groupContext = elements.editorForm.querySelector(".editor-group-context");
-    if (groupContext) { groupContext.hidden = !creationGroup; groupContext.textContent = creationGroup ? t("Group: {name}", { name: creationGroup.name }) : ""; }
+
     const activity = activityPayload.activity ?? [];
     const events = eventsPayload.events ?? [];
     state.dialogTicket = ticket;
@@ -413,6 +416,7 @@ export function createEditorModule(ctx) {
     elements.ticketBlockerSearch.value = "";
     elements.ticketRelatedSearch.value = "";
     elements.ticketChildSearch.value = "";
+    syncCreationContext();
     populateRemoteImportLaneOptions(ticket?.laneId ?? defaultLaneId);
     clearSaveState();
     commentsModule.clearCommentState();
@@ -436,11 +440,51 @@ export function createEditorModule(ctx) {
     ctx.syncDialogScrollLock?.();
     if (ticketId && mode === "view") {
       queueMicrotask(() => elements.headerEditButton.focus({ preventScroll: true }));
+    } else if (!ticketId) {
+      queueMicrotask(() => {
+        if (isCurrent() && elements.editorDialog.open && !state.editingTicketId) elements.ticketTitle.focus({ preventScroll: true });
+      });
     }
     if (ticketId) {
       ctx.syncTicketUrl(ticketId);
     }
   }
+
+  function syncCreationContext() {
+    const context = elements.editorForm.querySelector('.editor-group-context');
+    const creating = !state.editingTicketId;
+    if (context) {
+      const lane = state.boardDetail?.lanes.find((lane) => lane.id === Number(elements.ticketLane.value));
+      context.hidden = !creating;
+      context.textContent = creating ? [state.boardDetail?.board.name,
+        state.editorCreateGroup ? t('Group: {name}', { name: state.editorCreateGroup.name }) : '',
+        lane?.isCompletionLane ? t('Tickets in this lane are resolved') : '',
+      ].filter(Boolean).join(' · ') : '';
+    }
+    const save = elements.editorForm.querySelector('button[type="submit"]');
+    if (creating) {
+      save?.setAttribute('title', t('Save (Ctrl/Cmd+Enter)'));
+      save?.setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
+    } else {
+      save?.removeAttribute('title');
+      save?.removeAttribute('aria-keyshortcuts');
+    }
+  }
+
+  elements.ticketLane.addEventListener('change', syncCreationContext);
+  elements.editorForm.addEventListener('compositionstart', () => { composing = true; });
+  elements.editorForm.addEventListener('compositionend', () => { composing = false; });
+  elements.editorForm.addEventListener('keydown', (event) => {
+    if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || composing
+        || state.editingTicketId || state.dialogMode !== 'edit' || !elements.editorDialog.open) return;
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey) {
+      event.preventDefault();
+      if (!event.repeat && !state.editorSaving) elements.editorForm.requestSubmit();
+    } else if (event.key === 'Enter' && event.target === elements.ticketTitle) {
+      // Enter confirms text; creating a ticket uses the explicit save action.
+      event.preventDefault();
+    }
+  });
 
   function handleDocumentClick(event) {
     if (!elements.editorDialog.open) {

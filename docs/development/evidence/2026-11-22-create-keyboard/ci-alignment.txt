@@ -1,0 +1,26 @@
+
+Running 17 tests using 2 workers
+
+(node:67609) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:67608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › test/e2e/create-keyboard.spec.ts:22:5 › keyboard creation saves in the expected context and returns to its origin (list, ja) (7.4s)
+  ✓   3 [chromium] › test/e2e/create-keyboard.spec.ts:22:5 › keyboard creation saves in the expected context and returns to its origin (kanban, ja) (6.7s)
+  ✓   1 [chromium] › test/e2e/action-recovery.spec.ts:5:3 › archive and restore distinguish failed writes from failed refreshes (en-US) (14.1s)
+  ✓   4 [chromium] › test/e2e/create-keyboard.spec.ts:22:5 › keyboard creation saves in the expected context and returns to its origin (group, ja) (5.9s)
+  ✓   5 [chromium] › test/e2e/action-recovery.spec.ts:50:3 › ticket creation, editing and moving restore visible focus (en-US) (9.6s)
+  ✓   6 [chromium] › test/e2e/create-keyboard.spec.ts:22:5 › keyboard creation saves in the expected context and returns to its origin (list, en) (5.3s)
+  ✓   7 [chromium] › test/e2e/action-recovery.spec.ts:81:3 › export failure is announced and retry downloads without an unhandled error (en-US) (4.7s)
+  ✓   8 [chromium] › test/e2e/create-keyboard.spec.ts:22:5 › keyboard creation saves in the expected context and returns to its origin (kanban, en) (5.3s)
+  ✓  10 [chromium] › test/e2e/create-keyboard.spec.ts:22:5 › keyboard creation saves in the expected context and returns to its origin (group, en) (5.5s)
+  ✓   9 [chromium] › test/e2e/action-recovery.spec.ts:5:3 › archive and restore distinguish failed writes from failed refreshes (ja-JP) (11.8s)
+  ✓  11 [chromium] › test/e2e/create-keyboard.spec.ts:57:1 › creation shortcuts ignore text, composition and repetition; failed saves preserve the draft (5.3s)
+  ✓  12 [chromium] › test/e2e/action-recovery.spec.ts:50:3 › ticket creation, editing and moving restore visible focus (ja-JP) (7.8s)
+  ✓  13 [chromium] › test/e2e/create-keyboard.spec.ts:105:1 › completion-lane and selected-Group creation preserve explicit destinations (7.0s)
+  ✓  14 [chromium] › test/e2e/action-recovery.spec.ts:81:3 › export failure is announced and retry downloads without an unhandled error (ja-JP) (4.6s)
+  ✓  15 [chromium] › test/e2e/create-keyboard.spec.ts:140:1 › creation restores filtered List scroll and safely falls back if the origin leaves the filter (9.3s)
+  ✓  16 [chromium] › test/e2e/create-keyboard.spec.ts:172:1 › pending Group creation cannot open the previous Group after selection changes (3.9s)
+  ✓  17 [chromium] › test/e2e/create-keyboard.spec.ts:212:1 › existing creation buttons focus the title and retain their return position (3.4s)
+
+  17 passed (1.2m)

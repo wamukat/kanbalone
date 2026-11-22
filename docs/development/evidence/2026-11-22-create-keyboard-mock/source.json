@@ -1,0 +1,8 @@
+{
+  "base": "b7dc02e",
+  "mock": "docs/development/mockups/create-keyboard.html",
+  "sha256": "bb582d02a098a48febda45057c679f92835c336ca95c7276ff3af946ea0dec05",
+  "date": "2026-11-22",
+  "screen": "1440x1000 light",
+  "type": "interaction mock; not deployed product"
+}

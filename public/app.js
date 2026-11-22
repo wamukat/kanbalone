@@ -464,6 +464,7 @@ const {
 );
 
 const editorModule = createEditorModule({
+  isActiveGroup: (groupId) => boardModule.isActiveGroup(groupId),
   captureEditorOrigin: () => boardModule.captureEditorOrigin(),
   restoreEditorOrigin: (version) => boardModule.restoreEditorOrigin(version),
   onTicketCreated: (boardId) => boardModule.onTicketCreated(boardId),

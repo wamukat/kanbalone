@@ -1,5 +1,7 @@
 // UI strings only; user-authored content and API values remain unchanged.
 export default {
+  "Save (Ctrl/Cmd+Enter)": "保存（Ctrl/Cmd＋Enter）",
+  "N: create a ticket.": "N：チケットを作成",
   "Provider, lane, and issue URL are required": "サービス、レーン、Issue URLを指定してください",
   "Unknown state": "状態不明",
   "state unknown": "状態不明",
