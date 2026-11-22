@@ -15,7 +15,9 @@ export function createBoardModule(ctx) {
     { ...ctx, renderBoardDetail },
     { hasUserTicketFilters, renderEmptyState, renderTicketStatusIcons },
   );
-  const keyboard = createBoardKeyboardModule(ctx, listModule);
+  const keyboard = createBoardKeyboardModule(ctx, listModule, {
+    onKanbanKeyboardScroll: (list) => kanbanModule.stopKeyboardScrollRestore(list),
+  });
   const boardSettingsModule = createBoardSettingsModule(ctx);
   const kanbanModule = createKanbanBoardModule(ctx, { renderBoardDetail, afterRender: keyboard.afterRender });
   const sidebarBoardsModule = createSidebarBoardsModule(ctx, {
@@ -42,7 +44,7 @@ export function createBoardModule(ctx) {
     `;
   }
 
-  function renderBoardDetail() {
+  function renderBoardDetail({ reuseReadyKanbanLanes = false } = {}) {
     keyboard.beforeRender();
     const detail = state.boardDetail;
     if (!detail) {
@@ -103,7 +105,7 @@ export function createBoardModule(ctx) {
 
     let groupLoad;
     if (state.viewMode === "kanban") {
-      kanbanModule.renderKanbanBoard(detail);
+      kanbanModule.renderKanbanBoard(detail, { reuseReadyLanes: reuseReadyKanbanLanes });
     } else if (state.viewMode === "group") {
       kanbanModule.cancelPendingRender();
       groupLoad = groupModule.renderGroupBoard();

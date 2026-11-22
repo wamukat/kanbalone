@@ -1,0 +1,1142 @@
+{
+  "finalArrowRight": [
+    {
+      "fixture": "kanban-high-active",
+      "variant": "retain-ordinary",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 2,
+      "hostPatchToObservedFullMs": 700.474671,
+      "browserPatchToFullMs": 693.7999999970198,
+      "lastResponseToFullMs": 491.19999998807907,
+      "browserPatchToChangedTitleDomMs": 309.90000000596046,
+      "retainedLanes": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "arrowRight": {
+        "trusted": true,
+        "sourceLaneId": 1,
+        "targetCards": 139,
+        "focusLaneId": 2,
+        "focusTicketId": 830,
+        "finalFocus": {
+          "ticketId": 830,
+          "laneId": 2,
+          "scrollTop": 13576,
+          "sourceScrollTop": 50711,
+          "visible": true,
+          "targetTop": 837.203125,
+          "viewportTop": 155.265625,
+          "viewportBottom": 927.109375
+        },
+        "sourceFocusId": 2989,
+        "hostEnterToObservedDetailMs": 82.48834100000022,
+        "enterTitleMatchedStoredTicket": true
+      },
+      "observedScrollInput": null,
+      "lastResponseToFullMutationMs": 426.5,
+      "layoutCount": 15,
+      "layoutMs": 201.77500000000003,
+      "styleCount": 27,
+      "styleMs": 28.457999999999984,
+      "longestTaskMs": 107,
+      "longTasksMs": [
+        107,
+        77,
+        76,
+        77,
+        79,
+        57
+      ],
+      "heapBeforeBytes": 5567956,
+      "heapAfterBytes": 10339708,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 13576,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    }
+  ],
+  "earlyProbesBase": "5ba81668e53ceff1d247a5bcccf1110cd0a67eb2",
+  "arrowRightCauseAndFix": [
+    {
+      "variant": "baseline",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 2,
+      "hostPatchToObservedFullMs": 2135.056608,
+      "browserPatchToFullMs": 2126.7000000029802,
+      "lastResponseToFullMs": 1912.4000000059605,
+      "retainedLanes": [],
+      "arrowRight": {
+        "trusted": true,
+        "sourceLaneId": null,
+        "targetCards": 39,
+        "focusLaneId": null,
+        "focusTicketId": null,
+        "finalFocus": {
+          "ticketId": 2989,
+          "laneId": 1,
+          "scrollTop": 50711,
+          "sourceScrollTop": 50711,
+          "visible": true,
+          "targetTop": 814.0625,
+          "viewportTop": 155.265625,
+          "viewportBottom": 927.109375
+        },
+        "sourceFocusId": 2989,
+        "hostEnterToObservedDetailMs": 85.61939700000039,
+        "enterTitleMatchedStoredTicket": true
+      },
+      "lastResponseToFullMutationMs": 1839,
+      "layoutCount": 34,
+      "layoutMs": 519.32,
+      "styleCount": 50,
+      "styleMs": 181.16299999999998,
+      "longestTaskMs": 110,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    },
+    {
+      "variant": "retain-unfixed",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 2,
+      "hostPatchToObservedFullMs": 622.7250839999997,
+      "browserPatchToFullMs": 616,
+      "lastResponseToFullMs": 503,
+      "retainedLanes": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "arrowRight": {
+        "trusted": true,
+        "sourceLaneId": 1,
+        "targetCards": 235,
+        "focusLaneId": 2,
+        "focusTicketId": 1406,
+        "finalFocus": {
+          "ticketId": 1406,
+          "laneId": 2,
+          "scrollTop": 50711,
+          "sourceScrollTop": 50711,
+          "visible": false,
+          "targetTop": -26398.5,
+          "viewportTop": 155.265625,
+          "viewportBottom": 927.109375
+        },
+        "sourceFocusId": 2989
+      },
+      "lastResponseToFullMutationMs": 443.79999999701977,
+      "layoutCount": 14,
+      "layoutMs": 200.1670000000001,
+      "styleCount": 28,
+      "styleMs": 30.42700000000001,
+      "longestTaskMs": 131,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    },
+    {
+      "variant": "retain-ordinary",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 2,
+      "hostPatchToObservedFullMs": 631.3420160000005,
+      "browserPatchToFullMs": 625,
+      "lastResponseToFullMs": 505.5,
+      "retainedLanes": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "arrowRight": {
+        "trusted": true,
+        "sourceLaneId": 1,
+        "targetCards": 235,
+        "focusLaneId": 2,
+        "focusTicketId": 1406,
+        "finalFocus": {
+          "ticketId": 1406,
+          "laneId": 2,
+          "scrollTop": 23475,
+          "sourceScrollTop": 50711,
+          "visible": true,
+          "targetTop": 837.5,
+          "viewportTop": 155.265625,
+          "viewportBottom": 927.109375
+        },
+        "sourceFocusId": 2989,
+        "hostEnterToObservedDetailMs": 80.60491799999909,
+        "enterTitleMatchedStoredTicket": true
+      },
+      "lastResponseToFullMutationMs": 419.70000000298023,
+      "layoutCount": 14,
+      "layoutMs": 201.56400000000008,
+      "styleCount": 27,
+      "styleMs": 29.446,
+      "longestTaskMs": 129,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 23475,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    }
+  ],
+  "tabDuringPartialRender": [
+    {
+      "variant": "baseline",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 2,
+      "hostPatchToObservedFullMs": 2027.474502,
+      "browserPatchToFullMs": 2020.5999999940395,
+      "lastResponseToFullMs": 1855.0999999940395,
+      "retainedLanes": [],
+      "tab": {
+        "keys": [
+          {
+            "trusted": true,
+            "target": "icon-button action-menu-toggle",
+            "targetCards": 39
+          }
+        ],
+        "focusTicketId": 2,
+        "finalFocus": {
+          "ticketId": 2,
+          "laneId": 2,
+          "scrollTop": 50711,
+          "sourceScrollTop": 50711,
+          "visible": false,
+          "targetTop": -50534.734375,
+          "viewportTop": 155.265625,
+          "viewportBottom": 927.109375
+        }
+      },
+      "lastResponseToFullMutationMs": 1794.2999999970198,
+      "layoutCount": 34,
+      "layoutMs": 507.505,
+      "styleCount": 45,
+      "styleMs": 176.30599999999998,
+      "longestTaskMs": 95,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    },
+    {
+      "variant": "retain-ordinary",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 2,
+      "hostPatchToObservedFullMs": 557.0754209999996,
+      "browserPatchToFullMs": 551.5,
+      "lastResponseToFullMs": 463.19999998807907,
+      "retainedLanes": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tab": {
+        "keys": [
+          {
+            "trusted": true,
+            "target": "icon-button action-menu-toggle",
+            "targetCards": 235
+          }
+        ],
+        "focusTicketId": 2,
+        "finalFocus": {
+          "ticketId": 2,
+          "laneId": 2,
+          "scrollTop": 50711,
+          "sourceScrollTop": 50711,
+          "visible": false,
+          "targetTop": -50534.734375,
+          "viewportTop": 155.265625,
+          "viewportBottom": 927.109375
+        }
+      },
+      "lastResponseToFullMutationMs": 419.09999999403954,
+      "layoutCount": 14,
+      "layoutMs": 198.13800000000003,
+      "styleCount": 23,
+      "styleMs": 29.02099999999999,
+      "longestTaskMs": 127,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    }
+  ],
+  "dragSaveFailuresDuringSse": [
+    {
+      "operation": "card-within-lane",
+      "observedOptimisticMove": true,
+      "recoveredOnSseBeforeRejection": true,
+      "observedRejectedSave": true,
+      "storedLaneIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "matchedVisibleTicketIds": 3005,
+      "priorLanesReusedDuringWrite": 0
+    },
+    {
+      "operation": "card-between-lanes",
+      "observedOptimisticMove": true,
+      "recoveredOnSseBeforeRejection": true,
+      "observedRejectedSave": true,
+      "storedLaneIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "matchedVisibleTicketIds": 3005,
+      "priorLanesReusedDuringWrite": 0
+    },
+    {
+      "operation": "lane-reorder",
+      "observedOptimisticMove": true,
+      "recoveredOnSseBeforeRejection": true,
+      "observedRejectedSave": true,
+      "storedLaneIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "matchedVisibleTicketIds": 3005,
+      "priorLanesReusedDuringWrite": 0
+    }
+  ],
+  "leadingLaneFallback": [
+    {
+      "variant": "retain-ordinary",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 1,
+      "hostPatchToObservedFullMs": 1942.998239,
+      "browserPatchToFullMs": 1924.199999988079,
+      "lastResponseToFullMs": 1756.699999988079,
+      "retainedLanes": [],
+      "lastResponseToFullMutationMs": 1701.3999999910593,
+      "layoutCount": 34,
+      "layoutMs": 473.297,
+      "styleCount": 37,
+      "styleMs": 169.231,
+      "longestTaskMs": 94,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    }
+  ],
+  "leadingLaneSearchArrowDown": [
+    {
+      "variant": "retain-ordinary",
+      "round": 0,
+      "warmup": true,
+      "total": 3005,
+      "ticketId": 1,
+      "hostPatchToObservedFullMs": 2649.6228229999997,
+      "browserPatchToFullMs": 2642.2000000029802,
+      "lastResponseToFullMs": 1790.0999999940395,
+      "retainedLanes": [],
+      "searchArrowDown": {
+        "trusted": true,
+        "oldFocus": "search-input",
+        "focusTicketId": 1
+      },
+      "lastResponseToFullMutationMs": 1736.8999999910593,
+      "layoutCount": 35,
+      "layoutMs": 484.13300000000004,
+      "styleCount": 49,
+      "styleMs": 171.53799999999998,
+      "longestTaskMs": 102,
+      "ticketPages": 19,
+      "decodedBytes": 1609095,
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ]
+    }
+  ],
+  "captureViewport": [
+    1440,
+    1000
+  ],
+  "captureLocale": "en-US",
+  "captureTheme": "light",
+  "captures": [
+    {
+      "variant": "baseline",
+      "screenshot": "1546-final-de340619-captures-baseline.png",
+      "total": 3005,
+      "ticketId": 2978,
+      "storedTitle": "Warm SSE: one lane updated",
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "sha256": "de98302b8ba3ea4cb62be8069d6bd2282771e8c8293b8336faedd5b82af7e6a3"
+    },
+    {
+      "variant": "retain-ordinary",
+      "screenshot": "1546-final-de340619-captures-retain-ordinary.png",
+      "total": 3005,
+      "ticketId": 2978,
+      "storedTitle": "Warm SSE: one lane updated",
+      "scrollBefore": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "scrollAfter": [
+        {
+          "laneId": "1",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "2",
+          "top": 50711,
+          "max": 50786
+        },
+        {
+          "laneId": "3",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "4",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "5",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "6",
+          "top": 50711,
+          "max": 50791
+        },
+        {
+          "laneId": "7",
+          "top": 0,
+          "max": 0
+        }
+      ],
+      "sha256": "de98302b8ba3ea4cb62be8069d6bd2282771e8c8293b8336faedd5b82af7e6a3"
+    }
+  ]
+}

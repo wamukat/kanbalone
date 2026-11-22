@@ -1,7 +1,7 @@
 import { t } from "./app-i18n.js";
 
 // Navigate the existing title buttons, independently of List bulk selection.
-export function createBoardKeyboardModule(ctx, listModule) {
+export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScroll } = {}) {
   const { state, elements } = ctx;
   let creationOpening = false;
   let returnTarget = null;
@@ -110,6 +110,7 @@ export function createBoardKeyboardModule(ctx, listModule) {
     if (scroll) {
       const card = title.closest(".ticket-card");
       const list = card.closest(".ticket-list");
+      onKanbanKeyboardScroll?.(list);
       const rect = card.getBoundingClientRect();
       const viewport = list.getBoundingClientRect();
       if (rect.top < viewport.top + 4) list.scrollTop -= viewport.top + 4 - rect.top;

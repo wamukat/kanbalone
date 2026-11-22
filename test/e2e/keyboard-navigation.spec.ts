@@ -292,3 +292,75 @@ test("Kanban search and detail return skip hidden or inert card titles", async (
     await expect(search(page)).toBeFocused();
   } finally { await close(); }
 });
+
+test("Kanban keeps an ArrowRight target visible when a lane finishes rebuilding after SSE", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    await page.setViewportSize({ width: 1280, height: 760 });
+    const changedCount = 160;
+    const boards = await page.request.post(`${baseUrl}/api/boards/import`, { data: {
+      formatVersion: 2,
+      board: { name: "SSE keyboard focus" },
+      lanes: [
+        { id: 1, name: "Todo", position: 0, isCompletionLane: false },
+        { id: 2, name: "Doing", position: 1, isCompletionLane: false },
+      ],
+      groups: [],
+      tags: [],
+      tickets: Array.from({ length: changedCount + 1 }, (_, index) => ({
+        id: index + 1,
+        laneId: index === 0 ? 1 : 2,
+        position: index,
+        title: `Card ${index + 1}`,
+        bodyMarkdown: "",
+        priority: 2,
+        isResolved: false,
+        isArchived: false,
+        parentTicketId: null,
+        groupId: null,
+        tags: [],
+        comments: [],
+        blockerIds: [],
+      })),
+    } });
+    expect(boards.status(), await boards.text()).toBe(201);
+    const { board, lanes } = await boards.json();
+    await goToBoard(page, `${baseUrl}/boards/${board.id}`);
+    const source = card(page, 1);
+    const changedLane = page.locator(`.ticket-list[data-lane-id="${lanes[1].id}"]`);
+    await expect(changedLane.locator(".ticket-card")).toHaveCount(changedCount);
+    await changedLane.evaluate((lane) => { lane.scrollTop = lane.scrollHeight; });
+    await source.focus();
+
+    const updatedTitle = "Changed on a different client";
+    const arrow = await page.evaluateHandle(({ laneId, updatedTitle }) => {
+      const result = { selection: 0, count: 0 };
+      const observer = new MutationObserver(() => {
+        const lane = document.querySelector(`.ticket-list[data-lane-id="${laneId}"]`)!;
+        if (lane.querySelector(".ticket-link")?.textContent?.trim() !== updatedTitle) return;
+        observer.disconnect();
+        result.count = lane.querySelectorAll(".ticket-card").length;
+        // Dispatch before the next animation frame adds more cards.
+        document.activeElement?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+        const active = document.activeElement;
+        if (active?.closest(".ticket-list") === lane) {
+          result.selection = Number(active.closest(".ticket-card")?.getAttribute("data-ticket-id"));
+        }
+      });
+      observer.observe(document.querySelector("#lane-board")!, { childList: true, subtree: true });
+      return result;
+    }, { laneId: lanes[1].id, updatedTitle });
+    await updateTicket(page.request, baseUrl, 2, { title: updatedTitle });
+    await expect.poll(() => arrow.evaluate((result) => result.selection)).toBeGreaterThan(1);
+    const selection = await arrow.evaluate((result) => result);
+    expect(selection.count).toBeLessThan(changedCount);
+    await expect(changedLane.locator(".ticket-card")).toHaveCount(changedCount);
+    await expect(card(page, selection.selection)).toBeFocused();
+    await expect(card(page, selection.selection)).toBeInViewport();
+
+    const stored = await (await page.request.get(`${baseUrl}/api/tickets/${selection.selection}`)).json();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ticket-title")).toHaveValue(stored.title);
+  } finally { await close(); }
+});
