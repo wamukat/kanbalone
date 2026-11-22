@@ -48,7 +48,9 @@ async function main() {
   syncStatusFilter();
   syncViewMode();
   syncActiveFilterStyles();
-  await refreshBoards();
+  // Resolve the requested route before loading its board, rather than loading
+  // the remembered/default board and immediately fetching again in the router.
+  await refreshBoards({ refreshDetail: false });
   await applyRouteFromLocation({ replace: true });
 }
 
@@ -243,7 +245,7 @@ function handleDocumentKeydown(event) {
   requestCloseEditor();
 }
 
-async function refreshBoards() {
+async function refreshBoards({ refreshDetail = true } = {}) {
   const data = await api("/api/boards");
   state.boards = data.boards;
   pruneUiPreferencesForBoards();
@@ -257,7 +259,7 @@ async function refreshBoards() {
   restoreBoardFilterExpansion(state.activeBoardId);
   persistUiPreferences();
   renderBoards();
-  await refreshBoardDetail();
+  if (refreshDetail) await refreshBoardDetail();
 }
 
 async function selectBoard(boardId) {

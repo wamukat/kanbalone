@@ -1,0 +1,1 @@
+import {buildApp} from '../../src/app.ts';const done=Number(process.argv[2]);const port={0:3614,900:3615,9900:3616}[done];if(!port)throw new Error('Unsupported fixture');const app=buildApp({dbFile:process.cwd()+`/coverage/completion-heavy/done-${done}.sqlite`,staticDir:process.cwd()+'/public'});await app.listen({host:'127.0.0.1',port});

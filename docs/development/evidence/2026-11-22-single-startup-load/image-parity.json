@@ -1,0 +1,82 @@
+[
+  {
+    "before": "before-en-group.png",
+    "after": "after-en-group.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-kanban.png",
+    "after": "after-en-kanban.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-list.png",
+    "after": "after-en-list.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-more.png",
+    "after": "after-en-more.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-group.png",
+    "after": "after-ja-group.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-kanban.png",
+    "after": "after-ja-kanban.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-list.png",
+    "after": "after-ja-list.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-more.png",
+    "after": "after-ja-more.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "language": "ja",
+    "view": "kanban",
+    "beforeBoardDetailRequests": [
+      "/api/boards/1",
+      "/api/boards/1"
+    ],
+    "afterBoardDetailRequests": [
+      "/api/boards/1"
+    ],
+    "sameKanbanIds": true,
+    "limitation": "Raw IDs include hidden stale Kanban DOM in baseline List/Group; not a visible-row count. Final appearance checked separately by image parity."
+  },
+  {
+    "language": "ja",
+    "view": "list",
+    "beforeBoardDetailRequests": [
+      "/api/boards/1",
+      "/api/boards/1"
+    ],
+    "afterBoardDetailRequests": [
+      "/api/boards/1"
+    ],
+    "sameKanbanIds": null,
+    "limitation": "Raw IDs include hidden stale Kanban DOM in baseline List/Group; not a visible-row count. Final appearance checked separately by image parity."
+  },
+  {
+    "language": "ja",
+    "view": "group",
+    "beforeBoardDetailRequests": [
+      "/api/boards/1",
+      "/api/boards/1"
+    ],
+    "afterBoardDetailRequests": [
+      "/api/boards/1"
+    ],
+    "sameKanbanIds": null,
+    "limitation": "Raw IDs include hidden stale Kanban DOM in baseline List/Group; not a visible-row count. Final appearance checked separately by image parity."
+  },
+  {
+    "language": "en",
+    "view": "kanban",
+    "beforeBoardDetailRequests": [
+      "/api/boards/1",
+      "/api/boards/2"
+    ],
+    "afterBoardDetailRequests": [
+      "/api/boards/2"
+    ],
+    "sameKanbanIds": true,
+    "limitation": "Raw IDs include hidden stale Kanban DOM in baseline List/Group; not a visible-row count. Final appearance checked separately by image parity."
+  },
+  {
+    "language": "en",
+    "view": "list",
+    "beforeBoardDetailRequests": [
+      "/api/boards/1",
+      "/api/boards/2"
+    ],
+    "afterBoardDetailRequests": [
+      "/api/boards/2"
+    ],
+    "sameKanbanIds": null,
+    "limitation": "Raw IDs include hidden stale Kanban DOM in baseline List/Group; not a visible-row count. Final appearance checked separately by image parity."
+  },
+  {
+    "language": "en",
+    "view": "group",
+    "beforeBoardDetailRequests": [
+      "/api/boards/1",
+      "/api/boards/2"
+    ],
+    "afterBoardDetailRequests": [
+      "/api/boards/2"
+    ],
+    "sameKanbanIds": null,
+    "limitation": "Raw IDs include hidden stale Kanban DOM in baseline List/Group; not a visible-row count. Final appearance checked separately by image parity."
+  }
+]

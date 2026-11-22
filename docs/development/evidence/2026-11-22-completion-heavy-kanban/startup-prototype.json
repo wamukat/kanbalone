@@ -1,0 +1,1304 @@
+[
+  {
+    "candidate": false,
+    "run": 0,
+    "warmup": true,
+    "openFirstPaint": 411.5,
+    "doneFirstPaint": 411.5,
+    "openUsable": 411.5,
+    "doneReady": 411.5,
+    "overall": 411.69999999552965,
+    "states": [
+      {
+        "time": 165.19999999552965
+      },
+      {
+        "time": 187.19999999552965,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 218.09999999403954,
+        "loading": true,
+        "ready": false,
+        "renderPending": true
+      },
+      {
+        "time": 274.59999999403954,
+        "loading": true,
+        "ready": false,
+        "renderPending": false
+      },
+      {
+        "time": 324.8999999985099,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 366.59999999403954,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 158.59999999403954,
+        "end": 161.19999999552965,
+        "duration": 2.600000001490116,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 164.69999999552965,
+        "end": 171.69999999552965,
+        "duration": 7,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 186.09999999403954,
+        "end": 188.89999999850988,
+        "duration": 2.8000000044703484,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 190.69999999552965,
+        "end": 195.59999999403954,
+        "duration": 4.899999998509884,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 190.89999999850988,
+        "end": 197.19999999552965,
+        "duration": 6.299999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 191,
+        "end": 199,
+        "duration": 8,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 191.19999999552965,
+        "end": 200.59999999403954,
+        "duration": 9.399999998509884,
+        "bytes": 2953
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 217.89999999850988,
+        "end": 220.89999999850988,
+        "duration": 3,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 290.09999999403954,
+        "end": 293.79999999701977,
+        "duration": 3.7000000029802322,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 290.29999999701977,
+        "end": 297.8999999985099,
+        "duration": 7.600000001490116,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 290.3999999985099,
+        "end": 300.09999999403954,
+        "duration": 9.699999995529652,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 290.59999999403954,
+        "end": 301.3999999985099,
+        "duration": 10.800000004470348,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": true,
+    "run": 0,
+    "warmup": true,
+    "openFirstPaint": 286.1000000014901,
+    "doneFirstPaint": 286.1000000014901,
+    "openUsable": 286.20000000298023,
+    "doneReady": 286.20000000298023,
+    "overall": 286.20000000298023,
+    "states": [
+      {
+        "time": 142.30000000447035
+      },
+      {
+        "time": 163.10000000149012,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 188,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 241.39999999850988,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 135.89999999850988,
+        "end": 138.5,
+        "duration": 2.600000001490116,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 141.80000000447035,
+        "end": 145.30000000447035,
+        "duration": 3.5,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 162.20000000298023,
+        "end": 164.89999999850988,
+        "duration": 2.6999999955296516,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 166.30000000447035,
+        "end": 170.10000000149012,
+        "duration": 3.7999999970197678,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 166.5,
+        "end": 171.80000000447035,
+        "duration": 5.300000004470348,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 166.70000000298023,
+        "end": 173.20000000298023,
+        "duration": 6.5,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 166.80000000447035,
+        "end": 174.60000000149012,
+        "duration": 7.799999997019768,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": true,
+    "run": 1,
+    "warmup": false,
+    "openFirstPaint": 258.8999999985099,
+    "doneFirstPaint": 258.8999999985099,
+    "openUsable": 258.8999999985099,
+    "doneReady": 258.8999999985099,
+    "overall": 258.8999999985099,
+    "states": [
+      {
+        "time": 141.70000000298023
+      },
+      {
+        "time": 162.39999999850988,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 185.20000000298023,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 238,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 135.5,
+        "end": 138.10000000149012,
+        "duration": 2.600000001490116,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 141.39999999850988,
+        "end": 144.29999999701977,
+        "duration": 2.899999998509884,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 161.39999999850988,
+        "end": 163.89999999850988,
+        "duration": 2.5,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 165.39999999850988,
+        "end": 169,
+        "duration": 3.600000001490116,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 165.5,
+        "end": 170.29999999701977,
+        "duration": 4.799999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 165.70000000298023,
+        "end": 171.60000000149012,
+        "duration": 5.899999998509884,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 165.89999999850988,
+        "end": 173,
+        "duration": 7.100000001490116,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": false,
+    "run": 1,
+    "warmup": false,
+    "openFirstPaint": 383.1000000014901,
+    "doneFirstPaint": 383.1000000014901,
+    "openUsable": 383.1000000014901,
+    "doneReady": 383.1000000014901,
+    "overall": 383.20000000298023,
+    "states": [
+      {
+        "time": 150
+      },
+      {
+        "time": 181.70000000298023,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 202.89999999850988,
+        "loading": true,
+        "ready": false,
+        "renderPending": true
+      },
+      {
+        "time": 257.79999999701977,
+        "loading": true,
+        "ready": false,
+        "renderPending": false
+      },
+      {
+        "time": 308.29999999701977,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 344.8999999985099,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 147.39999999850988,
+        "end": 149.89999999850988,
+        "duration": 2.5,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 155,
+        "end": 156.79999999701977,
+        "duration": 1.7999999970197678,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 171.39999999850988,
+        "end": 174.20000000298023,
+        "duration": 2.8000000044703484,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 175.89999999850988,
+        "end": 180.20000000298023,
+        "duration": 4.300000004470348,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 176.10000000149012,
+        "end": 181.89999999850988,
+        "duration": 5.799999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 176.20000000298023,
+        "end": 183.60000000149012,
+        "duration": 7.399999998509884,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 176.29999999701977,
+        "end": 185.5,
+        "duration": 9.200000002980232,
+        "bytes": 2953
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 202.79999999701977,
+        "end": 204.89999999850988,
+        "duration": 2.100000001490116,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 274.1000000014901,
+        "end": 277.6000000014901,
+        "duration": 3.5,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 274.20000000298023,
+        "end": 279.8999999985099,
+        "duration": 5.699999995529652,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 274.3999999985099,
+        "end": 282.79999999701977,
+        "duration": 8.399999998509884,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 274.5,
+        "end": 284.29999999701977,
+        "duration": 9.799999997019768,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": false,
+    "run": 2,
+    "warmup": false,
+    "openFirstPaint": 258.70000000298023,
+    "doneFirstPaint": 258.70000000298023,
+    "openUsable": 348.8999999985099,
+    "doneReady": 348.8999999985099,
+    "overall": 349,
+    "states": [
+      {
+        "time": 132.20000000298023
+      },
+      {
+        "time": 160.10000000149012,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 182.70000000298023,
+        "loading": true,
+        "ready": false,
+        "renderPending": true
+      },
+      {
+        "time": 237.89999999850988,
+        "loading": true,
+        "ready": false,
+        "renderPending": false
+      },
+      {
+        "time": 286.3999999985099,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 324.80000000447035,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 129.5,
+        "end": 132.10000000149012,
+        "duration": 2.600000001490116,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 137.20000000298023,
+        "end": 139.20000000298023,
+        "duration": 2,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 153.80000000447035,
+        "end": 156,
+        "duration": 2.1999999955296516,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 157.30000000447035,
+        "end": 161.10000000149012,
+        "duration": 3.7999999970197678,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 157.5,
+        "end": 163,
+        "duration": 5.5,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 157.70000000298023,
+        "end": 164.20000000298023,
+        "duration": 6.5,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 157.80000000447035,
+        "end": 165.70000000298023,
+        "duration": 7.899999998509884,
+        "bytes": 2953
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 182.5,
+        "end": 184.89999999850988,
+        "duration": 2.399999998509884,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 252.60000000149012,
+        "end": 256.30000000447035,
+        "duration": 3.7000000029802322,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 252.80000000447035,
+        "end": 258.6000000014901,
+        "duration": 5.799999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 253,
+        "end": 261.5,
+        "duration": 8.5,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 253.10000000149012,
+        "end": 263.20000000298023,
+        "duration": 10.100000001490116,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": true,
+    "run": 2,
+    "warmup": false,
+    "openFirstPaint": 285.20000000298023,
+    "doneFirstPaint": 285.30000000447035,
+    "openUsable": 285.30000000447035,
+    "doneReady": 285.30000000447035,
+    "overall": 285.3999999985099,
+    "states": [
+      {
+        "time": 133.10000000149012
+      },
+      {
+        "time": 166.20000000298023,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 186,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 240.80000000447035,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 130.39999999850988,
+        "end": 133.10000000149012,
+        "duration": 2.7000000029802322,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 138.20000000298023,
+        "end": 140.60000000149012,
+        "duration": 2.399999998509884,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 158.60000000149012,
+        "end": 161.30000000447035,
+        "duration": 2.7000000029802322,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 163,
+        "end": 167.60000000149012,
+        "duration": 4.600000001490116,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 163.10000000149012,
+        "end": 169.10000000149012,
+        "duration": 6,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 163.39999999850988,
+        "end": 170.70000000298023,
+        "duration": 7.300000004470348,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 163.39999999850988,
+        "end": 172.30000000447035,
+        "duration": 8.900000005960464,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": true,
+    "run": 3,
+    "warmup": false,
+    "openFirstPaint": 259,
+    "doneFirstPaint": 259.1000000014901,
+    "openUsable": 259.1000000014901,
+    "doneReady": 259.1000000014901,
+    "overall": 259.1000000014901,
+    "states": [
+      {
+        "time": 149.10000000149012
+      },
+      {
+        "time": 169.5,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 184.69999999552965,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 238.39999999850988,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 131.5,
+        "end": 134,
+        "duration": 2.5,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 137.29999999701977,
+        "end": 139.60000000149012,
+        "duration": 2.3000000044703484,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 158,
+        "end": 160.5,
+        "duration": 2.5,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 162,
+        "end": 165.39999999850988,
+        "duration": 3.399999998509884,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 162.10000000149012,
+        "end": 166.69999999552965,
+        "duration": 4.5999999940395355,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 162.29999999701977,
+        "end": 168,
+        "duration": 5.700000002980232,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 162.39999999850988,
+        "end": 169.5,
+        "duration": 7.100000001490116,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": false,
+    "run": 3,
+    "warmup": false,
+    "openFirstPaint": 429.69999999552965,
+    "doneFirstPaint": 429.69999999552965,
+    "openUsable": 429.69999999552965,
+    "doneReady": 429.69999999552965,
+    "overall": 429.79999999701977,
+    "states": [
+      {
+        "time": 188.69999999552965
+      },
+      {
+        "time": 228.19999999552965,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 253.29999999701977,
+        "loading": true,
+        "ready": false,
+        "renderPending": true
+      },
+      {
+        "time": 309.6000000014901,
+        "loading": true,
+        "ready": false,
+        "renderPending": false
+      },
+      {
+        "time": 357.3999999985099,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 394.29999999701977,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 185.39999999850988,
+        "end": 189.39999999850988,
+        "duration": 4,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 194.89999999850988,
+        "end": 201.29999999701977,
+        "duration": 6.399999998509884,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 219.69999999552965,
+        "end": 223.10000000149012,
+        "duration": 3.4000000059604645,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 224.89999999850988,
+        "end": 229.79999999701977,
+        "duration": 4.899999998509884,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 225.10000000149012,
+        "end": 231.69999999552965,
+        "duration": 6.5999999940395355,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 225.19999999552965,
+        "end": 233.5,
+        "duration": 8.300000004470348,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 225.5,
+        "end": 235.5,
+        "duration": 10,
+        "bytes": 2953
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 253.19999999552965,
+        "end": 255.69999999552965,
+        "duration": 2.5,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 324.3999999985099,
+        "end": 328.1000000014901,
+        "duration": 3.7000000029802322,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 324.6000000014901,
+        "end": 330.3999999985099,
+        "duration": 5.799999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 324.6000000014901,
+        "end": 333,
+        "duration": 8.399999998509884,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 324.79999999701977,
+        "end": 334.29999999701977,
+        "duration": 9.5,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": false,
+    "run": 4,
+    "warmup": false,
+    "openFirstPaint": 365.80000000447035,
+    "doneFirstPaint": 365.80000000447035,
+    "openUsable": 365.80000000447035,
+    "doneReady": 365.80000000447035,
+    "overall": 365.80000000447035,
+    "states": [
+      {
+        "time": 144
+      },
+      {
+        "time": 174.90000000596046,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 194.5,
+        "loading": true,
+        "ready": false,
+        "renderPending": true
+      },
+      {
+        "time": 248.5,
+        "loading": true,
+        "ready": false,
+        "renderPending": false
+      },
+      {
+        "time": 295.80000000447035,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 331,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 141.10000000149012,
+        "end": 143.60000000149012,
+        "duration": 2.5,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 148.90000000596046,
+        "end": 150.70000000298023,
+        "duration": 1.7999999970197678,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 165,
+        "end": 167.5,
+        "duration": 2.5,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 168.90000000596046,
+        "end": 172.70000000298023,
+        "duration": 3.7999999970197678,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 169,
+        "end": 174.30000000447035,
+        "duration": 5.300000004470348,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 169.20000000298023,
+        "end": 175.70000000298023,
+        "duration": 6.5,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 169.40000000596046,
+        "end": 177.60000000149012,
+        "duration": 8.199999995529652,
+        "bytes": 2953
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 194.30000000447035,
+        "end": 196.40000000596046,
+        "duration": 2.100000001490116,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 262.90000000596046,
+        "end": 266.5,
+        "duration": 3.5999999940395355,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 263.1000000014901,
+        "end": 267.80000000447035,
+        "duration": 4.700000002980232,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 263.20000000298023,
+        "end": 270.90000000596046,
+        "duration": 7.700000002980232,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 263.5,
+        "end": 272.5,
+        "duration": 9,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": true,
+    "run": 4,
+    "warmup": false,
+    "openFirstPaint": 284.90000000596046,
+    "doneFirstPaint": 284.90000000596046,
+    "openUsable": 285,
+    "doneReady": 285,
+    "overall": 285,
+    "states": [
+      {
+        "time": 134.30000000447035
+      },
+      {
+        "time": 165.10000000149012,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 185.10000000149012,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 240.30000000447035,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 131.60000000149012,
+        "end": 134.20000000298023,
+        "duration": 2.600000001490116,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 139.40000000596046,
+        "end": 141.10000000149012,
+        "duration": 1.6999999955296516,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 158.10000000149012,
+        "end": 160.60000000149012,
+        "duration": 2.5,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 162.20000000298023,
+        "end": 165.90000000596046,
+        "duration": 3.7000000029802322,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 162.40000000596046,
+        "end": 167.90000000596046,
+        "duration": 5.5,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 162.60000000149012,
+        "end": 169.40000000596046,
+        "duration": 6.800000004470348,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 162.60000000149012,
+        "end": 171.10000000149012,
+        "duration": 8.5,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": true,
+    "run": 5,
+    "warmup": false,
+    "openFirstPaint": 280.1000000014901,
+    "doneFirstPaint": 280.1000000014901,
+    "openUsable": 280.1000000014901,
+    "doneReady": 280.1000000014901,
+    "overall": 280.19999999552965,
+    "states": [
+      {
+        "time": 131.89999999850988
+      },
+      {
+        "time": 162.60000000149012,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 181.60000000149012,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 235.39999999850988,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 129.29999999701977,
+        "end": 131.79999999701977,
+        "duration": 2.5,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 137.10000000149012,
+        "end": 139.29999999701977,
+        "duration": 2.1999999955296516,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 155.89999999850988,
+        "end": 158.39999999850988,
+        "duration": 2.5,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 159.89999999850988,
+        "end": 163.39999999850988,
+        "duration": 3.5,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 160.10000000149012,
+        "end": 164.89999999850988,
+        "duration": 4.799999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 160.19999999552965,
+        "end": 166.29999999701977,
+        "duration": 6.100000001490116,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 160.39999999850988,
+        "end": 167.79999999701977,
+        "duration": 7.399999998509884,
+        "bytes": 2953
+      }
+    ]
+  },
+  {
+    "candidate": false,
+    "run": 5,
+    "warmup": false,
+    "openFirstPaint": 361.79999999701977,
+    "doneFirstPaint": 361.79999999701977,
+    "openUsable": 361.79999999701977,
+    "doneReady": 361.79999999701977,
+    "overall": 361.8999999985099,
+    "states": [
+      {
+        "time": 133.89999999850988
+      },
+      {
+        "time": 165.29999999701977,
+        "loading": true,
+        "ready": false
+      },
+      {
+        "time": 185.39999999850988,
+        "loading": true,
+        "ready": false,
+        "renderPending": true
+      },
+      {
+        "time": 239.29999999701977,
+        "loading": true,
+        "ready": false,
+        "renderPending": false
+      },
+      {
+        "time": 287.5,
+        "loading": false,
+        "ready": true,
+        "renderPending": true
+      },
+      {
+        "time": 324.8999999985099,
+        "loading": false,
+        "ready": true,
+        "renderPending": false
+      }
+    ],
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/meta",
+        "start": 131.29999999701977,
+        "end": 133.89999999850988,
+        "duration": 2.600000001490116,
+        "bytes": 173
+      },
+      {
+        "path": "/api/boards",
+        "start": 139.10000000149012,
+        "end": 141.39999999850988,
+        "duration": 2.2999999970197678,
+        "bytes": 136
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 155.70000000298023,
+        "end": 158.10000000149012,
+        "duration": 2.399999998509884,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 159.60000000149012,
+        "end": 163,
+        "duration": 3.399999998509884,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 159.70000000298023,
+        "end": 164.5,
+        "duration": 4.799999997019768,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 159.89999999850988,
+        "end": 166.10000000149012,
+        "duration": 6.200000002980232,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 160,
+        "end": 168.10000000149012,
+        "duration": 8.100000001490116,
+        "bytes": 2953
+      },
+      {
+        "path": "/api/boards/1",
+        "start": 185.20000000298023,
+        "end": 187.29999999701977,
+        "duration": 2.0999999940395355,
+        "bytes": 510
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "start": 253.79999999701977,
+        "end": 257.6000000014901,
+        "duration": 3.8000000044703484,
+        "bytes": 17001
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "start": 254,
+        "end": 258.8999999985099,
+        "duration": 4.899999998509884,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "start": 254.20000000298023,
+        "end": 262.29999999701977,
+        "duration": 8.099999994039536,
+        "bytes": 16499
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "start": 254.39999999850988,
+        "end": 263.20000000298023,
+        "duration": 8.800000004470348,
+        "bytes": 2953
+      }
+    ]
+  }
+]

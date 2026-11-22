@@ -1,0 +1,21 @@
+{
+  "baseline": "1c87193ec553cbbd4bbc563f5a28b7ee67611600",
+  "candidate": "baseline plus public/app.js startup refresh change and focused routing E2E",
+  "sourceSha256": {
+    "public/app.js": "4e02a8613f22e6a16733e6039b6a31cdbe4588c69acce2d85e3d4c9f59777b2e",
+    "test/e2e/startup-routing.spec.ts": "85526d9b3c5f6c9285a5ba504347b32e98bc1883103cb1291f74e6f24eaf51cd"
+  },
+  "sourceFingerprint": "21c3180f3b23afd4de64b0bf89bf9daf3ddbfa689688f69d6e118871d0f8f566",
+  "runtime": "Node26.13.1, agent-browser0.26.0",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "theme": "light",
+  "fixture": "Separate SQLite backups; two language boards with one open and seven completed tickets each. Subsequent keyboard creations have matching content but different timestamps/edit tokens.",
+  "servers": {
+    "before": "3619 complete baseline src/public",
+    "after": "3620 current source/static"
+  },
+  "captureDate": "2026-11-22"
+}

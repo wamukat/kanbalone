@@ -1,0 +1,186 @@
+[
+  {
+    "case": {
+      "language": "ja",
+      "boardId": 1,
+      "originId": 1,
+      "laneId": 2,
+      "doneId": 3,
+      "groupId": 1
+    },
+    "routes": [
+      {
+        "view": "kanban",
+        "requests": [
+          "/api/boards/1",
+          "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+          "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+          "/api/boards/1/tickets?lane_id=3&order=completed_desc&limit=5"
+        ],
+        "queriedDomIdsIncludingHidden": [
+          1,
+          8,
+          7,
+          6,
+          5,
+          4
+        ]
+      },
+      {
+        "view": "list",
+        "requests": [
+          "/api/boards/1",
+          "/api/boards/1/tickets?limit=200&order=position_asc"
+        ],
+        "queriedDomIdsIncludingHidden": []
+      },
+      {
+        "view": "group",
+        "requests": [
+          "/api/boards/1",
+          "/api/boards/1/groups?status=all&sort=createdAt&order=asc",
+          "/api/boards/1/tickets?groupId=1&archived=all&order=id_asc&limit=200"
+        ],
+        "queriedDomIdsIncludingHidden": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    ],
+    "completionBefore": 5,
+    "completionExpanded": 7,
+    "saved": {
+      "id": 17,
+      "boardId": 1,
+      "laneId": 2,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "ja keyboard startup check",
+      "bodyMarkdown": "",
+      "bodyHtml": "",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 1,
+      "createdAt": "2026-11-22T09:11:52.788Z",
+      "updatedAt": "2026-11-22T09:11:52.788Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "blockers": [],
+      "blockedBy": [],
+      "related": [],
+      "parent": null,
+      "children": [],
+      "ref": "Delivery review#17",
+      "shortRef": "#17",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null,
+      "editToken": "264b46140c9d170b0c6b9ea0f80366740eb3f2c63f95d2eafb444b8cfb38fc53"
+    },
+    "originRestored": true,
+    "visibleAfterReload": true
+  },
+  {
+    "case": {
+      "language": "en",
+      "boardId": 2,
+      "originId": 9,
+      "laneId": 5,
+      "doneId": 6,
+      "groupId": 2
+    },
+    "routes": [
+      {
+        "view": "kanban",
+        "requests": [
+          "/api/boards/2",
+          "/api/boards/2/tickets?lane_id=4&limit=200&order=position_asc",
+          "/api/boards/2/tickets?lane_id=5&limit=200&order=position_asc",
+          "/api/boards/2/tickets?lane_id=6&order=completed_desc&limit=5"
+        ],
+        "queriedDomIdsIncludingHidden": [
+          9,
+          16,
+          15,
+          14,
+          13,
+          12
+        ]
+      },
+      {
+        "view": "list",
+        "requests": [
+          "/api/boards/2",
+          "/api/boards/2/tickets?limit=200&order=position_asc"
+        ],
+        "queriedDomIdsIncludingHidden": []
+      },
+      {
+        "view": "group",
+        "requests": [
+          "/api/boards/2",
+          "/api/boards/2/groups?status=all&sort=createdAt&order=asc",
+          "/api/boards/2/tickets?groupId=2&archived=all&order=id_asc&limit=200"
+        ],
+        "queriedDomIdsIncludingHidden": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      }
+    ],
+    "completionBefore": 5,
+    "completionExpanded": 7,
+    "saved": {
+      "id": 18,
+      "boardId": 2,
+      "laneId": 5,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "en keyboard startup check",
+      "bodyMarkdown": "",
+      "bodyHtml": "",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 1,
+      "createdAt": "2026-11-22T09:12:52.091Z",
+      "updatedAt": "2026-11-22T09:12:52.091Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "blockers": [],
+      "blockedBy": [],
+      "related": [],
+      "parent": null,
+      "children": [],
+      "ref": "Delivery review#18",
+      "shortRef": "#18",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null,
+      "editToken": "c7e7602bf43623541bf1799db1f77c1f75d8c2cd299b1f974597aae9fb491cc7"
+    },
+    "originRestored": true,
+    "visibleAfterReload": true
+  }
+]
