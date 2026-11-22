@@ -1,0 +1,21 @@
+{
+  "baseline": "09ad816c1fb51c3a0af143ee0cee477e2964eee9",
+  "candidate": "baseline plus two runtime changes and two regression test files",
+  "sourceSha256": {
+    "public/app-group-board.js": "34046a35330e74fa125c834c906d8c3e125b17da1ae05dcb518f73196c4d5e53",
+    "src/db-modules/ticket-read-model.ts": "49c4bce5f8656dad69ad1b7920a22b6308cfdbdb1399f1da83a9c5b518c630b0",
+    "test/app-ticket-hierarchy.test.ts": "0b1f5647cf5fd3cee8a15cac95a15ecd56848d60ab485675f3dcf237ddb74022",
+    "test/app-ticket-pagination.test.ts": "509f8e549434682ab7f7ddd25a763b5ab20b165261085cdff62ad9311034a125"
+  },
+  "sourceFingerprint": "dcea4ba770efd0013d1bd8fd52ec8841b57bc9c7f78ce4142f6eb8e83e150bbc",
+  "runtime": "Node26.13.1, agent-browser0.26.0",
+  "interactionViewport": [
+    1440,
+    1000
+  ],
+  "interactionTheme": "light",
+  "baselineServer": "3612: complete src/public from baseline",
+  "candidateServer": "3613: working tree runtime",
+  "fixture": "SeparateSQLitebackup;2languageboards;6members+1candidate+1otherGroup ticket each; subsequent edits timestamps/tokens differ",
+  "captureDate": "2026-11-22"
+}

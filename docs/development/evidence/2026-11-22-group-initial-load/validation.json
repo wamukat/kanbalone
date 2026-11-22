@@ -1,0 +1,18 @@
+{
+  "check": {
+    "command": "pnpm check",
+    "exitCode": 0,
+    "testsPassed": 198
+  },
+  "browserRegression": {
+    "command": "playwright test groups.spec.ts groups-visual.spec.ts group-membership-focus.spec.ts group-partial-render.spec.ts pagination.spec.ts pagination-consistency.spec.ts create-keyboard.spec.ts keyboard-navigation.spec.ts --workers=1",
+    "passed": 50,
+    "failed": 0
+  },
+  "actualInteractionSequences": 4,
+  "smallImagePairsPixelIdentical": 6,
+  "docsBuildAfterEvidence": {
+    "command": "node scripts/build-pages.mjs",
+    "exitCode": 0
+  }
+}

@@ -154,8 +154,10 @@ export function createGroupBoardModule(ctx) {
       if (selectedId) {
         const [detail, rows] = await Promise.all([
           ctx.api(`/api/groups/${selectedId}`),
+          // Group renders its own priority/parent order. Fetch by the indexed ID
+          // cursor instead of repeatedly sorting all remaining lane positions.
           ctx.api(
-            `/api/boards/${currentBoardId}/tickets?groupId=${selectedId}&archived=all`,
+            `/api/boards/${currentBoardId}/tickets?groupId=${selectedId}&archived=all&order=id_asc`,
           ),
         ]);
         if (

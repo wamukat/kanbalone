@@ -1,0 +1,62 @@
+[
+  {
+    "before": "before-en-mixed-archived.png",
+    "after": "after-en-mixed-archived.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-mixed-initial.png",
+    "after": "after-en-mixed-initial.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-saved-renamed.png",
+    "after": "after-en-saved-renamed.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-mixed-archived.png",
+    "after": "after-ja-mixed-archived.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-mixed-initial.png",
+    "after": "after-ja-mixed-initial.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-saved-renamed.png",
+    "after": "after-ja-saved-renamed.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  }
+]

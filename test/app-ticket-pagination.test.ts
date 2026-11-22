@@ -188,3 +188,34 @@ test("adding pagination metadata to an existing schema preserves user data and i
     assert.equal(next.tickets.length,50);
   } finally {upgraded.close();}
 });
+
+test("summary Group reuse stays local to each collection and returns independent Group values", async () => {
+  const f = setup();
+  try {
+    const a = f.db.createGroup({ boardId: f.board.board.id, name: "First" });
+    const b = f.db.createGroup({ boardId: f.board.board.id, name: "Second" });
+    f.db.sqlite.prepare("UPDATE tickets SET group_id=? WHERE id IN (?,?)").run(a.id, f.ids[0]!, f.ids[1]!);
+    f.db.sqlite.prepare("UPDATE tickets SET group_id=? WHERE id=?").run(b.id, f.ids[2]!);
+    for (const suffix of ["", "?limit=200&order=id_asc"]) {
+      const response = await f.app.inject(f.url + suffix);
+      assert.equal(response.statusCode, 200);
+      const tickets = response.json().tickets as Array<{id:number;groupId:number|null;group:{id:number;name:string}|null}>;
+      assert.deepEqual(tickets.find(t => t.id === f.ids[0])!.group, {id:a.id,name:"First"});
+      assert.deepEqual(tickets.find(t => t.id === f.ids[1])!.group, {id:a.id,name:"First"});
+      assert.deepEqual(tickets.find(t => t.id === f.ids[2])!.group, {id:b.id,name:"Second"});
+      assert.equal(tickets.find(t => t.id === f.ids[3])!.group, null);
+      assert.equal(tickets.find(t => t.id === f.ids[3])!.groupId, null);
+    }
+    const direct = f.db.listTicketSummaries(f.board.board.id);
+    const first = direct.find(t => t.id === f.ids[0])!;
+    const second = direct.find(t => t.id === f.ids[1])!;
+    assert.notEqual(first.group, second.group);
+    first.group!.name = "Caller edit";
+    assert.equal(second.group!.name, "First");
+    f.db.sqlite.prepare("UPDATE groups SET name=? WHERE id=?").run("Renamed", a.id);
+    f.db.sqlite.prepare("UPDATE tickets SET group_id=NULL WHERE id=?").run(f.ids[1]!);
+    const refreshed = (await f.app.inject(f.url + "?limit=200&order=id_asc")).json().tickets;
+    assert.deepEqual(refreshed.find((t:{id:number}) => t.id === f.ids[0]).group, {id:a.id,name:"Renamed"});
+    assert.equal(refreshed.find((t:{id:number}) => t.id === f.ids[1]).group, null);
+  } finally { await f.app.close(); f.db.close(); }
+});
