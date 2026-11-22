@@ -6,7 +6,7 @@
   "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/build-web.mjs",
     "lint": "pnpm lint:openapi",
     "lint:openapi": "redocly lint docs/openapi.yaml",
     "docs:build": "node scripts/build-pages.mjs",
@@ -42,6 +42,7 @@
     "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.6.6",
     "@types/sanitize-html": "^2.16.2",
+    "esbuild": "0.28.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },

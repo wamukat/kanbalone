@@ -12,7 +12,7 @@ fs.mkdirSync(dataDir, { recursive: true });
 
 const app = buildApp({
   dbFile,
-  staticDir: path.join(process.cwd(), "public"),
+  staticDir: path.join(import.meta.dirname, "../public"),
 });
 
 app.listen({ host, port }).then(() => {

@@ -12,6 +12,7 @@ test-results
 docs
 scripts/*
 !scripts/kanbalone-backup.mjs
+!scripts/build-web.mjs
 test
 *.md
 playwright.config.ts

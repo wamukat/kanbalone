@@ -27,6 +27,7 @@ WORKDIR /app
 
 COPY src ./src
 COPY public ./public
+COPY scripts/build-web.mjs ./scripts/build-web.mjs
 COPY tsconfig.json ./
 
 RUN pnpm build
@@ -59,7 +60,6 @@ ENV KANBALONE_DB_FILE=/app/data/kanbalone.sqlite
 COPY --chown=node:node --from=build /app/package.json ./package.json
 COPY --chown=node:node --from=prod-deps /app/node_modules ./node_modules
 COPY --chown=node:node --from=build /app/dist ./dist
-COPY --chown=node:node --from=build /app/public ./public
 COPY --chown=node:node scripts/kanbalone-backup.mjs ./scripts/kanbalone-backup.mjs
 COPY --chown=node:node src/image-policy.json ./src/image-policy.json
 
