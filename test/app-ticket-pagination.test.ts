@@ -111,6 +111,86 @@ test("paging filters run before LIMIT and normalized conditions bind the cursor"
   } finally { await f.app.close(); f.db.close(); }
 });
 
+test("Group pages keep archived context, child and tag metadata while isolating their cursor", async () => {
+  const f = setup();
+  try {
+    const boardId = f.board.board.id;
+    const base = `/api/boards/${boardId}`;
+    const group = f.db.createGroup({ boardId, name: "Group" });
+    const parent = f.ids[64]!;
+    const child = f.ids[1]!;
+    f.db.sqlite.prepare("UPDATE tickets SET group_id = ? WHERE id IN (?, ?)").run(group.id, parent, child);
+    f.db.sqlite.prepare("UPDATE tickets SET parent_ticket_id = ? WHERE id = ?").run(parent, child);
+    const last = f.db.createTag({ boardId, name: "Zulu", color: "" });
+    const first = f.db.createTag({ boardId, name: "Alpha", color: "#123456" });
+    for (const tag of [last, first]) {
+      f.db.sqlite.prepare("INSERT INTO ticket_tags VALUES (?, ?)").run(parent, tag.id);
+    }
+
+    const url = `${base}/group-tickets?groupId=${group.id}&limit=1`;
+    const response = await f.app.inject(url);
+    assert.equal(response.statusCode, 200);
+    const revision = response.headers["x-kanbalone-ticket-revision"];
+    assert.match(String(revision), /^\d+$/);
+    const result = response.json();
+    assert.equal(result.page.total, 2);
+    const cursor = encodeURIComponent(result.page.nextCursor);
+    const next = await f.app.inject(`${url}&cursor=${cursor}`);
+    assert.equal(next.headers["x-kanbalone-ticket-revision"], revision);
+    const full = (await f.app.inject(`${f.url}?groupId=${group.id}&archived=all&order=id_asc`)).json();
+    const expected = full.tickets.map(({ id, title, laneId, parentTicketId, isResolved, isArchived, hasChildren, priority, tags }: TicketSummaryView) => ({
+      id, title, laneId, parentTicketId, isResolved, isArchived, hasChildren, priority,
+      tags: tags.map(({ id, name, color }) => ({ id, name, color })),
+    }));
+    assert.deepEqual([...result.tickets, ...next.json().tickets], expected);
+    assert.equal(expected[1].isArchived, true);
+    assert.equal(expected[1].hasChildren, true);
+    assert.deepEqual(expected[1].tags.map((tag: { name: string }) => tag.name), ["Alpha", "Zulu"]);
+    const ungrouped = (await f.app.inject(`${base}/group-tickets?limit=1`)).json();
+    assert.equal(ungrouped.page.total, 63);
+    assert.equal((await f.app.inject(`${base}/group-tickets?limit=1&cursor=${cursor}`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${f.url}?groupId=${group.id}&archived=all&order=id_asc&limit=1&cursor=${cursor}`)).statusCode, 400);
+    assert.equal((await f.app.inject(`/api/boards/${f.other.board.id}/group-tickets?groupId=${group.id}&limit=1`)).statusCode, 404);
+    assert.equal((await f.app.inject(`${url}&archived=false`)).statusCode, 400);
+
+    f.db.sqlite.prepare("UPDATE tags SET name = ? WHERE id = ?").run("Changed", first.id);
+    assert.equal((await f.app.inject(`${url}&cursor=${cursor}`)).statusCode, 409);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
+test("List references keep position order and the priority-independent filter intersection", async () => {
+  const f = setup();
+  try {
+    const boardId = f.board.board.id;
+    const tag = f.db.createTag({ boardId, name: "filter", color: "" });
+    const ids = [f.ids[2]!, f.ids[4]!, f.ids[64]!];
+    for (const id of ids) {
+      f.db.sqlite.prepare("INSERT INTO ticket_tags VALUES (?, ?)").run(id, tag.id);
+      f.db.sqlite.prepare("UPDATE tickets SET body_markdown = ? WHERE id = ?").run("body search", id);
+    }
+    f.db.sqlite.prepare("UPDATE tickets SET position = 0 WHERE id = ?").run(ids[1]);
+    const query = `archived=all&tag=filter&q=body+search&resolved=false&lane_id=${f.board.lanes[0]!.id}`;
+    const url = `/api/boards/${boardId}/list-ticket-references?${query}&limit=1`;
+    const full = (await f.app.inject(`${f.url}?${query}&order=position_asc`)).json();
+    const expected = full.tickets.map(({ id, title, laneId, parentTicketId, isResolved }: TicketSummaryView) => ({
+      id, title, laneId, parentTicketId, isResolved,
+    }));
+    assert(expected.length > 1);
+    const reference = await f.app.inject(url);
+    assert.equal(reference.statusCode, 200);
+    const { tickets, page } = reference.json();
+    const legacy = await f.app.inject(`${f.url}?${query}&limit=1&order=position_asc`);
+    assert.equal(reference.headers["x-kanbalone-ticket-revision"], legacy.headers["x-kanbalone-ticket-revision"]);
+    assert.equal(page.total, expected.length);
+    const cursor = encodeURIComponent(page.nextCursor);
+    const rest = await f.app.inject(`${url.replace("limit=1", "limit=5")}&cursor=${cursor}`);
+    assert.deepEqual([...tickets, ...rest.json().tickets], expected);
+    assert.equal((await f.app.inject(`${url}&cursor=${legacy.json().page.nextCursor}`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${url}&priority=4`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${url.replace("q=body+search", "q=other")}&cursor=${cursor}`)).statusCode, 400);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
 test("cursor revisions cover joins, moves, cascades, completion, and referenced boards", async () => {
   const f = setup();
   try {

@@ -47,8 +47,11 @@ export async function loadKanbanTicketCollections(api, lanes, url, options) {
  */
 export async function loadListTicketCollection(api, url, options) {
   const referenceUrl = new URL(url, "http://kanbalone.invalid");
-  const needsReferences = referenceUrl.searchParams.has("priority");
+  const priority = referenceUrl.searchParams.get("priority");
+  const selected = new Set(priority?.split(","));
+  const needsReferences = priority !== null && !["1", "2", "3", "4"].every(value => selected.has(value));
   referenceUrl.searchParams.delete("priority");
+  referenceUrl.pathname = referenceUrl.pathname.replace(/\/tickets$/, "/list-ticket-references");
   for (let attempt = 0; ; attempt += 1) {
     const [display, references] = await Promise.all([
       collectTicketPages(api, url, { isCurrent: options.isCurrent, init: { signal: options.signal } }),

@@ -2,12 +2,12 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import type Database from "better-sqlite3";
 import { ticketFilterQuery, type ListTicketsFilters } from "./ticket-queries.js";
 import { mapTicketSummaries, listTicketSummaries } from "./ticket-read-model.js";
-import { getBlockerIdsForTicketIds } from "./ticket-loaders.js";
-import type { TicketRelationCandidateView, TicketRow, TicketSummaryView } from "../types.js";
+import { getBlockerIdsForTicketIds, getTagsForTicketIds } from "./ticket-loaders.js";
+import type { GroupTicketView, ListTicketReferenceView, TicketRelationCandidateView, TicketRow, TicketSummaryView } from "../types.js";
 
 export type TicketOrder = "id_asc" | "position_asc" | "completed_desc";
 export type TicketPageOptions = { limit?: number; cursor?: string; order?: TicketOrder };
-type PageOptions = { limit: number; cursor?: string };
+export type PageOptions = { limit: number; cursor?: string };
 type TicketPage<View> = {
   tickets: View[];
   revision: number;
@@ -15,6 +15,8 @@ type TicketPage<View> = {
 };
 type TicketListResult = TicketPage<TicketSummaryView> | { tickets: TicketSummaryView[]; page?: never; revision?: never };
 type RelationCandidateRow = Pick<TicketRow, "id" | "title" | "parent_ticket_id" | "priority" | "is_resolved">;
+type ListTicketReferenceRow = Pick<TicketRow, "id" | "title" | "lane_id" | "parent_ticket_id" | "is_resolved">;
+type GroupTicketRow = ListTicketReferenceRow & Pick<TicketRow, "priority" | "is_archived"> & { has_children: number };
 type Cursor = { v: 1; board: number; revision: number; query: string; keys: number[] };
 type Key = { expression: string; direction: "ASC" | "DESC" };
 function fail(message: string, statusCode = 400): never { throw Object.assign(new Error(message), { statusCode }); }
@@ -130,6 +132,50 @@ export function listTicketRelationCandidatePage(sqlite: Database.Database, board
         priority: row.priority,
         blockerIds: blockers.get(row.id) ?? [],
         isResolved: Boolean(row.is_resolved),
+      }));
+    });
+}
+
+const referenceProjection = "t.id, t.title, t.lane_id, t.parent_ticket_id, t.is_resolved";
+
+function mapListTicketReference(row: ListTicketReferenceRow): ListTicketReferenceView {
+  return {
+    id: row.id,
+    title: row.title,
+    laneId: row.lane_id,
+    parentTicketId: row.parent_ticket_id,
+    isResolved: Boolean(row.is_resolved),
+  };
+}
+
+export function listTicketReferencePage(sqlite: Database.Database, boardId: number, filters: ListTicketsFilters, options: PageOptions) {
+  validateLimit(options.limit);
+  const order = "position_asc";
+  const filtered = ticketFilterQuery(boardId, filters);
+  const query = createHash("sha256").update(JSON.stringify(["list-ticket-references", filtered.sql, filtered.params, order])).digest("hex");
+  return readTicketPage(sqlite, boardId, filtered, options, orderKeys(order), query, referenceProjection,
+    (rows: ListTicketReferenceRow[]) => rows.map(mapListTicketReference));
+}
+
+export function listGroupTicketPage(sqlite: Database.Database, boardId: number, groupId: number | null, options: PageOptions) {
+  validateLimit(options.limit);
+  if (groupId !== null && !sqlite.prepare("SELECT 1 FROM groups WHERE id = ? AND board_id = ?").get(groupId, boardId)) {
+    fail("Group not found in this board", 404);
+  }
+  const order = "id_asc";
+  const filtered = ticketFilterQuery(boardId, { groupId, includeArchived: true });
+  const query = createHash("sha256").update(JSON.stringify(["group-tickets", filtered.sql, filtered.params, order])).digest("hex");
+  const projection = `${referenceProjection}, t.priority, t.is_archived,
+    EXISTS (SELECT 1 FROM tickets child WHERE child.parent_ticket_id = t.id) AS has_children`;
+  return readTicketPage(sqlite, boardId, filtered, options, orderKeys(order), query, projection,
+    (rows: GroupTicketRow[]): GroupTicketView[] => {
+      const tags = getTagsForTicketIds(sqlite, rows.map(row => row.id));
+      return rows.map(row => ({
+        ...mapListTicketReference(row),
+        priority: row.priority,
+        isArchived: Boolean(row.is_archived),
+        hasChildren: Boolean(row.has_children),
+        tags: (tags.get(row.id) ?? []).map(({ id, name, color }) => ({ id, name, color })),
       }));
     });
 }

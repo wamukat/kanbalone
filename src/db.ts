@@ -1,4 +1,4 @@
-import { listTicketPage, listTicketRelationCandidatePage, type TicketPageOptions } from "./db-modules/ticket-pagination.js";
+import { listGroupTicketPage, listTicketPage, listTicketReferencePage, listTicketRelationCandidatePage, type PageOptions, type TicketPageOptions } from "./db-modules/ticket-pagination.js";
 import * as groups from "./db-modules/groups.js";
 import { setCompletionLanes, type CompletionLaneExpectation } from "./db-modules/lane-completion.js";
 import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
@@ -274,6 +274,14 @@ export class KanbanDb {
 
   listTicketRelationCandidatePage(boardId: Id, options: { limit: number; cursor?: string }) {
     return listTicketRelationCandidatePage(this.sqlite, boardId, options);
+  }
+
+  listTicketReferencePage(boardId: Id, filters: ListTicketsFilters, options: PageOptions) {
+    return listTicketReferencePage(this.sqlite, boardId, filters, options);
+  }
+
+  listGroupTicketPage(boardId: Id, groupId: Id | null, options: PageOptions) {
+    return listGroupTicketPage(this.sqlite, boardId, groupId, options);
   }
 
   listTickets(boardId: Id, filters: ListTicketsFilters = {}): TicketView[] {

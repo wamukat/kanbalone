@@ -36,10 +36,34 @@ test("completion lanes request the current expansion while other lanes use bound
 });
 test("List keeps lower priority references while filtering display tickets on the server", async () => {
   const result = await loadListTicketCollection(async url => {
-    const query = new URL(url,"http://localhost").searchParams;
+    const { pathname, searchParams: query } = new URL(url,"http://localhost");
     assert.equal(query.get("tag"),"release");
+    assert.equal(pathname, query.has("priority") ? "/api/boards/1/tickets" : "/api/boards/1/list-ticket-references");
     return page(query.has("priority") ? [{id:1}] : [{id:1},{id:2}],"1");
   },"/api/boards/1/tickets?priority=4&tag=release",{isCurrent:()=>true});
   assert.deepEqual(result.tickets,[{id:1}]);
   assert.deepEqual(result.referenceTickets,[{id:1},{id:2}]);
+});
+
+test("List reuses the displayed collection when all four priorities are selected", async () => {
+  const seen: string[] = [];
+  const result = await loadListTicketCollection(async url => {
+    seen.push(url);
+    return page([{id:1},{id:2}], "1");
+  }, "/api/boards/1/tickets?priority=4,1,2,4,3", {isCurrent:()=>true});
+  assert.equal(seen.length, 1);
+  assert.equal(new URL(seen[0]!, "http://localhost").searchParams.get("priority"), "4,1,2,4,3");
+  assert.equal(result.referenceTickets, result.tickets);
+});
+
+test("List recollects display and lightweight references when snapshots differ", async () => {
+  let calls = 0;
+  const result = await loadListTicketCollection(async url => {
+    const display = new URL(url, "http://localhost").searchParams.has("priority");
+    const firstDisplay = ++calls === 1;
+    return page(display ? [{id:1}] : [{id:2},{id:1}], firstDisplay ? "1" : "2");
+  }, "/api/boards/1/tickets?priority=4", {isCurrent:()=>true});
+  assert.equal(calls, 4);
+  assert.deepEqual(result.tickets, [{id:1}]);
+  assert.deepEqual(result.referenceTickets, [{id:2},{id:1}]);
 });

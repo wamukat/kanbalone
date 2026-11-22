@@ -5,6 +5,7 @@ import type { FastifyInstance } from "fastify";
 
 import { registerTicketActivityRoutes } from "./ticket-activity.js";
 import { registerTicketBulkRoutes } from "./ticket-bulk.js";
+import { registerTicketCollectionProjectionRoutes } from "./ticket-collection-projections.js";
 import { registerTicketCommentRoutes } from "./ticket-comments.js";
 import { registerTicketEventRoutes } from "./ticket-events.js";
 import { registerTicketExternalReferenceRoutes } from "./ticket-external-references.js";
@@ -31,6 +32,8 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     serializeTicket,
     serializeTicketSummaries,
   } = ctx;
+
+  registerTicketCollectionProjectionRoutes(app, ctx);
 
   app.get("/api/boards/:boardId/tickets", {
     preValidation: rejectCompletedQuery,
