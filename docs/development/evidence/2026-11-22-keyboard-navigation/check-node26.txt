@@ -1,0 +1,225 @@
+
+> kanbalone@1.0.0 check /Users/takuma/workspace/kanbalone-keyboard
+> pnpm lint && pnpm test && pnpm build && pnpm check:public && pnpm docs:build
+
+
+> kanbalone@1.0.0 lint /Users/takuma/workspace/kanbalone-keyboard
+> pnpm lint:openapi
+
+
+> kanbalone@1.0.0 lint:openapi /Users/takuma/workspace/kanbalone-keyboard
+> redocly lint docs/openapi.yaml
+
+No configurations were provided -- using built in recommended configuration by default.
+
+validating docs/openapi.yaml...
+docs/openapi.yaml: validated in 207ms
+
+Woohoo! Your API description is valid. 🎉
+
+
+> kanbalone@1.0.0 test /Users/takuma/workspace/kanbalone-keyboard
+> node --import tsx --test test/**/*.test.ts
+
+✔ API helper sends JSON content type only with a body (2626.902242ms)
+✔ Markdown file input preserves text, combines fields, and rejects ambiguous inputs (5917.46303ms)
+✔ ticket delete activity is retained after ticket removal (159.124051ms)
+✔ tickets can move between boards with safe tag and relation cleanup (4828.489891ms)
+✔ board lifecycle, ticket filters, reorder, and export/import (4606.855674ms)
+(node:43297) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ calculateVisibleWindow returns a bounded overscanned range (2.206248ms)
+✔ takeRoundRobinBatch distributes work across lanes (0.429462ms)
+✔ getListTickets keeps parent tickets before children and sorts high priority first (0.532807ms)
+✔ getListTickets sorts list rows by id tags and priority when requested (48.05164ms)
+✔ getListTickets flattens hierarchy while applying list sort (0.547107ms)
+✔ renderListActions exposes only relevant bulk actions (0.746381ms)
+✔ renderListRow places remote references after normal tags in the Tags column (15.069709ms)
+✔ renderListRow can hide hierarchy affordances for sorted list rows (0.553055ms)
+✔ tagTextColor selects readable foreground colors (0.439113ms)
+✔ renderTag truncates long labels and preserves the full name as title (3.884262ms)
+✔ renderTag keeps a title when the label fits (0.74015ms)
+✔ renderTag truncates by grapheme cluster (0.831289ms)
+✔ formatTagLabel truncates labels without Intl.Segmenter (3.835646ms)
+✔ formatTagLabel shares the truncation policy for custom tag controls (1.002548ms)
+✔ renderTicketTagChip keeps the remove cue and full tag name (0.441906ms)
+✔ remote snapshot freshness marks old or unknown sync times as stale (0.347658ms)
+✔ body diff rows compare remote and local markdown by line (0.467995ms)
+✔ body diff rows use bounded work for large markdown bodies (0.74927ms)
+✔ perf seed requires overwrite flag when board already exists (181.581665ms)
+✔ perf seed creates editable HEX tag colors (1.817356ms)
+✔ perf benchmark defaults to PATH agent-browser lookup (77.52215ms)
+✔ list filters combine exact lane names, direct parent, resolved and archived state (3662.352348ms)
+✔ comment limits run after deterministic timestamp and ID ordering (1709.945279ms)
+✔ lane reorder preserves omitted and archived order and rejects invalid subsets atomically (2202.400287ms)
+✔ append uses latest body, preserves literal Markdown and rolls back invalid combined updates (3087.554335ms)
+✔ Group HTTP CRUD, sanitized Markdown, sorting, duplicate names and empty deletion (3718.779446ms)
+✔ Group memberships include archived children and expose group metadata through strict response schemas (2462.563454ms)
+✔ atomic child editing conflicts preserve error details and cancel does not partially save (2133.917003ms)
+✔ stale membership review and stale editor both reject without changing data (1993.334288ms)
+✔ Group ticket creation preview handles parent conflict and JSON round trip preserves memberships (2284.489449ms)
+✔ deleted ticket activity remains available through the API (3693.273843ms)
+✔ boards can be reordered (1101.662884ms)
+✔ reordering visible tickets preserves stable archived positions on restore (167.433129ms)
+✔ positioning one ticket moves it without requiring hidden board tickets (350.006949ms)
+✔ positioning one ticket honors visible anchors when target lane has hidden inactive tickets (261.920808ms)
+✔ ticket position endpoint validates lane and anchor scope (1741.051226ms)
+✔ deleting a lane compacts remaining lane positions (164.722892ms)
+✔ bulk transition operates on board ticket sets (2340.859745ms)
+✔ bulk move is atomic when any selected ticket is invalid (2073.358836ms)
+✔ remote import creates a tracked ticket and prevents duplicate imports (4361.767636ms)
+✔ remote import preview resolves remote issue and reports duplicates (2111.558599ms)
+✔ remote import preview rejects invalid issue URLs (1607.937241ms)
+✔ remote import preview sanitizes upstream provider errors (1335.04316ms)
+✔ remote import can post an optional backlink comment once (1706.394319ms)
+✔ remote import backlink can include an explicit Kanbalone URL (2245.039063ms)
+✔ remote import rejects invalid backlink URLs (1798.867199ms)
+✔ remote import sanitizes upstream provider errors (1742.800374ms)
+✔ gitlab remote routes support import refresh and comment push (4332.307914ms)
+✔ redmine remote routes support import refresh and comment push (2553.951533ms)
+✔ ticket detail, summary, and comments expose remote and sync fields (4235.914244ms)
+✔ external references are set independently from tracked remote links and are searchable (2929.412245ms)
+✔ remote refresh updates title and remote snapshot without overwriting local body (2586.261956ms)
+✔ remote sync operations are recorded in ticket activity (3044.366767ms)
+✔ remote refresh rejects adapter identity drift (2637.956685ms)
+✔ remote tracked ticket blocks title edits and pushed comments become read-only after remote push (1551.570072ms)
+✔ board export omits remote metadata and imported board becomes local-only (1950.54909ms)
+✔ remote comment push failures persist push_failed sync state (1370.118915ms)
+✔ remote comment push can recover stale pushing state (2091.375684ms)
+✔ remote comment push rejects concurrent duplicate attempts (1055.955303ms)
+✔ bodyless JSON GET and DELETE work while invalid mutations remain client errors (3247.259071ms)
+✔ error handler preserves HTTP errors and reports unexpected failures as 500 (1098.544798ms)
+✔ migration creates archive-aware ticket indexes (52.073043ms)
+✔ migration normalizes ticket priorities to the API range (178.961011ms)
+✔ meta endpoint exposes app name and package version (3140.961143ms)
+✔ remote diagnostics report configured providers and reachable issues (1248.845455ms)
+✔ remote diagnostics support exact Redmine subpath credential scopes (1500.144389ms)
+✔ remote diagnostics classify missing credentials and provider failures (1254.470787ms)
+✔ remote diagnostics require exact credential scope and do not expose raw provider errors (2600.198516ms)
+✔ comment list, relations, transition, and canonical refs (6363.645923ms)
+✔ ticket event API stores opaque structured events (5714.622151ms)
+✔ ticket tag reason API returns current attached tag metadata only (1729.704278ms)
+✔ reciprocal blockers are rejected (1745.217256ms)
+✔ lane deletion rejects non-empty lane (1184.719946ms)
+✔ tags can use no color (1556.879469ms)
+✔ completion arrivals persist while metadata edits, archive and ordering leave them intact (762.971838ms)
+✔ completion lane changes and bulk move paths update completion dates, including archived tickets (421.847052ms)
+✔ pre-timestamp database migration preserves unknown history and positions (250.714119ms)
+✔ API exposes readonly completion date and export/import preserves known or unknown history (5421.90429ms)
+✔ mapComment renders markdown without changing persisted markdown (329.453241ms)
+✔ renderMarkdown highlights code blocks and preserves table markup (211.788143ms)
+✔ renderMarkdown links plain local ticket references (11.498315ms)
+✔ renderMarkdown does not link ticket references inside links or code (5685.83152ms)
+✔ mapActivityLog tolerates invalid details json (1.347247ms)
+✔ sanitizePriority defaults missing priority and rejects out-of-range values (0.98923ms)
+✔ Markdown task states survive sanitization without enabling form controls (9.714349ms)
+✔ release source archive includes the API skill and excludes maintainer skills (16975.506575ms)
+✔ distribution refuses missing helper, nested skills, and unapproved payload files (1.767799ms)
+✔ archive ref rejects option and shell syntax before invoking git (0.662539ms)
+✔ smoke verifies persistence after the host port changes on restart, using owned resources (274.169726ms)
+✔ lost persistence fails the smoke while cleaning only its own container and volume (5.990915ms)
+✔ partial container startup is cleaned; wrong revision never starts any container (1.07667ms)
+✔ packaging saves exactly the tested image and hashes its bytes (404.852157ms)
+✔ groups: derived active, revisions, normalized duplicate names and nonempty deletion (415.479598ms)
+✔ groups: child membership expands archived parent and siblings and rejects stale confirmation (274.232165ms)
+✔ groups: parent edits atomically resolve several groups including archived children (431.65175ms)
+✔ groups: edit baseline prevents silently detaching concurrently added children (33.651054ms)
+✔ groups: create with parent inherits or resolves Group in one transaction (470.745821ms)
+✔ groups: board moves clear only moving tickets and export/import preserves membership (502.394721ms)
+✔ groups: appendMarkdown preview binds the normalized committed body (87.524158ms)
+✔ groups: malformed legacy hierarchy and v2 IDs are rejected without partial import (90.939639ms)
+✔ groups: reparenting changes only the newly connected component (159.398324ms)
+✔ groups: bulk and internal board moves retain remaining membership (125.745288ms)
+✔ groups: migration adds only unassigned membership and retains existing ticket data (328.358254ms)
+✔ Japanese UI catalogs preserve interpolation parameters and agree on shared labels (62.130275ms)
+✔ every explicit static UI translation has a Japanese catalog entry (144.668399ms)
+(node:43530) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Japanese ticket metadata translates UI labels without translating or injecting user names (79.662073ms)
+✔ Japanese comments preserve body content and localize action labels (191.146843ms)
+✔ system activity is localized while externally supplied event content is retained (0.910654ms)
+✔ unknown translation keys use literal fallback, including object prototype names (0.926136ms)
+✔ completion is explicit, has an Acceptance stage, and supports multiple or no completion lanes (2175.485536ms)
+✔ every move path derives completion and preserves archive state (430.667737ms)
+✔ lane changes update archived tickets, relationships and filtered reads consistently (547.889214ms)
+✔ retired completion flags reject matching and conflicting values without mutation (707.270917ms)
+✔ removed completion/reorder APIs are absent and resolved is the only completion filter (593.563452ms)
+✔ legacy lanes keep their meaning while resolved tickets move once to a separate completion lane (96.725177ms)
+✔ mixed legacy lanes preserve every flag, archive state and parent link without reusing names (79.763336ms)
+✔ failed migration rolls back new lanes, ticket movement and schema changes (89.069924ms)
+✔ exports preserve lane attributes; legacy mixed imports migrate and conflicting imports roll back (332.055431ms)
+✔ completion selection is atomic and rejects stale counts, settings and foreign lanes (298.536724ms)
+✔ loads a containerd archive into a classic store using proven config identity (3382.285179ms)
+✔ keeps the manifest ID when the receiving store supports it (813.839331ms)
+✔ accepts classic docker save archives (1140.284905ms)
+✔ rejects corrupted archives before invoking Docker (604.905817ms)
+✔ rejects a wrong approved SHA before invoking Docker (450.830323ms)
+✔ rejects an archive whose manifest references another config (499.273413ms)
+✔ rejects a loaded image with different filesystem layers (505.465889ms)
+✔ CLI removes stale success records when verification fails (796.186698ms)
+✔ release inputs reject shell/path syntax, invalid semver, and unstable latest ordering (2.58691ms)
+✔ prepare updates only current install examples and requires reviewed bilingual notes (2447.654746ms)
+✔ dry-run verifies the artifact and destinations without remote writes (553.776203ms)
+✔ prepare and verify use real Git ancestry, checkout identity, versions and tracked state (20199.289399ms)
+✔ checksum corruption, conflicting tag or image, and registry failures block all publication (105.004365ms)
+✔ RC publication pushes the tested image but never reads or changes latest (174.424733ms)
+✔ existing verified release resumes without replacing immutable tags or newer latest (76.298351ms)
+✔ anonymous pull failure leaves a draft and never publishes Release or latest (139.488652ms)
+✔ published releases without a verification manifest cannot be silently adopted (59.593346ms)
+✔ env remote credential resolver reads exact and wildcard scoped credentials (7.492947ms)
+✔ env remote credential resolver preserves Redmine subpath scopes (1.144602ms)
+✔ remote credential scopes preserve Redmine paths and keep GitHub and GitLab origins (1.804762ms)
+✔ remote credentials do not use GitHub or GitLab wildcard tokens for arbitrary origins (1.396587ms)
+✔ env remote credential resolver keeps GITHUB_TOKEN as a legacy fallback (0.358186ms)
+✔ remote credential map rejects malformed values (1.026357ms)
+✔ remote fetch retries transient HTTP failures (350.238158ms)
+✔ remote fetch does not retry non-transient HTTP failures (3.426415ms)
+✔ remote fetch applies request timeout (27.573377ms)
+✔ github adapter applies resolved token credentials to requests (4.19953ms)
+✔ github adapter does not retry comment posts (1.458969ms)
+✔ gitlab adapter parses issue URLs and applies private-token credentials (5.293536ms)
+✔ gitlab adapter parses terminal issues route when namespace contains issues segment (1.242082ms)
+✔ gitlab adapter accepts work_items URLs returned by newer GitLab versions (3.091279ms)
+✔ redmine adapter fetches issue snapshots and resolves pushed journal ids (3.77443ms)
+✔ redmine adapter preserves subpath instances in fetch and remote links (0.805414ms)
+✔ migration creates remote tracking tables and uniqueness index (82.63024ms)
+✔ migration repairs legacy remote tracking tables and preserves existing ticket data (913.337199ms)
+✔ remote tracking helpers persist ticket links and comment sync state (212.736082ms)
+✔ remote tracking helpers reject duplicate remote issues and missing records (285.571006ms)
+✔ tracked ticket creation rolls back when remote link insert fails (63.921032ms)
+✔ remote tracking rows cascade with ticket and comment deletion while local ticket behavior stays intact (174.426172ms)
+(node:43577) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ archive captures its ticket before the async read and releases the saving lock (3.437563ms)
+✔ archive releases the saving lock after a failed read without writing (0.920409ms)
+✔ move abandons preflight when the editor changes: ticket (5.811498ms)
+✔ move abandons preflight when the editor changes: close (0.219595ms)
+✔ move rechecks the initiating editor after destination confirmation (2.963927ms)
+✔ upgrade reconciliation accepts unchanged data (4.891191ms)
+✔ upgrade reconciliation rejects lost ticket (4.201656ms)
+✔ upgrade reconciliation rejects changed comment (1.529878ms)
+✔ upgrade reconciliation rejects lost Group membership (0.700386ms)
+✔ upgrade reconciliation rejects changed completion (1.42492ms)
+✔ upgrade reconciliation rejects unexpected lane (0.919923ms)
+✔ upgrade reconciliation rejects broken integrity (1.440502ms)
+✔ upgrade reconciliation rejects foreign key violation (0.673613ms)
+ℹ tests 176
+ℹ suites 0
+ℹ pass 176
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49500.039799
+
+> kanbalone@1.0.0 build /Users/takuma/workspace/kanbalone-keyboard
+> tsc -p tsconfig.json
+
+
+> kanbalone@1.0.0 check:public /Users/takuma/workspace/kanbalone-keyboard
+> tsc -p tsconfig.public.json
+
+
+> kanbalone@1.0.0 docs:build /Users/takuma/workspace/kanbalone-keyboard
+> node scripts/build-pages.mjs
+
