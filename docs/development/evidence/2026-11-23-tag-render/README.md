@@ -2,7 +2,7 @@
 
 This investigation covers #1527 and #1528. The change skips grapheme segmentation when a tag name already fits within the label limit in UTF-16 code units. Every grapheme spans at least one code unit, so the existing segmentation and truncation path handles the remaining names. One diagnostic run with 10,000 Group rows attributed about 213 ms to grapheme segmentation. At 3,013 Kanban cards, segmentation accounted for about 91 ms.
 
-Baseline `899d0f0117ee52e6d57db59241312f0fa4fcd0f7`, corresponding to version 1.1.0. The candidate served the byte-identical `app-tags.js` from `b1355ebecc47d5aa1f2d9f2dd8f9b2248aa266ed` with the same baseline backend. Candidate and baseline source fingerprints are in the measurement results.
+Baseline `899d0f0117ee52e6d57db59241312f0fa4fcd0f7`, corresponding to version 1.1.0. The candidate served the byte-identical `app-tags.js` from `b1355ebecc47d5aa1f2d9f2dd8f9b2248aa266ed` with the same baseline backend. Candidate and baseline source fingerprints are in the measurement results. The original timing launcher started outside the repository, so the application displayed its fallback version label v0.0.0 in the timing captures. Both timing variants used the same startup environment. The reproduction script now starts from the chosen repository to read the package version.
 
 ## Fixtures and method
 
@@ -42,6 +42,8 @@ The first-card ranges overlap in all three fixtures. The 3,013-card test took 12
 ## Parity and evidence
 
 The measured rows and cards matched the expected count and full ordered ID sequence in every retained sample. The paired samples also matched geometry and rendered tag markup hashes, scroll heights, and ticket request counts and bytes. All seven initial-screen screenshot pairs were byte-identical. Screenshots were saved as original PNGs after fonts loaded, outside the timing interval. They record comparable actual screens. The benchmark supplies the timing evidence. Browser Find, native drag and stored interaction results require separate checks.
+
+The four larger screen pairs were captured again with agent-browser 0.26.0 and Headless Chrome 158. This capture pass confirmed version 1.1.0 in both /api/meta and the sidebar footer, then checked the expected DOM count in the original viewport, language, and theme. All four pairs were byte-identical. Their checksums appear under `releaseDisplayScreenshots` in `measurements.json`.
 
 An additional comparison of 8,400 calls to the original and updated tag formatting and rendering helpers found identical results with and without Intl.Segmenter. Inputs include empty, short, exact-boundary and long names, colored and colorless tags, escaping, combining characters, variation selectors, regional indicators, and joined emoji.
 

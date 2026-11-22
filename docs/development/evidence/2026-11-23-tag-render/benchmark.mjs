@@ -11,6 +11,7 @@ const out = path.resolve(process.env.KANBALONE_RENDER_OUTPUT ?? path.join(repo, 
 mkdirSync(out, { recursive: true });
 const evidenceDir = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(process.env.KANBALONE_RENDER_REPO ?? path.join(evidenceDir, '../../../..'));
+process.chdir(repo);
 const { buildApp } = await import(pathToFileURL(path.join(repo, 'src/app.ts')));
 const catalog = JSON.parse(readFileSync(path.join(out, 'fixtures.json'), 'utf8'));
 const options = JSON.parse(process.argv[2] ?? '{}');

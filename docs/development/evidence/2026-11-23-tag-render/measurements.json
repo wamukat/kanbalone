@@ -3077,5 +3077,46 @@
       ],
       "differentPixels": 0
     }
-  ]
+  ],
+  "releaseDisplayScreenshots": {
+    "applicationVersion": "1.1.0",
+    "viewport": [
+      1440,
+      1000
+    ],
+    "language": "en",
+    "theme": "light",
+    "browserTool": "agent-browser 0.26.0",
+    "browser": "HeadlessChrome/158.0.0.0",
+    "pairs": [
+      {
+        "fixture": "group-10000",
+        "expectedDomCount": 10000,
+        "before": "release-display-group-10000-baseline.png",
+        "after": "release-display-group-10000-shorttag.png",
+        "sha256": "482d8389d44fd34b039d77c3f761977dd372ed76be774dc787b74fae71d2dbe2"
+      },
+      {
+        "fixture": "ungrouped-10000",
+        "expectedDomCount": 10000,
+        "before": "release-display-ungrouped-10000-baseline.png",
+        "after": "release-display-ungrouped-10000-shorttag.png",
+        "sha256": "61b8f499f77fa636f630258369bc57f7bb8d8a7b84ab6e753c3e071a364d3901"
+      },
+      {
+        "fixture": "kanban-10000",
+        "expectedDomCount": 3013,
+        "before": "release-display-kanban-10000-baseline.png",
+        "after": "release-display-kanban-10000-shorttag.png",
+        "sha256": "c500a158fa00d4d57cb6dca1a0cd100658879c8e0fb9ada32d740952a84dcb48"
+      },
+      {
+        "fixture": "kanban-high-active",
+        "expectedDomCount": 3005,
+        "before": "release-display-kanban-high-active-baseline.png",
+        "after": "release-display-kanban-high-active-shorttag.png",
+        "sha256": "566a82b7427399e5ee4e1368e0ee2684dd22b7dc7b0cc43035bfcea5c1bb8fd9"
+      }
+    ]
+  }
 }
