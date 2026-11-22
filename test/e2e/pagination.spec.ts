@@ -18,7 +18,9 @@ async function seed(page: Page, baseUrl: string) {
   expect(response.status(), await response.text()).toBe(201);
   return response.json();
 }
-function ticketList(url: string) { return /\/api\/boards\/\d+\/tickets(?:\?|$)/.test(url); }
+function ticketCollection(url: string) {
+  return /^\/api\/boards\/\d+\/(?:tickets|group-tickets|list-ticket-references)$/.test(new URL(url).pathname);
+}
 const lane = (page: Page, id: number) => page.locator(`.ticket-list[data-lane-id="${id}"]`);
 
 for (const locale of ["en", "ja"]) {
@@ -29,7 +31,7 @@ for (const locale of ["en", "ja"]) {
       await page.addInitScript(lang => localStorage.setItem("kanbalone:language", lang), locale);
       const fixture = await seed(page, baseUrl), boardId = fixture.board.id;
       const requested: string[] = [];
-      page.on("request", req => { if (ticketList(req.url())) requested.push(req.url()); });
+      page.on("request", req => { if (ticketCollection(req.url())) requested.push(req.url()); });
       await page.goto(`${baseUrl}/boards/${boardId}/list`);
       await expect(page.locator(".list-row").first()).toBeVisible();
       await page.locator("#search-input").fill("Boundary");
@@ -38,7 +40,8 @@ for (const locale of ["en", "ja"]) {
       await page.locator('[data-view-mode="group"]').click();
       await expect(page.locator("[data-group-ticket]")).toHaveCount(260);
       await expect(page.locator('.group-ticket-family').filter({ hasText: "Boundary parent" }).locator('.group-ticket-child')).toContainText("Boundary child");
-      expect(requested.some(url => new URL(url).searchParams.has("cursor"))).toBe(true);
+      const groupRequests = requested.map(url => new URL(url)).filter(url => url.pathname.endsWith("/group-tickets"));
+      expect(groupRequests.some(url => url.searchParams.has("cursor"))).toBe(true);
       for (const url of requested) {
         const limit = Number(new URL(url).searchParams.get("limit"));
         expect(limit, url).toBeGreaterThan(0); expect(limit, url).toBeLessThanOrEqual(200);
@@ -108,7 +111,7 @@ test("collection restarts once on stale cursor without losing or duplicating Gro
   try {
     const fixture = await seed(page, baseUrl);
     let conflicts = 0;
-    await page.route("**/api/boards/*/tickets?**", async route => {
+    await page.route(url => url.pathname === `/api/boards/${fixture.board.id}/group-tickets`, async route => {
       const q = new URL(route.request().url()).searchParams;
       if (q.has("cursor") && conflicts === 0) {
         conflicts++; await route.fulfill({ status: 409, contentType: "application/json", body: JSON.stringify({ error: "ticket list changed; restart pagination" }) });
@@ -130,12 +133,12 @@ test("deselecting the last completion state restores the existing all-state filt
     await expect(page.locator(".list-row").first()).toBeVisible();
     await page.locator('[data-filter-expand="status"]').first().click();
     await Promise.all([
-      page.waitForResponse(r => ticketList(r.url()) && new URL(r.url()).searchParams.get("resolved") === "true"),
+      page.waitForResponse(r => ticketCollection(r.url()) && new URL(r.url()).searchParams.get("resolved") === "true"),
       page.locator('[data-status-filter="open"]').click(),
     ]);
     await expect(page.locator(".list-row").first()).toContainText("Ticket 147");
     const requests: string[] = [];
-    page.on("request", req => { if (ticketList(req.url())) requests.push(req.url()); });
+    page.on("request", req => { if (ticketCollection(req.url())) requests.push(req.url()); });
     await page.locator('[data-status-filter="resolved"]').click();
     await expect(page.locator(".list-row").first()).toContainText("Ticket 007");
     await expect(page.locator("[data-status-filter].active")).toHaveCount(2);
@@ -153,9 +156,20 @@ test("priority-filtered List preserves the label and link of a blocker outside t
     await page.goto(`${baseUrl}/boards/${fixture.board.id}/list`);
     await expect(page.locator(".list-row").first()).toBeVisible();
     await page.locator('[data-filter-expand="priority"]').first().click();
+    const referenceRequests: URL[] = [];
+    page.on("request", request => {
+      const url = new URL(request.url());
+      if (url.pathname === `/api/boards/${fixture.board.id}/list-ticket-references`) referenceRequests.push(url);
+    });
     await page.locator('[data-priority-filter="high"]').click();
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Ticket 002");
+    expect(referenceRequests.some(url => url.searchParams.has("cursor"))).toBe(true);
+    for (const url of referenceRequests) {
+      const limit = Number(url.searchParams.get("limit"));
+      expect(limit).toBeGreaterThan(0);
+      expect(limit).toBeLessThanOrEqual(200);
+    }
     await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveText("#240");
     await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveAttribute("title", "Ticket 240");
     await page.locator('.list-row [data-open-ticket-id="240"]').click();
