@@ -1,0 +1,22 @@
+{
+  "formatVersion": 2,
+  "groups": [],
+  "board": {
+    "id": 20,
+    "name": "Keyboard verification en-US",
+    "position": 19,
+    "createdAt": "2026-11-22T01:05:57.003Z",
+    "updatedAt": "2026-11-22T01:06:01.301Z"
+  },
+  "lanes": [
+    {
+      "isCompletionLane": false,
+      "id": 26,
+      "boardId": 20,
+      "name": "Todo",
+      "position": 0
+    }
+  ],
+  "tags": [],
+  "tickets": []
+}

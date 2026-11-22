@@ -74,10 +74,26 @@ export function createEditorModule(ctx) {
     updateDialogTicket,
   });
 
+  function restoreActionFocus(preferred) {
+    const visible = (element) => element instanceof HTMLElement
+      && element.getClientRects().length > 0
+      && !element.closest("[hidden], [inert]")
+      && !element.hasAttribute("disabled")
+      && getComputedStyle(element).visibility !== "hidden";
+    // Do not take focus away if the user moved to another visible control.
+    if (document.activeElement !== document.body && visible(document.activeElement)) return;
+    const candidates = elements.editorDialog.open
+      ? [state.dialogMode === "view" ? elements.headerEditButton : preferred, elements.ticketBody]
+      : [elements.searchInput, document.querySelector('[data-group-action="add"]'), elements.sidebarReopenButton, elements.sidebarToggleButton];
+    const target = candidates.find(visible);
+    target?.focus({ preventScroll: true });
+  }
+
   const actionsModule = createTicketActionsModule(ctx, {
     confirmDiscardChanges,
     closeEditor,
     getSelectedTagIds,
+    restoreActionFocus,
     refreshDialogTicket,
     setDialogMode,
   });

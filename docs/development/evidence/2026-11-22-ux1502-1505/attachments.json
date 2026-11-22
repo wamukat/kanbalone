@@ -1,0 +1,118 @@
+[
+  {
+    "ticket": 1502,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/ja-JP-archive-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/ja-JP-archive-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/en-US-archive-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/en-US-archive-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/ja-JP-restore-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/ja-JP-restore-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/en-US-restore-post-save-failure.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/en-US-restore-post-save-failure.png"
+      }
+    ]
+  },
+  {
+    "ticket": 1503,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/ja-JP-export-failed.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/ja-JP-export-failed.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/en-US-export-failed.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/en-US-export-failed.png"
+      }
+    ]
+  },
+  {
+    "ticket": 1504,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/ja-JP-edited.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/ja-JP-edited.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/en-US-edited.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/en-US-edited.png"
+      }
+    ]
+  },
+  {
+    "ticket": 1505,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/group/ja-JP-added.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/group/ja-JP-added.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/group/en-US-added.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/group/en-US-added.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/group/ja-JP-removed.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/group/ja-JP-removed.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1486-final/group/en-US-removed.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3559/2026-11-22-ux1502-1505/group/en-US-removed.png"
+      }
+    ]
+  }
+]
