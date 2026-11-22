@@ -128,6 +128,55 @@ GET contains the real Group ID only throughout.
 - Candidate additional states.
   [No Group selected](1523/ja-dark-390-after-unassigned.png) · [Archive disclosed](1523/en-light-1440-after-unassigned-with-archive.png) · [Unassigned ticket created](1523/en-light-1440-after-created-unassigned.png) · [Last ticket assigned](1523/en-light-1440-after-last-ticket-assigned.png)
 
+### Delayed candidate failure after switching to No Group
+
+An independent review on 2026-11-22 JST used fresh SQLite fixtures, Chromium
+159.0.8154.6 and Node 26.13.1 in Japanese light mode at 1200 × 800. The before
+runtime was `d24c17dfa7a647cc1fe76416ae088d36b907a225`. The after runtime used
+that tree with the candidate-loading guard whose `public/app-group-board.js`
+SHA-256 was `6185efd24c3feeafb9e7ace70acbab476f78fa81b4073beab39aff0be5dad705`.
+
+On the fixture board, click Add existing tickets in the real Group. Hold its
+candidate GET (`ungrouped=true`, `order=position_asc`, `limit=200`), then
+select No Group and release the held request with an injected HTTP 503. The
+before runtime displays the delayed failure in No Group. The after runtime
+keeps the No Group row visible and suppresses the previous Group's error.
+When the real Group stays selected, the same 503 displays the expected error
+in both runtimes. The before and after images for that control are byte-identical.
+
+Both runs showed zero browser mutation requests and JavaScript errors. Direct
+Group and ticket GETs agreed before the action, after the response, and after
+reload. The ticket kept `groupId: null` and appeared in No Group after reload.
+The Playwright case `Group candidate failures appear only for the Group that
+requested them` failed on the before runtime and passed with the guard.
+
+- Selected No Group while the old request was held.
+  [Before](1523/delayed-candidate-failure/before/selected-awaiting-old-response.png) · [After](1523/delayed-candidate-failure/after/selected-awaiting-old-response.png)
+- No Group after the old request returned 503.
+  [Before](1523/delayed-candidate-failure/before/old-failure.png) · [After](1523/delayed-candidate-failure/after/old-failure.png)
+- Real Group still selected when the request returned 503.
+  [Before](1523/delayed-candidate-failure/before/current-failure.png) · [After](1523/delayed-candidate-failure/after/current-failure.png)
+- Stored data and browser results.
+  [Before](1523/delayed-candidate-failure/before/result.json) · [After](1523/delayed-candidate-failure/after/result.json)
+
+### Verification after updating against main
+
+The update from `8a106f09f722243e4090cab26754f2a7a603bbd1` brought in image
+attachments. Before the delayed-failure fix, the Group behaviors were replayed
+with the original synthetic inputs through that main commit and combined
+candidate `d24c17dfa7a647cc1fe76416ae088d36b907a225`. The English 1440 × 900
+light and Japanese 390 × 844 dark captures passed the original GET and reload
+assertions. Of 39 recaptures, 34 matched the corresponding originals byte for
+byte and five differed by 8–16 pixels each. The differences were confined to
+the edges of controls and preview text. Their cause was not established.
+
+A separate isolated Chromium check opened the ticket editor in a real Group
+and in No Group, pasted an image, and saved from both. GET confirmed the
+stored Markdown and expected membership. Both images loaded after reload, and
+the served bytes matched the uploaded PNG. After expanding a Group description
+containing a previously uploaded image and an ordinary link, the image loaded
+and the link kept its dark theme accent color.
+
 ## Reproduce and inspect
 
 From the checkout root, with the repository dependencies and Playwright

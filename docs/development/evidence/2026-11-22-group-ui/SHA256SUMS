@@ -90,6 +90,14 @@ ef7721c332614515362a00502a96506ff65bbb82dd25ce734aabf4ca51ec0240  ./1522/ja-ligh
 d8537dc81793ddedf85fa92a78c4921498d241e3e59b5a9c55c5c57bad3dbd90  ./1522/ja-light-390-before-short-description.png
 08e1b7b79590e0a17a3f5226a3b8fbee33dc4226f119457e0695c94a2079d509  ./1523-after-results.json
 f195a09718d047650b96fa3b1c9dbf621dced5d0db85dfa6da201209798a05e9  ./1523-before-results.json
+044e39da3b3adf6e0b294a6fe99ec3a8f8aec98b20c587d65fc8ca76a25d8feb  ./1523/delayed-candidate-failure/after/current-failure.png
+6042c9f48f96e00b525f9509dd558ecef55ee68236677d82a1f74c93539e9cfb  ./1523/delayed-candidate-failure/after/old-failure.png
+317c8d10053514efc8495c5c838754953fd8542add9952a3a0598c0f6b9c2b1f  ./1523/delayed-candidate-failure/after/result.json
+6042c9f48f96e00b525f9509dd558ecef55ee68236677d82a1f74c93539e9cfb  ./1523/delayed-candidate-failure/after/selected-awaiting-old-response.png
+044e39da3b3adf6e0b294a6fe99ec3a8f8aec98b20c587d65fc8ca76a25d8feb  ./1523/delayed-candidate-failure/before/current-failure.png
+5b0f85cd60d2610a8447f90eaf5a810e726423279ee0bc74fc337fb5dfa17a00  ./1523/delayed-candidate-failure/before/old-failure.png
+8b026e76e74b8e528fe9eb4d72233d38c54dc2d9d8aacbdf152a8fb48b281953  ./1523/delayed-candidate-failure/before/result.json
+6042c9f48f96e00b525f9509dd558ecef55ee68236677d82a1f74c93539e9cfb  ./1523/delayed-candidate-failure/before/selected-awaiting-old-response.png
 f92a05d37ee53977922e2dd33125a46be0773ef3e4f370aa7b67081af2214177  ./1523/en-dark-1440-after-group-list.png
 eae8332c4788f5a54bc39821daed6e5710409332e638deb5a638b25c4b7bb95e  ./1523/en-dark-1440-after-unassigned.png
 0ecebf0f4a3c40d1e536d840cf0da20916684c20d5ca61c787a63f8ceac66016  ./1523/en-dark-1440-before-group-list.png
@@ -117,7 +125,7 @@ b5ca60eb1c85e3842189926fa53a0006d7c064932fc7f8bcedfcfa058de822a4  ./1523/ja-ligh
 fdf572176d4994380a9a29cd4e0f961fed31487ea4bc3663f891bc82f1c6aa5d  ./1523/ja-light-390-after-group-list.png
 529e072b1817eaaade43f6e3c5a6b633bc211350123980bf8a84705f0e8f1650  ./1523/ja-light-390-after-unassigned.png
 9423faff3891658c329e5fa23ae9b7d56bf9f706f4ad66be74f7df8cda53b490  ./1523/ja-light-390-before-group-list.png
-84aa8d93d3fb7eacebb31a061f85e9fbeda2fa21f9028bf70f7ad9c8cb80e915  ./README.md
+cd01e3e418be383c58a3aa40643da94eeab75d887a30d7964df7922977339a77  ./README.md
 1e7e108ffc38dfb7a835a9e02f14da7bfba1a717597cfdf823f7085d20f4afd3  ./after-results.json
 ba835e235f0ec35a330ae3ed6fce10ed4e09dbd3ec48d944defa7cd1e4e27f5b  ./before-results.json
 50df38c62bd1c9691c96731671353e463ee6eac6fcee5fb2f4294ac79543847c  ./fingerprint.mjs

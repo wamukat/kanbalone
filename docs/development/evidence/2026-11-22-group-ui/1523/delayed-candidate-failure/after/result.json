@@ -1,0 +1,51 @@
+{
+  "phase": "after",
+  "node": "v26.13.1",
+  "chromium": "159.0.8154.6",
+  "cases": [
+    {
+      "switched": true,
+      "selected": "ungrouped",
+      "displayed": "",
+      "writes": [],
+      "errors": [],
+      "stored": {
+        "realGroups": [
+          [
+            1,
+            0,
+            0,
+            1
+          ]
+        ],
+        "ticketId": 1,
+        "groupId": null,
+        "title": "未所属チケット",
+        "updatedAt": "2026-11-22T14:36:08.616Z"
+      },
+      "reloadedMemberVisible": true
+    },
+    {
+      "switched": false,
+      "selected": "1",
+      "displayed": "追加候補を取得できませんでした",
+      "writes": [],
+      "errors": [],
+      "stored": {
+        "realGroups": [
+          [
+            1,
+            0,
+            0,
+            1
+          ]
+        ],
+        "ticketId": 1,
+        "groupId": null,
+        "title": "未所属チケット",
+        "updatedAt": "2026-11-22T14:36:08.616Z"
+      },
+      "reloadedMemberVisible": true
+    }
+  ]
+}

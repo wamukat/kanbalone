@@ -208,3 +208,59 @@ test("No Group is a conditional view of unassigned tickets with ordinary ticket 
     expect(groups.groups.map((entry: { id: number }) => entry.id)).toEqual([group.id]);
   } finally { await close(); }
 });
+
+test("Group candidate failures appear only for the Group that requested them", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  let releaseFailure!: () => void;
+  const delayed = new Promise<void>(resolve => { releaseFailure = resolve; });
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Membership review", laneNames: ["Todo"] });
+    const group = await createGroup(page, baseUrl, board.id, "Delivery");
+    const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Unassigned work" });
+    const groupUrl = `${baseUrl}/boards/${board.id}/group`;
+    const ticketUrl = `${baseUrl}/api/tickets/${ticket.id}`;
+    const readTicket = async () => (await page.request.get(ticketUrl)).json();
+    const original = await readTicket();
+    const isCandidateRequest = (url: URL) => url.pathname === `/api/boards/${board.id}/tickets`
+      && url.searchParams.get("ungrouped") === "true"
+      && url.searchParams.get("order") === "position_asc";
+    const message = "Membership candidates unavailable";
+    let requests = 0;
+    await page.route(isCandidateRequest, async route => {
+      if (++requests === 2) await delayed;
+      await route.fulfill({ status: 503, json: { error: message } });
+    });
+    await page.goto(groupUrl);
+    const groupChoice = page.locator(`[data-select-group="${group.id}"]`);
+    const add = page.getByRole("button", { name: "Add existing tickets" });
+    const alert = page.locator(".group-error[role=alert]");
+    const noGroup = page.locator('[data-select-group="ungrouped"]');
+    const row = page.locator(`[data-group-ticket="${ticket.id}"]`);
+    await expect(groupChoice).toHaveAttribute("aria-current", "true");
+    await add.click();
+    await expect(alert).toHaveText(message);
+
+    const requested = page.waitForRequest(request => isCandidateRequest(new URL(request.url())));
+    const failed = page.waitForResponse(response => isCandidateRequest(new URL(response.url())));
+    await add.click();
+    await requested;
+    await noGroup.click();
+    await expect(noGroup).toHaveAttribute("aria-current", "true");
+    await expect(row).toBeVisible();
+    releaseFailure();
+    const response = await failed;
+    expect(response.status()).toBe(503);
+    await response.finished();
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    await expect(alert).toBeEmpty();
+    await expect(noGroup).toHaveAttribute("aria-current", "true");
+    expect(await readTicket()).toEqual(original);
+    await page.reload();
+    await noGroup.click();
+    await expect(row).toBeVisible();
+    expect(await readTicket()).toMatchObject({ groupId: null });
+  } finally {
+    releaseFailure();
+    await close();
+  }
+});

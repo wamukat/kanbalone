@@ -500,15 +500,20 @@ export function createGroupBoardModule(ctx) {
         }
         const targetGroupId = selected.id;
         const targetBoardId = boardId;
-        const nextCandidates = /** @type {{tickets: GroupTicket[]}} */ (
-          await ctx.api(
+        const isCurrent = () => state.viewMode === "group" && state.activeBoardId === targetBoardId
+          && selectedId === targetGroupId && loadedSelection === targetGroupId;
+        /** @type {{tickets: GroupTicket[]}} */ let rows;
+        try {
+          rows = /** @type {{tickets: GroupTicket[]}} */ (await ctx.api(
             `/api/boards/${targetBoardId}/tickets?ungrouped=true&archived=all`,
-          )
-        ).tickets;
-        if (state.viewMode !== "group" || state.activeBoardId !== targetBoardId ||
-          selectedId !== targetGroupId || loadedSelection !== targetGroupId) return;
+          ));
+        } catch (error) {
+          if (isCurrent()) throw error;
+          return;
+        }
+        if (!isCurrent()) return;
         addGroupId = targetGroupId;
-        candidates = nextCandidates;
+        candidates = rows.tickets;
         chosen = [];
         query = "";
         adding = true;
