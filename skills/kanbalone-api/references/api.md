@@ -150,7 +150,7 @@ Bulk:
 
 ## Paged ticket lists
 
-Pagination is an additive feature on this development branch. Existing requests without `limit` and `cursor` still return the full list in the existing order and response shape. Use documentation matching your running release.
+Pagination is available starting with v1.1.0-rc.1. Existing requests without `limit` and `cursor` still return the full list in the existing order and response shape. Use documentation matching your running release.
 
 Use `limit=1..200` and repeat the returned `page.nextCursor` to get the next page. Keep the same board, filters and `order`; only `limit` may change. `page.total` is the number of all matching tickets; `nextCursor: null` marks the end. There is no page number or `hasMore` field.
 
@@ -257,7 +257,7 @@ With only one non-null Group, ungrouped parent/child tickets join it automatical
 
 Group-aware errors use `{error,code,details?}`. Input errors return 400, missing resources 404, conflicts 409, and missing required preconditions 428. After a failure, do not infer that a requested change partially succeeded.
 
-Exports use `formatVersion:2`, `groups`, and ticket `groupId`, including empty/inactive Groups and archived tickets. Import remaps IDs into a new board and rejects inconsistent Group references or parent/child membership. Legacy exports without version and without Group fields import as ungrouped. Do not import format-2 exports into an older release as a rollback method.
+Board exports include `groups` and ticket `groupId`, including empty/inactive Groups and archived tickets. Exports that embed or link to a local image use `formatVersion:3` and include the referenced image files. Other exports use `formatVersion:2`. Format 3 requires v1.1.0-rc.1 or a later compatible version. Import remaps IDs into a new board and rejects inconsistent Group references or parent/child membership. Legacy exports without version and without Group fields import as ungrouped. For rollback, restore the pre-upgrade backup with the original release.
 
 Creation previews use `id: 0, clientRef: "new"` for the proposed ticket, including references in parent changes and candidate changed IDs. Never send 0 as an existing ticket ID. Membership apply returns `{changedTickets,affectedGroups}`. Read Group history with `GET /api/boards/:boardId/group-activity?groupId=7`; history remains after deletion. `POST /api/markdown/preview` with `{bodyMarkdown}` returns sanitized `{bodyHtml}` without writing. Schema validation failures can omit `code`: missing Group PATCH `expectedRevision` returns 400, whereas missing runtime tokens or DELETE `If-Match` return 428.
 
