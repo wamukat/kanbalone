@@ -1,0 +1,1758 @@
+{
+  "baseline": "de3406197f3efe8e790608003d6b74c91625ba92",
+  "measuredBaselineProduct": "367df68b6d0ab205964beaa2f8898844ac549432",
+  "candidateProduct": "bc956037ee995117115a16d869a5bae324dc4475",
+  "candidateOrderingSha256": "d47c2185c5e8d10110d0f15c848cb55bf5645b07206725ff93143f19a17f7fb6",
+  "browserFixtureSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+  "writeTiming": {
+    "runtime": "v26.13.1",
+    "versions": [
+      "control",
+      "guard",
+      "skip",
+      "bulk"
+    ],
+    "records": [
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 297.2749509999999,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 220.80696999999964,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 219.51522899999964,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 229.69294600000012,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "guard",
+          "skip",
+          "bulk",
+          "control"
+        ],
+        "results": {
+          "guard": {
+            "apiMs": 239.2501910000001,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 217.3543839999993,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 223.57852900000034,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 258.93388700000014,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "skip",
+          "bulk",
+          "control",
+          "guard"
+        ],
+        "results": {
+          "skip": {
+            "apiMs": 219.53915699999925,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 223.147602,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 250.6749630000004,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 225.84391099999993,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "bulk",
+          "control",
+          "guard",
+          "skip"
+        ],
+        "results": {
+          "bulk": {
+            "apiMs": 225.23625199999879,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 250.78362799999923,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 221.02388300000166,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 220.29474500000106,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 260.6311800000003,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 224.3626239999994,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 229.96674600000006,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 222.1601410000003,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 1,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3005,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 1098.909662,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 788.0076750000007,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 784.8079349999989,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 812.4563499999986,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "guard",
+          "skip",
+          "bulk",
+          "control"
+        ],
+        "results": {
+          "guard": {
+            "apiMs": 772.1857850000015,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 758.3723549999995,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 764.3675179999991,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 1132.9405299999999,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "skip",
+          "bulk",
+          "control",
+          "guard"
+        ],
+        "results": {
+          "skip": {
+            "apiMs": 759.8186249999999,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 775.2911319999985,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 1121.6024959999995,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 790.5943810000026,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "bulk",
+          "control",
+          "guard",
+          "skip"
+        ],
+        "results": {
+          "bulk": {
+            "apiMs": 763.8452099999995,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 1135.6646680000013,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 860.9380369999999,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 782.6890410000015,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 1099.5898699999998,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 764.7840660000002,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 759.6923799999968,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 764.3367780000008,
+            "fields": {
+              "id": 1501,
+              "laneId": 2,
+              "position": 0,
+              "isArchived": false,
+              "title": "Synthetic ticket 1-1500"
+            },
+            "revisionDelta": 6010,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 443.9588399999993,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 434.1082069999975,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 399.6407199999958,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 207.58311099999992,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "guard",
+          "skip",
+          "bulk",
+          "control"
+        ],
+        "results": {
+          "guard": {
+            "apiMs": 398.56704299999546,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 476.43327699999645,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 230.86992499999906,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 431.5851249999978,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "skip",
+          "bulk",
+          "control",
+          "guard"
+        ],
+        "results": {
+          "skip": {
+            "apiMs": 423.2696419999993,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 186.60510899999645,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 414.00888499999564,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 425.0010739999998,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "bulk",
+          "control",
+          "guard",
+          "skip"
+        ],
+        "results": {
+          "bulk": {
+            "apiMs": 188.059745999999,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 410.15177499999845,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 415.2013950000037,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 416.1624329999977,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 418.29858799999784,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 418.4085450000057,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 411.58167700000195,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 207.32486499999504,
+            "fields": {
+              "id": 1,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-0"
+            },
+            "revisionDelta": 3007,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 40.93408099999942,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 14.632712999999058,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 6.692026000004262,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 9.201118999997561,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "guard",
+          "skip",
+          "bulk",
+          "control"
+        ],
+        "results": {
+          "guard": {
+            "apiMs": 10.542253999999957,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 7.123813999998674,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 8.233754000000772,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 42.735271000005014,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "skip",
+          "bulk",
+          "control",
+          "guard"
+        ],
+        "results": {
+          "skip": {
+            "apiMs": 6.096334999994724,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 10.85528599999816,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 42.35174900000129,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 11.579580999998143,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "bulk",
+          "control",
+          "guard",
+          "skip"
+        ],
+        "results": {
+          "bulk": {
+            "apiMs": 8.841979000004358,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "control": {
+            "apiMs": 41.91831099999399,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 10.698992000005092,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 8.596300000004703,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          }
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "control",
+          "guard",
+          "skip",
+          "bulk"
+        ],
+        "results": {
+          "control": {
+            "apiMs": 43.06396300000051,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "guard": {
+            "apiMs": 12.173156999997445,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "skip": {
+            "apiMs": 7.144727000006242,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          },
+          "bulk": {
+            "apiMs": 8.539095999993151,
+            "fields": {
+              "id": 3000,
+              "laneId": 1,
+              "position": 3004,
+              "isArchived": true,
+              "title": "Synthetic ticket 1-2999"
+            },
+            "revisionDelta": 8,
+            "staleCursorStatus": 409
+          }
+        }
+      }
+    ]
+  },
+  "equivalence": [
+    {
+      "name": "canonical lane has no position changes",
+      "revisionDeltas": [
+        0,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        200,
+        200,
+        200
+      ],
+      "storedValuesSha256": "e7fc284d31003b0b844d06c8312f06c3d9d2d78d2ba78c591495e04b1d62525a"
+    },
+    {
+      "name": "canonicalize duplicate, sparse, negative and archived positions",
+      "revisionDeltas": [
+        10,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "f02b8db05ec3f7be6a13c13db4fe19bca4ee2c982fac9d1c3195d99b302a529d"
+    },
+    {
+      "name": "adjacent active drag",
+      "revisionDeltas": [
+        7,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "2343651ac9d16dd7ef2ed223ded387dbe5104a60135c430325a0ea3ef0e397b0"
+    },
+    {
+      "name": "archived drag to active start keeps archive order after active tickets",
+      "revisionDeltas": [
+        11,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "37900a761fb5e0ce7c2d6c0964ff0ecbabaf391343a37df6a833a2fd12f39de3"
+    },
+    {
+      "name": "move across ordinary lanes",
+      "revisionDeltas": [
+        14,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "3cd5996ab4c3ee99afc8037b9a550e77958ad9ce710bdc35e878502e2991ab4f"
+    },
+    {
+      "name": "move into a completion lane",
+      "revisionDeltas": [
+        13,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "80d4bc431a879b96b8dac7394bb51ea0549da937b01cdcf8fc2b337a09a73083"
+    },
+    {
+      "name": "archive and restore",
+      "revisionDeltas": [
+        9,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "4a312f0d8bb15e754d25171fbfeccac93361fa8742b6c7808cca2b095d184b68"
+    },
+    {
+      "name": "edit lane",
+      "revisionDeltas": [
+        10,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "9bf055a728d8e041cbe8c13d184172b2ecb60b0593d9111c704a88db8518b803"
+    },
+    {
+      "name": "bulk move to another board",
+      "revisionDeltas": [
+        4,
+        6,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        409,
+        200
+      ],
+      "storedValuesSha256": "b85bf06e5b863cc0da3c4c46211d9553749fcc124b39899cf6f5ad11225d663f"
+    },
+    {
+      "name": "single move to another board",
+      "revisionDeltas": [
+        5,
+        5,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        409,
+        200
+      ],
+      "storedValuesSha256": "f34af787d27fbac2e28875c064574a9a77fc559c6433b44a4a531f1521f5487f"
+    },
+    {
+      "name": "bulk archive multiple lanes",
+      "revisionDeltas": [
+        9,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "0c63a9f30039cb63525fed6dca9abcf68f78b9fa905eb796e29d02c13e49558e"
+    },
+    {
+      "name": "bulk completion transition",
+      "revisionDeltas": [
+        12,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "2d7b424535e2a8b85c0fd1391de5b52160268f89118bef17a3d05ff2e48e723b"
+    },
+    {
+      "name": "delete ticket",
+      "revisionDeltas": [
+        3,
+        0,
+        0
+      ],
+      "cursorStatuses": [
+        409,
+        200,
+        200
+      ],
+      "storedValuesSha256": "adf6be431de9c05ef9be9dda9c0c8aa2ca40b4797349a7ea5538fd495cfad43c"
+    }
+  ],
+  "rollback": {
+    "snapshots": {
+      "prior": {
+        "schemaEntries": 91,
+        "schemaVersion": 47,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ]
+      },
+      "current": {
+        "schemaEntries": 91,
+        "schemaVersion": 49,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ]
+      },
+      "afterCurrentWrites": {
+        "schemaEntries": 91,
+        "schemaVersion": 49,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 12909
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ]
+      },
+      "rolledBack": {
+        "schemaEntries": 91,
+        "schemaVersion": 51,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 12909
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ]
+      },
+      "final": {
+        "schemaEntries": 91,
+        "schemaVersion": 53,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 14936
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ]
+      }
+    },
+    "observations": {
+      "priorFirst": 200,
+      "priorSecond": 200,
+      "priorCursorOnCurrent": 200,
+      "moveOnCurrent": 200,
+      "archiveOnCurrent": 200,
+      "priorCursorStale": 409,
+      "currentFirstAfterWrites": 200,
+      "currentSecondAfterWrites": 200,
+      "currentCursorOnPrior": 200,
+      "readMovedOnPrior": 200,
+      "readArchivedOnPrior": 200,
+      "moveOnPrior": 200,
+      "currentCursorStale": 409,
+      "readReturnedOnCurrent": 200,
+      "readReturnedLaneOnCurrent": 200
+    }
+  },
+  "browser": {
+    "version": "159.0.8154.6",
+    "properties": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en-US",
+      "colorScheme": "light"
+    },
+    "pictures": {
+      "move-start": {
+        "before": {
+          "sha256": "d13c8c4ac3e28d0b0573e5debd67406a41ae7291de1f307893495c5b6e639b6f",
+          "name": "normalized-writes-en-light-before-move-start.png"
+        },
+        "after": {
+          "sha256": "d13c8c4ac3e28d0b0573e5debd67406a41ae7291de1f307893495c5b6e639b6f",
+          "name": "normalized-writes-en-light-after-move-start.png"
+        }
+      },
+      "move-reload": {
+        "before": {
+          "sha256": "063351c749c6d77c31c67a680a8d66e621d00449dfcd16126b5226a88eb2af6f",
+          "name": "normalized-writes-en-light-before-move-reload.png"
+        },
+        "after": {
+          "sha256": "063351c749c6d77c31c67a680a8d66e621d00449dfcd16126b5226a88eb2af6f",
+          "name": "normalized-writes-en-light-after-move-reload.png"
+        }
+      },
+      "archive-start": {
+        "before": {
+          "sha256": "d72eed3e678514423d27a3887923690085bf32d5a6a795932419fa27be920f58",
+          "name": "normalized-writes-en-light-before-archive-start.png"
+        },
+        "after": {
+          "sha256": "d72eed3e678514423d27a3887923690085bf32d5a6a795932419fa27be920f58",
+          "name": "normalized-writes-en-light-after-archive-start.png"
+        }
+      },
+      "archive-reload": {
+        "before": {
+          "sha256": "ae84fd7ed8994fea214a2e60a44b0636b681fc962aee64417c042ca64aa14cc9",
+          "name": "normalized-writes-en-light-before-archive-reload.png"
+        },
+        "after": {
+          "sha256": "ae84fd7ed8994fea214a2e60a44b0636b681fc962aee64417c042ca64aa14cc9",
+          "name": "normalized-writes-en-light-after-archive-reload.png"
+        }
+      }
+    },
+    "records": [
+      {
+        "phase": "before",
+        "boardId": 1,
+        "sourceLane": 1,
+        "targetLane": 2,
+        "archiveLane": 3,
+        "targetId": 41,
+        "beforeDrag": {
+          "id": 2,
+          "laneId": 1,
+          "position": 0,
+          "isArchived": false
+        },
+        "moved": {
+          "id": 2,
+          "laneId": 2,
+          "position": 0,
+          "isArchived": false
+        },
+        "beforeArchive": {
+          "id": 42,
+          "laneId": 3,
+          "position": 4,
+          "isArchived": false
+        },
+        "archived": {
+          "id": 42,
+          "laneId": 3,
+          "position": 95,
+          "isArchived": true
+        },
+        "staleMoveCursor": 409,
+        "staleArchiveCursor": 409,
+        "dragTrusted": true
+      },
+      {
+        "phase": "after",
+        "boardId": 1,
+        "sourceLane": 1,
+        "targetLane": 2,
+        "archiveLane": 3,
+        "targetId": 41,
+        "beforeDrag": {
+          "id": 2,
+          "laneId": 1,
+          "position": 0,
+          "isArchived": false
+        },
+        "moved": {
+          "id": 2,
+          "laneId": 2,
+          "position": 0,
+          "isArchived": false
+        },
+        "beforeArchive": {
+          "id": 42,
+          "laneId": 3,
+          "position": 4,
+          "isArchived": false
+        },
+        "archived": {
+          "id": 42,
+          "laneId": 3,
+          "position": 95,
+          "isArchived": true
+        },
+        "staleMoveCursor": 409,
+        "staleArchiveCursor": 409,
+        "dragTrusted": true
+      }
+    ]
+  }
+}
