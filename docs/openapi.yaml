@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Kanbalone API
-  version: 1.1.0-rc.1
+  version: 1.1.0-rc.2
   summary: Ultra-light local personal kanban API for human and AI collaboration
   license:
     name: MIT
