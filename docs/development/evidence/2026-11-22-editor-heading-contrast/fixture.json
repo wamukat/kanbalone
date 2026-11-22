@@ -1,0 +1,80 @@
+{
+  "board": {
+    "board": {
+      "id": 1,
+      "name": "Delivery review",
+      "position": 0,
+      "createdAt": "2026-11-22T06:54:26.634Z",
+      "updatedAt": "2026-11-22T06:54:26.634Z"
+    },
+    "lanes": [
+      {
+        "isCompletionLane": false,
+        "id": 1,
+        "boardId": 1,
+        "name": "Todo",
+        "position": 0
+      },
+      {
+        "isCompletionLane": false,
+        "id": 2,
+        "boardId": 1,
+        "name": "Doing",
+        "position": 1
+      }
+    ],
+    "tags": [],
+    "tickets": [],
+    "groups": []
+  },
+  "group": {
+    "id": 1,
+    "boardId": 1,
+    "name": "Improve notifications",
+    "isActive": true,
+    "totalTicketCount": 0,
+    "openTicketCount": 0,
+    "archivedTicketCount": 0,
+    "revision": 1,
+    "createdAt": "2026-11-22T06:54:26.638Z",
+    "updatedAt": "2026-11-22T06:54:26.638Z",
+    "descriptionMarkdown": "",
+    "descriptionHtml": ""
+  },
+  "ticket": {
+    "id": 1,
+    "boardId": 1,
+    "laneId": 2,
+    "parentTicketId": null,
+    "hasChildren": false,
+    "title": "Review notification delivery",
+    "bodyMarkdown": "Isolated contrast fixture.",
+    "bodyHtml": "<p>Isolated contrast fixture.</p>\n",
+    "isResolved": false,
+    "resolvedAt": null,
+    "isArchived": false,
+    "priority": 2,
+    "position": 0,
+    "createdAt": "2026-11-22T06:54:26.644Z",
+    "updatedAt": "2026-11-22T06:54:26.658Z",
+    "tags": [],
+    "comments": [],
+    "blockerIds": [],
+    "relatedIds": [],
+    "blockers": [],
+    "blockedBy": [],
+    "related": [],
+    "parent": null,
+    "children": [],
+    "ref": "Delivery review#1",
+    "shortRef": "#1",
+    "remote": null,
+    "externalReferences": [],
+    "groupId": 1,
+    "group": {
+      "id": 1,
+      "name": "Improve notifications"
+    },
+    "editToken": "8788d6697a191f07d315701ef9ddffacc91bb78ee71a35e95d1e7c721008666e"
+  }
+}

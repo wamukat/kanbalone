@@ -8,6 +8,7 @@
 }
 
 .editor-field-label {
+  color: var(--text-strong);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-semibold);
 }
