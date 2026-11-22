@@ -1,0 +1,30 @@
+
+Running 15 tests using 2 workers
+
+(node:80020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:80021) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › test/e2e/kanban-native-drag.spec.ts:42:1 › native card drag persists into an occupied lane and same-lane reorder (5.4s)
+  ✓   2 [chromium] › test/e2e/kanban-native-drag.spec.ts:42:1 › native card drag persists into an occupied lane and same-lane reorder (5.5s)
+  ✓   4 [chromium] › test/e2e/kanban-native-drag.spec.ts:59:1 › native card drag into a populated completion lane stays first after reload (5.3s)
+  ✓   3 [chromium] › test/e2e/kanban-native-drag.spec.ts:59:1 › native card drag into a populated completion lane stays first after reload (5.3s)
+  ✓   5 [chromium] › test/e2e/kanban-native-drag.spec.ts:78:1 › cancelled native drags and rejected saves preserve stored and visible position (3.4s)
+  ✓   6 [chromium] › test/e2e/kanban-native-drag.spec.ts:78:1 › cancelled native drags and rejected saves preserve stored and visible position (3.4s)
+(node:80081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:80082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [chromium] › test/e2e/kanban-native-drag.spec.ts:42:1 › native card drag persists into an occupied lane and same-lane reorder (4.6s)
+  ✓   8 [chromium] › test/e2e/kanban-native-drag.spec.ts:42:1 › native card drag persists into an occupied lane and same-lane reorder (4.7s)
+  ✓   9 [chromium] › test/e2e/kanban-native-drag.spec.ts:59:1 › native card drag into a populated completion lane stays first after reload (4.5s)
+  ✓  10 [chromium] › test/e2e/kanban-native-drag.spec.ts:59:1 › native card drag into a populated completion lane stays first after reload (4.7s)
+  ✓  11 [chromium] › test/e2e/kanban-native-drag.spec.ts:78:1 › cancelled native drags and rejected saves preserve stored and visible position (3.8s)
+  ✓  12 [chromium] › test/e2e/kanban-native-drag.spec.ts:78:1 › cancelled native drags and rejected saves preserve stored and visible position (3.8s)
+(node:80187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [chromium] › test/e2e/kanban-native-drag.spec.ts:42:1 › native card drag persists into an occupied lane and same-lane reorder (8.8s)
+  ✓  14 [chromium] › test/e2e/kanban-native-drag.spec.ts:59:1 › native card drag into a populated completion lane stays first after reload (8.1s)
+  ✓  15 [chromium] › test/e2e/kanban-native-drag.spec.ts:78:1 › cancelled native drags and rejected saves preserve stored and visible position (4.6s)
+
+  15 passed (59.8s)
