@@ -4,7 +4,8 @@ This guide covers the change from per-ticket completion flags to completion dete
 
 **Lane-based completion migration was introduced in v0.10.0.** It applies when upgrading a v0.9.x or earlier database to v0.10.0 or later.
 
-- **v0.11.0 → next release (unreleased)**: update clients using the removal table in section 7; old DB migration and import support remain.
+- **v1.0.0-rc.2 → v1.0.0**: no additional API or storage-format changes. Back up before upgrading as usual.
+- **v0.11.0 → v1.0.0**: update clients using the removal table in section 7; old DB migration and import support remain.
 - **v0.10.0 → v0.11.0**: follow the [Group migration](#group-migration).
 - **v0.9.x or earlier → v0.11.0**: follow both the completion migration and Group migration. Verify the destination lanes of resolved tickets against the completion migration rules.
 
@@ -20,7 +21,7 @@ Use the official tag/image for your target release. Commands below are examples;
 | Archive | Independent from completion | Still independent; archive/restore does not change completion |
 | Lane names | Independent from completion | Names do not determine completion; a lane named Done can be normal |
 
-In SQLite, `lanes.is_completion_lane` becomes the source of truth. `tickets.is_resolved` is retained as an indexed projection maintained by database triggers, rather than independent state. Stop directly updating ticket completion columns. API responses use read-only `isResolved`. v0.10.0–v0.11.0 also returned the compatibility alias `isCompleted`; see section 7 for its removal in the next release.
+In SQLite, `lanes.is_completion_lane` becomes the source of truth. `tickets.is_resolved` is retained as an indexed projection maintained by database triggers, rather than independent state. Stop directly updating ticket completion columns. API responses use read-only `isResolved`. v0.10.0–v0.11.0 also returned the compatibility alias `isCompleted`; see section 7 for its removal in v1.0.0.
 
 ## 2. Automatic Migration On First Startup
 
@@ -158,9 +159,9 @@ Resolved tickets becoming grouped in the new lane is expected. Resolved and arch
 
 <a id="deprecated-api-removal"></a>
 
-### Next release: remove deprecated API compatibility
+### v1.0.0: remove deprecated API compatibility
 
-These removals are implemented on the development branch after v0.11.0. They are **not part of the published v0.11.0 release**; confirm the target release notes and image before upgrading. v0.10.0–v0.11.0 accepted matching completion flags as compatibility assertions and returned both completion response names. The next release removes that compatibility layer.
+These removals apply to v1.0.0. They are **not part of v0.11.0**; confirm the target release notes and image before upgrading. v0.10.0–v0.11.0 accepted matching completion flags as compatibility assertions and returned both completion response names. v1.0.0 removes that compatibility layer.
 
 | Removed API surface | Replacement | Behavior after removal |
 | --- | --- | --- |
@@ -330,13 +331,13 @@ Use a clean checkout so the SHA identifies the candidate source. Docker and netw
 
 A passing report proves these representative paths only. It does not test every historical version, native installations, other architectures, live database copying, disk exhaustion, filesystem-specific failures or provider authentication. This command does not upgrade your running instance. Follow the backup and reconciliation steps above for an actual upgrade. JSON export is not a full database backup, and restoring an old backup discards later changes unless separately reconciled.
 
-## Completion timestamps and Kanban display (next release)
+## Completion timestamps and Kanban display (v1.0.0)
 
 Upgrade automatically adds the completion timestamp column without changing existing lanes, resolution, archive flags or positions. Historical timestamps are not guessed: existing tickets expose `resolvedAt: null`. Future arrival in a completion lane records a timestamp, preserved by ordinary edits. Unknown historical times retain position order; newly completed tickets appear ahead of them.
 
 Completion lanes initially show five tickets and reveal fifty more per action. Collapsing does not delete data. Default status selection becomes open plus resolved. Existing open/resolved selections are preserved; reset Completion if completed tickets remain hidden. JSON export/import preserves the timestamp; older exports without it load as null. Follow the existing backup and original-version restore instructions in this guide.
 
-## Saved completion and archive filters (next release)
+## Saved completion and archive filters (v1.0.0)
 
 Completion state and archive visibility are now separate. An old browser-saved `status` containing `archived` becomes `includeArchived: true`. Existing `open` and `resolved` selections are retained; if neither was selected (archived only), both are selected.
 
