@@ -26,7 +26,8 @@ export function createListSelectionModule(ctx) {
       return;
     }
 
-    const selectedTickets = state.boardTickets.filter((ticket) => ticketIds.includes(ticket.id));
+    const selectedIds = new Set(ticketIds);
+    const selectedTickets = state.boardTickets.filter((ticket) => selectedIds.has(ticket.id));
     const selectedLaneIds = [...new Set(selectedTickets.map((ticket) => ticket.laneId))];
     const sourceLaneName = selectedLaneIds.length === 1
       ? state.boardDetail?.lanes?.find((lane) => lane.id === selectedLaneIds[0])?.name
@@ -152,7 +153,8 @@ export function createListSelectionModule(ctx) {
       return;
     }
     const familySet = new Set(familyIds);
-    const isFullySelected = familyIds.every((ticketId) => state.selectedListTicketIds.includes(ticketId));
+    const selectedIds = new Set(state.selectedListTicketIds);
+    const isFullySelected = familyIds.every((ticketId) => selectedIds.has(ticketId));
     state.selectedListTicketIds = isFullySelected
       ? state.selectedListTicketIds.filter((ticketId) => !familySet.has(ticketId))
       : [...new Set([...state.selectedListTicketIds, ...familyIds])];

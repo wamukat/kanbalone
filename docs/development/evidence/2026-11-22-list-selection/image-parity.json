@@ -1,0 +1,102 @@
+[
+  {
+    "before": "before-en-all.png",
+    "after": "after-en-all.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-filtered.png",
+    "after": "after-en-filtered.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-narrow-dark.png",
+    "after": "after-en-narrow-dark.png",
+    "size": [
+      390,
+      844
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-partial.png",
+    "after": "after-en-partial.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-reloaded.png",
+    "after": "after-en-reloaded.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-all.png",
+    "after": "after-ja-all.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-filtered.png",
+    "after": "after-ja-filtered.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-narrow-dark.png",
+    "after": "after-ja-narrow-dark.png",
+    "size": [
+      390,
+      844
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-partial.png",
+    "after": "after-ja-partial.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-reloaded.png",
+    "after": "after-ja-reloaded.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  }
+]

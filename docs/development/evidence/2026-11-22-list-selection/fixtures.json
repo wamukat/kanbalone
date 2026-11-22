@@ -1,0 +1,12 @@
+[
+  {
+    "language": "ja",
+    "boardId": 1,
+    "todoId": 1
+  },
+  {
+    "language": "en",
+    "boardId": 2,
+    "todoId": 3
+  }
+]

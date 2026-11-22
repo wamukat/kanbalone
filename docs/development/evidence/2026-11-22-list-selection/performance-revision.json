@@ -1,0 +1,37 @@
+{
+  "baseline": "963b37bcdd5e773ef01889bbcea9dbd33a21d1bd",
+  "node": "26.13.1",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "locale": "en-US",
+  "theme": "light",
+  "os": "macOS-26.7.3-x86_64-i386-64bit-Mach-O",
+  "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+  "sources": {
+    "production-after-app-board-list.js": "159289605fee7cda7b3743eef13928ea22d66128d324e46d8ded0e9f0ca84901",
+    "production-after-app-board-list-selection.js": "81049c2fd2ef51ff0c74cf330bbf0cbaa9284c0dfd3bad15a3f8c36338d3df99",
+    "production-before-app-board-list-selection.js": "9790ed918a446e4bc1eb07162e946342bdb409d3ff8e5052a18ed3974e9b7747",
+    "production-before-app-board-list-actions.js": "9548b5cb7f9e1d7984550480d39af992c3b523459f0ef811b5316ed34bfe1272",
+    "production-before-app-board-list.js": "e2fa740b50f18650b87f6ff526d0948a92587e7d3b0a64fd23b479fbdd3ba66d",
+    "production-after-app-board-list-actions.js": "ffb577b2f480ac561f7b40c3e6ed8ea97952aa88315958003d2784d870a53782"
+  },
+  "fixtures": [
+    {
+      "boardId": 1,
+      "tickets": 1005,
+      "archived": 10
+    },
+    {
+      "boardId": 2,
+      "tickets": 10005,
+      "archived": 10
+    }
+  ],
+  "chromium": "Google Chrome for Testing 159.0.8154.6",
+  "syntheticExportSha256": {
+    "performance-board-1.json.gz": "b5c6cea1cfe3c8545f766b727f5e4b3f935a855a33997d68ebaedcd0343134f3",
+    "performance-board-2.json.gz": "f39a21fbaba7621eb93fa3deed071357e8d2fd931bdc9186930f5c4566e3115f"
+  }
+}

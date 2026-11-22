@@ -2,7 +2,8 @@ import { t as tr } from "./app-i18n.js";
 import { icon } from "./icons.js";
 
 export function renderListActions(tickets, selectedTicketIds, hasMoveTarget = false) {
-  const selectedTickets = tickets.filter((ticket) => selectedTicketIds.includes(ticket.id));
+  const selectedIds = new Set(selectedTicketIds);
+  const selectedTickets = tickets.filter((ticket) => selectedIds.has(ticket.id));
   if (selectedTickets.length === 0) {
     return `<div class="list-actions list-actions-empty"><span>${tr("Select tickets to edit in bulk")}</span></div>`;
   }
