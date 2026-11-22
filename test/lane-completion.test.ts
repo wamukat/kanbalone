@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import Database from "better-sqlite3";
 import { KanbanDb } from "../src/db.js";
 import { buildApp } from "../src/app.js";
-import { createDbFile } from "./app-test-helpers.js";
+import { createDbFile, removePaginationSchema } from "./app-test-helpers.js";
 
 function fixture(t: { after: (fn: () => Promise<void>) => void }) {
   const dbFile = createDbFile();
@@ -125,6 +125,7 @@ test("removed completion/reorder APIs are absent and resolved is the only comple
 });
 
 function makeLegacy(db: KanbanDb) {
+  removePaginationSchema(db.sqlite);
   db.sqlite.exec(`DROP TRIGGER ticket_completion_insert; DROP TRIGGER ticket_completion_update; DROP TRIGGER lane_completion_update;
     DROP TRIGGER ticket_completion_time_insert; DROP TRIGGER ticket_completion_time_update;
     ALTER TABLE tickets DROP COLUMN resolved_at;

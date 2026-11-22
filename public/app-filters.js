@@ -160,6 +160,11 @@ export function createFiltersModule(ctx, options) {
     if (filters.q ?? state.filters.q) {
       params.set("q", String(filters.q ?? state.filters.q));
     }
+    const priorities = filters.priority ?? state.filters.priority;
+    if (priorities.length) {
+      const values = { low: 1, medium: 2, high: 3, urgent: 4 };
+      params.set("priority", priorities.map((value) => values[value]).sort().join(","));
+    }
     const query = params.toString();
     return `/api/boards/${state.activeBoardId}/tickets${query ? `?${query}` : ""}`;
   }

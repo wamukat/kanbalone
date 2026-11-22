@@ -17,6 +17,33 @@ curl -s -X PATCH http://127.0.0.1:3000/api/lanes/11 \
 
 すべて `http://127.0.0.1:3000` を前提にしています。
 
+## チケット一覧のページング
+
+開発ブランチで追加する機能です。`limit`と`cursor`を指定しない既存の呼び出しは、全件取得・並び順・応答形式を維持します。稼働中のリリースに対応するドキュメントを利用してください。
+
+`limit=1..200`で取得件数を指定し、返された`page.nextCursor`を渡して続きを取得します。ボード・検索条件・`order`は維持し、`limit`だけは変更できます。`page.total`は条件に一致する全件数、`nextCursor: null`は最後のページです。ページ番号や`hasMore`はありません。
+
+```bash
+# 完了レーンと同じ順番で最初の5件を取得
+curl -fsS --get http://127.0.0.1:3000/api/boards/3/tickets \
+  --data-urlencode 'lane_id=11' --data-urlencode 'order=completed_desc' \
+  --data-urlencode 'limit=5'
+
+# 上の応答のpage.nextCursorを設定。検索条件・並び順は変更しない
+CURSOR='返されたnextCursorをここに設定'
+curl -fsS --get http://127.0.0.1:3000/api/boards/3/tickets \
+  --data-urlencode 'lane_id=11' --data-urlencode 'order=completed_desc' \
+  --data-urlencode 'limit=50' --data-urlencode "cursor=$CURSOR"
+```
+
+`order`は`id_asc`（ページング時の既定）、`position_asc`（従来のレーン・アーカイブ・位置・ID順）、`completed_desc`（完了日時の降順、位置の昇順、IDの降順。完了日時不明は最後）を指定できます。ページングなしでも並び順を指定できます。`priority=1,3`は低または高の優先度に一致し、ページ分割・総件数の計算より前に適用されます。
+
+不正なcursor・異なる検索条件への流用・不正な引数・limitなしのcursorは400です。ボードのチケット一覧データが変わるとcursorは無効になり409を返します。別ボードの参照先チケットの変更でも無効になる場合があります。部分結果を破棄し、cursorを外して最初から取得し直してください。再試行には上限を設けます。変更前のsnapshotは保持しません。親と子が別ページになる場合があり、未取得を「関連なし」と解釈してはいけません。
+
+ページング応答の`X-Kanbalone-Ticket-Revision`ヘッダは、同じボードの複数の条件別一覧を組み合わせる際の版確認に使えます。値が異なれば全体を取得し直します。cursorの代わりではありません。
+
+AIが取得したチケットを変更する場合は、一覧を収集し終えてから書き込むか、処理済みIDを管理して再実行を安全にします。409の前後の結果を混ぜたり、書き込みを無条件に繰り返したりしないでください。
+
 ## ヘルスチェック
 
 ```bash

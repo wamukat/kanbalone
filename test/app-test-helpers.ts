@@ -46,3 +46,13 @@ export function createMockRemoteAdapter(
 export function createMockGithubAdapter(options: Parameters<typeof createMockRemoteAdapter>[1]): RemoteIssueAdapter {
   return createMockRemoteAdapter("github", options);
 }
+
+/** Strip additive pagination objects before a test reconstructs a historical schema. */
+export function removePaginationSchema(sqlite: import("better-sqlite3").Database): void {
+  const triggers = sqlite.prepare("SELECT name FROM sqlite_master WHERE type='trigger' AND name LIKE 'ticket_list_%'").all() as { name: string }[];
+  for (const { name } of triggers) sqlite.exec(`DROP TRIGGER ${name}`);
+  sqlite.exec(`DROP INDEX IF EXISTS tickets_paging_id_idx;
+    DROP INDEX IF EXISTS tickets_paging_completed_idx;
+    DROP TABLE IF EXISTS ticket_list_revisions;
+    DROP TABLE IF EXISTS ticket_cursor_secret;`);
+}

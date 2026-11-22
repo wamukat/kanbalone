@@ -1,0 +1,182 @@
+[
+  {
+    "name": "kanban-ja-initial",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-ja-55",
+    "beforeDoneCount": 55,
+    "afterDoneCount": 55,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-ja-detail",
+    "beforeDoneCount": 55,
+    "afterDoneCount": 55,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-ja-return",
+    "beforeDoneCount": 55,
+    "afterDoneCount": 55,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-ja-priority",
+    "beforeDoneCount": 17,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "list-ja-initial",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "list-ja-parent-child",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "group-ja-initial",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "group-ja-archives",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "group-ja-family",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "kanban-en-initial",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-en-55",
+    "beforeDoneCount": 55,
+    "afterDoneCount": 55,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "kanban-en-detail",
+    "beforeDoneCount": 55,
+    "afterDoneCount": 55,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-en-return",
+    "beforeDoneCount": 55,
+    "afterDoneCount": 55,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "kanban-en-priority",
+    "beforeDoneCount": 17,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "list-en-initial",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "list-en-parent-child",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": false
+  },
+  {
+    "name": "group-en-initial",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "group-en-archives",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  },
+  {
+    "name": "group-en-family",
+    "beforeDoneCount": 5,
+    "afterDoneCount": 5,
+    "sameGroupIds": true,
+    "sameListIds": true,
+    "sameScroll": true,
+    "samePixels": true
+  }
+]

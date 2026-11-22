@@ -1,0 +1,169 @@
+{
+  "ticketId": 1510,
+  "commentId": 4440,
+  "imageUrls": [
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-kanban-ja-initial.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-kanban-ja-initial.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-list-ja-parent-child.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-list-ja-parent-child.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-group-ja-family.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-group-ja-family.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-kanban-en-initial.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-kanban-en-initial.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-list-en-parent-child.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-list-en-parent-child.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-group-en-family.png",
+    "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-group-en-family.png"
+  ],
+  "localOnly": false,
+  "verifiedInTicket": true,
+  "initialLocalVerification": [
+    {
+      "src": "http://127.0.0.1:3584/before-kanban-ja-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-kanban-ja-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-list-ja-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-list-ja-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-group-ja-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-group-ja-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-kanban-en-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-kanban-en-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-list-en-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-list-en-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-group-en-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-group-en-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    }
+  ],
+  "sourceCommit": "921b6a36e7fc7616ce6c97dd1356cbce002a4a36",
+  "observedImages": [
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-kanban-ja-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-kanban-ja-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-list-ja-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-list-ja-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-group-ja-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-group-ja-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-kanban-en-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-kanban-en-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-list-en-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-list-en-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/before-group-en-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "https://raw.githubusercontent.com/wamukat/kanbalone/921b6a36e7fc7616ce6c97dd1356cbce002a4a36/docs/development/evidence/2026-11-22-pagination/after-group-en-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    }
+  ]
+}

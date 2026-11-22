@@ -135,7 +135,7 @@ export function listTicketSummariesByIds(
     .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
 }
 
-function mapTicketSummaries(
+export function mapTicketSummaries(
   sqlite: Database.Database,
   boardId: Id,
   rows: TicketRow[],

@@ -18,6 +18,7 @@ export function createEditorModule(ctx) {
   let savedForm = "";
   let discardPending = null;
   let editorOriginVersion;
+  let editorOpenGeneration = 0;
 
   function formSnapshot() {
     return JSON.stringify([
@@ -176,6 +177,7 @@ export function createEditorModule(ctx) {
   }
 
   function resetDialogState() {
+    editorOpenGeneration += 1;
     state.editingTicketId = null;
     state.dialogMode = "view";
     state.editorTagIds = [];
@@ -346,13 +348,13 @@ export function createEditorModule(ctx) {
     if (!state.boardDetail || state.editorSaving) {
       return;
     }
-    editorOriginVersion = ctx.captureEditorOrigin?.();
-    detailModule.resetInlineEdit();
-    state.editingTicketId = ticketId;
-    state.editorCreateGroup = ticketId ? null : creationGroup;
-    state.boardTickets = (await ctx.api(`/api/boards/${state.activeBoardId}/tickets?archived=all`)).tickets;
-    const groupContext = elements.editorForm.querySelector(".editor-group-context");
-    if (groupContext) { groupContext.hidden = !creationGroup; groupContext.textContent = creationGroup ? t("Group: {name}", { name: creationGroup.name }) : ""; }
+    const request = ++editorOpenGeneration;
+    const boardId = state.activeBoardId;
+    const viewMode = state.viewMode;
+    const originVersion = ctx.captureEditorOrigin?.();
+    const isCurrent = () => request === editorOpenGeneration && boardId === state.activeBoardId && viewMode === state.viewMode;
+    const boardTickets = (await ctx.api(`/api/boards/${boardId}/tickets?archived=all`)).tickets;
+    if (!isCurrent()) return;
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
         ctx.api(`/api/tickets/${ticketId}`),
@@ -360,6 +362,14 @@ export function createEditorModule(ctx) {
         ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
       ])
       : [null, { activity: [] }, { events: [] }];
+    if (!isCurrent()) return;
+    editorOriginVersion = originVersion;
+    detailModule.resetInlineEdit();
+    state.editingTicketId = ticketId;
+    state.editorCreateGroup = ticketId ? null : creationGroup;
+    state.boardTickets = boardTickets;
+    const groupContext = elements.editorForm.querySelector(".editor-group-context");
+    if (groupContext) { groupContext.hidden = !creationGroup; groupContext.textContent = creationGroup ? t("Group: {name}", { name: creationGroup.name }) : ""; }
     const activity = activityPayload.activity ?? [];
     const events = eventsPayload.events ?? [];
     state.dialogTicket = ticket;

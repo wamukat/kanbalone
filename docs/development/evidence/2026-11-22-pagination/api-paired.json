@@ -1,0 +1,807 @@
+{
+  "method": "Both explicit Node26.13.1; same original fixture copied to control and candidate; before c4ea904, after fingerprint inafter-revision.json; warmup3+10alternating pairs; localhost keepalive, includesbodyreceive+JSONparse+countvalidation; no other tests/browserbenchmarkrunning. completion_initial compares previousfullcompletedlane retrieval versus newfirst5, not identicalresultsets.",
+  "summary": [
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "n": 10,
+      "p50_ms": 27.27,
+      "max_ms": 28.5,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "n": 10,
+      "p50_ms": 26.65,
+      "max_ms": 28.67,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "n": 10,
+      "p50_ms": 18.42,
+      "max_ms": 20.85,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "n": 10,
+      "p50_ms": 7.68,
+      "max_ms": 18.08,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "n": 10,
+      "p50_ms": 281.4,
+      "max_ms": 321.99,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "n": 10,
+      "p50_ms": 307.41,
+      "max_ms": 316.22,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "n": 10,
+      "p50_ms": 191.71,
+      "max_ms": 199.97,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "n": 10,
+      "p50_ms": 6.63,
+      "max_ms": 15.04,
+      "bytes": 2859,
+      "returned": 5
+    }
+  ],
+  "samples": [
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 0,
+      "ms": 2.6768109964905307,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 0,
+      "ms": 199.96508300391724,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 0,
+      "ms": 298.90483299823245,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 0,
+      "ms": 321.9885319995228,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 0,
+      "ms": 13.54671000444796,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 0,
+      "ms": 20.847213003435172,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 0,
+      "ms": 25.61606800009031,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 0,
+      "ms": 25.263149000238627,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 1,
+      "ms": 25.86085499933688,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 1,
+      "ms": 25.730000001203734,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 1,
+      "ms": 18.11350700154435,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 1,
+      "ms": 3.32804600475356,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 1,
+      "ms": 268.5962330069742,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 1,
+      "ms": 312.39275699772406,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 1,
+      "ms": 193.61934300104622,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 1,
+      "ms": 15.042140999867115,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 2,
+      "ms": 3.410602002986707,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 2,
+      "ms": 198.61015500646317,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 2,
+      "ms": 303.26901900116354,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 2,
+      "ms": 291.94953099795384,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 2,
+      "ms": 18.079633999150246,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 2,
+      "ms": 16.773133000242524,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 2,
+      "ms": 27.77842900104588,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 2,
+      "ms": 28.495680999185424,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 3,
+      "ms": 27.053836005507037,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 3,
+      "ms": 26.69091300049331,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 3,
+      "ms": 17.76366199919721,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 3,
+      "ms": 2.9608869954245165,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 3,
+      "ms": 259.10185399698094,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 3,
+      "ms": 289.80423000029987,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 3,
+      "ms": 184.13042899919674,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 3,
+      "ms": 13.087956001982093,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 4,
+      "ms": 3.013319001183845,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 4,
+      "ms": 162.62412699870765,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 4,
+      "ms": 313.99190700176405,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 4,
+      "ms": 311.0546370007796,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 4,
+      "ms": 14.38773200061405,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 4,
+      "ms": 18.318045003979933,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 4,
+      "ms": 26.61895199707942,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 4,
+      "ms": 27.083277003839612,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 5,
+      "ms": 27.81366500130389,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 5,
+      "ms": 25.48211899556918,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 5,
+      "ms": 18.88862399937352,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 5,
+      "ms": 3.038802999071777,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 5,
+      "ms": 269.92161000089254,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 5,
+      "ms": 306.1265229989658,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 5,
+      "ms": 192.084241003613,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 5,
+      "ms": 9.962992000509985,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 6,
+      "ms": 3.396356994926464,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 6,
+      "ms": 170.6654600056936,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 6,
+      "ms": 307.04904299636837,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 6,
+      "ms": 298.9700289981556,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 6,
+      "ms": 13.685630998224951,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 6,
+      "ms": 18.661647001863457,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 6,
+      "ms": 27.939409999817144,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 6,
+      "ms": 27.35965199826751,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 7,
+      "ms": 28.2056130017736,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 7,
+      "ms": 26.559163998172153,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 7,
+      "ms": 18.521737001719885,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 7,
+      "ms": 3.2895879994612187,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 7,
+      "ms": 270.85678299772553,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 7,
+      "ms": 307.8579049979453,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 7,
+      "ms": 192.39898700470803,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 7,
+      "ms": 9.85229999787407,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 8,
+      "ms": 2.729213003476616,
+      "bytes": 2859,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 8,
+      "ms": 170.25542099872837,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 8,
+      "ms": 307.76790900563356,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 8,
+      "ms": 298.81294700317085,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 8,
+      "ms": 12.033036000502761,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 8,
+      "ms": 17.727172002196312,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 8,
+      "ms": 28.66555700165918,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 8,
+      "ms": 27.510181003890466,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 9,
+      "ms": 27.183858001080807,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 1000,
+      "iteration": 9,
+      "ms": 27.18629199807765,
+      "bytes": 517539,
+      "returned": 1000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 9,
+      "ms": 19.496437998896,
+      "bytes": 362272,
+      "returned": 700
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 1000,
+      "iteration": 9,
+      "ms": 3.2478409993927926,
+      "bytes": 2804,
+      "returned": 5
+    },
+    {
+      "version": "before",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 9,
+      "ms": 270.77969700621907,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "after",
+      "operation": "all",
+      "count": 10000,
+      "iteration": 9,
+      "ms": 316.2162119988352,
+      "bytes": 5231563,
+      "returned": 10000
+    },
+    {
+      "version": "before",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 9,
+      "ms": 191.3353019990609,
+      "bytes": 3662003,
+      "returned": 7000
+    },
+    {
+      "version": "after",
+      "operation": "completion_initial",
+      "count": 10000,
+      "iteration": 9,
+      "ms": 13.185669005906675,
+      "bytes": 2859,
+      "returned": 5
+    }
+  ]
+}

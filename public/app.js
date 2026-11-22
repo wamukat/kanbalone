@@ -1,4 +1,6 @@
 import { getLocale, initializeLanguage, saveLocale, t } from "./app-i18n.js";
+import { loadKanbanTicketCollections, loadListTicketCollection } from "./app-ticket-collections.js";
+import { collectTicketPages, readTicketPage, ticketPageUrl } from "./app-ticket-pages.js";
 import { api, createSendJson } from "./app-api.js";
 import { createBoardEventsModule } from "./app-board-events.js";
 import { createBoardModule } from "./app-board.js";
@@ -278,8 +280,55 @@ async function selectBoard(boardId) {
 }
 
 let boardRefreshGeneration = 0;
+let boardRefreshAbort = null;
+let completionQueryKey = "";
+let successfulBoardContext = null;
+const boardRequestContext = () => JSON.stringify([state.activeBoardId, state.viewMode, state.filters]);
+const completionRequested = new Map();
+
+async function loadMoreCompletionTickets(laneId) {
+  const detail = state.boardDetail;
+  const current = detail?.completionPages?.[laneId];
+  const generation = boardRefreshGeneration;
+  if (!current || !current.nextCursor) return null;
+  const wanted = current.tickets.length + 50;
+  try {
+    const result = readTicketPage(await api(ticketPageUrl(current.url, 50, current.nextCursor)));
+    if (state.boardDetail !== detail || generation !== boardRefreshGeneration || state.viewMode !== "kanban") return null;
+    current.tickets.push(...result.tickets);
+    current.total = result.page.total;
+    current.nextCursor = result.page.nextCursor;
+    detail.tickets.push(...result.tickets);
+    const ids = new Set(state.boardTickets.map((ticket) => ticket.id));
+    state.boardTickets.push(...result.tickets.filter((ticket) => !ids.has(ticket.id)));
+    completionRequested.set(laneId, wanted);
+    return result;
+  } catch (error) {
+    if (state.boardDetail !== detail || generation !== boardRefreshGeneration || state.viewMode !== "kanban") return null;
+    if (error.status !== 409) throw error;
+    const previous = completionRequested.get(laneId);
+    completionRequested.set(laneId, wanted);
+    try { await refreshBoardDetail(); }
+    catch (retryError) {
+      if (previous === undefined) completionRequested.delete(laneId);
+      else completionRequested.set(laneId, previous);
+      throw retryError;
+    }
+    return null;
+  }
+}
+
+function collapseCompletionTickets(laneId, count = 5) {
+  completionRequested.set(laneId, count);
+  const current = state.boardDetail?.completionPages?.[laneId];
+  if (current) current.visibleCount = count;
+}
+
 async function refreshBoardDetail() {
   const generation = ++boardRefreshGeneration;
+  boardRefreshAbort?.abort();
+  boardRefreshAbort = new AbortController();
+  const signal = boardRefreshAbort.signal;
   state.boardNavigationLoading = true;
   state.boardNavigationReady = false;
   try {
@@ -293,25 +342,48 @@ async function refreshBoardDetail() {
     }
     const boardId = state.activeBoardId;
     const viewMode = state.viewMode;
-    const detail = await api(`/api/boards/${boardId}`);
+    syncBoardEvents();
+    const detail = await api(`/api/boards/${boardId}`, { signal });
     if (generation !== boardRefreshGeneration || boardId !== state.activeBoardId || viewMode !== state.viewMode) return;
     normalizeBoardFiltersForDetail(detail);
-    const allTickets = await api(viewMode === "group" ? `/api/boards/${boardId}/tickets?archived=all` : buildTicketListUrl());
+    const url = buildTicketListUrl();
+    const key = `${boardId}:${url}:${state.filters.status.join(",")}`;
+    if (key !== completionQueryKey) {
+      completionRequested.clear();
+      completionQueryKey = key;
+    }
+    const isCurrent = () => generation === boardRefreshGeneration && boardId === state.activeBoardId && viewMode === state.viewMode;
+    const allTickets = viewMode === "group" || state.filters.status.length === 0
+      ? { tickets: [], completionPages: {} }
+      : viewMode === "kanban"
+        ? await loadKanbanTicketCollections(api, detail.lanes, url, { limits: completionRequested, isCurrent, signal })
+        : await loadListTicketCollection(api, url, { isCurrent, signal });
     if (generation !== boardRefreshGeneration || boardId !== state.activeBoardId || viewMode !== state.viewMode) return;
-    state.boardTickets = allTickets.tickets;
+    // Relations/editor selectors require the complete, unfiltered board collection.
+    // An open editor must not lose its candidate set on an SSE board refresh.
+    if (elements.editorDialog.open) {
+      const complete = await collectTicketPages(api, `/api/boards/${boardId}/tickets?archived=all`, { isCurrent, init: { signal } });
+      if (!isCurrent()) return;
+      state.boardTickets = complete.tickets;
+    } else state.boardTickets = allTickets.referenceTickets ?? allTickets.tickets;
     state.boardDetail = {
       board: detail.board,
       lanes: detail.lanes,
       tags: detail.tags,
       tickets: filterTicketsForDisplay(allTickets.tickets),
+      completionPages: allTickets.completionPages,
     };
     state.boardNavigationReady = true;
+    successfulBoardContext = boardRequestContext();
     syncBoardEvents();
     renderBoards();
     renderBoardDetail();
     syncActiveFilterStyles();
   } catch (error) {
-    if (generation === boardRefreshGeneration) throw error;
+    if (generation === boardRefreshGeneration) {
+      state.boardNavigationReady = successfulBoardContext === boardRequestContext();
+      throw error;
+    }
   } finally {
     if (generation === boardRefreshGeneration) {
       state.boardNavigationLoading = false;
@@ -486,6 +558,8 @@ routerModule = createRouterModule(
 );
 
 const boardModule = createBoardModule({
+  loadMoreCompletionTickets,
+  collapseCompletionTickets,
   state,
   elements,
   api,

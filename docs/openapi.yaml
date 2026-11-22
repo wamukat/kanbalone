@@ -596,9 +596,43 @@ paths:
         schema:
           type: boolean
         description: Alias for including archived tickets when archived is omitted. Prefer archived=all.
+      - name: limit
+        in: query
+        description: Opt into pagination. Required for the first and every continuation page; may change between requests (for example 5 then 50). Omit limit and cursor to retain full-list responses.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+      - name: cursor
+        in: query
+        description: Opaque nextCursor from the previous page. Repeat the same board, filters and order; changed list data returns 409 and requires restarting. Requires limit.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 4096
+      - name: order
+        in: query
+        description: Explicit order. Paged default is id_asc; unpaged default retains legacy lane/archive/position/id order. completed_desc matches completion-lane UI (completion time descending, position ascending, ID descending). Works without pagination too.
+        schema:
+          type: string
+          enum: [id_asc, position_asc, completed_desc]
+      - name: priority
+        in: query
+        description: Comma-separated priority values (OR), applied before pagination. Values 1 to 4; duplicates and order are normalized. Omitted means all priorities.
+        schema:
+          type: string
+          pattern: '^[1-4](,[1-4])*$'
+          maxLength: 127
+        example: '1,3'
       responses:
         '200':
           description: Ticket summary list
+          headers:
+            X-Kanbalone-Ticket-Revision:
+              description: Present for paged responses. Board ticket-list revision read in the same transaction as this page. Clients combining independent filtered collections can compare revisions and restart when they differ. Not a historical snapshot or a replacement for the opaque cursor.
+              schema:
+                type: integer
+                minimum: 0
           content:
             application/json:
               schema:
@@ -608,9 +642,22 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/TicketSummary'
+                  page:
+                    type: object
+                    description: Present only when limit is specified. total counts all matching tickets, including those not in this page. A null nextCursor means there are no further pages.
+                    additionalProperties: false
+                    required: [nextCursor, total]
+                    properties:
+                      nextCursor:
+                        type: [string, 'null']
+                      total:
+                        type: integer
+                        minimum: 0
                 required:
                 - tickets
         '400':
+          $ref: '#/components/responses/Error'
+        '409':
           $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'

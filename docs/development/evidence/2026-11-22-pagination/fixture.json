@@ -1,0 +1,13 @@
+{
+  "base": "http://127.0.0.1:3590",
+  "boardId": 1,
+  "groupId": 1,
+  "tickets": 260,
+  "open": 140,
+  "done": 120,
+  "archived": 2,
+  "parent": 1,
+  "child": 205,
+  "blocker": 240,
+  "beforeCommit": "c4ea90458b0cf1652f89a0f589c15e5ee77ec561"
+}

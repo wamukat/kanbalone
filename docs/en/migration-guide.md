@@ -342,3 +342,9 @@ Completion lanes initially show five tickets and reveal fifty more per action. C
 Completion state and archive visibility are now separate. An old browser-saved `status` containing `archived` becomes `includeArchived: true`. Existing `open` and `resolved` selections are retained; if neither was selected (archived only), both are selected.
 
 Completion filters now also apply to archived tickets. For example, old “Open + Archived” becomes Open with Include archived tickets enabled, so resolved archived tickets are no longer shown. Old “Archived only” becomes both completion states including archived and unarchived tickets. Adjust **Completion** as needed. Stored ticket data and API query behavior do not change.
+
+## Ticket-list pagination (development branch)
+
+Existing API callers require no changes. Lists without `limit` and `cursor` retain their full count, order and response shape. See [pagination examples](./api-examples.md#paged-ticket-lists).
+
+Startup adds ticket-list revision and cursor-signing tables, triggers and indexes. Existing tickets and lane meanings are unchanged. Back up the database and verify preservation with the candidate as for other upgrades. Cursors survive a restart alone, but continuation is not guaranteed after list changes, switching databases or restoring a backup. Discard stored cursors and restart on an invalid-cursor 400 or a changed-list 409. Correct the arguments for other 400 errors.

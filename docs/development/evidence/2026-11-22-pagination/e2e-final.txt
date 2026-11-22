@@ -1,0 +1,15 @@
+
+Running 8 tests using 1 worker
+
+(node:52108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › test/e2e/pagination.spec.ts:25:3 › all GUI collections use bounded pages and preserve cross-page hierarchy (en) (27.6s)
+  ✓  2 [chromium] › test/e2e/pagination.spec.ts:25:3 › all GUI collections use bounded pages and preserve cross-page hierarchy (ja) (14.4s)
+  ✓  3 [chromium] › test/e2e/pagination.spec.ts:53:1 › completion pages preserve expansion and scroll on updates, and priority filters before limit (16.9s)
+  ✓  4 [chromium] › test/e2e/pagination.spec.ts:84:1 › failed completion append keeps visible rows and permits retry (11.8s)
+  ✓  5 [chromium] › test/e2e/pagination.spec.ts:106:1 › collection restarts once on stale cursor without losing or duplicating Group tickets (11.3s)
+  ✓  6 [chromium] › test/e2e/pagination.spec.ts:125:1 › deselecting the last completion state restores the existing all-state filter with bounded requests (19.1s)
+  ✓  7 [chromium] › test/e2e/pagination.spec.ts:147:1 › priority-filtered List preserves the label and link of a blocker outside the filter (18.3s)
+  ✓  8 [chromium] › test/e2e/pagination.spec.ts:169:1 › stale completion continuation recovers without collapsing expanded rows or moving the viewport (14.4s)
+
+  8 passed (2.5m)

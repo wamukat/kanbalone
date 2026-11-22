@@ -1,0 +1,807 @@
+{
+  "method": "Node26.13.1; copied original 1k/10k fixture DB; localhost keepalive; 3 warmup +10 measured; includes JSON parse + validation; next50 excludes first5 setup; sequential no browser benchmark",
+  "summary": [
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "n": 10,
+      "p50_ms": 28.49,
+      "p95_ms": 30.66,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "n": 10,
+      "p50_ms": 3.55,
+      "p95_ms": 5.07,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "n": 10,
+      "p50_ms": 3.79,
+      "p95_ms": 4.5,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "n": 10,
+      "p50_ms": 38.55,
+      "p95_ms": 45.98,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "n": 10,
+      "p50_ms": 313.05,
+      "p95_ms": 332.95,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "n": 10,
+      "p50_ms": 12.4,
+      "p95_ms": 14.84,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "n": 10,
+      "p50_ms": 4.3,
+      "p95_ms": 5.17,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "n": 10,
+      "p50_ms": 412.37,
+      "p95_ms": 421.1,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    }
+  ],
+  "samples": [
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 0,
+      "ms": 332.9483679990517,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 0,
+      "ms": 12.405323002894875,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 0,
+      "ms": 5.130246005137451,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 0,
+      "ms": 420.20826699445024,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 0,
+      "ms": 30.65686999616446,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 0,
+      "ms": 3.530076995957643,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 0,
+      "ms": 3.7678649969166145,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 0,
+      "ms": 38.64329299540259,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 1,
+      "ms": 28.280029000598006,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 1,
+      "ms": 4.704621002019849,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 1,
+      "ms": 4.311452998081222,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 1,
+      "ms": 45.29021499911323,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 1,
+      "ms": 326.8366260017501,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 1,
+      "ms": 12.39259100111667,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 1,
+      "ms": 5.165941998711787,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 1,
+      "ms": 420.9340310044354,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 2,
+      "ms": 307.15950099693146,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 2,
+      "ms": 14.018862995726522,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 2,
+      "ms": 4.023945999506395,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 2,
+      "ms": 413.49179999815533,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 2,
+      "ms": 27.87172199896304,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 2,
+      "ms": 3.5381359994062223,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 2,
+      "ms": 4.496389999985695,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 2,
+      "ms": 37.20089799753623,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 3,
+      "ms": 29.476318995875772,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 3,
+      "ms": 3.763763997994829,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 3,
+      "ms": 3.6683430007542484,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 3,
+      "ms": 38.451878004707396,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 3,
+      "ms": 319.9221620016033,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 3,
+      "ms": 12.553747998026665,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 3,
+      "ms": 4.321612999774516,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 3,
+      "ms": 421.0993220040109,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 4,
+      "ms": 300.9948530016118,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 4,
+      "ms": 11.743273003958166,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 4,
+      "ms": 4.261794005287811,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 4,
+      "ms": 411.9423590018414,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 4,
+      "ms": 28.51385800022399,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 4,
+      "ms": 3.677164000691846,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 4,
+      "ms": 3.6905230008414946,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 4,
+      "ms": 36.65557599742897,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 5,
+      "ms": 30.322668004373554,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 5,
+      "ms": 3.4525630035204813,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 5,
+      "ms": 3.8109469969640486,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 5,
+      "ms": 38.89210700435797,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 5,
+      "ms": 323.2428859992069,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 5,
+      "ms": 14.838866001809947,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 5,
+      "ms": 5.005593004170805,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 5,
+      "ms": 408.14365800179075,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 6,
+      "ms": 297.09443300089333,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 6,
+      "ms": 12.089415999071207,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 6,
+      "ms": 4.2785539990291,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 6,
+      "ms": 412.79338400636334,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 6,
+      "ms": 29.418220001389273,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 6,
+      "ms": 3.430773998843506,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 6,
+      "ms": 3.6766820048796944,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 6,
+      "ms": 39.98113200213993,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 7,
+      "ms": 28.474830003688112,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 7,
+      "ms": 5.071373998362105,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 7,
+      "ms": 4.1056469999603,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 7,
+      "ms": 45.98308599815937,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 7,
+      "ms": 303.8566529939999,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 7,
+      "ms": 11.652159999357536,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 7,
+      "ms": 4.6573810031986795,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 7,
+      "ms": 406.5971289965091,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 8,
+      "ms": 301.3269439979922,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 8,
+      "ms": 12.402075997670181,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 8,
+      "ms": 4.055190998769831,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 8,
+      "ms": 407.46406999824103,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 8,
+      "ms": 27.773374997195788,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 8,
+      "ms": 3.2115499998326413,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 8,
+      "ms": 3.984034003224224,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 8,
+      "ms": 36.293009005021304,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "legacy_all",
+      "iteration": 9,
+      "ms": 27.84392499597743,
+      "bytes": 517539,
+      "requests": 1,
+      "returned": 1000
+    },
+    {
+      "count": 1000,
+      "operation": "done_first5",
+      "iteration": 9,
+      "ms": 3.564300997823011,
+      "bytes": 2804,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 1000,
+      "operation": "done_next50",
+      "iteration": 9,
+      "ms": 3.6387989966897294,
+      "bytes": 25946,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 1000,
+      "operation": "collect_all200",
+      "iteration": 9,
+      "ms": 36.41360100300517,
+      "bytes": 518591,
+      "requests": 5,
+      "returned": 1000
+    },
+    {
+      "count": 10000,
+      "operation": "legacy_all",
+      "iteration": 9,
+      "ms": 318.9439619964105,
+      "bytes": 5231563,
+      "requests": 1,
+      "returned": 10000
+    },
+    {
+      "count": 10000,
+      "operation": "done_first5",
+      "iteration": 9,
+      "ms": 11.979281000094488,
+      "bytes": 2859,
+      "requests": 1,
+      "returned": 5
+    },
+    {
+      "count": 10000,
+      "operation": "done_next50",
+      "iteration": 9,
+      "ms": 3.9044809964252636,
+      "bytes": 26306,
+      "requests": 1,
+      "returned": 50
+    },
+    {
+      "count": 10000,
+      "operation": "collect_all200",
+      "iteration": 9,
+      "ms": 404.4809740007622,
+      "bytes": 5244104,
+      "requests": 50,
+      "returned": 10000
+    }
+  ]
+}
