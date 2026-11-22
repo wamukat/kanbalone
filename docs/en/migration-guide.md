@@ -333,7 +333,7 @@ Membership is board-local and shared by connected parent/child tickets. Do not w
 
 ### JSON Export Format 2
 
-New exports contain `formatVersion:2`, a `groups` array, and `groupId` on every ticket. They include inactive/empty Groups and archived tickets. Group descriptions are Markdown; derived counts, active state and rendered HTML are not restoration inputs. Ticket display summaries such as `group:{id,name}` are not exported as membership references.
+Format 2 exports contain `formatVersion:2`, a `groups` array, and `groupId` on every ticket. They include inactive/empty Groups and archived tickets. Group descriptions are Markdown; derived counts, active state and rendered HTML are not restoration inputs. Ticket display summaries such as `group:{id,name}` are not exported as membership references.
 
 Import creates a new board and remaps both ticket and Group IDs. It does not merge into an existing board. Group references and parent/child membership must agree. Invalid references, duplicate IDs/names, missing Group fields or inconsistent parent/child membership reject the whole import, leaving no partial board.
 
@@ -388,8 +388,14 @@ Completion state and archive visibility are now separate. An old browser-saved `
 
 Completion filters now also apply to archived tickets. For example, old “Open + Archived” becomes Open with Include archived tickets enabled, so resolved archived tickets are no longer shown. Old “Archived only” becomes both completion states including archived and unarchived tickets. Adjust **Completion** as needed. Stored ticket data and API query behavior do not change.
 
-## Ticket-list pagination (development branch)
+## Ticket-list pagination (v1.1.0-rc.1)
 
 Existing API callers require no changes. Lists without `limit` and `cursor` retain their full count, order and response shape. See [pagination examples](./api-examples.md#paged-ticket-lists).
 
 Startup adds ticket-list revision and cursor-signing tables, triggers and indexes. Existing tickets and lane meanings are unchanged. Back up the database and any attachments and verify preservation with the candidate as for other upgrades. Cursors survive a restart alone, but continuation is not guaranteed after list changes, switching databases or restoring a backup. Discard stored cursors and restart on an invalid-cursor 400 or a changed-list 409. Correct the arguments for other 400 errors.
+
+## Portable board exports with images (v1.1.0-rc.1)
+
+An export uses format 3 when a ticket body, comment or Group description embeds or links to a locally uploaded image. It includes the referenced files in the JSON. Boards without these references continue to use format 2. Import format 3 into v1.1.0-rc.1 or later. If a referenced file is missing or the portable JSON exceeds 64 MiB, export fails.
+
+For full instance recovery or data larger than the portable JSON limit, use the [database and image backup](#database-and-image-backup). To return to v1.0.0, restore the pre-upgrade backup with the v1.0.0 image.

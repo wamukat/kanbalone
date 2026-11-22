@@ -1,6 +1,6 @@
 # API Examples
 
-This development-branch guide includes API removals planned for the next release after v0.11.0. For a released instance, use the documentation and skill from its release tag. See the [migration table](./migration-guide.md#deprecated-api-removal).
+Kanbalone v1.0.0 removed deprecated completion API fields and endpoints. For a released instance, use the documentation and skill from its release tag. See the [migration table](./migration-guide.md#deprecated-api-removal).
 
 Completion is determined by `isCompletionLane`, not the lane name. The examples below assume lane 11 / `Done` is configured as a completion lane and lane 9 is normal. Configure a lane explicitly:
 
@@ -17,9 +17,10 @@ For reviewed board configuration, prefer the [atomic selection endpoint](#replac
 
 All examples assume `http://127.0.0.1:3000`.
 
+<a id="paged-ticket-lists"></a>
 ## Paged ticket lists
 
-Pagination is an additive feature on this development branch. Existing requests without `limit` and `cursor` still return the full list in the existing order and response shape. Use documentation matching your running release.
+Pagination is available starting with v1.1.0-rc.1. Existing requests without `limit` and `cursor` still return the full list in the existing order and response shape. Use documentation matching your running release.
 
 Use `limit=1..200` and repeat the returned `page.nextCursor` to get the next page. Keep the same board, filters and `order`; only `limit` may change. `page.total` is the number of all matching tickets; `nextCursor: null` marks the end. There is no page number or `hasMore` field.
 

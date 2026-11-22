@@ -65,7 +65,7 @@ http://127.0.0.1:3000
 https://wamukat.github.io/kanbalone/
 ```
 
-固定バージョンではなく、最新リリースの Image を使いたい場合は `ghcr.io/wamukat/kanbalone:latest` を指定してください。
+最新の安定版を使う場合は `ghcr.io/wamukat/kanbalone:latest` を指定してください。リリース候補を試す場合は、候補版のバージョンタグを指定します。
 
 ## Docker Compose
 

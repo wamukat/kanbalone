@@ -64,7 +64,7 @@ User guide:
 https://wamukat.github.io/kanbalone/
 ```
 
-Use `ghcr.io/wamukat/kanbalone:latest` when you want the newest released image instead of a pinned version.
+Use `ghcr.io/wamukat/kanbalone:latest` for the latest stable release. To try a release candidate, specify the candidate’s version tag.
 
 ## Docker Compose
 
