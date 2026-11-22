@@ -84,10 +84,6 @@ export function createTicketRelationsModule(ctx, options) {
     return getBoardTickets().find((ticket) => ticket.id === ticketId) ?? selectedTickets.get(ticketId) ?? null;
   }
 
-  function hasChildOnBoard(ticketId) {
-    return getBoardTickets().some((ticket) => ticket.parentTicketId === ticketId);
-  }
-
   const {
     matchTicketQuery,
     renderTicketOption,
@@ -244,9 +240,11 @@ export function createTicketRelationsModule(ctx, options) {
     if (!state.editingTicketId || getSelectedParentId() != null) {
       return [];
     }
-    return getBoardTickets()
+    const tickets = getBoardTickets();
+    const parentIds = new Set(tickets.map((ticket) => ticket.parentTicketId));
+    return tickets
       .filter((ticket) => ticket.id !== state.editingTicketId)
-      .filter((ticket) => state.editorChildIds.includes(ticket.id) || (ticket.parentTicketId == null && !hasChildOnBoard(ticket.id)))
+      .filter((ticket) => state.editorChildIds.includes(ticket.id) || (ticket.parentTicketId == null && !parentIds.has(ticket.id)))
       .sort((a, b) => b.priority - a.priority || a.id - b.id);
   }
 
