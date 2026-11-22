@@ -41,10 +41,14 @@ for (const locale of ["en", "ja"]) {
       await expect(page.locator("[data-group-ticket]")).toHaveCount(260);
       await expect(page.locator('.group-ticket-family').filter({ hasText: "Boundary parent" }).locator('.group-ticket-child')).toContainText("Boundary child");
       const groupRequests = requested.map(url => new URL(url)).filter(url => url.pathname.endsWith("/group-tickets"));
-      expect(groupRequests.some(url => url.searchParams.has("cursor"))).toBe(true);
+      const memberRequests = groupRequests.filter(url => url.searchParams.has("groupId"));
+      expect(memberRequests.map(url => url.searchParams.get("limit"))).toEqual(["200", "800"]);
+      expect(memberRequests[1]!.searchParams.has("cursor")).toBe(true);
       for (const url of requested) {
-        const limit = Number(new URL(url).searchParams.get("limit"));
-        expect(limit, url).toBeGreaterThan(0); expect(limit, url).toBeLessThanOrEqual(200);
+        const parsed = new URL(url);
+        const limit = Number(parsed.searchParams.get("limit"));
+        expect(limit, url).toBeGreaterThan(0);
+        expect(limit, url).toBeLessThanOrEqual(parsed.pathname.endsWith("/tickets") ? 200 : 800);
       }
       const persisted = (await (await page.request.get(`${baseUrl}/api/boards/${boardId}/tickets?archived=all`)).json()).tickets;
       expect(persisted).toHaveLength(260);
@@ -164,12 +168,8 @@ test("priority-filtered List preserves the label and link of a blocker outside t
     await page.locator('[data-priority-filter="high"]').click();
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Ticket 002");
-    expect(referenceRequests.some(url => url.searchParams.has("cursor"))).toBe(true);
-    for (const url of referenceRequests) {
-      const limit = Number(url.searchParams.get("limit"));
-      expect(limit).toBeGreaterThan(0);
-      expect(limit).toBeLessThanOrEqual(200);
-    }
+    expect(referenceRequests.map(url => url.searchParams.get("limit"))).toEqual(["200", "800"]);
+    expect(referenceRequests[1]!.searchParams.has("cursor")).toBe(true);
     await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveText("#240");
     await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveAttribute("title", "Ticket 240");
     await page.locator('.list-row [data-open-ticket-id="240"]').click();

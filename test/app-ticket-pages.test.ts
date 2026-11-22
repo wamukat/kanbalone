@@ -66,3 +66,78 @@ test("collection rejects mismatched page revision headers and restarts atomicall
   assert.deepEqual(result.tickets,[{id:700}]); assert.equal(result.ticketRevision,"2");
   assert.ok(!Object.keys(result).includes("ticketRevision"));
 });
+
+test("only opted-in collections use the advertised limit after the first page", async () => {
+  const total = 1005;
+  const cases = [
+    { followPageLimit: false, advertised: 800, limits: [200, 200, 200, 200, 200, 200] },
+    { followPageLimit: true, advertised: undefined, limits: [200, 200, 200, 200, 200, 200] },
+    { followPageLimit: true, advertised: 800.5, limits: [200, 200, 200, 200, 200, 200] },
+    { followPageLimit: true, advertised: 800, limits: [200, 800, 800] },
+    { followPageLimit: true, advertised: 1600, limits: [200, 800, 800] },
+  ];
+  for (const { followPageLimit, advertised, limits } of cases) {
+    const requested: number[] = [];
+    const result = await collectTicketPages(async (url) => {
+      const query = new URL(url, "http://localhost").searchParams;
+      const start = Number(query.get("cursor") ?? 0);
+      const limit = Number(query.get("limit"));
+      const count = Math.min(limit, total - start);
+      const offset = start + count;
+      requested.push(limit);
+      return {
+        tickets: rows(count, start + 1),
+        page: { total, nextCursor: offset < total ? String(offset) : null },
+        ticketPageLimit: advertised,
+      };
+    }, "/api/boards/4/group-tickets?groupId=1", { followPageLimit });
+    assert.deepEqual(result.tickets, rows(total));
+    assert.deepEqual(requested, limits);
+  }
+});
+
+test("rollback retries the same cursor at 200 and keeps the limit through a revision restart", async () => {
+  const requests: Array<[number, string | null]> = [];
+  const result = await collectTicketPages(async (url) => {
+    const query = new URL(url, "http://localhost").searchParams;
+    const limit = Number(query.get("limit"));
+    const cursor = query.get("cursor");
+    requests.push([limit, cursor]);
+    switch (requests.length) {
+      case 1:
+        return {
+          tickets: rows(200), page: { total: 601, nextCursor: "old-200" },
+          ticketRevision: "1", ticketPageLimit: 800,
+        };
+      case 2:
+        throw Object.assign(new Error("Old limit"), { status: 400 });
+      case 3:
+        return { tickets: rows(200, 201), page: { total: 601, nextCursor: "old-400" }, ticketRevision: "1" };
+      case 4:
+        throw Object.assign(new Error("Changed revision"), { status: 409 });
+      case 5:
+        return {
+          tickets: rows(200, 1001), page: { total: 201, nextCursor: "new-200" },
+          ticketRevision: "2", ticketPageLimit: 800,
+        };
+      default:
+        return { tickets: [{ id: 1201 }], page: { total: 201, nextCursor: null }, ticketRevision: "2", ticketPageLimit: 800 };
+    }
+  }, "/api/boards/4/list-ticket-references?archived=all", { followPageLimit: true });
+  assert.deepEqual(requests, [[200, null], [800, "old-200"], [200, "old-200"], [200, "old-400"], [200, null], [200, "new-200"]]);
+  assert.deepEqual(result.tickets, rows(201, 1001));
+  assert.equal(result.ticketRevision, "2");
+});
+
+test("large-page fallback stops when its request is superseded", async () => {
+  let calls = 0;
+  let current = true;
+  await assert.rejects(collectTicketPages(async () => {
+    if (++calls === 1) {
+      return { tickets: rows(200), page: { total: 201, nextCursor: "next" }, ticketPageLimit: 800 };
+    }
+    current = false;
+    throw Object.assign(new Error("Old limit"), { status: 400 });
+  }, "/api/boards/4/group-tickets", { followPageLimit: true, isCurrent: () => current }), { name: "AbortError" });
+  assert.equal(calls, 2);
+});

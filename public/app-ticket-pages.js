@@ -1,7 +1,10 @@
 // @ts-check
 import { translateError } from "./app-i18n.js";
-/** @typedef {{tickets: Array<Record<string, unknown>>, page: {nextCursor: string | null, total: number}, ticketRevision?: string}} TicketPage */
+/** @typedef {{tickets: Array<Record<string, unknown>>, page: {nextCursor: string | null, total: number}, ticketRevision?: string, ticketPageLimit?: number}} TicketPage */
 /** @typedef {(url: string, init?: RequestInit) => Promise<unknown>} FetchPage */
+
+const defaultPageSize = 200;
+const maxProjectionPageSize = 800;
 
 /** @param {unknown} value @returns {TicketPage} */
 export function readTicketPage(value) {
@@ -27,7 +30,7 @@ export function ticketPageUrl(url, limit, cursor = null, order = "position_asc")
  * Stage a complete collection before exposing it. A 409 discards every staged row.
  * @param {FetchPage} fetchPage
  * @param {string | URL} url
- * @param {{limit?: number, order?: string, init?: RequestInit, isCurrent?: () => boolean}} [options]
+ * @param {{limit?: number, order?: string, init?: RequestInit, isCurrent?: () => boolean, followPageLimit?: boolean}} [options]
  * @returns {Promise<TicketPage>}
  */
 export async function collectTicketPages(fetchPage, url, options = {}) {
@@ -36,18 +39,37 @@ export async function collectTicketPages(fetchPage, url, options = {}) {
   function checkCurrent() {
     if (!isCurrent() || options.init?.signal?.aborted) throw new DOMException("Request superseded", "AbortError");
   }
+  let pageLimitDowngraded = false;
   for (let attempt = 0; ; attempt += 1) {
     /** @type {Array<Record<string, unknown>>} */ const tickets = [];
     /** @type {string | null} */ let cursor = null;
     const seen = new Set();
     let total = -1;
+    let pageSize = defaultPageSize;
     /** @type {string | undefined} */ let revision;
     try {
       do {
         checkCurrent();
-        const count = Math.min(200, wanted - tickets.length);
-        const page = readTicketPage(await fetchPage(ticketPageUrl(url, count, cursor, options.order), options.init));
+        const remaining = wanted - tickets.length;
+        let count = Math.min(pageSize, remaining);
+        let response;
+        try {
+          response = await fetchPage(ticketPageUrl(url, count, cursor, options.order), options.init);
+        } catch (error) {
+          if (count <= defaultPageSize || (/** @type {{status?: number}} */ (error)?.status !== 400)) throw error;
+          // A server rolled back after the first page can still continue its cursor at the original limit.
+          checkCurrent();
+          pageLimitDowngraded = true;
+          pageSize = defaultPageSize;
+          count = Math.min(pageSize, remaining);
+          response = await fetchPage(ticketPageUrl(url, count, cursor, options.order), options.init);
+        }
         checkCurrent();
+        const page = readTicketPage(response);
+        if (total === -1 && options.followPageLimit && !pageLimitDowngraded && page.ticketPageLimit
+          && Number.isSafeInteger(page.ticketPageLimit) && page.ticketPageLimit > defaultPageSize) {
+          pageSize = Math.min(maxProjectionPageSize, page.ticketPageLimit);
+        }
         if (total !== -1 && revision !== page.ticketRevision) throw Object.assign(new Error(translateError("ticket list changed; restart pagination")), { status: 409 });
         revision = page.ticketRevision;
         if (total !== -1 && total !== page.page.total) throw new Error(translateError("Ticket page total changed without invalidation"));

@@ -8,6 +8,7 @@ import type { GroupTicketView, ListTicketReferenceView, TicketRelationCandidateV
 export type TicketOrder = "id_asc" | "position_asc" | "completed_desc";
 export type TicketPageOptions = { limit?: number; cursor?: string; order?: TicketOrder };
 export type PageOptions = { limit: number; cursor?: string };
+export const ticketProjectionPageLimit = 800;
 type TicketPage<View> = {
   tickets: View[];
   revision: number;
@@ -48,8 +49,8 @@ function decode(secret: string, value: string): Cursor {
   return parsed;
 }
 
-function validateLimit(limit: number): void {
-  if (!Number.isInteger(limit) || limit < 1 || limit > 200) fail("limit must be an integer from 1 to 200");
+function validateLimit(limit: number, maximum = 200): void {
+  if (!Number.isInteger(limit) || limit < 1 || limit > maximum) fail(`limit must be an integer from 1 to ${maximum}`);
 }
 
 /** Keyset paging and the read-model mapping share a single SQLite read snapshot. */
@@ -160,7 +161,7 @@ function mapListTicketReference(row: ListTicketReferenceRow): ListTicketReferenc
 }
 
 export function listTicketReferencePage(sqlite: Database.Database, boardId: number, filters: ListTicketsFilters, options: PageOptions) {
-  validateLimit(options.limit);
+  validateLimit(options.limit, ticketProjectionPageLimit);
   const order = "position_asc";
   const filtered = ticketFilterQuery(boardId, filters);
   const query = createHash("sha256").update(JSON.stringify(["list-ticket-references", filtered.sql, filtered.params, order])).digest("hex");
@@ -169,7 +170,7 @@ export function listTicketReferencePage(sqlite: Database.Database, boardId: numb
 }
 
 export function listGroupTicketPage(sqlite: Database.Database, boardId: number, groupId: number | null, options: PageOptions) {
-  validateLimit(options.limit);
+  validateLimit(options.limit, ticketProjectionPageLimit);
   if (groupId !== null && !sqlite.prepare("SELECT 1 FROM groups WHERE id = ? AND board_id = ?").get(groupId, boardId)) {
     fail("Group not found in this board", 404);
   }

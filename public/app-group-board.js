@@ -146,7 +146,7 @@ export function createGroupBoardModule(ctx) {
     const isCurrent = () => request === generation && currentBoardId === state.activeBoardId && state.viewMode === "group";
     const ticketUrl = `/api/boards/${currentBoardId}/group-tickets`;
     const loadTickets = async (/** @type {string} */ url) => {
-      const { tickets: rows } = await collectTicketPages(ctx.api, url, { order: "id_asc", isCurrent });
+      const { tickets: rows } = await collectTicketPages(ctx.api, url, { order: "id_asc", isCurrent, followPageLimit: true });
       return /** @type {GroupTicket[]} */ (/** @type {unknown} */ (rows));
     };
     try {

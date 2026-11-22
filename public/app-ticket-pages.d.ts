@@ -2,6 +2,7 @@ export type TicketPage = {
   tickets: Array<Record<string, unknown>>;
   page: { nextCursor: string | null; total: number };
   readonly ticketRevision?: string;
+  readonly ticketPageLimit?: number;
 };
 export type FetchPage = (url: string, init?: RequestInit) => Promise<unknown>;
 export function readTicketPage(value: unknown): TicketPage;
@@ -11,4 +12,5 @@ export function collectTicketPages(fetchPage: FetchPage, url: string | URL, opti
   order?: string;
   init?: RequestInit;
   isCurrent?: () => boolean;
+  followPageLimit?: boolean;
 }): Promise<TicketPage>;

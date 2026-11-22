@@ -192,6 +192,31 @@ test("List references keep position order and the priority-independent filter in
   } finally { await f.app.close(); f.db.close(); }
 });
 
+test("only Group and List-reference endpoints advertise and accept a larger page limit", async () => {
+  const f = setup();
+  try {
+    const base = `/api/boards/${f.board.board.id}`;
+    for (const projection of ["group-tickets", "list-ticket-references"]) {
+      const first = await f.app.inject(`${base}/${projection}?limit=1`);
+      assert.equal(first.statusCode, 200);
+      assert.equal(first.headers["x-kanbalone-ticket-page-limit"], "800");
+      const cursor = encodeURIComponent(first.json().page.nextCursor);
+      const continued = await f.app.inject(`${base}/${projection}?limit=800&cursor=${cursor}`);
+      assert.equal(continued.statusCode, 200);
+      assert.equal(continued.headers["x-kanbalone-ticket-page-limit"], "800");
+      assert.equal(continued.json().page.total, first.json().page.total);
+      assert.equal(continued.json().tickets.length, continued.json().page.total - 1);
+      assert.equal((await f.app.inject(`${base}/${projection}?limit=801`)).statusCode, 400);
+    }
+    for (const standard of ["tickets", "relation-candidates"]) {
+      const normal = await f.app.inject(`${base}/${standard}?limit=200`);
+      assert.equal(normal.statusCode, 200);
+      assert.equal(normal.headers["x-kanbalone-ticket-page-limit"], undefined);
+      assert.equal((await f.app.inject(`${base}/${standard}?limit=201`)).statusCode, 400);
+    }
+  } finally { await f.app.close(); f.db.close(); }
+});
+
 test("cursor revisions cover joins, moves, cascades, completion, and referenced boards", async () => {
   const f = setup();
   try {

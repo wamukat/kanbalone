@@ -1,12 +1,15 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import type { PageOptions } from "../db-modules/ticket-pagination.js";
+import { ticketProjectionPageLimit, type PageOptions } from "../db-modules/ticket-pagination.js";
 import { tagViewSchema } from "./schemas/tag.js";
 import { ticketSummarySchema, ticketsResponseSchema } from "./schemas/ticket.js";
 import { ticketListQuerySchema } from "./schemas/ticket-mutation.js";
 import type { RegisterTicketRoutesContext } from "./ticket-route-context.js";
 
 const ticketQuery = ticketListQuerySchema.properties;
-const pagingQuery = { limit: ticketQuery.limit, cursor: ticketQuery.cursor };
+const pagingQuery = {
+  limit: { ...ticketQuery.limit, maximum: ticketProjectionPageLimit },
+  cursor: ticketQuery.cursor,
+};
 const groupQuery = {
   ...pagingQuery,
   groupId: ticketQuery.groupId,
@@ -84,6 +87,7 @@ export function registerTicketCollectionProjectionRoutes(app: FastifyInstance, {
 
     const { tickets, page, revision } = db.listGroupTicketPage(boardId, request.query.groupId ?? null, request.query);
     reply.header("X-Kanbalone-Ticket-Revision", String(revision));
+    reply.header("X-Kanbalone-Ticket-Page-Limit", String(ticketProjectionPageLimit));
     return { tickets, page };
   });
 
@@ -109,6 +113,7 @@ export function registerTicketCollectionProjectionRoutes(app: FastifyInstance, {
     };
     const { tickets, page, revision } = db.listTicketReferencePage(boardId, filters, query);
     reply.header("X-Kanbalone-Ticket-Revision", String(revision));
+    reply.header("X-Kanbalone-Ticket-Page-Limit", String(ticketProjectionPageLimit));
     return { tickets, page };
   });
 }
