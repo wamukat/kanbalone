@@ -1,0 +1,221 @@
+{
+  "log": [
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "RC2確認 / Candidate review",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "UX1486 audit fixture",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "UX1486 audit fixture",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "new-board-button",
+      "name": "New board",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Kanban",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "List",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Group",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "new-sidebar-tag-button",
+      "name": "New tag",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "board-settings-toggle-button",
+      "name": "Board settings",
+      "ticket": null
+    },
+    {
+      "tag": "A",
+      "id": "",
+      "name": "Kanbalone (v1.0.0-rc.2)",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "sidebar-reopen-button",
+      "name": "Open sidebar",
+      "ticket": null
+    },
+    {
+      "tag": "INPUT",
+      "id": "search-input",
+      "name": "",
+      "ticket": null
+    },
+    {
+      "tag": "SELECT",
+      "id": "lane-filter",
+      "name": "All lanesTodoAcceptanceDone",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Priority",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Expand priority filter",
+      "ticket": null
+    },
+    {
+      "tag": "SELECT",
+      "id": "tag-filter",
+      "name": "All tags",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Completion: Open + Resolved",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Completion: Open + Resolved",
+      "ticket": null
+    },
+    {
+      "tag": "INPUT",
+      "id": "include-archived-filter",
+      "name": "",
+      "ticket": null
+    },
+    {
+      "tag": "INPUT",
+      "id": "list-select-all",
+      "name": "",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "ID / Title, not sorted",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Tags, not sorted",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "Priority, not sorted",
+      "ticket": null
+    },
+    {
+      "tag": "INPUT",
+      "id": "",
+      "name": "",
+      "ticket": null
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "name": "#63\n          Audit open ticket",
+      "ticket": "63"
+    }
+  ],
+  "inside": [
+    {
+      "id": "",
+      "inDialog": true,
+      "name": "Audit Group"
+    },
+    {
+      "id": "",
+      "inDialog": true,
+      "name": "Edit local body"
+    },
+    {
+      "id": "comments-tab-button",
+      "inDialog": true,
+      "name": "Comments"
+    },
+    {
+      "id": "activity-tab-button",
+      "inDialog": true,
+      "name": "Activity"
+    },
+    {
+      "id": "comment-compose-toggle",
+      "inDialog": true,
+      "name": "Add Comment"
+    },
+    {
+      "id": "editor-remote-import-close-button",
+      "inDialog": true,
+      "name": "Hide import panel"
+    },
+    {
+      "id": "comment-compose-toggle",
+      "inDialog": true,
+      "name": "Add Comment"
+    },
+    {
+      "id": "activity-tab-button",
+      "inDialog": true,
+      "name": "Activity"
+    },
+    {
+      "id": "comments-tab-button",
+      "inDialog": true,
+      "name": "Comments"
+    },
+    {
+      "id": "",
+      "inDialog": true,
+      "name": "Edit local body"
+    },
+    {
+      "id": "",
+      "inDialog": true,
+      "name": "Audit Group"
+    },
+    {
+      "id": "header-edit-button",
+      "inDialog": true,
+      "name": "Edit ticket"
+    }
+  ],
+  "returned": {
+    "id": "",
+    "ticket": "63",
+    "tag": "BUTTON"
+  }
+}

@@ -8,6 +8,7 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
     const open = state.editorRemoteImportOpen && state.dialogMode === "edit" && !state.editingTicketId;
     elements.editorDialog.classList.toggle("remote-import-open", open);
     elements.editorRemoteImportSheet.hidden = false;
+    elements.editorRemoteImportSheet.inert = !open;
     elements.editorRemoteImportSheet.setAttribute("aria-hidden", String(!open));
     elements.editorForm.toggleAttribute("inert", open);
     elements.editorForm.setAttribute("aria-hidden", String(open));

@@ -1,0 +1,166 @@
+[
+  {
+    "name": "ja-JP kanban 100%",
+    "status": "passed",
+    "detail": {
+      "width": 1280,
+      "height": 844,
+      "dpr": 1,
+      "documentWidth": 1280
+    }
+  },
+  {
+    "name": "ja-JP kanban 200%",
+    "status": "passed",
+    "detail": {
+      "width": 640,
+      "height": 422,
+      "dpr": 2,
+      "documentWidth": 640
+    }
+  },
+  {
+    "name": "ja-JP list 100%",
+    "status": "passed",
+    "detail": {
+      "width": 1280,
+      "height": 844,
+      "dpr": 1,
+      "documentWidth": 1280
+    }
+  },
+  {
+    "name": "ja-JP list 200%",
+    "status": "passed",
+    "detail": {
+      "width": 640,
+      "height": 422,
+      "dpr": 2,
+      "documentWidth": 640
+    }
+  },
+  {
+    "name": "ja-JP group 100%",
+    "status": "passed",
+    "detail": {
+      "width": 1280,
+      "height": 844,
+      "dpr": 1,
+      "documentWidth": 1280
+    }
+  },
+  {
+    "name": "ja-JP group 200%",
+    "status": "passed",
+    "detail": {
+      "width": 640,
+      "height": 422,
+      "dpr": 2,
+      "documentWidth": 640
+    }
+  },
+  {
+    "name": "ja-JP keyboard dialog and focus return",
+    "status": "passed",
+    "detail": {
+      "id": "",
+      "ticket": "63",
+      "tag": "BUTTON"
+    }
+  },
+  {
+    "name": "en-US kanban 100%",
+    "status": "passed",
+    "detail": {
+      "width": 1280,
+      "height": 844,
+      "dpr": 1,
+      "documentWidth": 1280
+    }
+  },
+  {
+    "name": "en-US kanban 200%",
+    "status": "passed",
+    "detail": {
+      "width": 640,
+      "height": 422,
+      "dpr": 2,
+      "documentWidth": 640
+    }
+  },
+  {
+    "name": "en-US list 100%",
+    "status": "passed",
+    "detail": {
+      "width": 1280,
+      "height": 844,
+      "dpr": 1,
+      "documentWidth": 1280
+    }
+  },
+  {
+    "name": "en-US list 200%",
+    "status": "passed",
+    "detail": {
+      "width": 640,
+      "height": 422,
+      "dpr": 2,
+      "documentWidth": 640
+    }
+  },
+  {
+    "name": "en-US group 100%",
+    "status": "passed",
+    "detail": {
+      "width": 1280,
+      "height": 844,
+      "dpr": 1,
+      "documentWidth": 1280
+    }
+  },
+  {
+    "name": "en-US group 200%",
+    "status": "passed",
+    "detail": {
+      "width": 640,
+      "height": 422,
+      "dpr": 2,
+      "documentWidth": 640
+    }
+  },
+  {
+    "name": "en-US keyboard dialog and focus return",
+    "status": "passed",
+    "detail": {
+      "id": "",
+      "ticket": "63",
+      "tag": "BUTTON"
+    }
+  },
+  {
+    "name": "simulated external preview failures and retry",
+    "status": "passed",
+    "detail": {
+      "calls": 5,
+      "simulation": "browser-intercepted responses; no real provider requests or credentials",
+      "draftPreserved": true,
+      "noWrites": true
+    }
+  },
+  {
+    "name": "export saved file content",
+    "status": "passed",
+    "detail": {
+      "filename": "docs/development/evidence/2026-11-22-ux1486/export.json",
+      "keys": [
+        "formatVersion",
+        "groups",
+        "board",
+        "lanes",
+        "tags",
+        "tickets"
+      ],
+      "downloadError": null
+    }
+  }
+]

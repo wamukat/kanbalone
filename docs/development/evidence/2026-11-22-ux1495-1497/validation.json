@@ -1,0 +1,21 @@
+{
+  "unit": {
+    "passed": 176,
+    "failed": 0
+  },
+  "e2e": {
+    "hidden-focus": 2,
+    "ux-sidebar-default": 4,
+    "ticket-editor-remote-import": 4,
+    "completion-archive-filters": 14
+  },
+  "checks": {
+    "public-types": "passed",
+    "build": "passed",
+    "diff-whitespace": "passed"
+  },
+  "limits": [
+    "Actual screen-reader speech not tested",
+    "No production environment update"
+  ]
+}

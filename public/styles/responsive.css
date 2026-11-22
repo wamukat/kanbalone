@@ -32,6 +32,10 @@
     padding-bottom: 0.1rem;
   }
 
+  .toolbar-filters > * {
+    flex-shrink: 0;
+  }
+
   .sidebar-edge-toggle {
     top: 16px;
     right: 16px;
