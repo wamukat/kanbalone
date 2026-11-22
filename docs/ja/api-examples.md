@@ -44,6 +44,12 @@ curl -fsS --get http://127.0.0.1:3000/api/boards/3/tickets \
 
 AIが取得したチケットを変更する場合は、一覧を収集し終えてから書き込むか、処理済みIDを管理して再実行を安全にします。409の前後の結果を混ぜたり、書き込みを無条件に繰り返したりしないでください。
 
+## 関連チケットの候補一覧
+
+`GET /api/boards/3/relation-candidates?limit=200`は、アーカイブ済みを含むボード内のチケットをIDの昇順で返します。各チケットの項目は`id`、`title`、`parentTicketId`、`priority`、`blockerIds`、`isResolved`です。
+
+すべてのリクエストに`limit=1..200`が必要です。並び順は`id_asc`に固定されており、明示的に指定することもできます。`page.nextCursor`がnullになるまで、同じボードとエンドポイントで続きを取得します。各ページは`X-Kanbalone-Ticket-Revision`ヘッダと、ボード内の全チケット数を示す`page.total`を返します。409が返った場合は取得済みのページを破棄し、cursorなしで最初から取得します。
+
 ## ヘルスチェック
 
 ```bash

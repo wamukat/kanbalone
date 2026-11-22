@@ -263,22 +263,60 @@ export const ticketSummarySchema = {
   },
 } as const;
 
+const ticketPageSchema = {
+  type: "object", additionalProperties: false, required: ["nextCursor", "total"],
+  properties: {
+    nextCursor: { anyOf: [{ type: "string" }, { type: "null" }] },
+    total: { type: "integer", minimum: 0 },
+  },
+} as const;
+
 export const ticketsResponseSchema = {
   type: "object",
   required: ["tickets"],
   additionalProperties: false,
   properties: {
-    page: {
-      type: "object", additionalProperties: false, required: ["nextCursor", "total"],
-      properties: {
-        nextCursor: { anyOf: [{ type: "string" }, { type: "null" }] },
-        total: { type: "integer", minimum: 0 },
-      },
-    },
+    page: ticketPageSchema,
     tickets: {
       type: "array",
       items: ticketSummarySchema,
     },
+  },
+} as const;
+
+export const ticketRelationCandidateQuerySchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["limit"],
+  properties: {
+    limit: { type: "integer", minimum: 1, maximum: 200 },
+    cursor: { type: "string", minLength: 1, maxLength: 4096 },
+    order: { type: "string", enum: ["id_asc"] },
+  },
+} as const;
+
+export const ticketRelationCandidatesResponseSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["tickets", "page"],
+  properties: {
+    tickets: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["id", "title", "parentTicketId", "priority", "blockerIds", "isResolved"],
+        properties: {
+          id: ticketSummarySchema.properties.id,
+          title: ticketSummarySchema.properties.title,
+          parentTicketId: ticketSummarySchema.properties.parentTicketId,
+          priority: ticketSummarySchema.properties.priority,
+          blockerIds: ticketSummarySchema.properties.blockerIds,
+          isResolved: ticketSummarySchema.properties.isResolved,
+        },
+      },
+    },
+    page: ticketPageSchema,
   },
 } as const;
 

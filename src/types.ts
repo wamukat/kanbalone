@@ -252,6 +252,10 @@ export type TicketSummaryView = {
   externalReferences: TicketExternalReferenceView[];
 };
 
+export type TicketRelationCandidateView = Pick<TicketSummaryView,
+  "id" | "title" | "parentTicketId" | "priority" | "blockerIds" | "isResolved"
+>;
+
 export type CommentView = {
   id: Id;
   ticketId: Id;

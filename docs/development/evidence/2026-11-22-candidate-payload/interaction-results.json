@@ -1,0 +1,637 @@
+{
+  "browser": "159.0.8154.6",
+  "records": [
+    {
+      "key": "en-light-1440-before",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "Resolved"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "en-light-1440-after",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "Resolved"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "en-dark-390-before",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "Resolved"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "en-dark-390-after",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "Resolved"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "ja-light-1440-before",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "完了"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "ja-light-1440-after",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "完了"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "ja-dark-390-before",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "完了"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    },
+    {
+      "key": "ja-dark-390-after",
+      "expected": {
+        "parent": [
+          5,
+          6,
+          210,
+          2,
+          211,
+          4
+        ],
+        "blocker": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          4
+        ],
+        "related": [
+          5,
+          6,
+          210,
+          2,
+          8,
+          211,
+          4
+        ],
+        "child": [
+          5,
+          6,
+          210,
+          211,
+          4
+        ]
+      },
+      "substringIds": [
+        5,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "selectedRelatedOrder": [
+        5,
+        4
+      ],
+      "resolvedCandidate": {
+        "id": 6,
+        "label": "完了"
+      },
+      "canceled": {
+        "relatedIds": [],
+        "blockerIds": [],
+        "childIds": [],
+        "childParentId": null
+      },
+      "saved": {
+        "relatedIds": [
+          5,
+          4
+        ],
+        "blockerIds": [
+          6
+        ],
+        "childIds": [
+          210
+        ],
+        "childParentId": 1
+      },
+      "reloaded": true,
+      "errors": []
+    }
+  ]
+}
