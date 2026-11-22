@@ -270,3 +270,25 @@ test("failed search does not move focus into stale results and a later search re
     await expect(title(page, wanted.id)).toBeFocused();
   } finally { release(); await close(); }
 });
+
+test("Kanban search and detail return skip hidden or inert card titles", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Kanban visibility", laneNames: ["Todo"] });
+    const first = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Inert ticket" });
+    const second = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Hidden ticket" });
+    const third = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Visible ticket" });
+    await goToBoard(page, `${baseUrl}/boards/${board.id}`);
+    await expect(page.locator(".ticket-card")).toHaveCount(3);
+    await card(page, first.id).evaluate(title => title.closest(".ticket-card")!.setAttribute("inert", ""));
+    await card(page, second.id).evaluate(title => title.closest(".ticket-card")!.setAttribute("hidden", ""));
+    await search(page).press("ArrowDown");
+    await expect(card(page, third.id)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await card(page, third.id).evaluate(title => title.closest(".ticket-card")!.setAttribute("inert", ""));
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", false);
+    await expect(search(page)).toBeFocused();
+  } finally { await close(); }
+});

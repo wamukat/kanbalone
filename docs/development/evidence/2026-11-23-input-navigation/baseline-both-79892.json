@@ -1,0 +1,1130 @@
+{
+  "version": "baseline",
+  "endpoint": "http://127.0.0.1:57518",
+  "scope": "both",
+  "environment": {
+    "platform": [
+      "darwin",
+      "x64",
+      "25.6.0"
+    ],
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "node": "v26.13.1",
+    "chromium": "159.0.8154.6",
+    "timezone": "Asia/Tokyo",
+    "captureDate": "2026-11-22T21:57:25.838Z",
+    "fixtureSha256": "c693342296088324d35caf03b0cf07c734154309e5ab412c6bf5a341bf5b1c88",
+    "versionInfo": {
+      "name": "Kanbalone",
+      "version": "1.1.0",
+      "remoteProviders": [
+        {
+          "id": "github",
+          "hasCredential": false
+        },
+        {
+          "id": "gitlab",
+          "hasCredential": false
+        },
+        {
+          "id": "redmine",
+          "hasCredential": false
+        }
+      ]
+    },
+    "fileSha256": {
+      "app-board-keyboard.js": "422fb433e022e25a6dea21864e25387a6d103f9ec6673c07e5efea2fef6bc05d",
+      "app-group-board.js": "7eaea3b592f97b2e47625439d54933e25e698f7eeabb7e1a1f6c1a36403b3e73"
+    }
+  },
+  "results": [
+    {
+      "name": "kanban-1000-search-arrow-cold",
+      "key": "ArrowDown",
+      "hostToResultMs": 44.306007000000136,
+      "eventToObservedMs": 11.600000008940697,
+      "eventToTwoFramesMs": 41.29999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-first-open",
+      "key": "Enter",
+      "hostToResultMs": 108.01387199999954,
+      "eventToObservedMs": 49.20000000298023,
+      "eventToTwoFramesMs": 105.90000000596046,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "kanban-1000-detail-first-close",
+      "key": "Escape",
+      "hostToResultMs": 82.52884300000005,
+      "eventToObservedMs": 16.19999998807907,
+      "eventToTwoFramesMs": 71.69999998807907,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 69.98545900000045,
+      "eventToObservedMs": 22.100000008940697,
+      "eventToTwoFramesMs": 67.40000000596046,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 68.62373000000025,
+      "eventToObservedMs": 29.200000002980232,
+      "eventToTwoFramesMs": 66.5,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 60.43835499999932,
+      "eventToObservedMs": 10.5,
+      "eventToTwoFramesMs": 58.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 82.242663,
+      "eventToObservedMs": 28.399999991059303,
+      "eventToTwoFramesMs": 80,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 38.54083199999968,
+      "eventToObservedMs": 10,
+      "eventToTwoFramesMs": 36.70000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 75.62722800000029,
+      "eventToObservedMs": 24.599999994039536,
+      "eventToTwoFramesMs": 73.70000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 41.31721500000003,
+      "eventToObservedMs": 12.599999994039536,
+      "eventToTwoFramesMs": 38.79999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 71.09802200000013,
+      "eventToObservedMs": 23.799999997019768,
+      "eventToTwoFramesMs": 69.29999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 41.883091000000604,
+      "eventToObservedMs": 9.699999988079071,
+      "eventToTwoFramesMs": 39.599999994039536,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 62.04118400000061,
+      "eventToObservedMs": 12.199999988079071,
+      "eventToTwoFramesMs": 60.19999998807907,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 40.202158000000054,
+      "eventToObservedMs": 9.399999991059303,
+      "eventToTwoFramesMs": 37.8999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 77.40215199999966,
+      "eventToObservedMs": 23.80000001192093,
+      "eventToTwoFramesMs": 75.6000000089407,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 58.175852999999734,
+      "eventToObservedMs": 25.599999994039536,
+      "eventToTwoFramesMs": 56.20000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 55.873036999999385,
+      "eventToObservedMs": 12.399999991059303,
+      "eventToTwoFramesMs": 54,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-detail-close-with-sse",
+      "key": "Escape",
+      "hostToResultMs": 774.087646,
+      "eventToObservedMs": 640.7999999970198,
+      "eventToTwoFramesMs": 772.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1005
+    },
+    {
+      "name": "kanban-1000-search-filtered-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 42.47273700000005,
+      "eventToObservedMs": 16.5,
+      "eventToTwoFramesMs": 40.79999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1
+    },
+    {
+      "name": "kanban-1000-filtered-detail-close-with-sse",
+      "key": "Escape",
+      "hostToResultMs": 80.50057399999969,
+      "eventToObservedMs": 47.19999998807907,
+      "eventToTwoFramesMs": 79.19999998807907,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 0
+    },
+    {
+      "name": "kanban-3000-search-arrow-cold",
+      "key": "ArrowDown",
+      "hostToResultMs": 53.65825600000062,
+      "eventToObservedMs": 26,
+      "eventToTwoFramesMs": 50.599999994039536,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-first-open",
+      "key": "Enter",
+      "hostToResultMs": 123.57462300000043,
+      "eventToObservedMs": 63.29999999701977,
+      "eventToTwoFramesMs": 121.5,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "kanban-3000-detail-first-close",
+      "key": "Escape",
+      "hostToResultMs": 93.10930799999915,
+      "eventToObservedMs": 37.79999999701977,
+      "eventToTwoFramesMs": 89.70000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 72.6097179999997,
+      "eventToObservedMs": 30.399999991059303,
+      "eventToTwoFramesMs": 69.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 82.3933820000002,
+      "eventToObservedMs": 48.400000005960464,
+      "eventToTwoFramesMs": 78.70000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 105.65620999999919,
+      "eventToObservedMs": 51.29999999701977,
+      "eventToTwoFramesMs": 102.29999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 84.45334900000125,
+      "eventToObservedMs": 29.5,
+      "eventToTwoFramesMs": 82,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 80.43959499999983,
+      "eventToObservedMs": 30,
+      "eventToTwoFramesMs": 77.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 82.63640000000123,
+      "eventToObservedMs": 32.19999998807907,
+      "eventToTwoFramesMs": 79.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 93.97763999999916,
+      "eventToObservedMs": 50.099999994039536,
+      "eventToTwoFramesMs": 91.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 85.13743199999954,
+      "eventToObservedMs": 30.599999994039536,
+      "eventToTwoFramesMs": 81.70000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 79.49263699999938,
+      "eventToObservedMs": 35,
+      "eventToTwoFramesMs": 76.5,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 77.98398200000156,
+      "eventToObservedMs": 23,
+      "eventToTwoFramesMs": 75.40000000596046,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 68.67406000000119,
+      "eventToObservedMs": 26.5,
+      "eventToTwoFramesMs": 58.80000001192093,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 76.1675039999991,
+      "eventToObservedMs": 21.299999997019768,
+      "eventToTwoFramesMs": 73.29999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-search-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 86.41538799999944,
+      "eventToObservedMs": 43.79999999701977,
+      "eventToTwoFramesMs": 84.29999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close",
+      "key": "Escape",
+      "hostToResultMs": 78.38626900000054,
+      "eventToObservedMs": 25.099999994039536,
+      "eventToTwoFramesMs": 75.59999999403954,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 3005
+    },
+    {
+      "name": "kanban-3000-detail-close-with-sse",
+      "key": "Escape",
+      "hostToResultMs": 884.7366540000003,
+      "eventToObservedMs": 700.3999999910593,
+      "eventToTwoFramesMs": 883.1999999880791,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1080
+    },
+    {
+      "name": "kanban-3000-search-filtered-arrow",
+      "key": "ArrowDown",
+      "hostToResultMs": 47.230680999997276,
+      "eventToObservedMs": 12.600000008940697,
+      "eventToTwoFramesMs": 46.20000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 1
+    },
+    {
+      "name": "kanban-3000-filtered-detail-close-with-sse",
+      "key": "Escape",
+      "hostToResultMs": 117.52397500000006,
+      "eventToObservedMs": 84.6000000089407,
+      "eventToTwoFramesMs": 115.80000001192093,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": 0
+    },
+    {
+      "name": "group-1000-picker-first-open",
+      "key": null,
+      "hostToResultMs": 137.57502599999862,
+      "eventToObservedMs": 130.09999999403954,
+      "eventToTwoFramesMs": 135.59999999403954,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-query-key",
+      "key": "t",
+      "hostToResultMs": 63.30957499999931,
+      "eventToObservedMs": 46.599999994039536,
+      "eventToTwoFramesMs": 61.8999999910593,
+      "captureToHandlerEndMs": 0.8999999910593033,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 63.198780000002444,
+      "eventToObservedMs": 46.900000005960464,
+      "eventToTwoFramesMs": 62,
+      "captureToHandlerEndMs": 11.700000002980232,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 65.90791000000172,
+      "eventToObservedMs": 48.69999998807907,
+      "eventToTwoFramesMs": 64.79999999701977,
+      "captureToHandlerEndMs": 12.200000002980232,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 64.67767000000094,
+      "eventToObservedMs": 46.400000005960464,
+      "eventToTwoFramesMs": 63.400000005960464,
+      "captureToHandlerEndMs": 11.800000011920929,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 57.94842499999868,
+      "eventToObservedMs": 39.69999998807907,
+      "eventToTwoFramesMs": 56.5,
+      "captureToHandlerEndMs": 10.600000008940697,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 63.55963999999949,
+      "eventToObservedMs": 41.79999999701977,
+      "eventToTwoFramesMs": 62.400000005960464,
+      "captureToHandlerEndMs": 11,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 48.28022100000089,
+      "eventToObservedMs": 42.79999999701977,
+      "eventToTwoFramesMs": 47,
+      "captureToHandlerEndMs": 11.200000002980232,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 51.62589099999968,
+      "eventToObservedMs": 42.29999999701977,
+      "eventToTwoFramesMs": 45.900000005960464,
+      "captureToHandlerEndMs": 11.099999994039536,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 53.83584999999948,
+      "eventToObservedMs": 39.29999999701977,
+      "eventToTwoFramesMs": 52.400000005960464,
+      "captureToHandlerEndMs": 10.299999997019768,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 48.951976000000286,
+      "eventToObservedMs": 40,
+      "eventToTwoFramesMs": 47.8999999910593,
+      "captureToHandlerEndMs": 10.600000008940697,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 46.263020999998844,
+      "eventToObservedMs": 40.6000000089407,
+      "eventToTwoFramesMs": 45.30000001192093,
+      "captureToHandlerEndMs": 10,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 52.487435999999434,
+      "eventToObservedMs": 43.79999999701977,
+      "eventToTwoFramesMs": 46.3999999910593,
+      "captureToHandlerEndMs": 10.5,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 56.18832399999883,
+      "eventToObservedMs": 39.20000000298023,
+      "eventToTwoFramesMs": 55.1000000089407,
+      "captureToHandlerEndMs": 9.799999997019768,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 49.321272999997746,
+      "eventToObservedMs": 39.70000000298023,
+      "eventToTwoFramesMs": 48.20000000298023,
+      "captureToHandlerEndMs": 11,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 46.19911299999876,
+      "eventToObservedMs": 40.79999999701977,
+      "eventToTwoFramesMs": 45.29999999701977,
+      "captureToHandlerEndMs": 10.600000008940697,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-wrap-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 56.07641199999853,
+      "eventToObservedMs": 39.400000005960464,
+      "eventToTwoFramesMs": 54.70000000298023,
+      "captureToHandlerEndMs": 10,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-wrap-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 49.42481599999883,
+      "eventToObservedMs": 44.1000000089407,
+      "eventToTwoFramesMs": 47.20000000298023,
+      "captureToHandlerEndMs": 11.900000005960464,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-scrolled-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 64.98168099999748,
+      "eventToObservedMs": 45.1000000089407,
+      "eventToTwoFramesMs": 63.70000000298023,
+      "captureToHandlerEndMs": 12.299999997019768,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-scrolled-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 46.83609399999841,
+      "eventToObservedMs": 41.70000000298023,
+      "eventToTwoFramesMs": 45.20000000298023,
+      "captureToHandlerEndMs": 10.899999991059303,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-caret-left",
+      "key": "ArrowLeft",
+      "hostToResultMs": 48.142298999999184,
+      "eventToObservedMs": 13.599999994039536,
+      "eventToTwoFramesMs": 46.79999999701977,
+      "captureToHandlerEndMs": 0.4000000059604645,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-enter-child",
+      "key": "Enter",
+      "hostToResultMs": 47.2678670000023,
+      "eventToObservedMs": 14.700000002980232,
+      "eventToTwoFramesMs": 46.20000000298023,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-enter-child-reopen",
+      "key": "Enter",
+      "hostToResultMs": 42.300977999999304,
+      "eventToObservedMs": 5.200000002980232,
+      "eventToTwoFramesMs": 39.900000005960464,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-picker-first-open",
+      "key": null,
+      "hostToResultMs": 743.0441869999995,
+      "eventToObservedMs": 734.5,
+      "eventToTwoFramesMs": 741.7999999970198,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-query-key",
+      "key": "t",
+      "hostToResultMs": 607.4181710000012,
+      "eventToObservedMs": 584.2999999970198,
+      "eventToTwoFramesMs": 606.0999999940395,
+      "captureToHandlerEndMs": 3.6000000089406967,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 529.033198000001,
+      "eventToObservedMs": 515.7999999970198,
+      "eventToTwoFramesMs": 527.7000000029802,
+      "captureToHandlerEndMs": 112,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 625.8630720000001,
+      "eventToObservedMs": 578.3000000119209,
+      "eventToTwoFramesMs": 595.9000000059605,
+      "captureToHandlerEndMs": 116,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 572.186991999999,
+      "eventToObservedMs": 550.2999999970198,
+      "eventToTwoFramesMs": 569.9000000059605,
+      "captureToHandlerEndMs": 126.70000000298023,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 587.4011810000011,
+      "eventToObservedMs": 552.9000000059605,
+      "eventToTwoFramesMs": 574.2000000029802,
+      "captureToHandlerEndMs": 109.79999999701977,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 500.23650199999975,
+      "eventToObservedMs": 487.40000000596046,
+      "eventToTwoFramesMs": 498.90000000596046,
+      "captureToHandlerEndMs": 106.5,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 536.325756000002,
+      "eventToObservedMs": 497.8999999910593,
+      "eventToTwoFramesMs": 535,
+      "captureToHandlerEndMs": 108.79999999701977,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 511.13004,
+      "eventToObservedMs": 492.09999999403954,
+      "eventToTwoFramesMs": 509.70000000298023,
+      "captureToHandlerEndMs": 107.5,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 508.933262999999,
+      "eventToObservedMs": 473,
+      "eventToTwoFramesMs": 489.79999999701977,
+      "captureToHandlerEndMs": 102.6000000089407,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 545.8055280000008,
+      "eventToObservedMs": 520.6000000089407,
+      "eventToTwoFramesMs": 544.2999999970198,
+      "captureToHandlerEndMs": 110.3999999910593,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 510.84923400000116,
+      "eventToObservedMs": 478.70000000298023,
+      "eventToTwoFramesMs": 509.5,
+      "captureToHandlerEndMs": 106.8999999910593,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 532.6267880000014,
+      "eventToObservedMs": 511.59999999403954,
+      "eventToTwoFramesMs": 531,
+      "captureToHandlerEndMs": 107.59999999403954,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 492.5135850000006,
+      "eventToObservedMs": 478.29999999701977,
+      "eventToTwoFramesMs": 486.79999999701977,
+      "captureToHandlerEndMs": 104.29999999701977,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 523.0356279999978,
+      "eventToObservedMs": 503,
+      "eventToTwoFramesMs": 521.6999999880791,
+      "captureToHandlerEndMs": 111.6000000089407,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 499.90790600000037,
+      "eventToObservedMs": 476.79999999701977,
+      "eventToTwoFramesMs": 494.5,
+      "captureToHandlerEndMs": 101.70000000298023,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-wrap-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 485.005296000003,
+      "eventToObservedMs": 464.20000000298023,
+      "eventToTwoFramesMs": 483.59999999403954,
+      "captureToHandlerEndMs": 106.20000000298023,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-wrap-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 507.05779600000096,
+      "eventToObservedMs": 475,
+      "eventToTwoFramesMs": 505.1000000089407,
+      "captureToHandlerEndMs": 101.29999999701977,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-scrolled-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 498.96926299999905,
+      "eventToObservedMs": 480.59999999403954,
+      "eventToTwoFramesMs": 497.59999999403954,
+      "captureToHandlerEndMs": 104.5,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-scrolled-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 516.2099750000052,
+      "eventToObservedMs": 474.5,
+      "eventToTwoFramesMs": 498.70000000298023,
+      "captureToHandlerEndMs": 107.6000000089407,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-caret-left",
+      "key": "ArrowLeft",
+      "hostToResultMs": 42.31186699999671,
+      "eventToObservedMs": 7.9000000059604645,
+      "eventToTwoFramesMs": 40.900000005960464,
+      "captureToHandlerEndMs": 3.6000000089406967,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-enter-child",
+      "key": "Enter",
+      "hostToResultMs": 38.4568419999996,
+      "eventToObservedMs": 10.899999991059303,
+      "eventToTwoFramesMs": 37.19999998807907,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-enter-child-reopen",
+      "key": "Enter",
+      "hostToResultMs": 43.52869600000122,
+      "eventToObservedMs": 9.399999991059303,
+      "eventToTwoFramesMs": 42.3999999910593,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    }
+  ],
+  "seq": [
+    {
+      "board": {
+        "boardId": 1,
+        "start": 0,
+        "size": 1000,
+        "type": "kanban"
+      },
+      "targetId": 721,
+      "beforeQueued": {
+        "count": 1005,
+        "query": "",
+        "title": "721",
+        "window": [
+          0,
+          0
+        ],
+        "scroll": [
+          [
+            "main",
+            0,
+            0
+          ],
+          [
+            "lane-board",
+            0,
+            0
+          ],
+          [
+            "ticket-list",
+            18648,
+            0
+          ],
+          [
+            "ticket-list",
+            0,
+            0
+          ],
+          [
+            "ticket-list",
+            0,
+            0
+          ],
+          [
+            "ticket-list",
+            0,
+            0
+          ]
+        ],
+        "folded": [
+          "Show 50 more (55 remaining)"
+        ]
+      },
+      "cardsAtRestore": 1005,
+      "fullBoardAfterQueuedCloseMs": 839.5967689999998,
+      "persistedTitle": "Moved outside keyboard filter",
+      "pageErrors": []
+    },
+    {
+      "board": {
+        "boardId": 2,
+        "start": 2000,
+        "size": 3000,
+        "type": "kanban"
+      },
+      "targetId": 2721,
+      "beforeQueued": {
+        "count": 3005,
+        "query": "",
+        "title": "2721",
+        "window": [
+          0,
+          0
+        ],
+        "scroll": [
+          [
+            "main",
+            0,
+            0
+          ],
+          [
+            "lane-board",
+            0,
+            0
+          ],
+          [
+            "ticket-list",
+            18648,
+            0
+          ],
+          [
+            "ticket-list",
+            0,
+            0
+          ],
+          [
+            "ticket-list",
+            0,
+            0
+          ],
+          [
+            "ticket-list",
+            0,
+            0
+          ]
+        ],
+        "folded": [
+          "Show 50 more (55 remaining)"
+        ]
+      },
+      "cardsAtRestore": 1080,
+      "fullBoardAfterQueuedCloseMs": 2889.5489210000014,
+      "persistedTitle": "Moved outside keyboard filter",
+      "pageErrors": []
+    },
+    {
+      "board": {
+        "boardId": 3,
+        "start": 6000,
+        "size": 1000,
+        "type": "group"
+      },
+      "optionDigest": "21b730a95ba609ace1d98a27e82f5c29aa97555cad4f88eaf98df4bde84736b4",
+      "startingScroll": {
+        "top": 0,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollBefore": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollAfter": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "parentId": 6001,
+      "childId": 6002,
+      "beforeGroupIds": [
+        null,
+        null
+      ],
+      "savedGroupIds": [
+        3,
+        3
+      ],
+      "pageErrors": []
+    },
+    {
+      "board": {
+        "boardId": 4,
+        "start": 10000,
+        "size": 10000,
+        "type": "group"
+      },
+      "optionDigest": "dc9c97232187f09b7f0e1ce6d8a80a512f1d95c3180095dd707caea4a6b8d56d",
+      "startingScroll": {
+        "top": 0,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollBefore": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollAfter": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "parentId": 10001,
+      "childId": 10002,
+      "beforeGroupIds": [
+        null,
+        null
+      ],
+      "savedGroupIds": [
+        4,
+        4
+      ],
+      "pageErrors": []
+    }
+  ]
+}

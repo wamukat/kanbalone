@@ -4,4 +4,4 @@ export function loadKanbanTicketCollections(api: FetchPage, lanes: Array<{id:num
   tickets: TicketPage["tickets"];
   completionPages: Record<number, TicketPage["page"] & {url:string; tickets:TicketPage["tickets"]}>;
 }>;
-export function loadListTicketCollection(api: FetchPage, url:string, options:LoadOptions): Promise<TicketPage & {referenceTickets:TicketPage["tickets"]}>;
+export function loadListTicketCollection(api: FetchPage, url:string, options:LoadOptions & {allReferences?:()=>boolean}): Promise<TicketPage & {referenceTickets:TicketPage["tickets"]}>;

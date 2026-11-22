@@ -10,7 +10,6 @@ import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
  */
 import {
   relatedTickets,
-  searchGroupCandidates,
   renderGroupOptions,
   renderGroupViewSections,
 } from "./app-group-view.js";
@@ -100,9 +99,12 @@ export function createGroupBoardModule(ctx) {
       focus('[data-group-action="add"]');
     }
   }
-  function renderOptions() {
+  /** @param {HTMLInputElement} input */
+  function renderOptions(input) {
     const options = host.querySelector("#group-ticket-options");
-    if (options) options.innerHTML = optionsHtml();
+    if (options) options.innerHTML = renderGroupOptions({ candidates, chosen, query, activeOption }, esc);
+    input.setAttribute("aria-expanded", String(!!query.trim()));
+    input.removeAttribute("aria-activedescendant");
   }
 
   const sortKey = () => `kanbalone:group-sort:${state.activeBoardId}`;
@@ -204,7 +206,7 @@ export function createGroupBoardModule(ctx) {
   function renderGroupBoard() {
     if (boardId !== state.activeBoardId) reset(state.activeBoardId);
     render();
-    void load();
+    return load();
   }
   /** @param {number} id */
   async function openGroup(id) {
@@ -221,14 +223,10 @@ export function createGroupBoardModule(ctx) {
     ctx.saveBoardViewMode?.();
     ctx.syncViewMode();
     ctx.syncBoardUrl();
-    await ctx.refreshBoardDetail();
-    await load();
+    await ctx.refreshBoardDetail({ awaitGroupLoad: true });
   }
   /** @param {number} id @param {GroupTicket[]} [source] */
   const related = (id, source = tickets) => relatedTickets(id, source);
-  const searchState = () => ({ candidates, chosen, query, activeOption });
-  const searchMatches = () => searchGroupCandidates(searchState());
-  const optionsHtml = () => renderGroupOptions(searchState(), esc);
   function render() {
     ctx.beforeGroupRender?.();
     // Live board events must not interrupt a draft or move the caret while typing.
@@ -637,8 +635,7 @@ export function createGroupBoardModule(ctx) {
         adding = false;
         membershipSaved = true;
       }
-      await ctx.refreshBoardDetail();
-      await load();
+      await ctx.refreshBoardDetail({ awaitGroupLoad: true });
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);
     } finally {
@@ -661,11 +658,10 @@ export function createGroupBoardModule(ctx) {
         createName = e.target.value;
       else renameName = e.target.value;
     }
-    if (e.target.id === "group-ticket-search") {
+    if (e.target instanceof HTMLInputElement && e.target.id === "group-ticket-search") {
       query = e.target.value;
       activeOption = 0;
-      renderOptions();
-      e.target.setAttribute("aria-expanded", String(!!query.trim()));
+      renderOptions(e.target);
     }
   });
   host.addEventListener("keydown", (e) => {
@@ -674,33 +670,33 @@ export function createGroupBoardModule(ctx) {
       e.target.id !== "group-ticket-search"
     )
       return;
-    const matches = searchMatches();
-    if (["ArrowDown", "ArrowUp"].includes(e.key)) {
-      e.preventDefault();
-      activeOption = matches.length
-        ? (activeOption + (e.key === "ArrowDown" ? 1 : -1) + matches.length) %
-          matches.length
-        : 0;
-      renderOptions();
-      if (matches[activeOption])
-        e.target.setAttribute(
-          "aria-activedescendant",
-          `group-option-${matches[activeOption].id}`,
-        );
-    }
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (matches[activeOption]) {
-        const option = host.querySelector(`button[data-group-pick="${matches[activeOption].id}"]`);
-        if (option instanceof HTMLButtonElement) option.click();
-      }
-    }
     if (e.key === "Escape") {
+      activeOption = 0;
       query = "";
       e.target.value = "";
-      renderOptions();
-      e.target.setAttribute("aria-expanded", "false");
+      renderOptions(e.target);
+      return;
     }
+    if (!["ArrowDown", "ArrowUp", "Enter"].includes(e.key)) return;
+    e.preventDefault();
+    // The rendered options already reflect the current query and chosen families.
+    const options = host.querySelector("#group-ticket-options");
+    if (!(options?.firstElementChild instanceof HTMLButtonElement)) return;
+    const buttons = options.children;
+    if (e.key === "Enter") {
+      const option = buttons[activeOption];
+      if (option instanceof HTMLButtonElement) option.click();
+      return;
+    }
+    const previous = buttons[activeOption];
+    const direction = e.key === "ArrowDown" ? 1 : -1;
+    activeOption = (activeOption + direction + buttons.length) % buttons.length;
+    const next = buttons[activeOption];
+    if (previous !== next) {
+      previous?.setAttribute("aria-selected", "false");
+      next.setAttribute("aria-selected", "true");
+    }
+    e.target.setAttribute("aria-activedescendant", next.id);
   });
   /** @param {number} id */
   const isActiveGroup = (id) => state.viewMode === "group" && boardId === state.activeBoardId && selectedId === id;

@@ -95,14 +95,17 @@ export function createBoardKeyboardModule(ctx, listModule) {
     }
   }
 
-  function kanbanButtons(container = elements.laneBoard) {
+  function kanbanButtons(container) {
     return [...container.querySelectorAll(".ticket-card .ticket-link")].filter(visible);
   }
 
   function focusTitle(id, scroll = true) {
     if (state.viewMode === "list") return listModule.focusTicket(id, { scroll });
-    const title = kanbanButtons().find((button) => identity(button) === id);
-    if (!title) return false;
+    const title = elements.laneBoard.querySelector(`.ticket-card[data-ticket-id="${id}"] .ticket-link`);
+    return visible(title) && focusKanbanTitle(title, scroll);
+  }
+
+  function focusKanbanTitle(title, scroll = true) {
     title.focus({ preventScroll: true });
     if (scroll) {
       const card = title.closest(".ticket-card");
@@ -212,8 +215,17 @@ export function createBoardKeyboardModule(ctx, listModule) {
   }
 
   function focusFirst() {
-    const id = state.viewMode === "list" ? listModule.getOrderedTicketIds()[0] : identity(kanbanButtons()[0] ?? document.createElement("button"));
-    return id != null && Number.isFinite(id) ? focusTitle(id) : false;
+    if (state.viewMode === "list") {
+      const id = listModule.getOrderedTicketIds()[0];
+      return id != null && Number.isFinite(id) && focusTitle(id);
+    }
+    const titles = elements.laneBoard.getElementsByClassName("ticket-link");
+    // Index the live collection without reading its length before finding the first title.
+    for (let index = 0; ; index += 1) {
+      const title = titles.item(index);
+      if (!title) return false;
+      if (title.closest(".ticket-card") && visible(title)) return focusKanbanTitle(title);
+    }
   }
 
   function handleKeydown(event) {
@@ -264,7 +276,7 @@ export function createBoardKeyboardModule(ctx, listModule) {
       const titles = kanbanButtons(list);
       const next = titles.indexOf(title) + (event.key === "ArrowDown" ? 1 : -1);
       if (next < 0) elements.searchInput.focus({ preventScroll: true });
-      else if (next < titles.length) focusTitle(identity(titles[next]));
+      else if (next < titles.length) focusKanbanTitle(titles[next]);
       return;
     }
     const lists = [...elements.laneBoard.querySelectorAll(".ticket-list[data-lane-id]")];
@@ -285,7 +297,7 @@ export function createBoardKeyboardModule(ctx, listModule) {
         return Math.abs(box.top + box.height / 2 - center);
       };
       const next = candidates.reduce((best, button) => distance(button) < distance(best) ? button : best);
-      focusTitle(identity(next));
+      focusKanbanTitle(next);
       return;
     }
   }

@@ -101,17 +101,19 @@ export function createBoardModule(ctx) {
         )
         .join("");
 
+    let groupLoad;
     if (state.viewMode === "kanban") {
       kanbanModule.renderKanbanBoard(detail);
     } else if (state.viewMode === "group") {
       kanbanModule.cancelPendingRender();
-      groupModule.renderGroupBoard();
+      groupLoad = groupModule.renderGroupBoard();
     } else {
       kanbanModule.cancelPendingRender();
       listModule.renderListBoard(detail);
     }
     ctx.syncViewMode();
     keyboard.afterRender();
+    return groupLoad;
   }
 
   function hasUserTicketFilters() {

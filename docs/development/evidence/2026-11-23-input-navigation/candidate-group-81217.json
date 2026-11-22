@@ -1,0 +1,616 @@
+{
+  "version": "candidate",
+  "endpoint": "http://127.0.0.1:58427",
+  "scope": "group",
+  "environment": {
+    "platform": [
+      "darwin",
+      "x64",
+      "25.6.0"
+    ],
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "node": "v26.13.1",
+    "chromium": "159.0.8154.6",
+    "timezone": "Asia/Tokyo",
+    "captureDate": "2026-11-22T22:04:51.102Z",
+    "fixtureSha256": "c693342296088324d35caf03b0cf07c734154309e5ab412c6bf5a341bf5b1c88",
+    "versionInfo": {
+      "name": "Kanbalone",
+      "version": "1.1.0",
+      "remoteProviders": [
+        {
+          "id": "github",
+          "hasCredential": false
+        },
+        {
+          "id": "gitlab",
+          "hasCredential": false
+        },
+        {
+          "id": "redmine",
+          "hasCredential": false
+        }
+      ]
+    },
+    "fileSha256": {
+      "app-board-keyboard.js": "8fe3875dec56dec752d0d860f665b4910c77e63093cb2a8ce3b855bf609131f9",
+      "app-group-board.js": "9a3379115e3760494d55f3cf7d8f1bfb09d8a811791ea0b8ca09eb6d8086908b"
+    }
+  },
+  "results": [
+    {
+      "name": "group-1000-picker-first-open",
+      "key": null,
+      "hostToResultMs": 127.08455499999991,
+      "eventToObservedMs": 114.29999999701977,
+      "eventToTwoFramesMs": 124.79999999701977,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-query-key",
+      "key": "t",
+      "hostToResultMs": 47.152575999999954,
+      "eventToObservedMs": 35.29999999701977,
+      "eventToTwoFramesMs": 45.70000000298023,
+      "captureToHandlerEndMs": 0.4000000059604645,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 47.31108300000051,
+      "eventToObservedMs": 12.799999997019768,
+      "eventToTwoFramesMs": 46,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 50.17258800000036,
+      "eventToObservedMs": 14.5,
+      "eventToTwoFramesMs": 48.30000001192093,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.79576900000029,
+      "eventToObservedMs": 11,
+      "eventToTwoFramesMs": 44.80000001192093,
+      "captureToHandlerEndMs": 0.09999999403953552,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 44.32523500000025,
+      "eventToObservedMs": 11.200000002980232,
+      "eventToTwoFramesMs": 42.900000005960464,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 48.0792620000002,
+      "eventToObservedMs": 13.900000005960464,
+      "eventToTwoFramesMs": 46.1000000089407,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 48.21228400000018,
+      "eventToObservedMs": 10.800000011920929,
+      "eventToTwoFramesMs": 46.30000001192093,
+      "captureToHandlerEndMs": 0.09999999403953552,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.9546790000004,
+      "eventToObservedMs": 11.299999997019768,
+      "eventToTwoFramesMs": 44.79999999701977,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 46.44066400000065,
+      "eventToObservedMs": 10.699999988079071,
+      "eventToTwoFramesMs": 45,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.30657699999938,
+      "eventToObservedMs": 10,
+      "eventToTwoFramesMs": 44.5,
+      "captureToHandlerEndMs": 0.20000000298023224,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 47.23322399999961,
+      "eventToObservedMs": 10.800000011920929,
+      "eventToTwoFramesMs": 45.30000001192093,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.58603200000016,
+      "eventToObservedMs": 12.299999997019768,
+      "eventToTwoFramesMs": 44.79999999701977,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 46.902838000000884,
+      "eventToObservedMs": 12.900000005960464,
+      "eventToTwoFramesMs": 45.400000005960464,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 48.58868599999914,
+      "eventToObservedMs": 11.5,
+      "eventToTwoFramesMs": 46.80000001192093,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 44.42826700000023,
+      "eventToObservedMs": 10.700000002980232,
+      "eventToTwoFramesMs": 42.5,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-wrap-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 35.21506899999986,
+      "eventToObservedMs": 0.29999999701976776,
+      "eventToTwoFramesMs": 33.5,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-wrap-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 48.96000700000059,
+      "eventToObservedMs": 13.299999997019768,
+      "eventToTwoFramesMs": 47.29999999701977,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-scrolled-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.68296200000077,
+      "eventToObservedMs": 13.600000008940697,
+      "eventToTwoFramesMs": 45.29999999701977,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-scrolled-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 47.19042400000035,
+      "eventToObservedMs": 14,
+      "eventToTwoFramesMs": 45.70000000298023,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-caret-left",
+      "key": "ArrowLeft",
+      "hostToResultMs": 50.862451999999394,
+      "eventToObservedMs": 15,
+      "eventToTwoFramesMs": 49.29999999701977,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-enter-child",
+      "key": "Enter",
+      "hostToResultMs": 45.998243,
+      "eventToObservedMs": 9,
+      "eventToTwoFramesMs": 44.099999994039536,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-1000-enter-child-reopen",
+      "key": "Enter",
+      "hostToResultMs": 42.51390300000003,
+      "eventToObservedMs": 5.600000008940697,
+      "eventToTwoFramesMs": 40.6000000089407,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-picker-first-open",
+      "key": null,
+      "hostToResultMs": 640.3240599999999,
+      "eventToObservedMs": 635.0999999940395,
+      "eventToTwoFramesMs": 639.2999999970198,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-query-key",
+      "key": "t",
+      "hostToResultMs": 478.34614299999976,
+      "eventToObservedMs": 462,
+      "eventToTwoFramesMs": 477.20000000298023,
+      "captureToHandlerEndMs": 0.3999999910593033,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 45.97674999999981,
+      "eventToObservedMs": 11.200000002980232,
+      "eventToTwoFramesMs": 44.099999994039536,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 47.90764500000023,
+      "eventToObservedMs": 12.599999994039536,
+      "eventToTwoFramesMs": 45.8999999910593,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.415876999999455,
+      "eventToObservedMs": 9.599999994039536,
+      "eventToTwoFramesMs": 44.70000000298023,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 46.77002100000027,
+      "eventToObservedMs": 10.299999997019768,
+      "eventToTwoFramesMs": 44.900000005960464,
+      "captureToHandlerEndMs": 0.09999999403953552,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.678319000000556,
+      "eventToObservedMs": 10.400000005960464,
+      "eventToTwoFramesMs": 44.900000005960464,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 47.055278999999246,
+      "eventToObservedMs": 10,
+      "eventToTwoFramesMs": 45.5,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 44.75436500000069,
+      "eventToObservedMs": 11.900000005960464,
+      "eventToTwoFramesMs": 43.29999999701977,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 49.68587800000023,
+      "eventToObservedMs": 12.599999994039536,
+      "eventToTwoFramesMs": 47.79999999701977,
+      "captureToHandlerEndMs": 0.09999999403953552,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 46.66417499999989,
+      "eventToObservedMs": 9.700000002980232,
+      "eventToTwoFramesMs": 44.80000001192093,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 45.43840999999884,
+      "eventToObservedMs": 10,
+      "eventToTwoFramesMs": 43.599999994039536,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 48.491849,
+      "eventToObservedMs": 12.400000005960464,
+      "eventToTwoFramesMs": 46.6000000089407,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 47.067009000000326,
+      "eventToObservedMs": 10,
+      "eventToTwoFramesMs": 45.30000001192093,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 44.7875210000002,
+      "eventToObservedMs": 11.5,
+      "eventToTwoFramesMs": 43.1000000089407,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 49.33409699999902,
+      "eventToObservedMs": 13.600000008940697,
+      "eventToTwoFramesMs": 47.5,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-wrap-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 48.488602999999785,
+      "eventToObservedMs": 12.200000002980232,
+      "eventToTwoFramesMs": 47.400000005960464,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-wrap-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 45.63118299999951,
+      "eventToObservedMs": 13.099999994039536,
+      "eventToTwoFramesMs": 44.5,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-scrolled-arrow-down",
+      "key": "ArrowDown",
+      "hostToResultMs": 47.7130449999986,
+      "eventToObservedMs": 13,
+      "eventToTwoFramesMs": 46.70000000298023,
+      "captureToHandlerEndMs": 0,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-scrolled-arrow-up",
+      "key": "ArrowUp",
+      "hostToResultMs": 49.54794899999979,
+      "eventToObservedMs": 15.299999997019768,
+      "eventToTwoFramesMs": 48.599999994039536,
+      "captureToHandlerEndMs": 0.10000000894069672,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-caret-left",
+      "key": "ArrowLeft",
+      "hostToResultMs": 49.03466599999956,
+      "eventToObservedMs": 16.599999994039536,
+      "eventToTwoFramesMs": 47.8999999910593,
+      "captureToHandlerEndMs": 0.09999999403953552,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-enter-child",
+      "key": "Enter",
+      "hostToResultMs": 45.75955900000008,
+      "eventToObservedMs": 8.699999988079071,
+      "eventToTwoFramesMs": 44,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    },
+    {
+      "name": "group-10000-enter-child-reopen",
+      "key": "Enter",
+      "hostToResultMs": 39.34600599999976,
+      "eventToObservedMs": 4.100000008940697,
+      "eventToTwoFramesMs": 38,
+      "captureToHandlerEndMs": null,
+      "stillValid": true,
+      "cardsAtResult": null
+    }
+  ],
+  "seq": [
+    {
+      "board": {
+        "boardId": 3,
+        "start": 6000,
+        "size": 1000,
+        "type": "group"
+      },
+      "optionDigest": "21b730a95ba609ace1d98a27e82f5c29aa97555cad4f88eaf98df4bde84736b4",
+      "startingScroll": {
+        "top": 0,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollBefore": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollAfter": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "parentId": 6001,
+      "childId": 6002,
+      "beforeGroupIds": [
+        null,
+        null
+      ],
+      "savedGroupIds": [
+        3,
+        3
+      ],
+      "pageErrors": []
+    },
+    {
+      "board": {
+        "boardId": 4,
+        "start": 10000,
+        "size": 10000,
+        "type": "group"
+      },
+      "optionDigest": "dc9c97232187f09b7f0e1ce6d8a80a512f1d95c3180095dd707caea4a6b8d56d",
+      "startingScroll": {
+        "top": 0,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollBefore": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "nonzeroScrollAfter": {
+        "top": 96,
+        "left": 0,
+        "optionsTop": 0,
+        "panelTop": 0,
+        "mainTop": 0,
+        "mainLeft": 0,
+        "window": [
+          0,
+          0
+        ]
+      },
+      "parentId": 10001,
+      "childId": 10002,
+      "beforeGroupIds": [
+        null,
+        null
+      ],
+      "savedGroupIds": [
+        4,
+        4
+      ],
+      "pageErrors": []
+    }
+  ]
+}
