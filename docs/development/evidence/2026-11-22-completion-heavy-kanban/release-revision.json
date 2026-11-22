@@ -1,0 +1,9 @@
+{
+  "releaseCommit": "0bf19d1b21536457e503068c7b6d2340e93b30e3",
+  "candidateBase": "1c87193ec553cbbd4bbc563f5a28b7ee67611600",
+  "candidateChange": "#1517 single startup load",
+  "releaseAppSha256": "f8741cce3dca1cf7ecc189b9a2e3bcb2fe1171f305e4955ee1ff35f864cddcd3",
+  "candidateAppSha256": "4e02a8613f22e6a16733e6039b6a31cdbe4588c69acce2d85e3d4c9f59777b2e",
+  "packageAndLockIdentical": true,
+  "timingComparison": false
+}

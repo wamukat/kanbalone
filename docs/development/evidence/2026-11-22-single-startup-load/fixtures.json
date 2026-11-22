@@ -1,0 +1,18 @@
+[
+  {
+    "language": "ja",
+    "boardId": 1,
+    "originId": 1,
+    "laneId": 2,
+    "doneId": 3,
+    "groupId": 1
+  },
+  {
+    "language": "en",
+    "boardId": 2,
+    "originId": 9,
+    "laneId": 5,
+    "doneId": 6,
+    "groupId": 2
+  }
+]

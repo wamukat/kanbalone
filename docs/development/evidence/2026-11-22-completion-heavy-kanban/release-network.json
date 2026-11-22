@@ -1,0 +1,58 @@
+[
+  {
+    "label": "v1.0.0",
+    "port": 3621,
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/boards/1/tickets",
+        "bytes": 5322755,
+        "duration": 153.09999999403954
+      },
+      {
+        "path": "/api/boards/1/tickets",
+        "bytes": 5322755,
+        "duration": 154.60000000149012
+      }
+    ],
+    "probe": {
+      "limit": 1,
+      "returned": 10000,
+      "hasPage": false
+    }
+  },
+  {
+    "label": "current-candidate",
+    "port": 3616,
+    "openCards": 100,
+    "doneCards": 5,
+    "requests": [
+      {
+        "path": "/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+        "bytes": 17001,
+        "duration": 5.5
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=2&limit=200&order=position_asc",
+        "bytes": 16499,
+        "duration": 8.600000001490116
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=3&limit=200&order=position_asc",
+        "bytes": 16499,
+        "duration": 13.200000002980232
+      },
+      {
+        "path": "/api/boards/1/tickets?lane_id=4&order=completed_desc&limit=5",
+        "bytes": 2953,
+        "duration": 18.299999997019768
+      }
+    ],
+    "probe": {
+      "limit": 1,
+      "returned": 1,
+      "hasPage": true
+    }
+  }
+]

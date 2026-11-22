@@ -1,0 +1,23 @@
+{
+  "baseline": "1c87193ec553cbbd4bbc563f5a28b7ee67611600",
+  "node": "26.13.1",
+  "chromium": "159.0.8154.6",
+  "os": "macOS 26.7.3 x86_64",
+  "cpu": "Intel Core i7-9750H @2.60GHz",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "locale": "en-US",
+  "theme": "light",
+  "dbSha256": {
+    "done-0.sqlite": "57d524ae4bf0f13d367032106fcaf0ac51267961189df220a50367970901ff9b",
+    "done-900.sqlite": "53d444537232d0b122b4e4ed1dfeafaf2c00a3604b98f2a44a8309436b7afeb5",
+    "done-9900.sqlite": "72b73b48c39de6c5337ee776d352cc857a5093e9ff8e43f9fdf2b87ad094a245"
+  },
+  "sourceSha256": {
+    "public/app.js": "1a4d24be841d53f218f78f2b8459fe6d26eb580428b127e6b519359680489b77",
+    "public/app-editor.js": "c5643551a2390a4e5bf0545ec2af03eb42135155441d3809c43778ee7b376f2b",
+    "public/app-ticket-collections.js": "2caff6f352d03404133614bbfc18b0c45feeab67c0caecf1a13312f14662e09e"
+  }
+}

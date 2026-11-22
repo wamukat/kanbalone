@@ -1,0 +1,25 @@
+{
+  "sqliteVersion": "3.54.1",
+  "lane": {
+    "id": 4,
+    "board_id": 1
+  },
+  "plans": {
+    "firstFive": [
+      {
+        "id": 5,
+        "parent": 0,
+        "notused": 61,
+        "detail": "SEARCH t USING INDEX tickets_paging_completed_idx (board_id=? AND lane_id=?)"
+      }
+    ],
+    "count": [
+      {
+        "id": 3,
+        "parent": 0,
+        "notused": 52,
+        "detail": "SEARCH t USING COVERING INDEX tickets_active_board_lane_position_idx (board_id=? AND lane_id=?)"
+      }
+    ]
+  }
+}

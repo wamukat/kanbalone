@@ -1,0 +1,15 @@
+
+Running 8 tests using 1 worker
+
+(node:87199) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves home before fetching one board detail (2.0s)
+  ✓  2 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves kanban before fetching one board detail (2.0s)
+  ✓  3 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves list before fetching one board detail (2.3s)
+  ✓  4 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves group before fetching one board detail (1.7s)
+  ✓  5 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves ticket before fetching one board detail (1.8s)
+  ✓  6 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves missing-board before fetching one board detail (1.6s)
+  ✓  7 [chromium] › test/e2e/startup-routing.spec.ts:5:3 › startup resolves missing-ticket before fetching one board detail (1.7s)
+  ✓  8 [chromium] › test/e2e/startup-routing.spec.ts:54:1 › empty startup performs no board fetch, and first board creation still refreshes detail (1.8s)
+
+  8 passed (16.7s)

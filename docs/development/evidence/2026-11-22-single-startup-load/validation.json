@@ -1,0 +1,31 @@
+{
+  "fullCheck": {
+    "command": "pnpm check",
+    "exitCode": 0,
+    "passed": 198
+  },
+  "focusedStartupE2E": {
+    "passed": 8,
+    "failed": 0
+  },
+  "combinedE2E": {
+    "files": [
+      "startup-routing",
+      "board",
+      "preferences",
+      "i18n",
+      "create-keyboard",
+      "kanban-native-drag",
+      "completion-archive-filters",
+      "pagination",
+      "pagination-consistency",
+      "keyboard-navigation"
+    ],
+    "passed": 71,
+    "failed": 0,
+    "workers": 1
+  },
+  "actualKeyboardSaveReloadSequences": 4,
+  "actualDirectRoutes": 12,
+  "beforeAfterImagePairsPixelIdentical": 8
+}
