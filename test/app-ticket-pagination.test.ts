@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createHash, createHmac } from "node:crypto";
 import path from "node:path";
 import { buildApp } from "../src/app.js";
+import { migrateTicketPagination } from "../src/db-modules/ticket-pagination-revision.js";
 import type { PageOptions } from "../src/db-modules/ticket-pagination.js";
 import { KanbanDb } from "../src/db.js";
 import type { TicketRelationCandidateView, TicketSummaryView } from "../src/types.js";
@@ -295,6 +296,48 @@ test("cursor revisions cover joins, moves, cascades, completion, and referenced 
     f.db.moveTicket(f.ids[2]!,{boardId:f.other.board.id,laneId:f.other.lanes[0]!.id});
     assert.equal(await status(sourceCursor),409);
     assert.equal((await f.app.inject(`/api/boards/${f.other.board.id}/tickets?limit=1&cursor=${destinationCursor}`)).statusCode,409);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
+test("startup replaces an older ticket revision trigger once and keeps issued cursors valid", async () => {
+  const f = setup();
+  try {
+    const url = f.url + "?limit=1";
+    const first = await f.app.inject(url);
+    assert.equal(first.statusCode, 200);
+    const cursor = encodeURIComponent(first.json().page.nextCursor);
+    const continuation = url + "&cursor=" + cursor;
+    const expected = await f.app.inject(continuation);
+    f.db.sqlite.exec(`
+      DROP TRIGGER ticket_list_tickets_update;
+      CREATE TRIGGER ticket_list_tickets_update BEFORE UPDATE ON tickets BEGIN
+        UPDATE ticket_list_revisions SET revision = revision + 1 WHERE board_id = OLD.board_id;
+      END;
+    `);
+    const triggerSql = (db: KanbanDb) => db.sqlite.prepare(
+      "SELECT sql FROM sqlite_schema WHERE name='ticket_list_tickets_update'",
+    ).pluck().get();
+
+    const upgraded = new KanbanDb(f.file);
+    let indexedTrigger;
+    try {
+      indexedTrigger = triggerSql(upgraded);
+      assert.match(String(indexedTrigger), /UNION ALL SELECT dependent.board_id FROM ticket_blockers/);
+      const continued = await f.app.inject(continuation);
+      assert.equal(continued.statusCode, 200);
+      assert.equal(continued.body, expected.body);
+      assert.equal(continued.headers["x-kanbalone-ticket-revision"], expected.headers["x-kanbalone-ticket-revision"]);
+    } finally { upgraded.close(); }
+
+    const reopened = new KanbanDb(f.file);
+    try {
+      assert.equal(triggerSql(reopened), indexedTrigger);
+      const schemaVersion = reopened.sqlite.pragma("schema_version", { simple: true });
+      reopened.sqlite.transaction(() => migrateTicketPagination(reopened.sqlite)).immediate();
+      assert.equal(reopened.sqlite.pragma("schema_version", { simple: true }), schemaVersion);
+      reopened.updateTicket(f.ids[0]!, { title: "Changed after restart" });
+      assert.equal((await f.app.inject(continuation)).statusCode, 409);
+    } finally { reopened.close(); }
   } finally { await f.app.close(); f.db.close(); }
 });
 
