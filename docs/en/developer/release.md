@@ -33,7 +33,9 @@ Publication uses the exact image from the locally verified dry-run artifact. A c
 
 - Describe user-visible changes and compatibility/migration effects in implementation PRs. Finish both languages in `docs/releases/vVERSION.md` in the preparation PR and review them before merging. Do not wait until after publication to write notes.
 - Cover changes, breaking behavior, migration steps and known limitations concisely; explicitly state when an item does not apply. Publication uses this file.
-- The release owner selects the scope and version. From v1 onward, use patch for compatible fixes, minor for compatible features and major for incompatible changes. Clearly document incompatibilities before v1 as well; validate the first v1 and substantial migrations with an RC first.
+- The release owner selects the scope and version. From v1 onward, use patch for compatible fixes, minor for compatible features and major for incompatible changes. Clearly document incompatibilities before v1 as well.
+- Start with the stable version for a normal release. Build and test its candidate in dry-run, verify it locally in isolation, and publish the same image by specifying its artifact ID. Dry-run provides the workflow checks needed before publication.
+- Publish a release candidate (RC) only when users need a prerelease to try for a period before the stable release. A later stable version requires its own preparation PR, dry-run and local verification because the version and target SHA change.
 - Once review, dry-run, local checks and publication approval are complete, the release owner runs `publish=true` with the approved candidate artifact ID. The publication workflow creates the tag.
 - CI does not automatically verify local-check records or the human publication decision. The owner checks the preparation PR record before dispatching. GitHub workflow-run approval and approval to publish the product are separate decisions.
 - Updating local or user runtimes is separate from publication. Back up, update and verify those environments when an update is requested.
@@ -53,7 +55,7 @@ Adding workflow files does not configure branch protection, package visibility o
 
 ## 1. Prepare the release PR
 
-1. Open **Actions → Prepare release → Run workflow**, select `main`, and enter a version without `v`, such as `1.0.0-rc.1` or `1.0.0`.
+1. Open **Actions → Prepare release → Run workflow**, select `main`, and enter a version without `v`, such as `1.2.0` for a normal release. For a prerelease trial, use a version such as `1.2.0-rc.1`.
 2. The workflow creates `codex/release-VERSION` and a PR updating `package.json`, OpenAPI, current installation examples and `docs/releases/vVERSION.md`.
 3. Complete the Japanese and English release notes. Explain user-visible changes, breaking API changes, migration steps and known limitations. Link a migration guide when needed. Remove placeholders and the `RELEASE_NOTES_DRAFT` marker only after reviewing both languages.
 4. Review the diff, wait for **Required checks**, and merge the PR. Record the full 40-character commit SHA on `main` that contains the reviewed release.
@@ -82,7 +84,7 @@ The image job also verifies upgrades from v0.9.35, v0.10.0 and v0.11.0, includin
 Keep the downloaded `image.tar` and `manifest.json` together. Supply the reviewed version and full commit SHA:
 
 ```bash
-RELEASE_VERSION=1.0.0-rc.1 RELEASE_SHA=reviewed-40-character-sha \
+RELEASE_VERSION=1.2.0 RELEASE_SHA=reviewed-40-character-sha \
   node scripts/load-release-image.mjs release-artifact
 ```
 
