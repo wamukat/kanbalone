@@ -1,0 +1,32 @@
+[
+  {
+    "startedDateTime": "2026-11-22T10:18:01.120Z",
+    "method": "GET",
+    "url": "http://127.0.0.1:36057/api/boards/1/tickets?archived=all&limit=200&order=position_asc",
+    "status": 200
+  },
+  {
+    "startedDateTime": "2026-11-22T10:18:01.325Z",
+    "method": "GET",
+    "url": "http://127.0.0.1:36057/api/boards/1/tickets?lane_id=1&limit=200&order=position_asc",
+    "status": 200
+  },
+  {
+    "startedDateTime": "2026-11-22T10:18:01.330Z",
+    "method": "GET",
+    "url": "http://127.0.0.1:36057/api/boards/1/tickets?archived=all&limit=200&order=position_asc",
+    "status": 200
+  },
+  {
+    "startedDateTime": "2026-11-22T10:18:01.336Z",
+    "method": "POST",
+    "url": "http://127.0.0.1:36057/api/boards/1/tickets",
+    "status": 201
+  },
+  {
+    "startedDateTime": "2026-11-22T10:18:01.403Z",
+    "method": "GET",
+    "url": "http://127.0.0.1:36057/api/boards/1/tickets?archived=all&limit=200&order=position_asc",
+    "status": 200
+  }
+]

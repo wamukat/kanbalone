@@ -69,3 +69,7 @@ An exploratory test attempted to assert that a failed relation-link navigation r
 Use Node 26.13.1 and the repository's locked dependencies. Extract `git archive ac23f0f src public` into `coverage/editor-candidates/baseline`. Start `server.mjs before`, run `seed.py` once, then start `server.mjs after`. Run `capture.py before`, `capture.py after`, `capture-loading.py`, `capture-narrow.py`, and finally `capture-order.py` (the latter adds one fixture ticket). Use fresh SQLite files when repeating the entire sequence.
 
 Screenshots do not establish persistence, race safety, universal speed, or human usability. Tests and recorded API responses support the specific interactions; a human acceptance review remains required. Performance results use isolated synthetic data and do not estimate latency for every machine or network.
+
+## CI follow-up
+
+The first full CI browser run passed178/180 and exposed two test synchronization errors. [Re-edit request counting](ci-reedit.md) and [Group keyboard readiness](ci-group.md) describe the trace evidence and test-only corrections. Each corrected scenario passed10 targeted repetitions. Production files, UI images and performance measurements are unchanged. The full CI suite is rerun on the updated PR head.

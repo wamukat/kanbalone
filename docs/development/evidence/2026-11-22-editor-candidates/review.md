@@ -32,3 +32,12 @@ No remaining blocking finding for the scoped change. User acceptance and require
 ## Limits
 
 Synthetic screenshots and tests do not establish human usability or all devices/network conditions. The unrelated, unreproduced 859 ms first request on the real 102-ticket board remains unexplained; this change does not claim to fix it. Related-search transfer volume remains proportional to board size and is a separate possible follow-up. Existing user data was not used for these screenshots or mutations.
+
+## CI test-only follow-up review
+
+The first PR CI run passed 178 browser cases and exposed two test synchronization/counting failures. Independently reviewed the two test-only diffs and downloaded Playwright trace records; no production source changed.
+
+- Save/re-edit: the three archived-all requests were the original candidate fetch, the save's board reference refresh, and the new candidate fetch. The added archived ticket was created after the board refresh request. Checking its visibility after re-editing still proves a fresh candidate collection, while selected chips prove retained relationship state. Removing the cross-purpose global counter does not remove the dedicated exact paging/reuse count test. The amended test passed ten repetitions with two workers (53.3 s).
+- Group membership focus: the implementation awaits candidate retrieval before rendering/focusing its search field. The second keyboard cycle previously typed before that focus transition completed and could activate Add again. The test now waits for actual search focus and visible candidate options, and verifies controls are enabled before traversing to them. It still reaches controls by Tab/Enter, does not force focus or retry keys, and retains API checks for parent/child membership and cancellation. Both language cases passed ten total repetitions with two workers (57.6 s).
+
+These corrections preserve the behavioral contracts being tested. The new remote CI run remains a separate required gate; the local repetition results are not substituted for it. Earlier screenshot and performance evidence remains applicable because production code is unchanged.

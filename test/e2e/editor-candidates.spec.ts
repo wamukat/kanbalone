@@ -197,8 +197,6 @@ test("removing a selected archived relation before fetching candidates persists"
 test("save and re-edit invalidates candidates and keeps selected relations", async ({ page }) => {
   const f = await fixture(page);
   try {
-    let calls = 0;
-    page.on("request", r => { if (candidateRequest(r.url())) calls++; });
     await openDetail(page, f.subject.id); await page.locator("#header-edit-button").click();
     await page.locator("#ticket-related-search").fill("Late");
     await expect(page.locator(`[data-related-id="${f.candidate.id}"]`)).toBeVisible();
@@ -207,14 +205,15 @@ test("save and re-edit invalidates candidates and keeps selected relations", asy
     await expect(page.locator("#ticket-view")).toBeVisible();
     await expect(page.locator("#editor-form")).toHaveJSProperty("inert", false);
     await page.waitForLoadState("networkidle");
-    const afterSaveCalls = calls;
     const added = await createTicket(page.request, f.baseUrl, f.board.board.id, { laneId: f.board.lanes[0].id, title: "Newly available candidate", isArchived: true });
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#ticket-related-summary")).toContainText(f.candidate.title);
     await expect(page.locator("#ticket-related-summary")).toContainText(f.archived.title);
     await page.locator("#ticket-related-search").fill("Newly available");
     await expect(page.locator(`[data-related-id="${added.id}"]`)).toBeVisible();
-    expect(calls).toBe(afterSaveCalls + 1);
+    // This ticket did not exist in the previous candidate collection. Its
+    // presence proves re-editing fetched fresh candidates; board refreshes
+    // after save share this endpoint and must not be counted as picker loads.
   } finally { await f.close(); }
 });
 

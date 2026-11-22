@@ -4,6 +4,7 @@ import { startTestApp, createBoard, createTicket } from "./helpers.js";
 async function keyboardActivate(page: Page, selector: string) {
   const target = page.locator(selector);
   await expect(target).toBeVisible();
+  await expect(target).toBeEnabled();
   for (let i = 0; i < 100; i++) {
     if (await target.evaluate(el => el === document.activeElement)) {
       await page.keyboard.press("Enter");
@@ -29,12 +30,15 @@ for (const locale of ["ja-JP", "en-US"]) {
       await keyboardActivate(page, '[data-group-action="add"]');
       await expect(page.locator('#group-ticket-search')).toBeFocused();
       await page.keyboard.type("Child");
+      await expect(page.locator(`[data-group-pick="${child.id}"]`)).toBeVisible();
       await page.keyboard.press("ArrowDown");
       await page.keyboard.press("Enter");
       await keyboardActivate(page, '[data-group-action="cancel-add"]');
       await expect(add).toBeFocused();
       await keyboardActivate(page, '[data-group-action="add"]');
+      await expect(page.locator('#group-ticket-search')).toBeFocused();
       await page.keyboard.type("Child");
+      await expect(page.locator(`[data-group-pick="${child.id}"]`)).toBeVisible();
       await page.keyboard.press("Enter");
       await keyboardActivate(page, '[data-group-form="members"] button[type="submit"]');
       await expect(page.locator('[data-group-remove]')).toHaveCount(1);

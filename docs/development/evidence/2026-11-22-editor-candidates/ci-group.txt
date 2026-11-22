@@ -1,0 +1,25 @@
+
+Running 10 tests using 2 workers
+
+(node:99658) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99657) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (ja-JP) (12.6s)
+  ✓   1 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (ja-JP) (13.5s)
+  ✓   3 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (en-US) (10.3s)
+(node:99716) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (en-US) (11.1s)
+(node:99726) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (ja-JP) (8.1s)
+  ✓   6 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (ja-JP) (7.7s)
+  ✓   7 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (en-US) (6.9s)
+(node:99751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (en-US) (6.6s)
+  ✓   9 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (ja-JP) (6.0s)
+  ✓  10 [chromium] › test/e2e/group-membership-focus.spec.ts:19:3 › Group membership keeps a visible focus after success and cancellation (en-US) (6.4s)
+
+  10 passed (57.6s)
