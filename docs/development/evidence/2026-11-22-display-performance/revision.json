@@ -1,0 +1,17 @@
+{
+  "baseline": "b7dc02e8885f740afd9a47f12fab4c9079346041",
+  "candidateFiles": {
+    "public/app-board-list.js": "e2fa740b50f18650b87f6ff526d0948a92587e7d3b0a64fd23b479fbdd3ba66d",
+    "public/app-group-view.js": "beebef12e2ea466ba93b5d42d8c97e79763c7ce1aa1c640e2c81aeaf378e5580",
+    "public/app-ticket-hierarchy.js": "5750ae0e7d0814d29ed6c4e835a5ef71fed92a936e6b8e6d17b88234ebe5103d"
+  },
+  "fingerprint": "afd2a969dd2747c24dacffc68cd01472774138461e11a88b0d6ea460972dbe0a",
+  "node": "26.13.1",
+  "agentBrowser": "0.26.0",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "theme": "light",
+  "chromium": "159.0.8154.6"
+}
