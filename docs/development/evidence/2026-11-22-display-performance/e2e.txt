@@ -1,0 +1,34 @@
+
+Running 25 tests using 2 workers
+
+(node:61555) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › test/e2e/groups-visual.spec.ts:21:1 › Group keeps the List alignment and shows both ticket actions at the top left (5.1s)
+  ✓   1 [chromium] › test/e2e/group-membership-focus.spec.ts:18:3 › Group membership keeps a visible focus after success and cancellation (ja-JP) (8.1s)
+  ✓   3 [chromium] › test/e2e/groups-visual.spec.ts:90:1 › long Group descriptions stay compact until expanded and never hide focusable links in a clipped preview (5.4s)
+  ✓   5 [chromium] › test/e2e/groups-visual.spec.ts:119:1 › Group controls and long content stay reachable in narrow dark mode (3.1s)
+  ✓   4 [chromium] › test/e2e/group-membership-focus.spec.ts:18:3 › Group membership keeps a visible focus after success and cancellation (en-US) (7.2s)
+  ✓   6 [chromium] › test/e2e/groups-visual.spec.ts:155:1 › Group list sort shows direction while tickets keep their default order (4.5s)
+  ✓   7 [chromium] › test/e2e/groups.spec.ts:4:1 › Group keeps completed work visible and aligns completion and archive markers in both languages (5.7s)
+  ✓   8 [chromium] › test/e2e/groups-visual.spec.ts:178:1 › Group header preserves view context without inheriting ticket filters (4.4s)
+  ✓  10 [chromium] › test/e2e/groups-visual.spec.ts:214:1 › archived parent row keeps its size and text layout when toggled (4.2s)
+  ✓   9 [chromium] › test/e2e/groups.spec.ts:74:1 › Groups create, describe, search whole parent/child sets and remove with confirmation (7.3s)
+  ✓  12 [chromium] › test/e2e/groups.spec.ts:115:1 › Group creates tickets through existing editor and opens from ticket details (7.5s)
+  ✓  11 [chromium] › test/e2e/keyboard-navigation.spec.ts:27:3 › List search navigates virtual rows and returns to the same query, ticket and scroll (en) (10.8s)
+  ✓  13 [chromium] › test/e2e/groups.spec.ts:148:1 › editor Group conflicts cancel atomically and select a Group for all affected tickets (5.8s)
+  ✓  14 [chromium] › test/e2e/keyboard-navigation.spec.ts:69:3 › Kanban crosses empty lanes, restores position and never expands done implicitly (en) (4.9s)
+  ✓  15 [chromium] › test/e2e/groups.spec.ts:176:1 › inactive Group detail links reveal All and duplicate names stay editable (6.2s)
+  ✓  16 [chromium] › test/e2e/keyboard-navigation.spec.ts:27:3 › List search navigates virtual rows and returns to the same query, ticket and scroll (ja) (8.8s)
+  ✓  17 [chromium] › test/e2e/groups.spec.ts:206:1 › live Group updates retain draft caret and reject outdated description saves (4.4s)
+  ✓  19 [chromium] › test/e2e/groups.spec.ts:234:1 › delete confirmation keeps its original Group target across live deletion (4.8s)
+  ✓  18 [chromium] › test/e2e/keyboard-navigation.spec.ts:69:3 › Kanban crosses empty lanes, restores position and never expands done implicitly (ja) (6.5s)
+  ✓  20 [chromium] › test/e2e/groups.spec.ts:251:1 › Group ticket area remains scrollable on narrow screens (3.7s)
+  ✓  21 [chromium] › test/e2e/keyboard-navigation.spec.ts:120:1 › search and title navigation ignore IME, modifiers and nested bulk controls (4.0s)
+  ✓  22 [chromium] › test/e2e/keyboard-navigation.spec.ts:152:1 › closing after a queued refresh restores the title or safely falls back when it leaves the filter (4.3s)
+  ✓  23 [chromium] › test/e2e/keyboard-navigation.spec.ts:177:1 › keyboard-opened detail retains a cancelled body draft and restores navigation after discard (3.7s)
+  ✓  24 [chromium] › test/e2e/keyboard-navigation.spec.ts:205:1 › ArrowDown waits for the current search response instead of selecting an old result (3.6s)
+  ✓  25 [chromium] › test/e2e/keyboard-navigation.spec.ts:236:1 › failed search does not move focus into stale results and a later search recovers (3.5s)
+
+  25 passed (1.4m)
