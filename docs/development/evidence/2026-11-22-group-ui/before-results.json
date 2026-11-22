@@ -1,0 +1,1549 @@
+{
+  "phase": "before",
+  "records": {
+    "en-light-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n2 open · 5 total"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n0 open · 0 total"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n1 open · 1 total"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n0 open · 1 total · Inactive"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n0 open · 1 total · Inactive"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 424.234375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 496.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 706.484375,
+            "y": 246.375,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n0 open · 1 total · Inactive"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n1 open · 1 total"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "en-light-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n2 open · 5 total"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n0 open · 0 total"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n1 open · 1 total"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n0 open · 1 total · Inactive"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n0 open · 1 total · Inactive"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 144.234375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 503.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 702.671875,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 172.484375,
+            "y": 702.671875,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n0 open · 1 total · Inactive"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n1 open · 1 total"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "en-dark-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n2 open · 5 total"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n0 open · 0 total"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n1 open · 1 total"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n0 open · 1 total · Inactive"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n0 open · 1 total · Inactive"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 424.234375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 496.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 706.484375,
+            "y": 246.375,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n0 open · 1 total · Inactive"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n1 open · 1 total"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "en-dark-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n2 open · 5 total"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n0 open · 0 total"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n1 open · 1 total"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n0 open · 1 total · Inactive"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n0 open · 1 total · Inactive"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 144.234375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 503.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 702.671875,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 172.484375,
+            "y": 702.671875,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n0 open · 1 total · Inactive"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n1 open · 1 total"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-light-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n未完了 0 件 · 全 0 件"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 417.09375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 496.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 701,
+            "y": 246.375,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 0 件 · 全 1 件 · 非アクティブ"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-light-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n未完了 0 件 · 全 0 件"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 137.09375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 503.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 702.671875,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 167,
+            "y": 702.671875,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 0 件 · 全 1 件 · 非アクティブ"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-dark-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n未完了 0 件 · 全 0 件"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 417.09375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 496.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 701,
+            "y": 246.375,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 0 件 · 全 1 件 · 非アクティブ"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-dark-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": null,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": null,
+          "text": "Ideas\n未完了 0 件 · 全 0 件"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": null,
+          "text": "Completed review\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": null,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 137.09375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 503.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 702.671875,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 167,
+            "y": 702.671875,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [],
+        "child": []
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(0, 0, 238)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(0, 0, 238)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "auto",
+          "outlineColor": "rgb(0, 95, 204)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 0 件 · 全 1 件 · 非アクティブ"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": null,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件"
+      },
+      "ticketTagAdded": [],
+      "renamed": [],
+      "removed": [],
+      "tagsReloaded": true,
+      "errors": []
+    }
+  }
+}

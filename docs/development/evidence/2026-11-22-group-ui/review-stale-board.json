@@ -1,0 +1,30 @@
+{
+  "node": "v26.13.1",
+  "chromium": "159.0.8154.6",
+  "results": [
+    {
+      "limit": 1,
+      "status": 200,
+      "released": 1,
+      "selectedBoard": 2,
+      "visibleTicket": 2,
+      "errors": []
+    },
+    {
+      "limit": 200,
+      "status": 200,
+      "released": 1,
+      "selectedBoard": 2,
+      "visibleTicket": 2,
+      "errors": []
+    },
+    {
+      "limit": 200,
+      "status": 503,
+      "released": 1,
+      "selectedBoard": 2,
+      "visibleTicket": 2,
+      "errors": []
+    }
+  ]
+}

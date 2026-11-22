@@ -1,0 +1,43 @@
+{
+  "check": {
+    "command": "pnpm check",
+    "passed": true,
+    "unitApiTests": 202,
+    "includes": [
+      "OpenAPI lint",
+      "unit/API",
+      "build",
+      "public type checking",
+      "docs build"
+    ],
+    "localLog": "coverage/group-ui/check.log"
+  },
+  "focusedE2E": {
+    "specs": [
+      "group-presentation.spec.ts",
+      "groups.spec.ts",
+      "group-partial-render.spec.ts",
+      "groups-visual.spec.ts",
+      "group-membership-focus.spec.ts"
+    ],
+    "initial": {
+      "passed": 23,
+      "failed": 2
+    },
+    "correction": "Two new test assumptions only: omitted tag color defaults gray; new ticket context retains board name when no Group. Explicit empty color and correct board-context assertion, plus saved ungrouped creation GET. No product changes for these failures.",
+    "rerunNewCases": {
+      "passed": 4,
+      "failed": 0
+    },
+    "totalVerified": 25,
+    "record": "focused-checks.txt"
+  },
+  "keyboard": {
+    "command": "playwright test test/e2e/create-keyboard.spec.ts --workers=2",
+    "passed": 11,
+    "localLog": "coverage/group-ui/keyboard.log"
+  },
+  "focusedUnitDbPassed": 16,
+  "diffCheck": "passed",
+  "logNote": "Raw logs under coverage/group-ui are local-only; CI runs the complete checks separately."
+}

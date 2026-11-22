@@ -2,6 +2,7 @@ import type { GroupView, TicketSummaryView } from "../src/types.js";
 
 export type { GroupView };
 export type GroupSummary = Omit<GroupView, "descriptionMarkdown" | "descriptionHtml">;
+export type GroupSelection = number | "ungrouped" | null;
 export type GroupTicket = Pick<
   TicketSummaryView,
   | "id"
@@ -82,8 +83,9 @@ export type GroupSearchState = {
 };
 export type GroupViewState = GroupSearchState & {
   groups: GroupSummary[];
-  selectedId: number | null;
+  selectedId: GroupSelection;
   selected: GroupView | null;
+  ungroupedTicketCount: number;
   tickets: GroupTicket[];
   all: boolean;
   sort: string;

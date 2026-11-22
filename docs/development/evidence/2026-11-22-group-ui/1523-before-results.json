@@ -1,0 +1,102 @@
+{
+  "phase": "before",
+  "browser": "159.0.8154.6",
+  "records": {
+    "en-light-1440": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "en-light-390": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "en-dark-1440": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "en-dark-390": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "ja-light-1440": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "ja-light-390": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "ja-dark-1440": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    },
+    "ja-dark-390": {
+      "groupIds": [
+        1
+      ],
+      "unassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "noChoiceInActiveOrAll": true,
+      "errors": []
+    }
+  }
+}

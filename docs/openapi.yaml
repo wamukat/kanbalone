@@ -1842,6 +1842,10 @@ components:
         openTicketCount:
           type: integer
           minimum: 0
+        resolvedTicketCount:
+          type: integer
+          minimum: 0
+          description: Resolved Group members, including archived tickets.
         archivedTicketCount:
           type: integer
           minimum: 0
@@ -1859,6 +1863,7 @@ components:
       - isActive
       - totalTicketCount
       - openTicketCount
+      - resolvedTicketCount
       - archivedTicketCount
       - createdAt
       - updatedAt

@@ -14,7 +14,8 @@ export const groupErrorSchema = {
 export const groupProperties = {
   id: positiveIntegerSchema, boardId: positiveIntegerSchema, name: { type: "string" },
   isActive: { type: "boolean" }, totalTicketCount: { type: "integer", minimum: 0 },
-  openTicketCount: { type: "integer", minimum: 0 }, archivedTicketCount: { type: "integer", minimum: 0 },
+  openTicketCount: { type: "integer", minimum: 0 }, resolvedTicketCount: { type: "integer", minimum: 0 },
+  archivedTicketCount: { type: "integer", minimum: 0 },
   revision: positiveIntegerSchema, createdAt: { type: "string" }, updatedAt: { type: "string" },
 } as const;
 export const groupSummarySchema = { type: "object", additionalProperties: false, required: Object.keys(groupProperties), properties: groupProperties } as const;

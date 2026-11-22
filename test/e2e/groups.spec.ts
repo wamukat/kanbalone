@@ -106,8 +106,9 @@ test("Groups create, describe, search whole parent/child sets and remove with co
     expect(saved.groupId).toBeNull(); expect(saved.parentTicketId).toBe(parent.id);
     await page.getByRole("button", { name: "Delete empty Group", exact: true }).click();
     await page.locator("#ux-submit-button").click();
-    await expect(page.locator(".group-choice")).toHaveCount(0);
-    await expect(page.locator(".group-choices")).toContainText("No Groups yet.");
+    await expect(page.locator(".group-choice")).toHaveCount(1);
+    await expect(page.locator('[data-select-group="ungrouped"]')).toHaveAttribute("aria-current", "true");
+    await expect(page.locator(`[data-group-ticket="${child.id}"]`)).toBeVisible();
     await expect(page.getByRole("button", { name: "Show all Groups", exact: true })).toHaveCount(0);
   } finally { await close(); }
 });

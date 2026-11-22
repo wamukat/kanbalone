@@ -1,0 +1,23 @@
+Group UI focused verification
+Worktree /Users/takuma/workspace/kanbalone-group-ui
+Baseline 5ff44622f74c2116147d60c11be7f86fbc2208d2
+Node /Users/takuma/.volta/tools/image/node/26.13.1/bin/node
+
+Initial scoped Chromium run:
+node node_modules/@playwright/test/cli.js test test/e2e/group-presentation.spec.ts test/e2e/groups.spec.ts test/e2e/group-partial-render.spec.ts test/e2e/groups-visual.spec.ts test/e2e/group-membership-focus.spec.ts --output coverage/group-ui-focused --workers 2
+23 passed, 2 failed. All 21 previously existing tests passed. The new tag test omitted color even though the API defaults that to a configured neutral color. The No Group test expected no creation context element even though that element always displays the board name. The corrected test seeds color explicitly as empty and checks that context contains exactly the board name. It also saves an unassigned ticket and verifies its null Group before moving the last unassigned family.
+
+Final new Chromium cases:
+node node_modules/@playwright/test/cli.js test test/e2e/group-presentation.spec.ts --output coverage/group-ui-focused-final --workers 2
+4 passed. Group progress, tag-only updates, description link interaction styles, and No Group creation/membership/focus flow.
+
+Focused unit and DB:
+node --import tsx --test test/app-ticket-hierarchy.test.ts test/groups-db.test.ts
+16 passed.
+
+Public source type check:
+node node_modules/typescript/bin/tsc -p tsconfig.public.json
+Passed.
+
+git diff --check
+Passed.
