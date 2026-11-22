@@ -38,8 +38,12 @@ async function requestJson(url, init = {}) {
   }
   const payload = await response.json();
   const revision = response.headers.get("X-Kanbalone-Ticket-Revision");
-  if (revision && payload && typeof payload === "object") {
-    Object.defineProperty(payload, "ticketRevision", { value: revision });
+  const pageLimit = Number(response.headers.get("X-Kanbalone-Ticket-Page-Limit"));
+  if (payload && typeof payload === "object") {
+    if (revision) Object.defineProperty(payload, "ticketRevision", { value: revision });
+    if (Number.isSafeInteger(pageLimit) && pageLimit > 0) {
+      Object.defineProperty(payload, "ticketPageLimit", { value: pageLimit });
+    }
   }
   return payload;
 }

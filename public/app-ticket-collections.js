@@ -53,10 +53,11 @@ export async function loadListTicketCollection(api, url, options) {
   referenceUrl.searchParams.delete("priority");
   const needsReferences = priority !== null && !["1", "2", "3", "4"].every(value => selected.has(value));
   referenceUrl.pathname = referenceUrl.pathname.replace(/\/tickets$/, "/list-ticket-references");
+  const referenceOptions = { isCurrent: options.isCurrent, init: { signal: options.signal }, followPageLimit: true };
   for (let attempt = 0; ; attempt += 1) {
     const [display, filteredReferences] = await Promise.all([
       collectTicketPages(api, url, { isCurrent: options.isCurrent, init: { signal: options.signal } }),
-      needsReferences ? collectTicketPages(api, referenceUrl.pathname + referenceUrl.search, { isCurrent: options.isCurrent, init: { signal: options.signal } }) : null,
+      needsReferences ? collectTicketPages(api, referenceUrl.pathname + referenceUrl.search, referenceOptions) : null,
     ]);
     if (filteredReferences && display.ticketRevision !== filteredReferences.ticketRevision) {
       if (attempt < 2 && options.isCurrent()) continue;
@@ -64,9 +65,7 @@ export async function loadListTicketCollection(api, url, options) {
     }
     // The dialog can open or close while the visible collection is loading.
     const references = options.allReferences?.() && referenceUrl.search !== "?archived=all"
-      ? await collectTicketPages(api, referenceUrl.pathname + "?archived=all", {
-        isCurrent: options.isCurrent, init: { signal: options.signal },
-      })
+      ? await collectTicketPages(api, referenceUrl.pathname + "?archived=all", referenceOptions)
       : filteredReferences;
     if (references !== filteredReferences && display.ticketRevision !== references?.ticketRevision) {
       if (attempt < 2 && options.isCurrent()) continue;
