@@ -142,6 +142,18 @@ Click **×** at the right of the search field to clear your search.
 
 ![Clearing a search](../assets/user-guide/14-search-clear.png)
 
+### Find And Open Tickets With The Keyboard
+
+Press **↓** in the search field to select a displayed ticket.
+
+- **List**: use ↑↓ to move between tickets.
+- **Kanban**: use ↑↓ within a lane and ←→ between lanes. Lanes with no matching tickets are skipped.
+- **Enter**: open the selected ticket.
+- **Esc**: close the detail and return to the same ticket and scroll position. Press it again on the ticket to return to search.
+
+Your filters stay in place, so you can continue to the next ticket. If the original ticket is no longer displayed, focus returns to search. Use **Show more** to reveal more tickets in a completion lane.
+
+
 ## 11. Classify Work With Tags
 
 Add tags to classify tickets by type or purpose. Use the tag filter to show tickets with a particular tag.

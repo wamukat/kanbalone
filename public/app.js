@@ -277,29 +277,47 @@ async function selectBoard(boardId) {
   persistUiPreferences();
 }
 
+let boardRefreshGeneration = 0;
 async function refreshBoardDetail() {
-  if (!state.activeBoardId) {
-    closeBoardEvents();
-    state.boardDetail = null;
-    state.boardTickets = [];
-    syncActiveFilterStyles();
+  const generation = ++boardRefreshGeneration;
+  state.boardNavigationLoading = true;
+  state.boardNavigationReady = false;
+  try {
+    if (!state.activeBoardId) {
+      closeBoardEvents();
+      state.boardDetail = null;
+      state.boardTickets = [];
+      syncActiveFilterStyles();
+      renderBoardDetail();
+      return;
+    }
+    const boardId = state.activeBoardId;
+    const viewMode = state.viewMode;
+    const detail = await api(`/api/boards/${boardId}`);
+    if (generation !== boardRefreshGeneration || boardId !== state.activeBoardId || viewMode !== state.viewMode) return;
+    normalizeBoardFiltersForDetail(detail);
+    const allTickets = await api(viewMode === "group" ? `/api/boards/${boardId}/tickets?archived=all` : buildTicketListUrl());
+    if (generation !== boardRefreshGeneration || boardId !== state.activeBoardId || viewMode !== state.viewMode) return;
+    state.boardTickets = allTickets.tickets;
+    state.boardDetail = {
+      board: detail.board,
+      lanes: detail.lanes,
+      tags: detail.tags,
+      tickets: filterTicketsForDisplay(allTickets.tickets),
+    };
+    state.boardNavigationReady = true;
+    syncBoardEvents();
+    renderBoards();
     renderBoardDetail();
-    return;
+    syncActiveFilterStyles();
+  } catch (error) {
+    if (generation === boardRefreshGeneration) throw error;
+  } finally {
+    if (generation === boardRefreshGeneration) {
+      state.boardNavigationLoading = false;
+      boardModule.afterKeyboardRender();
+    }
   }
-  const detail = await api(`/api/boards/${state.activeBoardId}`);
-  normalizeBoardFiltersForDetail(detail);
-  const allTickets = await api(state.viewMode === "group" ? `/api/boards/${state.activeBoardId}/tickets?archived=all` : buildTicketListUrl());
-  state.boardTickets = allTickets.tickets;
-  state.boardDetail = {
-    board: detail.board,
-    lanes: detail.lanes,
-    tags: detail.tags,
-    tickets: filterTicketsForDisplay(allTickets.tickets),
-  };
-  syncBoardEvents();
-  renderBoards();
-  renderBoardDetail();
-  syncActiveFilterStyles();
 }
 
 function escapeHtml(value) {
@@ -374,6 +392,8 @@ const {
 );
 
 const editorModule = createEditorModule({
+  captureEditorOrigin: () => boardModule.captureEditorOrigin(),
+  restoreEditorOrigin: (version) => boardModule.restoreEditorOrigin(version),
   onTicketCreated: (boardId) => boardModule.onTicketCreated(boardId),
   openGroup: (groupId) => boardModule.openGroup(groupId),
   state,

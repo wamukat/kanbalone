@@ -1,0 +1,171 @@
+{
+  "stage": "before",
+  "base": "http://localhost:3580",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "dataUnchanged": true,
+  "traces": [
+    {
+      "language": "ja",
+      "view": "list",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"キーワード・#123で検索\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"キーワード・#123で検索\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "returned": {
+        "query": "",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"キーワード・#123で検索\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      }
+    },
+    {
+      "language": "ja",
+      "view": "kanban",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowRight",
+        "ArrowRight",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"キーワード・#123で検索\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"キーワード・#123で検索\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "returned": {
+        "query": "",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"キーワード・#123で検索\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      }
+    },
+    {
+      "language": "en",
+      "view": "list",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"Search keywords or #123\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"Search keywords or #123\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "returned": {
+        "query": "",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"Search keywords or #123\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      }
+    },
+    {
+      "language": "en",
+      "view": "kanban",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowRight",
+        "ArrowRight",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"Search keywords or #123\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"Search keywords or #123\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      },
+      "returned": {
+        "query": "",
+        "focus": "<input id=\"search-input\" type=\"search\" placeholder=\"Search keywords or #123\" data-i18n-placeholder=\"Search keywords or #123\">",
+        "detail": false,
+        "scrolls": []
+      }
+    }
+  ]
+}

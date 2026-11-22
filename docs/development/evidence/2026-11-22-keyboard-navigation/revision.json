@@ -1,0 +1,20 @@
+{
+  "baseline": "0bf19d1b21536457e503068c7b6d2340e93b30e3",
+  "after": "Final uncommitted worktree; captures replayed after failure-toast and originVersion fixes",
+  "files": {
+    "public/app-board-keyboard.js": "dba91f9765f679355d59ea1ef362f38967e170dad04c9b99b8e489aee87c752a",
+    "public/app-board-list.d.ts": "76dd5a46ed5540b5de57baf9040baf5e3445377752db344d8065925a27698e33",
+    "public/app-board-list.js": "8c629f21d66d3c031fa0266d5aeab7e7c254ff269dfc5705a6b92c9c4f50ee85",
+    "public/app-board.js": "b1c7b301ac623e7351afffcdaa8bf5c05b37381d613d864e65ade30a511f92f8",
+    "public/app-editor.js": "e8b267bd9420633ce7114507820812161e67e9ba95a7679dcb987a02a98d658e",
+    "public/app-filters.js": "e31eec9058d32c8994bfb2938a082f86fb0292b52d50e0f42fb3a84a03ba40fb",
+    "public/app-kanban-board.js": "b110c76fd409983676f070233546ac6eaa8ce2fef2e01488abbbfcac31826446",
+    "public/app.js": "f82a0ce0a386bf553748dbcd69b339eae2a4f95372d8282b37cc47d5bc529495",
+    "public/locales/ja-board.js": "61c6e1bf1b5af7d7acc452961a410d39ec91bd9b32dd80f28018e424f1af231f",
+    "public/styles/list-table.css": "e90ee3f09abfcf728c8a3507e03839655bfc5be9acc8e6a54d8e7aa525e34917",
+    "public/styles/ticket-cards.css": "19a5704ba92f3cbe9d2fd52cf58abadaa1beaaa8d6a18f1f86609f3c25d9da6e"
+  },
+  "captured": "2026-11-22 Asia/Tokyo",
+  "node": "26.13.1",
+  "browser": "agent-browser Chromium"
+}

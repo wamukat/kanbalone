@@ -1,0 +1,271 @@
+{
+  "stage": "after",
+  "base": "http://localhost:3581",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "dataUnchanged": true,
+  "traces": [
+    {
+      "language": "ja",
+      "view": "list",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"list-ticket-link\" data-open-ticket-id=\"18\">\n          <span class=\"ticket-id\">#18</span>\n          <span class=\"list-ticket-title\">Notification: Review notification text</span>\n        </button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "DIV",
+            "cls": "list-viewport",
+            "id": "",
+            "x": 0,
+            "y": 380
+          }
+        ]
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<button id=\"header-edit-button\" type=\"button\" class=\"ghost icon-button dialog-close-button\" aria-label=\"チケットを編集\" data-i18n-aria-label=\"Edit ticket\" title=\"編集\" data-i18n-title=\"Edit\">\n              <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"/icons.svg#pencil\"></use></svg>\n            </button>",
+        "detail": true,
+        "scrolls": [
+          {
+            "tag": "DIV",
+            "cls": "list-viewport",
+            "id": "",
+            "x": 0,
+            "y": 380
+          }
+        ]
+      },
+      "returned": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"list-ticket-link\" data-open-ticket-id=\"18\">\n          <span class=\"ticket-id\">#18</span>\n          <span class=\"list-ticket-title\">Notification: Review notification text</span>\n        </button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "DIV",
+            "cls": "list-viewport",
+            "id": "",
+            "x": 0,
+            "y": 380
+          }
+        ]
+      },
+      "selectedReturnImagesIdentical": true
+    },
+    {
+      "language": "ja",
+      "view": "kanban",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowRight",
+        "ArrowRight",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"ticket-link\">Notification: Record verification</button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "SECTION",
+            "cls": "lane-board",
+            "id": "lane-board",
+            "x": 124,
+            "y": 0
+          }
+        ]
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<button id=\"header-edit-button\" type=\"button\" class=\"ghost icon-button dialog-close-button\" aria-label=\"チケットを編集\" data-i18n-aria-label=\"Edit ticket\" title=\"編集\" data-i18n-title=\"Edit\">\n              <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"/icons.svg#pencil\"></use></svg>\n            </button>",
+        "detail": true,
+        "scrolls": [
+          {
+            "tag": "SECTION",
+            "cls": "lane-board",
+            "id": "lane-board",
+            "x": 124,
+            "y": 0
+          }
+        ]
+      },
+      "returned": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"ticket-link\">Notification: Record verification</button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "SECTION",
+            "cls": "lane-board",
+            "id": "lane-board",
+            "x": 124,
+            "y": 0
+          }
+        ]
+      },
+      "selectedReturnImagesIdentical": true
+    },
+    {
+      "language": "en",
+      "view": "list",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"list-ticket-link\" data-open-ticket-id=\"18\">\n          <span class=\"ticket-id\">#18</span>\n          <span class=\"list-ticket-title\">Notification: Review notification text</span>\n        </button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "DIV",
+            "cls": "list-viewport",
+            "id": "",
+            "x": 0,
+            "y": 380
+          }
+        ]
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<button id=\"header-edit-button\" type=\"button\" class=\"ghost icon-button dialog-close-button\" aria-label=\"Edit ticket\" data-i18n-aria-label=\"Edit ticket\" title=\"Edit\" data-i18n-title=\"Edit\">\n              <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"/icons.svg#pencil\"></use></svg>\n            </button>",
+        "detail": true,
+        "scrolls": [
+          {
+            "tag": "DIV",
+            "cls": "list-viewport",
+            "id": "",
+            "x": 0,
+            "y": 380
+          }
+        ]
+      },
+      "returned": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"list-ticket-link\" data-open-ticket-id=\"18\">\n          <span class=\"ticket-id\">#18</span>\n          <span class=\"list-ticket-title\">Notification: Review notification text</span>\n        </button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "DIV",
+            "cls": "list-viewport",
+            "id": "",
+            "x": 0,
+            "y": 380
+          }
+        ]
+      },
+      "selectedReturnImagesIdentical": true
+    },
+    {
+      "language": "en",
+      "view": "kanban",
+      "keys": [
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowRight",
+        "ArrowRight",
+        "Enter",
+        "Escape"
+      ],
+      "selected": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"ticket-link\">Notification: Record verification</button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "SECTION",
+            "cls": "lane-board",
+            "id": "lane-board",
+            "x": 124,
+            "y": 0
+          }
+        ]
+      },
+      "detail": {
+        "query": "Notification",
+        "focus": "<button id=\"header-edit-button\" type=\"button\" class=\"ghost icon-button dialog-close-button\" aria-label=\"Edit ticket\" data-i18n-aria-label=\"Edit ticket\" title=\"Edit\" data-i18n-title=\"Edit\">\n              <svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"/icons.svg#pencil\"></use></svg>\n            </button>",
+        "detail": true,
+        "scrolls": [
+          {
+            "tag": "SECTION",
+            "cls": "lane-board",
+            "id": "lane-board",
+            "x": 124,
+            "y": 0
+          }
+        ]
+      },
+      "returned": {
+        "query": "Notification",
+        "focus": "<button type=\"button\" class=\"ticket-link\">Notification: Record verification</button>",
+        "detail": false,
+        "scrolls": [
+          {
+            "tag": "SECTION",
+            "cls": "lane-board",
+            "id": "lane-board",
+            "x": 124,
+            "y": 0
+          }
+        ]
+      },
+      "selectedReturnImagesIdentical": true
+    }
+  ]
+}

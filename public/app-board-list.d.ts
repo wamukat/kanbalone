@@ -99,6 +99,8 @@ export function renderListActions<T extends ListActionTicket>(
 ): string;
 
 export function createListBoardModule(ctx: ListBoardContext, options: ListBoardOptions): {
+  getOrderedTicketIds(): number[];
+  focusTicket(ticketId: number, options?: { scroll?: boolean }): boolean;
   handleListBoardChange(event: Event): void;
   handleListBoardClick(event: Event): void;
   handleListBoardScroll(event: Event): void;

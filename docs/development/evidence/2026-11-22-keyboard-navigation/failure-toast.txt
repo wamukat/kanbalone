@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:44923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/1] [chromium] › test/e2e/keyboard-navigation.spec.ts:236:1 › failed search does not move focus into stale results and a later search recovers
+  1 passed (8.3s)

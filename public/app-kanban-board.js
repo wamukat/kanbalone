@@ -21,11 +21,13 @@ export function createKanbanBoardModule(ctx, options) {
   let completionBoardId = null;
 
   function cancelPendingRender() {
+    state.boardKeyboardRenderPending = false;
     kanbanRenderToken += 1;
     kanbanNextLaneIndex = 0;
   }
 
   function renderKanbanBoard(detail) {
+    state.boardKeyboardRenderPending = true;
     const renderToken = ++kanbanRenderToken;
     kanbanNextLaneIndex = 0;
     const scrollState = captureKanbanScrollState();
@@ -274,6 +276,8 @@ export function createKanbanBoardModule(ctx, options) {
         }
         restoreLaneScroll(queue);
       }
+      state.boardKeyboardRenderPending = laneQueues.some((queue) => queue.index < queue.tickets.length);
+      options.afterRender?.();
       if (laneQueues.some((queue) => queue.index < queue.tickets.length)) {
         requestAnimationFrame(step);
       }

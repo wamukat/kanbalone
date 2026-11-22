@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+(node:44973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/6] [chromium] › test/e2e/keyboard-navigation.spec.ts:27:3 › List search navigates virtual rows and returns to the same query, ticket and scroll (en)
+[2/6] [chromium] › test/e2e/keyboard-navigation.spec.ts:69:3 › Kanban crosses empty lanes, restores position and never expands done implicitly (en)
+[3/6] [chromium] › test/e2e/keyboard-navigation.spec.ts:27:3 › List search navigates virtual rows and returns to the same query, ticket and scroll (ja)
+[4/6] [chromium] › test/e2e/keyboard-navigation.spec.ts:69:3 › Kanban crosses empty lanes, restores position and never expands done implicitly (ja)
+[5/6] [chromium] › test/e2e/keyboard-navigation.spec.ts:152:1 › closing after a queued refresh restores the title or safely falls back when it leaves the filter
+[6/6] [chromium] › test/e2e/keyboard-navigation.spec.ts:177:1 › keyboard-opened detail retains a cancelled body draft and restores navigation after discard
+  6 passed (38.3s)

@@ -179,6 +179,8 @@ export function createListBoardModule(ctx, options) {
     );
     const visibleEntries = listModel.orderedTickets.slice(startIndex, endIndex);
     windowEl.style.transform = `translateY(${startIndex * listModel.rowHeight}px)`;
+    const focused = document.activeElement;
+    const focusedId = focused?.matches?.(".list-ticket-link") ? Number(focused.dataset.openTicketId) : null;
     windowEl.innerHTML = visibleEntries.map((entry) => renderListRow(entry, {
       boardTickets: state.boardTickets,
       escapeHtml: ctx.escapeHtml,
@@ -188,6 +190,30 @@ export function createListBoardModule(ctx, options) {
       rowHeight: LIST_ROW_HEIGHT,
       selectedTicketIds: state.selectedListTicketIds,
     })).join("");
+    if (focusedId != null) {
+      windowEl.querySelector(`.list-ticket-link[data-open-ticket-id="${focusedId}"]`)?.focus({ preventScroll: true });
+    }
+  }
+
+  function getOrderedTicketIds() {
+    return listModel?.visibleTicketIds ?? [];
+  }
+
+  function focusTicket(ticketId, { scroll = true } = {}) {
+    const index = getOrderedTicketIds().indexOf(ticketId);
+    const viewport = elements.listBoard.querySelector(".list-viewport");
+    if (index < 0 || !viewport) return false;
+    if (scroll) {
+      const top = index * LIST_ROW_HEIGHT;
+      if (top < viewport.scrollTop) viewport.scrollTop = top;
+      else if (top + LIST_ROW_HEIGHT > viewport.scrollTop + viewport.clientHeight) {
+        viewport.scrollTop = top + LIST_ROW_HEIGHT - viewport.clientHeight;
+      }
+    }
+    paintVisibleListRows();
+    const button = elements.listBoard.querySelector(`.list-ticket-link[data-open-ticket-id="${ticketId}"]`);
+    button?.focus({ preventScroll: true });
+    return Boolean(button);
   }
 
   function handleListBoardClick(event) {
@@ -276,6 +302,8 @@ export function createListBoardModule(ctx, options) {
   }
 
   return {
+    getOrderedTicketIds,
+    focusTicket,
     handleListBoardChange,
     handleListBoardClick,
     handleListBoardScroll,
