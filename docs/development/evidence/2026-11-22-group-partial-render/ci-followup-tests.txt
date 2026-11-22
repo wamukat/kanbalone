@@ -1,0 +1,35 @@
+
+Running 20 tests using 2 workers
+
+(node:72265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › test/e2e/unsaved-edits.spec.ts:4:1 › inline body Escape keeps changes until explicit discard (7.8s)
+  ✓   2 [chromium] › test/e2e/unsaved-edits.spec.ts:4:1 › inline body Escape keeps changes until explicit discard (8.3s)
+  ✓   3 [chromium] › test/e2e/unsaved-edits.spec.ts:26:1 › full editor protects changes on outside click and Back, saved edits close without confirmation (8.2s)
+  ✓   4 [chromium] › test/e2e/unsaved-edits.spec.ts:26:1 › full editor protects changes on outside click and Back, saved edits close without confirmation (8.7s)
+  ✓   5 [chromium] › test/e2e/unsaved-edits.spec.ts:55:1 › failed inline save and comment refresh preserve the body draft (8.1s)
+  ✓   6 [chromium] › test/e2e/unsaved-edits.spec.ts:55:1 › failed inline save and comment refresh preserve the body draft (7.7s)
+  ✓   7 [chromium] › test/e2e/unsaved-edits.spec.ts:85:1 › inline body is readonly during save, preventing a later draft from being lost (5.7s)
+(node:72335) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [chromium] › test/e2e/unsaved-edits.spec.ts:85:1 › inline body is readonly during save, preventing a later draft from being lost (7.1s)
+(node:72341) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [chromium] › test/e2e/unsaved-edits.spec.ts:4:1 › inline body Escape keeps changes until explicit discard (7.7s)
+  ✓  10 [chromium] › test/e2e/unsaved-edits.spec.ts:4:1 › inline body Escape keeps changes until explicit discard (8.9s)
+  ✓  11 [chromium] › test/e2e/unsaved-edits.spec.ts:26:1 › full editor protects changes on outside click and Back, saved edits close without confirmation (7.2s)
+  ✓  12 [chromium] › test/e2e/unsaved-edits.spec.ts:26:1 › full editor protects changes on outside click and Back, saved edits close without confirmation (5.9s)
+  ✓  13 [chromium] › test/e2e/unsaved-edits.spec.ts:55:1 › failed inline save and comment refresh preserve the body draft (6.7s)
+  ✓  14 [chromium] › test/e2e/unsaved-edits.spec.ts:55:1 › failed inline save and comment refresh preserve the body draft (6.3s)
+  ✓  16 [chromium] › test/e2e/unsaved-edits.spec.ts:85:1 › inline body is readonly during save, preventing a later draft from being lost (5.1s)
+  ✓  15 [chromium] › test/e2e/unsaved-edits.spec.ts:85:1 › inline body is readonly during save, preventing a later draft from being lost (7.1s)
+(node:72364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [chromium] › test/e2e/unsaved-edits.spec.ts:4:1 › inline body Escape keeps changes until explicit discard (5.1s)
+  ✓  18 [chromium] › test/e2e/unsaved-edits.spec.ts:26:1 › full editor protects changes on outside click and Back, saved edits close without confirmation (4.5s)
+  ✓  19 [chromium] › test/e2e/unsaved-edits.spec.ts:55:1 › failed inline save and comment refresh preserve the body draft (4.5s)
+  ✓  20 [chromium] › test/e2e/unsaved-edits.spec.ts:85:1 › inline body is readonly during save, preventing a later draft from being lost (4.5s)
+
+  20 passed (1.4m)
