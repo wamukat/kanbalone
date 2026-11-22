@@ -44,6 +44,8 @@ test("full editor protects changes on outside click and Back, saved edits close 
     await expect(page.locator('#ticket-body')).toHaveValue('Keep this');
     await page.locator('#editor-form').getByRole('button', {name:'Save',exact:true}).click();
     await expect(page.locator('#ticket-view-body')).toContainText('Keep this');
+    // The detail updates before the post-save board refresh releases the saving guard.
+    await expect(page.locator('#editor-form')).toHaveJSProperty('inert', false);
     await page.keyboard.press('Escape');
     await expect(page.locator('#editor-dialog')).toHaveJSProperty('open', false);
     await expect(page.locator('#ux-dialog')).toHaveJSProperty('open', false);

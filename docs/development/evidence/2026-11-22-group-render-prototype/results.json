@@ -1,0 +1,167 @@
+[
+  {
+    "variant": "baseline",
+    "initial": true,
+    "first": 4127.5,
+    "states": [
+      {
+        "label": "initial",
+        "scrollHeight": 640314,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      },
+      {
+        "label": "middle",
+        "scrollHeight": 640314,
+        "scrollTop": 320157,
+        "focused": null,
+        "firstRow": -319912.625,
+        "lastRow": 52
+      },
+      {
+        "label": "bottom",
+        "scrollHeight": 640314,
+        "scrollTop": 639433,
+        "focused": null,
+        "firstRow": -639188.625,
+        "lastRow": 52
+      },
+      {
+        "label": "focus-last",
+        "scrollHeight": 640314,
+        "scrollTop": 639433,
+        "focused": "11000",
+        "firstRow": -639188.625,
+        "lastRow": 52
+      },
+      {
+        "label": "tab-after-last",
+        "scrollHeight": 640314,
+        "scrollTop": 639433,
+        "focused": null,
+        "firstRow": -639188.625,
+        "lastRow": 52
+      },
+      {
+        "label": "returned-top",
+        "scrollHeight": 640314,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      }
+    ]
+  },
+  {
+    "variant": "contain",
+    "initial": true,
+    "first": 4124.60000000149,
+    "states": [
+      {
+        "label": "initial",
+        "scrollHeight": 640314,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      },
+      {
+        "label": "middle",
+        "scrollHeight": 640314,
+        "scrollTop": 320157,
+        "focused": null,
+        "firstRow": -319912.625,
+        "lastRow": 52
+      },
+      {
+        "label": "bottom",
+        "scrollHeight": 640314,
+        "scrollTop": 639433,
+        "focused": null,
+        "firstRow": -639188.625,
+        "lastRow": 52
+      },
+      {
+        "label": "focus-last",
+        "scrollHeight": 640314,
+        "scrollTop": 639433,
+        "focused": "11000",
+        "firstRow": -639188.625,
+        "lastRow": 52
+      },
+      {
+        "label": "tab-after-last",
+        "scrollHeight": 640314,
+        "scrollTop": 639433,
+        "focused": null,
+        "firstRow": -639188.625,
+        "lastRow": 52
+      },
+      {
+        "label": "returned-top",
+        "scrollHeight": 640314,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      }
+    ]
+  },
+  {
+    "variant": "auto",
+    "initial": true,
+    "first": 2743.3000000044703,
+    "states": [
+      {
+        "label": "initial",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      },
+      {
+        "label": "middle",
+        "scrollHeight": 640195,
+        "scrollTop": 320039,
+        "focused": null,
+        "firstRow": -319794.625,
+        "lastRow": 52
+      },
+      {
+        "label": "bottom",
+        "scrollHeight": 640314,
+        "scrollTop": 639314,
+        "focused": null,
+        "firstRow": -639069.625,
+        "lastRow": 52
+      },
+      {
+        "label": "focus-last",
+        "scrollHeight": 640314,
+        "scrollTop": 639355,
+        "focused": "11000",
+        "firstRow": -639110.625,
+        "lastRow": 52
+      },
+      {
+        "label": "tab-after-last",
+        "scrollHeight": 640314,
+        "scrollTop": 639355,
+        "focused": null,
+        "firstRow": -639110.625,
+        "lastRow": 52
+      },
+      {
+        "label": "returned-top",
+        "scrollHeight": 640314,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      }
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "before": {
+    "assets": {
+      "app-group-board.js": "d6a904c06ca602f354bdcc81db260e1d0537d180fd2a8392573dcbce19d1f982",
+      "app-group-view.js": "beebef12e2ea466ba93b5d42d8c97e79763c7ce1aa1c640e2c81aeaf378e5580",
+      "styles/groups.css": "7b3802ee9fcbe368011db7e544ec2e1ade46eccdecf64109dd9661e57acff3d2"
+    },
+    "collections": {
+      "1": {
+        "sha256": "85addf15e1d621a72faf7f83841473c2df56d05d5c362c216502cf5dc3f1f74c",
+        "count": 1005
+      },
+      "2": {
+        "sha256": "201771ed443229e62171447d6c7edf204bae875a7af19f98cd28d936bb4d133e",
+        "count": 10005
+      }
+    }
+  },
+  "after": {
+    "assets": {
+      "app-group-board.js": "16cad47c2c4077a97d49956dba512723f7b38c0395c6eda999af43625e3bb546",
+      "app-group-view.js": "ee2e70ab6b23f1084e564114101c8bc54297974e784e72ec6c6bf1b3b39b5a83",
+      "styles/groups.css": "5195b5e476dbe7ff36312f5924070eb17920c3b01a175d4b42f40fb8fcec615b"
+    },
+    "collections": {
+      "1": {
+        "sha256": "85addf15e1d621a72faf7f83841473c2df56d05d5c362c216502cf5dc3f1f74c",
+        "count": 1005
+      },
+      "2": {
+        "sha256": "201771ed443229e62171447d6c7edf204bae875a7af19f98cd28d936bb4d133e",
+        "count": 10005
+      }
+    }
+  }
+}

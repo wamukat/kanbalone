@@ -50,7 +50,13 @@ export function renderGroupOptions(state, esc) {
 }
 
 /** @param {import("./app-group-types.js").GroupViewState} view @param {import("./app-group-types.js").GroupViewOptions} options */
-export function renderGroupView(view, { escapeHtml: esc, lanes }) {
+export function renderGroupView(view, options) {
+  const sections = renderGroupViewSections(view, options);
+  return sections.list + `<div class="group-content-panel">${sections.header}${sections.tickets}${sections.footer}</div>`;
+}
+
+/** @param {import("./app-group-types.js").GroupViewState} view @param {import("./app-group-types.js").GroupViewOptions} options @param {boolean} [includeTickets] */
+export function renderGroupViewSections(view, { escapeHtml: esc, lanes }, includeTickets = true) {
   const {
     groups,
     selectedId,
@@ -74,11 +80,13 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
     chosen,
     query,
   } = view;
-  const hierarchy = indexTicketHierarchy(tickets);
+  /** @type {ReturnType<typeof indexTicketHierarchy<GroupTicket>> | null} */
+  let ticketHierarchy = null;
+  const hierarchy = () => ticketHierarchy ??= indexTicketHierarchy(tickets);
   const candidateHierarchy = adding ? indexTicketHierarchy(candidates) : null;
   /** @param {number} id @param {GroupTicket[]} [source] */
   const related = (id, source = tickets) => source === tickets
-    ? hierarchy.related(id)
+    ? hierarchy().related(id)
     : (candidateHierarchy ?? indexTicketHierarchy(source)).related(id);
   const optionsHtml = () => renderGroupOptions(view, esc);
   /** @param {GroupSummary} g */
@@ -92,7 +100,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
   ) => `<div class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
     <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets)}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t)}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
-    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy.relatedCount(t.id) })}" aria-label="${hierarchy.relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy.relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
+    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
   </div>`;
   function ticketRows() {
     const comparator = getListTicketComparator(null);
@@ -100,11 +108,11 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
       .filter(
         (t) =>
           t.parentTicketId == null ||
-          !hierarchy.byId.has(t.parentTicketId),
+          !hierarchy().byId.has(t.parentTicketId),
       )
       .sort(comparator)
       .map((parent) => {
-        const children = (hierarchy.childrenByParent.get(parent.id) ?? [])
+        const children = (hierarchy().childrenByParent.get(parent.id) ?? [])
           .sort(comparator)
           .filter((t) => showArchived || !t.isArchived);
         if (!showArchived && parent.isArchived && !children.length) return "";
@@ -174,7 +182,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
     return [
       '<form data-group-form="create" class="group-edit-form">',
       `<label>${tr("Group name")}<input name="name" value="${esc(createName)}" required maxlength="100" autocomplete="off"></label>`,
-      `<div class="group-actions"><button type="submit" class="primary-action">${tr("Create")}</button>`,
+      `<div class="group-actions"><button type="submit" class="primary-action" ${busy ? "disabled" : ""}>${tr("Create")}</button>`,
       `<button type="button" class="ghost" data-group-action="cancel-create">${tr("Cancel")}</button></div></form>`,
     ].join("");
   }
@@ -208,7 +216,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
       return [
         '<form data-group-form="rename" class="group-edit-form">',
         `<label>${tr("Group name")}<input name="name" value="${esc(renameName)}" required maxlength="100"></label>`,
-        `<div class="group-actions"><button type="submit" class="primary-action">${tr("Save")}</button>`,
+        `<div class="group-actions"><button type="submit" class="primary-action" ${busy ? "disabled" : ""}>${tr("Save")}</button>`,
         `<button type="button" class="ghost" data-group-action="cancel-rename">${tr("Cancel")}</button></div></form>`,
       ].join("");
     }
@@ -229,28 +237,26 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
     ].join("");
   }
 
-  function groupContent() {
-    const content = selected
-      ? [
-          groupHeading(selected),
-          description(),
-          '<div class="group-ticket-toolbar">',
-          `<button class="ghost group-text-action" data-group-action="add">${tr("Add existing tickets")}</button>`,
-          `<button class="ghost group-text-action" data-group-action="new-ticket">${tr("Create ticket")}</button></div>`,
-          !selected.isActive
-            ? `<p class="muted">${tr("This Group is inactive because it has no open, unarchived tickets.")}</p>`
-            : "",
-          adding ? addForm() : "",
-          ticketRows() ||
-            `<p class="group-empty muted">${tickets.length ? tr("All tickets are archived.") : tr("Add or create tickets to get started.")}</p>`,
-          archiveToggle(),
-          !tickets.length
-            ? `<button class="ghost danger group-delete" data-group-action="delete">${tr("Delete empty Group")}</button>`
-            : "",
-        ].join("")
-      : `<p class="group-empty muted">${groups.length ? tr("Select All to see your inactive Groups.") : tr("Create a Group to organize tickets.")}</p>`;
-    return `<div class="group-content-panel">${content}<p class="group-error" role="alert">${esc(error)}</p></div>`;
-  }
-
-  return groupList() + groupContent();
+  const header = selected ? [
+    groupHeading(selected),
+    description(),
+    '<div class="group-ticket-toolbar">',
+    `<button class="ghost group-text-action" data-group-action="add">${tr("Add existing tickets")}</button>`,
+    `<button class="ghost group-text-action" data-group-action="new-ticket">${tr("Create ticket")}</button></div>`,
+    !selected.isActive
+      ? `<p class="muted">${tr("This Group is inactive because it has no open, unarchived tickets.")}</p>`
+      : "",
+    adding ? addForm() : "",
+  ].join("") : "";
+  const rows = !includeTickets ? null : selected
+    ? ticketRows() || `<p class="group-empty muted">${tickets.length ? tr("All tickets are archived.") : tr("Add or create tickets to get started.")}</p>`
+    : `<p class="group-empty muted">${groups.length ? tr("Select All to see your inactive Groups.") : tr("Create a Group to organize tickets.")}</p>`;
+  const footer = [
+    selected ? archiveToggle() : "",
+    selected && !tickets.length
+      ? `<button class="ghost danger group-delete" data-group-action="delete">${tr("Delete empty Group")}</button>`
+      : "",
+    `<p class="group-error" role="alert">${esc(error)}</p>`,
+  ].join("");
+  return { list: groupList(), header, tickets: rows, footer };
 }
