@@ -12,7 +12,7 @@ Kanbalone provides a production-oriented Dockerfile and a Docker Compose file fo
 - Run the application as a non-root user.
 - Expose a health check through the existing `GET /api/health` endpoint.
 - Keep Docker Compose simple for local users.
-- Prepare a future publishing path for GitHub Container Registry or another OCI registry.
+- Publish verified images to GitHub Container Registry.
 
 ## Non-Goals
 
@@ -157,28 +157,9 @@ Acceptance criteria:
 
 ### Release Publishing
 
-Add an image publishing workflow when the project is ready to publish images.
+CI builds and tests the image for every PR. The `Release` dry-run on `main` builds and saves the candidate. After local verification and approval, the publication run takes that exact image from the dry-run artifact and publishes it to `ghcr.io/wamukat/kanbalone`. Follow the [release guide](./release.md) for both runs.
 
-Recommended registry:
-
-- GitHub Container Registry: `ghcr.io/wamukat/kanbalone`
-
-Recommended tags:
-
-- `vX.Y.Z` from the Git tag, for example `v0.9.0`.
-- `X.Y.Z` from the semantic version, for example `0.9.0`.
-- `latest` for the newest released image.
-
-Recommended trigger policy:
-
-- Build on pull requests without pushing.
-- Push versioned image on Git tags matching `v*`.
-
-Acceptance criteria:
-
-- CI builds the Docker image for every PR.
-- A release tag publishes a versioned image.
-- The image can be pulled and run using the documented `docker run` command.
+The publication workflow creates the Git tag and the matching `vVERSION` and `VERSION` image tags. The `latest` image tag tracks stable releases. Use a version tag to pull a specific RC.
 
 ## Verification Checklist
 
@@ -213,4 +194,4 @@ pnpm test:e2e
 
 ## Platform Follow-Up
 
-The published image is pullable from GHCR. The current publishing workflow builds `linux/amd64` only. Add `linux/arm64` after verifying native dependency compatibility for `better-sqlite3` on the ARM64 runtime image.
+The published image is available from GHCR for `linux/amd64`. Add `linux/arm64` after verifying native dependency compatibility for `better-sqlite3` on the ARM64 runtime image.

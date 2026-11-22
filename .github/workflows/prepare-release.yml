@@ -69,7 +69,7 @@ jobs:
           Follow the team rules in docs/en/developer/release.md. After merging, run Release on main with the full merged commit SHA, starting with dry-run. Record the following here before publication:
 
           - Release owner and target SHA:
-          - Dry-run URL and image ID:
+          - Dry-run URL, candidate artifact ID and image IDs:
           - Local candidate verification: steps, results and limitations:
           - Upgrade, backup and restoration verification, or reason not applicable:
           - Publication decision:

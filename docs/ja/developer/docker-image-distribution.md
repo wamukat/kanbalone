@@ -12,7 +12,7 @@ Kanbalone は、本番利用を意識した Dockerfile と、ローカル配布�
 - Application を non-root user で実行する。
 - 既存の `GET /api/health` endpoint で health check できるようにする。
 - ローカル利用者向けの Docker Compose をシンプルに保つ。
-- GitHub Container Registry など OCI registry への公開経路を用意する。
+- 検証済みイメージを GitHub Container Registry に公開する。
 
 ## 対象外
 
@@ -149,22 +149,9 @@ Compose file は以下を満たします。
 
 ### リリース公開
 
-Image publishing workflow は、image 公開準備ができた段階で追加します。
+CIは各PRでイメージをビルドして検証します。`main`の`Release`のdry-runで候補イメージをビルドし、artifactに保存します。ローカル確認と公開承認の後、公開実行はdry-runと同じイメージをartifactから読み込み、`ghcr.io/wamukat/kanbalone`へ公開します。両方の操作は[リリース手順](./release.md)を参照してください。
 
-推奨 registry:
-
-- GitHub Container Registry: `ghcr.io/wamukat/kanbalone`
-
-推奨 tags:
-
-- Git tag 由来の `vX.Y.Z`。
-- Semantic version の `X.Y.Z`。
-- 最新 release の `latest`。
-
-推奨 trigger policy:
-
-- Pull request では build のみ実行し push しない。
-- `v*` に一致する Git tag で versioned image を push する。
+公開ワークフローがGitタグと、対応する`vVERSION`／`VERSION`のイメージタグを作成します。`latest`は安定版向けです。RCを取得する場合はバージョンタグを指定します。
 
 ## 検証チェックリスト
 
@@ -199,4 +186,4 @@ pnpm test:e2e
 
 ## Platform follow-up
 
-公開済み image は GHCR から pull 可能です。現在の publish workflow は `linux/amd64` のみを build します。`better-sqlite3` の native dependency が ARM64 runtime image で問題なく動くことを確認した後、`linux/arm64` を追加します。
+公開済みイメージはGHCRから`linux/amd64`向けに取得できます。`better-sqlite3` の native dependency が ARM64 runtime image で問題なく動くことを確認した後、`linux/arm64` を追加します。

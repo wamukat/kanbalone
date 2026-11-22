@@ -10,13 +10,15 @@ flowchart TD
   B --> C[mainへマージ]
   C --> D[Prepare release: バージョンと日英ノートの準備PR]
   D --> E[ノートを完成・レビュー・CI成功・マージ]
-  E --> F[Release: バージョンと完全なSHAを指定]
-  F --> G[対象SHAの再検証・Dockerビルド・永続化スモーク]
-  G --> H{publish}
-  H -->|false| I[検証済みartifact保存で終了]
-  H -->|true| J[タグ・下書きRelease・GHCR公開]
-  J --> K[認証なしの取得確認・Release公開]
-  K --> L[新しい安定版のみlatest更新]
+  E --> F[Release dry-run: バージョンと完全なSHAを指定]
+  F --> G[共通チェック・E2E・Dockerビルド・更新と復元・永続化検証]
+  G --> H[検証済みartifactを保存しIDを記録]
+  H --> I[同じartifactをローカル確認・公開承認]
+  I --> J[Release publish: 同じバージョン・SHA・artifact IDを指定]
+  J --> K[成果物の出所・整合性を検証]
+  K --> L[タグ・下書きRelease・GHCR公開]
+  L --> M[認証なしの取得確認・Release公開]
+  M --> N[新しい安定版のみlatest更新]
 ```
 
 人が決めるのは、変更の受け入れ・バージョン・リリースノート・公開開始です。公開用ワークフローは`main`からのみ起動でき、指定SHAが`main`に含まれることを対象コードの実行前に確認します。
@@ -28,7 +30,7 @@ flowchart TD
 | `verify.yml` | `workflow_call` | frozen install、配布スキル検査、`pnpm check`、Chromium E2E |
 | `ci.yml` | PR / main push / 手動 | 共通検証、Dockerビルド・スモーク、固定名 **Required checks** への集約 |
 | `prepare-release.yml` | mainから手動 | `codex/release-VERSION`でバージョン・現行配布例・日英ノートの雛形を更新しPR作成 |
-| `release.yml` | mainから手動 | 指定SHAの検証、イメージ保存、任意でタグ・GHCR・GitHub Releaseの公開 |
+| `release.yml` | mainから手動 | dry-runで対象SHAを検証してイメージを保存。公開実行では指定IDの候補を検証し、タグ・GHCR・GitHub Releaseを公開 |
 | `pages.yml` | 従来の起動条件 | 製品リリースと独立したドキュメントサイト公開 |
 
 旧`docker-image.yml`、`openapi-lint.yml`、`docker-publish.yml`は置換し、タグpushから直接イメージを公開する経路を廃止しました。
@@ -42,9 +44,9 @@ flowchart TD
 - Gitアーカイブに含めるスキルは`skills/kanbalone-api`のみです。`dev/skills`などが混入したら失敗します。Dockerにはスキルを含めません。
 - リリース準備で日英ノートを雛形として生成します。レビュー前のマーカーやプレースホルダーが残っていると公開できません。過去の移行例やエビデンスは一括置換しません。
 - 対象SHAとpackage/OpenAPIのバージョンを照合します。実行途中にmainの最新へ追従しません。
-- `linux/amd64`のDockerイメージをビルドし、隔離した新規volumeで起動・作成・更新・再起動後の読み戻しを検証します。既存ユーザーのデータは使用しません。
-- 検証済みイメージをSHA・イメージID・アーカイブのハッシュとともにartifactへ保存します。公開jobはこれを読み込み、再ビルドしません。
-- dry-runは公開せずartifact保存まで実行します。後日の公開実行では再度検証・ビルドし、その実行で検証したartifactを公開します。
+- dry-runでは`linux/amd64`のDockerイメージをビルドし、隔離した新規volumeで起動・作成・更新・再起動後の読み戻しを検証します。既存ユーザーのデータは使用しません。
+- dry-runは検証済みイメージをSHA・イメージID・アーカイブのハッシュとともにartifactへ保存します。公開時はローカルで確認・承認したartifactの`candidate_artifact_id`を指定します。
+- 公開実行はこのリポジトリの`main`で成功したdry-run由来のartifactかを確かめ、指定バージョン・SHAとの一致とイメージの整合性を確認します。同じイメージを公開し、ビルド・共通チェック・E2E・更新と復元のテストは繰り返しません。
 - GHCRの`vVERSION`／`VERSION`を認証なしでpullし、イメージID・revision・versionを確認します。registry digestとローカルimage IDは別々に記録します。
 - RCはlatestを変更しません。安定版でも現在のlatestより新しい場合のみ更新します。
 
@@ -54,7 +56,7 @@ Dockerスモークは[公開前のイメージ検証](https://docs.docker.com/bu
 
 公開を伴う実行は共通のconcurrencyで直列化し、後続の実行で中断しません。同名タグ・Release・GHCRタグに異なる内容があれば上書きせず停止します。
 
-途中失敗時は同じActions実行の失敗ジョブを再実行し、保存済みartifactを使用します。全ジョブの再実行ではイメージも再ビルドされるため、公開が始まった実行の復旧には使いません。artifactの保持期間は30日です。失効して元の成果物を復旧できない場合、公開済みタグを移動せず新しいpatch版を準備します。
+候補artifactのIDとチェックサムは、公開時に作る注釈付きGitタグに記録します。途中失敗時は同じ公開実行の失敗ジョブを再実行し、当初指定したartifactを使います。artifactの保持期間は30日です。失効・削除され、Gitタグ、Release、レジストリのタグがまだ存在しなければ、dry-run、ローカル確認、公開承認をやり直します。いずれかが存在し、元のartifactを復旧できない場合は、新しいバージョンを準備します。
 
 ユーザーDBのロールバック、稼働コンテナの更新、ローカルKanbaloneのチケット操作はGitHub runnerから行いません。
 
@@ -63,8 +65,8 @@ Dockerスモークは[公開前のイメージ検証](https://docs.docker.com/bu
 1. mainのルールでPRレビューと **Required checks** を必須化し、実際のPRにチェックが紐付くことを確認する。
 2. ActionsによるPR作成を許可する。GitHub Appを使用する場合は、必要な権限でインストールし、変数`RELEASE_APP_ID`とシークレット`RELEASE_APP_PRIVATE_KEY`を設定する。
 3. App未設定時は`GITHUB_TOKEN`で準備PRを作成し、承認待ちのCIを承認する。App使用時に追加承認なしでCIが動くことも確認する。[GitHub公式のトークン仕様](https://docs.github.com/en/actions/concepts/security/github_token)
-4. マージ済みSHAでdry-runを実行し、CI・E2E・Docker・artifactを確認する。
-5. 明示的な公開判断後にRCを公開し、タグ・日英ノート・GHCRの認証なし取得と、latestが変わらないことを確認する。途中失敗の再実行も検証する。
+4. マージ済みSHAでdry-runを実行し、CI・E2E・Dockerの結果を確認する。ローカル確認に使ったartifactのIDを記録する。
+5. 明示的な公開判断後に同じartifactのIDを指定してRCを公開し、タグ・日英ノート・GHCRの認証なし取得と、latestが変わらないことを確認する。途中失敗の再実行も検証する。
 6. #1490で決める既存データの更新・バックアップ・復元検証を隔離fixtureで追加する。
 
 これらのリモート設定・実行確認と復旧検証、人間による受け入れが揃ってからv1.0.0の公開を判断します。

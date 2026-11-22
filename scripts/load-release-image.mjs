@@ -72,9 +72,22 @@ export async function archiveIdentity(file, ciImageId) {
   return { configId, config };
 }
 
-export async function loadReleaseImage(
+export function assertReleaseImage(image, { manifest, configId, layers }) {
+  assert.ok(
+    [manifest.imageId, configId].includes(image?.Id),
+    "Image ID differs from the verified artifact",
+  );
+  assert.equal(image.Os, "linux");
+  assert.equal(image.Architecture, "amd64");
+  assert.deepEqual(image.RootFS?.Layers, layers, "Image root filesystem differs");
+  const labels = image.Config?.Labels;
+  assert.equal(labels?.["org.opencontainers.image.revision"], manifest.sha);
+  assert.equal(labels?.["org.opencontainers.image.version"], manifest.version);
+}
+
+export async function loadVerifiedReleaseImage(
   directory,
-  { expectedSha, expectedVersion, run = runCommand } = {},
+  { expectedSha, expectedVersion, requirePersistence = false, run = runCommand } = {},
 ) {
   assert.match(
     expectedSha ?? "",
@@ -90,6 +103,9 @@ export async function loadReleaseImage(
   assert.equal(manifest.version, expectedVersion, "Unexpected release version");
   assert.equal(manifest.platform, "linux/amd64");
   assert.equal(manifest.imageFile, "image.tar");
+  if (requirePersistence) {
+    assert.equal(manifest.smoke?.persistenceVerified, true, "Candidate manifest lacks a successful persistence check");
+  }
   assert.match(manifest.imageSha256, /^[a-f0-9]{64}$/);
   const file = path.resolve(directory, manifest.imageFile);
   assert.equal(
@@ -123,32 +139,20 @@ export async function loadReleaseImage(
   }
   if (!loaded)
     throw new AggregateError(errors, "Neither verified image ID was loaded");
-  assert.ok(
-    [manifest.imageId, configId].includes(loaded.Id),
-    "Unrelated local image ID",
-  );
-  assert.equal(loaded.Os, config.os);
-  assert.equal(loaded.Architecture, config.architecture);
-  assert.deepEqual(
-    loaded.RootFS.Layers,
-    config.rootfs.diff_ids,
-    "Loaded root filesystem differs",
-  );
-  assert.equal(
-    loaded.Config?.Labels?.["org.opencontainers.image.revision"],
-    expectedSha,
-  );
-  assert.equal(
-    loaded.Config?.Labels?.["org.opencontainers.image.version"],
-    expectedVersion,
-  );
+  const identity = { manifest, configId, layers: config.rootfs.diff_ids };
+  assertReleaseImage(loaded, identity);
+  return { ...identity, localImageId: loaded.Id };
+}
+
+export async function loadReleaseImage(directory, options) {
+  const { manifest, configId, localImageId } = await loadVerifiedReleaseImage(directory, options);
   return {
-    version: expectedVersion,
-    sha: expectedSha,
+    version: manifest.version,
+    sha: manifest.sha,
     imageSha256: manifest.imageSha256,
     ciImageId: manifest.imageId,
     configId,
-    localImageId: loaded.Id,
+    localImageId,
     platform: manifest.platform,
     verifiedAt: new Date().toISOString(),
   };
