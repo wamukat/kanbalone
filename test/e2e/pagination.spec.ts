@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, updateTicket } from "./helpers.js";
 
 async function seed(page: Page, baseUrl: string) {
   const tickets = Array.from({ length: 260 }, (_, index) => {
@@ -177,6 +177,40 @@ test("priority-filtered List preserves the label and link of a blocker outside t
     await page.keyboard.press("Escape");
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Ticket 002");
+  } finally { await close(); }
+});
+
+test("saving a List ticket comment keeps its archived blocker label with lightweight references", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Comment references", laneNames: ["Todo"] });
+    const laneId = lanes[0].id;
+    const blocker = await createTicket(page.request, baseUrl, board.id, { laneId, title: "Archived blocker" });
+    const ticket = await createTicket(page.request, baseUrl, board.id, { laneId, title: "Blocked ticket" });
+    await updateTicket(page.request, baseUrl, ticket.id, { blockerIds: [blocker.id] });
+    await updateTicket(page.request, baseUrl, blocker.id, { isArchived: true });
+    await page.goto(`${baseUrl}/boards/${board.id}/list`);
+    await page.locator(`.list-ticket-link[data-open-ticket-id="${ticket.id}"]`).click();
+    const blockerLink = page.locator(`.list-relation-ticket-link[data-open-ticket-id="${blocker.id}"]`);
+    await expect(blockerLink).toHaveCount(0);
+    await page.locator("#comment-compose-toggle").click();
+    await page.locator("#comment-body").fill("Comment refresh check");
+
+    const archiveReads: string[] = [];
+    page.on("request", request => {
+      const url = new URL(request.url());
+      if (url.pathname.startsWith(`/api/boards/${board.id}/`) && url.searchParams.get("archived") === "all") {
+        archiveReads.push(url.pathname);
+      }
+    });
+    await page.locator("#save-comment-button").click();
+    await expect(page.locator("#comment-save-state")).toHaveText("Comment saved");
+    await expect(page.locator("#ticket-comments")).toContainText("Comment refresh check");
+    await expect(blockerLink).toHaveAttribute("title", "Archived blocker");
+    expect(archiveReads).toEqual([`/api/boards/${board.id}/list-ticket-references`]);
+    const persisted = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
+    expect(persisted.comments.map((comment: { bodyMarkdown: string }) => comment.bodyMarkdown)).toContain("Comment refresh check");
+    expect(persisted.blockerIds).toEqual([blocker.id]);
   } finally { await close(); }
 });
 

@@ -204,7 +204,7 @@ export function createGroupBoardModule(ctx) {
   function renderGroupBoard() {
     if (boardId !== state.activeBoardId) reset(state.activeBoardId);
     render();
-    void load();
+    return load();
   }
   /** @param {number} id */
   async function openGroup(id) {
@@ -221,8 +221,7 @@ export function createGroupBoardModule(ctx) {
     ctx.saveBoardViewMode?.();
     ctx.syncViewMode();
     ctx.syncBoardUrl();
-    await ctx.refreshBoardDetail();
-    await load();
+    await ctx.refreshBoardDetail({ awaitGroupLoad: true });
   }
   /** @param {number} id @param {GroupTicket[]} [source] */
   const related = (id, source = tickets) => relatedTickets(id, source);
@@ -637,8 +636,7 @@ export function createGroupBoardModule(ctx) {
         adding = false;
         membershipSaved = true;
       }
-      await ctx.refreshBoardDetail();
-      await load();
+      await ctx.refreshBoardDetail({ awaitGroupLoad: true });
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);
     } finally {

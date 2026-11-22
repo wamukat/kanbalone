@@ -1,0 +1,683 @@
+{
+  "baseline": "12a100e70e1666169ad902c13680f15df0d33829",
+  "candidateSources": {
+    "public/app-board.js": "fba3c202e3ec7f50ced247d8a80f8985424f14ddd222e81f265dff7ce222e1af",
+    "public/app-group-board.js": "d93a8ae1a15180040c1f72175b54ffc64ddadf505078809bc6ff6f8707fdf54c",
+    "public/app-group-types.d.ts": "e179848f5928f6bbceca742a62ffc504c89bb9319665e85e0607f1a68ec13d23",
+    "public/app-ticket-collections.d.ts": "11c385e68b6a16b85804e07f4219a0b0efb033548ff3060af555f8ac1c950f39",
+    "public/app-ticket-collections.js": "e946c73f389f35541c05575b0ef2f71916e0dd949feab726b50b702ce25ee257",
+    "public/app.js": "2a4a95f22c8e25ed74bcb04fc5b8123bb234ac1f305104799684a69391255d8c"
+  },
+  "fixture": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+  "browser": "159.0.8154.6",
+  "viewport": [
+    1440,
+    900
+  ],
+  "locale": "en-US",
+  "colorScheme": "light",
+  "records": [
+    {
+      "phase": "baseline",
+      "scenario": "back",
+      "boardId": 1,
+      "run": 0,
+      "ticketId": 2,
+      "actionMs": 205.79999999701977,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 205.79999999701977,
+        "location": "/boards/1/list"
+      },
+      "requests": 12,
+      "summaryRequests": 11,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "back",
+      "boardId": 1,
+      "run": 0,
+      "ticketId": 2,
+      "actionMs": 174.79999999701977,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 174.79999999701977,
+        "location": "/boards/1/list"
+      },
+      "requests": 12,
+      "summaryRequests": 5,
+      "referenceRequests": 6,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "back",
+      "boardId": 1,
+      "run": 1,
+      "ticketId": 2,
+      "actionMs": 161.5,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 161.5,
+        "location": "/boards/1/list"
+      },
+      "requests": 12,
+      "summaryRequests": 5,
+      "referenceRequests": 6,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "back",
+      "boardId": 1,
+      "run": 1,
+      "ticketId": 2,
+      "actionMs": 264.5,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 264.5,
+        "location": "/boards/1/list"
+      },
+      "requests": 12,
+      "summaryRequests": 11,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "back",
+      "boardId": 1,
+      "run": 2,
+      "ticketId": 2,
+      "actionMs": 196.5,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 196.5,
+        "location": "/boards/1/list"
+      },
+      "requests": 12,
+      "summaryRequests": 11,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "back",
+      "boardId": 1,
+      "run": 2,
+      "ticketId": 2,
+      "actionMs": 166.79999999701977,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 166.79999999701977,
+        "location": "/boards/1/list"
+      },
+      "requests": 12,
+      "summaryRequests": 5,
+      "referenceRequests": 6,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "back",
+      "boardId": 2,
+      "run": 0,
+      "ticketId": 1002,
+      "actionMs": 1331.5,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 1331.5,
+        "location": "/boards/2/list"
+      },
+      "requests": 102,
+      "summaryRequests": 101,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "back",
+      "boardId": 2,
+      "run": 0,
+      "ticketId": 1002,
+      "actionMs": 895.4000000059605,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 895.4000000059605,
+        "location": "/boards/2/list"
+      },
+      "requests": 102,
+      "summaryRequests": 50,
+      "referenceRequests": 51,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "back",
+      "boardId": 2,
+      "run": 1,
+      "ticketId": 1002,
+      "actionMs": 873.2999999970198,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 873.2999999970198,
+        "location": "/boards/2/list"
+      },
+      "requests": 102,
+      "summaryRequests": 50,
+      "referenceRequests": 51,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "back",
+      "boardId": 2,
+      "run": 1,
+      "ticketId": 1002,
+      "actionMs": 1345.5,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 1345.5,
+        "location": "/boards/2/list"
+      },
+      "requests": 102,
+      "summaryRequests": 101,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "back",
+      "boardId": 2,
+      "run": 2,
+      "ticketId": 1002,
+      "actionMs": 1357.3999999910593,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 1357.3999999910593,
+        "location": "/boards/2/list"
+      },
+      "requests": 102,
+      "summaryRequests": 101,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "back",
+      "boardId": 2,
+      "run": 2,
+      "ticketId": 1002,
+      "actionMs": 860.0999999940395,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 860.0999999940395,
+        "location": "/boards/2/list"
+      },
+      "requests": 102,
+      "summaryRequests": 50,
+      "referenceRequests": 51,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "comment-save",
+      "boardId": 1,
+      "run": 0,
+      "ticketId": 2,
+      "actionMs": 216.8999999910593,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 216.8999999910593,
+        "location": "/tickets/2"
+      },
+      "requests": 16,
+      "summaryRequests": 11,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "comment-save",
+      "boardId": 1,
+      "run": 0,
+      "ticketId": 2,
+      "actionMs": 142.30000001192093,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 142.30000001192093,
+        "location": "/tickets/2"
+      },
+      "requests": 16,
+      "summaryRequests": 5,
+      "referenceRequests": 6,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "comment-save",
+      "boardId": 1,
+      "run": 1,
+      "ticketId": 2,
+      "actionMs": 143.20000000298023,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 143.20000000298023,
+        "location": "/tickets/2"
+      },
+      "requests": 16,
+      "summaryRequests": 5,
+      "referenceRequests": 6,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "comment-save",
+      "boardId": 1,
+      "run": 1,
+      "ticketId": 2,
+      "actionMs": 189.40000000596046,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 189.40000000596046,
+        "location": "/tickets/2"
+      },
+      "requests": 16,
+      "summaryRequests": 11,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "comment-save",
+      "boardId": 1,
+      "run": 2,
+      "ticketId": 2,
+      "actionMs": 184.20000000298023,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 184.20000000298023,
+        "location": "/tickets/2"
+      },
+      "requests": 16,
+      "summaryRequests": 11,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "comment-save",
+      "boardId": 1,
+      "run": 2,
+      "ticketId": 2,
+      "actionMs": 157.70000000298023,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 157.70000000298023,
+        "location": "/tickets/2"
+      },
+      "requests": 16,
+      "summaryRequests": 5,
+      "referenceRequests": 6,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "comment-save",
+      "boardId": 2,
+      "run": 0,
+      "ticketId": 1002,
+      "actionMs": 1110.2000000029802,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 1110.2000000029802,
+        "location": "/tickets/1002"
+      },
+      "requests": 106,
+      "summaryRequests": 101,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "comment-save",
+      "boardId": 2,
+      "run": 0,
+      "ticketId": 1002,
+      "actionMs": 887.1000000089407,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 887.1000000089407,
+        "location": "/tickets/1002"
+      },
+      "requests": 106,
+      "summaryRequests": 50,
+      "referenceRequests": 51,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "comment-save",
+      "boardId": 2,
+      "run": 1,
+      "ticketId": 1002,
+      "actionMs": 921.2999999970198,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 921.2999999970198,
+        "location": "/tickets/1002"
+      },
+      "requests": 106,
+      "summaryRequests": 50,
+      "referenceRequests": 51,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "comment-save",
+      "boardId": 2,
+      "run": 1,
+      "ticketId": 1002,
+      "actionMs": 1076.3999999910593,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 1076.3999999910593,
+        "location": "/tickets/1002"
+      },
+      "requests": 106,
+      "summaryRequests": 101,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "comment-save",
+      "boardId": 2,
+      "run": 2,
+      "ticketId": 1002,
+      "actionMs": 1077.8999999910593,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 1077.8999999910593,
+        "location": "/tickets/1002"
+      },
+      "requests": 106,
+      "summaryRequests": 101,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "candidate",
+      "scenario": "comment-save",
+      "boardId": 2,
+      "run": 2,
+      "ticketId": 1002,
+      "actionMs": 957.5999999940395,
+      "pageTiming": {
+        "rows": 0,
+        "readyMs": 957.5999999940395,
+        "location": "/tickets/1002"
+      },
+      "requests": 106,
+      "summaryRequests": 50,
+      "referenceRequests": 51,
+      "groupSummaryRequests": 0,
+      "ungroupedProbeRequests": 0
+    },
+    {
+      "phase": "baseline",
+      "scenario": "open-group",
+      "boardId": 1,
+      "run": 0,
+      "ticketId": 2,
+      "actionMs": 429.29999999701977,
+      "pageTiming": {
+        "rows": 1000,
+        "readyMs": 429.29999999701977,
+        "location": "/boards/1/group"
+      },
+      "requests": 12,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 2,
+      "ungroupedProbeRequests": 2
+    },
+    {
+      "phase": "candidate",
+      "scenario": "open-group",
+      "boardId": 1,
+      "run": 0,
+      "ticketId": 2,
+      "actionMs": 459.5,
+      "pageTiming": {
+        "rows": 1000,
+        "readyMs": 459.5,
+        "location": "/boards/1/group"
+      },
+      "requests": 10,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 1,
+      "ungroupedProbeRequests": 1
+    },
+    {
+      "phase": "candidate",
+      "scenario": "open-group",
+      "boardId": 1,
+      "run": 1,
+      "ticketId": 2,
+      "actionMs": 429.30000001192093,
+      "pageTiming": {
+        "rows": 1000,
+        "readyMs": 429.30000001192093,
+        "location": "/boards/1/group"
+      },
+      "requests": 10,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 1,
+      "ungroupedProbeRequests": 1
+    },
+    {
+      "phase": "baseline",
+      "scenario": "open-group",
+      "boardId": 1,
+      "run": 1,
+      "ticketId": 2,
+      "actionMs": 461.5,
+      "pageTiming": {
+        "rows": 1000,
+        "readyMs": 461.5,
+        "location": "/boards/1/group"
+      },
+      "requests": 12,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 2,
+      "ungroupedProbeRequests": 2
+    },
+    {
+      "phase": "baseline",
+      "scenario": "open-group",
+      "boardId": 1,
+      "run": 2,
+      "ticketId": 2,
+      "actionMs": 509.90000000596046,
+      "pageTiming": {
+        "rows": 1000,
+        "readyMs": 509.90000000596046,
+        "location": "/boards/1/group"
+      },
+      "requests": 12,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 2,
+      "ungroupedProbeRequests": 2
+    },
+    {
+      "phase": "candidate",
+      "scenario": "open-group",
+      "boardId": 1,
+      "run": 2,
+      "ticketId": 2,
+      "actionMs": 444.70000000298023,
+      "pageTiming": {
+        "rows": 1000,
+        "readyMs": 444.70000000298023,
+        "location": "/boards/1/group"
+      },
+      "requests": 10,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 1,
+      "ungroupedProbeRequests": 1
+    },
+    {
+      "phase": "baseline",
+      "scenario": "open-group",
+      "boardId": 2,
+      "run": 0,
+      "ticketId": 1002,
+      "actionMs": 4291.4000000059605,
+      "pageTiming": {
+        "rows": 10000,
+        "readyMs": 4291.4000000059605,
+        "location": "/boards/2/group"
+      },
+      "requests": 57,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 2,
+      "ungroupedProbeRequests": 2
+    },
+    {
+      "phase": "candidate",
+      "scenario": "open-group",
+      "boardId": 2,
+      "run": 0,
+      "ticketId": 1002,
+      "actionMs": 3788.9000000059605,
+      "pageTiming": {
+        "rows": 10000,
+        "readyMs": 3788.9000000059605,
+        "location": "/boards/2/group"
+      },
+      "requests": 55,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 1,
+      "ungroupedProbeRequests": 1
+    },
+    {
+      "phase": "candidate",
+      "scenario": "open-group",
+      "boardId": 2,
+      "run": 1,
+      "ticketId": 1002,
+      "actionMs": 3842,
+      "pageTiming": {
+        "rows": 10000,
+        "readyMs": 3842,
+        "location": "/boards/2/group"
+      },
+      "requests": 55,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 1,
+      "ungroupedProbeRequests": 1
+    },
+    {
+      "phase": "baseline",
+      "scenario": "open-group",
+      "boardId": 2,
+      "run": 1,
+      "ticketId": 1002,
+      "actionMs": 3727.2000000029802,
+      "pageTiming": {
+        "rows": 10000,
+        "readyMs": 3727.2000000029802,
+        "location": "/boards/2/group"
+      },
+      "requests": 57,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 2,
+      "ungroupedProbeRequests": 2
+    },
+    {
+      "phase": "baseline",
+      "scenario": "open-group",
+      "boardId": 2,
+      "run": 2,
+      "ticketId": 1002,
+      "actionMs": 3846.0999999940395,
+      "pageTiming": {
+        "rows": 10000,
+        "readyMs": 3846.0999999940395,
+        "location": "/boards/2/group"
+      },
+      "requests": 57,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 2,
+      "ungroupedProbeRequests": 2
+    },
+    {
+      "phase": "candidate",
+      "scenario": "open-group",
+      "boardId": 2,
+      "run": 2,
+      "ticketId": 1002,
+      "actionMs": 3789.5,
+      "pageTiming": {
+        "rows": 10000,
+        "readyMs": 3789.5,
+        "location": "/boards/2/group"
+      },
+      "requests": 55,
+      "summaryRequests": 0,
+      "referenceRequests": 0,
+      "groupSummaryRequests": 1,
+      "ungroupedProbeRequests": 1
+    }
+  ],
+  "screenshots": {
+    "back-2-en-light-1440x900-baseline-after-action.png": "33791258178d0f371bded1444367c3585e21b9c0d72dabeab6c01b65fa67a696",
+    "back-2-en-light-1440x900-baseline-before-action.png": "095bc828c4b14253657b6978e2a25d92de52fd77ec26764a52b1191cc5bfa085",
+    "back-2-en-light-1440x900-candidate-after-action.png": "33791258178d0f371bded1444367c3585e21b9c0d72dabeab6c01b65fa67a696",
+    "back-2-en-light-1440x900-candidate-before-action.png": "095bc828c4b14253657b6978e2a25d92de52fd77ec26764a52b1191cc5bfa085",
+    "comment-save-2-en-light-1440x900-baseline-after-action.png": "38f72915827039abb00c5858f143940baf19fa5f2da18c177ff68bc1790d8fa0",
+    "comment-save-2-en-light-1440x900-baseline-before-action.png": "db704236b5037b17f8b031fcaec4f6cf69f8bdbc506952e55d81b26559c32c78",
+    "comment-save-2-en-light-1440x900-candidate-after-action.png": "b54dd839d537542bb41812f8bc7c2d4bd01415ca2293113bdc8ffe642876a16e",
+    "comment-save-2-en-light-1440x900-candidate-before-action.png": "effe563d1e5b669cddb0325fc7c4da709ce7a844660d6d9d07385213befcd630",
+    "open-group-2-en-light-1440x900-baseline-after-action.png": "62098eeb1f00a8666b047639f4795ee98bc3ddb854834fa509077a9e227438be",
+    "open-group-2-en-light-1440x900-baseline-before-action.png": "095bc828c4b14253657b6978e2a25d92de52fd77ec26764a52b1191cc5bfa085",
+    "open-group-2-en-light-1440x900-candidate-after-action.png": "62098eeb1f00a8666b047639f4795ee98bc3ddb854834fa509077a9e227438be",
+    "open-group-2-en-light-1440x900-candidate-before-action.png": "095bc828c4b14253657b6978e2a25d92de52fd77ec26764a52b1191cc5bfa085"
+  }
+}

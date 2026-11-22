@@ -67,3 +67,41 @@ test("List recollects display and lightweight references when snapshots differ",
   assert.deepEqual(result.tickets, [{id:1}]);
   assert.deepEqual(result.referenceTickets, [{id:2},{id:1}]);
 });
+
+test("List refresh behind an editor keeps archived and filtered-out references", async () => {
+  const display = "/api/boards/1/tickets?lane_id=1&q=release&tag=build&resolved=false&priority=4";
+  let editorOpen = false;
+  const references: string[] = [];
+  const result = await loadListTicketCollection(async url => {
+    const { pathname, searchParams } = new URL(url, "http://localhost");
+    assert.equal(searchParams.get("order"), "position_asc");
+    searchParams.delete("order");
+    searchParams.delete("limit");
+    if (pathname.endsWith("/tickets")) {
+      assert.equal(pathname + "?" + searchParams.toString(), display);
+      editorOpen = true;
+      return page([{id:1}], "1");
+    }
+    assert.equal(pathname, "/api/boards/1/list-ticket-references");
+    references.push(searchParams.toString());
+    return page([{id:2},{id:1}], "1");
+  }, display, {isCurrent:()=>true, allReferences:()=>editorOpen});
+  assert.deepEqual(references, ["lane_id=1&q=release&tag=build&resolved=false", "archived=all"]);
+  assert.deepEqual(result.tickets, [{id:1}]);
+  assert.deepEqual(result.referenceTickets, [{id:2},{id:1}]);
+});
+
+test("List does not expand its references after an editor closes during the refresh", async () => {
+  let calls = 0;
+  let editorOpen = true;
+  const result = await loadListTicketCollection(async () => {
+    calls += 1;
+    editorOpen = false;
+    return page([{id:1}], "1");
+  }, "/api/boards/1/tickets?tag=release", {
+    isCurrent: () => true,
+    allReferences: () => editorOpen,
+  });
+  assert.equal(calls, 1);
+  assert.equal(result.referenceTickets, result.tickets);
+});

@@ -71,3 +71,30 @@ test("empty startup performs no board fetch, and first board creation still refr
     expect((await (await page.request.get(`${baseUrl}/api/boards`)).json()).boards).toHaveLength(1);
   } finally { await close(); }
 });
+
+test("opening a Group from a ticket starts one Group collection", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Group link board", laneNames: ["Todo"] });
+    const group = await (await page.request.post(`${baseUrl}/api/boards/${board.id}/groups`, { data: { name: "Delivery" } })).json();
+    const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, groupId: group.id, title: "Deliver" });
+    await page.goto(`${baseUrl}/boards/${board.id}/list`);
+    await page.locator(`.list-ticket-link[data-open-ticket-id="${ticket.id}"]`).click();
+    const link = page.locator(`[data-ticket-group="${group.id}"]`);
+    await expect(link).toBeVisible();
+
+    const groupRequests: URL[] = [];
+    page.on("request", request => {
+      const url = new URL(request.url());
+      if (url.pathname.startsWith(`/api/boards/${board.id}/group`)) groupRequests.push(url);
+    });
+    await link.click();
+    await expect(page.locator(`[data-group-ticket="${ticket.id}"]`)).toBeVisible();
+    await expect(page).toHaveURL(`${baseUrl}/boards/${board.id}/group`);
+    expect(groupRequests.map(url => [url.pathname.split("/").at(-1), url.searchParams.get("groupId")])).toEqual([
+      ["groups", null],
+      ["group-tickets", null],
+      ["group-tickets", String(group.id)],
+    ]);
+  } finally { await close(); }
+});

@@ -43,21 +43,32 @@ export async function loadKanbanTicketCollections(api, lanes, url, options) {
 /**
  * Priority used to filter only visible rows. Keep the complete priority-independent
  * reference set for blocker labels and selecting a parent's children.
- * @param {FetchPage} api @param {string} url @param {LoadOptions} options
+ * A board refreshed with its editor open uses references across every filter.
+ * @param {FetchPage} api @param {string} url @param {LoadOptions & { allReferences?: () => boolean }} options
  */
 export async function loadListTicketCollection(api, url, options) {
   const referenceUrl = new URL(url, "http://kanbalone.invalid");
   const priority = referenceUrl.searchParams.get("priority");
   const selected = new Set(priority?.split(","));
-  const needsReferences = priority !== null && !["1", "2", "3", "4"].every(value => selected.has(value));
   referenceUrl.searchParams.delete("priority");
+  const needsReferences = priority !== null && !["1", "2", "3", "4"].every(value => selected.has(value));
   referenceUrl.pathname = referenceUrl.pathname.replace(/\/tickets$/, "/list-ticket-references");
   for (let attempt = 0; ; attempt += 1) {
-    const [display, references] = await Promise.all([
+    const [display, filteredReferences] = await Promise.all([
       collectTicketPages(api, url, { isCurrent: options.isCurrent, init: { signal: options.signal } }),
       needsReferences ? collectTicketPages(api, referenceUrl.pathname + referenceUrl.search, { isCurrent: options.isCurrent, init: { signal: options.signal } }) : null,
     ]);
-    if (references && display.ticketRevision !== references.ticketRevision) {
+    if (filteredReferences && display.ticketRevision !== filteredReferences.ticketRevision) {
+      if (attempt < 2 && options.isCurrent()) continue;
+      throw changed();
+    }
+    // The dialog can open or close while the visible collection is loading.
+    const references = options.allReferences?.() && referenceUrl.search !== "?archived=all"
+      ? await collectTicketPages(api, referenceUrl.pathname + "?archived=all", {
+        isCurrent: options.isCurrent, init: { signal: options.signal },
+      })
+      : filteredReferences;
+    if (references !== filteredReferences && display.ticketRevision !== references?.ticketRevision) {
       if (attempt < 2 && options.isCurrent()) continue;
       throw changed();
     }

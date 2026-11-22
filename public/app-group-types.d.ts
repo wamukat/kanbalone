@@ -45,7 +45,7 @@ export type GroupContext = {
   saveBoardViewMode?(): void;
   syncViewMode(): void;
   syncBoardUrl(): void;
-  refreshBoardDetail(): Promise<void>;
+  refreshBoardDetail(options?: { awaitGroupLoad?: boolean }): Promise<void>;
   openFormDialog(options: FormDialogOptions): Promise<boolean>;
   confirmAndRun(options: {
     title: string;

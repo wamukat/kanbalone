@@ -1,6 +1,6 @@
 import { getLocale, initializeLanguage, saveLocale, t } from "./app-i18n.js";
 import { loadKanbanTicketCollections, loadListTicketCollection } from "./app-ticket-collections.js";
-import { collectTicketPages, readTicketPage, ticketPageUrl } from "./app-ticket-pages.js";
+import { readTicketPage, ticketPageUrl } from "./app-ticket-pages.js";
 import { api, createSendJson } from "./app-api.js";
 import { createBoardEventsModule } from "./app-board-events.js";
 import { createBoardModule } from "./app-board.js";
@@ -326,13 +326,14 @@ function collapseCompletionTickets(laneId, count = 5) {
   if (current) current.visibleCount = count;
 }
 
-async function refreshBoardDetail() {
+async function refreshBoardDetail({ awaitGroupLoad = false } = {}) {
   const generation = ++boardRefreshGeneration;
   boardRefreshAbort?.abort();
   boardRefreshAbort = new AbortController();
   const signal = boardRefreshAbort.signal;
   state.boardNavigationLoading = true;
   state.boardNavigationReady = false;
+  let groupLoad;
   try {
     if (!state.activeBoardId) {
       closeBoardEvents();
@@ -359,15 +360,9 @@ async function refreshBoardDetail() {
       ? { tickets: [], completionPages: {} }
       : viewMode === "kanban"
         ? await loadKanbanTicketCollections(api, detail.lanes, url, { limits: completionRequested, isCurrent, signal })
-        : await loadListTicketCollection(api, url, { isCurrent, signal });
+        : await loadListTicketCollection(api, url, { isCurrent, signal, allReferences: () => elements.editorDialog.open });
     if (generation !== boardRefreshGeneration || boardId !== state.activeBoardId || viewMode !== state.viewMode) return;
-    // Relations/editor selectors require the complete, unfiltered board collection.
-    // An open editor must not lose its candidate set on an SSE board refresh.
-    if (elements.editorDialog.open) {
-      const complete = await collectTicketPages(api, `/api/boards/${boardId}/tickets?archived=all`, { isCurrent, init: { signal } });
-      if (!isCurrent()) return;
-      state.boardTickets = complete.tickets;
-    } else state.boardTickets = allTickets.referenceTickets ?? allTickets.tickets;
+    state.boardTickets = allTickets.referenceTickets ?? allTickets.tickets;
     state.boardDetail = {
       board: detail.board,
       lanes: detail.lanes,
@@ -379,7 +374,7 @@ async function refreshBoardDetail() {
     successfulBoardContext = boardRequestContext();
     syncBoardEvents();
     renderBoards();
-    renderBoardDetail();
+    groupLoad = renderBoardDetail();
     syncActiveFilterStyles();
   } catch (error) {
     if (generation === boardRefreshGeneration) {
@@ -392,6 +387,7 @@ async function refreshBoardDetail() {
       boardModule.afterKeyboardRender();
     }
   }
+  if (awaitGroupLoad) await groupLoad;
 }
 
 function escapeHtml(value) {
