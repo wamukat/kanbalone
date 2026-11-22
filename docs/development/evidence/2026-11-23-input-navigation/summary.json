@@ -1,0 +1,2456 @@
+{
+  "files": [
+    "baseline-both-79892.json",
+    "candidate-both-79945.json"
+  ],
+  "results": {
+    "kanban-1000-search-arrow-cold": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 44.306007000000136,
+          "min": 44.306007000000136,
+          "max": 44.306007000000136
+        },
+        "candidate": {
+          "n": 1,
+          "median": 45.99349799999982,
+          "min": 45.99349799999982,
+          "max": 45.99349799999982
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 11.600000008940697,
+          "min": 11.600000008940697,
+          "max": 11.600000008940697
+        },
+        "candidate": {
+          "n": 1,
+          "median": 9.799999997019768,
+          "min": 9.799999997019768,
+          "max": 9.799999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 41.29999999701977,
+          "min": 41.29999999701977,
+          "max": 41.29999999701977
+        },
+        "candidate": {
+          "n": 1,
+          "median": 43,
+          "min": 43,
+          "max": 43
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-detail-first-open": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 108.01387199999954,
+          "min": 108.01387199999954,
+          "max": 108.01387199999954
+        },
+        "candidate": {
+          "n": 1,
+          "median": 88.52842300000066,
+          "min": 88.52842300000066,
+          "max": 88.52842300000066
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 49.20000000298023,
+          "min": 49.20000000298023,
+          "max": 49.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 29.700000002980232,
+          "min": 29.700000002980232,
+          "max": 29.700000002980232
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 105.90000000596046,
+          "min": 105.90000000596046,
+          "max": 105.90000000596046
+        },
+        "candidate": {
+          "n": 1,
+          "median": 86.80000001192093,
+          "min": 86.80000001192093,
+          "max": 86.80000001192093
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-detail-first-close": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 82.52884300000005,
+          "min": 82.52884300000005,
+          "max": 82.52884300000005
+        },
+        "candidate": {
+          "n": 1,
+          "median": 64.13385000000017,
+          "min": 64.13385000000017,
+          "max": 64.13385000000017
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 16.19999998807907,
+          "min": 16.19999998807907,
+          "max": 16.19999998807907
+        },
+        "candidate": {
+          "n": 1,
+          "median": 8.299999997019768,
+          "min": 8.299999997019768,
+          "max": 8.299999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 71.69999998807907,
+          "min": 71.69999998807907,
+          "max": 71.69999998807907
+        },
+        "candidate": {
+          "n": 1,
+          "median": 62.20000000298023,
+          "min": 62.20000000298023,
+          "max": 62.20000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-search-arrow": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 41.883091000000604,
+          "min": 38.54083199999968,
+          "max": 69.98545900000045
+        },
+        "candidate": {
+          "n": 7,
+          "median": 37.978791999999885,
+          "min": 34.72067700000025,
+          "max": 52.458856000000196
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 10.5,
+          "min": 9.399999991059303,
+          "max": 25.599999994039536
+        },
+        "candidate": {
+          "n": 7,
+          "median": 1.5999999940395355,
+          "min": 1,
+          "max": 16.799999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 39.599999994039536,
+          "min": 36.70000000298023,
+          "max": 67.40000000596046
+        },
+        "candidate": {
+          "n": 7,
+          "median": 36.400000005960464,
+          "min": 32.599999994039536,
+          "max": 50.8999999910593
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-detail-close": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 71.09802200000013,
+          "min": 55.873036999999385,
+          "max": 82.242663
+        },
+        "candidate": {
+          "n": 7,
+          "median": 48.64268700000048,
+          "min": 47.105405000000246,
+          "max": 65.09941100000015
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 23.80000001192093,
+          "min": 12.199999988079071,
+          "max": 29.200000002980232
+        },
+        "candidate": {
+          "n": 7,
+          "median": 5.700000002980232,
+          "min": 4.9000000059604645,
+          "max": 8.299999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 69.29999999701977,
+          "min": 54,
+          "max": 80
+        },
+        "candidate": {
+          "n": 7,
+          "median": 47,
+          "min": 45.1000000089407,
+          "max": 62.79999999701977
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-detail-close-with-sse": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 774.087646,
+          "min": 774.087646,
+          "max": 774.087646
+        },
+        "candidate": {
+          "n": 1,
+          "median": 680.2046799999998,
+          "min": 680.2046799999998,
+          "max": 680.2046799999998
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 640.7999999970198,
+          "min": 640.7999999970198,
+          "max": 640.7999999970198
+        },
+        "candidate": {
+          "n": 1,
+          "median": 553.3999999910593,
+          "min": 553.3999999910593,
+          "max": 553.3999999910593
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 772.3999999910593,
+          "min": 772.3999999910593,
+          "max": 772.3999999910593
+        },
+        "candidate": {
+          "n": 1,
+          "median": 678.7000000029802,
+          "min": 678.7000000029802,
+          "max": 678.7000000029802
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-search-filtered-arrow": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 42.47273700000005,
+          "min": 42.47273700000005,
+          "max": 42.47273700000005
+        },
+        "candidate": {
+          "n": 1,
+          "median": 49.65727699999843,
+          "min": 49.65727699999843,
+          "max": 49.65727699999843
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 16.5,
+          "min": 16.5,
+          "max": 16.5
+        },
+        "candidate": {
+          "n": 1,
+          "median": 17.69999998807907,
+          "min": 17.69999998807907,
+          "max": 17.69999998807907
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 40.79999999701977,
+          "min": 40.79999999701977,
+          "max": 40.79999999701977
+        },
+        "candidate": {
+          "n": 1,
+          "median": 48.19999998807907,
+          "min": 48.19999998807907,
+          "max": 48.19999998807907
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-1000-filtered-detail-close-with-sse": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 80.50057399999969,
+          "min": 80.50057399999969,
+          "max": 80.50057399999969
+        },
+        "candidate": {
+          "n": 1,
+          "median": 77.0173530000011,
+          "min": 77.0173530000011,
+          "max": 77.0173530000011
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 47.19999998807907,
+          "min": 47.19999998807907,
+          "max": 47.19999998807907
+        },
+        "candidate": {
+          "n": 1,
+          "median": 43.70000000298023,
+          "min": 43.70000000298023,
+          "max": 43.70000000298023
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 79.19999998807907,
+          "min": 79.19999998807907,
+          "max": 79.19999998807907
+        },
+        "candidate": {
+          "n": 1,
+          "median": 75.6000000089407,
+          "min": 75.6000000089407,
+          "max": 75.6000000089407
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-search-arrow-cold": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 53.65825600000062,
+          "min": 53.65825600000062,
+          "max": 53.65825600000062
+        },
+        "candidate": {
+          "n": 1,
+          "median": 37.64820200000031,
+          "min": 37.64820200000031,
+          "max": 37.64820200000031
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 26,
+          "min": 26,
+          "max": 26
+        },
+        "candidate": {
+          "n": 1,
+          "median": 2.5999999940395355,
+          "min": 2.5999999940395355,
+          "max": 2.5999999940395355
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 50.599999994039536,
+          "min": 50.599999994039536,
+          "max": 50.599999994039536
+        },
+        "candidate": {
+          "n": 1,
+          "median": 35.5,
+          "min": 35.5,
+          "max": 35.5
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-detail-first-open": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 123.57462300000043,
+          "min": 123.57462300000043,
+          "max": 123.57462300000043
+        },
+        "candidate": {
+          "n": 1,
+          "median": 137.05829699999958,
+          "min": 137.05829699999958,
+          "max": 137.05829699999958
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 63.29999999701977,
+          "min": 63.29999999701977,
+          "max": 63.29999999701977
+        },
+        "candidate": {
+          "n": 1,
+          "median": 52.79999999701977,
+          "min": 52.79999999701977,
+          "max": 52.79999999701977
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 121.5,
+          "min": 121.5,
+          "max": 121.5
+        },
+        "candidate": {
+          "n": 1,
+          "median": 135.70000000298023,
+          "min": 135.70000000298023,
+          "max": 135.70000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-detail-first-close": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 93.10930799999915,
+          "min": 93.10930799999915,
+          "max": 93.10930799999915
+        },
+        "candidate": {
+          "n": 1,
+          "median": 62.88073599999916,
+          "min": 62.88073599999916,
+          "max": 62.88073599999916
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 37.79999999701977,
+          "min": 37.79999999701977,
+          "max": 37.79999999701977
+        },
+        "candidate": {
+          "n": 1,
+          "median": 10.899999991059303,
+          "min": 10.899999991059303,
+          "max": 10.899999991059303
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 89.70000000298023,
+          "min": 89.70000000298023,
+          "max": 89.70000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 59.099999994039536,
+          "min": 59.099999994039536,
+          "max": 59.099999994039536
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-search-arrow": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 80.43959499999983,
+          "min": 68.67406000000119,
+          "max": 105.65620999999919
+        },
+        "candidate": {
+          "n": 7,
+          "median": 56.03240899999946,
+          "min": 39.58610000000044,
+          "max": 91.34830099999999
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 35,
+          "min": 26.5,
+          "max": 51.29999999701977
+        },
+        "candidate": {
+          "n": 7,
+          "median": 10.700000002980232,
+          "min": 2,
+          "max": 39.5
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 77.3999999910593,
+          "min": 58.80000001192093,
+          "max": 102.29999999701977
+        },
+        "candidate": {
+          "n": 7,
+          "median": 53.099999994039536,
+          "min": 37.20000000298023,
+          "max": 88.09999999403954
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-detail-close": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 82.3933820000002,
+          "min": 76.1675039999991,
+          "max": 85.13743199999954
+        },
+        "candidate": {
+          "n": 7,
+          "median": 64.81740999999965,
+          "min": 57.14752200000112,
+          "max": 77.7767219999987
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 29.5,
+          "min": 21.299999997019768,
+          "max": 48.400000005960464
+        },
+        "candidate": {
+          "n": 7,
+          "median": 10.5,
+          "min": 9,
+          "max": 20.900000005960464
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 78.70000000298023,
+          "min": 73.29999999701977,
+          "max": 82
+        },
+        "candidate": {
+          "n": 7,
+          "median": 62.29999999701977,
+          "min": 54.20000000298023,
+          "max": 75
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-detail-close-with-sse": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 884.7366540000003,
+          "min": 884.7366540000003,
+          "max": 884.7366540000003
+        },
+        "candidate": {
+          "n": 1,
+          "median": 819.9053989999993,
+          "min": 819.9053989999993,
+          "max": 819.9053989999993
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 700.3999999910593,
+          "min": 700.3999999910593,
+          "max": 700.3999999910593
+        },
+        "candidate": {
+          "n": 1,
+          "median": 662.9000000059605,
+          "min": 662.9000000059605,
+          "max": 662.9000000059605
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 883.1999999880791,
+          "min": 883.1999999880791,
+          "max": 883.1999999880791
+        },
+        "candidate": {
+          "n": 1,
+          "median": 817.9000000059605,
+          "min": 817.9000000059605,
+          "max": 817.9000000059605
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-search-filtered-arrow": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 47.230680999997276,
+          "min": 47.230680999997276,
+          "max": 47.230680999997276
+        },
+        "candidate": {
+          "n": 1,
+          "median": 45.00074300000051,
+          "min": 45.00074300000051,
+          "max": 45.00074300000051
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 12.600000008940697,
+          "min": 12.600000008940697,
+          "max": 12.600000008940697
+        },
+        "candidate": {
+          "n": 1,
+          "median": 15.099999994039536,
+          "min": 15.099999994039536,
+          "max": 15.099999994039536
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 46.20000000298023,
+          "min": 46.20000000298023,
+          "max": 46.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 43.599999994039536,
+          "min": 43.599999994039536,
+          "max": 43.599999994039536
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "kanban-3000-filtered-detail-close-with-sse": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 117.52397500000006,
+          "min": 117.52397500000006,
+          "max": 117.52397500000006
+        },
+        "candidate": {
+          "n": 1,
+          "median": 99.5576860000001,
+          "min": 99.5576860000001,
+          "max": 99.5576860000001
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 84.6000000089407,
+          "min": 84.6000000089407,
+          "max": 84.6000000089407
+        },
+        "candidate": {
+          "n": 1,
+          "median": 64.1000000089407,
+          "min": 64.1000000089407,
+          "max": 64.1000000089407
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 115.80000001192093,
+          "min": 115.80000001192093,
+          "max": 115.80000001192093
+        },
+        "candidate": {
+          "n": 1,
+          "median": 97.70000000298023,
+          "min": 97.70000000298023,
+          "max": 97.70000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "group-1000-picker-first-open": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 137.57502599999862,
+          "min": 137.57502599999862,
+          "max": 137.57502599999862
+        },
+        "candidate": {
+          "n": 1,
+          "median": 142.02855400000044,
+          "min": 142.02855400000044,
+          "max": 142.02855400000044
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 130.09999999403954,
+          "min": 130.09999999403954,
+          "max": 130.09999999403954
+        },
+        "candidate": {
+          "n": 1,
+          "median": 125.90000000596046,
+          "min": 125.90000000596046,
+          "max": 125.90000000596046
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 135.59999999403954,
+          "min": 135.59999999403954,
+          "max": 135.59999999403954
+        },
+        "candidate": {
+          "n": 1,
+          "median": 140.20000000298023,
+          "min": 140.20000000298023,
+          "max": 140.20000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "group-1000-query-key": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 63.30957499999931,
+          "min": 63.30957499999931,
+          "max": 63.30957499999931
+        },
+        "candidate": {
+          "n": 1,
+          "median": 51.77159799999936,
+          "min": 51.77159799999936,
+          "max": 51.77159799999936
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 46.599999994039536,
+          "min": 46.599999994039536,
+          "max": 46.599999994039536
+        },
+        "candidate": {
+          "n": 1,
+          "median": 46.1000000089407,
+          "min": 46.1000000089407,
+          "max": 46.1000000089407
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 61.8999999910593,
+          "min": 61.8999999910593,
+          "max": 61.8999999910593
+        },
+        "candidate": {
+          "n": 1,
+          "median": 48.5,
+          "min": 48.5,
+          "max": 48.5
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 0.8999999910593033,
+          "min": 0.8999999910593033,
+          "max": 0.8999999910593033
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.5,
+          "min": 0.5,
+          "max": 0.5
+        }
+      }
+    },
+    "group-1000-arrow-down": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 52.487435999999434,
+          "min": 48.951976000000286,
+          "max": 64.67767000000094
+        },
+        "candidate": {
+          "n": 7,
+          "median": 47.88406500000201,
+          "min": 46.651355999998486,
+          "max": 49.78960999999981
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 42.29999999701977,
+          "min": 39.70000000298023,
+          "max": 46.900000005960464
+        },
+        "candidate": {
+          "n": 7,
+          "median": 13.599999994039536,
+          "min": 13,
+          "max": 15.099999994039536
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 48.20000000298023,
+          "min": 45.900000005960464,
+          "max": 63.400000005960464
+        },
+        "candidate": {
+          "n": 7,
+          "median": 46.3999999910593,
+          "min": 45.19999998807907,
+          "max": 48.29999999701977
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 7,
+          "median": 11,
+          "min": 10.5,
+          "max": 11.800000011920929
+        },
+        "candidate": {
+          "n": 7,
+          "median": 0.10000000894069672,
+          "min": 0,
+          "max": 0.20000000298023224
+        }
+      }
+    },
+    "group-1000-arrow-up": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 53.83584999999948,
+          "min": 46.19911299999876,
+          "max": 65.90791000000172
+        },
+        "candidate": {
+          "n": 7,
+          "median": 46.183625999998185,
+          "min": 44.65547200000219,
+          "max": 48.270894000001135
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 40.6000000089407,
+          "min": 39.20000000298023,
+          "max": 48.69999998807907
+        },
+        "candidate": {
+          "n": 7,
+          "median": 11.199999988079071,
+          "min": 10.200000002980232,
+          "max": 13.700000002980232
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 52.400000005960464,
+          "min": 45.29999999701977,
+          "max": 64.79999999701977
+        },
+        "candidate": {
+          "n": 7,
+          "median": 44.79999999701977,
+          "min": 43.400000005960464,
+          "max": 47.1000000089407
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 7,
+          "median": 10.600000008940697,
+          "min": 9.799999997019768,
+          "max": 12.200000002980232
+        },
+        "candidate": {
+          "n": 7,
+          "median": 0,
+          "min": 0,
+          "max": 0.20000000298023224
+        }
+      }
+    },
+    "group-1000-wrap-up": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 56.07641199999853,
+          "min": 56.07641199999853,
+          "max": 56.07641199999853
+        },
+        "candidate": {
+          "n": 1,
+          "median": 39.612841999998636,
+          "min": 39.612841999998636,
+          "max": 39.612841999998636
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 39.400000005960464,
+          "min": 39.400000005960464,
+          "max": 39.400000005960464
+        },
+        "candidate": {
+          "n": 1,
+          "median": 4.799999997019768,
+          "min": 4.799999997019768,
+          "max": 4.799999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 54.70000000298023,
+          "min": 54.70000000298023,
+          "max": 54.70000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 38.20000000298023,
+          "min": 38.20000000298023,
+          "max": 38.20000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 10,
+          "min": 10,
+          "max": 10
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.09999999403953552,
+          "min": 0.09999999403953552,
+          "max": 0.09999999403953552
+        }
+      }
+    },
+    "group-1000-wrap-down": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 49.42481599999883,
+          "min": 49.42481599999883,
+          "max": 49.42481599999883
+        },
+        "candidate": {
+          "n": 1,
+          "median": 45.11624600000141,
+          "min": 45.11624600000141,
+          "max": 45.11624600000141
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 44.1000000089407,
+          "min": 44.1000000089407,
+          "max": 44.1000000089407
+        },
+        "candidate": {
+          "n": 1,
+          "median": 10.100000008940697,
+          "min": 10.100000008940697,
+          "max": 10.100000008940697
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 47.20000000298023,
+          "min": 47.20000000298023,
+          "max": 47.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 43.70000000298023,
+          "min": 43.70000000298023,
+          "max": 43.70000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 11.900000005960464,
+          "min": 11.900000005960464,
+          "max": 11.900000005960464
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.09999999403953552,
+          "min": 0.09999999403953552,
+          "max": 0.09999999403953552
+        }
+      }
+    },
+    "group-1000-scrolled-arrow-down": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 64.98168099999748,
+          "min": 64.98168099999748,
+          "max": 64.98168099999748
+        },
+        "candidate": {
+          "n": 1,
+          "median": 48.358188000001974,
+          "min": 48.358188000001974,
+          "max": 48.358188000001974
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 45.1000000089407,
+          "min": 45.1000000089407,
+          "max": 45.1000000089407
+        },
+        "candidate": {
+          "n": 1,
+          "median": 13.700000002980232,
+          "min": 13.700000002980232,
+          "max": 13.700000002980232
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 63.70000000298023,
+          "min": 63.70000000298023,
+          "max": 63.70000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 46.70000000298023,
+          "min": 46.70000000298023,
+          "max": 46.70000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 12.299999997019768,
+          "min": 12.299999997019768,
+          "max": 12.299999997019768
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.10000000894069672,
+          "min": 0.10000000894069672,
+          "max": 0.10000000894069672
+        }
+      }
+    },
+    "group-1000-scrolled-arrow-up": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 46.83609399999841,
+          "min": 46.83609399999841,
+          "max": 46.83609399999841
+        },
+        "candidate": {
+          "n": 1,
+          "median": 45.05944300000192,
+          "min": 45.05944300000192,
+          "max": 45.05944300000192
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 41.70000000298023,
+          "min": 41.70000000298023,
+          "max": 41.70000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 10.399999991059303,
+          "min": 10.399999991059303,
+          "max": 10.399999991059303
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 45.20000000298023,
+          "min": 45.20000000298023,
+          "max": 45.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 43.69999998807907,
+          "min": 43.69999998807907,
+          "max": 43.69999998807907
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 10.899999991059303,
+          "min": 10.899999991059303,
+          "max": 10.899999991059303
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    },
+    "group-1000-caret-left": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 48.142298999999184,
+          "min": 48.142298999999184,
+          "max": 48.142298999999184
+        },
+        "candidate": {
+          "n": 1,
+          "median": 49.030721999999514,
+          "min": 49.030721999999514,
+          "max": 49.030721999999514
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 13.599999994039536,
+          "min": 13.599999994039536,
+          "max": 13.599999994039536
+        },
+        "candidate": {
+          "n": 1,
+          "median": 16.599999994039536,
+          "min": 16.599999994039536,
+          "max": 16.599999994039536
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 46.79999999701977,
+          "min": 46.79999999701977,
+          "max": 46.79999999701977
+        },
+        "candidate": {
+          "n": 1,
+          "median": 47.900000005960464,
+          "min": 47.900000005960464,
+          "max": 47.900000005960464
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 0.4000000059604645,
+          "min": 0.4000000059604645,
+          "max": 0.4000000059604645
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.10000000894069672,
+          "min": 0.10000000894069672,
+          "max": 0.10000000894069672
+        }
+      }
+    },
+    "group-1000-enter-child": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 47.2678670000023,
+          "min": 47.2678670000023,
+          "max": 47.2678670000023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 42.00911500000075,
+          "min": 42.00911500000075,
+          "max": 42.00911500000075
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 14.700000002980232,
+          "min": 14.700000002980232,
+          "max": 14.700000002980232
+        },
+        "candidate": {
+          "n": 1,
+          "median": 7.899999991059303,
+          "min": 7.899999991059303,
+          "max": 7.899999991059303
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 46.20000000298023,
+          "min": 46.20000000298023,
+          "max": 46.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 40.8999999910593,
+          "min": 40.8999999910593,
+          "max": 40.8999999910593
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "group-1000-enter-child-reopen": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 42.300977999999304,
+          "min": 42.300977999999304,
+          "max": 42.300977999999304
+        },
+        "candidate": {
+          "n": 1,
+          "median": 38.62636600000042,
+          "min": 38.62636600000042,
+          "max": 38.62636600000042
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 5.200000002980232,
+          "min": 5.200000002980232,
+          "max": 5.200000002980232
+        },
+        "candidate": {
+          "n": 1,
+          "median": 4.200000002980232,
+          "min": 4.200000002980232,
+          "max": 4.200000002980232
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 39.900000005960464,
+          "min": 39.900000005960464,
+          "max": 39.900000005960464
+        },
+        "candidate": {
+          "n": 1,
+          "median": 37.20000000298023,
+          "min": 37.20000000298023,
+          "max": 37.20000000298023
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "group-10000-picker-first-open": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 743.0441869999995,
+          "min": 743.0441869999995,
+          "max": 743.0441869999995
+        },
+        "candidate": {
+          "n": 1,
+          "median": 740.783961000001,
+          "min": 740.783961000001,
+          "max": 740.783961000001
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 734.5,
+          "min": 734.5,
+          "max": 734.5
+        },
+        "candidate": {
+          "n": 1,
+          "median": 734.5,
+          "min": 734.5,
+          "max": 734.5
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 741.7999999970198,
+          "min": 741.7999999970198,
+          "max": 741.7999999970198
+        },
+        "candidate": {
+          "n": 1,
+          "median": 739.2999999970198,
+          "min": 739.2999999970198,
+          "max": 739.2999999970198
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "group-10000-query-key": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 607.4181710000012,
+          "min": 607.4181710000012,
+          "max": 607.4181710000012
+        },
+        "candidate": {
+          "n": 1,
+          "median": 588.1996380000019,
+          "min": 588.1996380000019,
+          "max": 588.1996380000019
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 584.2999999970198,
+          "min": 584.2999999970198,
+          "max": 584.2999999970198
+        },
+        "candidate": {
+          "n": 1,
+          "median": 554.0999999940395,
+          "min": 554.0999999940395,
+          "max": 554.0999999940395
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 606.0999999940395,
+          "min": 606.0999999940395,
+          "max": 606.0999999940395
+        },
+        "candidate": {
+          "n": 1,
+          "median": 582.7999999970198,
+          "min": 582.7999999970198,
+          "max": 582.7999999970198
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 3.6000000089406967,
+          "min": 3.6000000089406967,
+          "max": 3.6000000089406967
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.3999999910593033,
+          "min": 0.3999999910593033,
+          "max": 0.3999999910593033
+        }
+      }
+    },
+    "group-10000-arrow-down": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 529.033198000001,
+          "min": 500.23650199999975,
+          "max": 572.186991999999
+        },
+        "candidate": {
+          "n": 7,
+          "median": 47.49602599999707,
+          "min": 46.35608199999842,
+          "max": 48.644381000001886
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 511.59999999403954,
+          "min": 487.40000000596046,
+          "max": 550.2999999970198
+        },
+        "candidate": {
+          "n": 7,
+          "median": 12.299999997019768,
+          "min": 11.100000008940697,
+          "max": 14.299999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 527.7000000029802,
+          "min": 498.90000000596046,
+          "max": 569.9000000059605
+        },
+        "candidate": {
+          "n": 7,
+          "median": 46,
+          "min": 44.5,
+          "max": 47.19999998807907
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 7,
+          "median": 110.3999999910593,
+          "min": 106.5,
+          "max": 126.70000000298023
+        },
+        "candidate": {
+          "n": 7,
+          "median": 0.09999999403953552,
+          "min": 0,
+          "max": 0.20000000298023224
+        }
+      }
+    },
+    "group-10000-arrow-up": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 7,
+          "median": 510.84923400000116,
+          "min": 492.5135850000006,
+          "max": 625.8630720000001
+        },
+        "candidate": {
+          "n": 7,
+          "median": 47.27482299999974,
+          "min": 45.438092000000324,
+          "max": 48.14527399999861
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 7,
+          "median": 478.70000000298023,
+          "min": 473,
+          "max": 578.3000000119209
+        },
+        "candidate": {
+          "n": 7,
+          "median": 12.100000008940697,
+          "min": 11.099999994039536,
+          "max": 13.600000008940697
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 7,
+          "median": 509.5,
+          "min": 486.79999999701977,
+          "max": 595.9000000059605
+        },
+        "candidate": {
+          "n": 7,
+          "median": 45.80000001192093,
+          "min": 44.099999994039536,
+          "max": 46.80000001192093
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 7,
+          "median": 106.8999999910593,
+          "min": 101.70000000298023,
+          "max": 116
+        },
+        "candidate": {
+          "n": 7,
+          "median": 0,
+          "min": 0,
+          "max": 0.10000000894069672
+        }
+      }
+    },
+    "group-10000-wrap-up": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 485.005296000003,
+          "min": 485.005296000003,
+          "max": 485.005296000003
+        },
+        "candidate": {
+          "n": 1,
+          "median": 38.12330500000098,
+          "min": 38.12330500000098,
+          "max": 38.12330500000098
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 464.20000000298023,
+          "min": 464.20000000298023,
+          "max": 464.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 2.6000000089406967,
+          "min": 2.6000000089406967,
+          "max": 2.6000000089406967
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 483.59999999403954,
+          "min": 483.59999999403954,
+          "max": 483.59999999403954
+        },
+        "candidate": {
+          "n": 1,
+          "median": 36.6000000089407,
+          "min": 36.6000000089407,
+          "max": 36.6000000089407
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 106.20000000298023,
+          "min": 106.20000000298023,
+          "max": 106.20000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    },
+    "group-10000-wrap-down": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 507.05779600000096,
+          "min": 507.05779600000096,
+          "max": 507.05779600000096
+        },
+        "candidate": {
+          "n": 1,
+          "median": 45.92816699999821,
+          "min": 45.92816699999821,
+          "max": 45.92816699999821
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 475,
+          "min": 475,
+          "max": 475
+        },
+        "candidate": {
+          "n": 1,
+          "median": 13.299999997019768,
+          "min": 13.299999997019768,
+          "max": 13.299999997019768
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 505.1000000089407,
+          "min": 505.1000000089407,
+          "max": 505.1000000089407
+        },
+        "candidate": {
+          "n": 1,
+          "median": 44.5,
+          "min": 44.5,
+          "max": 44.5
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 101.29999999701977,
+          "min": 101.29999999701977,
+          "max": 101.29999999701977
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.09999999403953552,
+          "min": 0.09999999403953552,
+          "max": 0.09999999403953552
+        }
+      }
+    },
+    "group-10000-scrolled-arrow-down": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 498.96926299999905,
+          "min": 498.96926299999905,
+          "max": 498.96926299999905
+        },
+        "candidate": {
+          "n": 1,
+          "median": 48.50479300000006,
+          "min": 48.50479300000006,
+          "max": 48.50479300000006
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 480.59999999403954,
+          "min": 480.59999999403954,
+          "max": 480.59999999403954
+        },
+        "candidate": {
+          "n": 1,
+          "median": 12.200000002980232,
+          "min": 12.200000002980232,
+          "max": 12.200000002980232
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 497.59999999403954,
+          "min": 497.59999999403954,
+          "max": 497.59999999403954
+        },
+        "candidate": {
+          "n": 1,
+          "median": 47,
+          "min": 47,
+          "max": 47
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 104.5,
+          "min": 104.5,
+          "max": 104.5
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.09999999403953552,
+          "min": 0.09999999403953552,
+          "max": 0.09999999403953552
+        }
+      }
+    },
+    "group-10000-scrolled-arrow-up": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 516.2099750000052,
+          "min": 516.2099750000052,
+          "max": 516.2099750000052
+        },
+        "candidate": {
+          "n": 1,
+          "median": 46.09659299999839,
+          "min": 46.09659299999839,
+          "max": 46.09659299999839
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 474.5,
+          "min": 474.5,
+          "max": 474.5
+        },
+        "candidate": {
+          "n": 1,
+          "median": 11.5,
+          "min": 11.5,
+          "max": 11.5
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 498.70000000298023,
+          "min": 498.70000000298023,
+          "max": 498.70000000298023
+        },
+        "candidate": {
+          "n": 1,
+          "median": 44.5,
+          "min": 44.5,
+          "max": 44.5
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 107.6000000089407,
+          "min": 107.6000000089407,
+          "max": 107.6000000089407
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.09999999403953552,
+          "min": 0.09999999403953552,
+          "max": 0.09999999403953552
+        }
+      }
+    },
+    "group-10000-caret-left": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 42.31186699999671,
+          "min": 42.31186699999671,
+          "max": 42.31186699999671
+        },
+        "candidate": {
+          "n": 1,
+          "median": 48.98040200000105,
+          "min": 48.98040200000105,
+          "max": 48.98040200000105
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 7.9000000059604645,
+          "min": 7.9000000059604645,
+          "max": 7.9000000059604645
+        },
+        "candidate": {
+          "n": 1,
+          "median": 13.700000002980232,
+          "min": 13.700000002980232,
+          "max": 13.700000002980232
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 40.900000005960464,
+          "min": 40.900000005960464,
+          "max": 40.900000005960464
+        },
+        "candidate": {
+          "n": 1,
+          "median": 47.099999994039536,
+          "min": 47.099999994039536,
+          "max": 47.099999994039536
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": {
+          "n": 1,
+          "median": 3.6000000089406967,
+          "min": 3.6000000089406967,
+          "max": 3.6000000089406967
+        },
+        "candidate": {
+          "n": 1,
+          "median": 0.20000000298023224,
+          "min": 0.20000000298023224,
+          "max": 0.20000000298023224
+        }
+      }
+    },
+    "group-10000-enter-child": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 38.4568419999996,
+          "min": 38.4568419999996,
+          "max": 38.4568419999996
+        },
+        "candidate": {
+          "n": 1,
+          "median": 35.271827999997186,
+          "min": 35.271827999997186,
+          "max": 35.271827999997186
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 10.899999991059303,
+          "min": 10.899999991059303,
+          "max": 10.899999991059303
+        },
+        "candidate": {
+          "n": 1,
+          "median": 7,
+          "min": 7,
+          "max": 7
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 37.19999998807907,
+          "min": 37.19999998807907,
+          "max": 37.19999998807907
+        },
+        "candidate": {
+          "n": 1,
+          "median": 34,
+          "min": 34,
+          "max": 34
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    },
+    "group-10000-enter-child-reopen": {
+      "hostToResultMs": {
+        "baseline": {
+          "n": 1,
+          "median": 43.52869600000122,
+          "min": 43.52869600000122,
+          "max": 43.52869600000122
+        },
+        "candidate": {
+          "n": 1,
+          "median": 41.124346000000514,
+          "min": 41.124346000000514,
+          "max": 41.124346000000514
+        }
+      },
+      "eventToObservedMs": {
+        "baseline": {
+          "n": 1,
+          "median": 9.399999991059303,
+          "min": 9.399999991059303,
+          "max": 9.399999991059303
+        },
+        "candidate": {
+          "n": 1,
+          "median": 5,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "eventToTwoFramesMs": {
+        "baseline": {
+          "n": 1,
+          "median": 42.3999999910593,
+          "min": 42.3999999910593,
+          "max": 42.3999999910593
+        },
+        "candidate": {
+          "n": 1,
+          "median": 39.5,
+          "min": 39.5,
+          "max": 39.5
+        }
+      },
+      "captureToHandlerEndMs": {
+        "baseline": null,
+        "candidate": null
+      }
+    }
+  },
+  "sequence": [
+    {
+      "version": "baseline",
+      "seq": [
+        {
+          "board": {
+            "boardId": 1,
+            "start": 0,
+            "size": 1000,
+            "type": "kanban"
+          },
+          "targetId": 721,
+          "beforeQueued": {
+            "count": 1005,
+            "query": "",
+            "title": "721",
+            "window": [
+              0,
+              0
+            ],
+            "scroll": [
+              [
+                "main",
+                0,
+                0
+              ],
+              [
+                "lane-board",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                18648,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ]
+            ],
+            "folded": [
+              "Show 50 more (55 remaining)"
+            ]
+          },
+          "cardsAtRestore": 1005,
+          "fullBoardAfterQueuedCloseMs": 839.5967689999998,
+          "persistedTitle": "Moved outside keyboard filter",
+          "pageErrors": []
+        },
+        {
+          "board": {
+            "boardId": 2,
+            "start": 2000,
+            "size": 3000,
+            "type": "kanban"
+          },
+          "targetId": 2721,
+          "beforeQueued": {
+            "count": 3005,
+            "query": "",
+            "title": "2721",
+            "window": [
+              0,
+              0
+            ],
+            "scroll": [
+              [
+                "main",
+                0,
+                0
+              ],
+              [
+                "lane-board",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                18648,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ]
+            ],
+            "folded": [
+              "Show 50 more (55 remaining)"
+            ]
+          },
+          "cardsAtRestore": 1080,
+          "fullBoardAfterQueuedCloseMs": 2889.5489210000014,
+          "persistedTitle": "Moved outside keyboard filter",
+          "pageErrors": []
+        },
+        {
+          "board": {
+            "boardId": 3,
+            "start": 6000,
+            "size": 1000,
+            "type": "group"
+          },
+          "optionDigest": "21b730a95ba609ace1d98a27e82f5c29aa97555cad4f88eaf98df4bde84736b4",
+          "startingScroll": {
+            "top": 0,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollBefore": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollAfter": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "parentId": 6001,
+          "childId": 6002,
+          "beforeGroupIds": [
+            null,
+            null
+          ],
+          "savedGroupIds": [
+            3,
+            3
+          ],
+          "pageErrors": []
+        },
+        {
+          "board": {
+            "boardId": 4,
+            "start": 10000,
+            "size": 10000,
+            "type": "group"
+          },
+          "optionDigest": "dc9c97232187f09b7f0e1ce6d8a80a512f1d95c3180095dd707caea4a6b8d56d",
+          "startingScroll": {
+            "top": 0,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollBefore": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollAfter": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "parentId": 10001,
+          "childId": 10002,
+          "beforeGroupIds": [
+            null,
+            null
+          ],
+          "savedGroupIds": [
+            4,
+            4
+          ],
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "version": "candidate",
+      "seq": [
+        {
+          "board": {
+            "boardId": 1,
+            "start": 0,
+            "size": 1000,
+            "type": "kanban"
+          },
+          "targetId": 721,
+          "beforeQueued": {
+            "count": 1005,
+            "query": "",
+            "title": "721",
+            "window": [
+              0,
+              0
+            ],
+            "scroll": [
+              [
+                "main",
+                0,
+                0
+              ],
+              [
+                "lane-board",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                18648,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ]
+            ],
+            "folded": [
+              "Show 50 more (55 remaining)"
+            ]
+          },
+          "cardsAtRestore": 1005,
+          "fullBoardAfterQueuedCloseMs": 738.305221999999,
+          "persistedTitle": "Moved outside keyboard filter",
+          "pageErrors": []
+        },
+        {
+          "board": {
+            "boardId": 2,
+            "start": 2000,
+            "size": 3000,
+            "type": "kanban"
+          },
+          "targetId": 2721,
+          "beforeQueued": {
+            "count": 3005,
+            "query": "",
+            "title": "2721",
+            "window": [
+              0,
+              0
+            ],
+            "scroll": [
+              [
+                "main",
+                0,
+                0
+              ],
+              [
+                "lane-board",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                18648,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ],
+              [
+                "ticket-list",
+                0,
+                0
+              ]
+            ],
+            "folded": [
+              "Show 50 more (55 remaining)"
+            ]
+          },
+          "cardsAtRestore": 1080,
+          "fullBoardAfterQueuedCloseMs": 2639.757256000001,
+          "persistedTitle": "Moved outside keyboard filter",
+          "pageErrors": []
+        },
+        {
+          "board": {
+            "boardId": 3,
+            "start": 6000,
+            "size": 1000,
+            "type": "group"
+          },
+          "optionDigest": "21b730a95ba609ace1d98a27e82f5c29aa97555cad4f88eaf98df4bde84736b4",
+          "startingScroll": {
+            "top": 0,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollBefore": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollAfter": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "parentId": 6001,
+          "childId": 6002,
+          "beforeGroupIds": [
+            null,
+            null
+          ],
+          "savedGroupIds": [
+            3,
+            3
+          ],
+          "pageErrors": []
+        },
+        {
+          "board": {
+            "boardId": 4,
+            "start": 10000,
+            "size": 10000,
+            "type": "group"
+          },
+          "optionDigest": "dc9c97232187f09b7f0e1ce6d8a80a512f1d95c3180095dd707caea4a6b8d56d",
+          "startingScroll": {
+            "top": 0,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollBefore": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "nonzeroScrollAfter": {
+            "top": 96,
+            "left": 0,
+            "optionsTop": 0,
+            "panelTop": 0,
+            "mainTop": 0,
+            "mainLeft": 0,
+            "window": [
+              0,
+              0
+            ]
+          },
+          "parentId": 10001,
+          "childId": 10002,
+          "beforeGroupIds": [
+            null,
+            null
+          ],
+          "savedGroupIds": [
+            4,
+            4
+          ],
+          "pageErrors": []
+        }
+      ]
+    }
+  ]
+}

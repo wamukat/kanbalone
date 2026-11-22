@@ -1,0 +1,342 @@
+[
+  {
+    "version": "candidate",
+    "locale": "en",
+    "width": 1440,
+    "height": 900,
+    "theme": "light",
+    "kanbanBoard": 2,
+    "kanbanCount": 3005,
+    "target": 2721,
+    "groupBoard": 4,
+    "groupCount": 10000,
+    "parent": 10001,
+    "child": 10002,
+    "view": "kanban",
+    "url": "http://127.0.0.1:58277/boards/2",
+    "images": [
+      {
+        "stage": "search",
+        "filepath": "screens/1535-candidate-en-light-1440-kanban-search.png",
+        "sha256": "bb6d196627e78a06a5a5d0bff06344150b49c9ee0076ad067638420d997a4523"
+      },
+      {
+        "stage": "first-result",
+        "filepath": "screens/1535-candidate-en-light-1440-kanban-first-result.png",
+        "sha256": "5b2d624d759918241408eefacc001103b6535ac1a2d3726ea53de5f8544abd2a"
+      },
+      {
+        "stage": "detail-open",
+        "filepath": "screens/1535-candidate-en-light-1440-kanban-detail-open.png",
+        "sha256": "f10843288be5951b9ed30df8e17ae62f17284e4f011d737b11f2548eb53e312c"
+      },
+      {
+        "stage": "focus-return",
+        "filepath": "screens/1535-candidate-en-light-1440-kanban-focus-return.png",
+        "sha256": "bebb074617677bc4146281c7ac5e616379cca155cd4d7357ba40eebd7de9400f"
+      }
+    ],
+    "context": {
+      "height": 900,
+      "language": "en",
+      "theme": "light",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "width": 1440
+    },
+    "persisted": {
+      "id": 2721,
+      "title": "Performance ticket 02721",
+      "laneId": 21,
+      "groupId": null,
+      "scroll": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          18653,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "version": "candidate",
+    "locale": "en",
+    "width": 1440,
+    "height": 900,
+    "theme": "light",
+    "kanbanBoard": 2,
+    "kanbanCount": 3005,
+    "target": 2721,
+    "groupBoard": 4,
+    "groupCount": 10000,
+    "parent": 10001,
+    "child": 10002,
+    "view": "group",
+    "url": "http://127.0.0.1:58277/boards/4/group",
+    "images": [
+      {
+        "stage": "broad-query",
+        "filepath": "screens/1537-candidate-en-light-1440-group-broad-query.png",
+        "sha256": "b34a5ee48b0df755dd9458530436c18f306d891be9596e0abe2e3763c7be5296"
+      },
+      {
+        "stage": "arrow-down",
+        "filepath": "screens/1537-candidate-en-light-1440-group-arrow-down.png",
+        "sha256": "bb6a4e3f53fafbcc36907908ede016026393bdafe2b1c518a500aaed53aeeaad"
+      },
+      {
+        "stage": "selected-family",
+        "filepath": "screens/1537-candidate-en-light-1440-group-selected-family.png",
+        "sha256": "3b345df8186286259884cb58416da82f9452980485d532a8c58a4878e10850d7"
+      },
+      {
+        "stage": "cancelled",
+        "filepath": "screens/1537-candidate-en-light-1440-group-cancelled.png",
+        "sha256": "b11a3660a49b7efe28dfb7f17d5de87394974adc2fd9279f9721a2a1dcc29e6c"
+      },
+      {
+        "stage": "saved",
+        "filepath": "screens/1537-candidate-en-light-1440-group-saved.png",
+        "sha256": "cf22f1beb4c38afef178928ed92f16f607271b8ac8fa6592eb8d8d026acc71bd"
+      },
+      {
+        "stage": "saved-after-reload",
+        "filepath": "screens/1537-candidate-en-light-1440-group-saved-after-reload.png",
+        "sha256": "e063ef34f43f850aeedf48b996c7b3bac403826481f870b2191f91d647cd9103"
+      }
+    ],
+    "context": {
+      "height": 900,
+      "language": "en",
+      "theme": "light",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "width": 1440
+    },
+    "persisted": {
+      "before": [
+        [
+          10001,
+          null,
+          null
+        ],
+        [
+          10002,
+          null,
+          10001
+        ]
+      ],
+      "afterCancel": [
+        [
+          10001,
+          null,
+          null
+        ],
+        [
+          10002,
+          null,
+          10001
+        ]
+      ],
+      "afterReload": [
+        [
+          10001,
+          4,
+          null
+        ],
+        [
+          10002,
+          4,
+          10001
+        ]
+      ]
+    }
+  },
+  {
+    "version": "candidate",
+    "locale": "ja",
+    "width": 390,
+    "height": 844,
+    "theme": "dark",
+    "kanbanBoard": 1,
+    "kanbanCount": 1005,
+    "target": 721,
+    "groupBoard": 3,
+    "groupCount": 1000,
+    "parent": 6001,
+    "child": 6002,
+    "view": "kanban",
+    "url": "http://127.0.0.1:58277/boards/1",
+    "images": [
+      {
+        "stage": "search",
+        "filepath": "screens/1535-candidate-ja-dark-390-kanban-search.png",
+        "sha256": "adef10a9de0ed40c013748d70265cea3e1e505b537c709317d8c1cf356d93bac"
+      },
+      {
+        "stage": "first-result",
+        "filepath": "screens/1535-candidate-ja-dark-390-kanban-first-result.png",
+        "sha256": "d897bb99d223101453e62d40b79c279532476d268e321678f5d016b6a3b79b6d"
+      },
+      {
+        "stage": "detail-open",
+        "filepath": "screens/1535-candidate-ja-dark-390-kanban-detail-open.png",
+        "sha256": "60b174bef6a87582cd1830804d7acbe239a9887aa87627a3005c911d53a1a134"
+      },
+      {
+        "stage": "focus-return",
+        "filepath": "screens/1535-candidate-ja-dark-390-kanban-focus-return.png",
+        "sha256": "3766116e48f0a4eb602879c412729ed6b4270026bbf8c4401eae6a8db2bc3d5a"
+      }
+    ],
+    "context": {
+      "height": 844,
+      "language": "ja",
+      "theme": "dark",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "width": 390
+    },
+    "persisted": {
+      "id": 721,
+      "title": "Performance ticket 00721",
+      "laneId": 11,
+      "groupId": null,
+      "scroll": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          18690,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "version": "candidate",
+    "locale": "ja",
+    "width": 390,
+    "height": 844,
+    "theme": "dark",
+    "kanbanBoard": 1,
+    "kanbanCount": 1005,
+    "target": 721,
+    "groupBoard": 3,
+    "groupCount": 1000,
+    "parent": 6001,
+    "child": 6002,
+    "view": "group",
+    "url": "http://127.0.0.1:58277/boards/3/group",
+    "images": [
+      {
+        "stage": "broad-query",
+        "filepath": "screens/1537-candidate-ja-dark-390-group-broad-query.png",
+        "sha256": "6dbf9112567817218556fcd419faa28bfe7721cfd83fdb7069ae5779a2400e6c"
+      },
+      {
+        "stage": "arrow-down",
+        "filepath": "screens/1537-candidate-ja-dark-390-group-arrow-down.png",
+        "sha256": "be23917f8eb293eef235dada2205421cf8da3a6d6c386b4edf210eec9cde4c61"
+      },
+      {
+        "stage": "selected-family",
+        "filepath": "screens/1537-candidate-ja-dark-390-group-selected-family.png",
+        "sha256": "c4d700a76513fa33424751253248f778b52a053c840f8b242730e012a90e8053"
+      },
+      {
+        "stage": "cancelled",
+        "filepath": "screens/1537-candidate-ja-dark-390-group-cancelled.png",
+        "sha256": "c84b5033e67e816943d034e7374639fee08454c75e9939d8871d5c7dc78ff7b6"
+      },
+      {
+        "stage": "saved",
+        "filepath": "screens/1537-candidate-ja-dark-390-group-saved.png",
+        "sha256": "6448e299b05cd6ec80ae17881f74728e75c18c1c7a0c143ab9be991853be2627"
+      },
+      {
+        "stage": "saved-after-reload",
+        "filepath": "screens/1537-candidate-ja-dark-390-group-saved-after-reload.png",
+        "sha256": "89494005929ac4263ffb8973f216662df5ed18c4f0a5ea3fbc190efef72bb0d4"
+      }
+    ],
+    "context": {
+      "height": 844,
+      "language": "ja",
+      "theme": "dark",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "width": 390
+    },
+    "persisted": {
+      "before": [
+        [
+          6001,
+          null,
+          null
+        ],
+        [
+          6002,
+          null,
+          6001
+        ]
+      ],
+      "afterCancel": [
+        [
+          6001,
+          null,
+          null
+        ],
+        [
+          6002,
+          null,
+          6001
+        ]
+      ],
+      "afterReload": [
+        [
+          6001,
+          3,
+          null
+        ],
+        [
+          6002,
+          3,
+          6001
+        ]
+      ]
+    }
+  }
+]
