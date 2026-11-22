@@ -1,5 +1,5 @@
 import { t as tr } from "./app-i18n.js";
-import { icon } from "./icons.js";
+import { ticketInlineIcon } from "./app-ticket-inline-icons.js";
 import { renderTag } from "./app-tags.js";
 import { renderPriorityIcon } from "./app-priority.js";
 import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
@@ -17,13 +17,13 @@ export function createKanbanTicketCard(ctx, ticket) {
       <span class="ticket-id-stack">
         <span class="ticket-id">#${ticket.id}</span>
         <span class="ticket-card-meta-icons">
-          ${renderTicketHierarchyIcon(ticket, state.boardTickets ?? [])}
-          ${renderPriorityIcon(ticket.priority)}
+          ${renderTicketHierarchyIcon(ticket, state.boardTickets ?? [], { renderIcon: ticketInlineIcon })}
+          ${renderPriorityIcon(ticket.priority, ticketInlineIcon)}
           ${renderBlockerIndicator(ticket)}
         </span>
       </span>
       <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
-      <span class="ticket-status-icons">${renderTicketStatusIcons(ticket)}</span>
+      <span class="ticket-status-icons">${renderTicketStatusIcons(ticket, { renderIcon: ticketInlineIcon })}</span>
     </div>
     ${ticket.remote ? renderRemoteRefBadge(ticket.remote, ctx.escapeHtml, "ticket-remote-card-ref") : ""}
     ${(ticket.externalReferences ?? []).map((reference) => renderRemoteRefBadge(reference, ctx.escapeHtml, "ticket-external-card-ref")).join("")}
@@ -69,5 +69,5 @@ function renderBlockerIndicator(ticket) {
   const count = ticket.unresolvedBlockerCount ?? 0;
   if (!count) return "";
   const label = tr(count === 1 ? "Blocked by {count} unresolved ticket" : "Blocked by {count} unresolved tickets", { count });
-  return `<span class="ticket-blocker-indicator" title="${label}" aria-label="${label}">${icon("octagon-alert")}<span>${count}</span></span>`;
+  return `<span class="ticket-blocker-indicator" title="${label}" aria-label="${label}">${ticketInlineIcon("octagon-alert")}<span>${count}</span></span>`;
 }

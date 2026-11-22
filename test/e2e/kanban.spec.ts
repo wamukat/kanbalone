@@ -37,13 +37,16 @@ test("kanban cards show parent child and standalone hierarchy icons", async ({ p
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
 
-    await expect(page.locator(`.ticket-card[data-ticket-id="${parent.id}"] .ticket-hierarchy-icon-parent`)).toHaveAttribute("aria-label", "Parent ticket");
-    await expect(page.locator(`.ticket-card[data-ticket-id="${parent.id}"] .ticket-hierarchy-icon-parent use`)).toHaveAttribute("href", "/icons.svg#folder-up");
-    await expect(page.locator(`.ticket-card[data-ticket-id="${resolvedChildParent.id}"] .ticket-hierarchy-icon-parent use`)).toHaveAttribute("href", "/icons.svg#folder-up");
-    await expect(page.locator(`.ticket-card[data-ticket-id="${child.id}"] .ticket-hierarchy-icon-child`)).toHaveAttribute("aria-label", "Child ticket");
-    await expect(page.locator(`.ticket-card[data-ticket-id="${child.id}"] .ticket-hierarchy-icon-child use`)).toHaveAttribute("href", "/icons.svg#folder-tree");
-    await expect(page.locator(`.ticket-card[data-ticket-id="${standalone.id}"] .ticket-hierarchy-icon-single`)).toHaveAttribute("aria-label", "Standalone ticket");
-    await expect(page.locator(`.ticket-card[data-ticket-id="${standalone.id}"] .ticket-hierarchy-icon-single use`)).toHaveAttribute("href", "/icons.svg#ticket");
+    for (const [id, hierarchy, label] of [
+      [parent.id, "parent", "Parent ticket"],
+      [resolvedChildParent.id, "parent", "Parent ticket"],
+      [child.id, "child", "Child ticket"],
+      [standalone.id, "single", "Standalone ticket"],
+    ] as const) {
+      const icon = page.locator(`.ticket-card[data-ticket-id="${id}"] .ticket-hierarchy-icon-${hierarchy}`);
+      await expect(icon).toHaveAttribute("aria-label", label);
+      await expect(icon.locator('svg[viewBox="0 0 24 24"] > path').first()).toBeAttached();
+    }
   } finally {
     await close();
   }

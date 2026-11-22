@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { copyFileSync, cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from '@playwright/test';
 
-const out = path.resolve(process.env.KANBALONE_RENDER_OUTPUT ?? path.join(repo, 'coverage/tag-render-perf'));
-mkdirSync(out, { recursive: true });
 const evidenceDir = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(process.env.KANBALONE_RENDER_REPO ?? path.join(evidenceDir, '../../../..'));
+const out = path.resolve(process.env.KANBALONE_RENDER_OUTPUT ?? path.join(repo, 'coverage/tag-render-perf'));
+mkdirSync(out, { recursive: true });
 process.chdir(repo);
 const { buildApp } = await import(pathToFileURL(path.join(repo, 'src/app.ts')));
 const catalog = JSON.parse(readFileSync(path.join(out, 'fixtures.json'), 'utf8'));
@@ -19,7 +19,7 @@ const cases = catalog.fixtures.filter((fixture) => !options.cases || options.cas
 assert(cases.length, 'No matching fixtures');
 const rounds = options.rounds ?? 6;
 const diagnostics = options.diagnostics ?? false;
-const viewport = { width: 1440, height: 1000 };
+const viewport = options.viewport ?? { width: 1440, height: 1000 };
 const variants = options.variants ?? [{ name: 'baseline', staticDir: path.join(repo, 'public') }];
 const runLabel = options.runLabel ?? 'baseline';
 const provenance = {
@@ -32,6 +32,7 @@ const provenance = {
   diagnostics,
   variants: variants.map(({ name, staticDir }) => ({
     name, staticDir,
+    assetTreeSha256: hash(JSON.stringify(assetFiles(staticDir))),
     files: Object.fromEntries(
       ['app-group-board.js', 'app-group-view.js', 'app-tags.js', 'app-kanban-board.js', 'app-kanban-ticket-card.js', 'app-api.js', 'icons.js'].map((file) =>
         [file, hash(readFileSync(path.join(staticDir, file)))],
@@ -72,6 +73,14 @@ try {
   }
 } finally {
   await browser.close();
+}
+
+function assetFiles(directory) {
+  return readdirSync(directory, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => path.relative(directory, path.join(entry.parentPath, entry.name)))
+    .sort()
+    .map((name) => [name, hash(readFileSync(path.join(directory, name)))]);
 }
 
 function hash(value) {
@@ -119,6 +128,7 @@ async function measure(fixture, { base, variant }, run) {
       total: fixture.ids.length,
       firstId: fixture.ids[0],
       countsByLane,
+      trackViewport: options.trackViewport ?? false,
     });
     const url = base + '/boards/' + fixture.board.id + (fixture.view === 'group' ? '/group' : '');
     await page.goto(url, { waitUntil: 'domcontentloaded' });
@@ -129,11 +139,11 @@ async function measure(fixture, { base, variant }, run) {
       writeFileSync(path.join(out, [runLabel, fixture.key, variant.name, run].join('-') + '.cpuprofile'), JSON.stringify(profile));
     }
     // Measure from the in-page timestamps. Geometry and screenshots happen after.
-    const result = await page.evaluate(inspect, { kanban: fixture.view === 'kanban', boardId: fixture.board.id });
+    const result = await page.evaluate(inspect, { kanban: fixture.view === 'kanban', boardId: fixture.board.id, subgeometry: options.subgeometry ?? false });
     assert.deepEqual(result.ids, fixture.ids, fixture.key + ' visible IDs or order');
     assert.deepEqual(errors, [], fixture.key + ' browser errors');
     const ticketRequests = result.resources.filter((entry) => entry.apiType === 'ticket-pages');
-    assert(ticketRequests.length > 0);
+    assert(ticketRequests.length > 0, fixture.key + ' expected ticket-page endpoint');
     const collectionStart = Math.min(...ticketRequests.map((entry) => entry.start));
     const responseEnd = Math.max(...ticketRequests.map((entry) => entry.end));
     const ticketTiming = {
@@ -169,6 +179,8 @@ async function measure(fixture, { base, variant }, run) {
       fixture: fixture.key, view: fixture.view, variant: variant.name, run, warmup: run === 0,
       size: result.ids.length, idHash: hash(JSON.stringify(result.ids)),
       geometryHash: hash(JSON.stringify(result.geometry)),
+      subgeometryHash: result.subgeometry ? hash(JSON.stringify(result.subgeometry)) : undefined,
+      initialViewport: result.initialViewport,
       tagMarkupHash: hash(JSON.stringify(result.tagMarkup)),
       timing: result.timing, metrics, ticketTiming, ticketRequests, resources: result.resources,
       marks: result.marks, parseReplay, laneSizes: result.laneSizes, scrollHeights: result.scrollHeights,
@@ -179,7 +191,7 @@ async function measure(fixture, { base, variant }, run) {
   }
 }
 
-function observe({ kanban, total, firstId, countsByLane }) {
+function observe({ kanban, total, firstId, countsByLane, trackViewport }) {
   localStorage.setItem('kanbalone:language', 'en');
   performance.setResourceTimingBufferSize(2048);
   const probe = { first: null, complete: null, lanes: {}, longTasks: [] };
@@ -194,6 +206,7 @@ function observe({ kanban, total, firstId, countsByLane }) {
     const target = document.querySelector(kanban ? '#lane-board' : '#group-board');
     if (!target) throw new Error('Probe board root is missing');
     const observer = new MutationObserver(check);
+    if (trackViewport) probe.batches = [];
     observer.observe(target, { subtree: true, childList: true });
     check();
 
@@ -209,6 +222,10 @@ function observe({ kanban, total, firstId, countsByLane }) {
           probe.firstMutation = firstMutationAt;
           probe.first = at;
         });
+      }
+      if (trackViewport && kanban) {
+        const ready = Object.fromEntries(Object.keys(countsByLane).map((id) => [id, target.querySelector('.ticket-list[data-lane-id="' + id + '"]')?.getElementsByClassName('ticket-card').length ?? 0]));
+        afterFrames((at) => probe.batches.push({ at, ready }));
       }
       if (kanban) {
         for (const laneId of Object.keys(countsByLane)) {
@@ -232,7 +249,7 @@ function observe({ kanban, total, firstId, countsByLane }) {
   });
 }
 
-function inspect({ kanban, boardId }) {
+function inspect({ kanban, boardId, subgeometry }) {
   const target = document.querySelector(kanban ? '#lane-board' : '#group-board');
   const rows = Array.from(target.getElementsByClassName(kanban ? 'ticket-card' : 'group-ticket-row'));
   const ids = rows.map((row) =>
@@ -240,12 +257,37 @@ function inspect({ kanban, boardId }) {
   );
   const lists = kanban ? Array.from(target.querySelectorAll('.ticket-list')) : [target];
   const route = '/api/boards/' + boardId;
+  const geometry = (node) => {
+    if (!node) return null;
+    const { x, y, width, height } = node.getBoundingClientRect();
+    return [x, y, width, height];
+  };
+  const importantParts = kanban
+    ? ['.ticket-head', '.ticket-link', '.ticket-id', '.ticket-hierarchy-icon', '.ticket-priority-icon', '.ticket-status-icon-resolved', '.ticket-status-icon-archived', '.ticket-blocker-indicator', '.tag-list', '.ticket-remote-card-ref', '.ticket-external-card-ref']
+    : ['.group-ticket-title', '.ticket-ref', '.ticket-hierarchy-icon', '.group-ticket-meta', '.group-remove-button', '.ticket-status-icon-resolved', '.ticket-status-icon-archived', '.group-ticket-tags'];
+  let initialViewport;
+  if (window.__renderProbe.batches) {
+    const boardRect = target.getBoundingClientRect();
+    const visiblePrefix = {};
+    for (const list of lists) {
+      const clip = list.getBoundingClientRect();
+      if (!kanban || clip.left >= Math.min(boardRect.right, innerWidth) || clip.right <= Math.max(boardRect.left, 0)) continue;
+      const bottom = Math.min(clip.bottom, boardRect.bottom, innerHeight);
+      let count = 0;
+      for (const child of list.children) {
+        if (!child.classList.contains('ticket-card') || child.getBoundingClientRect().top >= bottom) break;
+        count++;
+      }
+      if (count) visiblePrefix[list.dataset.laneId] = count;
+    }
+    const viewportBatch = window.__renderProbe.batches.find(({ ready }) => Object.entries(visiblePrefix).every(([id, count]) => ready[id] >= count));
+    initialViewport = { visiblePrefix, timestamp: viewportBatch?.at ?? (kanban ? null : window.__renderProbe.first) };
+  }
   return {
     timing: window.__renderProbe, ids,
-    geometry: rows.map((row) => {
-      const { x, y, width, height } = row.getBoundingClientRect();
-      return [x, y, width, height];
-    }),
+    geometry: rows.map(geometry),
+    subgeometry: subgeometry ? rows.map((row) => importantParts.map((selector) => geometry(row.querySelector(selector)))) : undefined,
+    initialViewport,
     tagMarkup: rows.map((row) => row.querySelector('.tag-list')?.innerHTML ?? ''),
     laneSizes: lists.map((list) => list.getElementsByClassName('ticket-card').length),
     scrollHeights: lists.map((list) => list.scrollHeight),
@@ -257,7 +299,7 @@ function inspect({ kanban, boardId }) {
       return url.pathname.startsWith('/api/') && !url.pathname.endsWith('/events');
     }).map((entry) => {
       const url = new URL(entry.name);
-      const ticketUrl = url.pathname === route + '/tickets';
+      const ticketUrl = url.pathname === route + '/tickets' || (!kanban && url.pathname === route + '/group-tickets');
       return {
         url: url.pathname + url.search,
         apiType: ticketUrl && url.searchParams.get('limit') !== '1' ? 'ticket-pages' : 'other',
