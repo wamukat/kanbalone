@@ -60,12 +60,13 @@ export function getTicketHierarchyState(ticket, boardTickets) {
   };
 }
 
-/** @param {HierarchyTicket} ticket @param {HierarchyTicket[]} boardTickets @param {{selectableParent?: boolean}} [options] */
+/** @param {HierarchyTicket} ticket @param {HierarchyTicket[]} boardTickets @param {{selectableParent?: boolean, renderIcon?: (name: string) => string}} [options] */
 export function renderTicketHierarchyIcon(ticket, boardTickets, options = {}) {
+  const renderIcon = options.renderIcon ?? icon;
   const state = getTicketHierarchyState(ticket, boardTickets);
   const className = `ticket-hierarchy-icon ticket-hierarchy-icon-${state.key}`;
   if (options.selectableParent && state.key === "parent") {
-    return `<button type="button" class="${className} ticket-hierarchy-select-button" data-select-family-ticket-id="${ticket.id}" title="${tr("Select parent and child tickets")}" aria-label="${tr("Select parent and child tickets")}">${icon(state.iconName)}</button>`;
+    return `<button type="button" class="${className} ticket-hierarchy-select-button" data-select-family-ticket-id="${ticket.id}" title="${tr("Select parent and child tickets")}" aria-label="${tr("Select parent and child tickets")}">${renderIcon(state.iconName)}</button>`;
   }
-  return `<span class="${className}" title="${state.label}" aria-label="${state.label}">${icon(state.iconName)}</span>`;
+  return `<span class="${className}" title="${state.label}" aria-label="${state.label}">${renderIcon(state.iconName)}</span>`;
 }

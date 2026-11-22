@@ -48,7 +48,8 @@ test("Group keeps the List alignment and shows both ticket actions at the top le
     await expect(page.locator(".group-ticket-toolbar .group-ticket-count")).toHaveCount(0);
     const lanePositions = await page.locator(".group-ticket-meta").evaluateAll(es => es.map(e => e.getBoundingClientRect().left));
     expect(Math.max(...lanePositions) - Math.min(...lanePositions)).toBeLessThanOrEqual(1);
-    await expect(page.locator("[data-group-remove] use")).toHaveAttribute("href", /#trash-2$/);
+    await expect(page.locator("[data-group-remove] svg")).toHaveAttribute("viewBox", "0 0 24 24");
+    await expect(page.locator("[data-group-remove] svg path").first()).toHaveAttribute("d", "M3 6h18");
     const add = page.getByRole("button", { name: "Add existing tickets", exact: true });
     const create = page.getByRole("button", { name: "Create ticket", exact: true });
     await expect(add).toBeVisible();
@@ -231,7 +232,8 @@ test("archived parent row keeps its size and text layout when toggled", async ({
       });
       const archiveIcon = page.locator(".group-ticket-row").first().locator(".ticket-status-icon-archived");
       await expect(archiveIcon).toHaveAttribute("aria-label", "Archived");
-      await expect(archiveIcon.locator("use")).toHaveAttribute("href", /#archive$/);
+      await expect(archiveIcon.locator("svg")).toHaveAttribute("viewBox", "0 0 24 24");
+      await expect(archiveIcon.locator("svg path").first()).toBeAttached();
       const before = await metrics();
       await page.locator(".group-archive-toggle").click();
       await expect(page.locator(`[data-group-ticket="${parent.id}"]`)).toBeVisible();

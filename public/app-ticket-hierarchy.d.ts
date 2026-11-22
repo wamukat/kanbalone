@@ -8,4 +8,4 @@ export function indexTicketHierarchy<T extends HierarchyTicket>(tickets: T[]): {
 export function getTicketHierarchyState(ticket: HierarchyTicket, boardTickets: HierarchyTicket[]): {
   key: string; iconName: string; label: string;
 };
-export function renderTicketHierarchyIcon(ticket: HierarchyTicket, boardTickets: HierarchyTicket[], options?: { selectableParent?: boolean }): string;
+export function renderTicketHierarchyIcon(ticket: HierarchyTicket, boardTickets: HierarchyTicket[], options?: { selectableParent?: boolean; renderIcon?: (name: string) => string }): string;

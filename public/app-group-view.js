@@ -2,6 +2,7 @@
 import { t as tr } from "./app-i18n.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { icon } from "./icons.js";
+import { groupRowIcon } from "./app-group-icons.js";
 import { getListTicketComparator } from "./app-ticket-sort.js";
 import { renderTicketHierarchyIcon, indexTicketHierarchy } from "./app-ticket-hierarchy.js";
 /**
@@ -98,9 +99,9 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes }, includ
     parent = false,
     context = false,
   ) => `<div class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
-    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets)}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t)}</span></div>
+    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: groupRowIcon })}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: groupRowIcon })}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
-    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
+    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${groupRowIcon("trash-2")}</button>` : ""}
   </div>`;
   function ticketRows() {
     const comparator = getListTicketComparator(null);
