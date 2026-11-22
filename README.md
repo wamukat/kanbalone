@@ -49,7 +49,7 @@ Run the published Docker image:
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v1.0.0
+  ghcr.io/wamukat/kanbalone:v1.1.0-rc.1
 ```
 
 Open:
@@ -131,10 +131,10 @@ When you use only the Docker image, fetch the skill from the matching GitHub rel
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v1.0.0.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-1.0.0/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v1.1.0-rc.1.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-1.1.0-rc.1/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-1.0.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-1.1.0-rc.1/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
