@@ -250,4 +250,3 @@ Woohoo! Your API description is valid. 🎉
 
 > kanbalone@1.0.0 docs:build /Users/takuma/workspace/kanbalone-editor-candidates
 > node scripts/build-pages.mjs
-
