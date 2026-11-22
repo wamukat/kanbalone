@@ -65,11 +65,39 @@
   border-color: transparent;
   background: var(--surface-inset);
 }
-.group-choice span,
-.group-choice small {
+.group-choice-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.group-choice-completed {
+  flex-shrink: 0;
+}
+.group-choice-progress {
   display: block;
+  appearance: none;
+  width: 100%;
+  height: var(--space-1);
+  margin-top: var(--space-1);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--text-muted) 28%, transparent);
+}
+.group-choice-progress::-webkit-progress-bar {
+  border-radius: inherit;
+  background: transparent;
+}
+.group-choice-progress::-webkit-progress-value {
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+.group-choice-progress::-moz-progress-bar {
+  border-radius: var(--radius-pill);
+  background: var(--accent);
 }
 .group-choice small {
+  display: block;
   margin-top: var(--space-1);
   color: var(--text-muted);
   font-size: var(--font-size-meta);
@@ -189,13 +217,14 @@
 .group-ticket-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--group-lane-width, 96px) 32px;
-  gap: var(--space-2);
+  gap: var(--space-1) var(--space-2);
   align-items: center;
   border-bottom: 1px solid var(--border-soft);
   padding: var(--space-2) 0;
   min-height: 52px;
 }
 .group-ticket-title-cell {
+  grid-area: 1 / 1;
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -222,17 +251,26 @@
   font-weight: var(--font-weight-medium);
 }
 .group-ticket-meta {
-  grid-column: 2;
+  grid-area: 1 / 2;
   min-width: 0;
   font-size: var(--font-size-meta);
   color: var(--text-muted);
   overflow-wrap: anywhere;
 }
 .group-remove-button {
-  grid-column: 3;
+  grid-area: 1 / 3;
   padding: 0;
   justify-self: end;
   white-space: nowrap;
+}
+.group-ticket-tags {
+  grid-area: 2 / 1;
+  margin-inline-start: calc(1.2rem + var(--space-2));
+  gap: var(--space-1);
+}
+.group-ticket-tags .tag > [aria-hidden="true"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .group-ticket-context {
   color: var(--text-muted);
@@ -327,9 +365,15 @@
   color: var(--text-muted);
   margin-top: var(--space-1);
 }
+.group-description-body a[href],
+.group-description-preview a[href],
 .ticket-group-meta a {
   color: var(--accent);
   overflow-wrap: anywhere;
+}
+.group-description-body a[href]:hover,
+.group-description-preview a[href]:hover {
+  color: var(--accent-hover);
 }
 .editor-group-context {
   margin: 0;
@@ -381,7 +425,9 @@
   box-shadow: var(--control-focus-ring);
   outline: none;
 }
-.group-board button:focus-visible {
+.group-board button:focus-visible,
+.group-description-body a[href]:focus-visible,
+.group-description-preview a[href]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }

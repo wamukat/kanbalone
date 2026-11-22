@@ -1,0 +1,2869 @@
+{
+  "phase": "after",
+  "records": {
+    "en-light-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n2 open · 5 total\nCompleted 2 of 5"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n0 open · 0 total\nCompleted 0 of 0"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n0 open · 1 total · Inactive\nCompleted 0 of 1"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 424.234375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 536.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 706.484375,
+            "y": 246.375,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(21, 32, 28)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "en-light-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n2 open · 5 total\nCompleted 2 of 5"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n0 open · 0 total\nCompleted 0 of 0"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n0 open · 1 total · Inactive\nCompleted 0 of 1"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 144.234375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 543.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 742.671875,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 172.484375,
+            "y": 742.671875,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(21, 32, 28)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "en-dark-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n2 open · 5 total\nCompleted 2 of 5"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n0 open · 0 total\nCompleted 0 of 0"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n0 open · 1 total · Inactive\nCompleted 0 of 1"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 424.234375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 536.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 706.484375,
+            "y": 246.375,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(238, 244, 241)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "en-dark-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n2 open · 5 total\nCompleted 2 of 5"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n0 open · 0 total\nCompleted 0 of 0"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n0 open · 1 total · Inactive\nCompleted 0 of 1"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 144.234375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 543.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 742.671875,
+            "width": 131.484375,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 172.484375,
+            "y": 742.671875,
+            "width": 92.265625,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(238, 244, 241)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\nCompleted Group\n0 open · 1 total · Inactive\nCompleted 1 of 1"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n1 open · 1 total\nCompleted 0 of 1"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-light-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件\n全 5 件中 2 件完了"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n未完了 0 件 · 全 0 件\n全 0 件中 0 件完了"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 0 件完了"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 417.09375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 536.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 701,
+            "y": 246.375,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(21, 32, 28)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-light-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件\n全 5 件中 2 件完了"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n未完了 0 件 · 全 0 件\n全 0 件中 0 件完了"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 0 件完了"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 137.09375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 543.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 742.671875,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 167,
+            "y": 742.671875,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(21, 32, 28)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(24, 89, 77)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(24, 89, 77)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(31, 111, 95)",
+          "token": "rgb(31, 111, 95)",
+          "hoverToken": "rgb(24, 89, 77)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(31, 111, 95)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(21, 32, 28)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-dark-1440": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件\n全 5 件中 2 件完了"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n未完了 0 件 · 全 0 件\n全 0 件中 0 件完了"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 0 件完了"
+        }
+      },
+      "controls": {
+        "documentWidth": 1440,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 417.09375,
+            "y": 148.515625,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 296,
+            "y": 536.578125,
+            "width": 230,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 567,
+            "y": 246.375,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 701,
+            "y": 246.375,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(238, 244, 241)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    },
+    "ja-dark-390": {
+      "browserVersion": "159.0.8154.6",
+      "apiVersion": "1.0.0",
+      "groups": {
+        "mixed": {
+          "open": 2,
+          "total": 5,
+          "archived": 2,
+          "resolved": 2,
+          "text": "Release checklist\n未完了 2 件 · 全 5 件\n全 5 件中 2 件完了"
+        },
+        "empty": {
+          "open": 0,
+          "total": 0,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Ideas\n未完了 0 件 · 全 0 件\n全 0 件中 0 件完了"
+        },
+        "open": {
+          "open": 1,
+          "total": 1,
+          "archived": 0,
+          "resolved": 0,
+          "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+        },
+        "completed": {
+          "open": 0,
+          "total": 1,
+          "archived": 0,
+          "resolved": 1,
+          "text": "Completed review\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+        },
+        "archivedOpen": {
+          "open": 0,
+          "total": 1,
+          "archived": 1,
+          "resolved": 0,
+          "text": "Archived backlog\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 0 件完了"
+        }
+      },
+      "controls": {
+        "documentWidth": 390,
+        "boardOverflow": 0,
+        "controls": {
+          ".group-sort-buttons": {
+            "x": 137.09375,
+            "y": 155.609375,
+            "width": 100,
+            "height": 32
+          },
+          ".group-add-button": {
+            "x": 16,
+            "y": 543.671875,
+            "width": 358,
+            "height": 32
+          },
+          "[data-group-action=\"add\"]": {
+            "x": 33,
+            "y": 742.671875,
+            "width": 126,
+            "height": 32
+          },
+          "[data-group-action=\"new-ticket\"]": {
+            "x": 167,
+            "y": 742.671875,
+            "width": 102,
+            "height": 32
+          }
+        }
+      },
+      "archiveToggle": {
+        "progressUnchanged": true,
+        "controlsUnchanged": true
+      },
+      "tagsInitial": {
+        "parent": [
+          {
+            "title": "design",
+            "fullAccessibleLabel": "design",
+            "displayedLabel": "design",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(121, 80, 163)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "review",
+            "fullAccessibleLabel": "review",
+            "displayedLabel": "review",
+            "color": "rgb(238, 244, 241)",
+            "background": "rgba(0, 0, 0, 0)",
+            "noColor": true,
+            "inside": true,
+            "interactive": false
+          }
+        ],
+        "child": [
+          {
+            "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+            "displayedLabel": "documentation-handoff-ref...",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(31, 111, 95)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          },
+          {
+            "title": "follow-up",
+            "fullAccessibleLabel": "follow-up",
+            "displayedLabel": "follow-up",
+            "color": "rgb(255, 253, 247)",
+            "background": "rgb(51, 102, 153)",
+            "noColor": false,
+            "inside": true,
+            "interactive": false
+          }
+        ]
+      },
+      "shortLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "expandedLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/handoff"
+      },
+      "previewLink": {
+        "normal": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": false
+        },
+        "hovered": {
+          "color": "rgb(113, 201, 180)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "none",
+          "outlineColor": "rgb(113, 201, 180)",
+          "focusVisible": false
+        },
+        "focused": {
+          "color": "rgb(84, 184, 159)",
+          "token": "rgb(84, 184, 159)",
+          "hoverToken": "rgb(113, 201, 180)",
+          "decoration": "underline",
+          "outline": "solid",
+          "outlineColor": "rgb(84, 184, 159)",
+          "focusVisible": true
+        },
+        "href": "https://example.com/guide"
+      },
+      "description": {
+        "cancelled": "Read the [release guide](https://example.com/guide) before handing off.",
+        "saved": "Read the [updated release guide](https://example.com/guide) before handing off.",
+        "reloaded": true
+      },
+      "completed": {
+        "open": 0,
+        "total": 1,
+        "archived": 0,
+        "resolved": 1,
+        "text": "Next milestone\n完了済みグループ\n未完了 0 件 · 全 1 件 · 非アクティブ\n全 1 件中 1 件完了"
+      },
+      "reopened": {
+        "open": 1,
+        "total": 1,
+        "archived": 0,
+        "resolved": 0,
+        "text": "Next milestone\n未完了 1 件 · 全 1 件\n全 1 件中 0 件完了"
+      },
+      "ticketTagAdded": [
+        {
+          "title": "design",
+          "fullAccessibleLabel": "design",
+          "displayedLabel": "design",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(121, 80, 163)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "renamed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "visual review",
+          "fullAccessibleLabel": "visual review",
+          "displayedLabel": "visual review",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "removed": [
+        {
+          "title": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "fullAccessibleLabel": "documentation-handoff-reference-materials-very-long-label-for-review",
+          "displayedLabel": "documentation-handoff-ref...",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(31, 111, 95)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "follow-up",
+          "fullAccessibleLabel": "follow-up",
+          "displayedLabel": "follow-up",
+          "color": "rgb(255, 253, 247)",
+          "background": "rgb(51, 102, 153)",
+          "noColor": false,
+          "inside": true,
+          "interactive": false
+        },
+        {
+          "title": "review",
+          "fullAccessibleLabel": "review",
+          "displayedLabel": "review",
+          "color": "rgb(238, 244, 241)",
+          "background": "rgba(0, 0, 0, 0)",
+          "noColor": true,
+          "inside": true,
+          "interactive": false
+        }
+      ],
+      "tagsReloaded": true,
+      "errors": []
+    }
+  }
+}

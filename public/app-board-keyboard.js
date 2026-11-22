@@ -25,7 +25,7 @@ export function createBoardKeyboardModule(ctx, listModule) {
     if (isBoardTitle(element)) return { id: identity(element) };
     if (elements.groupBoard.contains(element)) {
       if (element.matches('[data-group-ticket]')) return { query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
-      if (element.matches('[data-select-group][aria-current="true"]')) return { query: `[data-select-group="${Number(element.dataset.selectGroup)}"]` };
+      if (element.matches('[data-select-group][aria-current="true"]')) return { query: `[data-select-group="${CSS.escape(element.dataset.selectGroup)}"]` };
       if (element.matches('[data-group-action="new-ticket"]')) return { query: '[data-group-action="new-ticket"]' };
     }
     if (elements.laneBoard.contains(element) && element.matches('.add-ticket-button')) {
@@ -56,9 +56,13 @@ export function createBoardKeyboardModule(ctx, listModule) {
     const laneId = state.viewMode === 'kanban' ? Number(element.closest('.lane')?.dataset.laneId) : null;
     const group = state.viewMode === 'group' ? selectedGroup() : null;
     if (state.viewMode === 'group' && !group) return;
+    const groupSelection = group?.dataset.selectGroup;
+    const groupContext = groupSelection && groupSelection !== "ungrouped"
+      ? { id: Number(groupSelection), name: group.querySelector(".group-choice-name")?.textContent ?? "" }
+      : null;
     creationOpening = true;
     try {
-      await ctx.openEditor(null, 'edit', laneId, group ? { id: Number(group.dataset.selectGroup), name: group.querySelector('span')?.textContent ?? '' } : null);
+      await ctx.openEditor(null, 'edit', laneId, groupContext);
     } catch (error) { ctx.showToast(error.message, 'error'); }
     finally { creationOpening = false; }
   }

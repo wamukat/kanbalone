@@ -24,7 +24,7 @@ export type TagRow = {
 };
 
 export type GroupView = {
-  id: Id; boardId: Id; name: string; descriptionMarkdown: string; descriptionHtml: string; revision: number; createdAt: string; updatedAt: string; isActive: boolean; totalTicketCount: number; openTicketCount: number; archivedTicketCount: number;
+  id: Id; boardId: Id; name: string; descriptionMarkdown: string; descriptionHtml: string; revision: number; createdAt: string; updatedAt: string; isActive: boolean; totalTicketCount: number; openTicketCount: number; resolvedTicketCount: number; archivedTicketCount: number;
 };
 
 export type TicketRow = {

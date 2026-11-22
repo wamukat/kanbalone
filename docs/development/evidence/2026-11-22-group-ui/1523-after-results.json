@@ -1,0 +1,166 @@
+{
+  "phase": "after",
+  "browser": "159.0.8154.6",
+  "records": {
+    "en-light-1440": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "en-light-390": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "en-dark-1440": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "en-dark-390": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "ja-light-1440": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "ja-light-390": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "ja-dark-1440": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    },
+    "ja-dark-390": {
+      "groupIds": [
+        1
+      ],
+      "initialUnassignedIds": [
+        2,
+        3,
+        4
+      ],
+      "keyboardCreated": 5,
+      "createdGroupId": null,
+      "finalAssigned": 1,
+      "activeAndAll": true,
+      "archiveVisibleOnDemand": true,
+      "inheritedChildAssignment": 1,
+      "choiceAbsentAfterReload": true,
+      "focusRestoredAfterLiveRemoval": true,
+      "archivedOnlyDefault": true,
+      "errors": []
+    }
+  }
+}

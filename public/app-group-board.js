@@ -1,8 +1,10 @@
 // @ts-check
 import { t as tr, getLocale } from "./app-i18n.js";
+import { readTicketPage } from "./app-ticket-pages.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
+ * @typedef {import("./app-group-types.js").GroupSelection} GroupSelection
  * @typedef {import("./app-group-types.js").GroupTicket} GroupTicket
  * @typedef {import("./app-group-types.js").GroupPreview} GroupPreview
  */
@@ -22,9 +24,11 @@ export function createGroupBoardModule(ctx) {
   const esc = ctx.escapeHtml;
   /** @type {number | null} */ let boardId = null;
   /** @type {GroupSummary[]} */ let groups = [];
-  /** @type {number | null} */ let selectedId = null;
+  /** @type {GroupSelection} */ let selectedId = null;
+  /** @type {GroupSelection} */ let loadedSelection = null;
   /** @type {GroupView | null} */ let selected = null;
   /** @type {GroupTicket[]} */ let tickets = [];
+  let ungroupedTicketCount = 0;
   let all = false,
     sort = "createdAt:asc",
     showArchived = false;
@@ -63,7 +67,11 @@ export function createGroupBoardModule(ctx) {
       return previous.id === current.id && previous.title === current.title
         && previous.laneId === current.laneId && previous.parentTicketId === current.parentTicketId
         && previous.hasChildren === current.hasChildren && previous.priority === current.priority
-        && previous.isResolved === current.isResolved && previous.isArchived === current.isArchived;
+        && previous.isResolved === current.isResolved && previous.isArchived === current.isArchived
+        && previous.tags.length === current.tags.length && previous.tags.every((tag, tagIndex) => {
+          const currentTag = current.tags[tagIndex];
+          return tag.id === currentTag.id && tag.name === currentTag.name && tag.color === currentTag.color;
+        });
     });
     if (!same) ticketRevision += 1;
     tickets = next;
@@ -103,7 +111,9 @@ export function createGroupBoardModule(ctx) {
     boardId = nextBoardId;
     groups = [];
     selectedId = null;
+    loadedSelection = null;
     selected = null;
+    ungroupedTicketCount = 0;
     receiveTickets([]);
     all = false;
     showArchived = false;
@@ -131,50 +141,58 @@ export function createGroupBoardModule(ctx) {
     const currentBoardId = boardId,
       request = ++generation;
     const [key, order] = sort.split(":");
+    const isCurrent = () => request === generation && currentBoardId === state.activeBoardId && state.viewMode === "group";
+    const ticketUrl = `/api/boards/${currentBoardId}/tickets`;
+    const ungroupedUrl = `${ticketUrl}?ungrouped=true&archived=all&order=id_asc`;
     try {
-      const response = /** @type {{groups: GroupSummary[]}} */ (
-        await ctx.api(
-          `/api/boards/${currentBoardId}/groups?status=all&sort=${key}&order=${order}`,
-        )
-      );
+      const [list, ungroupedPage] = await Promise.all([
+        ctx.api(`/api/boards/${currentBoardId}/groups?status=all&sort=${key}&order=${order}`),
+        ctx.api(`${ungroupedUrl}&limit=1`),
+      ]);
+      if (!isCurrent()) return;
+      const nextGroups = /** @type {{groups: GroupSummary[]}} */ (list).groups;
+      let nextUngroupedCount = readTicketPage(ungroupedPage).page.total;
+      const firstGroupId = nextGroups.find((group) => all || group.isActive)?.id ?? null;
+      let nextSelectedId = selectedId;
+      const selectionExists = nextSelectedId === "ungrouped"
+        ? nextUngroupedCount > 0
+        : nextGroups.some((group) => group.id === nextSelectedId);
       if (
-        request !== generation ||
-        currentBoardId !== state.activeBoardId ||
-        state.viewMode !== "group"
-      )
-        return;
-      groups = response.groups;
-      if (
-        !groups.some((g) => g.id === selectedId) &&
+        !selectionExists &&
         !renaming &&
         !descriptionEditing &&
         !adding
       )
-        selectedId = groups.find((g) => all || g.isActive)?.id ?? null;
-      if (selectedId) {
+        nextSelectedId = firstGroupId ?? (nextUngroupedCount ? "ungrouped" : null);
+      /** @type {GroupTicket[]} */ let nextTickets = [];
+      /** @type {GroupView | null} */ let nextSelected = null;
+      if (nextSelectedId === "ungrouped") {
+        const rows = await ctx.api(ungroupedUrl);
+        if (!isCurrent()) return;
+        nextTickets = /** @type {{tickets: GroupTicket[]}} */ (rows).tickets;
+        nextUngroupedCount = nextTickets.length;
+        if (!nextUngroupedCount) nextSelectedId = firstGroupId;
+      }
+      if (typeof nextSelectedId === "number") {
         const [detail, rows] = await Promise.all([
-          ctx.api(`/api/groups/${selectedId}`),
+          ctx.api(`/api/groups/${nextSelectedId}`),
           // Group renders its own priority/parent order. Fetch by the indexed ID
           // cursor instead of repeatedly sorting all remaining lane positions.
-          ctx.api(
-            `/api/boards/${currentBoardId}/tickets?groupId=${selectedId}&archived=all&order=id_asc`,
-          ),
+          ctx.api(`${ticketUrl}?groupId=${nextSelectedId}&archived=all&order=id_asc`),
         ]);
-        if (
-          request !== generation ||
-          currentBoardId !== state.activeBoardId ||
-          state.viewMode !== "group"
-        )
-          return;
-        selected = /** @type {GroupView} */ (detail);
-        receiveTickets(/** @type {{tickets: GroupTicket[]}} */ (rows).tickets);
-      } else {
-        selected = null;
-        receiveTickets([]);
+        if (!isCurrent()) return;
+        nextSelected = /** @type {GroupView} */ (detail);
+        nextTickets = /** @type {{tickets: GroupTicket[]}} */ (rows).tickets;
       }
+      if (loadedSelection !== nextSelectedId) showArchived = false;
+      groups = nextGroups;
+      ungroupedTicketCount = nextUngroupedCount;
+      selectedId = loadedSelection = nextSelectedId;
+      selected = nextSelected;
+      receiveTickets(nextTickets);
       render();
     } catch (e) {
-      if (request === generation) {
+      if (isCurrent()) {
         error = e instanceof Error ? e.message : String(e);
         render();
       }
@@ -221,6 +239,11 @@ export function createGroupBoardModule(ctx) {
         : null;
     const focusedForm = focused?.closest("form")?.dataset.groupForm;
     const action = focused?.dataset.groupAction;
+    const focusedRemovedUngrouped = !ungroupedTicketCount && focused && (
+      focused.dataset.selectGroup === "ungrouped" ||
+      (!!host.querySelector('[data-select-group="ungrouped"][aria-current="true"]') &&
+        focused.closest(".group-content-panel"))
+    );
     /** @type {Record<string, string>} */
     const returnActions = {
       "cancel-create": "create",
@@ -239,7 +262,7 @@ export function createGroupBoardModule(ctx) {
     };
     const afterSubmitAction = submitActions[submittedForm || ""];
     const focusSelector = focused?.dataset.selectGroup
-      ? `[data-select-group="${Number(focused.dataset.selectGroup)}"]`
+      ? `[data-select-group="${CSS.escape(focused.dataset.selectGroup)}"]`
       : focused?.id
       ? `#${focused.id}`
       : focused?.name && focusedForm
@@ -273,15 +296,16 @@ export function createGroupBoardModule(ctx) {
     }
     const lanes = state.boardDetail?.lanes ?? [];
     const ticketKey = JSON.stringify([
-      boardId, selectedId, selected?.id, ticketRevision, showArchived, getLocale(), !!groups.length,
+      boardId, loadedSelection, ticketRevision, showArchived, getLocale(), !!groups.length,
       lanes.map((lane) => [lane.id, lane.name]),
     ]);
     const updateTickets = ticketKey !== renderedTicketKey;
     const html = renderGroupViewSections(
       {
         groups,
-        selectedId,
+        selectedId: loadedSelection,
         selected,
+        ungroupedTicketCount,
         tickets,
         all,
         sort,
@@ -318,9 +342,10 @@ export function createGroupBoardModule(ctx) {
     } else {
       syncTicketBusy();
     }
-    if (focusSelector) {
-      const next =
-        host.querySelector(focusSelector) ||
+    if (focusSelector || focusedRemovedUngrouped) {
+      const next = focusedRemovedUngrouped
+        ? host.querySelector('[data-select-group][aria-current="true"]') || host.querySelector('[data-group-action="create"]')
+        : (focusSelector && host.querySelector(focusSelector)) ||
         (afterSubmitAction
           ? host.querySelector(`[data-group-action="${afterSubmitAction}"]`)
           : null);
@@ -377,7 +402,7 @@ export function createGroupBoardModule(ctx) {
       return;
     }
     if (button.dataset.selectGroup) {
-      selectedId = Number(button.dataset.selectGroup);
+      selectedId = button.dataset.selectGroup === "ungrouped" ? "ungrouped" : Number(button.dataset.selectGroup);
       adding = false;
       renaming = false;
       descriptionEditing = false;
@@ -411,7 +436,7 @@ export function createGroupBoardModule(ctx) {
     switch (button.dataset.groupAction) {
       case "active":
         all = false;
-        if (!groups.find((g) => g.id === selectedId)?.isActive)
+        if (selectedId !== "ungrouped" && !groups.find((g) => g.id === selectedId)?.isActive)
           selectedId = null;
         await load();
         return;
@@ -467,33 +492,44 @@ export function createGroupBoardModule(ctx) {
       case "archive":
         showArchived = !showArchived;
         break;
-      case "add":
+      case "add": {
         if (!selected) return;
         if (adding) {
           focus("#group-ticket-search");
           return;
         }
-        addGroupId = selected.id;
-        candidates = /** @type {{tickets: GroupTicket[]}} */ (
-          await ctx.api(
-            `/api/boards/${boardId}/tickets?ungrouped=true&archived=all`,
-          )
-        ).tickets;
+        const targetGroupId = selected.id;
+        const targetBoardId = boardId;
+        const isCurrent = () => state.viewMode === "group" && state.activeBoardId === targetBoardId
+          && selectedId === targetGroupId && loadedSelection === targetGroupId;
+        /** @type {{tickets: GroupTicket[]}} */ let rows;
+        try {
+          rows = /** @type {{tickets: GroupTicket[]}} */ (await ctx.api(
+            `/api/boards/${targetBoardId}/tickets?ungrouped=true&archived=all`,
+          ));
+        } catch (error) {
+          if (isCurrent()) throw error;
+          return;
+        }
+        if (!isCurrent()) return;
+        addGroupId = targetGroupId;
+        candidates = rows.tickets;
         chosen = [];
         query = "";
         adding = true;
         render();
         focus("#group-ticket-search");
         return;
+      }
       case "cancel-add":
         adding = false;
         break;
       case "new-ticket":
-        if (!selected) return;
-        await ctx.openEditor(null, "edit", null, {
-          id: selected.id,
-          name: selected.name,
-        });
+        if (selected) {
+          await ctx.openEditor(null, "edit", null, { id: selected.id, name: selected.name });
+        } else if (loadedSelection === "ungrouped") {
+          await ctx.openEditor(null, "edit", null);
+        }
         return;
       case "delete":
         if (!selected) return;

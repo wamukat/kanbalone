@@ -39,7 +39,7 @@
 ### 表示モデル
 
 TicketView/TicketSummaryView/TicketRelationViewへ `groupId: number|null` と `group: {id,name}|null` を追加。独立したチケット詳細からinactiveのGroupも開けるよう、active一覧から名前を逆引きしない。
-Group詳細は `descriptionMarkdown`, サニタイズ済み `descriptionHtml`, `revision`, 日時を返す。一覧は説明全文・HTMLを省き、id/boardId/name/isActive/totalTicketCount/openTicketCount/archivedTicketCount/revision/日時を返す。
+Group詳細は `descriptionMarkdown`, サニタイズ済み `descriptionHtml`, `revision`, 日時を返す。一覧は説明全文・HTMLを省き、id/boardId/name/isActive/totalTicketCount/openTicketCount/resolvedTicketCount/archivedTicketCount/revision/日時を返す。`resolvedTicketCount` はアーカイブ済みの完了チケットも含む。
 
 ## 3. API
 

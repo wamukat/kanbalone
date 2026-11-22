@@ -35,7 +35,7 @@ test("Group candidate search excludes the chosen parent and children without exc
 
 test("Group keeps archived parent context, child order, remove counts, and hides archived-only groups", () => {
   const tickets=[ticket(2,1),ticket(1,null,{isArchived:true}),ticket(3,1,{isArchived:true}),ticket(4,null,{isResolved:true}),ticket(5,null,{isArchived:true})];
-  const view:GroupViewState={groups:[],selectedId:1,selected:{id:1,boardId:1,name:'Work',isActive:true,totalTicketCount:5,openTicketCount:1,archivedTicketCount:3,revision:1,createdAt:'',updatedAt:'',descriptionMarkdown:'',descriptionHtml:''},tickets,all:false,sort:'createdAt:asc',showArchived:false,creating:false,createName:'',renaming:false,renameName:'',descriptionEditing:false,descriptionDraft:'',descriptionPreview:null,expanded:false,adding:false,busy:false,error:'',candidates:[],chosen:[],query:'',activeOption:0};
+  const view:GroupViewState={groups:[],selectedId:1,ungroupedTicketCount:0,selected:{id:1,boardId:1,name:'Work',isActive:true,totalTicketCount:5,openTicketCount:1,resolvedTicketCount:1,archivedTicketCount:3,revision:1,createdAt:'',updatedAt:'',descriptionMarkdown:'',descriptionHtml:''},tickets,all:false,sort:'createdAt:asc',showArchived:false,creating:false,createName:'',renaming:false,renameName:'',descriptionEditing:false,descriptionDraft:'',descriptionPreview:null,expanded:false,adding:false,busy:false,error:'',candidates:[],chosen:[],query:'',activeOption:0};
   const render=()=>renderGroupView(view,{escapeHtml:s=>s,lanes:[{id:1,name:'Todo'}]});
   const html=render();
   assert.match(html,/Archived parent · shown for context/);
@@ -70,7 +70,7 @@ test("Group display is unchanged when member pages use ID order instead of lane-
     ticket(8, null, { laneId:3, priority:4, isResolved:true }),
   ];
   const idOrder = [...positionOrder].sort((a,b)=>a.id-b.id);
-  const view:GroupViewState={groups:[],selectedId:1,selected:{id:1,boardId:1,name:'Work',isActive:true,totalTicketCount:6,openTicketCount:3,archivedTicketCount:2,revision:1,createdAt:'',updatedAt:'',descriptionMarkdown:'',descriptionHtml:''},tickets:positionOrder,all:false,sort:'createdAt:asc',showArchived:false,creating:false,createName:'',renaming:false,renameName:'',descriptionEditing:false,descriptionDraft:'',descriptionPreview:null,expanded:false,adding:false,busy:false,error:'',candidates:[],chosen:[],query:'',activeOption:0};
+  const view:GroupViewState={groups:[],selectedId:1,ungroupedTicketCount:0,selected:{id:1,boardId:1,name:'Work',isActive:true,totalTicketCount:6,openTicketCount:3,resolvedTicketCount:1,archivedTicketCount:2,revision:1,createdAt:'',updatedAt:'',descriptionMarkdown:'',descriptionHtml:''},tickets:positionOrder,all:false,sort:'createdAt:asc',showArchived:false,creating:false,createName:'',renaming:false,renameName:'',descriptionEditing:false,descriptionDraft:'',descriptionPreview:null,expanded:false,adding:false,busy:false,error:'',candidates:[],chosen:[],query:'',activeOption:0};
   const options={escapeHtml:(s:string)=>s,lanes:[{id:1,name:'Todo'},{id:2,name:'Doing'},{id:3,name:'Done'}]};
   for (const showArchived of [false,true]) {
     const before=renderGroupView({...view,showArchived,tickets:positionOrder},options);

@@ -69,14 +69,16 @@ function logGroup(db: Sqlite, boardId: number, groupId: number, action: string, 
     .run(boardId, groupId, action, JSON.stringify(details), now);
   db.prepare("UPDATE boards SET updated_at=? WHERE id=?").run(now, boardId);
 }
-type CountedGroupRow = GroupRow & { total: number; open: number; archived: number };
+type CountedGroupRow = GroupRow & { total: number; open: number; resolved: number; archived: number };
 const groupSelect = `SELECT g.*, COUNT(t.id) total,
   COALESCE(SUM(t.is_archived=0 AND t.is_resolved=0),0) open,
+  COALESCE(SUM(t.is_resolved=1),0) resolved,
   COALESCE(SUM(t.is_archived=1),0) archived FROM groups g LEFT JOIN tickets t ON t.group_id=g.id`;
 function mapGroup(row: CountedGroupRow, detailed: boolean): GroupView {
   return { id: row.id, boardId: row.board_id, name: row.name, descriptionMarkdown: row.description_markdown,
     descriptionHtml: detailed ? renderMarkdown(row.description_markdown) : "", revision: row.revision, createdAt: row.created_at, updatedAt: row.updated_at,
-    isActive: row.total === 0 || row.open > 0, totalTicketCount: row.total, openTicketCount: row.open, archivedTicketCount: row.archived };
+    isActive: row.total === 0 || row.open > 0, totalTicketCount: row.total, openTicketCount: row.open,
+    resolvedTicketCount: row.resolved, archivedTicketCount: row.archived };
 }
 export function getGroup(db: Sqlite, id: number): GroupView | null {
   const row = db.prepare(`${groupSelect} WHERE g.id=? GROUP BY g.id`).get(id) as CountedGroupRow | undefined;
