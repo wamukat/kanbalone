@@ -231,6 +231,70 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
   }
 });
 
+test("lane drag previews keep the scroll range with only nearby cards", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, {
+      name: "Drag preview scroll range", laneNames: ["Source", "Target"],
+    });
+    const laneId = lanes[0].id;
+    for (let index = 0; index < 7; index += 1) {
+      await createTicket(page.request, baseUrl, board.id, {
+        laneId,
+        title: index % 4 === 2
+          ? `Card ${index + 1} with a long variable-height title wrapping across several lines in this lane`
+          : `Card ${index + 1}`,
+      });
+    }
+    await page.goto(`${baseUrl}/boards/${board.id}`);
+    const source = page.locator(`#lane-board .lane[data-lane-id="${laneId}"]`);
+    await expect(source.locator(".ticket-card")).toHaveCount(7);
+    const result = await source.evaluate((lane) => {
+      if (!(lane instanceof HTMLElement)) throw new Error("Source lane is missing");
+      // Leave spare room in the source list while its 420px preview must scroll.
+      lane.style.height = "800px";
+      const list = lane.querySelector<HTMLElement>(".ticket-list");
+      const handle = lane.querySelector<HTMLElement>("[data-action='drag-lane']");
+      const first = list?.firstElementChild;
+      const last = list?.lastElementChild;
+      if (!list || !handle || !first || !last) throw new Error("Drag fixture is incomplete");
+      const { paddingTop, paddingBottom } = getComputedStyle(list);
+      const contentHeight = Math.round(last.getBoundingClientRect().bottom - first.getBoundingClientRect().top
+        + Number.parseFloat(paddingTop) + Number.parseFloat(paddingBottom));
+      const dataTransfer = new DataTransfer();
+      let offset: number[] = [];
+      dataTransfer.setDragImage = (_image, x, y) => { offset = [x, y]; };
+      const box = lane.getBoundingClientRect();
+      handle.dispatchEvent(new DragEvent("dragstart", {
+        bubbles: true, cancelable: true, dataTransfer, clientX: box.left - 10, clientY: box.top - 10,
+      }));
+      const preview = document.querySelector<HTMLElement>(".lane-drag-preview .ticket-list");
+      if (!preview) throw new Error("Drag preview is missing");
+      const sizes = {
+        contentHeight,
+        sourceHeight: list.clientHeight,
+        previewHeight: preview.clientHeight,
+        previewScrollHeight: preview.scrollHeight,
+        previewCards: preview.querySelectorAll(".ticket-card").length,
+        offset,
+      };
+      handle.dispatchEvent(new DragEvent("dragend", { bubbles: true, dataTransfer }));
+      return sizes;
+    });
+    expect(result.sourceHeight).toBeGreaterThan(result.contentHeight);
+    expect(result.previewHeight).toBeLessThan(result.contentHeight);
+    expect(result.previewScrollHeight).toBe(result.contentHeight);
+    expect(result.previewCards).toBeGreaterThan(0);
+    expect(result.previewCards).toBeLessThan(7);
+    expect(result.offset).toEqual([24, 18]);
+    await expect(page.locator(".lane-drag-preview")).toHaveCount(0);
+    await expect(source.locator(".ticket-card")).toHaveCount(7);
+  } finally {
+    await close();
+  }
+});
+
 test("kanban ticket drag persists when inactive tickets are hidden", async ({ page }) => {
   const app = buildApp({
     dbFile: createDbFile(),

@@ -445,18 +445,57 @@ export function createKanbanBoardModule(ctx, options) {
 
   function createLaneDragPreview(laneElement) {
     removeLaneDragPreview();
-    const preview = laneElement.cloneNode(true);
     const box = laneElement.getBoundingClientRect();
+    const height = Math.min(box.height, 420);
+    const preview = laneElement.cloneNode(false);
+    for (const child of laneElement.children) {
+      if (child.matches(".ticket-list")) {
+        // The preview starts at the top, even when the source lane is scrolled.
+        const firstItem = child.firstElementChild;
+        const bottom = (firstItem?.getBoundingClientRect().top ?? box.top) + height;
+        preview.append(clonePreviewList(child, bottom));
+      } else {
+        preview.append(child.cloneNode(true));
+      }
+    }
     preview.classList.remove("dragging-lane", "is-lane-drop-target");
     preview.classList.add("lane-drag-preview");
     preview.style.width = `${box.width}px`;
-    preview.style.height = `${Math.min(box.height, 420)}px`;
+    preview.style.height = `${height}px`;
     preview.style.position = "fixed";
     preview.style.top = "-1000px";
     preview.style.left = "-1000px";
     preview.style.pointerEvents = "none";
     preview.setAttribute("aria-hidden", "true");
     document.body.append(preview);
+    return preview;
+  }
+
+  function clonePreviewList(list, bottom) {
+    const preview = list.cloneNode(false);
+    for (let item = list.firstElementChild; item; item = item.nextElementSibling) {
+      const top = item.getBoundingClientRect().top;
+      if (top >= bottom) {
+        // Keep the omitted items' extent so the preview retains its scrollbar.
+        const lastBottom = list.lastElementChild.getBoundingClientRect().bottom;
+        const spacer = document.createElement("div");
+        spacer.style.height = `${Math.max(0, lastBottom - top)}px`;
+        preview.append(spacer);
+        break;
+      }
+      preview.append(clonePreviewItem(item, bottom));
+    }
+    return preview;
+  }
+
+  function clonePreviewItem(item, bottom) {
+    if (!item.matches(".inactive-ticket-summary")) return item.cloneNode(true);
+    const preview = item.cloneNode(false);
+    for (const child of item.children) {
+      preview.append(child.matches(".inactive-ticket-summary-list:not([hidden])")
+        ? clonePreviewList(child, bottom)
+        : child.cloneNode(true));
+    }
     return preview;
   }
 
