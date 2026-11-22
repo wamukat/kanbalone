@@ -260,3 +260,10 @@
 .completion-ticket-summary button[hidden] {
   display: none;
 }
+
+/* Keyboard navigation uses the existing title button, without changing layout. */
+.ticket-card:has(> .ticket-head > .ticket-link:focus-visible) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  box-shadow: inset 3px 0 var(--accent);
+}

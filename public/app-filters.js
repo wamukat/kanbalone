@@ -197,7 +197,8 @@ export function createFiltersModule(ctx, options) {
       saveBoardFilters();
       syncSearchClearButton();
       syncActiveFilterStyles();
-      await options.refreshBoardDetail();
+      try { await options.refreshBoardDetail(); }
+      catch (error) { options.showToast(error.message, "error"); }
     });
     elements.searchClearButton.addEventListener("click", async () => {
       state.filters.q = "";
@@ -206,7 +207,8 @@ export function createFiltersModule(ctx, options) {
       syncSearchClearButton();
       syncActiveFilterStyles();
       elements.searchInput.focus();
-      await options.refreshBoardDetail();
+      try { await options.refreshBoardDetail(); }
+      catch (error) { options.showToast(error.message, "error"); }
     });
     elements.laneFilter.addEventListener("change", async (event) => {
       state.filters.lane = event.target.value;

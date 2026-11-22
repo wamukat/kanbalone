@@ -213,3 +213,9 @@
   padding: 0.1rem 0.45rem;
   font-size: var(--font-size-label);
 }
+
+/* Focus is distinct from the checkboxes used for bulk selection. */
+.list-row:has(.list-ticket-link:focus-visible) {
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 var(--accent);
+}

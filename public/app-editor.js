@@ -17,6 +17,7 @@ export function createEditorModule(ctx) {
   let relationsModule;
   let savedForm = "";
   let discardPending = null;
+  let editorOriginVersion;
 
   function formSnapshot() {
     return JSON.stringify([
@@ -203,16 +204,17 @@ export function createEditorModule(ctx) {
     resetRemoteImportProvider();
   }
 
-  function handleEditorDialogClose() {
+  async function handleEditorDialogClose() {
+    const originVersion = editorOriginVersion;
     const shouldSync = !state.skipDialogCloseSync && window.location.pathname.startsWith("/tickets/");
     resetDialogState();
     state.skipDialogCloseSync = false;
     if (shouldSync) {
       ctx.syncBoardUrl();
     }
-    ctx.flushPendingBoardRefreshAfterDialogClose?.().catch((error) => {
-      console.error(error);
-    });
+    try { await ctx.flushPendingBoardRefreshAfterDialogClose?.(); }
+    catch (error) { console.error(error); }
+    ctx.restoreEditorOrigin?.(originVersion);
   }
 
   function closeEditor() {
@@ -344,6 +346,7 @@ export function createEditorModule(ctx) {
     if (!state.boardDetail || state.editorSaving) {
       return;
     }
+    editorOriginVersion = ctx.captureEditorOrigin?.();
     detailModule.resetInlineEdit();
     state.editingTicketId = ticketId;
     state.editorCreateGroup = ticketId ? null : creationGroup;

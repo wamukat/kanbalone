@@ -1,4 +1,6 @@
 export default {
+  "Down: select a ticket. Up/Down: within a lane. Left/Right: between lanes. Enter: open. Escape: return.": "↓でチケットを選択。↑↓でレーン内、←→でレーン間を移動。Enterで開く。Escで戻る。",
+  "Down: select a ticket. Up/Down: previous or next ticket. Enter: open. Escape: return.": "↓でチケットを選択。↑↓で前後のチケットへ移動。Enterで開く。Escで戻る。",
   "Could not export board. Please try again.": "ボードをエクスポートできませんでした。もう一度お試しください。",
   "Show {count} more ({remaining} remaining)": "さらに{count}件表示（残り{remaining}件）",
   "Show latest 5": "最近の5件に戻す",

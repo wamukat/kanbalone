@@ -1,3 +1,4 @@
+import { createBoardKeyboardModule } from "./app-board-keyboard.js";
 import { t as tr } from "./app-i18n.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { createListBoardModule } from "./app-board-list.js";
@@ -14,8 +15,9 @@ export function createBoardModule(ctx) {
     { ...ctx, renderBoardDetail },
     { hasUserTicketFilters, renderEmptyState, renderTicketStatusIcons },
   );
+  const keyboard = createBoardKeyboardModule(ctx, listModule);
   const boardSettingsModule = createBoardSettingsModule(ctx);
-  const kanbanModule = createKanbanBoardModule(ctx, { renderBoardDetail });
+  const kanbanModule = createKanbanBoardModule(ctx, { renderBoardDetail, afterRender: keyboard.afterRender });
   const sidebarBoardsModule = createSidebarBoardsModule(ctx, {
     syncSidebar: boardSettingsModule.syncSidebar,
     cancelLaneCreate: kanbanModule.cancelLaneCreate,
@@ -41,6 +43,7 @@ export function createBoardModule(ctx) {
   }
 
   function renderBoardDetail() {
+    keyboard.beforeRender();
     const detail = state.boardDetail;
     if (!detail) {
       elements.boardTitle.textContent = tr("No board selected");
@@ -108,6 +111,7 @@ export function createBoardModule(ctx) {
       listModule.renderListBoard(detail);
     }
     ctx.syncViewMode();
+    keyboard.afterRender();
   }
 
   function hasUserTicketFilters() {
@@ -125,6 +129,9 @@ export function createBoardModule(ctx) {
   elements.listBoard.addEventListener("scroll", listModule.handleListBoardScroll, true);
 
   return {
+    captureEditorOrigin: keyboard.captureEditorOrigin,
+    restoreEditorOrigin: keyboard.restoreEditorOrigin,
+    afterKeyboardRender: keyboard.afterRender,
     openGroup: groupModule.openGroup,
     renderBoards: sidebarBoardsModule.renderBoards,
     renderBoardDetail,
