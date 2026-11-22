@@ -1,0 +1,358 @@
+{
+  "result": [
+    {
+      "locale": "en-US",
+      "width": 390,
+      "scene": "create",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 518.984375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 518.984375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 536.375
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 390,
+      "scene": "full edit",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 569.359375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 569.359375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 586.75
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 390,
+      "scene": "inline body",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 314.234375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 314.234375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 331.625
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 390,
+      "scene": "comment composer",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 174.734375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 174.734375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 192.125
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 390,
+      "scene": "inline comment",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 171.828125
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 171.828125
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 189.21875
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 1440,
+      "scene": "create",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 470
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 1440,
+      "scene": "full edit",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 470
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 1440,
+      "scene": "inline body",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 264.546875
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 264.546875
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 281.9375
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 1440,
+      "scene": "comment composer",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 157.34375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 157.34375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 174.734375
+      }
+    },
+    {
+      "locale": "en-US",
+      "width": 1440,
+      "scene": "inline comment",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 154.4375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 154.4375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 171.828125
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 390,
+      "scene": "create",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 518.984375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 518.984375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 536.375
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 390,
+      "scene": "full edit",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 569.359375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 569.359375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 586.75
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 390,
+      "scene": "inline body",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 314.234375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 314.234375
+      },
+      "error": {
+        "height": 69.5625,
+        "relativeSaveY": 349.015625
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 390,
+      "scene": "comment composer",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 174.734375
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 174.734375
+      },
+      "error": {
+        "height": 52.171875,
+        "relativeSaveY": 192.125
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 390,
+      "scene": "inline comment",
+      "idle": {
+        "height": 34.78125,
+        "relativeSaveY": 171.828125
+      },
+      "loading": {
+        "height": 34.78125,
+        "relativeSaveY": 171.828125
+      },
+      "error": {
+        "height": 69.5625,
+        "relativeSaveY": 206.609375
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 1440,
+      "scene": "create",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 470
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 1440,
+      "scene": "full edit",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 452.609375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 470
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 1440,
+      "scene": "inline body",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 264.546875
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 264.546875
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 281.9375
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 1440,
+      "scene": "comment composer",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 157.34375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 157.34375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 174.734375
+      }
+    },
+    {
+      "locale": "ja-JP",
+      "width": 1440,
+      "scene": "inline comment",
+      "idle": {
+        "height": 17.390625,
+        "relativeSaveY": 154.4375
+      },
+      "loading": {
+        "height": 17.390625,
+        "relativeSaveY": 154.4375
+      },
+      "error": {
+        "height": 34.78125,
+        "relativeSaveY": 171.828125
+      }
+    }
+  ],
+  "measurements": {
+    "baseline": {
+      "bodyHeading": "rgb(0, 0, 0)",
+      "promptBackground": "rgb(23, 29, 25)",
+      "commentLabel": "rgb(0, 0, 0)",
+      "darkTheme": "#171d19"
+    },
+    "candidate": {
+      "bodyHeading": "rgb(0, 0, 0)",
+      "promptBackground": "rgb(23, 29, 25)",
+      "commentLabel": "rgb(0, 0, 0)",
+      "darkTheme": "#171d19"
+    }
+  }
+}

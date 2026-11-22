@@ -9,6 +9,12 @@ export function createTicketDetailModule(ctx) {
   let activeInlineEdit = null;
   let expandedStateAction = null;
   const renderers = createTicketDetailRenderers(ctx);
+  const bodyInput = () => elements.ticketViewBody.querySelector("[data-detail-body-input]");
+
+  function resetInlineEdit() {
+    ctx.imageAttachments.reset(bodyInput());
+    activeInlineEdit = null;
+  }
 
   function setDetailTab(tab) {
     const showComments = tab !== "activity";
@@ -191,8 +197,9 @@ export function createTicketDetailModule(ctx) {
   }
 
   function hasUnsavedBody() {
-    const input = elements.ticketViewBody.querySelector("[data-detail-body-input]");
-    return activeInlineEdit === "body" && input && input.value !== (state.dialogTicket?.bodyMarkdown ?? "");
+    const input = bodyInput();
+    return activeInlineEdit === "body" && input
+      && (ctx.imageAttachments.isPending(input) || input.value !== (state.dialogTicket?.bodyMarkdown ?? ""));
   }
 
   async function cancelInlineEdit() {
@@ -200,7 +207,7 @@ export function createTicketDetailModule(ctx) {
       return;
     }
     if (hasUnsavedBody() && !await ctx.confirmDiscardChanges()) return;
-    activeInlineEdit = null;
+    resetInlineEdit();
     syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
   }
 
@@ -216,11 +223,11 @@ export function createTicketDetailModule(ctx) {
     if (state.detailBodyTab === "remote") {
       return;
     }
-    const draft = activeInlineEdit === "body" ? elements.ticketViewBody.querySelector("[data-detail-body-input]")?.value : undefined;
+    if (activeInlineEdit === "body" && bodyInput()) return;
     activeInlineEdit = "body";
     elements.ticketViewBody.classList.add("ticket-detail-body-editing");
     elements.ticketViewBody.innerHTML = `
-      <textarea class="ticket-detail-body-input" data-detail-body-input rows="10" aria-label="${t("Ticket body")}" ${state.editorSaving ? "readonly" : ""}>${ctx.escapeHtml(draft ?? state.dialogTicket?.bodyMarkdown ?? "")}</textarea>
+      <textarea class="ticket-detail-body-input" data-detail-body-input rows="10" aria-label="${t("Ticket body")}" ${state.editorSaving ? "readonly" : ""}>${ctx.escapeHtml(state.dialogTicket?.bodyMarkdown ?? "")}</textarea>
       <div class="ticket-detail-body-actions">
         <span class="muted">${t("Ctrl+Enter / Cmd+Enter to save")}</span>
         <div class="editor-actions-right">
@@ -229,10 +236,13 @@ export function createTicketDetailModule(ctx) {
         </div>
       </div>
     `;
-    queueMicrotask(() => elements.ticketViewBody.querySelector("[data-detail-body-input]")?.focus());
+    const input = bodyInput();
+    ctx.imageAttachments.bind(input, () => ctx.isDialogCurrent() && state.dialogMode === "view" && activeInlineEdit === "body");
+    queueMicrotask(() => input.focus());
   }
 
   function renderBodyDisplay(ticket) {
+    ctx.imageAttachments.reset(bodyInput());
     elements.ticketViewBody.classList.remove("ticket-detail-body-editing");
     if (ticket?.remote && state.detailBodyTab === "remote") {
       elements.ticketViewBody.innerHTML = `
@@ -275,7 +285,7 @@ export function createTicketDetailModule(ctx) {
     if (hasUnsavedBody() && target.closest("[data-ticket-group], [data-ticket-body-tab], [data-refresh-remote-ticket], [data-detail-edit], [data-detail-state-action]")) {
       event.preventDefault();
       if (!await ctx.confirmDiscardChanges()) return;
-      activeInlineEdit = null;
+      resetInlineEdit();
     }
     const groupLink = target.closest("[data-ticket-group]");
     if (groupLink) { event.preventDefault(); ctx.openGroup?.(Number(groupLink.getAttribute("data-ticket-group"))).catch(error => ctx.showToast(error.message, "error")); return; }
@@ -322,7 +332,8 @@ export function createTicketDetailModule(ctx) {
       return;
     }
     if (target.closest("[data-detail-save-body]")) {
-      const input = elements.ticketViewBody.querySelector("[data-detail-body-input]");
+      const input = bodyInput();
+      if (!ctx.imageAttachments.canSave(input)) return;
       updateInlineTicket({ bodyMarkdown: input?.value ?? "" }).catch((error) => ctx.showToast(error.message, "error"));
     }
   }
@@ -382,12 +393,13 @@ export function createTicketDetailModule(ctx) {
     }
     if (target.matches("[data-detail-body-input]") && event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
       event.preventDefault();
+      if (!ctx.imageAttachments.canSave(target)) return;
       updateInlineTicket({ bodyMarkdown: target.value }).catch((error) => ctx.showToast(error.message, "error"));
     }
   }
 
   return {
-    resetInlineEdit: () => { activeInlineEdit = null; },
+    resetInlineEdit,
     hasUnsavedBody,
     setBodyTab,
     setDetailTab,

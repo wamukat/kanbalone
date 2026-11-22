@@ -23,7 +23,7 @@ marked.setOptions({
   renderer,
 });
 
-export function renderMarkdown(markdown: string): string {
+export function renderMarkdown(markdown: string, visitUrl?: (url: string) => void): string {
   const rawHtml = marked.parse(markdown ?? "") as string;
   const sanitizedHtml = sanitizeHtml(rawHtml, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
@@ -46,6 +46,11 @@ export function renderMarkdown(markdown: string): string {
       img: ["src", "alt", "title"],
       span: ["class", "role", "aria-label"],
     },
+    exclusiveFilter: visitUrl && (({ tag, attribs }) => {
+      const url = tag === "img" ? attribs.src : tag === "a" ? attribs.href : undefined;
+      if (url) visitUrl(url);
+      return false;
+    }),
     allowedSchemes: ["http", "https", "mailto"],
   });
   return linkifyTicketRefs(sanitizedHtml);

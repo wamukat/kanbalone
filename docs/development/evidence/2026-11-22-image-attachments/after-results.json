@@ -1,0 +1,1043 @@
+{
+  "phase": "after",
+  "baseline": "5ff44622f74c2116147d60c11be7f86fbc2208d2",
+  "node": "v26.13.1",
+  "records": {
+    "en-light-1440": {
+      "settings": {
+        "locale": "en",
+        "theme": "light",
+        "width": 1440,
+        "height": 900
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 900,
+        "locale": "en",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 1440
+      },
+      "captureFiles": [
+        "after-en-light-1440-ticket-creation.png",
+        "after-en-light-1440-ticket-full-edit.png",
+        "after-en-light-1440-ticket-inline-edit.png",
+        "after-en-light-1440-comment-creation.png",
+        "after-en-light-1440-comment-inline-edit.png"
+      ],
+      "uploads": [
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        }
+      ],
+      "observations": {
+        "ticket-creation": {
+          "operation": "paste",
+          "original": "This is the initial review image.",
+          "file": {
+            "bytes": 13798,
+            "consumed": true,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "This is the initial review image.![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "attachment": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13798,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31"
+          },
+          "stored": "This is the initial review image.![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "reloaded": {
+            "alt": "ticket-creation.png",
+            "containerLeft": 374,
+            "containerRight": 1066,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "width": 560
+          }
+        },
+        "ticket-full-edit": {
+          "operation": "drop",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13655,
+            "consumed": true,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "attachment": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13655,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116"
+          },
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "reloaded": {
+            "alt": "ticket-full-edit.png",
+            "containerLeft": 374,
+            "containerRight": 1066,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "width": 560
+          }
+        },
+        "ticket-inline-edit": {
+          "operation": "paste",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13730,
+            "consumed": true,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "attachment": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13730,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96"
+          },
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "reloaded": {
+            "alt": "ticket-inline-edit.png",
+            "containerLeft": 374,
+            "containerRight": 1066,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "width": 560
+          }
+        },
+        "comment-creation": {
+          "operation": "drop",
+          "original": "Here is the follow-up result.",
+          "file": {
+            "bytes": 13999,
+            "consumed": true,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "Here is the follow-up result.![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "attachment": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13999,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552"
+          },
+          "stored": "Here is the follow-up result.![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "reloaded": {
+            "alt": "comment-creation.png",
+            "containerLeft": 384.796875,
+            "containerRight": 1055.203125,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "width": 560
+          }
+        },
+        "comment-inline-edit": {
+          "operation": "paste",
+          "original": "The list order is correct.",
+          "file": {
+            "bytes": 13902,
+            "consumed": true,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "attachment": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13902,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a"
+          },
+          "stored": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "reloaded": {
+            "alt": "comment-inline-edit.png",
+            "containerLeft": 384.796875,
+            "containerRight": 1055.203125,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "width": 560
+          }
+        }
+      }
+    },
+    "ja-dark-390": {
+      "settings": {
+        "locale": "ja",
+        "theme": "dark",
+        "width": 390,
+        "height": 844
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 844,
+        "locale": "ja",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 390
+      },
+      "captureFiles": [
+        "after-ja-dark-390-ticket-creation.png",
+        "after-ja-dark-390-ticket-full-edit.png",
+        "after-ja-dark-390-ticket-inline-edit.png",
+        "after-ja-dark-390-comment-creation.png",
+        "after-ja-dark-390-comment-inline-edit.png"
+      ],
+      "uploads": [
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        }
+      ],
+      "observations": {
+        "ticket-creation": {
+          "operation": "drop",
+          "original": "作成時の確認画像です。",
+          "file": {
+            "bytes": 13798,
+            "consumed": true,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "作成時の確認画像です。![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "attachment": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13798,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31"
+          },
+          "stored": "作成時の確認画像です。![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "reloaded": {
+            "alt": "ticket-creation.png",
+            "containerLeft": 30,
+            "containerRight": 352,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "width": 560
+          }
+        },
+        "ticket-full-edit": {
+          "operation": "paste",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13655,
+            "consumed": true,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "attachment": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13655,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116"
+          },
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "reloaded": {
+            "alt": "ticket-full-edit.png",
+            "containerLeft": 30,
+            "containerRight": 352,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "width": 560
+          }
+        },
+        "ticket-inline-edit": {
+          "operation": "drop",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13730,
+            "consumed": true,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "attachment": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13730,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96"
+          },
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "reloaded": {
+            "alt": "ticket-inline-edit.png",
+            "containerLeft": 30,
+            "containerRight": 352,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "width": 560
+          }
+        },
+        "comment-creation": {
+          "operation": "paste",
+          "original": "再確認時の表示です。",
+          "file": {
+            "bytes": 13999,
+            "consumed": true,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "再確認時の表示です。![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "attachment": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13999,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552"
+          },
+          "stored": "再確認時の表示です。![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "reloaded": {
+            "alt": "comment-creation.png",
+            "containerLeft": 40.796875,
+            "containerRight": 341.203125,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "width": 560
+          }
+        },
+        "comment-inline-edit": {
+          "operation": "drop",
+          "original": "一覧の並びを確認しました。",
+          "file": {
+            "bytes": 13902,
+            "consumed": true,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "attachment": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13902,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a"
+          },
+          "stored": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "reloaded": {
+            "alt": "comment-inline-edit.png",
+            "containerLeft": 40.796875,
+            "containerRight": 341.203125,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "width": 560
+          }
+        }
+      }
+    },
+    "ja-light-1440": {
+      "settings": {
+        "locale": "ja",
+        "theme": "light",
+        "width": 1440,
+        "height": 900
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 900,
+        "locale": "ja",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 1440
+      },
+      "captureFiles": [
+        "after-ja-light-1440-ticket-creation.png",
+        "after-ja-light-1440-ticket-creation-reloaded.png",
+        "after-ja-light-1440-ticket-full-edit.png",
+        "after-ja-light-1440-ticket-inline-edit.png",
+        "after-ja-light-1440-ticket-inline-edit-reloaded.png",
+        "after-ja-light-1440-comment-creation.png",
+        "after-ja-light-1440-comment-creation-reloaded.png",
+        "after-ja-light-1440-comment-inline-edit.png",
+        "after-ja-light-1440-comment-inline-edit-reloaded.png",
+        "after-ja-light-1440-comment-creation-cancel.png",
+        "after-ja-light-1440-comment-creation-discard-prompt.png",
+        "after-ja-light-1440-comment-inline-edit-cancel.png",
+        "after-ja-light-1440-comment-inline-edit-discard-prompt.png",
+        "after-ja-light-1440-ticket-cancel.png",
+        "after-ja-light-1440-ticket-upload-failure.png"
+      ],
+      "uploads": [
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 503,
+          "contentType": "image/png"
+        }
+      ],
+      "observations": {
+        "ticket-creation": {
+          "operation": "drop",
+          "original": "作成時の確認画像です。",
+          "file": {
+            "bytes": 13798,
+            "consumed": true,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "作成時の確認画像です。![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "attachment": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13798,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31"
+          },
+          "stored": "作成時の確認画像です。![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "reloaded": {
+            "alt": "ticket-creation.png",
+            "containerLeft": 374,
+            "containerRight": 1066,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "width": 560
+          }
+        },
+        "ticket-full-edit": {
+          "operation": "paste",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13655,
+            "consumed": true,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "attachment": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13655,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116"
+          },
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "reloaded": {
+            "alt": "ticket-full-edit.png",
+            "containerLeft": 374,
+            "containerRight": 1066,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "width": 560
+          }
+        },
+        "ticket-inline-edit": {
+          "operation": "drop",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13730,
+            "consumed": true,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "attachment": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13730,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96"
+          },
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "reloaded": {
+            "alt": "ticket-inline-edit.png",
+            "containerLeft": 374,
+            "containerRight": 1066,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "width": 560
+          }
+        },
+        "comment-creation": {
+          "operation": "paste",
+          "original": "再確認時の表示です。",
+          "file": {
+            "bytes": 13999,
+            "consumed": true,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "再確認時の表示です。![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "attachment": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13999,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552"
+          },
+          "stored": "再確認時の表示です。![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "reloaded": {
+            "alt": "comment-creation.png",
+            "containerLeft": 384.796875,
+            "containerRight": 1055.203125,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "width": 560
+          }
+        },
+        "comment-inline-edit": {
+          "operation": "drop",
+          "original": "一覧の並びを確認しました。",
+          "file": {
+            "bytes": 13902,
+            "consumed": true,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "attachment": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13902,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a"
+          },
+          "stored": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "reloaded": {
+            "alt": "comment-inline-edit.png",
+            "containerLeft": 384.796875,
+            "containerRight": 1055.203125,
+            "documentWidth": 1440,
+            "height": 132,
+            "left": 384.796875,
+            "renderedHeight": 132,
+            "renderedWidth": 560,
+            "right": 944.796875,
+            "src": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "width": 560
+          }
+        },
+        "comment-creation-cancel": {
+          "operation": "drop",
+          "original": "再確認時の表示です。",
+          "file": {
+            "bytes": 14780,
+            "consumed": true,
+            "hash": "91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26",
+            "name": "comment-creation-cancel.png"
+          },
+          "markdown": "再確認時の表示です。![comment-creation-cancel.png](/api/attachments/91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26)",
+          "attachment": "/api/attachments/91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 14780,
+            "hash": "91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26"
+          },
+          "prompt": "変更を破棄しますか？",
+          "draftAfterKeep": "再確認時の表示です。![comment-creation-cancel.png](/api/attachments/91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26)",
+          "storedCommentCount": 1
+        },
+        "comment-inline-edit-cancel": {
+          "operation": "paste",
+          "original": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "file": {
+            "bytes": 14558,
+            "consumed": true,
+            "hash": "c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7",
+            "name": "comment-inline-edit-cancel.png"
+          },
+          "markdown": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)![comment-inline-edit-cancel.png](/api/attachments/c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7)",
+          "attachment": "/api/attachments/c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 14558,
+            "hash": "c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7"
+          },
+          "prompt": "変更を破棄しますか？",
+          "draftAfterKeep": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)![comment-inline-edit-cancel.png](/api/attachments/c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7)",
+          "stored": "一覧の並びを確認しました。![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)"
+        },
+        "ticket-cancel": {
+          "operation": "paste",
+          "original": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "file": {
+            "bytes": 13525,
+            "consumed": true,
+            "hash": "656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1",
+            "name": "ticket-cancel.png"
+          },
+          "markdown": "**確認手順**\n\n表示を確認して結果を共有します。![ticket-cancel.png](/api/attachments/656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1)",
+          "attachment": "/api/attachments/656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13525,
+            "hash": "656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1"
+          },
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "afterCancelAssetStatus": 200
+        },
+        "failure": {
+          "operation": "drop",
+          "failure": {
+            "bytes": 14409,
+            "consumed": true,
+            "hash": "3cfc9eb62a9d2a7fb8b88ff3d9afaa2b90d8bae0a838a2db602d46511dc75816",
+            "name": "ticket-upload-failure.png"
+          },
+          "error": "「ticket-upload-failure.png」をアップロードできませんでした。再度ドロップまたは貼り付けてください。",
+          "upload": {
+            "status": 503,
+            "contentType": "image/png"
+          },
+          "draft": "**確認手順**\n\n表示を確認して結果を共有します。",
+          "stored": "**確認手順**\n\n表示を確認して結果を共有します。"
+        }
+      }
+    },
+    "en-dark-390": {
+      "settings": {
+        "locale": "en",
+        "theme": "dark",
+        "width": 390,
+        "height": 844
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 844,
+        "locale": "en",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 390
+      },
+      "captureFiles": [
+        "after-en-dark-390-ticket-creation.png",
+        "after-en-dark-390-ticket-creation-reloaded.png",
+        "after-en-dark-390-ticket-full-edit.png",
+        "after-en-dark-390-ticket-inline-edit.png",
+        "after-en-dark-390-ticket-inline-edit-reloaded.png",
+        "after-en-dark-390-comment-creation.png",
+        "after-en-dark-390-comment-creation-reloaded.png",
+        "after-en-dark-390-comment-inline-edit.png",
+        "after-en-dark-390-comment-inline-edit-reloaded.png",
+        "after-en-dark-390-comment-creation-cancel.png",
+        "after-en-dark-390-comment-creation-discard-prompt.png",
+        "after-en-dark-390-comment-inline-edit-cancel.png",
+        "after-en-dark-390-comment-inline-edit-discard-prompt.png",
+        "after-en-dark-390-ticket-cancel.png",
+        "after-en-dark-390-ticket-upload-failure.png"
+      ],
+      "uploads": [
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 201,
+          "contentType": "image/png"
+        },
+        {
+          "status": 503,
+          "contentType": "image/png"
+        }
+      ],
+      "observations": {
+        "ticket-creation": {
+          "operation": "paste",
+          "original": "This is the initial review image.",
+          "file": {
+            "bytes": 13798,
+            "consumed": true,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "name": "ticket-creation.png"
+          },
+          "markdown": "This is the initial review image.![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "attachment": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13798,
+            "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31"
+          },
+          "stored": "This is the initial review image.![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)",
+          "reloaded": {
+            "alt": "ticket-creation.png",
+            "containerLeft": 30,
+            "containerRight": 352,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+            "width": 560
+          }
+        },
+        "ticket-full-edit": {
+          "operation": "drop",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13655,
+            "consumed": true,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "name": "ticket-full-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "attachment": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13655,
+            "hash": "df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116"
+          },
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.![ticket-full-edit.png](/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116)",
+          "reloaded": {
+            "alt": "ticket-full-edit.png",
+            "containerLeft": 30,
+            "containerRight": 352,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/df97f05ed6abfb6e8798519051da9e7aade5785f8abfb0b416f1017666bbc116",
+            "width": 560
+          }
+        },
+        "ticket-inline-edit": {
+          "operation": "paste",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13730,
+            "consumed": true,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "name": "ticket-inline-edit.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "attachment": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13730,
+            "hash": "6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96"
+          },
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.![ticket-inline-edit.png](/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96)",
+          "reloaded": {
+            "alt": "ticket-inline-edit.png",
+            "containerLeft": 30,
+            "containerRight": 352,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/6b7679af31491357fcfa8a1f4fa374e779bafcfbd85a70d9d096507b4e987a96",
+            "width": 560
+          }
+        },
+        "comment-creation": {
+          "operation": "drop",
+          "original": "Here is the follow-up result.",
+          "file": {
+            "bytes": 13999,
+            "consumed": true,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "name": "comment-creation.png"
+          },
+          "markdown": "Here is the follow-up result.![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "attachment": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13999,
+            "hash": "7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552"
+          },
+          "stored": "Here is the follow-up result.![comment-creation.png](/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552)",
+          "reloaded": {
+            "alt": "comment-creation.png",
+            "containerLeft": 40.796875,
+            "containerRight": 341.203125,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/7e7f4f821463f0099a864aba369017d8f47f517b85fb7c6ada3e8a4af0e0f552",
+            "width": 560
+          }
+        },
+        "comment-inline-edit": {
+          "operation": "paste",
+          "original": "The list order is correct.",
+          "file": {
+            "bytes": 13902,
+            "consumed": true,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "name": "comment-inline-edit.png"
+          },
+          "markdown": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "attachment": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13902,
+            "hash": "c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a"
+          },
+          "stored": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "reloaded": {
+            "alt": "comment-inline-edit.png",
+            "containerLeft": 40.796875,
+            "containerRight": 341.203125,
+            "documentWidth": 390,
+            "height": 132,
+            "left": 40.796875,
+            "renderedHeight": 70.796875,
+            "renderedWidth": 300.34375,
+            "right": 341.140625,
+            "src": "/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a",
+            "width": 560
+          }
+        },
+        "comment-creation-cancel": {
+          "operation": "paste",
+          "original": "Here is the follow-up result.",
+          "file": {
+            "bytes": 14780,
+            "consumed": true,
+            "hash": "91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26",
+            "name": "comment-creation-cancel.png"
+          },
+          "markdown": "Here is the follow-up result.![comment-creation-cancel.png](/api/attachments/91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26)",
+          "attachment": "/api/attachments/91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 14780,
+            "hash": "91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26"
+          },
+          "prompt": "Discard changes?",
+          "draftAfterKeep": "Here is the follow-up result.![comment-creation-cancel.png](/api/attachments/91cd18e04be8b21dd3cefcbd0ef66325c18848ef26c3c792edc2e1eb9f81cc26)",
+          "storedCommentCount": 1
+        },
+        "comment-inline-edit-cancel": {
+          "operation": "drop",
+          "original": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)",
+          "file": {
+            "bytes": 14558,
+            "consumed": true,
+            "hash": "c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7",
+            "name": "comment-inline-edit-cancel.png"
+          },
+          "markdown": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)![comment-inline-edit-cancel.png](/api/attachments/c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7)",
+          "attachment": "/api/attachments/c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 14558,
+            "hash": "c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7"
+          },
+          "prompt": "Discard changes?",
+          "draftAfterKeep": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)![comment-inline-edit-cancel.png](/api/attachments/c98d739d28021783d18b8153ced8f9dbdaa417eb3acd4b49c74937cd2d93a3b7)",
+          "stored": "The list order is correct.![comment-inline-edit.png](/api/attachments/c2477e3c1e02663dbcb3a8153d4326b788dd4fb2db5f297016d4c5c376c9c44a)"
+        },
+        "ticket-cancel": {
+          "operation": "drop",
+          "original": "**Verification steps**\n\nCheck the layout and share the result.",
+          "file": {
+            "bytes": 13525,
+            "consumed": true,
+            "hash": "656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1",
+            "name": "ticket-cancel.png"
+          },
+          "markdown": "**Verification steps**\n\nCheck the layout and share the result.![ticket-cancel.png](/api/attachments/656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1)",
+          "attachment": "/api/attachments/656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1",
+          "asset": {
+            "status": 200,
+            "contentType": "image/png",
+            "bytes": 13525,
+            "hash": "656c0a0475603377adc2d07da0c73d33a031426c25c28febe0786f3277c68be1"
+          },
+          "stored": "**Verification steps**\n\nCheck the layout and share the result.",
+          "afterCancelAssetStatus": 200
+        },
+        "failure": {
+          "operation": "paste",
+          "failure": {
+            "bytes": 14409,
+            "consumed": true,
+            "hash": "3cfc9eb62a9d2a7fb8b88ff3d9afaa2b90d8bae0a838a2db602d46511dc75816",
+            "name": "ticket-upload-failure.png"
+          },
+          "error": "Could not upload ticket-upload-failure.png. Drop or paste it again to retry.",
+          "upload": {
+            "status": 503,
+            "contentType": "image/png"
+          },
+          "draft": "**Verification steps**\n\nCheck the layout and share the result.",
+          "stored": "**Verification steps**\n\nCheck the layout and share the result."
+        }
+      }
+    }
+  }
+}

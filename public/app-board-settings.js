@@ -133,7 +133,10 @@ export function createBoardSettingsModule(ctx) {
       URL.revokeObjectURL(url);
       ctx.showToast(tr("Download started"));
     } catch (error) {
-      ctx.showToast(tr("Could not export board. Please try again."), "error");
+      const message = error?.status === 413
+        ? tr("The board exceeds the export size limit with its images. Use a backup of the database and image files.")
+        : tr("Could not export board. Please try again.");
+      ctx.showToast(message, "error");
     }
   }
 

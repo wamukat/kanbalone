@@ -34,6 +34,7 @@ The Docker image should expose the following contract.
 | Default host | `0.0.0.0` |
 | Data directory | `/app/data` |
 | Default database file | `/app/data/kanbalone.sqlite` |
+| Default image attachment directory | `/app/data/attachments/` |
 | Health endpoint | `GET /api/health` |
 
 Published image:
@@ -135,7 +136,7 @@ Acceptance criteria:
 - `docker compose up --build` starts the app at `http://127.0.0.1:3000`.
 - `docker compose ps` shows a predictable service container name such as `kanbalone-kanbalone-1`.
 - `KANBAN_PORT=3457 docker compose up --build` starts the app at `http://127.0.0.1:3457`.
-- The SQLite database is persisted in the `kanbalone-data` named volume by default.
+- The SQLite database and image attachments are persisted in the `kanbalone-data` named volume by default.
 
 ### User Documentation
 
@@ -145,7 +146,7 @@ Acceptance criteria:
 - Build and run with plain Docker.
 - How to change the host port.
 - Where data is stored.
-- How to back up the SQLite database.
+- How to back up and restore the SQLite database with image attachments.
 - That Kanbalone has no authentication and should not be exposed to untrusted networks.
 
 Acceptance criteria:
@@ -205,11 +206,8 @@ pnpm test:e2e
 
 ## Operational Notes
 
-- The SQLite database is the main backup target.
-- The default database path is `/app/data/kanbalone.sqlite`.
-- When using the default Docker Compose setup, the database is stored in the `kanbalone-data` named volume.
-- When using a bind mount, the host copy is typically `./data/kanbalone.sqlite`.
-- Stop the container before copying the database for a simple consistent backup.
+- Keep the SQLite database and its sibling `attachments/` directory together. The default Docker Compose setup stores both in the `kanbalone-data` named volume. With a bind mount, both live in the matching host directory.
+- Use the packaged [backup and restore tool](../migration-guide.md#database-and-image-backup) to take a consistent snapshot and validate it before restoring to a new destination.
 - Do not run multiple Kanbalone containers against the same SQLite file.
 - Do not expose the app directly to the public internet; Kanbalone currently has no authentication.
 

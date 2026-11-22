@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import {
   runCommand,
@@ -232,6 +232,48 @@ async function seed(api, version) {
   return { parentId: parent.id, commentId: comment.id };
 }
 
+async function verifyAttachmentRestore({ api, ticketId, backup, restore, startRestored }) {
+  const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aUa8AAAAASUVORK5CYII=", "base64");
+  const gif = Buffer.from("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", "base64");
+  const upload = async (bytes, mediaType) => {
+    const response = await api.request("/api/attachments", {
+      method: "POST",
+      headers: { "content-type": mediaType },
+      body: bytes,
+    });
+    assert.equal(response.status, 201, await response.clone().text());
+    const image = await response.json();
+    assert.equal(image.id, createHash("sha256").update(bytes).digest("hex"));
+    assert.equal(image.url, `/api/attachments/${image.id}`);
+    assert.equal(image.byteSize, bytes.length);
+    assert.equal(image.mediaType, mediaType);
+    return image;
+  };
+  const first = await upload(png, "image/png");
+  const ticketPath = `/api/tickets/${ticketId}`;
+  const bodyMarkdown = `![Backup fixture](${first.url})`;
+  await api(ticketPath, "PATCH", { bodyMarkdown });
+  // Run the snapshot command while the app is up and using WAL.
+  const manifest = await backup();
+  assert.equal(manifest.attachmentCount, 1);
+  const later = await upload(gif, "image/gif");
+  const laterMarkdown = `![Post-backup write](${later.url})`;
+  await api(ticketPath, "PATCH", { bodyMarkdown: laterMarkdown });
+  assert.deepEqual(await restore(), manifest);
+  const recovered = await startRestored(manifest.database.name);
+  const restored = await recovered(ticketPath);
+  assert.equal(restored.bodyMarkdown, bodyMarkdown);
+  assert.ok(restored.bodyHtml.includes(`src="${first.url}"`));
+  const image = await recovered.request(first.url);
+  assert.equal(image.status, 200);
+  assert.equal(image.headers.get("content-type"), "image/png");
+  assert.deepEqual(Buffer.from(await image.arrayBuffer()), png);
+  assert.equal((await recovered.request(later.url)).status, 404);
+  assert.equal((await api(ticketPath)).bodyMarkdown, laterMarkdown);
+  assert.equal((await api.request(later.url)).status, 200);
+  return { manifest, restoredImage: first, postBackupImage: later };
+}
+
 export async function verifyUpgradeRestore(
   options,
   directory = "coverage/upgrade-restore",
@@ -296,26 +338,29 @@ export async function verifyUpgradeRestore(
             mount = `type=volume,source=${volume},target=/app/data`;
           } else mount = `type=bind,source=${tmp},target=/app/data`;
           // Maintenance containers only ever mount resources created by this run.
-          const maintain = async (code) =>
+          const maintenance = (args, user = owner) =>
             runCommand("docker", [
               "run",
               "--rm",
               "--network",
               "none",
               "--user",
-              owner,
+              user,
               "--mount",
               mount,
               "--entrypoint",
               "node",
               targetId,
-              "-e",
-              code,
+              ...args,
             ]);
+          const maintain = (code) => maintenance(["-e", code]);
+          const backupTool = async (...args) => JSON.parse(
+            await maintenance(["scripts/kanbalone-backup.mjs", ...args], storage === "volume" ? "1000:1000" : owner),
+          );
           if (storage === "volume")
             await maintain("require('fs').chownSync('/app/data',1000,1000)");
           const snapshot = async () => JSON.parse(await maintain(dumpCode));
-          const start = async (image) => {
+          const start = async (image, dbFile = "/app/data/kanbalone.sqlite") => {
             const name = `${prefix}-${containers.size}`;
             containers.add(name);
             await runCommand("docker", [
@@ -331,7 +376,7 @@ export async function verifyUpgradeRestore(
               "--mount",
               mount,
               "--env",
-              "KANBALONE_DB_FILE=/app/data/kanbalone.sqlite",
+              `KANBALONE_DB_FILE=${dbFile}`,
               image,
             ]);
             return name;
@@ -347,10 +392,14 @@ export async function verifyUpgradeRestore(
             );
             const port = ports.find((p) => p.HostIp === "127.0.0.1")?.HostPort;
             assert.ok(port);
-            const api = async (endpoint, method = "GET", body) => {
-              const res = await fetch(`http://127.0.0.1:${port}${endpoint}`, {
-                method,
+            const request = (endpoint, options) =>
+              fetch(`http://127.0.0.1:${port}${endpoint}`, {
                 signal: AbortSignal.timeout(3000),
+                ...options,
+              });
+            const api = async (endpoint, method = "GET", body) => {
+              const res = await request(endpoint, {
+                method,
                 ...(body === undefined
                   ? {}
                   : {
@@ -365,6 +414,7 @@ export async function verifyUpgradeRestore(
               );
               return data;
             };
+            api.request = request;
             let error;
             for (let i = 0; i < 60; i++) {
               try {
@@ -471,9 +521,28 @@ export async function verifyUpgradeRestore(
             "Post-upgrade write (not present in old backup)",
           );
           check("post_upgrade_write");
-          // Preserve post-upgrade DB separately, then replace (never overlay) the DB/WAL/SHM set.
+          if (version === "0.11.0") {
+            await runCommand("docker", ["start", candidate]);
+            current = await connect(candidate);
+            let restoredContainer;
+            item.imageBackup = await verifyAttachmentRestore({
+              api: current,
+              ticketId: untracked.id,
+              backup: () => backupTool("backup", "/app/data/kanbalone.sqlite", "/app/data/image-bundle"),
+              restore: () => backupTool("restore", "/app/data/image-bundle", "/app/data/image-restored"),
+              startRestored: async (dbName) => {
+                restoredContainer = await start(targetId, `/app/data/image-restored/${dbName}`);
+                return connect(restoredContainer);
+              },
+            });
+            await runCommand("docker", ["stop", restoredContainer]);
+            await runCommand("docker", ["stop", candidate]);
+            check("image_backup_restored_database_markdown_and_http_bytes");
+            check("image_restore_preserved_live_dataset_and_excluded_later_upload");
+          }
+          // Preserve the post-upgrade data set before restoring the older database set.
           await maintain(
-            `const fs=require('fs');fs.mkdirSync('/app/data/after-upgrade');for(const f of fs.readdirSync('/app/data').filter(f=>f.startsWith('kanbalone.sqlite'))) fs.renameSync('/app/data/'+f,'/app/data/after-upgrade/'+f);for(const f of fs.readdirSync('/app/data/backup')) {fs.copyFileSync('/app/data/backup/'+f,'/app/data/'+f);${storage === "volume" ? "fs.chownSync('/app/data/'+f,1000,1000);" : ""}}`,
+            `const fs=require('fs');fs.mkdirSync('/app/data/after-upgrade');for(const f of fs.readdirSync('/app/data').filter(f=>f.startsWith('kanbalone.sqlite')||f==='attachments')) fs.renameSync('/app/data/'+f,'/app/data/after-upgrade/'+f);for(const f of fs.readdirSync('/app/data/backup')) {fs.copyFileSync('/app/data/backup/'+f,'/app/data/'+f);${storage === "volume" ? "fs.chownSync('/app/data/'+f,1000,1000);" : ""}}`,
           );
           await runCommand("docker", ["start", old]);
           const restoredApi = await connect(old);

@@ -1,0 +1,165 @@
+{
+  "phase": "final-after",
+  "baseline": "5ff44622f74c2116147d60c11be7f86fbc2208d2",
+  "node": "v26.13.1",
+  "records": {
+    "ja-dark-390": {
+      "settings": {
+        "locale": "ja",
+        "theme": "dark",
+        "width": 390,
+        "height": 844
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 844,
+        "locale": "ja",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 390
+      },
+      "captureFiles": [
+        "final-after-ja-dark-390-ticket-creation-uploading.png",
+        "final-after-ja-dark-390-ticket-creation.png"
+      ],
+      "uploads": [
+        {
+          "status": 201,
+          "contentType": "image/png"
+        }
+      ],
+      "observations": {
+        "operation": "drop",
+        "uploadStatus": "画像をアップロード中…",
+        "initial": {
+          "body": {
+            "height": 223.15625,
+            "left": 30,
+            "top": 155.1875,
+            "width": 322
+          },
+          "save": {
+            "height": 38.375,
+            "left": 296.8125,
+            "top": 674.171875,
+            "width": 55.1875
+          }
+        },
+        "pending": {
+          "body": {
+            "height": 223.15625,
+            "left": 30,
+            "top": 155.1875,
+            "width": 322
+          },
+          "save": {
+            "height": 38.375,
+            "left": 296.8125,
+            "top": 674.171875,
+            "width": 55.1875
+          }
+        },
+        "final": {
+          "body": {
+            "height": 223.15625,
+            "left": 30,
+            "top": 155.1875,
+            "width": 322
+          },
+          "save": {
+            "height": 38.375,
+            "left": 296.8125,
+            "top": 674.171875,
+            "width": 55.1875
+          }
+        },
+        "file": {
+          "bytes": 13798,
+          "consumed": true,
+          "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+          "name": "ticket-creation.png"
+        },
+        "draft": "作成時の確認画像です。![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)"
+      }
+    },
+    "en-dark-390": {
+      "settings": {
+        "locale": "en",
+        "theme": "dark",
+        "width": 390,
+        "height": 844
+      },
+      "version": "1.0.0",
+      "browserSettings": {
+        "height": 844,
+        "locale": "en",
+        "scale": 1,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+        "width": 390
+      },
+      "captureFiles": [
+        "final-after-en-dark-390-ticket-creation-uploading.png",
+        "final-after-en-dark-390-ticket-creation.png"
+      ],
+      "uploads": [
+        {
+          "status": 201,
+          "contentType": "image/png"
+        }
+      ],
+      "observations": {
+        "operation": "paste",
+        "uploadStatus": "Uploading images…",
+        "initial": {
+          "body": {
+            "height": 223.15625,
+            "left": 30,
+            "top": 155.1875,
+            "width": 322
+          },
+          "save": {
+            "height": 38.375,
+            "left": 293.0625,
+            "top": 674.171875,
+            "width": 58.9375
+          }
+        },
+        "pending": {
+          "body": {
+            "height": 223.15625,
+            "left": 30,
+            "top": 155.1875,
+            "width": 322
+          },
+          "save": {
+            "height": 38.375,
+            "left": 293.0625,
+            "top": 674.171875,
+            "width": 58.9375
+          }
+        },
+        "final": {
+          "body": {
+            "height": 223.15625,
+            "left": 30,
+            "top": 155.1875,
+            "width": 322
+          },
+          "save": {
+            "height": 38.375,
+            "left": 293.0625,
+            "top": 674.171875,
+            "width": 58.9375
+          }
+        },
+        "file": {
+          "bytes": 13798,
+          "consumed": true,
+          "hash": "67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31",
+          "name": "ticket-creation.png"
+        },
+        "draft": "This is the initial review image.![ticket-creation.png](/api/attachments/67f43521843c5efc94afc6e287e4ef528d09eeec16092cedb415438b20378a31)"
+      }
+    }
+  }
+}

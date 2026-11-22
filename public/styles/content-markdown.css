@@ -8,6 +8,11 @@
   line-height: 1.5;
 }
 
+.markdown img {
+  max-inline-size: 100%;
+  height: auto;
+}
+
 .markdown pre {
   max-width: 100%;
   overflow-x: auto;
