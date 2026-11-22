@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -9,6 +10,7 @@ import { pathToFileURL } from 'node:url';
 const out = resolve('coverage/ticket-collection-projections/visual');
 const baseline = resolve(out, '../baseline');
 const candidate = process.cwd();
+const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
 const { chromium, expect } = createRequire(resolve(candidate, 'package.json'))('@playwright/test');
 const phases = { before: baseline, after: candidate };
 const cases = [
@@ -19,6 +21,8 @@ mkdirSync(out, { recursive: true });
 const imageHash = file => createHash('sha256').update(readFileSync(file)).digest('hex');
 
 async function capture(page, file) {
+  const { width, height } = page.viewportSize();
+  await page.mouse.move(width - 2, height - 2);
   await page.evaluate(async () => {
     await document.fonts.ready;
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
@@ -139,6 +143,7 @@ async function verify(browser, phase, settings) {
     await expect(ux).toBeHidden();
     await expect(groupRemove).toBeFocused();
     assert.equal((await get(f.groupChild.id)).groupId, f.group.id);
+    await save('1524', 'after-cancel');
     await groupRemove.press('Enter');
     await expect(ux).toBeVisible();
     await submit.click();
@@ -184,6 +189,7 @@ async function verify(browser, phase, settings) {
     await cancel.click();
     await expect(ux).toBeHidden();
     assert.deepEqual((await Promise.all([get(f.listParent.id), get(f.listChild.id)])).map(t => t.laneId), [f.ready.id, f.ready.id]);
+    await save('1525', 'after-cancel');
     await move.click();
     await laneSelect.selectOption(String(f.doing.id));
     await Promise.all([page.waitForResponse(response => response.url().endsWith('/tickets/bulk-move') && response.request().method() === 'POST' && response.ok()), submit.click()]);
@@ -228,6 +234,6 @@ try {
     assert.deepEqual(after.images.map(image => image.rows), before.images.map(image => image.rows));
   }
 } finally {
-  writeFileSync(resolve(out, 'visual-results.json'), JSON.stringify({ chromium: browser.version(), rows }, null, 2) + '\n');
+  writeFileSync(resolve(out, 'visual-results.json'), JSON.stringify({ sourceCommit, chromium: browser.version(), rows }, null, 2) + '\n');
   await browser.close();
 }
