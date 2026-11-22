@@ -16,6 +16,10 @@ on:
         required: true
         default: false
         type: boolean
+      candidate_artifact_id:
+        description: Artifact ID from a successful dry-run (required only for publish)
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -30,13 +34,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Validate SHA before checking out target code
+      - name: Validate dispatch inputs before checking out target code
         env:
           RELEASE_SHA: ${{ inputs.sha }}
+          RELEASE_PUBLISH: ${{ inputs.publish }}
+          CANDIDATE_ARTIFACT_ID: ${{ inputs.candidate_artifact_id }}
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$RELEASE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          if [[ ! "$RELEASE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::Provide a full lowercase 40-character commit SHA"
+            exit 1
+          fi
+          if [[ "$RELEASE_PUBLISH" == "true" ]]; then
+            if [[ ! "$CANDIDATE_ARTIFACT_ID" =~ ^[1-9][0-9]*$ ]]; then
+              echo "::error::Publish requires the candidate_artifact_id from the accepted dry-run"
+              exit 1
+            fi
+          elif [[ -n "$CANDIDATE_ARTIFACT_ID" ]]; then
+            echo "::error::Leave candidate_artifact_id empty for a dry-run"
+            exit 1
+          fi
       - uses: actions/checkout@v5
         with:
           ref: ${{ inputs.sha }}
@@ -61,12 +79,14 @@ jobs:
         run: node scripts/release-verify.mjs
 
   verify:
+    if: '!inputs.publish'
     needs: preflight
     uses: ./.github/workflows/verify.yml
     with:
       ref: ${{ inputs.sha }}
 
   image:
+    if: '!inputs.publish'
     needs: [preflight, verify]
     runs-on: ubuntu-latest
     timeout-minutes: 55
@@ -80,7 +100,7 @@ jobs:
           node-version: 26.13.1
           package-manager-cache: false
       - uses: docker/setup-buildx-action@v4
-      - name: Build once for test and publication
+      - name: Build the release candidate
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -110,37 +130,51 @@ jobs:
           RELEASE_VERSION: ${{ inputs.version }}
           RELEASE_SHA: ${{ inputs.sha }}
         run: node scripts/package-release-image.mjs kanbalone:release-check
-      - uses: actions/upload-artifact@v4
+      - name: Upload verified release candidate
+        id: candidate
+        uses: actions/upload-artifact@v4
         with:
-          name: release-image-${{ inputs.version }}
+          name: release-image-${{ inputs.version }}-attempt-${{ github.run_attempt }}
           path: release-artifact/
           compression-level: 0
-          overwrite: true
           retention-days: 30
           if-no-files-found: error
+      - name: Record candidate artifact ID
+        env:
+          CANDIDATE_ARTIFACT_ID: ${{ steps.candidate.outputs.artifact-id }}
+          CANDIDATE_ARTIFACT_URL: ${{ steps.candidate.outputs.artifact-url }}
+        run: |
+          {
+            echo "### Verified release candidate"
+            echo "Artifact ID: [$CANDIDATE_ARTIFACT_ID]($CANDIDATE_ARTIFACT_URL)"
+            echo "Use this ID as candidate_artifact_id after accepting the candidate."
+          } >> "$GITHUB_STEP_SUMMARY"
 
   publish:
     if: inputs.publish
-    needs: [preflight, verify, image]
+    needs: preflight
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
+      actions: read
       contents: write
       packages: write
     steps:
+      - name: Check out publication tooling from the workflow revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.workflow_sha }}
+          persist-credentials: false
       - uses: actions/checkout@v5
         with:
           ref: ${{ inputs.sha }}
+          path: release-target
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@v5
         with:
           node-version: 26.13.1
           package-manager-cache: false
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-image-${{ inputs.version }}
-          path: release-artifact/
       - uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -149,11 +183,13 @@ jobs:
       - name: Publish exact verified artifact
         env:
           GH_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          CANDIDATE_ARTIFACT_ID: ${{ inputs.candidate_artifact_id }}
           RELEASE_VERSION: ${{ inputs.version }}
           RELEASE_SHA: ${{ inputs.sha }}
+          RELEASE_ARTIFACT_DIR: ${{ github.workspace }}/release-artifact
           RELEASE_PUBLISH: 'true'
-        run: node scripts/release-publish.mjs
+        working-directory: release-target
+        run: node ../scripts/release-publish.mjs
       - name: Retain publication record even on partial failure
         if: always()
         uses: actions/upload-artifact@v4

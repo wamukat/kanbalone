@@ -10,6 +10,6 @@ Record local commands or manual steps, results and limitations. For UI changes, 
 
 Summarize the release-note entry, compatibility, migration and documentation changes, or state why none apply.
 
-<!-- Release preparation PRs also record the target SHA, dry-run URL, image ID,
-local candidate checks (including upgrade/restore when applicable), publication
- decision and final Release URL. Follow docs/en/developer/release.md. -->
+<!-- Release preparation PRs also record the target SHA, dry-run URL, candidate
+artifact ID, image IDs, local candidate checks (including upgrade/restore when
+applicable), publication decision and final Release URL. Follow docs/en/developer/release.md. -->

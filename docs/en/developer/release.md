@@ -20,21 +20,21 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 | Before opening an implementation PR | Author | Run relevant local tests and exercise the changed behavior. Record steps, results and limitations. For UI changes, check affected Japanese and English screens, consistency with existing screens, and before/after images. |
 | Before merging an implementation PR | User accepts; agent verifies and operates | Review the diff, CI results and manual verification record. E2E success alone does not establish visual or interaction quality. |
 | Release preparation PR | Release owner and reviewer | Review changes since the previous published version; complete the version, bilingual notes and migration guide. Record the full merged SHA. |
-| After dry-run, before publication | Release owner | Run the target image artifact locally in isolation; verify principal changes and basic operations. Record the SHA, Actions URL, image ID and results in the preparation PR, then decide whether to publish. |
+| After dry-run, before publication | Release owner | Run the candidate image artifact locally in isolation and verify principal changes and basic operations. Record the SHA, dry-run URL, candidate artifact ID, image IDs and results in the preparation PR, then decide whether to publish that artifact. |
 | After publication | Release owner | Check tags, bilingual notes and published image. Run the published version in isolation and check its version and basic operations. Add the Release URL to the preparation PR. |
 
 Implementation testing does not replace release-candidate verification. For the local pre-publication check, use the verified loading procedure below and run `localImageId` from `loaded-image.json`, using a dedicated port and volume. Do not overwrite an existing runtime.
 
 For changes affecting the database, storage format or upgrade procedure, prepare test data with the previous published version, back it up, upgrade to the candidate, compare its contents and verify restoration from the backup before publishing. For UI/API-only changes, record why this does not apply. Use only consistent copies of real user data, and keep personal information out of screenshots and logs.
 
-If the candidate SHA changes, repeat dry-run and the relevant local checks. Dry-run and publication build separately. Publication uses its own verified image without rebuilding, but this need not be identical to the manually checked dry-run image; perform the post-publication check too.
+Publication uses the exact image from the locally verified dry-run artifact. A change to the version or SHA requires a new dry-run. For any replacement artifact, repeat local verification and confirm approval before publication. After publication, check that the public tags resolve to the verified image.
 
 ### Release notes and publication decisions
 
 - Describe user-visible changes and compatibility/migration effects in implementation PRs. Finish both languages in `docs/releases/vVERSION.md` in the preparation PR and review them before merging. Do not wait until after publication to write notes.
 - Cover changes, breaking behavior, migration steps and known limitations concisely; explicitly state when an item does not apply. Publication uses this file.
 - The release owner selects the scope and version. From v1 onward, use patch for compatible fixes, minor for compatible features and major for incompatible changes. Clearly document incompatibilities before v1 as well; validate the first v1 and substantial migrations with an RC first.
-- Once review, local checks and dry-run are complete, the release owner runs `publish=true`. Merging a PR or pushing a tag does not publish the product. The publication workflow creates the tag.
+- Once review, dry-run, local checks and publication approval are complete, the release owner runs `publish=true` with the approved candidate artifact ID. The publication workflow creates the tag.
 - CI does not automatically verify local-check records or the human publication decision. The owner checks the preparation PR record before dispatching. GitHub workflow-run approval and approval to publish the product are separate decisions.
 - Updating local or user runtimes is separate from publication. Back up, update and verify those environments when an update is requested.
 
@@ -69,10 +69,13 @@ Open **Actions → Release → Run workflow** on `main` and enter:
 | `version` | Reviewed version, without `v` |
 | `sha` | Full lowercase 40-character commit SHA on `main` |
 | `publish` | `false` |
+| `candidate_artifact_id` | Leave empty |
 
 The workflow validates the target, version and release notes, then runs the shared checks and Chromium E2E tests. It builds a `linux/amd64` image and tests startup, API writes and persistence after restart using an isolated temporary volume.
 
-Review the run and its `release-image-VERSION` artifact. It contains the tested image and `manifest.json` with its SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image. The image job also verifies upgrades from v0.9.35, v0.10.0 and v0.11.0, including backup restoration, on isolated fixtures before packaging the image. Review the `upgrade-restore-RUN_ATTEMPT` artifact. This does not replace local candidate acceptance or validation of user-specific deployment settings. See the [migration verification procedure](../migration-guide.md#automated-upgrade-verification).
+After the run succeeds, download the `release-image-VERSION-attempt-N` artifact. Copy its numeric artifact ID from the run summary or the `/artifacts/ID` segment of the artifact URL. Record it alongside the dry-run URL. The artifact contains the tested image and `manifest.json` with its commit SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image.
+
+The image job also verifies upgrades from v0.9.35, v0.10.0 and v0.11.0, including backup restoration, on isolated fixtures before packaging the image. Review the `upgrade-restore-RUN_ATTEMPT` artifact, then complete local candidate verification and any checks specific to your deployment. See the [migration verification procedure](../migration-guide.md#automated-upgrade-verification).
 
 ### Load the artifact locally
 
@@ -89,17 +92,26 @@ The CI `imageId` and local ID can differ across Docker image stores. In the prac
 
 ## 3. Publish
 
-Run **Release** again with the same version and SHA, this time setting `publish` to `true`. This run repeats validation and builds its own image. Within that run, publication uses the exact tested image artifact without rebuilding it.
+After the release owner confirms the local verification results and approval for that artifact, open **Actions → Release → Run workflow** on `main`.
+
+| Input | Value |
+| --- | --- |
+| `version` | Same version as the dry-run |
+| `sha` | Same full commit SHA as the dry-run |
+| `publish` | `true` |
+| `candidate_artifact_id` | Numeric ID of the exact artifact verified locally |
+
+Publication checks that the artifact came from a successful `Release` dry-run attempt on `main` in this repository. It verifies the download, manifest, archive and image against the requested version and SHA. It then publishes that image without repeating the build, shared tests, Chromium E2E, or upgrade and restore tests. Artifacts from the old release workflow are ineligible. Start with a new dry-run if the candidate was built with that workflow.
 
 Publication creates the version tag and a draft GitHub Release, pushes `vVERSION` and `VERSION` image tags, and verifies an unauthenticated pull against the tested image identity and labels. It then publishes the bilingual notes and verification records. Stable releases newer than the current latest advance `latest`; prereleases such as RCs do not.
 
-Confirm the published release notes, version tags and public image pull. CI logs, test reports and release artifacts are retained for 30 days. The publication record includes registry digests; these are distinct from the local Docker image ID.
+Confirm the published release notes, version tags and public image pull. Run the published image in isolation and record the results in the preparation PR. Archived check logs, test reports and release artifacts are retained for 30 days. The publication record identifies the source run and artifact and includes the registry digest, which is separate from the local Docker image ID.
 
 ## Failure and retry
 
-- A failed validation stops publication. Fix the issue and prepare a reviewed commit before retrying.
-- If publication partially succeeds, rerun the failed jobs in the same Actions run to reuse its verified image artifact. Existing tags, releases and images must match; conflicting contents stop the workflow.
-- Do not move published tags or overwrite a version with a newly built image. If the artifact has expired, stop and investigate; use a new patch version when the original verified artifact cannot be recovered.
+- A failed source or integrity check stops publication. Check the recorded version, SHA and artifact ID. If the artifact has expired, was deleted or is ineligible, start a new dry-run and repeat local verification and approval only if the version has no Git tag, GitHub Release or registry tags. The publication run does not select a replacement or rebuild the image.
+- Publication records the candidate artifact ID and checksums in the annotated Git tag when it creates the tag. After a partial failure, rerun the failed jobs or dispatch with the same version, SHA and artifact ID. Keep that ID even if a dry-run retry produced another artifact.
+- Publication stops if an existing tag lacks the candidate record, as with tags created by the old workflow, or if an existing tag, Release or image conflicts with the candidate. If the original artifact becomes unavailable after a tag or draft Release was created or an image was pushed, stop and investigate. If it cannot be recovered, preserve the existing tag, Release and images and prepare a new version.
 - Published-version defects require a new patch release. The workflow does not roll back users' databases or update their running containers.
 
 ## What CI checks
