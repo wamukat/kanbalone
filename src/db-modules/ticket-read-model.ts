@@ -149,6 +149,15 @@ export function mapTicketSummaries(
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
+  // Reuse Group lookups only within this collection. A later page/request must
+  // see renames and membership changes rather than a process-wide cached value.
+  const groupFieldsById = new Map<number | null, ReturnType<typeof ticketGroupFields>>();
+  const groupFields = (row: TicketRow) => {
+    const groupId = row.group_id ?? null;
+    if (!groupFieldsById.has(groupId)) groupFieldsById.set(groupId, ticketGroupFields(sqlite, row));
+    const fields = groupFieldsById.get(groupId)!;
+    return { groupId, group: fields.group ? { ...fields.group } : null };
+  };
   return rows.map((row) =>
     mapTicketSummary(
       row,
@@ -165,7 +174,7 @@ export function mapTicketSummaries(
         }
         : null,
       externalReferencesByTicket.get(row.id) ?? [],
-      ticketGroupFields(sqlite, row),
+      groupFields(row),
       unresolvedBlockerCounts.get(row.id) ?? 0,
     ),
   );

@@ -58,3 +58,26 @@ test("Group option counts describe a wide parent/child set consistently", () => 
   assert.match(html,/2001 parent\/child tickets/);
   assert.match(html,/data-group-pick="2001"/);
 });
+
+
+test("Group display is unchanged when member pages use ID order instead of lane-position order", () => {
+  const positionOrder = [
+    ticket(10, null, { priority:1 }),
+    ticket(6, 99, { priority:3 }),
+    ticket(3, 20, { priority:4 }),
+    ticket(20, null, { laneId:2, isArchived:true }),
+    ticket(25, 20, { laneId:3, priority:1, isArchived:true }),
+    ticket(8, null, { laneId:3, priority:4, isResolved:true }),
+  ];
+  const idOrder = [...positionOrder].sort((a,b)=>a.id-b.id);
+  const view:GroupViewState={groups:[],selectedId:1,selected:{id:1,boardId:1,name:'Work',isActive:true,totalTicketCount:6,openTicketCount:3,archivedTicketCount:2,revision:1,createdAt:'',updatedAt:'',descriptionMarkdown:'',descriptionHtml:''},tickets:positionOrder,all:false,sort:'createdAt:asc',showArchived:false,creating:false,createName:'',renaming:false,renameName:'',descriptionEditing:false,descriptionDraft:'',descriptionPreview:null,expanded:false,adding:false,busy:false,error:'',candidates:[],chosen:[],query:'',activeOption:0};
+  const options={escapeHtml:(s:string)=>s,lanes:[{id:1,name:'Todo'},{id:2,name:'Doing'},{id:3,name:'Done'}]};
+  for (const showArchived of [false,true]) {
+    const before=renderGroupView({...view,showArchived,tickets:positionOrder},options);
+    const after=renderGroupView({...view,showArchived,tickets:idOrder},options);
+    assert.equal(after,before);
+    assert.deepEqual([...after.matchAll(/data-group-ticket="(\d+)"/g)].map(m=>Number(m[1])),showArchived?[8,6,20,3,25,10]:[8,6,3,10]);
+    assert.match(after,/Remove 3 tickets from Group/);
+    assert.deepEqual([...after.matchAll(/data-group-remove="(\d+)"/g)].map(m=>Number(m[1])),[8,6,20,10]);
+  }
+});

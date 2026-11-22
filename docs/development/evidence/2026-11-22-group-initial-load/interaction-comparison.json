@@ -1,0 +1,16 @@
+[
+  {
+    "language": "ja",
+    "sameInitialOrder": true,
+    "sameArchiveOrder": true,
+    "allControlsRetainedTicketNodes": true,
+    "beforeAndAfterPersistencePassed": true
+  },
+  {
+    "language": "en",
+    "sameInitialOrder": true,
+    "sameArchiveOrder": true,
+    "allControlsRetainedTicketNodes": true,
+    "beforeAndAfterPersistencePassed": true
+  }
+]

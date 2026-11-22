@@ -1,0 +1,50 @@
+[
+  {
+    "variant": "baseline",
+    "run": 0,
+    "first": 6576,
+    "textNodes": 69993,
+    "whitespaceNodes": 39980,
+    "elements": 160968,
+    "scrollHeight": 640000,
+    "top": 286.375,
+    "lastBottom": 640034.375,
+    "rows": 10000
+  },
+  {
+    "variant": "compact",
+    "run": 0,
+    "first": 5083.70000000298,
+    "textNodes": 30013,
+    "whitespaceNodes": 0,
+    "elements": 160968,
+    "scrollHeight": 640000,
+    "top": 286.375,
+    "lastBottom": 640034.375,
+    "rows": 10000
+  },
+  {
+    "variant": "compact",
+    "run": 1,
+    "first": 4344.80000000447,
+    "textNodes": 30013,
+    "whitespaceNodes": 0,
+    "elements": 160968,
+    "scrollHeight": 640000,
+    "top": 286.375,
+    "lastBottom": 640034.375,
+    "rows": 10000
+  },
+  {
+    "variant": "baseline",
+    "run": 1,
+    "first": 4240.20000000298,
+    "textNodes": 69993,
+    "whitespaceNodes": 39980,
+    "elements": 160968,
+    "scrollHeight": 640000,
+    "top": 286.375,
+    "lastBottom": 640034.375,
+    "rows": 10000
+  }
+]

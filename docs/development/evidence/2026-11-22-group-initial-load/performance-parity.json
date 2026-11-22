@@ -1,0 +1,15 @@
+{
+  "baseline": "09ad816c1fb51c3a0af143ee0cee477e2964eee9",
+  "orderedIdsEqual": true,
+  "allExpectedRows": true,
+  "expectedPageCounts": true,
+  "scrollHeightEqual": true,
+  "imagePairsEqual": {
+    "en": true,
+    "ja": true
+  },
+  "runtimeFiles": {
+    "public/app-group-board.js": "34046a35330e74fa125c834c906d8c3e125b17da1ae05dcb518f73196c4d5e53",
+    "src/db-modules/ticket-read-model.ts": "49c4bce5f8656dad69ad1b7920a22b6308cfdbdb1399f1da83a9c5b518c630b0"
+  }
+}

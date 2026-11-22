@@ -5,8 +5,21 @@ const card = (page: Page, id: number) => page.locator(`.ticket-card[data-ticket-
 const lane = (page: Page, id: number) => page.locator(`.ticket-list[data-lane-id="${id}"]`);
 
 async function beginDrag(page: Page, sourceId: number, targetId: number) {
-  const source = await card(page, sourceId).boundingBox();
-  const target = await card(page, targetId).boundingBox();
+  let positions: Array<{ x: number; y: number; width: number; height: number }> = [];
+  // Startup refresh can replace cards between handle resolution and boundingBox.
+  // Read both current cards atomically; retry only this read, never the drag.
+  await expect.poll(async () => {
+    positions = await page.evaluate((ids) => ids.flatMap((id) => {
+      const element = document.querySelector(`.ticket-card[data-ticket-id="${id}"]`);
+      if (!element) return [];
+      const { x, y, width, height } = element.getBoundingClientRect();
+      const visibility = getComputedStyle(element).visibility;
+      return width > 0 && height > 0 && visibility !== "hidden" && visibility !== "collapse"
+        ? [{ x, y, width, height }] : [];
+    }), [sourceId, targetId]);
+    return positions.length;
+  }).toBe(2);
+  const [source, target] = positions;
   if (!source || !target) throw new Error("Drag cards must be visible");
   await page.mouse.move(source.x + source.width / 2, source.y + source.height / 2);
   await page.mouse.down();

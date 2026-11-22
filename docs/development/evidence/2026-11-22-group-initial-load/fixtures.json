@@ -1,0 +1,30 @@
+[
+  {
+    "language": "ja",
+    "boardId": 1,
+    "groupId": 1,
+    "otherGroupId": 2,
+    "parentId": 1,
+    "childId": 2,
+    "candidateId": 7,
+    "laneIds": [
+      1,
+      2
+    ],
+    "doneId": 3
+  },
+  {
+    "language": "en",
+    "boardId": 2,
+    "groupId": 3,
+    "otherGroupId": 4,
+    "parentId": 9,
+    "childId": 10,
+    "candidateId": 15,
+    "laneIds": [
+      4,
+      5
+    ],
+    "doneId": 6
+  }
+]

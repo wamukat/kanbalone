@@ -1,0 +1,182 @@
+[
+  {
+    "run": 0,
+    "mode": "baseline",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 61.961126000000036
+  },
+  {
+    "run": 0,
+    "mode": "baseline",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 659.259941
+  },
+  {
+    "run": 0,
+    "mode": "cached",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 14.592854999999872
+  },
+  {
+    "run": 0,
+    "mode": "cached",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 356.5273629999999
+  },
+  {
+    "run": 1,
+    "mode": "cached",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 15.072574000000031
+  },
+  {
+    "run": 1,
+    "mode": "cached",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 359.12255100000016
+  },
+  {
+    "run": 1,
+    "mode": "baseline",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 40.34373000000005
+  },
+  {
+    "run": 1,
+    "mode": "baseline",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 622.4351160000001
+  },
+  {
+    "run": 2,
+    "mode": "baseline",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 56.16282700000011
+  },
+  {
+    "run": 2,
+    "mode": "baseline",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 595.0772270000002
+  },
+  {
+    "run": 2,
+    "mode": "cached",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 14.13867399999981
+  },
+  {
+    "run": 2,
+    "mode": "cached",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 368.6445719999997
+  },
+  {
+    "run": 3,
+    "mode": "cached",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 13.79117099999985
+  },
+  {
+    "run": 3,
+    "mode": "cached",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 352.1507059999999
+  },
+  {
+    "run": 3,
+    "mode": "baseline",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 45.49116099999992
+  },
+  {
+    "run": 3,
+    "mode": "baseline",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 606.1222670000006
+  },
+  {
+    "run": 4,
+    "mode": "baseline",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 45.44225600000027
+  },
+  {
+    "run": 4,
+    "mode": "baseline",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 602.4943909999993
+  },
+  {
+    "run": 4,
+    "mode": "cached",
+    "count": 1000,
+    "rows": 1000,
+    "pages": 5,
+    "lookupCalls": 1000,
+    "ms": 14.075976000000082
+  },
+  {
+    "run": 4,
+    "mode": "cached",
+    "count": 10000,
+    "rows": 10000,
+    "pages": 50,
+    "lookupCalls": 10000,
+    "ms": 349.8433780000005
+  }
+]
