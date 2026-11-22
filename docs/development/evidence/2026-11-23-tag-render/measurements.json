@@ -1,0 +1,3081 @@
+{
+  "unit": "milliseconds unless otherwise specified",
+  "provenance": {
+    "historicalScenarios": {
+      "os": "Darwin Kernel Version 25.6.0: Mon Oct 12 00:33:09 PDT 2026; root:xnu-12377.161.15.701.48~2/RELEASE_X86_64",
+      "release": "25.6.0",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+      "logicalCpus": 12,
+      "node": "v26.13.1",
+      "serverRevision": "899d0f0117ee52e6d57db59241312f0fa4fcd0f7",
+      "fixtureArchiveSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "date": "2026-11-22T17:41:22.882Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "language": "en",
+      "theme": "light",
+      "method": "Fresh Chromium context and navigation per sequential sample. DOM mutation detection plus two requestAnimationFrame callbacks. CDP cumulative durations from navigation. Server-Timing covers onRequest to onSend, including handler and serialization.",
+      "diagnostics": false,
+      "variants": [
+        {
+          "name": "baseline",
+          "files": {
+            "app-group-board.js": "6185efd24c3feeafb9e7ace70acbab476f78fa81b4073beab39aff0be5dad705",
+            "app-group-view.js": "732d799fd3e70f4f5b11f7e1138fb50a54f38aa12370c204fd86bf3b0d48b3e6",
+            "app-tags.js": "4323891afcaadbb3d50d56d75f90412c8908c97093cd2bd19632f271b1128579",
+            "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+            "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+            "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+            "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+          }
+        },
+        {
+          "name": "shorttag",
+          "files": {
+            "app-group-board.js": "6185efd24c3feeafb9e7ace70acbab476f78fa81b4073beab39aff0be5dad705",
+            "app-group-view.js": "732d799fd3e70f4f5b11f7e1138fb50a54f38aa12370c204fd86bf3b0d48b3e6",
+            "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+            "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+            "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+            "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+            "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+          }
+        }
+      ],
+      "chromium": "159.0.8154.6"
+    },
+    "highActive": {
+      "os": "Darwin Kernel Version 25.6.0: Mon Oct 12 00:33:09 PDT 2026; root:xnu-12377.161.15.701.48~2/RELEASE_X86_64",
+      "release": "25.6.0",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+      "logicalCpus": 12,
+      "node": "v26.13.1",
+      "serverRevision": "b1355ebecc47d5aa1f2d9f2dd8f9b2248aa266ed",
+      "fixtureArchiveSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "date": "2026-11-22T17:47:31.750Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "language": "en",
+      "theme": "light",
+      "method": "Fresh Chromium context and navigation per sequential sample. DOM mutation detection plus two requestAnimationFrame callbacks. CDP cumulative durations from navigation. Server-Timing covers onRequest to onSend, including handler and serialization.",
+      "diagnostics": false,
+      "variants": [
+        {
+          "name": "baseline",
+          "files": {
+            "app-group-board.js": "6185efd24c3feeafb9e7ace70acbab476f78fa81b4073beab39aff0be5dad705",
+            "app-group-view.js": "732d799fd3e70f4f5b11f7e1138fb50a54f38aa12370c204fd86bf3b0d48b3e6",
+            "app-tags.js": "4323891afcaadbb3d50d56d75f90412c8908c97093cd2bd19632f271b1128579",
+            "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+            "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+            "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+            "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+          }
+        },
+        {
+          "name": "shorttag",
+          "files": {
+            "app-group-board.js": "6185efd24c3feeafb9e7ace70acbab476f78fa81b4073beab39aff0be5dad705",
+            "app-group-view.js": "732d799fd3e70f4f5b11f7e1138fb50a54f38aa12370c204fd86bf3b0d48b3e6",
+            "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+            "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+            "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+            "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+            "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+          }
+        }
+      ],
+      "chromium": "159.0.8154.6"
+    },
+    "profileDiagnostics": {
+      "os": "Darwin Kernel Version 25.6.0: Mon Oct 12 00:33:09 PDT 2026; root:xnu-12377.161.15.701.48~2/RELEASE_X86_64",
+      "release": "25.6.0",
+      "arch": "x64",
+      "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+      "logicalCpus": 12,
+      "node": "v26.13.1",
+      "serverRevision": "899d0f0117ee52e6d57db59241312f0fa4fcd0f7",
+      "fixtureArchiveSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "date": "2026-11-22T17:40:35.064Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "language": "en",
+      "theme": "light",
+      "method": "Fresh Chromium context and navigation per sequential sample. DOM mutation detection plus two requestAnimationFrame callbacks. CDP cumulative durations from navigation. Server-Timing covers onRequest to onSend, including handler and serialization.",
+      "diagnostics": true,
+      "variants": [
+        {
+          "name": "baseline",
+          "files": {
+            "app-group-board.js": "6185efd24c3feeafb9e7ace70acbab476f78fa81b4073beab39aff0be5dad705",
+            "app-group-view.js": "732d799fd3e70f4f5b11f7e1138fb50a54f38aa12370c204fd86bf3b0d48b3e6",
+            "app-tags.js": "4323891afcaadbb3d50d56d75f90412c8908c97093cd2bd19632f271b1128579",
+            "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+            "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+            "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+            "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+          }
+        }
+      ],
+      "chromium": "159.0.8154.6"
+    }
+  },
+  "comparison": [
+    {
+      "fixture": "group-1000|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 552.5,
+          "min": 541.3,
+          "max": 591.1
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 552.5,
+          "min": 541.4,
+          "max": 591.1
+        },
+        "afterResponse": {
+          "median": 318.3,
+          "min": 303.1,
+          "max": 330.4
+        },
+        "lastResponse": {
+          "median": 234.2,
+          "min": 226.2,
+          "max": 270.4
+        },
+        "collection": {
+          "median": 35.8,
+          "min": 34.2,
+          "max": 37.3
+        },
+        "server": {
+          "median": 20.03,
+          "min": 19.63,
+          "max": 20.93
+        },
+        "task": {
+          "median": 484.72,
+          "min": 467.96,
+          "max": 496.09
+        },
+        "script": {
+          "median": 9.85,
+          "min": 9.73,
+          "max": 13.35
+        },
+        "style": {
+          "median": 69.52,
+          "min": 67.27,
+          "max": 71.56
+        },
+        "layout": {
+          "median": 168.69,
+          "min": 160.11,
+          "max": 174.65
+        },
+        "maxLongTask": {
+          "median": 226,
+          "min": 209,
+          "max": 232
+        }
+      },
+      "pages": [
+        5
+      ],
+      "bytes": [
+        568890
+      ],
+      "counts": {
+        "cardsOrRows": [
+          1000
+        ],
+        "nodes": [
+          27828
+        ],
+        "useElements": [
+          8
+        ]
+      },
+      "scrollHeights": [
+        84853
+      ],
+      "parity": {
+        "id": [
+          "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        ],
+        "geometry": [
+          "7f453a52c884b604f9e3cb4b642555b0fa67d3f664908d4dc8ddff5f00d5c712"
+        ],
+        "tags": [
+          "ed3062fe2ddf12586fabc7e3b0bead916ff48276a78df3f6c76546bbc74270a4"
+        ]
+      }
+    },
+    {
+      "fixture": "group-1000|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 536.8,
+          "min": 520.2,
+          "max": 541.9
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 536.8,
+          "min": 520.2,
+          "max": 541.9
+        },
+        "afterResponse": {
+          "median": 296.1,
+          "min": 289.9,
+          "max": 309.4
+        },
+        "lastResponse": {
+          "median": 233.1,
+          "min": 230.3,
+          "max": 245.7
+        },
+        "collection": {
+          "median": 35.1,
+          "min": 34.4,
+          "max": 37.2
+        },
+        "server": {
+          "median": 19.97,
+          "min": 18.79,
+          "max": 21.25
+        },
+        "task": {
+          "median": 458.93,
+          "min": 446.48,
+          "max": 472.89
+        },
+        "script": {
+          "median": 9.96,
+          "min": 9.76,
+          "max": 10.25
+        },
+        "style": {
+          "median": 69.16,
+          "min": 68.46,
+          "max": 71.28
+        },
+        "layout": {
+          "median": 168.79,
+          "min": 161.64,
+          "max": 173.79
+        },
+        "maxLongTask": {
+          "median": 225,
+          "min": 217,
+          "max": 235
+        }
+      },
+      "pages": [
+        5
+      ],
+      "bytes": [
+        568890
+      ],
+      "counts": {
+        "cardsOrRows": [
+          1000
+        ],
+        "nodes": [
+          27828
+        ],
+        "useElements": [
+          8
+        ]
+      },
+      "scrollHeights": [
+        84853
+      ],
+      "parity": {
+        "id": [
+          "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        ],
+        "geometry": [
+          "7f453a52c884b604f9e3cb4b642555b0fa67d3f664908d4dc8ddff5f00d5c712"
+        ],
+        "tags": [
+          "ed3062fe2ddf12586fabc7e3b0bead916ff48276a78df3f6c76546bbc74270a4"
+        ]
+      }
+    },
+    {
+      "fixture": "ungrouped-1000|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 489.3,
+          "min": 476.8,
+          "max": 499.6
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 489.3,
+          "min": 476.8,
+          "max": 499.7
+        },
+        "afterResponse": {
+          "median": 264.1,
+          "min": 259.8,
+          "max": 265.6
+        },
+        "lastResponse": {
+          "median": 225.2,
+          "min": 211.9,
+          "max": 234.1
+        },
+        "collection": {
+          "median": 30.1,
+          "min": 29.4,
+          "max": 30.9
+        },
+        "server": {
+          "median": 15.89,
+          "min": 15.59,
+          "max": 16.01
+        },
+        "task": {
+          "median": 416.24,
+          "min": 408.58,
+          "max": 421.9
+        },
+        "script": {
+          "median": 9.6,
+          "min": 8.94,
+          "max": 10.09
+        },
+        "style": {
+          "median": 55.91,
+          "min": 54.65,
+          "max": 57.57
+        },
+        "layout": {
+          "median": 150.24,
+          "min": 149.61,
+          "max": 156.57
+        },
+        "maxLongTask": {
+          "median": 183,
+          "min": 180,
+          "max": 186
+        }
+      },
+      "pages": [
+        5
+      ],
+      "bytes": [
+        541890
+      ],
+      "counts": {
+        "cardsOrRows": [
+          1000
+        ],
+        "nodes": [
+          20951
+        ],
+        "useElements": [
+          6
+        ]
+      },
+      "scrollHeights": [
+        84775
+      ],
+      "parity": {
+        "id": [
+          "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        ],
+        "geometry": [
+          "db8ab428667bd09a26cfe48f359f10306c16576ed9c9a6f335aceadbfd1975b7"
+        ],
+        "tags": [
+          "ed3062fe2ddf12586fabc7e3b0bead916ff48276a78df3f6c76546bbc74270a4"
+        ]
+      }
+    },
+    {
+      "fixture": "ungrouped-1000|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 464.4,
+          "min": 459.3,
+          "max": 470.1
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 464.5,
+          "min": 459.3,
+          "max": 470.2
+        },
+        "afterResponse": {
+          "median": 240.8,
+          "min": 238.3,
+          "max": 242.4
+        },
+        "lastResponse": {
+          "median": 223.1,
+          "min": 221,
+          "max": 230.5
+        },
+        "collection": {
+          "median": 29.4,
+          "min": 29.3,
+          "max": 32.5
+        },
+        "server": {
+          "median": 15.8,
+          "min": 15.39,
+          "max": 16.33
+        },
+        "task": {
+          "median": 390.01,
+          "min": 386.56,
+          "max": 395.36
+        },
+        "script": {
+          "median": 9.91,
+          "min": 9.47,
+          "max": 10.26
+        },
+        "style": {
+          "median": 55.12,
+          "min": 54.75,
+          "max": 57.67
+        },
+        "layout": {
+          "median": 153.37,
+          "min": 149.44,
+          "max": 154.9
+        },
+        "maxLongTask": {
+          "median": 185,
+          "min": 180,
+          "max": 187
+        }
+      },
+      "pages": [
+        5
+      ],
+      "bytes": [
+        541890
+      ],
+      "counts": {
+        "cardsOrRows": [
+          1000
+        ],
+        "nodes": [
+          20951
+        ],
+        "useElements": [
+          6
+        ]
+      },
+      "scrollHeights": [
+        84775
+      ],
+      "parity": {
+        "id": [
+          "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        ],
+        "geometry": [
+          "db8ab428667bd09a26cfe48f359f10306c16576ed9c9a6f335aceadbfd1975b7"
+        ],
+        "tags": [
+          "ed3062fe2ddf12586fabc7e3b0bead916ff48276a78df3f6c76546bbc74270a4"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-1000|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 316.7,
+          "min": 309.4,
+          "max": 328.7
+        },
+        "allLanesFirst": {
+          "median": 316.8,
+          "min": 309.4,
+          "max": 328.7
+        },
+        "complete": {
+          "median": 363,
+          "min": 358.1,
+          "max": 376
+        },
+        "afterResponse": {
+          "median": 192.1,
+          "min": 187.7,
+          "max": 204
+        },
+        "lastResponse": {
+          "median": 172,
+          "min": 166,
+          "max": 176.9
+        },
+        "collection": {
+          "median": 11,
+          "min": 10.4,
+          "max": 12.6
+        },
+        "server": {
+          "median": 8.38,
+          "min": 8.29,
+          "max": 9.76
+        },
+        "task": {
+          "median": 303.63,
+          "min": 300.69,
+          "max": 315.03
+        },
+        "script": {
+          "median": 69.41,
+          "min": 67.72,
+          "max": 72.19
+        },
+        "style": {
+          "median": 46.07,
+          "min": 45.53,
+          "max": 49.82
+        },
+        "layout": {
+          "median": 63.86,
+          "min": 61.81,
+          "max": 65.76
+        },
+        "maxLongTask": {
+          "median": 62,
+          "min": 60,
+          "max": 69
+        }
+      },
+      "pages": [
+        4
+      ],
+      "bytes": [
+        170648
+      ],
+      "counts": {
+        "cardsOrRows": [
+          313
+        ],
+        "nodes": [
+          5425
+        ],
+        "useElements": [
+          649
+        ]
+      },
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "parity": {
+        "id": [
+          "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        ],
+        "geometry": [
+          "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b"
+        ],
+        "tags": [
+          "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-1000|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 310.3,
+          "min": 290.9,
+          "max": 317.1
+        },
+        "allLanesFirst": {
+          "median": 310.4,
+          "min": 291,
+          "max": 317.1
+        },
+        "complete": {
+          "median": 359.1,
+          "min": 341.2,
+          "max": 367
+        },
+        "afterResponse": {
+          "median": 184.6,
+          "min": 167.8,
+          "max": 192.7
+        },
+        "lastResponse": {
+          "median": 174,
+          "min": 156.6,
+          "max": 185.9
+        },
+        "collection": {
+          "median": 12.3,
+          "min": 11,
+          "max": 12.5
+        },
+        "server": {
+          "median": 9.45,
+          "min": 8.26,
+          "max": 9.74
+        },
+        "task": {
+          "median": 296.86,
+          "min": 279.69,
+          "max": 305.2
+        },
+        "script": {
+          "median": 57.19,
+          "min": 54.18,
+          "max": 60.58
+        },
+        "style": {
+          "median": 47.04,
+          "min": 44.55,
+          "max": 49.01
+        },
+        "layout": {
+          "median": 63.6,
+          "min": 61.32,
+          "max": 67.43
+        },
+        "maxLongTask": {
+          "median": 56,
+          "min": 54,
+          "max": 62
+        }
+      },
+      "pages": [
+        4
+      ],
+      "bytes": [
+        170648
+      ],
+      "counts": {
+        "cardsOrRows": [
+          313
+        ],
+        "nodes": [
+          5425
+        ],
+        "useElements": [
+          649
+        ]
+      },
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "parity": {
+        "id": [
+          "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        ],
+        "geometry": [
+          "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b"
+        ],
+        "tags": [
+          "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c"
+        ]
+      }
+    },
+    {
+      "fixture": "group-10000|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 4031.6,
+          "min": 3968.1,
+          "max": 4087.5
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 4031.6,
+          "min": 3968.1,
+          "max": 4087.5
+        },
+        "afterResponse": {
+          "median": 3220.3,
+          "min": 3153,
+          "max": 3241.1
+        },
+        "lastResponse": {
+          "median": 815.4,
+          "min": 811.3,
+          "max": 849.2
+        },
+        "collection": {
+          "median": 610.1,
+          "min": 597.7,
+          "max": 616.6
+        },
+        "server": {
+          "median": 447.74,
+          "min": 437.5,
+          "max": 454.74
+        },
+        "task": {
+          "median": 3447,
+          "min": 3386.48,
+          "max": 3478.49
+        },
+        "script": {
+          "median": 29.57,
+          "min": 29.13,
+          "max": 30.34
+        },
+        "style": {
+          "median": 547.01,
+          "min": 541.84,
+          "max": 558.23
+        },
+        "layout": {
+          "median": 1412.13,
+          "min": 1398.36,
+          "max": 1447.61
+        },
+        "maxLongTask": {
+          "median": 2344,
+          "min": 2315,
+          "max": 2370
+        }
+      },
+      "pages": [
+        50
+      ],
+      "bytes": [
+        5759367
+      ],
+      "counts": {
+        "cardsOrRows": [
+          10000
+        ],
+        "nodes": [
+          279246
+        ],
+        "useElements": [
+          8
+        ]
+      },
+      "scrollHeights": [
+        848428
+      ],
+      "parity": {
+        "id": [
+          "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        ],
+        "geometry": [
+          "0363d4aed7c3b4398fbbb255fad586227d2e682159185b60199ce4661cf363ef"
+        ],
+        "tags": [
+          "50544c6a800f65c4a71547e3a2fcceaaf27df9b58d0c03eb0e1f156a18219a32"
+        ]
+      }
+    },
+    {
+      "fixture": "group-10000|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 3837.8,
+          "min": 3781.5,
+          "max": 4015.2
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 3837.8,
+          "min": 3781.5,
+          "max": 4015.2
+        },
+        "afterResponse": {
+          "median": 3013.1,
+          "min": 2930.6,
+          "max": 3180.3
+        },
+        "lastResponse": {
+          "median": 834.9,
+          "min": 814,
+          "max": 855.6
+        },
+        "collection": {
+          "median": 625.4,
+          "min": 610.3,
+          "max": 644
+        },
+        "server": {
+          "median": 458.13,
+          "min": 447.99,
+          "max": 470.63
+        },
+        "task": {
+          "median": 3234.55,
+          "min": 3165.24,
+          "max": 3409.78
+        },
+        "script": {
+          "median": 31.2,
+          "min": 29.11,
+          "max": 31.62
+        },
+        "style": {
+          "median": 554.11,
+          "min": 537.33,
+          "max": 596.41
+        },
+        "layout": {
+          "median": 1399.95,
+          "min": 1365.24,
+          "max": 1449.04
+        },
+        "maxLongTask": {
+          "median": 2342,
+          "min": 2304,
+          "max": 2450
+        }
+      },
+      "pages": [
+        50
+      ],
+      "bytes": [
+        5759367
+      ],
+      "counts": {
+        "cardsOrRows": [
+          10000
+        ],
+        "nodes": [
+          279246
+        ],
+        "useElements": [
+          8
+        ]
+      },
+      "scrollHeights": [
+        848428
+      ],
+      "parity": {
+        "id": [
+          "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        ],
+        "geometry": [
+          "0363d4aed7c3b4398fbbb255fad586227d2e682159185b60199ce4661cf363ef"
+        ],
+        "tags": [
+          "50544c6a800f65c4a71547e3a2fcceaaf27df9b58d0c03eb0e1f156a18219a32"
+        ]
+      }
+    },
+    {
+      "fixture": "ungrouped-10000|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 3355,
+          "min": 3329.9,
+          "max": 3405.3
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 3355,
+          "min": 3330,
+          "max": 3405.4
+        },
+        "afterResponse": {
+          "median": 2733.7,
+          "min": 2718.4,
+          "max": 2782
+        },
+        "lastResponse": {
+          "median": 621.3,
+          "min": 611.1,
+          "max": 623.4
+        },
+        "collection": {
+          "median": 422.2,
+          "min": 413.5,
+          "max": 433.6
+        },
+        "server": {
+          "median": 272.97,
+          "min": 268.6,
+          "max": 279.06
+        },
+        "task": {
+          "median": 2954.84,
+          "min": 2933.86,
+          "max": 3009.63
+        },
+        "script": {
+          "median": 24.33,
+          "min": 24.27,
+          "max": 27.4
+        },
+        "style": {
+          "median": 430.02,
+          "min": 425.46,
+          "max": 434.88
+        },
+        "layout": {
+          "median": 1280.54,
+          "min": 1267.73,
+          "max": 1327.21
+        },
+        "maxLongTask": {
+          "median": 2036,
+          "min": 2027,
+          "max": 2083
+        }
+      },
+      "pages": [
+        50
+      ],
+      "bytes": [
+        5479367
+      ],
+      "counts": {
+        "cardsOrRows": [
+          10000
+        ],
+        "nodes": [
+          209369
+        ],
+        "useElements": [
+          6
+        ]
+      },
+      "scrollHeights": [
+        848350
+      ],
+      "parity": {
+        "id": [
+          "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        ],
+        "geometry": [
+          "0776b1f875aaf95e8c176f839fbb1f8f0f97e698ade518c011ad4c919a53b9fd"
+        ],
+        "tags": [
+          "50544c6a800f65c4a71547e3a2fcceaaf27df9b58d0c03eb0e1f156a18219a32"
+        ]
+      }
+    },
+    {
+      "fixture": "ungrouped-10000|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 3122.4,
+          "min": 3096.1,
+          "max": 3303.2
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 3122.5,
+          "min": 3096.1,
+          "max": 3303.3
+        },
+        "afterResponse": {
+          "median": 2483.5,
+          "min": 2466.2,
+          "max": 2664.7
+        },
+        "lastResponse": {
+          "median": 631.8,
+          "min": 600.4,
+          "max": 647.9
+        },
+        "collection": {
+          "median": 431.7,
+          "min": 418.9,
+          "max": 432.7
+        },
+        "server": {
+          "median": 275.93,
+          "min": 270.86,
+          "max": 277.14
+        },
+        "task": {
+          "median": 2714.21,
+          "min": 2693.06,
+          "max": 2890.76
+        },
+        "script": {
+          "median": 26.56,
+          "min": 23.84,
+          "max": 28.3
+        },
+        "style": {
+          "median": 418.95,
+          "min": 416.09,
+          "max": 424.88
+        },
+        "layout": {
+          "median": 1294.7,
+          "min": 1244.1,
+          "max": 1474.13
+        },
+        "maxLongTask": {
+          "median": 2034,
+          "min": 1997,
+          "max": 2226
+        }
+      },
+      "pages": [
+        50
+      ],
+      "bytes": [
+        5479367
+      ],
+      "counts": {
+        "cardsOrRows": [
+          10000
+        ],
+        "nodes": [
+          209369
+        ],
+        "useElements": [
+          6
+        ]
+      },
+      "scrollHeights": [
+        848350
+      ],
+      "parity": {
+        "id": [
+          "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        ],
+        "geometry": [
+          "0776b1f875aaf95e8c176f839fbb1f8f0f97e698ade518c011ad4c919a53b9fd"
+        ],
+        "tags": [
+          "50544c6a800f65c4a71547e3a2fcceaaf27df9b58d0c03eb0e1f156a18219a32"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-10000|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 373.6,
+          "min": 362.6,
+          "max": 430.9
+        },
+        "allLanesFirst": {
+          "median": 373.7,
+          "min": 362.6,
+          "max": 431
+        },
+        "complete": {
+          "median": 2600.2,
+          "min": 2555.6,
+          "max": 2702
+        },
+        "afterResponse": {
+          "median": 2369.6,
+          "min": 2329.5,
+          "max": 2448
+        },
+        "lastResponse": {
+          "median": 226.1,
+          "min": 214.3,
+          "max": 254
+        },
+        "collection": {
+          "median": 69.3,
+          "min": 62,
+          "max": 72.5
+        },
+        "server": {
+          "median": 55.34,
+          "min": 49.65,
+          "max": 58.29
+        },
+        "task": {
+          "median": 2481.65,
+          "min": 2450.98,
+          "max": 2574.02
+        },
+        "script": {
+          "median": 482.21,
+          "min": 478.31,
+          "max": 498.43
+        },
+        "style": {
+          "median": 370.24,
+          "min": 363.18,
+          "max": 392.18
+        },
+        "layout": {
+          "median": 804.25,
+          "min": 766.97,
+          "max": 811.2
+        },
+        "maxLongTask": {
+          "median": 126,
+          "min": 120,
+          "max": 130
+        }
+      },
+      "pages": [
+        17
+      ],
+      "bytes": [
+        1664569
+      ],
+      "counts": {
+        "cardsOrRows": [
+          3013
+        ],
+        "nodes": [
+          51325
+        ],
+        "useElements": [
+          6049
+        ]
+      },
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "parity": {
+        "id": [
+          "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534"
+        ],
+        "geometry": [
+          "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca"
+        ],
+        "tags": [
+          "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-10000|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 384,
+          "min": 374.8,
+          "max": 408.3
+        },
+        "allLanesFirst": {
+          "median": 384,
+          "min": 374.8,
+          "max": 408.3
+        },
+        "complete": {
+          "median": 2475.3,
+          "min": 2456.5,
+          "max": 2559.8
+        },
+        "afterResponse": {
+          "median": 2232,
+          "min": 2222.4,
+          "max": 2295
+        },
+        "lastResponse": {
+          "median": 240.4,
+          "min": 234.1,
+          "max": 264.8
+        },
+        "collection": {
+          "median": 72.7,
+          "min": 70.4,
+          "max": 73.2
+        },
+        "server": {
+          "median": 57.88,
+          "min": 56.35,
+          "max": 61.41
+        },
+        "task": {
+          "median": 2357.18,
+          "min": 2346.25,
+          "max": 2415.3
+        },
+        "script": {
+          "median": 376.96,
+          "min": 369.45,
+          "max": 378.73
+        },
+        "style": {
+          "median": 371.28,
+          "min": 364.05,
+          "max": 375.05
+        },
+        "layout": {
+          "median": 783.27,
+          "min": 778.97,
+          "max": 814.86
+        },
+        "maxLongTask": {
+          "median": 122,
+          "min": 121,
+          "max": 126
+        }
+      },
+      "pages": [
+        17
+      ],
+      "bytes": [
+        1664569
+      ],
+      "counts": {
+        "cardsOrRows": [
+          3013
+        ],
+        "nodes": [
+          51325
+        ],
+        "useElements": [
+          6049
+        ]
+      },
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "parity": {
+        "id": [
+          "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534"
+        ],
+        "geometry": [
+          "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca"
+        ],
+        "tags": [
+          "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-high-active|baseline",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 393.8,
+          "min": 382.6,
+          "max": 415.6
+        },
+        "allLanesFirst": {
+          "median": 393.9,
+          "min": 382.7,
+          "max": 415.6
+        },
+        "complete": {
+          "median": 2765,
+          "min": 2745.4,
+          "max": 2784.5
+        },
+        "afterResponse": {
+          "median": 2529.6,
+          "min": 2518.8,
+          "max": 2541.3
+        },
+        "lastResponse": {
+          "median": 236.2,
+          "min": 226.6,
+          "max": 243.2
+        },
+        "collection": {
+          "median": 71.1,
+          "min": 65.8,
+          "max": 76.1
+        },
+        "server": {
+          "median": 57.03,
+          "min": 56.18,
+          "max": 64.44
+        },
+        "task": {
+          "median": 2651.89,
+          "min": 2640.55,
+          "max": 2668.81
+        },
+        "script": {
+          "median": 485.29,
+          "min": 482.42,
+          "max": 496.22
+        },
+        "style": {
+          "median": 375.6,
+          "min": 372.23,
+          "max": 376.52
+        },
+        "layout": {
+          "median": 804.98,
+          "min": 790.05,
+          "max": 811.15
+        },
+        "maxLongTask": {
+          "median": 129,
+          "min": 126,
+          "max": 132
+        }
+      },
+      "pages": [
+        19
+      ],
+      "bytes": [
+        1609104
+      ],
+      "counts": {
+        "cardsOrRows": [
+          3005
+        ],
+        "nodes": [
+          51361
+        ],
+        "useElements": [
+          6073
+        ]
+      },
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "parity": {
+        "id": [
+          "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        ],
+        "geometry": [
+          "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c"
+        ],
+        "tags": [
+          "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-high-active|shorttag",
+      "runs": 5,
+      "metrics": {
+        "first": {
+          "median": 397.2,
+          "min": 360,
+          "max": 443
+        },
+        "allLanesFirst": {
+          "median": 397.3,
+          "min": 360,
+          "max": 443.1
+        },
+        "complete": {
+          "median": 2663.1,
+          "min": 2617.3,
+          "max": 2688.3
+        },
+        "afterResponse": {
+          "median": 2417.3,
+          "min": 2393.3,
+          "max": 2449.2
+        },
+        "lastResponse": {
+          "median": 233.8,
+          "min": 216.1,
+          "max": 265.2
+        },
+        "collection": {
+          "median": 68,
+          "min": 61.6,
+          "max": 84.6
+        },
+        "server": {
+          "median": 58.37,
+          "min": 53.29,
+          "max": 66.59
+        },
+        "task": {
+          "median": 2548.3,
+          "min": 2514.85,
+          "max": 2573.21
+        },
+        "script": {
+          "median": 376.89,
+          "min": 373.72,
+          "max": 390.68
+        },
+        "style": {
+          "median": 378.76,
+          "min": 372.92,
+          "max": 388.12
+        },
+        "layout": {
+          "median": 795.65,
+          "min": 791.14,
+          "max": 806.66
+        },
+        "maxLongTask": {
+          "median": 124,
+          "min": 122,
+          "max": 126
+        }
+      },
+      "pages": [
+        19
+      ],
+      "bytes": [
+        1609104
+      ],
+      "counts": {
+        "cardsOrRows": [
+          3005
+        ],
+        "nodes": [
+          51361
+        ],
+        "useElements": [
+          6073
+        ]
+      },
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "parity": {
+        "id": [
+          "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        ],
+        "geometry": [
+          "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c"
+        ],
+        "tags": [
+          "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29"
+        ]
+      }
+    }
+  ],
+  "displaySamples": [
+    {
+      "fixture": "group-1000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 1000,
+      "firstMs": 694.9,
+      "allLanesFirstMs": null,
+      "completeMs": 694.9,
+      "lastTicketResponseMs": 370.5
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 1000,
+      "firstMs": 882.2,
+      "allLanesFirstMs": null,
+      "completeMs": 882.2,
+      "lastTicketResponseMs": 583.3
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 541.8,
+      "allLanesFirstMs": null,
+      "completeMs": 541.8,
+      "lastTicketResponseMs": 245.7
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 573.5,
+      "allLanesFirstMs": null,
+      "completeMs": 573.5,
+      "lastTicketResponseMs": 270.4
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 591.1,
+      "allLanesFirstMs": null,
+      "completeMs": 591.1,
+      "lastTicketResponseMs": 260.7
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 536.8,
+      "allLanesFirstMs": null,
+      "completeMs": 536.8,
+      "lastTicketResponseMs": 233.1
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 520.2,
+      "allLanesFirstMs": null,
+      "completeMs": 520.2,
+      "lastTicketResponseMs": 230.3
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 541.3,
+      "allLanesFirstMs": null,
+      "completeMs": 541.4,
+      "lastTicketResponseMs": 226.2
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 552.5,
+      "allLanesFirstMs": null,
+      "completeMs": 552.5,
+      "lastTicketResponseMs": 234.2
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 541.9,
+      "allLanesFirstMs": null,
+      "completeMs": 541.9,
+      "lastTicketResponseMs": 232.5
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 536.8,
+      "allLanesFirstMs": null,
+      "completeMs": 536.8,
+      "lastTicketResponseMs": 242.9
+    },
+    {
+      "fixture": "group-1000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 552.1,
+      "allLanesFirstMs": null,
+      "completeMs": 552.1,
+      "lastTicketResponseMs": 228.7
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 1000,
+      "firstMs": 493.1,
+      "allLanesFirstMs": null,
+      "completeMs": 493.2,
+      "lastTicketResponseMs": 232.8
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 1000,
+      "firstMs": 477.4,
+      "allLanesFirstMs": null,
+      "completeMs": 477.4,
+      "lastTicketResponseMs": 231.2
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 470.1,
+      "allLanesFirstMs": null,
+      "completeMs": 470.2,
+      "lastTicketResponseMs": 227.8
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 483.4,
+      "allLanesFirstMs": null,
+      "completeMs": 483.4,
+      "lastTicketResponseMs": 223.6
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 499.6,
+      "allLanesFirstMs": null,
+      "completeMs": 499.7,
+      "lastTicketResponseMs": 234.1
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 464.4,
+      "allLanesFirstMs": null,
+      "completeMs": 464.5,
+      "lastTicketResponseMs": 223.1
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 469,
+      "allLanesFirstMs": null,
+      "completeMs": 469.1,
+      "lastTicketResponseMs": 230.5
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 489.3,
+      "allLanesFirstMs": null,
+      "completeMs": 489.3,
+      "lastTicketResponseMs": 225.2
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 489.8,
+      "allLanesFirstMs": null,
+      "completeMs": 489.8,
+      "lastTicketResponseMs": 228.5
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 459.3,
+      "allLanesFirstMs": null,
+      "completeMs": 459.3,
+      "lastTicketResponseMs": 221
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 463.4,
+      "allLanesFirstMs": null,
+      "completeMs": 463.4,
+      "lastTicketResponseMs": 222.6
+    },
+    {
+      "fixture": "ungrouped-1000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 1000,
+      "firstMs": 476.8,
+      "allLanesFirstMs": null,
+      "completeMs": 476.8,
+      "lastTicketResponseMs": 211.9
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 313,
+      "firstMs": 342.2,
+      "allLanesFirstMs": 342.2,
+      "completeMs": 391,
+      "lastTicketResponseMs": 186.8
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 313,
+      "firstMs": 309,
+      "allLanesFirstMs": 309.1,
+      "completeMs": 355.5,
+      "lastTicketResponseMs": 176.3
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 317.1,
+      "allLanesFirstMs": 317.1,
+      "completeMs": 367,
+      "lastTicketResponseMs": 185.9
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 323.4,
+      "allLanesFirstMs": 323.4,
+      "completeMs": 368.9,
+      "lastTicketResponseMs": 176.9
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 328.7,
+      "allLanesFirstMs": 328.7,
+      "completeMs": 376,
+      "lastTicketResponseMs": 172
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 310.3,
+      "allLanesFirstMs": 310.4,
+      "completeMs": 359.1,
+      "lastTicketResponseMs": 174.4
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 290.9,
+      "allLanesFirstMs": 291,
+      "completeMs": 341.2,
+      "lastTicketResponseMs": 156.6
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 316.7,
+      "allLanesFirstMs": 316.8,
+      "completeMs": 363,
+      "lastTicketResponseMs": 169.5
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 309.4,
+      "allLanesFirstMs": 309.4,
+      "completeMs": 358.1,
+      "lastTicketResponseMs": 166
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 301.5,
+      "allLanesFirstMs": 301.6,
+      "completeMs": 341.8,
+      "lastTicketResponseMs": 174
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 316.2,
+      "allLanesFirstMs": 316.2,
+      "completeMs": 364.8,
+      "lastTicketResponseMs": 172.1
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 313,
+      "firstMs": 315.4,
+      "allLanesFirstMs": 315.5,
+      "completeMs": 361.1,
+      "lastTicketResponseMs": 173.4
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 10000,
+      "firstMs": 4126.8,
+      "allLanesFirstMs": null,
+      "completeMs": 4126.9,
+      "lastTicketResponseMs": 866.2
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 10000,
+      "firstMs": 3873.8,
+      "allLanesFirstMs": null,
+      "completeMs": 3873.8,
+      "lastTicketResponseMs": 859.1
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3837.8,
+      "allLanesFirstMs": null,
+      "completeMs": 3837.8,
+      "lastTicketResponseMs": 824.7
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 4087.5,
+      "allLanesFirstMs": null,
+      "completeMs": 4087.5,
+      "lastTicketResponseMs": 849.2
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 4056.5,
+      "allLanesFirstMs": null,
+      "completeMs": 4056.5,
+      "lastTicketResponseMs": 815.4
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3786.2,
+      "allLanesFirstMs": null,
+      "completeMs": 3786.2,
+      "lastTicketResponseMs": 855.6
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 4015.2,
+      "allLanesFirstMs": null,
+      "completeMs": 4015.2,
+      "lastTicketResponseMs": 834.9
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3968.1,
+      "allLanesFirstMs": null,
+      "completeMs": 3968.1,
+      "lastTicketResponseMs": 815.1
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 4031.6,
+      "allLanesFirstMs": null,
+      "completeMs": 4031.6,
+      "lastTicketResponseMs": 811.3
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3781.5,
+      "allLanesFirstMs": null,
+      "completeMs": 3781.5,
+      "lastTicketResponseMs": 814
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3916.5,
+      "allLanesFirstMs": null,
+      "completeMs": 3916.6,
+      "lastTicketResponseMs": 839.4
+    },
+    {
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 4026.9,
+      "allLanesFirstMs": null,
+      "completeMs": 4026.9,
+      "lastTicketResponseMs": 824.4
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 10000,
+      "firstMs": 3419.4,
+      "allLanesFirstMs": null,
+      "completeMs": 3419.4,
+      "lastTicketResponseMs": 617.3
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 10000,
+      "firstMs": 3103.9,
+      "allLanesFirstMs": null,
+      "completeMs": 3103.9,
+      "lastTicketResponseMs": 639.7
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3097.9,
+      "allLanesFirstMs": null,
+      "completeMs": 3098,
+      "lastTicketResponseMs": 631.8
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3405.3,
+      "allLanesFirstMs": null,
+      "completeMs": 3405.4,
+      "lastTicketResponseMs": 623.4
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3329.9,
+      "allLanesFirstMs": null,
+      "completeMs": 3330,
+      "lastTicketResponseMs": 611.1
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3131.4,
+      "allLanesFirstMs": null,
+      "completeMs": 3131.4,
+      "lastTicketResponseMs": 647.9
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3096.1,
+      "allLanesFirstMs": null,
+      "completeMs": 3096.1,
+      "lastTicketResponseMs": 618.4
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3337.1,
+      "allLanesFirstMs": null,
+      "completeMs": 3337.1,
+      "lastTicketResponseMs": 618.7
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3355,
+      "allLanesFirstMs": null,
+      "completeMs": 3355,
+      "lastTicketResponseMs": 621.3
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3122.4,
+      "allLanesFirstMs": null,
+      "completeMs": 3122.5,
+      "lastTicketResponseMs": 600.4
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3303.2,
+      "allLanesFirstMs": null,
+      "completeMs": 3303.3,
+      "lastTicketResponseMs": 638.6
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 10000,
+      "firstMs": 3386.3,
+      "allLanesFirstMs": null,
+      "completeMs": 3386.3,
+      "lastTicketResponseMs": 621.7
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 3013,
+      "firstMs": 389.5,
+      "allLanesFirstMs": 389.5,
+      "completeMs": 2612.9,
+      "lastTicketResponseMs": 243.7
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 3013,
+      "firstMs": 378.9,
+      "allLanesFirstMs": 379,
+      "completeMs": 2533.9,
+      "lastTicketResponseMs": 236.6
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 374.9,
+      "allLanesFirstMs": 375,
+      "completeMs": 2467,
+      "lastTicketResponseMs": 237.4
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 430.9,
+      "allLanesFirstMs": 431,
+      "completeMs": 2702,
+      "lastTicketResponseMs": 254
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 386.5,
+      "allLanesFirstMs": 386.6,
+      "completeMs": 2600.2,
+      "lastTicketResponseMs": 230.6
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 408.3,
+      "allLanesFirstMs": 408.3,
+      "completeMs": 2559.8,
+      "lastTicketResponseMs": 264.8
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 384,
+      "allLanesFirstMs": 384,
+      "completeMs": 2475.3,
+      "lastTicketResponseMs": 243.3
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 373.6,
+      "allLanesFirstMs": 373.7,
+      "completeMs": 2555.6,
+      "lastTicketResponseMs": 226.1
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 364,
+      "allLanesFirstMs": 364.1,
+      "completeMs": 2582.3,
+      "lastTicketResponseMs": 217
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 392.3,
+      "allLanesFirstMs": 392.4,
+      "completeMs": 2506.6,
+      "lastTicketResponseMs": 240.4
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 374.8,
+      "allLanesFirstMs": 374.8,
+      "completeMs": 2456.5,
+      "lastTicketResponseMs": 234.1
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 3013,
+      "firstMs": 362.6,
+      "allLanesFirstMs": 362.6,
+      "completeMs": 2614.7,
+      "lastTicketResponseMs": 214.3
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 3005,
+      "firstMs": 671.1,
+      "allLanesFirstMs": 671.1,
+      "completeMs": 3020.2,
+      "lastTicketResponseMs": 491.8
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "shorttag",
+      "run": 0,
+      "warmup": true,
+      "size": 3005,
+      "firstMs": 450.9,
+      "allLanesFirstMs": 451,
+      "completeMs": 2740,
+      "lastTicketResponseMs": 302.1
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "shorttag",
+      "run": 1,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 443,
+      "allLanesFirstMs": 443.1,
+      "completeMs": 2688.3,
+      "lastTicketResponseMs": 265.2
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 393.8,
+      "allLanesFirstMs": 393.9,
+      "completeMs": 2757.4,
+      "lastTicketResponseMs": 236.2
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 391.9,
+      "allLanesFirstMs": 392,
+      "completeMs": 2765,
+      "lastTicketResponseMs": 235.3
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "shorttag",
+      "run": 2,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 398.2,
+      "allLanesFirstMs": 398.2,
+      "completeMs": 2663.1,
+      "lastTicketResponseMs": 245.8
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "shorttag",
+      "run": 3,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 379.9,
+      "allLanesFirstMs": 379.9,
+      "completeMs": 2622.6,
+      "lastTicketResponseMs": 229.3
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 415.6,
+      "allLanesFirstMs": 415.6,
+      "completeMs": 2770,
+      "lastTicketResponseMs": 240.4
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 382.6,
+      "allLanesFirstMs": 382.7,
+      "completeMs": 2745.4,
+      "lastTicketResponseMs": 226.6
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "shorttag",
+      "run": 4,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 397.2,
+      "allLanesFirstMs": 397.3,
+      "completeMs": 2683,
+      "lastTicketResponseMs": 233.8
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "shorttag",
+      "run": 5,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 360,
+      "allLanesFirstMs": 360,
+      "completeMs": 2617.3,
+      "lastTicketResponseMs": 216.1
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 3005,
+      "firstMs": 414.8,
+      "allLanesFirstMs": 414.8,
+      "completeMs": 2784.5,
+      "lastTicketResponseMs": 243.2
+    }
+  ],
+  "profileDiagnostics": [
+    {
+      "fixture": "group-1000|baseline",
+      "runs": 1,
+      "metrics": {
+        "first": {
+          "median": 780.9,
+          "min": 780.9,
+          "max": 780.9
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 780.9,
+          "min": 780.9,
+          "max": 780.9
+        },
+        "afterResponse": {
+          "median": 340,
+          "min": 340,
+          "max": 340
+        },
+        "lastResponse": {
+          "median": 440.9,
+          "min": 440.9,
+          "max": 440.9
+        },
+        "collection": {
+          "median": 85.2,
+          "min": 85.2,
+          "max": 85.2
+        },
+        "server": {
+          "median": 28.62,
+          "min": 28.62,
+          "max": 28.62
+        },
+        "task": {
+          "median": 569.57,
+          "min": 569.57,
+          "max": 569.57
+        },
+        "script": {
+          "median": 8.81,
+          "min": 8.81,
+          "max": 8.81
+        },
+        "style": {
+          "median": 71.73,
+          "min": 71.73,
+          "max": 71.73
+        },
+        "layout": {
+          "median": 213.77,
+          "min": 213.77,
+          "max": 213.77
+        },
+        "maxLongTask": {
+          "median": 230,
+          "min": 230,
+          "max": 230
+        }
+      },
+      "diagnostics": {
+        "kanbalone-response-json-await": {
+          "median": 8.2,
+          "min": 8.2,
+          "max": 8.2
+        },
+        "kanbalone-group-html": {
+          "median": 57.9,
+          "min": 57.9,
+          "max": 57.9
+        },
+        "kanbalone-group-dom": {
+          "median": 47.2,
+          "min": 47.2,
+          "max": 47.2
+        }
+      },
+      "parseReplay": {
+        "median": 1.3,
+        "min": 1.2,
+        "max": 1.5
+      },
+      "pages": [
+        5
+      ],
+      "bytes": [
+        568890
+      ],
+      "counts": {
+        "cardsOrRows": [
+          1000
+        ],
+        "nodes": [
+          27828
+        ],
+        "useElements": [
+          8
+        ]
+      },
+      "scrollHeights": [
+        84853
+      ],
+      "parity": {
+        "id": [
+          "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        ],
+        "geometry": [
+          "7f453a52c884b604f9e3cb4b642555b0fa67d3f664908d4dc8ddff5f00d5c712"
+        ],
+        "tags": [
+          "ed3062fe2ddf12586fabc7e3b0bead916ff48276a78df3f6c76546bbc74270a4"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-1000|baseline",
+      "runs": 1,
+      "metrics": {
+        "first": {
+          "median": 443,
+          "min": 443,
+          "max": 443
+        },
+        "allLanesFirst": {
+          "median": 443.1,
+          "min": 443.1,
+          "max": 443.1
+        },
+        "complete": {
+          "median": 493.6,
+          "min": 493.6,
+          "max": 493.6
+        },
+        "afterResponse": {
+          "median": 232.9,
+          "min": 232.9,
+          "max": 232.9
+        },
+        "lastResponse": {
+          "median": 260.7,
+          "min": 260.7,
+          "max": 260.7
+        },
+        "collection": {
+          "median": 26.1,
+          "min": 26.1,
+          "max": 26.1
+        },
+        "server": {
+          "median": 23.02,
+          "min": 23.02,
+          "max": 23.02
+        },
+        "task": {
+          "median": 355.73,
+          "min": 355.73,
+          "max": 355.73
+        },
+        "script": {
+          "median": 92.12,
+          "min": 92.12,
+          "max": 92.12
+        },
+        "style": {
+          "median": 53.25,
+          "min": 53.25,
+          "max": 53.25
+        },
+        "layout": {
+          "median": 71.17,
+          "min": 71.17,
+          "max": 71.17
+        },
+        "maxLongTask": {
+          "median": 87,
+          "min": 87,
+          "max": 87
+        }
+      },
+      "diagnostics": {
+        "kanbalone-response-json-await": {
+          "median": 2.2,
+          "min": 2.2,
+          "max": 2.2
+        },
+        "kanbalone-kanban-create-cards": {
+          "median": 61,
+          "min": 61,
+          "max": 61
+        },
+        "kanbalone-kanban-append-cards": {
+          "median": 1.1,
+          "min": 1.1,
+          "max": 1.1
+        }
+      },
+      "parseReplay": {
+        "median": 0.5,
+        "min": 0.4,
+        "max": 0.8
+      },
+      "pages": [
+        4
+      ],
+      "bytes": [
+        170648
+      ],
+      "counts": {
+        "cardsOrRows": [
+          313
+        ],
+        "nodes": [
+          5425
+        ],
+        "useElements": [
+          649
+        ]
+      },
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "parity": {
+        "id": [
+          "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        ],
+        "geometry": [
+          "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b"
+        ],
+        "tags": [
+          "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c"
+        ]
+      }
+    },
+    {
+      "fixture": "group-10000|baseline",
+      "runs": 1,
+      "metrics": {
+        "first": {
+          "median": 4300.7,
+          "min": 4300.7,
+          "max": 4300.7
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 4300.7,
+          "min": 4300.7,
+          "max": 4300.7
+        },
+        "afterResponse": {
+          "median": 3373.5,
+          "min": 3373.5,
+          "max": 3373.5
+        },
+        "lastResponse": {
+          "median": 927.2,
+          "min": 927.2,
+          "max": 927.2
+        },
+        "collection": {
+          "median": 634.5,
+          "min": 634.5,
+          "max": 634.5
+        },
+        "server": {
+          "median": 464.79,
+          "min": 464.79,
+          "max": 464.79
+        },
+        "task": {
+          "median": 3621.53,
+          "min": 3621.53,
+          "max": 3621.53
+        },
+        "script": {
+          "median": 29.13,
+          "min": 29.13,
+          "max": 29.13
+        },
+        "style": {
+          "median": 553.29,
+          "min": 553.29,
+          "max": 553.29
+        },
+        "layout": {
+          "median": 1496.72,
+          "min": 1496.72,
+          "max": 1496.72
+        },
+        "maxLongTask": {
+          "median": 2458,
+          "min": 2458,
+          "max": 2458
+        }
+      },
+      "diagnostics": {
+        "kanbalone-response-json-await": {
+          "median": 57.8,
+          "min": 57.8,
+          "max": 57.8
+        },
+        "kanbalone-group-html": {
+          "median": 338.4,
+          "min": 338.4,
+          "max": 338.4
+        },
+        "kanbalone-group-dom": {
+          "median": 531.5,
+          "min": 531.5,
+          "max": 531.5
+        }
+      },
+      "parseReplay": {
+        "median": 12.7,
+        "min": 11.7,
+        "max": 12.8
+      },
+      "pages": [
+        50
+      ],
+      "bytes": [
+        5759367
+      ],
+      "counts": {
+        "cardsOrRows": [
+          10000
+        ],
+        "nodes": [
+          279246
+        ],
+        "useElements": [
+          8
+        ]
+      },
+      "scrollHeights": [
+        848428
+      ],
+      "parity": {
+        "id": [
+          "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        ],
+        "geometry": [
+          "0363d4aed7c3b4398fbbb255fad586227d2e682159185b60199ce4661cf363ef"
+        ],
+        "tags": [
+          "50544c6a800f65c4a71547e3a2fcceaaf27df9b58d0c03eb0e1f156a18219a32"
+        ]
+      }
+    },
+    {
+      "fixture": "ungrouped-10000|baseline",
+      "runs": 1,
+      "metrics": {
+        "first": {
+          "median": 3490.7,
+          "min": 3490.7,
+          "max": 3490.7
+        },
+        "allLanesFirst": null,
+        "complete": {
+          "median": 3490.8,
+          "min": 3490.8,
+          "max": 3490.8
+        },
+        "afterResponse": {
+          "median": 2776.3,
+          "min": 2776.3,
+          "max": 2776.3
+        },
+        "lastResponse": {
+          "median": 714.5,
+          "min": 714.5,
+          "max": 714.5
+        },
+        "collection": {
+          "median": 433.4,
+          "min": 433.4,
+          "max": 433.4
+        },
+        "server": {
+          "median": 280.15,
+          "min": 280.15,
+          "max": 280.15
+        },
+        "task": {
+          "median": 3016.24,
+          "min": 3016.24,
+          "max": 3016.24
+        },
+        "script": {
+          "median": 25.27,
+          "min": 25.27,
+          "max": 25.27
+        },
+        "style": {
+          "median": 430.53,
+          "min": 430.53,
+          "max": 430.53
+        },
+        "layout": {
+          "median": 1335.02,
+          "min": 1335.02,
+          "max": 1335.02
+        },
+        "maxLongTask": {
+          "median": 2089,
+          "min": 2089,
+          "max": 2089
+        }
+      },
+      "diagnostics": {
+        "kanbalone-response-json-await": {
+          "median": 52.8,
+          "min": 52.8,
+          "max": 52.8
+        },
+        "kanbalone-group-html": {
+          "median": 292.4,
+          "min": 292.4,
+          "max": 292.4
+        },
+        "kanbalone-group-dom": {
+          "median": 362,
+          "min": 362,
+          "max": 362
+        }
+      },
+      "parseReplay": {
+        "median": 11.3,
+        "min": 11,
+        "max": 12.5
+      },
+      "pages": [
+        50
+      ],
+      "bytes": [
+        5479367
+      ],
+      "counts": {
+        "cardsOrRows": [
+          10000
+        ],
+        "nodes": [
+          209369
+        ],
+        "useElements": [
+          6
+        ]
+      },
+      "scrollHeights": [
+        848350
+      ],
+      "parity": {
+        "id": [
+          "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        ],
+        "geometry": [
+          "0776b1f875aaf95e8c176f839fbb1f8f0f97e698ade518c011ad4c919a53b9fd"
+        ],
+        "tags": [
+          "50544c6a800f65c4a71547e3a2fcceaaf27df9b58d0c03eb0e1f156a18219a32"
+        ]
+      }
+    },
+    {
+      "fixture": "kanban-10000|baseline",
+      "runs": 1,
+      "metrics": {
+        "first": {
+          "median": 408.7,
+          "min": 408.7,
+          "max": 408.7
+        },
+        "allLanesFirst": {
+          "median": 408.8,
+          "min": 408.8,
+          "max": 408.8
+        },
+        "complete": {
+          "median": 2595,
+          "min": 2595,
+          "max": 2595
+        },
+        "afterResponse": {
+          "median": 2329.4,
+          "min": 2329.4,
+          "max": 2329.4
+        },
+        "lastResponse": {
+          "median": 265.6,
+          "min": 265.6,
+          "max": 265.6
+        },
+        "collection": {
+          "median": 73.9,
+          "min": 73.9,
+          "max": 73.9
+        },
+        "server": {
+          "median": 60.65,
+          "min": 60.65,
+          "max": 60.65
+        },
+        "task": {
+          "median": 2439.36,
+          "min": 2439.36,
+          "max": 2439.36
+        },
+        "script": {
+          "median": 482.74,
+          "min": 482.74,
+          "max": 482.74
+        },
+        "style": {
+          "median": 362.26,
+          "min": 362.26,
+          "max": 362.26
+        },
+        "layout": {
+          "median": 776.07,
+          "min": 776.07,
+          "max": 776.07
+        },
+        "maxLongTask": {
+          "median": 128,
+          "min": 128,
+          "max": 128
+        }
+      },
+      "diagnostics": {
+        "kanbalone-response-json-await": {
+          "median": 12.6,
+          "min": 12.6,
+          "max": 12.6
+        },
+        "kanbalone-kanban-create-cards": {
+          "median": 425.3,
+          "min": 425.3,
+          "max": 425.3
+        },
+        "kanbalone-kanban-append-cards": {
+          "median": 11.4,
+          "min": 11.4,
+          "max": 11.4
+        }
+      },
+      "parseReplay": {
+        "median": 3.6,
+        "min": 3.4,
+        "max": 4.1
+      },
+      "pages": [
+        17
+      ],
+      "bytes": [
+        1664569
+      ],
+      "counts": {
+        "cardsOrRows": [
+          3013
+        ],
+        "nodes": [
+          51325
+        ],
+        "useElements": [
+          6049
+        ]
+      },
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "parity": {
+        "id": [
+          "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534"
+        ],
+        "geometry": [
+          "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca"
+        ],
+        "tags": [
+          "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a"
+        ]
+      }
+    }
+  ],
+  "tagOutputs": {
+    "node": "v26.13.1",
+    "records": [
+      {
+        "useIntl": true,
+        "comparisons": 4200
+      },
+      {
+        "useIntl": false,
+        "comparisons": 4200
+      }
+    ],
+    "nameExamples": 25,
+    "limits": 14,
+    "colors": 6
+  },
+  "initialScreenshots": [
+    {
+      "before": "shorttag-paired-group-1000-baseline.png",
+      "after": "shorttag-paired-group-1000-shorttag.png",
+      "sha256": [
+        "cafa8a28795d2b664570f97e066171c0f61d4288a1315b2feca77f4ef215e189",
+        "cafa8a28795d2b664570f97e066171c0f61d4288a1315b2feca77f4ef215e189"
+      ],
+      "differentPixels": 0
+    },
+    {
+      "before": "shorttag-paired-group-10000-baseline.png",
+      "after": "shorttag-paired-group-10000-shorttag.png",
+      "sha256": [
+        "2e231d5fb402e60bdaf3db751e8648d9ed3f2a6e8fa1d51c7ab5a7887acc220e",
+        "2e231d5fb402e60bdaf3db751e8648d9ed3f2a6e8fa1d51c7ab5a7887acc220e"
+      ],
+      "differentPixels": 0
+    },
+    {
+      "before": "shorttag-paired-kanban-1000-baseline.png",
+      "after": "shorttag-paired-kanban-1000-shorttag.png",
+      "sha256": [
+        "16607dacb643f330923acff2305d338472d4d83a66570529fcf109d4afdaea6d",
+        "16607dacb643f330923acff2305d338472d4d83a66570529fcf109d4afdaea6d"
+      ],
+      "differentPixels": 0
+    },
+    {
+      "before": "shorttag-paired-kanban-10000-baseline.png",
+      "after": "shorttag-paired-kanban-10000-shorttag.png",
+      "sha256": [
+        "1a4905073e1a4fac32373dcd585ec10cb02d86c461f5a1dd7cf237583d9c1eb5",
+        "1a4905073e1a4fac32373dcd585ec10cb02d86c461f5a1dd7cf237583d9c1eb5"
+      ],
+      "differentPixels": 0
+    },
+    {
+      "before": "shorttag-paired-ungrouped-1000-baseline.png",
+      "after": "shorttag-paired-ungrouped-1000-shorttag.png",
+      "sha256": [
+        "85cb6e27608d741669e33680dfcb410c37c31e069333db7e78e3fa438446da06",
+        "85cb6e27608d741669e33680dfcb410c37c31e069333db7e78e3fa438446da06"
+      ],
+      "differentPixels": 0
+    },
+    {
+      "before": "shorttag-paired-ungrouped-10000-baseline.png",
+      "after": "shorttag-paired-ungrouped-10000-shorttag.png",
+      "sha256": [
+        "70b267cde75c757e4fafbdf777a711fdd006430bc4ccbb8386f9f05095c67eaf",
+        "70b267cde75c757e4fafbdf777a711fdd006430bc4ccbb8386f9f05095c67eaf"
+      ],
+      "differentPixels": 0
+    },
+    {
+      "before": "high-active-paired-kanban-high-active-baseline.png",
+      "after": "high-active-paired-kanban-high-active-shorttag.png",
+      "sha256": [
+        "00f72b466456f08cf0b55ffd839e76a583fe641c0dc8c2f508d97035e199d66a",
+        "00f72b466456f08cf0b55ffd839e76a583fe641c0dc8c2f508d97035e199d66a"
+      ],
+      "differentPixels": 0
+    }
+  ]
+}
