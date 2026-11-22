@@ -45,7 +45,7 @@ type ListBoardState = {
   activeBoardId: number | null;
   boardDetail: { lanes: ListBoardLane[] } | null;
   boards: Array<{ id: number; name: string }>;
-  boardTickets: ListBoardTicket[];
+  boardTickets: import("../src/types.js").ListTicketReferenceView[];
   filters: { resolved: string };
   selectedListTicketIds: number[];
 };

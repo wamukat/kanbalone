@@ -750,6 +750,107 @@ paths:
         '428':
           $ref: '#/components/responses/GroupError'
 
+  /api/boards/{boardId}/group-tickets:
+    get:
+      summary: List Group ticket rows
+      description: Returns all members of a Group including archived tickets, in ascending ID order. Omit groupId for ungrouped tickets. Unlisted query parameters return 400.
+      operationId: listGroupTickets
+      parameters:
+        - $ref: '#/components/parameters/BoardId'
+        - $ref: '#/components/parameters/TicketCollectionLimit'
+        - $ref: '#/components/parameters/TicketCollectionCursor'
+        - name: order
+          in: query
+          description: May be omitted. The order is fixed.
+          schema: { type: string, enum: [id_asc] }
+        - name: groupId
+          in: query
+          description: ID of a Group on this board.
+          schema: { type: integer, minimum: 1 }
+      responses:
+        '200':
+          description: A page of projected ticket rows
+          headers:
+            X-Kanbalone-Ticket-Revision:
+              description: The board ticket-list revision from the same read transaction as this page.
+              schema: { type: integer, minimum: 0 }
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [tickets, page]
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GroupTicketRow'
+                  page:
+                    $ref: '#/components/schemas/TicketCollectionPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+
+  /api/boards/{boardId}/list-ticket-references:
+    get:
+      summary: List ticket references for List
+      description: Returns priority-independent references in lane, archive, position and ID order. Apply the same List filters as the displayed collection apart from priority. Unlisted query parameters return 400.
+      operationId: listTicketReferences
+      parameters:
+        - $ref: '#/components/parameters/BoardId'
+        - $ref: '#/components/parameters/TicketCollectionLimit'
+        - $ref: '#/components/parameters/TicketCollectionCursor'
+        - name: order
+          in: query
+          description: May be omitted. The order is fixed.
+          schema: { type: string, enum: [position_asc] }
+        - name: lane_id
+          in: query
+          schema: { type: integer, minimum: 1 }
+        - name: resolved
+          in: query
+          schema: { type: boolean }
+        - name: archived
+          in: query
+          description: Excludes archived tickets by default.
+          schema: { type: string, enum: ['true', 'false', all] }
+        - name: tag
+          in: query
+          schema: { type: string }
+        - name: q
+          in: query
+          description: Same text and reference matching as the ticket summaries endpoint.
+          schema: { type: string }
+      responses:
+        '200':
+          description: A page of projected ticket rows
+          headers:
+            X-Kanbalone-Ticket-Revision:
+              description: The board ticket-list revision from the same read transaction as this page.
+              schema: { type: integer, minimum: 0 }
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [tickets, page]
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ListTicketReference'
+                  page:
+                    $ref: '#/components/schemas/TicketCollectionPage'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+
   /api/boards/{boardId}/relation-candidates:
     get:
       summary: List relation picker candidates
@@ -1835,6 +1936,17 @@ paths:
           $ref: '#/components/responses/GroupError'
 components:
   parameters:
+    TicketCollectionLimit:
+      name: limit
+      in: query
+      required: true
+      description: Page size. May change between requests.
+      schema: { type: integer, minimum: 1, maximum: 200 }
+    TicketCollectionCursor:
+      name: cursor
+      in: query
+      description: Opaque nextCursor for the same projection, board and filters. A changed revision returns 409 and requires restarting.
+      schema: { type: string, minLength: 1, maxLength: 4096 }
     GroupId:
       name: groupId
       in: path
@@ -2864,6 +2976,54 @@ components:
       - externalReferences
       - groupId
       - group
+    TicketCollectionPage:
+      type: object
+      additionalProperties: false
+      required: [nextCursor, total]
+      properties:
+        nextCursor:
+          type: [string, 'null']
+          description: Null on the final page.
+        total:
+          type: integer
+          minimum: 0
+          description: Count across all pages for these filters.
+    ListTicketReference:
+      type: object
+      additionalProperties: false
+      required: [id, title, laneId, parentTicketId, isResolved]
+      properties:
+        id: { type: integer, minimum: 1 }
+        title: { type: string }
+        laneId: { type: integer, minimum: 1 }
+        parentTicketId: { type: [integer, 'null'], minimum: 1 }
+        isResolved: { type: boolean }
+    GroupTicketRow:
+      type: object
+      additionalProperties: false
+      required: [id, title, laneId, parentTicketId, isResolved, priority, isArchived, hasChildren, tags]
+      properties:
+        id: { type: integer, minimum: 1 }
+        title: { type: string }
+        laneId: { type: integer, minimum: 1 }
+        parentTicketId: { type: [integer, 'null'], minimum: 1 }
+        isResolved: { type: boolean }
+        priority: { type: integer, enum: [1, 2, 3, 4] }
+        isArchived: { type: boolean }
+        hasChildren:
+          type: boolean
+          description: True if this ticket has a child, including an archived child.
+        tags:
+          type: array
+          description: Tags ordered by name, then ID.
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, name, color]
+            properties:
+              id: { type: integer, minimum: 1 }
+              name: { type: string }
+              color: { type: string }
     TicketRelationCandidate:
       type: object
       additionalProperties: false

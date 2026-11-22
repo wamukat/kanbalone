@@ -1,0 +1,199 @@
+{
+  "baselineCommit": "899d0f0117ee52e6d57db59241312f0fa4fcd0f7",
+  "environment": {
+    "node": "v26.13.1",
+    "platform": "darwin",
+    "arch": "x64",
+    "os": "25.6.0",
+    "parallelism": 12,
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz"
+  },
+  "fixture": {
+    "zipSha256": "677586ded0ffba9fcdc534b4dde8876a4ee6979950d1a98b89df3e11157cf589",
+    "sqlite": "3.54.1",
+    "workload": [
+      {
+        "id": 1,
+        "total": 1005,
+        "archived": 10,
+        "resolved": 682,
+        "children": 2
+      },
+      {
+        "id": 2,
+        "total": 10005,
+        "archived": 10,
+        "resolved": 6982,
+        "children": 2
+      }
+    ],
+    "blockers": [],
+    "plans": {
+      "count": [
+        {
+          "id": 3,
+          "parent": 0,
+          "notused": 52,
+          "detail": "SEARCH t USING COVERING INDEX tickets_paging_id_idx (board_id=?)"
+        }
+      ],
+      "pageFirst": [
+        {
+          "id": 7,
+          "parent": 0,
+          "notused": 61,
+          "detail": "SEARCH t USING INDEX tickets_paging_id_idx (board_id=?)"
+        }
+      ],
+      "pageAfter": [
+        {
+          "id": 7,
+          "parent": 0,
+          "notused": 50,
+          "detail": "SEARCH t USING INDEX tickets_paging_id_idx (board_id=? AND id>?)"
+        }
+      ]
+    }
+  },
+  "pageLimit": 200,
+  "countBreakdown": {
+    "startedAt": "2026-11-22T17:39:04.819Z",
+    "finishedAt": "2026-11-22T17:39:16.893Z",
+    "samplesPerBoardAndLayer": 18,
+    "clockBackToBackMs": {"median": 0.000106, "min": 9.9e-05, "max": 0.011664},
+    "layers": {
+      "direct": {
+        "1005": {
+          "pageCount": 6,
+          "collectionMs": {
+            "base": {"median": 4.413693, "min": 3.869406, "max": 5.27255},
+            "timed": {"median": 4.310031, "min": 4.011799, "max": 4.928547},
+            "reuse": {"median": 4.049502, "min": 3.471485, "max": 5.194258}
+          },
+          "baseFirstPageMs": {"median": 0.76569, "min": 0.660419, "max": 1.049262},
+          "baseLaterPageMedianMs": {"median": 0.772643, "min": 0.695751, "max": 0.922316},
+          "countPreparePerPageMs": {"median": 0.035072, "min": 0.032318, "max": 0.039408},
+          "countGetPerPageMs": {"median": 0.044904, "min": 0.042813, "max": 0.050193},
+          "countAllMs": {"median": 0.491043, "min": 0.453039, "max": 0.54448},
+          "countLaterMs": {"median": 0.412766, "min": 0.375928, "max": 0.456586},
+          "countAllShareOfUntimed": {"median": 0.111331, "min": 0.091086, "max": 0.125901},
+          "countLaterShareOfUntimed": {"median": 0.092024, "min": 0.076421, "max": 0.105198},
+          "instrumentationElapsedDeltaMs": {"median": -0.158772, "min": -1.217976, "max": 0.587671},
+          "reuseElapsedDeltaMs": {"median": 0.498426, "min": -0.792144, "max": 1.19412},
+          "reuseElapsedDeltaShare": {"median": 0.107188, "min": -0.179946, "max": 0.226479}
+        },
+        "10005": {
+          "pageCount": 51,
+          "collectionMs": {
+            "base": {"median": 54.566666, "min": 51.091406, "max": 79.122089},
+            "timed": {"median": 54.590344, "min": 49.76624, "max": 66.837402},
+            "reuse": {"median": 35.592501, "min": 31.260125, "max": 51.915721}
+          },
+          "baseFirstPageMs": {"median": 1.251366, "min": 1.091232, "max": 1.849718},
+          "baseLaterPageMedianMs": {"median": 1.045783, "min": 0.977165, "max": 1.191615},
+          "countPreparePerPageMs": {"median": 0.034762, "min": 0.031601, "max": 0.038127},
+          "countGetPerPageMs": {"median": 0.330119, "min": 0.303425, "max": 0.366645},
+          "countAllMs": {"median": 19.004485, "min": 17.372455, "max": 22.182217},
+          "countLaterMs": {"median": 18.553811, "min": 17.020554, "max": 21.775205},
+          "countAllShareOfUntimed": {"median": 0.348783, "min": 0.245974, "max": 0.380049},
+          "countLaterShareOfUntimed": {"median": 0.341136, "min": 0.240129, "max": 0.373076},
+          "instrumentationElapsedDeltaMs": {"median": 0.471318, "min": -23.999275, "max": 8.470707},
+          "reuseElapsedDeltaMs": {"median": 18.598769, "min": 3.543914, "max": 39.064587},
+          "reuseElapsedDeltaShare": {"median": 0.34106, "min": 0.063901, "max": 0.493725}
+        }
+      },
+      "loopback": {
+        "1005": {
+          "pageCount": 6,
+          "collectionMs": {
+            "base": {"median": 12.715118, "min": 10.906682, "max": 20.049302},
+            "timed": {"median": 13.227611, "min": 10.043026, "max": 22.831312},
+            "reuse": {"median": 12.092875, "min": 9.614881, "max": 13.597192}
+          },
+          "baseFirstPageMs": {"median": 1.937378, "min": 1.550522, "max": 9.090789},
+          "baseLaterPageMedianMs": {"median": 2.092713, "min": 1.796644, "max": 3.14683},
+          "countPreparePerPageMs": {"median": 0.038595, "min": 0.035192, "max": 0.043705},
+          "countGetPerPageMs": {"median": 0.048538, "min": 0.044813, "max": 0.050391},
+          "countAllMs": {"median": 0.534258, "min": 0.485693, "max": 0.699629},
+          "countLaterMs": {"median": 0.445051, "min": 0.404044, "max": 0.615038},
+          "countAllShareOfUntimed": {"median": 0.041243, "min": 0.024225, "max": 0.060248},
+          "countLaterShareOfUntimed": {"median": 0.034549, "min": 0.020153, "max": 0.052964},
+          "instrumentationElapsedDeltaMs": {"median": 0.252774, "min": -10.006276, "max": 8.928836},
+          "reuseElapsedDeltaMs": {"median": 0.902008, "min": -1.311127, "max": 10.434421},
+          "reuseElapsedDeltaShare": {"median": 0.077217, "min": -0.120213, "max": 0.520438}
+        },
+        "10005": {
+          "pageCount": 51,
+          "collectionMs": {
+            "base": {"median": 116.979223, "min": 97.717186, "max": 188.056343},
+            "timed": {"median": 120.06748, "min": 107.136861, "max": 193.779874},
+            "reuse": {"median": 95.377608, "min": 83.387121, "max": 139.218174}
+          },
+          "baseFirstPageMs": {"median": 2.447587, "min": 1.967351, "max": 10.02012},
+          "baseLaterPageMedianMs": {"median": 2.137413, "min": 1.7454, "max": 3.309806},
+          "countPreparePerPageMs": {"median": 0.038093, "min": 0.036384, "max": 0.046811},
+          "countGetPerPageMs": {"median": 0.350424, "min": 0.337455, "max": 0.399272},
+          "countAllMs": {"median": 20.262397, "min": 19.353626, "max": 28.945585},
+          "countLaterMs": {"median": 19.86132, "min": 18.969338, "max": 28.559059},
+          "countAllShareOfUntimed": {"median": 0.171925, "min": 0.123844, "max": 0.21865},
+          "countLaterShareOfUntimed": {"median": 0.16844, "min": 0.121634, "max": 0.213864},
+          "instrumentationElapsedDeltaMs": {"median": 0.510896, "min": -21.080077, "max": 49.348382},
+          "reuseElapsedDeltaMs": {"median": 24.335408, "min": -3.960946, "max": 48.838169},
+          "reuseElapsedDeltaShare": {"median": 0.199031, "min": -0.040535, "max": 0.29529}
+        }
+      }
+    }
+  },
+  "productComparison": {
+    "startedAt": "2026-11-22T17:45:37.178Z",
+    "finishedAt": "2026-11-22T17:45:42.624Z",
+    "paginationSourceSha256": {
+      "before": "6de464fc840bf3d2185f68e133e1631fc3209b73bf1cf62c9c440ce62872ea17",
+      "after": "ac2ccac4a7f766d7688c847f271882c9b181670c3a7592aad13147d8de46c9a1"
+    },
+    "samplesPerBoardAndLayer": 18,
+    "compatibility": {
+      "ticketListBytesEqual": true,
+      "previousRelationCursorAcceptedByNewVersion": true,
+      "newRelationCursorAcceptedByPreviousVersion": true
+    },
+    "layers": {
+      "direct": {
+        "1005": {
+          "pageCount": 6,
+          "beforeMs": {"median": 3.139572, "min": 3.014665, "max": 3.339616},
+          "afterMs": {"median": 2.838976, "min": 2.75543, "max": 3.338631},
+          "pairedSavingMs": {"median": 0.281902, "min": -0.100318, "max": 0.484115},
+          "pairedSavingFraction": {"median": 0.088896, "min": -0.032637, "max": 0.145916},
+          "improvementPairs": 15
+        },
+        "10005": {
+          "pageCount": 51,
+          "beforeMs": {"median": 39.324432, "min": 37.64936, "max": 43.96123},
+          "afterMs": {"median": 24.633734, "min": 23.465442, "max": 27.916671},
+          "pairedSavingMs": {"median": 14.499221, "min": 12.78012, "max": 18.144521},
+          "pairedSavingFraction": {"median": 0.371321, "min": 0.314033, "max": 0.419179},
+          "improvementPairs": 18
+        }
+      },
+      "loopback": {
+        "1005": {
+          "pageCount": 6,
+          "beforeMs": {"median": 8.559322, "min": 7.382178, "max": 11.768699},
+          "afterMs": {"median": 8.142128, "min": 7.487039, "max": 13.625928},
+          "pairedSavingMs": {"median": 0.461623, "min": -3.535517, "max": 3.592145},
+          "pairedSavingFraction": {"median": 0.050981, "min": -0.350384, "max": 0.305229},
+          "improvementPairs": 14
+        },
+        "10005": {
+          "pageCount": 51,
+          "beforeMs": {"median": 84.693096, "min": 75.30277, "max": 98.69473},
+          "afterMs": {"median": 68.761056, "min": 63.14309, "max": 82.378495},
+          "pairedSavingMs": {"median": 14.344837, "min": 8.056168, "max": 29.931283},
+          "pairedSavingFraction": {"median": 0.159343, "min": 0.106984, "max": 0.303271},
+          "improvementPairs": 18
+        }
+      }
+    }
+  }
+}

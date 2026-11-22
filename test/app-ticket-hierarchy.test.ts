@@ -6,7 +6,7 @@ import { searchGroupCandidates, renderGroupView, renderGroupOptions } from "../p
 import type { GroupTicket, GroupViewState } from "../public/app-group-types.js";
 
 const ticket = (id:number, parentTicketId:number|null = null, extra:Partial<GroupTicket> = {}):GroupTicket => ({
-  id, parentTicketId, title:`Work ${id}`, priority:2, tags:[], laneId:1, isArchived:false, isResolved:false, ...extra,
+  id, parentTicketId, title:`Work ${id}`, priority:2, tags:[], laneId:1, isArchived:false, isResolved:false, hasChildren:false, ...extra,
 });
 
 test("hierarchy index preserves source order, missing-parent fallback, and fresh membership", () => {
@@ -34,7 +34,7 @@ test("Group candidate search excludes the chosen parent and children without exc
 });
 
 test("Group keeps archived parent context, child order, remove counts, and hides archived-only groups", () => {
-  const tickets=[ticket(2,1),ticket(1,null,{isArchived:true}),ticket(3,1,{isArchived:true}),ticket(4,null,{isResolved:true}),ticket(5,null,{isArchived:true})];
+  const tickets=[ticket(2,1),ticket(1,null,{isArchived:true,hasChildren:true}),ticket(3,1,{isArchived:true}),ticket(4,null,{isResolved:true}),ticket(5,null,{isArchived:true})];
   const view:GroupViewState={groups:[],selectedId:1,ungroupedTicketCount:0,selected:{id:1,boardId:1,name:'Work',isActive:true,totalTicketCount:5,openTicketCount:1,resolvedTicketCount:1,archivedTicketCount:3,revision:1,createdAt:'',updatedAt:'',descriptionMarkdown:'',descriptionHtml:''},tickets,all:false,sort:'createdAt:asc',showArchived:false,creating:false,createName:'',renaming:false,renameName:'',descriptionEditing:false,descriptionDraft:'',descriptionPreview:null,expanded:false,adding:false,busy:false,error:'',candidates:[],chosen:[],query:'',activeOption:0};
   const render=()=>renderGroupView(view,{escapeHtml:s=>s,lanes:[{id:1,name:'Todo'}]});
   const html=render();
@@ -65,7 +65,7 @@ test("Group display is unchanged when member pages use ID order instead of lane-
     ticket(10, null, { priority:1 }),
     ticket(6, 99, { priority:3 }),
     ticket(3, 20, { priority:4 }),
-    ticket(20, null, { laneId:2, isArchived:true }),
+    ticket(20, null, { laneId:2, isArchived:true, hasChildren:true }),
     ticket(25, 20, { laneId:3, priority:1, isArchived:true }),
     ticket(8, null, { laneId:3, priority:4, isResolved:true }),
   ];

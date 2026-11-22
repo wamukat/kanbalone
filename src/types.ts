@@ -256,6 +256,14 @@ export type TicketRelationCandidateView = Pick<TicketSummaryView,
   "id" | "title" | "parentTicketId" | "priority" | "blockerIds" | "isResolved"
 >;
 
+export type ListTicketReferenceView = Pick<TicketSummaryView,
+  "id" | "title" | "laneId" | "parentTicketId" | "isResolved"
+>;
+
+export type GroupTicketView = ListTicketReferenceView & Pick<TicketSummaryView,
+  "priority" | "isArchived" | "hasChildren"
+> & { tags: Array<Pick<TagView, "id" | "name" | "color">> };
+
 export type CommentView = {
   id: Id;
   ticketId: Id;

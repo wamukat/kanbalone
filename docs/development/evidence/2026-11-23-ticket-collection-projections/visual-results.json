@@ -1,0 +1,471 @@
+{
+  "baseline": "899d0f0117ee52e6d57db59241312f0fa4fcd0f7",
+  "candidateSourceCommit": "78840bda062fcfa1507d5ba91e786447beae329e",
+  "chromium": "159.0.8154.6",
+  "cases": [
+    {
+      "locale": "en-US",
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "groupMembershipAfterSave": [
+        [
+          6,
+          null,
+          null
+        ],
+        [
+          7,
+          null,
+          6
+        ]
+      ],
+      "listMoveAfterSave": [
+        [
+          3,
+          2,
+          null
+        ],
+        [
+          4,
+          2,
+          3
+        ],
+        [
+          5,
+          1,
+          3
+        ]
+      ],
+      "blockerIdsInDisplayOrder": [
+        2,
+        1
+      ],
+      "allPriorityRequests": [
+        2,
+        1
+      ],
+      "browserErrors": [
+        [],
+        []
+      ]
+    },
+    {
+      "locale": "ja-JP",
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "groupMembershipAfterSave": [
+        [
+          6,
+          null,
+          null
+        ],
+        [
+          7,
+          null,
+          6
+        ]
+      ],
+      "listMoveAfterSave": [
+        [
+          3,
+          2,
+          null
+        ],
+        [
+          4,
+          2,
+          3
+        ],
+        [
+          5,
+          1,
+          3
+        ]
+      ],
+      "blockerIdsInDisplayOrder": [
+        2,
+        1
+      ],
+      "allPriorityRequests": [
+        2,
+        1
+      ],
+      "browserErrors": [
+        [],
+        []
+      ]
+    }
+  ],
+  "tickets": {
+    "1524": [
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "archived-parent",
+        "label": "アーカイブ済み親を文脈として表示、タグとアクティブな子を確認",
+        "before": {
+          "sha256": "6eac587324c3ef7e058c0fe412244f89642b0e6b68d69d9a8391749698b9cc02",
+          "file": "1524-before-en-US-light-archived-parent.png"
+        },
+        "after": {
+          "sha256": "6eac587324c3ef7e058c0fe412244f89642b0e6b68d69d9a8391749698b9cc02",
+          "file": "1524-after-en-US-light-archived-parent.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "remove-confirm",
+        "label": "親子の Group 解除確認ダイアログ",
+        "before": {
+          "sha256": "0245c37cfd393f203e6465640bd2b78b454b9dd0a9c9d799aee6abf601fc2c1d",
+          "file": "1524-before-en-US-light-remove-confirm.png"
+        },
+        "after": {
+          "sha256": "0245c37cfd393f203e6465640bd2b78b454b9dd0a9c9d799aee6abf601fc2c1d",
+          "file": "1524-after-en-US-light-remove-confirm.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "after-cancel",
+        "label": "Group 解除を取消し、元の Group とフォーカスに復帰",
+        "before": {
+          "sha256": "7124b685cdb40e2bb2f95d7ea0df6426241045cbe991f7a69245c80df86cb265",
+          "file": "1524-before-en-US-light-after-cancel.png"
+        },
+        "after": {
+          "sha256": "7124b685cdb40e2bb2f95d7ea0df6426241045cbe991f7a69245c80df86cb265",
+          "file": "1524-after-en-US-light-after-cancel.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "ungrouped-after-save-and-reload",
+        "label": "Group 解除を保存し、再読込後に未所属一覧で確認",
+        "before": {
+          "sha256": "b67f38a1a63b8c1fb8d44f9a8037e6a6885e2e3ea10ffadb6c6fbf332ea84f07",
+          "file": "1524-before-en-US-light-ungrouped-after-save-and-reload.png"
+        },
+        "after": {
+          "sha256": "b67f38a1a63b8c1fb8d44f9a8037e6a6885e2e3ea10ffadb6c6fbf332ea84f07",
+          "file": "1524-after-en-US-light-ungrouped-after-save-and-reload.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "archived-parent",
+        "label": "アーカイブ済み親を文脈として表示、タグとアクティブな子を確認",
+        "before": {
+          "sha256": "7e74534f0655f8702ebc194512e1c9f14ed3458cf2dfb7441315b676f669e930",
+          "file": "1524-before-ja-JP-dark-archived-parent.png"
+        },
+        "after": {
+          "sha256": "7e74534f0655f8702ebc194512e1c9f14ed3458cf2dfb7441315b676f669e930",
+          "file": "1524-after-ja-JP-dark-archived-parent.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "remove-confirm",
+        "label": "親子の Group 解除確認ダイアログ",
+        "before": {
+          "sha256": "c8c0478f6fb32c2f2e7dd56427abac43e3e3524f246ee3ac9519dddd5c872d8d",
+          "file": "1524-before-ja-JP-dark-remove-confirm.png"
+        },
+        "after": {
+          "sha256": "c8c0478f6fb32c2f2e7dd56427abac43e3e3524f246ee3ac9519dddd5c872d8d",
+          "file": "1524-after-ja-JP-dark-remove-confirm.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "after-cancel",
+        "label": "Group 解除を取消し、元の Group とフォーカスに復帰",
+        "before": {
+          "sha256": "260e3b4fa5929394ec16e23d25afcfd3d7ef38dd89f46d3d1d39d3d190c2c432",
+          "file": "1524-before-ja-JP-dark-after-cancel.png"
+        },
+        "after": {
+          "sha256": "260e3b4fa5929394ec16e23d25afcfd3d7ef38dd89f46d3d1d39d3d190c2c432",
+          "file": "1524-after-ja-JP-dark-after-cancel.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "ungrouped-after-save-and-reload",
+        "label": "Group 解除を保存し、再読込後に未所属一覧で確認",
+        "before": {
+          "sha256": "c83644d29eaf0d46ececb5bb3916d92dea165b32df5054a650c8fe9e65a5dae6",
+          "file": "1524-before-ja-JP-dark-ungrouped-after-save-and-reload.png"
+        },
+        "after": {
+          "sha256": "c83644d29eaf0d46ececb5bb3916d92dea165b32df5054a650c8fe9e65a5dae6",
+          "file": "1524-after-ja-JP-dark-ungrouped-after-save-and-reload.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      }
+    ],
+    "1525": [
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "partial-with-blockers",
+        "label": "一部優先度フィルターと他優先度の依存先",
+        "before": {
+          "sha256": "5faff2ba82eb6cd40feb0197d8045dfa699904ec118aa1754a7ab13a9ee6b38b",
+          "file": "1525-before-en-US-light-partial-with-blockers.png"
+        },
+        "after": {
+          "sha256": "5faff2ba82eb6cd40feb0197d8045dfa699904ec118aa1754a7ab13a9ee6b38b",
+          "file": "1525-after-en-US-light-partial-with-blockers.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "move-selected-family",
+        "label": "表示中の親子を選択した移動ダイアログ",
+        "before": {
+          "sha256": "3fae58603db8bcd39f9979a4d374a8afce2e8dd46ba9d36cceb854de81b37ab8",
+          "file": "1525-before-en-US-light-move-selected-family.png"
+        },
+        "after": {
+          "sha256": "3fae58603db8bcd39f9979a4d374a8afce2e8dd46ba9d36cceb854de81b37ab8",
+          "file": "1525-after-en-US-light-move-selected-family.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "after-cancel",
+        "label": "移動を取消し、元のレーンを保持",
+        "before": {
+          "sha256": "becdc7095a12c4ce6b4bbe39464513ad6f7e51eb1596fb2dba1e7ab282b11130",
+          "file": "1525-before-en-US-light-after-cancel.png"
+        },
+        "after": {
+          "sha256": "becdc7095a12c4ce6b4bbe39464513ad6f7e51eb1596fb2dba1e7ab282b11130",
+          "file": "1525-after-en-US-light-after-cancel.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "partial-after-move-and-reload",
+        "label": "移動を保存し、再読込後の一部優先度 List で確認",
+        "before": {
+          "sha256": "86d309870444ced3dc29a4a375673e17fe983c3a2c52512ee96c7e25f727243d",
+          "file": "1525-before-en-US-light-partial-after-move-and-reload.png"
+        },
+        "after": {
+          "sha256": "86d309870444ced3dc29a4a375673e17fe983c3a2c52512ee96c7e25f727243d",
+          "file": "1525-after-en-US-light-partial-after-move-and-reload.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "en-US",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "state": "all-priorities",
+        "label": "全4優先度の List",
+        "before": {
+          "sha256": "b11035c2c18f61a72d3b86cea813e760277856e99408e05cbd38519e33bfdee2",
+          "file": "1525-before-en-US-light-all-priorities.png"
+        },
+        "after": {
+          "sha256": "b11035c2c18f61a72d3b86cea813e760277856e99408e05cbd38519e33bfdee2",
+          "file": "1525-after-en-US-light-all-priorities.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "partial-with-blockers",
+        "label": "一部優先度フィルターと他優先度の依存先",
+        "before": {
+          "sha256": "f769c86a197b674c8fff72a238bca724d041ca345d87cf8c35feb283042e14e2",
+          "file": "1525-before-ja-JP-dark-partial-with-blockers.png"
+        },
+        "after": {
+          "sha256": "f769c86a197b674c8fff72a238bca724d041ca345d87cf8c35feb283042e14e2",
+          "file": "1525-after-ja-JP-dark-partial-with-blockers.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "move-selected-family",
+        "label": "表示中の親子を選択した移動ダイアログ",
+        "before": {
+          "sha256": "f7ca31d363e9546f20d360711e9d56c247ab281b97e3f1584de39bd169e0177c",
+          "file": "1525-before-ja-JP-dark-move-selected-family.png"
+        },
+        "after": {
+          "sha256": "f7ca31d363e9546f20d360711e9d56c247ab281b97e3f1584de39bd169e0177c",
+          "file": "1525-after-ja-JP-dark-move-selected-family.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "after-cancel",
+        "label": "移動を取消し、元のレーンを保持",
+        "before": {
+          "sha256": "e735089f0274afff1324f2b0caf1a0184089f96b6f711509d1b5dce13c2f93d6",
+          "file": "1525-before-ja-JP-dark-after-cancel.png"
+        },
+        "after": {
+          "sha256": "e735089f0274afff1324f2b0caf1a0184089f96b6f711509d1b5dce13c2f93d6",
+          "file": "1525-after-ja-JP-dark-after-cancel.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "partial-after-move-and-reload",
+        "label": "移動を保存し、再読込後の一部優先度 List で確認",
+        "before": {
+          "sha256": "f769c86a197b674c8fff72a238bca724d041ca345d87cf8c35feb283042e14e2",
+          "file": "1525-before-ja-JP-dark-partial-after-move-and-reload.png"
+        },
+        "after": {
+          "sha256": "f769c86a197b674c8fff72a238bca724d041ca345d87cf8c35feb283042e14e2",
+          "file": "1525-after-ja-JP-dark-partial-after-move-and-reload.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      },
+      {
+        "locale": "ja-JP",
+        "theme": "dark",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "state": "all-priorities",
+        "label": "全4優先度の List",
+        "before": {
+          "sha256": "4e0148346c499ed9b495fd168829e1cbb0531b38e9d31796182327637ab4e7f4",
+          "file": "1525-before-ja-JP-dark-all-priorities.png"
+        },
+        "after": {
+          "sha256": "4e0148346c499ed9b495fd168829e1cbb0531b38e9d31796182327637ab4e7f4",
+          "file": "1525-after-ja-JP-dark-all-priorities.png"
+        },
+        "byteEqual": true,
+        "rowGeometryEqual": true
+      }
+    ]
+  }
+}

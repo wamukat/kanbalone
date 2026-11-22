@@ -1,6 +1,6 @@
 // @ts-check
 import { t as tr, getLocale } from "./app-i18n.js";
-import { readTicketPage } from "./app-ticket-pages.js";
+import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
@@ -142,12 +142,15 @@ export function createGroupBoardModule(ctx) {
       request = ++generation;
     const [key, order] = sort.split(":");
     const isCurrent = () => request === generation && currentBoardId === state.activeBoardId && state.viewMode === "group";
-    const ticketUrl = `/api/boards/${currentBoardId}/tickets`;
-    const ungroupedUrl = `${ticketUrl}?ungrouped=true&archived=all&order=id_asc`;
+    const ticketUrl = `/api/boards/${currentBoardId}/group-tickets`;
+    const loadTickets = async (/** @type {string} */ url) => {
+      const { tickets: rows } = await collectTicketPages(ctx.api, url, { order: "id_asc", isCurrent });
+      return /** @type {GroupTicket[]} */ (/** @type {unknown} */ (rows));
+    };
     try {
       const [list, ungroupedPage] = await Promise.all([
         ctx.api(`/api/boards/${currentBoardId}/groups?status=all&sort=${key}&order=${order}`),
-        ctx.api(`${ungroupedUrl}&limit=1`),
+        ctx.api(`${ticketUrl}?limit=1`),
       ]);
       if (!isCurrent()) return;
       const nextGroups = /** @type {{groups: GroupSummary[]}} */ (list).groups;
@@ -167,9 +170,9 @@ export function createGroupBoardModule(ctx) {
       /** @type {GroupTicket[]} */ let nextTickets = [];
       /** @type {GroupView | null} */ let nextSelected = null;
       if (nextSelectedId === "ungrouped") {
-        const rows = await ctx.api(ungroupedUrl);
+        const rows = await loadTickets(ticketUrl);
         if (!isCurrent()) return;
-        nextTickets = /** @type {{tickets: GroupTicket[]}} */ (rows).tickets;
+        nextTickets = rows;
         nextUngroupedCount = nextTickets.length;
         if (!nextUngroupedCount) nextSelectedId = firstGroupId;
       }
@@ -178,11 +181,11 @@ export function createGroupBoardModule(ctx) {
           ctx.api(`/api/groups/${nextSelectedId}`),
           // Group renders its own priority/parent order. Fetch by the indexed ID
           // cursor instead of repeatedly sorting all remaining lane positions.
-          ctx.api(`${ticketUrl}?groupId=${nextSelectedId}&archived=all&order=id_asc`),
+          loadTickets(`${ticketUrl}?groupId=${nextSelectedId}`),
         ]);
         if (!isCurrent()) return;
         nextSelected = /** @type {GroupView} */ (detail);
-        nextTickets = /** @type {{tickets: GroupTicket[]}} */ (rows).tickets;
+        nextTickets = rows;
       }
       if (loadedSelection !== nextSelectedId) showArchived = false;
       groups = nextGroups;

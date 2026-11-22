@@ -31,7 +31,7 @@ export function renderListRow(
     indent: number;
   },
   options: {
-    boardTickets: ListRowTicket[];
+    boardTickets: import("../src/types.js").ListTicketReferenceView[];
     escapeHtml(value: string): string;
     lanes: Array<{ id: number; name: string }>;
     renderTicketStatusIcons(ticket: ListRowTicket): string;

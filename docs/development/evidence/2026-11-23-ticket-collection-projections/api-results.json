@@ -1,0 +1,393 @@
+{
+  "baseline": "899d0f0117ee52e6d57db59241312f0fa4fcd0f7",
+  "candidateChangedRuntimeFiles": {
+    "public/app-board-list-row.d.ts": "859994557602842f7fcfeb63034e20731df0c4cfd7378140f8d25cf8ea4afa73",
+    "public/app-board-list.d.ts": "113a745c63358c36f2882408927e97b6fcb7a14b2cb03632c318795db541d530",
+    "public/app-group-board.js": "7eaea3b592f97b2e47625439d54933e25e698f7eeabb7e1a1f6c1a36403b3e73",
+    "public/app-group-types.d.ts": "d8b9b4a48da40b7d645bf03d1f3172c974f2c36fcfdda00272dc0c28c7e0c7cc",
+    "public/app-ticket-collections.js": "bfee5bc5331989caf6667654b3b7cc42e7a3d1c34a79ac836bdc32b823080a08",
+    "src/db-modules/ticket-pagination.ts": "111816df87d957cac03b02883aa6b45b26380e9139944c01ee8ec96e6fd97ba6",
+    "src/db.ts": "7a0a0a20aa43ba434fdf34c3fd07e439c7e5d4059b9f6c3e388ee10e1eb23726",
+    "src/routes/ticket-collection-projections.ts": "b891579632720c631c676bcfc0dcb9cd6586018957320aa5d683b7db483f27fd",
+    "src/routes/tickets.ts": "60936071c4e28521d9d5dbc0421018d9a50ea11b7fa9af250394848879d81f1e",
+    "src/types.ts": "27fbc35286f2575d02372cea55e4351ec68f0913f00a02df5f31114eb3980e66"
+  },
+  "fixtureSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+  "node": "v26.13.1",
+  "warmups": 1,
+  "retainedAlternatingPairs": 7,
+  "results": [
+    {
+      "test": "all-priorities",
+      "syntheticBoardId": 1,
+      "phase": "after",
+      "displayedCount": 1005,
+      "referenceCount": 1005,
+      "requests": 6,
+      "projectedRowsSha256": "cac62e48307c990872a6e72dcd062a87259e3bb4896fda2951804c4508f97659",
+      "elapsedMs": {
+        "samples": [
+          36.86,
+          35.744,
+          53.338,
+          47.595,
+          42.07,
+          35.692,
+          35.912
+        ],
+        "min": 35.692,
+        "median": 36.86,
+        "max": 53.338
+      },
+      "medianCollectionTotals": {
+        "bytes": 548000,
+        "generationMs": 23.033,
+        "serializationMs": 1.785,
+        "timeToHeadersMs": 31.389,
+        "bodyMs": 1.696,
+        "parseMs": 3.063
+      }
+    },
+    {
+      "test": "all-priorities",
+      "syntheticBoardId": 1,
+      "phase": "before",
+      "displayedCount": 1005,
+      "referenceCount": 1005,
+      "requests": 12,
+      "projectedRowsSha256": "cac62e48307c990872a6e72dcd062a87259e3bb4896fda2951804c4508f97659",
+      "elapsedMs": {
+        "samples": [
+          74.477,
+          71.891,
+          67.731,
+          78.01,
+          73.07,
+          70.837,
+          75.988
+        ],
+        "min": 67.731,
+        "median": 73.07,
+        "max": 78.01
+      },
+      "medianCollectionTotals": {
+        "bytes": 1096000,
+        "generationMs": 45.006,
+        "serializationMs": 3.396,
+        "timeToHeadersMs": 134.042,
+        "bodyMs": 3.806,
+        "parseMs": 6.109
+      }
+    },
+    {
+      "test": "all-priorities",
+      "syntheticBoardId": 2,
+      "phase": "after",
+      "displayedCount": 10005,
+      "referenceCount": 10005,
+      "requests": 51,
+      "projectedRowsSha256": "174b3e35189fc2a15c98ff5d8757ddd9620502cf5c08f6de375e097e09c78a78",
+      "elapsedMs": {
+        "samples": [
+          520.428,
+          536.387,
+          512.581,
+          515.601,
+          557.273,
+          516.72,
+          530.893
+        ],
+        "min": 512.581,
+        "median": 520.428,
+        "max": 557.273
+      },
+      "medianCollectionTotals": {
+        "bytes": 5527427,
+        "generationMs": 386.249,
+        "serializationMs": 15.906,
+        "timeToHeadersMs": 471.321,
+        "bodyMs": 15.032,
+        "parseMs": 29.697
+      }
+    },
+    {
+      "test": "all-priorities",
+      "syntheticBoardId": 2,
+      "phase": "before",
+      "displayedCount": 10005,
+      "referenceCount": 10005,
+      "requests": 102,
+      "projectedRowsSha256": "174b3e35189fc2a15c98ff5d8757ddd9620502cf5c08f6de375e097e09c78a78",
+      "elapsedMs": {
+        "samples": [
+          1007.204,
+          1141.251,
+          1005.869,
+          1063.86,
+          1016.741,
+          1091.128,
+          1118.375
+        ],
+        "min": 1005.869,
+        "median": 1063.86,
+        "max": 1141.251
+      },
+      "medianCollectionTotals": {
+        "bytes": 11054854,
+        "generationMs": 780.872,
+        "serializationMs": 31.875,
+        "timeToHeadersMs": 2020.402,
+        "bodyMs": 32.796,
+        "parseMs": 59.506
+      }
+    },
+    {
+      "test": "group",
+      "syntheticBoardId": 1,
+      "phase": "after",
+      "displayedCount": 1000,
+      "referenceCount": null,
+      "requests": 5,
+      "projectedRowsSha256": "d5c13240505456f4ee45cff99c68db6f5437d3965b14da89bf014e9030834b7f",
+      "elapsedMs": {
+        "samples": [
+          22.127,
+          21.281,
+          20.566,
+          18.055,
+          17.937,
+          17.034,
+          16.3
+        ],
+        "min": 16.3,
+        "median": 18.055,
+        "max": 22.127
+      },
+      "medianCollectionTotals": {
+        "bytes": 212975,
+        "generationMs": 9.1,
+        "serializationMs": 0.7,
+        "timeToHeadersMs": 15.581,
+        "bodyMs": 0.977,
+        "parseMs": 1.187
+      }
+    },
+    {
+      "test": "group",
+      "syntheticBoardId": 1,
+      "phase": "before",
+      "displayedCount": 1000,
+      "referenceCount": null,
+      "requests": 5,
+      "projectedRowsSha256": "d5c13240505456f4ee45cff99c68db6f5437d3965b14da89bf014e9030834b7f",
+      "elapsedMs": {
+        "samples": [
+          45.691,
+          38.688,
+          44.019,
+          34.723,
+          37.898,
+          36.349,
+          38.759
+        ],
+        "min": 34.723,
+        "median": 38.688,
+        "max": 45.691
+      },
+      "medianCollectionTotals": {
+        "bytes": 545365,
+        "generationMs": 21.8,
+        "serializationMs": 1.721,
+        "timeToHeadersMs": 33.037,
+        "bodyMs": 1.956,
+        "parseMs": 3.043
+      }
+    },
+    {
+      "test": "group",
+      "syntheticBoardId": 2,
+      "phase": "after",
+      "displayedCount": 10000,
+      "referenceCount": null,
+      "requests": 50,
+      "projectedRowsSha256": "cf43fc40c4f09d133da5b8365ffe997c97257cab5c8c8199a96b097934028c38",
+      "elapsedMs": {
+        "samples": [
+          322.727,
+          337.742,
+          321.427,
+          325.648,
+          319.306,
+          311.675,
+          311.449
+        ],
+        "min": 311.449,
+        "median": 321.427,
+        "max": 337.742
+      },
+      "medianCollectionTotals": {
+        "bytes": 2146640,
+        "generationMs": 235.412,
+        "serializationMs": 6.445,
+        "timeToHeadersMs": 299.189,
+        "bodyMs": 7.062,
+        "parseMs": 11.708
+      }
+    },
+    {
+      "test": "group",
+      "syntheticBoardId": 2,
+      "phase": "before",
+      "displayedCount": 10000,
+      "referenceCount": null,
+      "requests": 50,
+      "projectedRowsSha256": "cf43fc40c4f09d133da5b8365ffe997c97257cab5c8c8199a96b097934028c38",
+      "elapsedMs": {
+        "samples": [
+          685.487,
+          647.675,
+          656.229,
+          674.407,
+          742.141,
+          647.254,
+          639.212
+        ],
+        "min": 639.212,
+        "median": 656.229,
+        "max": 742.141
+      },
+      "medianCollectionTotals": {
+        "bytes": 5524246,
+        "generationMs": 516.777,
+        "serializationMs": 15.945,
+        "timeToHeadersMs": 606.648,
+        "bodyMs": 16.308,
+        "parseMs": 30.159
+      }
+    },
+    {
+      "test": "partial-priorities",
+      "syntheticBoardId": 1,
+      "phase": "after",
+      "displayedCount": 40,
+      "referenceCount": 1005,
+      "requests": 7,
+      "projectedRowsSha256": "8ede5c3748ad2bac2b9b0517730ad7a8236af3706019f27d962980f485223347",
+      "elapsedMs": {
+        "samples": [
+          15.942,
+          15.128,
+          14.982,
+          16.075,
+          15.87,
+          15.461,
+          20.494
+        ],
+        "min": 14.982,
+        "median": 15.87,
+        "max": 20.494
+      },
+      "medianCollectionTotals": {
+        "bytes": 126252,
+        "generationMs": 9.449,
+        "serializationMs": 0.428,
+        "timeToHeadersMs": 18.441,
+        "bodyMs": 0.351,
+        "parseMs": 0.637
+      }
+    },
+    {
+      "test": "partial-priorities",
+      "syntheticBoardId": 1,
+      "phase": "before",
+      "displayedCount": 40,
+      "referenceCount": 1005,
+      "requests": 7,
+      "projectedRowsSha256": "8ede5c3748ad2bac2b9b0517730ad7a8236af3706019f27d962980f485223347",
+      "elapsedMs": {
+        "samples": [
+          35.373,
+          36.328,
+          40.235,
+          34.752,
+          41.682,
+          34.055,
+          32.959
+        ],
+        "min": 32.959,
+        "median": 35.373,
+        "max": 41.682
+      },
+      "medianCollectionTotals": {
+        "bytes": 569412,
+        "generationMs": 23.041,
+        "serializationMs": 1.566,
+        "timeToHeadersMs": 38.353,
+        "bodyMs": 1.469,
+        "parseMs": 3.044
+      }
+    },
+    {
+      "test": "partial-priorities",
+      "syntheticBoardId": 2,
+      "phase": "after",
+      "displayedCount": 40,
+      "referenceCount": 10005,
+      "requests": 52,
+      "projectedRowsSha256": "bde298819b91e6725cf04a8c4cc7746baa07b11cf94022abba352c061d6e1789",
+      "elapsedMs": {
+        "samples": [
+          298.017,
+          286.133,
+          278.126,
+          286.661,
+          300.495,
+          296.302,
+          285.856
+        ],
+        "min": 278.126,
+        "median": 286.661,
+        "max": 300.495
+      },
+      "medianCollectionTotals": {
+        "bytes": 1079934,
+        "generationMs": 230.353,
+        "serializationMs": 3.558,
+        "timeToHeadersMs": 292.71,
+        "bodyMs": 3.045,
+        "parseMs": 5.241
+      }
+    },
+    {
+      "test": "partial-priorities",
+      "syntheticBoardId": 2,
+      "phase": "before",
+      "displayedCount": 40,
+      "referenceCount": 10005,
+      "requests": 52,
+      "projectedRowsSha256": "bde298819b91e6725cf04a8c4cc7746baa07b11cf94022abba352c061d6e1789",
+      "elapsedMs": {
+        "samples": [
+          549.378,
+          561.374,
+          549.037,
+          539.997,
+          518.637,
+          544.261,
+          522.098
+        ],
+        "min": 518.637,
+        "median": 544.261,
+        "max": 561.374
+      },
+      "medianCollectionTotals": {
+        "bytes": 5549320,
+        "generationMs": 398.619,
+        "serializationMs": 16.303,
+        "timeToHeadersMs": 508.842,
+        "bodyMs": 15.018,
+        "parseMs": 29.988
+      }
+    }
+  ]
+}

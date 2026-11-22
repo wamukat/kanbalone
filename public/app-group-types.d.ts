@@ -1,19 +1,9 @@
-import type { GroupView, TicketSummaryView } from "../src/types.js";
+import type { GroupTicketView, GroupView } from "../src/types.js";
 
 export type { GroupView };
 export type GroupSummary = Omit<GroupView, "descriptionMarkdown" | "descriptionHtml">;
 export type GroupSelection = number | "ungrouped" | null;
-export type GroupTicket = Pick<
-  TicketSummaryView,
-  | "id"
-  | "title"
-  | "laneId"
-  | "parentTicketId"
-  | "priority"
-  | "tags"
-  | "isArchived"
-  | "isResolved"
-> & { hasChildren?: boolean };
+export type GroupTicket = GroupTicketView;
 export type GroupTarget = Pick<GroupView, "id" | "revision">;
 export type GroupPreview = {
   expectedToken: string;
