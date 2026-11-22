@@ -58,12 +58,13 @@ function readTicketPage<Row, View>(
   sqlite: Database.Database,
   boardId: number,
   filtered: ReturnType<typeof ticketFilterQuery>,
-  options: PageOptions & { reuseTotal?: true },
-  keys: Key[],
+  options: PageOptions & { reuseTotal?: true; fixedPositionKeys?: readonly string[] },
+  order: TicketOrder,
   query: string,
   projection: string,
   mapRows: (rows: Row[]) => View[],
 ): TicketPage<View> {
+  const keys = orderKeys(order);
   return sqlite.transaction(() => {
     const secret = (sqlite.prepare("SELECT secret FROM ticket_cursor_secret WHERE id = 1").get() as { secret: string }).secret;
     const revision = (sqlite.prepare("SELECT revision FROM ticket_list_revisions WHERE board_id = ?").get(boardId) as { revision: number } | undefined)?.revision ?? 0;
@@ -78,12 +79,22 @@ function readTicketPage<Row, View>(
         if (!Number.isSafeInteger(cursor.total) || cursor.total < 0) fail("invalid pagination cursor");
         total = cursor.total;
       }
-      const clauses = keys.map((key, i) => {
-        const equals = keys.slice(0, i).map((previous, j) => { params.push(cursor.keys[j]!); return `${previous.expression} = ?`; });
-        params.push(cursor.keys[i]!);
-        return `(${[...equals, `${key.expression} ${key.direction === "ASC" ? ">" : "<"} ?`].join(" AND ")})`;
-      });
-      sql += ` AND (${clauses.join(" OR ")})`;
+      if (order === "position_asc") {
+        // Filtered lane and archive fields are constant within this query.
+        // Keep them in the signed cursor for compatibility with older readers.
+        const fixed = options.fixedPositionKeys ?? [];
+        const variable = keys.map((key, index) => ({ expression: key.expression, index }))
+          .filter(({ expression }) => !fixed.includes(expression));
+        sql += ` AND (${variable.map(({ expression }) => expression).join(", ")}) > (${variable.map(() => "?").join(", ")})`;
+        params.push(...variable.map(({ index }) => cursor.keys[index]!));
+      } else {
+        const clauses = keys.map((key, i) => {
+          const equals = keys.slice(0, i).map((previous, j) => { params.push(cursor.keys[j]!); return `${previous.expression} = ?`; });
+          params.push(cursor.keys[i]!);
+          return `(${[...equals, `${key.expression} ${key.direction === "ASC" ? ">" : "<"} ?`].join(" AND ")})`;
+        });
+        sql += ` AND (${clauses.join(" OR ")})`;
+      }
     }
     sql += ` ORDER BY ${keys.map(key => `${key.expression} ${key.direction}`).join(", ")} LIMIT ?`;
     const rows = sqlite.prepare(sql).all(...params, options.limit + 1) as Array<Row & Record<`cursor_key_${number}`, number>>;
@@ -105,6 +116,13 @@ function readTicketPage<Row, View>(
   })();
 }
 
+function fixedPositionKeys(filters: ListTicketsFilters): string[] {
+  const fixed = [];
+  if (typeof filters.laneId === "number") fixed.push("t.lane_id");
+  if (typeof filters.archived === "boolean" || !filters.includeArchived) fixed.push("t.is_archived");
+  return fixed;
+}
+
 export function listTicketPage(sqlite: Database.Database, boardId: number, filters: ListTicketsFilters, options: TicketPageOptions): TicketListResult {
   const { limit, cursor } = options;
   if (cursor !== undefined && limit === undefined) fail("cursor requires limit");
@@ -114,9 +132,9 @@ export function listTicketPage(sqlite: Database.Database, boardId: number, filte
     return { tickets: listTicketSummaries(sqlite, boardId, filters) };
   }
   const order = options.order ?? "id_asc";
-  const keys = orderKeys(order);
   const filtered = ticketFilterQuery(boardId, filters);
   if (limit === undefined) {
+    const keys = orderKeys(order);
     return sqlite.transaction(() => {
       const sql = filtered.sql + ` ORDER BY ${keys.map(key => `${key.expression} ${key.direction}`).join(", ")}`;
       return { tickets: mapTicketSummaries(sqlite, boardId, sqlite.prepare(sql).all(...filtered.params) as TicketRow[]) };
@@ -124,7 +142,8 @@ export function listTicketPage(sqlite: Database.Database, boardId: number, filte
   }
   // Preserve existing ticket cursors across upgrades.
   const query = createHash("sha256").update(JSON.stringify([filtered.sql, filtered.params, order])).digest("hex");
-  return readTicketPage(sqlite, boardId, filtered, { limit, cursor }, keys, query, "t.*",
+  const fixed = order === "position_asc" ? fixedPositionKeys(filters) : undefined;
+  return readTicketPage(sqlite, boardId, filtered, { limit, cursor, fixedPositionKeys: fixed }, order, query, "t.*",
     (rows: TicketRow[]) => mapTicketSummaries(sqlite, boardId, rows));
 }
 
@@ -133,7 +152,7 @@ export function listTicketRelationCandidatePage(sqlite: Database.Database, board
   const order = "id_asc";
   const filtered = ticketFilterQuery(boardId, { includeArchived: true });
   const query = createHash("sha256").update(JSON.stringify(["relation-candidates", filtered.sql, filtered.params, order])).digest("hex");
-  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, orderKeys(order), query,
+  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, order, query,
     "t.id, t.title, t.parent_ticket_id, t.priority, t.is_resolved",
     (rows: RelationCandidateRow[]): TicketRelationCandidateView[] => {
       const blockers = getBlockerIdsForTicketIds(sqlite, rows.map(row => row.id));
@@ -165,7 +184,8 @@ export function listTicketReferencePage(sqlite: Database.Database, boardId: numb
   const order = "position_asc";
   const filtered = ticketFilterQuery(boardId, filters);
   const query = createHash("sha256").update(JSON.stringify(["list-ticket-references", filtered.sql, filtered.params, order])).digest("hex");
-  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, orderKeys(order), query, referenceProjection,
+  const fixed = fixedPositionKeys(filters);
+  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true, fixedPositionKeys: fixed }, order, query, referenceProjection,
     (rows: ListTicketReferenceRow[]) => rows.map(mapListTicketReference));
 }
 
@@ -179,7 +199,7 @@ export function listGroupTicketPage(sqlite: Database.Database, boardId: number, 
   const query = createHash("sha256").update(JSON.stringify(["group-tickets", filtered.sql, filtered.params, order])).digest("hex");
   const projection = `${referenceProjection}, t.priority, t.is_archived,
     EXISTS (SELECT 1 FROM tickets child WHERE child.parent_ticket_id = t.id) AS has_children`;
-  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, orderKeys(order), query, projection,
+  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, order, query, projection,
     (rows: GroupTicketRow[]): GroupTicketView[] => {
       const tags = getTagsForTicketIds(sqlite, rows.map(row => row.id));
       return rows.map(row => ({

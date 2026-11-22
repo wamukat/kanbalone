@@ -159,6 +159,42 @@ test("Group pages keep archived context, child and tag metadata while isolating 
   } finally { await f.app.close(); f.db.close(); }
 });
 
+test("position pages cross equal positions, lane and archive boundaries, and safe integer keys", async () => {
+  const f = setup();
+  try {
+    const positions = [-1, 0, 0, Number.MAX_SAFE_INTEGER - 1, Number.MAX_SAFE_INTEGER, 0, 0, Number.MAX_SAFE_INTEGER];
+    const patch = f.db.sqlite.prepare("UPDATE tickets SET title=?, position=?, is_archived=?, resolved_at=NULL WHERE id=?");
+    const selected = [0, 2, 4, 6, 8, 1, 3, 5];
+    selected.forEach((ticketIndex, i) => {
+      patch.run(`Seek boundary ${i}`, positions[i]!, Number(i === 5 || i === 6), f.ids[ticketIndex]!);
+    });
+    const filters: Array<Record<string, string>> = [
+      { archived: "all" },
+      { archived: "false", lane_id: String(f.board.lanes[0]!.id) },
+      { archived: "true", lane_id: String(f.board.lanes[1]!.id) },
+      { archived: "all", lane: f.board.lanes[0]!.name },
+    ];
+    for (const filter of filters) {
+      const query = new URLSearchParams({ q: "Seek boundary", order: "position_asc", ...filter });
+      const expected = (await f.app.inject(f.url + "?" + query)).json().tickets;
+      assert.ok(expected.length > 1);
+      query.set("limit", "1");
+      const tickets: TicketSummaryView[] = [];
+      for (let page = 0; ; page += 1) {
+        assert.ok(page < expected.length);
+        const response = await f.app.inject(f.url + "?" + query);
+        assert.equal(response.statusCode, 200);
+        const result = response.json();
+        tickets.push(...result.tickets);
+        assert.equal(result.page.total, expected.length);
+        if (!result.page.nextCursor) break;
+        query.set("cursor", result.page.nextCursor);
+      }
+      assert.deepEqual(tickets, expected);
+    }
+  } finally { await f.app.close(); f.db.close(); }
+});
+
 test("List references keep position order and the priority-independent filter intersection", async () => {
   const f = setup();
   try {
