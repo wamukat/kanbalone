@@ -1,0 +1,136 @@
+[
+  {
+    "locale": "ja-JP",
+    "sidebar": {
+      "id": "",
+      "inSidebar": true,
+      "x": -264
+    },
+    "focus": [
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "comments-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "activity-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "comment-compose-toggle",
+        "inSheet": false
+      },
+      {
+        "id": "editor-remote-import-close-button",
+        "inSheet": true
+      }
+    ],
+    "zoom": {
+      "width": 640,
+      "dpr": 2,
+      "filters": [
+        {
+          "id": "lane-filter",
+          "width": 138.1875,
+          "height": 34.296875
+        },
+        {
+          "id": "priority-filter",
+          "width": 132.1484375,
+          "height": 71.59375
+        },
+        {
+          "id": "tag-filter",
+          "width": 88,
+          "height": 34.296875
+        },
+        {
+          "id": "status-filter",
+          "width": 230.8984375,
+          "height": 38.390625
+        },
+        {
+          "id": "",
+          "width": 167.8828125,
+          "height": 34.296875
+        },
+        {
+          "id": "reset-filters-button",
+          "width": 0,
+          "height": 0
+        }
+      ],
+      "scrollWidth": 782
+    }
+  },
+  {
+    "locale": "en-US",
+    "sidebar": {
+      "id": "",
+      "inSidebar": true,
+      "x": -264
+    },
+    "focus": [
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "comments-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "activity-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "comment-compose-toggle",
+        "inSheet": false
+      },
+      {
+        "id": "editor-remote-import-close-button",
+        "inSheet": true
+      }
+    ],
+    "zoom": {
+      "width": 640,
+      "dpr": 2,
+      "filters": [
+        {
+          "id": "lane-filter",
+          "width": 94.1875,
+          "height": 34.296875
+        },
+        {
+          "id": "priority-filter",
+          "width": 142.8125,
+          "height": 34.8984375
+        },
+        {
+          "id": "tag-filter",
+          "width": 88,
+          "height": 34.296875
+        },
+        {
+          "id": "status-filter",
+          "width": 230.8984375,
+          "height": 34.8984375
+        },
+        {
+          "id": "",
+          "width": 195.53125,
+          "height": 34.296875
+        },
+        {
+          "id": "reset-filters-button",
+          "width": 0,
+          "height": 0
+        }
+      ],
+      "scrollWidth": 777
+    }
+  }
+]

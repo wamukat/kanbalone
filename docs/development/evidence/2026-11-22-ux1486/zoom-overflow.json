@@ -1,0 +1,20 @@
+[
+  {
+    "tag": "DIV",
+    "id": "",
+    "class": "toolbar-filters",
+    "width": 608,
+    "scrollWidth": 782,
+    "before": 0,
+    "after": 174.5
+  },
+  {
+    "tag": "SECTION",
+    "id": "list-board",
+    "class": "list-board",
+    "width": 601,
+    "scrollWidth": 786,
+    "before": 0,
+    "after": 180
+  }
+]

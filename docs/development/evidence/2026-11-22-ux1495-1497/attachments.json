@@ -1,0 +1,65 @@
+[
+  {
+    "ticket": 1495,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1495-before-ja-JP.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1495-after-ja-JP.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1495-before-en-US.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1495-after-en-US.png"
+      }
+    ]
+  },
+  {
+    "ticket": 1496,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1496-before-ja-JP.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1496-after-ja-JP.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1496-before-en-US.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1496-after-en-US.png"
+      }
+    ]
+  },
+  {
+    "ticket": 1497,
+    "images": [
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1497-before-ja-JP.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1497-after-ja-JP.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1497-before-en-US.png"
+      },
+      {
+        "loaded": true,
+        "src": "http://127.0.0.1:3557/1497-after-en-US.png"
+      }
+    ]
+  }
+]

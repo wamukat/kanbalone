@@ -1,0 +1,108 @@
+{
+  "formatVersion": 2,
+  "groups": [
+    {
+      "id": 3,
+      "name": "Audit Group",
+      "descriptionMarkdown": "## Review\nKeyboard, zoom and recovery.",
+      "createdAt": "2026-11-21T19:43:26.576Z",
+      "updatedAt": "2026-11-21T19:43:26.576Z"
+    }
+  ],
+  "board": {
+    "id": 3,
+    "name": "UX1486 audit fixture",
+    "position": 2,
+    "createdAt": "2026-11-21T19:43:26.537Z",
+    "updatedAt": "2026-11-21T19:43:26.639Z"
+  },
+  "lanes": [
+    {
+      "isCompletionLane": false,
+      "id": 7,
+      "boardId": 3,
+      "name": "Todo",
+      "position": 0
+    },
+    {
+      "isCompletionLane": false,
+      "id": 8,
+      "boardId": 3,
+      "name": "Acceptance",
+      "position": 1
+    },
+    {
+      "isCompletionLane": true,
+      "id": 9,
+      "boardId": 3,
+      "name": "Done",
+      "position": 2
+    }
+  ],
+  "tags": [],
+  "tickets": [
+    {
+      "id": 63,
+      "boardId": 3,
+      "laneId": 7,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "Audit open ticket",
+      "bodyMarkdown": "- [ ] Open task\n- [x] Done task\n- Plain list",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 0,
+      "createdAt": "2026-11-21T19:43:26.586Z",
+      "updatedAt": "2026-11-21T19:43:26.589Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "groupId": 3
+    },
+    {
+      "id": 64,
+      "boardId": 3,
+      "laneId": 9,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "Audit done ticket",
+      "bodyMarkdown": "",
+      "isResolved": true,
+      "resolvedAt": "2026-11-21T19:43:26.608Z",
+      "isArchived": false,
+      "priority": 2,
+      "position": 0,
+      "createdAt": "2026-11-21T19:43:26.606Z",
+      "updatedAt": "2026-11-21T19:43:26.608Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "groupId": 3
+    },
+    {
+      "id": 65,
+      "boardId": 3,
+      "laneId": 9,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "Audit archived ticket",
+      "bodyMarkdown": "",
+      "isResolved": true,
+      "resolvedAt": "2026-11-21T19:43:26.628Z",
+      "isArchived": true,
+      "priority": 2,
+      "position": 1,
+      "createdAt": "2026-11-21T19:43:26.623Z",
+      "updatedAt": "2026-11-21T19:43:26.628Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "groupId": 3
+    }
+  ]
+}

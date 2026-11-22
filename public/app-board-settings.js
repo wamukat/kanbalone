@@ -159,10 +159,12 @@ export function createBoardSettingsModule(ctx) {
     state.sidebarCollapsed = !state.sidebarCollapsed;
     localStorage.setItem("kanbalone:sidebar-collapsed", String(state.sidebarCollapsed));
     syncSidebar();
+    (state.sidebarCollapsed ? elements.sidebarReopenButton : elements.sidebarToggleButton).focus({ preventScroll: true });
   }
 
   function syncSidebar() {
     elements.shell.classList.toggle("sidebar-collapsed", state.sidebarCollapsed);
+    elements.sidebar.inert = state.sidebarCollapsed;
     elements.sidebarReopenButton.hidden = !state.sidebarCollapsed;
     elements.sidebarToggleButton.innerHTML = icon(state.sidebarCollapsed ? "menu" : "chevron-left");
   }

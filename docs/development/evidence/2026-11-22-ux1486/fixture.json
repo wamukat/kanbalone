@@ -1,0 +1,82 @@
+{
+  "board": {
+    "id": 3,
+    "name": "UX1486 audit fixture",
+    "position": 2,
+    "createdAt": "2026-11-21T19:43:26.537Z",
+    "updatedAt": "2026-11-21T19:43:26.537Z"
+  },
+  "lanes": [
+    {
+      "isCompletionLane": false,
+      "id": 7,
+      "boardId": 3,
+      "name": "Todo",
+      "position": 0
+    },
+    {
+      "isCompletionLane": false,
+      "id": 8,
+      "boardId": 3,
+      "name": "Acceptance",
+      "position": 1
+    }
+  ],
+  "done": {
+    "id": 9,
+    "boardId": 3,
+    "name": "Done",
+    "isCompletionLane": true,
+    "position": 2
+  },
+  "group": {
+    "id": 3,
+    "boardId": 3,
+    "name": "Audit Group",
+    "isActive": true,
+    "totalTicketCount": 0,
+    "openTicketCount": 0,
+    "archivedTicketCount": 0,
+    "revision": 1,
+    "createdAt": "2026-11-21T19:43:26.576Z",
+    "updatedAt": "2026-11-21T19:43:26.576Z",
+    "descriptionMarkdown": "## Review\nKeyboard, zoom and recovery.",
+    "descriptionHtml": "<h2>Review</h2>\n<p>Keyboard, zoom and recovery.</p>\n"
+  },
+  "ticket": {
+    "id": 63,
+    "boardId": 3,
+    "laneId": 7,
+    "parentTicketId": null,
+    "hasChildren": false,
+    "title": "Audit open ticket",
+    "bodyMarkdown": "- [ ] Open task\n- [x] Done task\n- Plain list",
+    "bodyHtml": "<ul>\n<li><span class=\"task-checkbox\" role=\"img\" aria-label=\"Not completed\">☐</span> Open task</li>\n<li><span class=\"task-checkbox\" role=\"img\" aria-label=\"Completed\">☑</span> Done task</li>\n<li>Plain list</li>\n</ul>\n",
+    "isResolved": false,
+    "resolvedAt": null,
+    "isArchived": false,
+    "priority": 2,
+    "position": 0,
+    "createdAt": "2026-11-21T19:43:26.586Z",
+    "updatedAt": "2026-11-21T19:43:26.589Z",
+    "tags": [],
+    "comments": [],
+    "blockerIds": [],
+    "relatedIds": [],
+    "blockers": [],
+    "blockedBy": [],
+    "related": [],
+    "parent": null,
+    "children": [],
+    "ref": "UX1486 audit fixture#63",
+    "shortRef": "#63",
+    "remote": null,
+    "externalReferences": [],
+    "groupId": 3,
+    "group": {
+      "id": 3,
+      "name": "Audit Group"
+    },
+    "editToken": "8bf02cf0081df1a90028ea71201a166a31e865b12c044826e408ae5387e783cc"
+  }
+}

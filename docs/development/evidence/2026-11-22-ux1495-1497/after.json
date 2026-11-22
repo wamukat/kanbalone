@@ -1,0 +1,416 @@
+[
+  {
+    "locale": "ja-JP",
+    "sidebar": {
+      "id": "sidebar-reopen-button",
+      "inSidebar": false,
+      "x": 16
+    },
+    "focus": [
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "comments-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "activity-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "comment-compose-toggle",
+        "inSheet": false
+      },
+      {
+        "id": "editor-dialog-resize-handle",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "sidebar-reopen-button",
+        "inSheet": false
+      },
+      {
+        "id": "search-input",
+        "inSheet": false
+      },
+      {
+        "id": "lane-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "tag-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "include-archived-filter",
+        "inSheet": false
+      },
+      {
+        "id": "list-select-all",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "header-edit-button",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "comments-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "activity-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "comment-compose-toggle",
+        "inSheet": false
+      },
+      {
+        "id": "editor-dialog-resize-handle",
+        "inSheet": false
+      },
+      {
+        "id": "sidebar-reopen-button",
+        "inSheet": false
+      },
+      {
+        "id": "search-input",
+        "inSheet": false
+      },
+      {
+        "id": "lane-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "tag-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "include-archived-filter",
+        "inSheet": false
+      },
+      {
+        "id": "list-select-all",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      }
+    ],
+    "zoom": {
+      "width": 640,
+      "dpr": 2,
+      "filters": [
+        {
+          "id": "lane-filter",
+          "width": 144,
+          "height": 34.296875
+        },
+        {
+          "id": "priority-filter",
+          "width": 168.1484375,
+          "height": 34.8984375
+        },
+        {
+          "id": "tag-filter",
+          "width": 88,
+          "height": 34.296875
+        },
+        {
+          "id": "status-filter",
+          "width": 238.875,
+          "height": 34.8984375
+        },
+        {
+          "id": "",
+          "width": 167.8828125,
+          "height": 34.296875
+        },
+        {
+          "id": "reset-filters-button",
+          "width": 0,
+          "height": 0
+        }
+      ],
+      "scrollWidth": 832
+    }
+  },
+  {
+    "locale": "en-US",
+    "sidebar": {
+      "id": "sidebar-reopen-button",
+      "inSidebar": false,
+      "x": 16
+    },
+    "focus": [
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "comments-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "activity-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "comment-compose-toggle",
+        "inSheet": false
+      },
+      {
+        "id": "editor-dialog-resize-handle",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "sidebar-reopen-button",
+        "inSheet": false
+      },
+      {
+        "id": "search-input",
+        "inSheet": false
+      },
+      {
+        "id": "lane-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "tag-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "include-archived-filter",
+        "inSheet": false
+      },
+      {
+        "id": "list-select-all",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "header-edit-button",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "comments-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "activity-tab-button",
+        "inSheet": false
+      },
+      {
+        "id": "comment-compose-toggle",
+        "inSheet": false
+      },
+      {
+        "id": "editor-dialog-resize-handle",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "sidebar-reopen-button",
+        "inSheet": false
+      },
+      {
+        "id": "search-input",
+        "inSheet": false
+      },
+      {
+        "id": "lane-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "tag-filter",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "",
+        "inSheet": false
+      },
+      {
+        "id": "include-archived-filter",
+        "inSheet": false
+      },
+      {
+        "id": "list-select-all",
+        "inSheet": false
+      }
+    ],
+    "zoom": {
+      "width": 640,
+      "dpr": 2,
+      "filters": [
+        {
+          "id": "lane-filter",
+          "width": 126,
+          "height": 34.296875
+        },
+        {
+          "id": "priority-filter",
+          "width": 142.8125,
+          "height": 34.8984375
+        },
+        {
+          "id": "tag-filter",
+          "width": 88,
+          "height": 34.296875
+        },
+        {
+          "id": "status-filter",
+          "width": 258.7265625,
+          "height": 34.8984375
+        },
+        {
+          "id": "",
+          "width": 195.53125,
+          "height": 34.296875
+        },
+        {
+          "id": "reset-filters-button",
+          "width": 0,
+          "height": 0
+        }
+      ],
+      "scrollWidth": 836
+    }
+  }
+]
