@@ -23,7 +23,7 @@ export function createBoardModule(ctx) {
     cancelLaneCreate: kanbanModule.cancelLaneCreate,
   });
   const sidebarTagsModule = createSidebarTagsModule(ctx);
-  const groupModule = createGroupBoardModule(ctx);
+  const groupModule = createGroupBoardModule({ ...ctx, beforeGroupRender: keyboard.beforeRender, afterGroupRender: keyboard.afterRender });
 
   function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "", actionIcon = "plus", secondaryActionLabel = "", secondaryActionAttr = "" }) {
     const action = actionLabel && actionAttr
@@ -133,6 +133,7 @@ export function createBoardModule(ctx) {
     restoreEditorOrigin: keyboard.restoreEditorOrigin,
     afterKeyboardRender: keyboard.afterRender,
     openGroup: groupModule.openGroup,
+    isActiveGroup: groupModule.isActiveGroup,
     renderBoards: sidebarBoardsModule.renderBoards,
     renderBoardDetail,
     renderSidebarTags: sidebarTagsModule.renderSidebarTags,

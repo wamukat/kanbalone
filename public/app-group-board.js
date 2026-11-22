@@ -176,6 +176,7 @@ export function createGroupBoardModule(ctx) {
   const searchMatches = () => searchGroupCandidates(searchState());
   const optionsHtml = () => renderGroupOptions(searchState(), esc);
   function render() {
+    ctx.beforeGroupRender?.();
     // Live board events must not interrupt a draft or move the caret while typing.
     const active = document.activeElement;
     const focused =
@@ -204,7 +205,9 @@ export function createGroupBoardModule(ctx) {
       members: "add",
     };
     const afterSubmitAction = submitActions[submittedForm || ""];
-    const focusSelector = focused?.id
+    const focusSelector = focused?.dataset.selectGroup
+      ? `[data-select-group="${Number(focused.dataset.selectGroup)}"]`
+      : focused?.id
       ? `#${focused.id}`
       : focused?.name && focusedForm
         ? `[data-group-form="${focusedForm}"] [name="${focused.name}"]`
@@ -264,6 +267,7 @@ export function createGroupBoardModule(ctx) {
       )
         next.setSelectionRange(...selection);
     }
+    ctx.afterGroupRender?.();
   }
   /** @param {number} id */
   async function remove(id) {
@@ -421,7 +425,6 @@ export function createGroupBoardModule(ctx) {
         break;
       case "new-ticket":
         if (!selected) return;
-        render();
         await ctx.openEditor(null, "edit", null, {
           id: selected.id,
           name: selected.name,
@@ -591,5 +594,7 @@ export function createGroupBoardModule(ctx) {
       e.target.setAttribute("aria-expanded", "false");
     }
   });
-  return { renderGroupBoard, openGroup };
+  /** @param {number} id */
+  const isActiveGroup = (id) => state.viewMode === "group" && boardId === state.activeBoardId && selectedId === id;
+  return { renderGroupBoard, openGroup, isActiveGroup };
 }
