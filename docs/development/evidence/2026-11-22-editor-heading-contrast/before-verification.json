@@ -1,0 +1,362 @@
+[
+  {
+    "language": "ja",
+    "theme": "light",
+    "measured": {
+      "language": "ja",
+      "dark": false,
+      "focus": "ticket-title",
+      "context": "Delivery review · グループ：Improve notifications",
+      "headings": [
+        {
+          "text": "タグ",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 294,
+            "y": 441.53125,
+            "width": 692,
+            "height": 20.296875,
+            "top": 441.53125,
+            "right": 986,
+            "bottom": 461.828125,
+            "left": 294
+          }
+        },
+        {
+          "text": "関連\n            \n              \n            \n            \n              \n                \n                ブロック元\n              \n              \n                \n                関連チケット\n              \n              \n                \n                親チケット\n              \n              \n                \n                子チケット",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 294,
+            "y": 524.53125,
+            "width": 692,
+            "height": 27.78125,
+            "top": 524.53125,
+            "right": 986,
+            "bottom": 552.3125,
+            "left": 294
+          }
+        }
+      ],
+      "save": {
+        "x": 930.8125,
+        "y": 578.40625,
+        "width": 55.1875,
+        "height": 38.375,
+        "top": 578.40625,
+        "right": 986,
+        "bottom": 616.78125,
+        "left": 930.8125
+      }
+    },
+    "saved": {
+      "id": 2,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "通知の配信を確認する light",
+      "bodyMarkdown": "",
+      "bodyHtml": "",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 0,
+      "createdAt": "2026-11-22T06:55:22.287Z",
+      "updatedAt": "2026-11-22T06:55:22.293Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "blockers": [],
+      "blockedBy": [],
+      "related": [],
+      "parent": null,
+      "children": [],
+      "ref": "Delivery review#2",
+      "shortRef": "#2",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": 1,
+      "group": {
+        "id": 1,
+        "name": "Improve notifications"
+      },
+      "editToken": "806c8f787064676ce3758fe3fd602f4035a0640cba3b6fdb977ad6bc9ea07865"
+    },
+    "visibleAfterReload": true,
+    "returnedToOrigin": true
+  },
+  {
+    "language": "ja",
+    "theme": "dark",
+    "measured": {
+      "language": "ja",
+      "dark": true,
+      "focus": "ticket-title",
+      "context": "Delivery review · グループ：Improve notifications",
+      "headings": [
+        {
+          "text": "タグ",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(23, 29, 25)",
+          "rect": {
+            "x": 294,
+            "y": 441.53125,
+            "width": 692,
+            "height": 20.296875,
+            "top": 441.53125,
+            "right": 986,
+            "bottom": 461.828125,
+            "left": 294
+          }
+        },
+        {
+          "text": "関連\n            \n              \n            \n            \n              \n                \n                ブロック元\n              \n              \n                \n                関連チケット\n              \n              \n                \n                親チケット\n              \n              \n                \n                子チケット",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(23, 29, 25)",
+          "rect": {
+            "x": 294,
+            "y": 524.53125,
+            "width": 692,
+            "height": 27.78125,
+            "top": 524.53125,
+            "right": 986,
+            "bottom": 552.3125,
+            "left": 294
+          }
+        }
+      ],
+      "save": {
+        "x": 930.8125,
+        "y": 578.40625,
+        "width": 55.1875,
+        "height": 38.375,
+        "top": 578.40625,
+        "right": 986,
+        "bottom": 616.78125,
+        "left": 930.8125
+      }
+    },
+    "saved": {
+      "id": 3,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "通知の配信を確認する dark",
+      "bodyMarkdown": "",
+      "bodyHtml": "",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 1,
+      "createdAt": "2026-11-22T06:55:28.572Z",
+      "updatedAt": "2026-11-22T06:55:28.575Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "blockers": [],
+      "blockedBy": [],
+      "related": [],
+      "parent": null,
+      "children": [],
+      "ref": "Delivery review#3",
+      "shortRef": "#3",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": 1,
+      "group": {
+        "id": 1,
+        "name": "Improve notifications"
+      },
+      "editToken": "b83aeb43fcd390041de09530ffc5a80c452e688d11c2af1be1ac7e8cbfcb76bd"
+    },
+    "visibleAfterReload": true,
+    "returnedToOrigin": true
+  },
+  {
+    "language": "en",
+    "theme": "light",
+    "measured": {
+      "language": "en",
+      "dark": false,
+      "focus": "ticket-title",
+      "context": "Delivery review · Group: Improve notifications",
+      "headings": [
+        {
+          "text": "Tags",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 294,
+            "y": 441.53125,
+            "width": 692,
+            "height": 20.296875,
+            "top": 441.53125,
+            "right": 986,
+            "bottom": 461.828125,
+            "left": 294
+          }
+        },
+        {
+          "text": "Relations\n            \n              \n            \n            \n              \n                \n                Blocked by\n              \n              \n                \n                Related\n              \n              \n                \n                Parent\n              \n              \n                \n                Child",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "rect": {
+            "x": 294,
+            "y": 524.53125,
+            "width": 692,
+            "height": 27.78125,
+            "top": 524.53125,
+            "right": 986,
+            "bottom": 552.3125,
+            "left": 294
+          }
+        }
+      ],
+      "save": {
+        "x": 927.0625,
+        "y": 578.40625,
+        "width": 58.9375,
+        "height": 38.375,
+        "top": 578.40625,
+        "right": 986,
+        "bottom": 616.78125,
+        "left": 927.0625
+      }
+    },
+    "saved": {
+      "id": 4,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "Review notification delivery light",
+      "bodyMarkdown": "",
+      "bodyHtml": "",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 2,
+      "createdAt": "2026-11-22T06:55:34.034Z",
+      "updatedAt": "2026-11-22T06:55:34.036Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "blockers": [],
+      "blockedBy": [],
+      "related": [],
+      "parent": null,
+      "children": [],
+      "ref": "Delivery review#4",
+      "shortRef": "#4",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": 1,
+      "group": {
+        "id": 1,
+        "name": "Improve notifications"
+      },
+      "editToken": "ee2444b83d237318ac25335e31f87bc16f37ee1ca337b565ff2617db7608f98f"
+    },
+    "visibleAfterReload": true,
+    "returnedToOrigin": true
+  },
+  {
+    "language": "en",
+    "theme": "dark",
+    "measured": {
+      "language": "en",
+      "dark": true,
+      "focus": "ticket-title",
+      "context": "Delivery review · Group: Improve notifications",
+      "headings": [
+        {
+          "text": "Tags",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(23, 29, 25)",
+          "rect": {
+            "x": 294,
+            "y": 441.53125,
+            "width": 692,
+            "height": 20.296875,
+            "top": 441.53125,
+            "right": 986,
+            "bottom": 461.828125,
+            "left": 294
+          }
+        },
+        {
+          "text": "Relations\n            \n              \n            \n            \n              \n                \n                Blocked by\n              \n              \n                \n                Related\n              \n              \n                \n                Parent\n              \n              \n                \n                Child",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(23, 29, 25)",
+          "rect": {
+            "x": 294,
+            "y": 524.53125,
+            "width": 692,
+            "height": 27.78125,
+            "top": 524.53125,
+            "right": 986,
+            "bottom": 552.3125,
+            "left": 294
+          }
+        }
+      ],
+      "save": {
+        "x": 927.0625,
+        "y": 578.40625,
+        "width": 58.9375,
+        "height": 38.375,
+        "top": 578.40625,
+        "right": 986,
+        "bottom": 616.78125,
+        "left": 927.0625
+      }
+    },
+    "saved": {
+      "id": 5,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "Review notification delivery dark",
+      "bodyMarkdown": "",
+      "bodyHtml": "",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 3,
+      "createdAt": "2026-11-22T06:55:39.615Z",
+      "updatedAt": "2026-11-22T06:55:39.617Z",
+      "tags": [],
+      "comments": [],
+      "blockerIds": [],
+      "relatedIds": [],
+      "blockers": [],
+      "blockedBy": [],
+      "related": [],
+      "parent": null,
+      "children": [],
+      "ref": "Delivery review#5",
+      "shortRef": "#5",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": 1,
+      "group": {
+        "id": 1,
+        "name": "Improve notifications"
+      },
+      "editToken": "604eea078b531b88ca19cc42b2c4247564779da2744d7b6c135f432c285db827"
+    },
+    "visibleAfterReload": true,
+    "returnedToOrigin": true
+  }
+]

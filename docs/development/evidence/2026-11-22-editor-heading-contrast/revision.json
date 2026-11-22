@@ -1,0 +1,16 @@
+{
+  "baseline": "09ad816c1fb51c3a0af143ee0cee477e2964eee9",
+  "candidate": "baseline plus public/styles/editor-fields.css one-property change",
+  "servedCssSha256": {
+    "before": "0b283b5bbee7f6d3a95417fc0dc97d7fa89fbde98608de538b135a8e545f1e10",
+    "after": "48654e4e59e7706126579370a735d1bed451ae8c015b62ef8538174ce1781be2"
+  },
+  "node": "26.13.1",
+  "agentBrowser": "agent-browser 0.26.0",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "fixture": "SQLite backup before either capture; separate databases; subsequent saved tickets have different timestamps/edit tokens, matching content and IDs",
+  "captureDate": "2026-11-22"
+}
