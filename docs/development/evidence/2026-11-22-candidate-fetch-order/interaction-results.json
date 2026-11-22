@@ -1,0 +1,442 @@
+[
+  {
+    "key": "en-light-1440-before",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "en-light-1440-after",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "en-dark-390-before",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "en-dark-390-after",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "ja-light-1440-before",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "ja-light-1440-after",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "ja-dark-390-before",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  },
+  {
+    "key": "ja-dark-390-after",
+    "expected": {
+      "parent": [
+        5,
+        6,
+        210,
+        2,
+        211,
+        4
+      ],
+      "blocker": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        4
+      ],
+      "related": [
+        5,
+        6,
+        210,
+        2,
+        8,
+        211,
+        4
+      ],
+      "child": [
+        5,
+        6,
+        210,
+        211,
+        4
+      ]
+    },
+    "selectedRelatedOrder": [
+      5,
+      4
+    ],
+    "cancelPreserved": true,
+    "saved": {
+      "relatedIds": [
+        5,
+        4
+      ],
+      "blockerIds": [
+        6
+      ],
+      "childIds": [
+        210
+      ]
+    },
+    "reloaded": true
+  }
+]

@@ -283,3 +283,60 @@ test("child candidates retain hierarchy exclusions, archived children, ordering 
     await expect(page.locator("#ticket-child-options")).toContainText("No matching tickets");
   } finally { await f.close(); }
 });
+
+test("all relation pickers preserve priority order and selections across a complete multi-page collection", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Candidate collection order", laneNames: ["Todo", "Later"] });
+    const make = (title: string, extra = {}) => createTicket(page.request, baseUrl, board.id, { title, laneId: lanes[0].id, ...extra });
+    const subject = await make("Choice subject");
+    const parent = await make("Choice parent");
+    await make("Archived descendant", { parentTicketId: parent.id, isArchived: true });
+    const low = await make("Choice low", { priority: 1 });
+    const high = await make("Choice high archived", { priority: 4, isArchived: true });
+    const equal = await make("Choice equal", { priority: 4 });
+    const otherParent = await make("Different parent");
+    const otherChild = await make("Choice existing child", { parentTicketId: otherParent.id });
+    for (let i = 0; i < 201; i++) await make(`Filler ${i}`, { laneId: lanes[1].id, isArchived: true });
+    const late = await make("Choice late archived", { laneId: lanes[1].id, priority: 3, isArchived: true });
+    const blocked = await make("Choice waiting for subject", { blockerIds: [subject.id] });
+    const requests: string[] = [];
+    page.on("request", r => { if (candidateRequest(r.url())) requests.push(r.url()); });
+    await page.goto(`${baseUrl}/tickets/${subject.id}`);
+    await page.locator("#header-edit-button").click();
+    const expected = {
+      parent: [high.id, equal.id, late.id, parent.id, blocked.id, low.id],
+      blocker: [high.id, equal.id, late.id, parent.id, otherChild.id, low.id],
+      related: [high.id, equal.id, late.id, parent.id, otherChild.id, blocked.id, low.id],
+      child: [high.id, equal.id, late.id, blocked.id, low.id],
+    };
+    for (const type of ["parent", "blocker", "related", "child"] as const) {
+      await page.locator("#ticket-relation-add-button").click();
+      await page.locator(`[data-relation-add-type="${type}"]`).click();
+      await page.locator(`#ticket-${type}-search`).fill("Choice");
+      await expect.poll(() => page.locator(`#ticket-${type}-options [data-${type}-id]`).evaluateAll((es, attr) => es.map(e => Number(e.getAttribute(attr))), `data-${type}-id`)).toEqual(expected[type]);
+    }
+    expect(requests).toHaveLength(2);
+    expect(new URL(requests[1]).searchParams.has("cursor")).toBe(true);
+    for (const [type, title] of [["related", high.title], ["related", low.title], ["blocker", equal.title], ["child", late.title]] as const) {
+      const search = page.locator(`#ticket-${type}-search`);
+      await search.fill(title);
+      await expect(page.locator(`#ticket-${type}-options [data-${type}-id]`)).toHaveCount(1);
+      await search.press("Enter");
+    }
+    expect(await page.locator("#ticket-related-summary [data-remove-related-id]").evaluateAll(es => es.map(e => Number(e.getAttribute("data-remove-related-id"))))).toEqual([high.id, low.id]);
+    expect(requests).toHaveLength(2);
+    await page.locator('#editor-form button[type="submit"]').click();
+    await expect(page.locator("#ticket-view")).toBeVisible();
+    const saved = await (await page.request.get(`${baseUrl}/api/tickets/${subject.id}`)).json();
+    expect([...saved.relatedIds].sort((a: number, b: number) => a-b)).toEqual([low.id, high.id]);
+    expect(saved.blockerIds).toEqual([equal.id]);
+    expect(saved.children.map((c: any) => c.id)).toEqual([late.id]);
+    expect((await (await page.request.get(`${baseUrl}/api/tickets/${late.id}`)).json()).parentTicketId).toBe(subject.id);
+    await page.reload(); await page.locator("#header-edit-button").click();
+    await expect(page.locator("#ticket-child-summary")).toContainText(late.title);
+    await expect(page.locator("#ticket-related-summary")).toContainText(high.title);
+    await expect(page.locator("#ticket-related-summary")).toContainText(low.title);
+    await expect(page.locator("#ticket-blocker-summary")).toContainText(equal.title);
+  } finally { await close(); }
+});
