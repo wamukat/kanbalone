@@ -1,0 +1,78 @@
+[
+  {
+    "language": "ja",
+    "theme": "light",
+    "headings": [
+      {
+        "label": "タグ",
+        "beforeContrast": 21.0,
+        "afterContrast": 16.73,
+        "sameRectangle": true
+      },
+      {
+        "label": "関連",
+        "beforeContrast": 21.0,
+        "afterContrast": 16.73,
+        "sameRectangle": true
+      }
+    ],
+    "sameSaveRectangle": true
+  },
+  {
+    "language": "ja",
+    "theme": "dark",
+    "headings": [
+      {
+        "label": "タグ",
+        "beforeContrast": 1.226,
+        "afterContrast": 15.369,
+        "sameRectangle": true
+      },
+      {
+        "label": "関連",
+        "beforeContrast": 1.226,
+        "afterContrast": 15.369,
+        "sameRectangle": true
+      }
+    ],
+    "sameSaveRectangle": true
+  },
+  {
+    "language": "en",
+    "theme": "light",
+    "headings": [
+      {
+        "label": "Tags",
+        "beforeContrast": 21.0,
+        "afterContrast": 16.73,
+        "sameRectangle": true
+      },
+      {
+        "label": "Relations",
+        "beforeContrast": 21.0,
+        "afterContrast": 16.73,
+        "sameRectangle": true
+      }
+    ],
+    "sameSaveRectangle": true
+  },
+  {
+    "language": "en",
+    "theme": "dark",
+    "headings": [
+      {
+        "label": "Tags",
+        "beforeContrast": 1.226,
+        "afterContrast": 15.369,
+        "sameRectangle": true
+      },
+      {
+        "label": "Relations",
+        "beforeContrast": 1.226,
+        "afterContrast": 15.369,
+        "sameRectangle": true
+      }
+    ],
+    "sameSaveRectangle": true
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "existingE2E": {
+    "command": "node node_modules/@playwright/test/cli.js test test/e2e/create-keyboard.spec.ts --grep \"origin \\(group,\" --workers=1",
+    "passed": 2,
+    "failed": 0
+  },
+  "actualBrowserCases": 8,
+  "docsBuild": {
+    "command": "node scripts/build-pages.mjs",
+    "exitCode": 0
+  },
+  "diffCheck": {
+    "command": "git diff --check",
+    "exitCode": 0
+  }
+}
