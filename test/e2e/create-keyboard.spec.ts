@@ -182,12 +182,9 @@ test("pending relation candidates cannot restore the previous Group creation aft
     const second = page.locator(`[data-select-group="${groups[1].id}"]`);
     await first.click();
     let requested = false;
-    await page.route(`**/api/boards/${board.id}/tickets?*`, async route => {
-      const query = new URL(route.request().url()).searchParams;
-      if (query.get("archived") === "all" && !query.has("groupId")) {
-        requested = true;
-        await gate;
-      }
+    await page.route(`**/api/boards/${board.id}/relation-candidates?*`, async route => {
+      requested = true;
+      await gate;
       await route.continue();
     });
     await first.press("n");

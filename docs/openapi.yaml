@@ -688,6 +688,73 @@ paths:
         '428':
           $ref: '#/components/responses/GroupError'
 
+  /api/boards/{boardId}/relation-candidates:
+    get:
+      summary: List relation picker candidates
+      description: Returns active and archived tickets on this board in ascending ID order. Each record contains the fields used by the relation pickers. Query parameters other than limit, cursor and order return 400.
+      operationId: listTicketRelationCandidates
+      parameters:
+        - $ref: '#/components/parameters/BoardId'
+        - name: limit
+          in: query
+          required: true
+          description: Page size. May change between requests.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+        - name: cursor
+          in: query
+          description: Opaque nextCursor from the previous response of this endpoint for the same board. A change in the ticket-list revision returns 409 and requires restarting.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 4096
+        - name: order
+          in: query
+          description: The order is fixed at id_asc, which may be supplied explicitly.
+          schema:
+            type: string
+            enum: [id_asc]
+      responses:
+        '200':
+          description: A page of relation candidates
+          headers:
+            X-Kanbalone-Ticket-Revision:
+              description: Board ticket-list revision from the same read transaction as this page.
+              schema:
+                type: integer
+                minimum: 0
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [tickets, page]
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TicketRelationCandidate'
+                  page:
+                    type: object
+                    additionalProperties: false
+                    required: [nextCursor, total]
+                    properties:
+                      nextCursor:
+                        type: [string, 'null']
+                        description: Null on the final page.
+                      total:
+                        type: integer
+                        minimum: 0
+                        description: Total number of active and archived tickets on the board.
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+
   /api/boards/{boardId}/remote-import:
     post:
       summary: Import a remote issue into a board
@@ -2723,6 +2790,30 @@ components:
       - externalReferences
       - groupId
       - group
+    TicketRelationCandidate:
+      type: object
+      additionalProperties: false
+      required: [id, title, parentTicketId, priority, blockerIds, isResolved]
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        title:
+          type: string
+        parentTicketId:
+          type: [integer, 'null']
+          minimum: 1
+        priority:
+          type: integer
+          enum: [1, 2, 3, 4]
+        blockerIds:
+          type: array
+          description: Blocker IDs in ascending order, including blockers on other boards.
+          items:
+            type: integer
+            minimum: 1
+        isResolved:
+          type: boolean
     TicketUpdate:
       allOf:
       - $ref: '#/components/schemas/TicketUpsert'

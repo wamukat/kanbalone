@@ -1,0 +1,23 @@
+{
+  "unitApi": {
+    "passed": 202,
+    "command": "pnpm check (lint and test stages)",
+    "log": "check.log"
+  },
+  "initialFailure": "TypeScript return union inference after pager extraction; fixed with explicit type only. No runtime change.",
+  "afterTypeFix": [
+    "pnpm build passed",
+    "pnpm check:public passed",
+    "pnpm docs:build passed"
+  ],
+  "e2e": {
+    "passed": 24,
+    "command": "playwright test test/e2e/editor-candidates.spec.ts test/e2e/create-keyboard.spec.ts test/e2e/ui-smoke.spec.ts test/e2e/ticket-editor-relations.spec.ts --workers=2",
+    "log": "e2e.log"
+  },
+  "focusedApi": {
+    "passed": 8,
+    "command": "node --import tsx --test test/app-ticket-pagination.test.ts"
+  },
+  "diffCheck": "passed"
+}

@@ -44,6 +44,12 @@ Paged responses also include `X-Kanbalone-Ticket-Revision`. When combining indep
 
 For automation that modifies tickets, finish collecting the list before writing, or track already-processed IDs and make retries safe. Do not combine rows from before and after a 409, and do not blindly repeat writes.
 
+## Relation picker candidates
+
+`GET /api/boards/3/relation-candidates?limit=200` includes active and archived tickets in ascending ID order. Each ticket contains `id`, `title`, `parentTicketId`, `priority`, `blockerIds`, and `isResolved`.
+
+Supply `limit=1..200` on every request. The order is always `id_asc`, which you may supply explicitly. Follow `page.nextCursor` until it is null. Use the cursor with the same board and endpoint. Each page includes `X-Kanbalone-Ticket-Revision` and `page.total`, the full board ticket count. On 409, discard the collected pages and start again without a cursor.
+
 ## Health Check
 
 ```bash

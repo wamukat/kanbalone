@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, updateTicket } from "./helpers.js";
 import type { Page } from "@playwright/test";
 
 async function fixture(page: Page, many = false) {
@@ -21,10 +21,7 @@ async function fixture(page: Page, many = false) {
   await page.waitForLoadState("networkidle");
   return { ...server, board, subject, child, archived, blocker, blocked, other, candidate };
 }
-const candidateRequest = (url: string) => {
-  const parsed = new URL(url);
-  return /^\/api\/boards\/\d+\/tickets$/.test(parsed.pathname) && parsed.searchParams.get("archived") === "all";
-};
+const candidateRequest = (url: string | URL) => /^\/api\/boards\/\d+\/relation-candidates$/.test(new URL(url).pathname);
 async function openDetail(page: Page, id: number) {
   await page.locator(`.ticket-card[data-ticket-id="${id}"] .ticket-link`).click();
   await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
@@ -44,7 +41,10 @@ test("new and detail open without collecting candidates; selected relations surv
   const f = await fixture(page);
   try {
     const requests: string[] = [];
-    page.on("request", r => { if (candidateRequest(r.url())) requests.push(r.url()); });
+    page.on("request", r => {
+      const url = new URL(r.url());
+      if (candidateRequest(url) || (url.pathname === `/api/boards/${f.board.board.id}/tickets` && url.searchParams.get("archived") === "all")) requests.push(r.url());
+    });
     await newEditor(page);
     await page.keyboard.press("Escape");
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", false);
@@ -66,20 +66,33 @@ test("new and detail open without collecting candidates; selected relations surv
   } finally { await f.close(); }
 });
 
-test("first candidate search collects all pages including archived tickets and reuses the complete collection", async ({ page }) => {
+test("candidate search restarts a stale collection, includes archived tickets, and reuses the complete collection", async ({ page }) => {
   const f = await fixture(page, true);
   try {
-    const requests: string[] = [];
-    page.on("request", r => { if (candidateRequest(r.url())) requests.push(r.url()); });
+    const requests: URL[] = [];
+    const statuses: number[] = [];
+    const updatedTitle = "Required review updated during pagination";
+    let changed = false;
+    page.on("request", r => { if (candidateRequest(r.url())) requests.push(new URL(r.url())); });
+    page.on("response", r => { if (candidateRequest(r.url())) statuses.push(r.status()); });
+    await page.route(candidateRequest, async route => {
+      if (!changed && new URL(route.request().url()).searchParams.has("cursor")) {
+        changed = true;
+        await updateTicket(page.request, f.baseUrl, f.blocker.id, { title: updatedTitle });
+      }
+      await route.continue();
+    });
     await newEditor(page); await showRelated(page);
     await page.locator("#ticket-related-search").fill("Late archived");
     await expect(page.locator(`[data-related-id="${f.candidate.id}"]`)).toBeVisible();
-    expect(requests).toHaveLength(2);
-    expect(new URL(requests[1]).searchParams.has("cursor")).toBe(true);
+    expect(requests.map(url => url.searchParams.has("cursor"))).toEqual([false, true, false, true]);
+    expect(statuses).toEqual([200, 409, 200, 200]);
     await page.locator(`[data-related-id="${f.candidate.id}"]`).click();
     await page.locator("#ticket-related-search").fill("Required");
-    await expect(page.locator(`[data-related-id="${f.blocker.id}"]`)).toBeVisible();
-    expect(requests).toHaveLength(2);
+    const updatedOption = page.locator(`[data-related-id="${f.blocker.id}"]`);
+    await expect(updatedOption).toHaveCount(1);
+    await expect(updatedOption).toContainText(updatedTitle);
+    expect(requests).toHaveLength(4);
     await page.locator("#ticket-title").fill("Saved with archived relation");
     await page.locator('#editor-form button[type="submit"]').click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", false);
@@ -94,8 +107,7 @@ test("pending candidate request preserves current text and focus and does not bl
   let release!: () => void;
   const gate = new Promise<void>(r => { release = r; });
   try {
-    await page.route("**/api/boards/*/tickets?**", async route => {
-      if (!candidateRequest(route.request().url())) return route.continue();
+    await page.route(candidateRequest, async route => {
       await gate; await route.continue();
     });
     await newEditor(page); await showRelated(page);
@@ -114,8 +126,7 @@ test("candidate completion keeps unsaved text, current query and focus", async (
   const f = await fixture(page);
   let release!: () => void; const gate = new Promise<void>(r => { release = r; });
   try {
-    await page.route("**/api/boards/*/tickets?**", async route => {
-      if (!candidateRequest(route.request().url())) return route.continue();
+    await page.route(candidateRequest, async route => {
       await gate; await route.continue();
     });
     await openDetail(page, f.subject.id); await page.locator("#header-edit-button").click();
@@ -136,8 +147,7 @@ test("failed candidate fetch offers retry without dropping inputs", async ({ pag
   const f = await fixture(page);
   let calls = 0;
   try {
-    await page.route("**/api/boards/*/tickets?**", async route => {
-      if (!candidateRequest(route.request().url())) return route.continue();
+    await page.route(candidateRequest, async route => {
       calls++;
       if (calls === 1) return route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "Injected unavailable" }) });
       return route.continue();
@@ -158,8 +168,7 @@ test("late candidates cannot replace another ticket's selected relation state", 
   const f = await fixture(page);
   let release!: () => void; const gate = new Promise<void>(r => { release = r; });
   try {
-    await page.route("**/api/boards/*/tickets?**", async route => {
-      if (!candidateRequest(route.request().url())) return route.continue();
+    await page.route(candidateRequest, async route => {
       await gate; await route.continue();
     });
     await openDetail(page, f.subject.id); await page.locator("#header-edit-button").click();
@@ -211,9 +220,8 @@ test("save and re-edit invalidates candidates and keeps selected relations", asy
     await expect(page.locator("#ticket-related-summary")).toContainText(f.archived.title);
     await page.locator("#ticket-related-search").fill("Newly available");
     await expect(page.locator(`[data-related-id="${added.id}"]`)).toBeVisible();
-    // This ticket did not exist in the previous candidate collection. Its
-    // presence proves re-editing fetched fresh candidates; board refreshes
-    // after save share this endpoint and must not be counted as picker loads.
+    // This ticket did not exist in the previous collection. Its presence
+    // proves re-editing fetched fresh candidates.
   } finally { await f.close(); }
 });
 
@@ -222,8 +230,7 @@ test("narrow retry status fits the picker and retains a reachable retry action",
   const f = await fixture(page);
   try {
     let calls = 0;
-    await page.route("**/api/boards/*/tickets?**", async route => {
-      if (!candidateRequest(route.request().url())) return route.continue();
+    await page.route(candidateRequest, async route => {
       if (++calls === 1) return route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "Injected unavailable" }) });
       return route.continue();
     });
@@ -317,6 +324,7 @@ test("all relation pickers preserve priority order and selections across a compl
       await expect.poll(() => page.locator(`#ticket-${type}-options [data-${type}-id]`).evaluateAll((es, attr) => es.map(e => Number(e.getAttribute(attr))), `data-${type}-id`)).toEqual(expected[type]);
     }
     expect(requests).toHaveLength(2);
+    expect(requests.map(url => new URL(url).searchParams.get("order"))).toEqual(["id_asc", "id_asc"]);
     expect(new URL(requests[1]).searchParams.has("cursor")).toBe(true);
     for (const [type, title] of [["related", high.title], ["related", low.title], ["blocker", equal.title], ["child", late.title]] as const) {
       const search = page.locator(`#ticket-${type}-search`);

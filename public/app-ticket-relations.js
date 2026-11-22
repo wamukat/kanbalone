@@ -56,7 +56,7 @@ export function createTicketRelationsModule(ctx, options) {
     candidateController = controller;
     candidateStatus = "loading";
     syncCandidateOptions();
-    candidateRequest = ctx.api(`/api/boards/${candidateBoardId}/tickets?archived=all&order=id_asc`, { signal: controller.signal })
+    candidateRequest = ctx.api(`/api/boards/${candidateBoardId}/relation-candidates`, { signal: controller.signal })
       .then((result) => {
         if (generation !== candidateGeneration || !isCandidateContextCurrent()) return;
         // Publish only the complete collection; partial board pages are not candidates.

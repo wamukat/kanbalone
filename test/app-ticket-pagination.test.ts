@@ -1,8 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { buildApp } from "../src/app.js";
 import { KanbanDb } from "../src/db.js";
+import type { TicketRelationCandidateView, TicketSummaryView } from "../src/types.js";
 import { createDbFile } from "./app-test-helpers.js";
 
 function setup() {
@@ -165,6 +167,109 @@ test("signed cursor survives restart with unchanged data", async () => {
     assert.equal(next.json().tickets.length,50);
     assert.equal(next.json().tickets[0].id,first.tickets.at(-1).id+1);
   } finally {await restarted.close();}
+});
+
+test("relation candidates page over the board in ID order with only the picker fields", async () => {
+  const f = setup();
+  try {
+    const url = `/api/boards/${f.board.board.id}/relation-candidates`;
+    const external = f.db.createTicket({ boardId: f.other.board.id, laneId: f.other.lanes[0]!.id, title: "External blocker" });
+    const [parentId, childId] = f.ids;
+    const archivedId = f.ids.at(-1)!;
+    // Include a historical nested relation and an archived child across page boundaries.
+    f.db.sqlite.prepare("UPDATE tickets SET parent_ticket_id=? WHERE id=?").run(parentId, childId);
+    f.db.sqlite.prepare("UPDATE tickets SET parent_ticket_id=? WHERE id=?").run(childId, archivedId);
+    f.db.sqlite.prepare("INSERT INTO ticket_blockers VALUES(?,?),(?,?)").run(archivedId, external.id, archivedId, parentId);
+
+    const legacyResponse = await f.app.inject(`${f.url}?archived=all&order=id_asc`);
+    assert.equal(legacyResponse.statusCode, 200);
+    const legacy: TicketSummaryView[] = legacyResponse.json().tickets;
+    assert.equal(legacy.length, 65);
+    assert.ok(legacy.some(ticket => ticket.isResolved));
+    assert.ok(legacy.find(ticket => ticket.id === archivedId)?.isArchived);
+
+    const first = await f.app.inject(`${url}?limit=1&order=id_asc`);
+    assert.equal(first.statusCode, 200, first.body);
+    const revision = first.headers["x-kanbalone-ticket-revision"];
+    assert.match(String(revision), /^\d+$/);
+    let result = first.json();
+    assert.deepEqual(Object.keys(result).sort(), ["page", "tickets"]);
+    assert.deepEqual(Object.keys(result.page).sort(), ["nextCursor", "total"]);
+    const candidates: TicketRelationCandidateView[] = [...result.tickets];
+    assert.equal(candidates.length, 1);
+    assert.equal(result.page.total, 65);
+    for (const [limit, expectedLength] of [[17, 17], [200, 47]]) {
+      assert.ok(result.page.nextCursor);
+      const response = await f.app.inject(`${url}?limit=${limit}&cursor=${result.page.nextCursor}`);
+      assert.equal(response.statusCode, 200, response.body);
+      assert.equal(response.headers["x-kanbalone-ticket-revision"], revision);
+      result = response.json();
+      assert.equal(result.page.total, 65);
+      assert.equal(result.tickets.length, expectedLength);
+      candidates.push(...result.tickets);
+    }
+    assert.equal(result.page.nextCursor, null);
+    assert.deepEqual(candidates, legacy.map(({ id, title, parentTicketId, priority, blockerIds, isResolved }) => ({
+      id, title, parentTicketId, priority, blockerIds, isResolved,
+    })));
+    assert.deepEqual(candidates.at(-1)?.blockerIds, [parentId, external.id]);
+    assert.equal(candidates.at(-1)?.parentTicketId, childId);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
+test("relation candidate cursors are endpoint specific and invalidated by ticket or blocker changes", async () => {
+  const f = setup();
+  try {
+    const url = `/api/boards/${f.board.board.id}/relation-candidates`;
+    const emptyUrl = `/api/boards/${f.other.board.id}/relation-candidates`;
+    const empty = await f.app.inject(`${emptyUrl}?limit=200`);
+    assert.equal(empty.statusCode, 200, empty.body);
+    assert.match(String(empty.headers["x-kanbalone-ticket-revision"]), /^\d+$/);
+    assert.deepEqual(empty.json(), { tickets: [], page: { nextCursor: null, total: 0 } });
+    assert.equal((await f.app.inject(`/api/boards/${f.other.board.id + 100}/relation-candidates?limit=1`)).statusCode, 404);
+    for (const query of ["", "cursor=x", "limit=0", "limit=201", "limit=1.5", "limit=no", "limit=1&cursor=x", "limit=1&cursor=", "limit=1&order=position_asc", "limit=1&archived=all", "limit=1&q=needle"]) {
+      assert.equal((await f.app.inject(`${url}?${query}`)).statusCode, 400, query);
+    }
+    const legacyUrl = `${f.url}?archived=all&order=id_asc&limit=1`;
+    const legacyFirst = await f.app.inject(legacyUrl);
+    assert.equal(legacyFirst.statusCode, 200);
+    const legacyCursor: string = legacyFirst.json().page.nextCursor;
+    const legacyPayload = JSON.parse(Buffer.from(legacyCursor.split(".")[0]!, "base64url").toString("utf8"));
+    const legacyFilterSql = "\n    SELECT t.*\n    FROM tickets t\n    WHERE t.board_id = ?\n  ";
+    assert.equal(legacyPayload.query, createHash("sha256")
+      .update(JSON.stringify([legacyFilterSql, [f.board.board.id], "id_asc"])).digest("hex"));
+    assert.ok("isArchived" in legacyFirst.json().tickets[0]);
+    assert.ok("tags" in legacyFirst.json().tickets[0]);
+    assert.ok("ref" in legacyFirst.json().tickets[0]);
+    assert.equal((await f.app.inject(`${legacyUrl}&cursor=${legacyCursor}`)).statusCode, 200);
+
+    async function firstCandidateCursor() {
+      const response = await f.app.inject(`${url}?limit=1`);
+      assert.equal(response.statusCode, 200, response.body);
+      const cursor: string = response.json().page.nextCursor;
+      assert.ok(cursor);
+      return cursor;
+    }
+    const candidateCursor = await firstCandidateCursor();
+    const altered = candidateCursor.slice(0, -1) + (candidateCursor.endsWith("A") ? "B" : "A");
+    assert.equal((await f.app.inject(`${url}?limit=1&cursor=${altered}`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${emptyUrl}?limit=1&cursor=${candidateCursor}`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${url}?limit=1&cursor=${legacyCursor}`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${legacyUrl}&cursor=${candidateCursor}`)).statusCode, 400);
+    assert.equal((await f.app.inject(legacyUrl)).body, legacyFirst.body);
+
+    f.db.updateTicket(f.ids[1]!, { title: "Changed" });
+    const stale = await f.app.inject(`${url}?limit=1&cursor=${candidateCursor}`);
+    assert.equal(stale.statusCode, 409);
+    assert.deepEqual(stale.json(), { error: "ticket list changed; restart pagination" });
+    const freshCursor = await firstCandidateCursor();
+    f.db.sqlite.prepare("INSERT INTO ticket_blockers VALUES(?,?)").run(f.ids[1], f.ids[2]);
+    assert.equal((await f.app.inject(`${url}?limit=1&cursor=${freshCursor}`)).statusCode, 409);
+    const restarted = await f.app.inject(`${url}?limit=200`);
+    assert.equal(restarted.statusCode, 200);
+    assert.equal(restarted.json().tickets[1].title, "Changed");
+    assert.deepEqual(restarted.json().tickets[1].blockerIds, [f.ids[2]]);
+  } finally { await f.app.close(); f.db.close(); }
 });
 
 test("adding pagination metadata to an existing schema preserves user data and is idempotent", async () => {

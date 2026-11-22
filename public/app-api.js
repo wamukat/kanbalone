@@ -9,8 +9,10 @@ import { translateError } from "./app-i18n.js";
  */
 export async function api(url, init = {}) {
   const parsed = new URL(String(url), "http://kanbalone.invalid");
-  if ((init.method ?? "GET").toUpperCase() === "GET" && /^\/api\/boards\/\d+\/tickets$/.test(parsed.pathname) && !parsed.searchParams.has("limit") && !parsed.searchParams.has("cursor")) {
-    const result = await collectTicketPages(requestJson, url, { init });
+  const relationCandidates = /^\/api\/boards\/\d+\/relation-candidates$/.test(parsed.pathname);
+  const ticketList = /^\/api\/boards\/\d+\/tickets$/.test(parsed.pathname);
+  if ((init.method ?? "GET").toUpperCase() === "GET" && (ticketList || relationCandidates) && !parsed.searchParams.has("limit") && !parsed.searchParams.has("cursor")) {
+    const result = await collectTicketPages(requestJson, url, { init, order: relationCandidates ? "id_asc" : undefined });
     return { tickets: result.tickets };
   }
   return requestJson(url, init);
