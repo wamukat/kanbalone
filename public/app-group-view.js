@@ -3,7 +3,7 @@ import { t as tr } from "./app-i18n.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { icon } from "./icons.js";
 import { getListTicketComparator } from "./app-ticket-sort.js";
-import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
+import { renderTicketHierarchyIcon, indexTicketHierarchy } from "./app-ticket-hierarchy.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
@@ -23,9 +23,11 @@ export function relatedTickets(id, source) {
 export function searchGroupCandidates({ query, candidates, chosen }) {
   const q = query.trim().toLowerCase();
   if (!q) return [];
+  const byId = new Map(candidates.map((ticket) => [ticket.id, ticket]));
+  const selected = new Set(chosen);
   return candidates.filter(
     (t) =>
-      !chosen.includes(relatedTickets(t.id, candidates)[0]?.id) &&
+      !selected.has(t.parentTicketId != null && byId.has(t.parentTicketId) ? t.parentTicketId : t.id) &&
       (t.title.toLowerCase().includes(q) ||
         String(t.id).includes(q.replace(/^#/, ""))),
   );
@@ -34,13 +36,14 @@ export function searchGroupCandidates({ query, candidates, chosen }) {
 export function renderGroupOptions(state, esc) {
   const { query, candidates, activeOption } = state;
   const matches = searchGroupCandidates(state);
+  const { relatedCount } = indexTicketHierarchy(candidates);
   return !query.trim()
     ? ""
     : matches.length
       ? matches
           .map(
             (t, i) =>
-              `<button type="button" role="option" id="group-option-${t.id}" aria-selected="${i === activeOption}" data-group-pick="${t.id}"><span>#${t.id} ${esc(t.title)}</span><small>${relatedTickets(t.id, candidates).length > 1 ? tr("{count} parent/child tickets", { count: relatedTickets(t.id, candidates).length }) : tr("Single ticket")}${t.isArchived ? tr(" · Archived") : ""}</small></button>`,
+              `<button type="button" role="option" id="group-option-${t.id}" aria-selected="${i === activeOption}" data-group-pick="${t.id}"><span>#${t.id} ${esc(t.title)}</span><small>${relatedCount(t.id) > 1 ? tr("{count} parent/child tickets", { count: relatedCount(t.id) }) : tr("Single ticket")}${t.isArchived ? tr(" · Archived") : ""}</small></button>`,
           )
           .join("")
       : `<p class="muted">${tr("No unassigned tickets match.")}</p>`;
@@ -71,8 +74,12 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
     chosen,
     query,
   } = view;
+  const hierarchy = indexTicketHierarchy(tickets);
+  const candidateHierarchy = adding ? indexTicketHierarchy(candidates) : null;
   /** @param {number} id @param {GroupTicket[]} [source] */
-  const related = (id, source = tickets) => relatedTickets(id, source);
+  const related = (id, source = tickets) => source === tickets
+    ? hierarchy.related(id)
+    : (candidateHierarchy ?? indexTicketHierarchy(source)).related(id);
   const optionsHtml = () => renderGroupOptions(view, esc);
   /** @param {GroupSummary} g */
   const counts = (g) =>
@@ -85,7 +92,7 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
   ) => `<div class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
     <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets)}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t)}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
-    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: related(t.id).length })}" aria-label="${related(t.id).length > 1 ? tr("Remove {count} tickets from Group", { count: related(t.id).length }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
+    ${parent ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy.relatedCount(t.id) })}" aria-label="${hierarchy.relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy.relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${icon("trash-2")}</button>` : ""}
   </div>`;
   function ticketRows() {
     const comparator = getListTicketComparator(null);
@@ -93,12 +100,11 @@ export function renderGroupView(view, { escapeHtml: esc, lanes }) {
       .filter(
         (t) =>
           t.parentTicketId == null ||
-          !tickets.some((p) => p.id === t.parentTicketId),
+          !hierarchy.byId.has(t.parentTicketId),
       )
       .sort(comparator)
       .map((parent) => {
-        const children = tickets
-          .filter((t) => t.parentTicketId === parent.id)
+        const children = (hierarchy.childrenByParent.get(parent.id) ?? [])
           .sort(comparator)
           .filter((t) => showArchived || !t.isArchived);
         if (!showArchived && parent.isArchived && !children.length) return "";

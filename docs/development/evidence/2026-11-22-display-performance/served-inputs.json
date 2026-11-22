@@ -1,0 +1,36 @@
+{
+  "before": {
+    "assets": {
+      "app-board-list.js": "8c629f21d66d3c031fa0266d5aeab7e7c254ff269dfc5705a6b92c9c4f50ee85",
+      "app-group-view.js": "b0e556bf8f8003948790ddf5c80cacfca15c2700207da448249f0c5732fc4593",
+      "app-ticket-hierarchy.js": "4d8c9cdf7686a5c732397df1b367c4f85019a1ea3d5c2f8eb14f365c8761bdc0"
+    },
+    "inputs": {
+      "1": {
+        "sha256": "21a7ef4a8ac2fc82ed898715c6e4c54164ce4156c35b2655c4360886be6e9c73",
+        "tickets": 1000
+      },
+      "2": {
+        "sha256": "fe63ed5ac26a556b4d6594b573ce354a9b86c67b3ebe7804c52bebaa2f29533b",
+        "tickets": 10000
+      }
+    }
+  },
+  "after": {
+    "assets": {
+      "app-board-list.js": "e2fa740b50f18650b87f6ff526d0948a92587e7d3b0a64fd23b479fbdd3ba66d",
+      "app-group-view.js": "beebef12e2ea466ba93b5d42d8c97e79763c7ce1aa1c640e2c81aeaf378e5580",
+      "app-ticket-hierarchy.js": "5750ae0e7d0814d29ed6c4e835a5ef71fed92a936e6b8e6d17b88234ebe5103d"
+    },
+    "inputs": {
+      "1": {
+        "sha256": "21a7ef4a8ac2fc82ed898715c6e4c54164ce4156c35b2655c4360886be6e9c73",
+        "tickets": 1000
+      },
+      "2": {
+        "sha256": "fe63ed5ac26a556b4d6594b573ce354a9b86c67b3ebe7804c52bebaa2f29533b",
+        "tickets": 10000
+      }
+    }
+  }
+}

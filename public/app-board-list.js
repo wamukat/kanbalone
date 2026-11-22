@@ -6,6 +6,7 @@ import { calculateVisibleWindow } from "./app-board-utils.js";
 import { renderListActions } from "./app-board-list-actions.js";
 import { renderListRow } from "./app-board-list-row.js";
 import { createListSelectionModule } from "./app-board-list-selection.js";
+import { indexTicketHierarchy } from "./app-ticket-hierarchy.js";
 import { icon } from "./icons.js";
 
 export { renderListActions } from "./app-board-list-actions.js";
@@ -19,7 +20,7 @@ export function getListTickets(tickets, sort = null) {
       .sort(compareTickets)
       .map((ticket) => ({ ticket, indent: 0 }));
   }
-  const byId = new Map(tickets.map((ticket) => [ticket.id, ticket]));
+  const { byId, childrenByParent } = indexTicketHierarchy(tickets);
   const roots = tickets
     .filter((ticket) => ticket.parentTicketId == null || !byId.has(ticket.parentTicketId))
     .sort(compareTickets);
@@ -28,9 +29,7 @@ export function getListTickets(tickets, sort = null) {
   for (const root of roots) {
     ordered.push({ ticket: root, indent: 0 });
     seen.add(root.id);
-    const children = tickets
-      .filter((candidate) => candidate.parentTicketId === root.id)
-      .sort(compareTickets);
+    const children = (childrenByParent.get(root.id) ?? []).sort(compareTickets);
     for (const child of children) {
       ordered.push({ ticket: child, indent: 1 });
       seen.add(child.id);
