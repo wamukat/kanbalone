@@ -1,0 +1,176 @@
+{
+  "method": "Original v1.0.0 benchmark DB vs consistent copy opened by candidate migrations; readonly comparisons of every preexisting table including sqlite_sequence; internal revision/secret tables and indexes are additive",
+  "allUserTablesUnchanged": true,
+  "tables": [
+    {
+      "table": "activity_logs",
+      "beforeCount": 11550,
+      "afterCount": 11550,
+      "same": true,
+      "hashes": [
+        "0b643a98ab9795d5778dba56ef8ed84460739c65ddc08e0a7ddbfd7f29c4533b",
+        "0b643a98ab9795d5778dba56ef8ed84460739c65ddc08e0a7ddbfd7f29c4533b"
+      ]
+    },
+    {
+      "table": "boards",
+      "beforeCount": 7,
+      "afterCount": 7,
+      "same": true,
+      "hashes": [
+        "d28817cf4d58a1df36b2170ded99b5c66e2a1f5e692a107a9005a66ecf95e32a",
+        "d28817cf4d58a1df36b2170ded99b5c66e2a1f5e692a107a9005a66ecf95e32a"
+      ]
+    },
+    {
+      "table": "comment_remote_sync",
+      "beforeCount": 550,
+      "afterCount": 550,
+      "same": true,
+      "hashes": [
+        "5b2ff74513df0ed4bf136c63e9a236feccecfefcf23b6fc37001bc8afab99477",
+        "5b2ff74513df0ed4bf136c63e9a236feccecfefcf23b6fc37001bc8afab99477"
+      ]
+    },
+    {
+      "table": "comments",
+      "beforeCount": 550,
+      "afterCount": 550,
+      "same": true,
+      "hashes": [
+        "bed9d7430b31d4e2ba7002b69e7847a961bc5d61bc6141629eb7b97735eb81b1",
+        "bed9d7430b31d4e2ba7002b69e7847a961bc5d61bc6141629eb7b97735eb81b1"
+      ]
+    },
+    {
+      "table": "group_activity_logs",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "groups",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "lanes",
+      "beforeCount": 13,
+      "afterCount": 13,
+      "same": true,
+      "hashes": [
+        "1a25cb237fd652e9b0f79469821c03ebf4dc607404af6c963a0a1aee7e7a1212",
+        "1a25cb237fd652e9b0f79469821c03ebf4dc607404af6c963a0a1aee7e7a1212"
+      ]
+    },
+    {
+      "table": "sqlite_sequence",
+      "beforeCount": 6,
+      "afterCount": 6,
+      "same": true,
+      "hashes": [
+        "c7aa42cc9fc67cd5d9fe412adf11c3d40fdb70e25739f5d3e187aef6ef3d79bd",
+        "c7aa42cc9fc67cd5d9fe412adf11c3d40fdb70e25739f5d3e187aef6ef3d79bd"
+      ]
+    },
+    {
+      "table": "tags",
+      "beforeCount": 2,
+      "afterCount": 2,
+      "same": true,
+      "hashes": [
+        "221c8994e16386e678d4887bf501bc05a47bf88a7ae96905afcaa5132fc7ab53",
+        "221c8994e16386e678d4887bf501bc05a47bf88a7ae96905afcaa5132fc7ab53"
+      ]
+    },
+    {
+      "table": "ticket_blockers",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "ticket_events",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "ticket_external_references",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "ticket_related_links",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "ticket_remote_links",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "ticket_tag_reasons",
+      "beforeCount": 0,
+      "afterCount": 0,
+      "same": true,
+      "hashes": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ]
+    },
+    {
+      "table": "ticket_tags",
+      "beforeCount": 11000,
+      "afterCount": 11000,
+      "same": true,
+      "hashes": [
+        "125340138ef19e0f2b3c7ceac6bd168873da86cf631971b988aedae1a85d3625",
+        "125340138ef19e0f2b3c7ceac6bd168873da86cf631971b988aedae1a85d3625"
+      ]
+    },
+    {
+      "table": "tickets",
+      "beforeCount": 11000,
+      "afterCount": 11000,
+      "same": true,
+      "hashes": [
+        "1f6d15a6bff1ac8ecff4574a39f0da7b630d30315d9c0762e04fc32289e4edf6",
+        "1f6d15a6bff1ac8ecff4574a39f0da7b630d30315d9c0762e04fc32289e4edf6"
+      ]
+    }
+  ]
+}

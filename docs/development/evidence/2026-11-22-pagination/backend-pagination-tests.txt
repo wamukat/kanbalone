@@ -1,0 +1,13 @@
+✔ ticket paging preserves legacy response and traverses every deterministic order with changing sizes (1715.085781ms)
+✔ paging filters run before LIMIT and normalized conditions bind the cursor (1125.855785ms)
+✔ cursor revisions cover joins, moves, cascades, completion, and referenced boards (1087.084002ms)
+✔ signed cursor survives restart with unchanged data (1087.90795ms)
+✔ adding pagination metadata to an existing schema preserves user data and is idempotent (895.958095ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8290.451199

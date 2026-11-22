@@ -1,0 +1,229 @@
+{
+  "observation": "Every assertion and page.close succeeded; test timed out waiting for server shutdown in finally. No product edit was made; same test passed serially after full run. Possible teardown connection race is not proven.",
+  "events": [
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1010",
+      "time": 81429.329,
+      "title": "Expect \"toContainText\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1010",
+      "time": 81465.723,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1012",
+      "time": 81466.7,
+      "title": "Expect \"toBeVisible\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1012",
+      "time": 81483.088,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1014",
+      "time": 81483.826,
+      "title": "Expect \"toHaveCount\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1014",
+      "time": 81495.603,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1018",
+      "time": 81613.834,
+      "title": "Expect \"toHaveCount\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1018",
+      "time": 81665.22,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1020",
+      "time": 81666.575,
+      "title": "Expect \"toHaveValue\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1020",
+      "time": 81686.251,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1030",
+      "time": 81941.405,
+      "title": "Expect \"toHaveCount\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1030",
+      "time": 81988.673,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1032",
+      "time": 81989.552,
+      "title": "Expect \"toHaveValue\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1032",
+      "time": 82008.547,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1034",
+      "time": 82009.292,
+      "title": "Expect \"toHaveText\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1034",
+      "time": 82026.166,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1048",
+      "time": 82474.6,
+      "title": "Expect \"toBeVisible\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1048",
+      "time": 82502.975,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1052",
+      "time": 82611.49,
+      "title": "Expect \"toHaveCount\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1052",
+      "time": 82660.209,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1054",
+      "time": 82661.036,
+      "title": "Expect \"toHaveValue\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1054",
+      "time": 82678.586,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1056",
+      "time": 82679.489,
+      "title": "Expect \"toHaveValue\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1056",
+      "time": 82691.733,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1058",
+      "time": 82692.505,
+      "title": "Expect \"toHaveClass\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1058",
+      "time": 82711.99,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1060",
+      "time": 82712.851,
+      "title": "Expect \"toBeChecked\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1060",
+      "time": 82728.805,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1064",
+      "time": 83022.441,
+      "title": "Expect \"toHaveCount\""
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1064",
+      "time": 83145.152,
+      "error": null
+    },
+    {
+      "trace": "test.trace",
+      "type": "before",
+      "callId": "nmmx@1066",
+      "time": 83146.024,
+      "title": "Close page"
+    },
+    {
+      "trace": "test.trace",
+      "type": "after",
+      "callId": "nmmx@1066",
+      "time": 83171.491,
+      "error": null
+    }
+  ]
+}

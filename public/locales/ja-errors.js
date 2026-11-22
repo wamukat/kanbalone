@@ -1,4 +1,9 @@
 export default {
+  "ticket list changed; restart pagination": "一覧が更新されました。もう一度操作してください。",
+  "Invalid ticket page response": "一覧を取得できませんでした。もう一度操作してください。",
+  "Ticket page total changed without invalidation": "一覧が更新されました。もう一度操作してください。",
+  "Repeated ticket page cursor": "一覧を取得できませんでした。もう一度操作してください。",
+  "Incomplete ticket page response": "一覧を取得できませんでした。もう一度操作してください。",
   "Board not found": "ボードが見つかりません。", "Ticket not found": "チケットが見つかりません。",
   "Lane not found": "レーンが見つかりません。", "Tag not found": "タグが見つかりません。",
   "Comment not found": "コメントが見つかりません。", "Group not found": "グループが見つかりません。",

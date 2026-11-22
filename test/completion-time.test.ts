@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { KanbanDb } from "../src/db.js";
 import { buildApp } from "../src/app.js";
-import { createDbFile } from "./app-test-helpers.js";
+import { createDbFile, removePaginationSchema } from "./app-test-helpers.js";
 
 const past = "2000-01-01T00:00:00.000Z";
 function fixture(t: { after: (fn: () => void) => void }) {
@@ -62,6 +62,7 @@ test("pre-timestamp database migration preserves unknown history and positions",
   const board = old.createBoard({ name: "Old" });
   const done = board.lanes[3];
   const ticket = old.createTicket({ boardId: board.board.id, laneId: done.id, title: "Historical" });
+  removePaginationSchema(old.sqlite);
   old.sqlite.exec("DROP TRIGGER ticket_completion_time_insert; DROP TRIGGER ticket_completion_time_update; ALTER TABLE tickets DROP COLUMN resolved_at;");
   old.close();
   const migrated = new KanbanDb(file);

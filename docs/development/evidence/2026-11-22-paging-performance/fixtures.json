@@ -1,0 +1,78 @@
+[
+  {
+    "count": 1000,
+    "boardId": 1,
+    "lanes": [
+      {
+        "isCompletionLane": false,
+        "id": 1,
+        "boardId": 1,
+        "name": "todo",
+        "position": 0
+      },
+      {
+        "isCompletionLane": false,
+        "id": 2,
+        "boardId": 1,
+        "name": "doing",
+        "position": 1
+      },
+      {
+        "isCompletionLane": false,
+        "id": 3,
+        "boardId": 1,
+        "name": "Acceptance",
+        "position": 2
+      },
+      {
+        "isCompletionLane": true,
+        "id": 4,
+        "boardId": 1,
+        "name": "done",
+        "position": 3
+      }
+    ],
+    "sampleId": 42,
+    "openCount": 300,
+    "doneCount": 700,
+    "importSeconds": 3.67
+  },
+  {
+    "count": 10000,
+    "boardId": 2,
+    "lanes": [
+      {
+        "isCompletionLane": false,
+        "id": 5,
+        "boardId": 2,
+        "name": "todo",
+        "position": 0
+      },
+      {
+        "isCompletionLane": false,
+        "id": 6,
+        "boardId": 2,
+        "name": "doing",
+        "position": 1
+      },
+      {
+        "isCompletionLane": false,
+        "id": 7,
+        "boardId": 2,
+        "name": "Acceptance",
+        "position": 2
+      },
+      {
+        "isCompletionLane": true,
+        "id": 8,
+        "boardId": 2,
+        "name": "done",
+        "position": 3
+      }
+    ],
+    "sampleId": 1042,
+    "openCount": 3000,
+    "doneCount": 7000,
+    "importSeconds": 43.76
+  }
+]

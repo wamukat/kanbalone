@@ -6,6 +6,14 @@ Before upgrading an existing database, read the [completion-state migration guid
 
 This API is a local, single-user Kanbalone API. The base URL is usually `http://127.0.0.1:3000`.
 
+## Paged ticket lists
+
+Pagination is an additive feature on this development branch. Existing requests without `limit` and `cursor` still return the full list in the existing order and response shape. Use documentation matching your running release.
+
+Use `limit=1..200` and repeat the returned `page.nextCursor` to get the next page. Keep the same board, filters and `order`; only `limit` may change. `page.total` is the number of all matching tickets; `nextCursor: null` marks the end. There is no page number or `hasMore` field.
+
+See [pagination examples and retry rules](./api-examples.md#paged-ticket-lists). Collect all pages before full-set decisions or mutations; discard partial results on 409 and retry at most twice. Pages are flat ticket collections, not whole parent/child trees.
+
 ## Codex Skill
 
 Kanbalone ships with a Codex skill for API-only kanban operations at `skills/kanbalone-api`.

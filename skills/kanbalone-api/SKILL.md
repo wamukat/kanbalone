@@ -95,6 +95,12 @@ For a human acceptance workflow, hand completed AI work off to the normal `Accep
 
 For board-wide completion configuration, use the atomic `PUT /api/boards/:boardId/completion-lanes` endpoint with the full desired selection and reviewed expectations for every lane. Read the [completion contract and example](references/api.md#lane-completion) before doing so. On 409, re-read and reassess the impact; do not blindly retry or fall back to individual PATCH calls to bypass the check.
 
+## Paged ticket lists
+
+On versions supporting pagination, use `GET /api/boards/:boardId/tickets?limit=200&order=id_asc` for bounded requests. Follow `page.nextCursor` until null, repeating the same filters/order and providing limit on every request (1..200; may change between pages). `page.total` is the full matching count, not the page length. Existing calls without limit/cursor retain full-list behavior.
+
+`order` accepts `id_asc`, `position_asc`, `completed_desc`; `priority=1,3` is an optional OR filter applied before paging. Invalid arguments or mismatched cursor conditions return 400. On a ticket-list 409, discard partial results and restart without cursor; retry at most twice, then report the conflict. Do not interpret an unfetched parent/child as absent. Finish collecting a complete list before whole-set decisions or writes, or track processed IDs and make mutation retries safe. Never blindly replay writes after a read retry. See [API reference](references/api.md#paged-ticket-lists).
+
 ## Operating Workflow
 
 1. Verify the instance:

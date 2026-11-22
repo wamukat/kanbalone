@@ -1,0 +1,1093 @@
+[
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 0,
+    "complete_ms": 112.30000000447036,
+    "dom_count": 37,
+    "first_ms": 112.30000000447036,
+    "longTasks": [],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 93.70000000298025
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 0,
+    "count": 1,
+    "ms": 39.39999999850989
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 1,
+    "complete_ms": 107.60000000149012,
+    "dom_count": 37,
+    "first_ms": 107.60000000149012,
+    "longTasks": [],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 88.19999999552965
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 1,
+    "count": 1,
+    "ms": 35.69999999552965
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 2,
+    "complete_ms": 88.20000000298023,
+    "dom_count": 37,
+    "first_ms": 88.20000000298023,
+    "longTasks": [],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 70.70000000298023
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 2,
+    "count": 1,
+    "ms": 45.60000000149011
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 3,
+    "complete_ms": 127.70000000298025,
+    "dom_count": 37,
+    "first_ms": 127.70000000298025,
+    "longTasks": [],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 126.5
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 3,
+    "count": 1,
+    "ms": 44.099999994039536
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 4,
+    "complete_ms": 105.39999999850988,
+    "dom_count": 37,
+    "first_ms": 105.39999999850988,
+    "longTasks": [],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 84.10000000149012
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 4,
+    "count": 1,
+    "ms": 61.79999999701977
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 0,
+    "complete_ms": 1343.2000000029802,
+    "dom_count": 37,
+    "first_ms": 1343.2000000029802,
+    "longTasks": [
+      {
+        "duration": 1019,
+        "start": 3587.29999999702
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 1341.60000000149
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 0,
+    "count": 1,
+    "ms": 60.89999999850989
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 1,
+    "complete_ms": 1739.7999999970198,
+    "dom_count": 37,
+    "first_ms": 1739.7999999970198,
+    "longTasks": [
+      {
+        "duration": 74,
+        "start": 38493.90000000596
+      },
+      {
+        "duration": 1307,
+        "start": 38568.5
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 1734.7999999970198
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 1,
+    "count": 1,
+    "ms": 55.39999999850989
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 2,
+    "complete_ms": 1658.6999999955297,
+    "dom_count": 37,
+    "first_ms": 1658.6999999955297,
+    "longTasks": [
+      {
+        "duration": 51,
+        "start": 4135.89999999851
+      },
+      {
+        "duration": 1277,
+        "start": 4187.89999999851
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 1657
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 2,
+    "count": 1,
+    "ms": 71
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 3,
+    "complete_ms": 1392.5,
+    "dom_count": 37,
+    "first_ms": 1392.5,
+    "longTasks": [
+      {
+        "duration": 58,
+        "start": 4218
+      },
+      {
+        "duration": 995,
+        "start": 4276.10000000149
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 1390.5
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 3,
+    "count": 1,
+    "ms": 82.30000000447035
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "board_open",
+    "iteration": 4,
+    "complete_ms": 1741.10000000149,
+    "dom_count": 37,
+    "first_ms": 1741.10000000149,
+    "longTasks": [
+      {
+        "duration": 54,
+        "start": 4340
+      },
+      {
+        "duration": 1322,
+        "start": 4394.39999999851
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 1738.2999999970198
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "list",
+    "operation": "search_one",
+    "iteration": 4,
+    "count": 1,
+    "ms": 56.20000000298023
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 0,
+    "complete_ms": 352,
+    "dom_count": 305,
+    "first_ms": 352,
+    "longTasks": [
+      {
+        "duration": 110,
+        "start": 2628.3000000044703
+      },
+      {
+        "duration": 144,
+        "start": 2740.10000000149
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 72
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 0,
+    "count": 1,
+    "ms": 89
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 1,
+    "complete_ms": 316.69999999552965,
+    "dom_count": 305,
+    "first_ms": 316.69999999552965,
+    "longTasks": [
+      {
+        "duration": 92,
+        "start": 2630.10000000149
+      },
+      {
+        "duration": 122,
+        "start": 2724
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 78.89999999850988
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 1,
+    "count": 1,
+    "ms": 81.69999999552965
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 2,
+    "complete_ms": 405.1000000014901,
+    "dom_count": 305,
+    "first_ms": 405.1000000014901,
+    "longTasks": [
+      {
+        "duration": 131,
+        "start": 40281.39999999851
+      },
+      {
+        "duration": 175,
+        "start": 40414.79999999702
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 67.10000000149012
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 2,
+    "count": 1,
+    "ms": 87.39999999850988
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 3,
+    "complete_ms": 355.20000000298023,
+    "dom_count": 305,
+    "first_ms": 355.20000000298023,
+    "longTasks": [
+      {
+        "duration": 114,
+        "start": 2553.20000000298
+      },
+      {
+        "duration": 143,
+        "start": 2669.3000000044703
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 70.70000000298023
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 3,
+    "count": 1,
+    "ms": 77.39999999850988
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 4,
+    "complete_ms": 306.6000000014901,
+    "dom_count": 305,
+    "first_ms": 306.6000000014901,
+    "longTasks": [
+      {
+        "duration": 98,
+        "start": 2431.89999999851
+      },
+      {
+        "duration": 128,
+        "start": 2532
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 517539,
+        "end": 57.20000000298023
+      }
+    ]
+  },
+  {
+    "tickets": 1000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 4,
+    "count": 1,
+    "ms": 91.5
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 0,
+    "complete_ms": 5781.29999999702,
+    "dom_count": 3005,
+    "first_ms": 749.7999999970198,
+    "longTasks": [
+      {
+        "duration": 66,
+        "start": 29622
+      },
+      {
+        "duration": 108,
+        "start": 29711.60000000149
+      },
+      {
+        "duration": 133,
+        "start": 29822.10000000149
+      },
+      {
+        "duration": 137,
+        "start": 29959
+      },
+      {
+        "duration": 133,
+        "start": 30101
+      },
+      {
+        "duration": 137,
+        "start": 30237
+      },
+      {
+        "duration": 141,
+        "start": 30377.60000000149
+      },
+      {
+        "duration": 159,
+        "start": 30523.5
+      },
+      {
+        "duration": 165,
+        "start": 30686.30000000447
+      },
+      {
+        "duration": 178,
+        "start": 30854.20000000298
+      },
+      {
+        "duration": 203,
+        "start": 31036.5
+      },
+      {
+        "duration": 203,
+        "start": 31245.90000000596
+      },
+      {
+        "duration": 187,
+        "start": 31452.30000000447
+      },
+      {
+        "duration": 202,
+        "start": 31643.20000000298
+      },
+      {
+        "duration": 210,
+        "start": 31848.70000000298
+      },
+      {
+        "duration": 229,
+        "start": 32062.80000000447
+      },
+      {
+        "duration": 225,
+        "start": 32295.20000000298
+      },
+      {
+        "duration": 318,
+        "start": 32523.90000000596
+      },
+      {
+        "duration": 227,
+        "start": 32880.30000000447
+      },
+      {
+        "duration": 209,
+        "start": 33112.30000000447
+      },
+      {
+        "duration": 219,
+        "start": 33329.90000000596
+      },
+      {
+        "duration": 224,
+        "start": 33557.80000000447
+      },
+      {
+        "duration": 236,
+        "start": 33785.90000000596
+      },
+      {
+        "duration": 250,
+        "start": 34044.5
+      },
+      {
+        "duration": 271,
+        "start": 34304.30000000447
+      },
+      {
+        "duration": 259,
+        "start": 34584.70000000298
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 575.8999999985099
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 0,
+    "count": 1,
+    "ms": 499.90000000596046
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 1,
+    "complete_ms": 5306.19999999553,
+    "dom_count": 3005,
+    "first_ms": 644.7999999970198,
+    "longTasks": [
+      {
+        "duration": 54,
+        "start": 3524.3000000044703
+      },
+      {
+        "duration": 97,
+        "start": 3596.3000000044703
+      },
+      {
+        "duration": 144,
+        "start": 3696.20000000298
+      },
+      {
+        "duration": 125,
+        "start": 3843.70000000298
+      },
+      {
+        "duration": 129,
+        "start": 3972.39999999851
+      },
+      {
+        "duration": 135,
+        "start": 4104
+      },
+      {
+        "duration": 138,
+        "start": 4242.20000000298
+      },
+      {
+        "duration": 142,
+        "start": 4383.5
+      },
+      {
+        "duration": 145,
+        "start": 4528.70000000298
+      },
+      {
+        "duration": 154,
+        "start": 4677.5
+      },
+      {
+        "duration": 158,
+        "start": 4836.60000000149
+      },
+      {
+        "duration": 172,
+        "start": 4997.70000000298
+      },
+      {
+        "duration": 187,
+        "start": 5173.39999999851
+      },
+      {
+        "duration": 181,
+        "start": 5363.39999999851
+      },
+      {
+        "duration": 179,
+        "start": 5547.5
+      },
+      {
+        "duration": 190,
+        "start": 5730.5
+      },
+      {
+        "duration": 181,
+        "start": 5923.80000000447
+      },
+      {
+        "duration": 201,
+        "start": 6109.30000000447
+      },
+      {
+        "duration": 242,
+        "start": 6313.80000000447
+      },
+      {
+        "duration": 283,
+        "start": 6561.5
+      },
+      {
+        "duration": 226,
+        "start": 6847.80000000447
+      },
+      {
+        "duration": 237,
+        "start": 7077.80000000447
+      },
+      {
+        "duration": 249,
+        "start": 7319.39999999851
+      },
+      {
+        "duration": 246,
+        "start": 7571.80000000447
+      },
+      {
+        "duration": 254,
+        "start": 7821.70000000298
+      },
+      {
+        "duration": 270,
+        "start": 8080.20000000298
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 466.79999999701977
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 1,
+    "count": 1,
+    "ms": 518.8000000044703
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 2,
+    "complete_ms": 6444,
+    "dom_count": 3005,
+    "first_ms": 1093.7000000029802,
+    "longTasks": [
+      {
+        "duration": 219,
+        "start": 3601.20000000298
+      },
+      {
+        "duration": 149,
+        "start": 3840.10000000149
+      },
+      {
+        "duration": 225,
+        "start": 3993
+      },
+      {
+        "duration": 182,
+        "start": 4224.60000000149
+      },
+      {
+        "duration": 160,
+        "start": 4412.30000000447
+      },
+      {
+        "duration": 170,
+        "start": 4576.70000000298
+      },
+      {
+        "duration": 173,
+        "start": 4751.30000000447
+      },
+      {
+        "duration": 176,
+        "start": 4929.20000000298
+      },
+      {
+        "duration": 193,
+        "start": 5109.80000000447
+      },
+      {
+        "duration": 171,
+        "start": 5308.5
+      },
+      {
+        "duration": 176,
+        "start": 5483.39999999851
+      },
+      {
+        "duration": 179,
+        "start": 5664.20000000298
+      },
+      {
+        "duration": 187,
+        "start": 5848.39999999851
+      },
+      {
+        "duration": 199,
+        "start": 6039.70000000298
+      },
+      {
+        "duration": 209,
+        "start": 6243.20000000298
+      },
+      {
+        "duration": 214,
+        "start": 6457.10000000149
+      },
+      {
+        "duration": 214,
+        "start": 6675.39999999851
+      },
+      {
+        "duration": 221,
+        "start": 6893.70000000298
+      },
+      {
+        "duration": 231,
+        "start": 7118.60000000149
+      },
+      {
+        "duration": 249,
+        "start": 7354.70000000298
+      },
+      {
+        "duration": 243,
+        "start": 7610
+      },
+      {
+        "duration": 247,
+        "start": 7857.10000000149
+      },
+      {
+        "duration": 277,
+        "start": 8108.5
+      },
+      {
+        "duration": 418,
+        "start": 8391
+      },
+      {
+        "duration": 359,
+        "start": 8815
+      },
+      {
+        "duration": 263,
+        "start": 9179.5
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 809
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 2,
+    "count": 1,
+    "ms": 523.7999999970198
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 3,
+    "complete_ms": 6407.30000000447,
+    "dom_count": 3005,
+    "first_ms": 719.8000000044703,
+    "longTasks": [
+      {
+        "duration": 64,
+        "start": 3450.60000000149
+      },
+      {
+        "duration": 107,
+        "start": 3532
+      },
+      {
+        "duration": 152,
+        "start": 3642.5
+      },
+      {
+        "duration": 156,
+        "start": 3799.39999999851
+      },
+      {
+        "duration": 192,
+        "start": 3963.10000000149
+      },
+      {
+        "duration": 193,
+        "start": 4161
+      },
+      {
+        "duration": 180,
+        "start": 4359.89999999851
+      },
+      {
+        "duration": 179,
+        "start": 4546.10000000149
+      },
+      {
+        "duration": 182,
+        "start": 4729.39999999851
+      },
+      {
+        "duration": 183,
+        "start": 4915.70000000298
+      },
+      {
+        "duration": 194,
+        "start": 5102.70000000298
+      },
+      {
+        "duration": 192,
+        "start": 5300.70000000298
+      },
+      {
+        "duration": 207,
+        "start": 5497.39999999851
+      },
+      {
+        "duration": 213,
+        "start": 5709
+      },
+      {
+        "duration": 222,
+        "start": 5927.10000000149
+      },
+      {
+        "duration": 246,
+        "start": 6153.5
+      },
+      {
+        "duration": 217,
+        "start": 6405
+      },
+      {
+        "duration": 248,
+        "start": 6626
+      },
+      {
+        "duration": 236,
+        "start": 6889.70000000298
+      },
+      {
+        "duration": 247,
+        "start": 7130.89999999851
+      },
+      {
+        "duration": 257,
+        "start": 7381.89999999851
+      },
+      {
+        "duration": 257,
+        "start": 7643.5
+      },
+      {
+        "duration": 276,
+        "start": 7904.60000000149
+      },
+      {
+        "duration": 282,
+        "start": 8185.60000000149
+      },
+      {
+        "duration": 306,
+        "start": 8471.70000000298
+      },
+      {
+        "duration": 292,
+        "start": 8781.80000000447
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 524.4000000059605
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 3,
+    "count": 1,
+    "ms": 564.7000000029802
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "board_open",
+    "iteration": 4,
+    "complete_ms": 5894.70000000298,
+    "dom_count": 3005,
+    "first_ms": 674.4000000059605,
+    "longTasks": [
+      {
+        "duration": 57,
+        "start": 3409.79999999702
+      },
+      {
+        "duration": 102,
+        "start": 3485.89999999851
+      },
+      {
+        "duration": 137,
+        "start": 3591.1999999955297
+      },
+      {
+        "duration": 130,
+        "start": 3732.5
+      },
+      {
+        "duration": 138,
+        "start": 3866.39999999851
+      },
+      {
+        "duration": 142,
+        "start": 4008.6999999955297
+      },
+      {
+        "duration": 149,
+        "start": 4209.39999999851
+      },
+      {
+        "duration": 152,
+        "start": 4361.19999999553
+      },
+      {
+        "duration": 152,
+        "start": 4517.69999999553
+      },
+      {
+        "duration": 158,
+        "start": 4674.10000000149
+      },
+      {
+        "duration": 159,
+        "start": 4836.69999999553
+      },
+      {
+        "duration": 179,
+        "start": 5000.29999999702
+      },
+      {
+        "duration": 181,
+        "start": 5183.69999999553
+      },
+      {
+        "duration": 189,
+        "start": 5368.79999999702
+      },
+      {
+        "duration": 205,
+        "start": 5667.89999999851
+      },
+      {
+        "duration": 202,
+        "start": 5879.10000000149
+      },
+      {
+        "duration": 215,
+        "start": 6085.10000000149
+      },
+      {
+        "duration": 222,
+        "start": 6306.79999999702
+      },
+      {
+        "duration": 351,
+        "start": 6534
+      },
+      {
+        "duration": 340,
+        "start": 6890.5
+      },
+      {
+        "duration": 247,
+        "start": 7236.10000000149
+      },
+      {
+        "duration": 237,
+        "start": 7487.60000000149
+      },
+      {
+        "duration": 265,
+        "start": 7729.19999999553
+      },
+      {
+        "duration": 273,
+        "start": 7999.79999999702
+      },
+      {
+        "duration": 267,
+        "start": 8277.79999999702
+      },
+      {
+        "duration": 256,
+        "start": 8549
+      }
+    ],
+    "requests": [
+      {
+        "bytes": 5231563,
+        "end": 500.70000000298023
+      }
+    ]
+  },
+  {
+    "tickets": 10000,
+    "view": "kanban",
+    "operation": "search_one",
+    "iteration": 4,
+    "count": 1,
+    "ms": 501.1000000014901
+  }
+]

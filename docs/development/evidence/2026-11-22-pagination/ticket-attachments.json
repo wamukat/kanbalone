@@ -1,0 +1,94 @@
+{
+  "ticketId": 1510,
+  "commentId": 4440,
+  "imageUrls": [
+    "http://127.0.0.1:3584/before-kanban-ja-initial.png",
+    "http://127.0.0.1:3584/after-kanban-ja-initial.png",
+    "http://127.0.0.1:3584/before-list-ja-parent-child.png",
+    "http://127.0.0.1:3584/after-list-ja-parent-child.png",
+    "http://127.0.0.1:3584/before-group-ja-family.png",
+    "http://127.0.0.1:3584/after-group-ja-family.png",
+    "http://127.0.0.1:3584/before-kanban-en-initial.png",
+    "http://127.0.0.1:3584/after-kanban-en-initial.png",
+    "http://127.0.0.1:3584/before-list-en-parent-child.png",
+    "http://127.0.0.1:3584/after-list-en-parent-child.png",
+    "http://127.0.0.1:3584/before-group-en-family.png",
+    "http://127.0.0.1:3584/after-group-en-family.png"
+  ],
+  "localOnly": true,
+  "verifiedInTicket": true,
+  "observedImages": [
+    {
+      "src": "http://127.0.0.1:3584/before-kanban-ja-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-kanban-ja-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-list-ja-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-list-ja-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-group-ja-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-group-ja-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-kanban-en-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-kanban-en-initial.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-list-en-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-list-en-parent-child.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/before-group-en-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "src": "http://127.0.0.1:3584/after-group-en-family.png",
+      "complete": true,
+      "width": 1440,
+      "height": 1000
+    }
+  ]
+}

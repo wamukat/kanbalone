@@ -3,6 +3,7 @@ import type Database from "better-sqlite3";
 import type { Id, TicketRow } from "../types.js";
 
 export type ListTicketsFilters = {
+  priorities?: number[];
   groupId?: number | null;
   ungrouped?: boolean;
   laneId?: number;
@@ -37,6 +38,11 @@ export function listTicketRows(
   boardId: Id,
   filters: ListTicketsFilters = {},
 ): TicketRow[] {
+  const { sql, params } = ticketFilterQuery(boardId, filters);
+  return sqlite.prepare(sql + " ORDER BY t.lane_id ASC, t.is_archived ASC, t.position ASC, t.id ASC").all(...params) as TicketRow[];
+}
+
+export function ticketFilterQuery(boardId: Id, filters: ListTicketsFilters = {}): { sql: string; params: Array<string | number | null> } {
   let sql = `
     SELECT t.*
     FROM tickets t
@@ -144,9 +150,11 @@ export function listTicketRows(
     `;
     params.push(filters.tag);
   }
-  sql += " ORDER BY t.lane_id ASC, t.is_archived ASC, t.position ASC, t.id ASC";
-
-  return sqlite.prepare(sql).all(...params) as TicketRow[];
+  if (filters.priorities?.length) {
+    sql += ` AND t.priority IN (${filters.priorities.map(() => "?").join(",")})`;
+    params.push(...filters.priorities);
+  }
+  return { sql, params };
 }
 
 function parseExternalRefQuery(query: string): { provider: string | null; issueKey: string; scope: "remote" | "external" | "both" } | null {

@@ -268,6 +268,13 @@ export const ticketsResponseSchema = {
   required: ["tickets"],
   additionalProperties: false,
   properties: {
+    page: {
+      type: "object", additionalProperties: false, required: ["nextCursor", "total"],
+      properties: {
+        nextCursor: { anyOf: [{ type: "string" }, { type: "null" }] },
+        total: { type: "integer", minimum: 0 },
+      },
+    },
     tickets: {
       type: "array",
       items: ticketSummarySchema,

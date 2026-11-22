@@ -50,6 +50,10 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return reply.code(404).send({ error: "board not found" });
     }
     const query = request.query as {
+      limit?: number;
+      cursor?: string;
+      order?: "id_asc" | "position_asc" | "completed_desc";
+      priority?: string;
       lane_id?: string;
       lane?: string;
       parent?: string;
@@ -75,20 +79,23 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       if (!group || group.boardId !== boardId) return reply.code(404).send({ error: "Group not found in this board" });
     }
     const resolvedFilter = parseBooleanQuery(query.resolved);
-    return {
-      tickets: serializeTicketSummaries(db.listTicketSummaries(boardId, {
-        groupId: query.ungrouped === "true" ? null : query.groupId === undefined ? undefined : Number(query.groupId),
-        laneId: query.lane_id ? Number(query.lane_id) : undefined,
-        laneName: query.lane,
-        parentTicketId: query.parent === "none" ? null : query.parent === undefined ? undefined : Number(query.parent),
-        tag: query.tag?.trim() || undefined,
-        resolved: resolvedFilter,
-        archived:
-          query.archived === "true" ? true : query.archived === "false" ? false : undefined,
-        includeArchived: query.archived === "all" || (query.archived === undefined && query.includeArchived === "true"),
-        q: query.q?.trim() || undefined,
-      })),
+    const priorities = query.priority === undefined ? undefined : [...new Set(query.priority.split(",").map(Number))].sort((a, b) => a - b);
+    const filters = {
+      priorities: priorities?.length === 4 ? undefined : priorities,
+      groupId: query.ungrouped === "true" ? null : query.groupId === undefined ? undefined : Number(query.groupId),
+      laneId: query.lane_id ? Number(query.lane_id) : undefined,
+      laneName: query.lane,
+      parentTicketId: query.parent === "none" ? null : query.parent === undefined ? undefined : Number(query.parent),
+      tag: query.tag?.trim() || undefined,
+      resolved: resolvedFilter,
+      archived:
+        query.archived === "true" ? true : query.archived === "false" ? false : undefined,
+      includeArchived: query.archived === "all" || (query.archived === undefined && query.includeArchived === "true"),
+      q: query.q?.trim() || undefined,
     };
+    const result = db.listTicketPage(boardId, filters, { limit: query.limit, cursor: query.cursor, order: query.order });
+    if (result.page) reply.header("X-Kanbalone-Ticket-Revision", String(result.revision));
+    return { tickets: serializeTicketSummaries(result.tickets), ...(result.page ? { page: result.page } : {}) };
   });
 
   app.post("/api/boards/:boardId/tickets", {

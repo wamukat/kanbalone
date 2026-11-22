@@ -18,6 +18,7 @@ export function createKanbanBoardModule(ctx, options) {
   const laneScrollTopById = new Map();
   const completionLimits = new Map();
   const previousCompletionIds = new Map();
+  const previousCompletionHeads = new Map();
   let completionBoardId = null;
 
   function cancelPendingRender() {
@@ -34,6 +35,7 @@ export function createKanbanBoardModule(ctx, options) {
     if (completionBoardId !== state.activeBoardId) {
       completionLimits.clear();
       previousCompletionIds.clear();
+      previousCompletionHeads.clear();
       completionBoardId = state.activeBoardId;
     }
     elements.laneBoard.className = "lane-board";
@@ -49,7 +51,8 @@ export function createKanbanBoardModule(ctx, options) {
           return bTime - aTime || a.position - b.position || b.id - a.id;
         });
       }
-      const limit = completionLimits.get(lane.id) ?? COMPLETION_PREVIEW_COUNT;
+      const page = detail.completionPages?.[lane.id];
+      const limit = page ? page.visibleCount ?? page.tickets.length : completionLimits.get(lane.id) ?? COMPLETION_PREVIEW_COUNT;
       const { visibleTickets, hiddenInactiveTickets, inactiveTotal } = lane.isCompletionLane
         ? { visibleTickets: laneTickets.slice(0, limit), hiddenInactiveTickets: [], inactiveTotal: 0 }
         : getKanbanLaneTicketGroups(laneTickets);
@@ -59,11 +62,19 @@ export function createKanbanBoardModule(ctx, options) {
         deleteLane,
         renameLane,
       });
+      if (page) laneElement.querySelector(".lane-count").textContent = String(page.total);
       const previousIds = previousCompletionIds.get(lane.id);
-      const hasArrival = lane.isCompletionLane && previousIds
-        && laneTickets.some((ticket) => !previousIds.has(ticket.id));
+      const previousHead = previousCompletionHeads.get(lane.id);
+      const head = laneTickets[0];
+      const headTime = head?.resolvedAt ? Date.parse(head.resolvedAt) || 0 : 0;
+      const previousTime = previousHead?.resolvedAt ? Date.parse(previousHead.resolvedAt) || 0 : 0;
+      // Older rows fetched by More (including a 409 restart) are not arrivals.
+      // Removing the visible head must not make its older replacement an arrival.
+      const hasArrival = lane.isCompletionLane && previousIds && head && !previousIds.has(head.id)
+        && (headTime > previousTime || (headTime === previousTime && laneTickets.some((ticket) => ticket.id === previousHead?.id)));
       if (lane.isCompletionLane) {
         previousCompletionIds.set(lane.id, new Set(laneTickets.map((ticket) => ticket.id)));
+        previousCompletionHeads.set(lane.id, head ?? null);
       }
       const restoreScrollTop = hasArrival ? 0 : scrollState.laneScrollTopById.get(lane.id) ?? 0;
       if (hasArrival) laneScrollTopById.set(lane.id, 0);
@@ -74,8 +85,8 @@ export function createKanbanBoardModule(ctx, options) {
         restoreScrollTop,
         tickets: visibleTickets,
         index: 0,
-        afterRender: lane.isCompletionLane && laneTickets.length > COMPLETION_PREVIEW_COUNT
-          ? () => list.append(createCompletionSummary(lane, laneTickets, list, visibleTickets.length))
+        afterRender: lane.isCompletionLane && (page?.total ?? laneTickets.length) > COMPLETION_PREVIEW_COUNT
+          ? () => list.append(createCompletionSummary(lane, laneTickets, list, visibleTickets.length, page))
           : hiddenInactiveTickets.length > 0
             ? () => list.append(createInactiveTicketsSummary(ctx, hiddenInactiveTickets, inactiveTotal))
             : null,
@@ -104,7 +115,7 @@ export function createKanbanBoardModule(ctx, options) {
     renderKanbanTicketsInBatches(renderToken, laneQueues);
   }
 
-  function createCompletionSummary(lane, tickets, list, initialCount) {
+  function createCompletionSummary(lane, tickets, list, initialCount, page) {
     const summary = document.createElement("div");
     summary.className = "completion-ticket-summary";
     const more = document.createElement("button");
@@ -117,7 +128,7 @@ export function createKanbanBoardModule(ctx, options) {
     summary.append(more, collapse);
     let shown = initialCount;
     function sync() {
-      const remaining = tickets.length - shown;
+      const remaining = (page?.total ?? tickets.length) - shown;
       more.hidden = remaining <= 0;
       more.textContent = tr("Show {count} more ({remaining} remaining)", {
         count: formatCount(Math.min(COMPLETION_PAGE_SIZE, remaining)),
@@ -125,21 +136,44 @@ export function createKanbanBoardModule(ctx, options) {
       });
       collapse.hidden = shown <= COMPLETION_PREVIEW_COUNT;
     }
-    more.addEventListener("click", () => {
-      const next = tickets.slice(shown, shown + COMPLETION_PAGE_SIZE);
-      const fragment = document.createDocumentFragment();
-      next.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
-      list.insertBefore(fragment, summary);
-      shown += next.length;
-      completionLimits.set(lane.id, shown);
-      sync();
-      if (more.hidden) collapse.focus({ preventScroll: true });
+    more.addEventListener("click", async () => {
+      if (more.disabled) return;
+      more.disabled = true;
+      collapse.disabled = true;
+      const renderToken = kanbanRenderToken;
+      try {
+        let next = tickets.slice(shown, shown + COMPLETION_PAGE_SIZE);
+        if (page && next.length === 0) {
+          const result = await ctx.loadMoreCompletionTickets(lane.id);
+          if (!result || renderToken !== kanbanRenderToken || !list.isConnected) return;
+          next = result.tickets;
+          tickets.push(...next);
+        }
+        if (renderToken !== kanbanRenderToken || !list.isConnected) return;
+        const fragment = document.createDocumentFragment();
+        next.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
+        list.insertBefore(fragment, summary);
+        shown += next.length;
+        completionLimits.set(lane.id, shown);
+        previousCompletionIds.set(lane.id, new Set(tickets.map((ticket) => ticket.id)));
+        ctx.collapseCompletionTickets?.(lane.id, shown);
+        sync();
+        options.afterRender?.();
+        collapse.disabled = false;
+        if (more.hidden) collapse.focus({ preventScroll: true });
+      } catch (error) {
+        if (renderToken === kanbanRenderToken && list.isConnected) ctx.showToast(error.message, "error");
+      } finally {
+        more.disabled = false;
+        collapse.disabled = false;
+      }
     });
     collapse.addEventListener("click", () => {
       const cards = [...list.querySelectorAll(":scope > .ticket-card")];
       cards.slice(COMPLETION_PREVIEW_COUNT).forEach((card) => card.remove());
       shown = Math.min(COMPLETION_PREVIEW_COUNT, tickets.length);
       completionLimits.set(lane.id, COMPLETION_PREVIEW_COUNT);
+      ctx.collapseCompletionTickets?.(lane.id);
       list.scrollTop = 0;
       laneScrollTopById.set(lane.id, 0);
       sync();

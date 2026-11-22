@@ -1,3 +1,4 @@
+import { listTicketPage, type TicketPageOptions } from "./db-modules/ticket-pagination.js";
 import * as groups from "./db-modules/groups.js";
 import { setCompletionLanes, type CompletionLaneExpectation } from "./db-modules/lane-completion.js";
 import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
@@ -260,6 +261,10 @@ export class KanbanDb {
 
   listTicketSummaries(boardId: Id, filters: ListTicketsFilters = {}): TicketSummaryView[] {
     return listTicketSummaryRecords(this.sqlite, boardId, filters);
+  }
+
+  listTicketPage(boardId: Id, filters: ListTicketsFilters = {}, options: TicketPageOptions = {}) {
+    return listTicketPage(this.sqlite, boardId, filters, options);
   }
 
   listTickets(boardId: Id, filters: ListTicketsFilters = {}): TicketView[] {

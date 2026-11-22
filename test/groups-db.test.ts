@@ -1,3 +1,4 @@
+import { removePaginationSchema } from "./app-test-helpers.js";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { KanbanDb } from "../src/db.js";
@@ -121,6 +122,7 @@ test("groups: migration adds only unassigned membership and retains existing tic
  try {
   db=new KanbanDb(filename);const board=db.createBoard({name:"before"});const ticket=db.createTicket({boardId:board.board.id,laneId:board.lanes[0].id,title:"kept",bodyMarkdown:"body"});
   const before=db.sqlite.prepare("SELECT id,board_id,lane_id,parent_ticket_id,title,body_markdown,is_resolved,is_archived,priority,position,created_at,updated_at FROM tickets").all();
+  removePaginationSchema(db.sqlite);
   db.sqlite.exec("DROP TRIGGER ticket_group_insert; DROP TRIGGER ticket_group_update; DROP TRIGGER group_board_immutable; DROP INDEX tickets_group_idx; ALTER TABLE tickets DROP COLUMN group_id; DROP TABLE groups; DROP TABLE group_activity_logs;");db.close();db=undefined;
   db=new KanbanDb(filename);assert.deepEqual(db.sqlite.prepare("SELECT id,board_id,lane_id,parent_ticket_id,title,body_markdown,is_resolved,is_archived,priority,position,created_at,updated_at FROM tickets").all(),before);
   assert.equal(db.getTicket(ticket.id)?.groupId,null);assert.deepEqual(db.listGroups(board.board.id),[]);

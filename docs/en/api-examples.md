@@ -17,6 +17,33 @@ For reviewed board configuration, prefer the [atomic selection endpoint](#replac
 
 All examples assume `http://127.0.0.1:3000`.
 
+## Paged ticket lists
+
+Pagination is an additive feature on this development branch. Existing requests without `limit` and `cursor` still return the full list in the existing order and response shape. Use documentation matching your running release.
+
+Use `limit=1..200` and repeat the returned `page.nextCursor` to get the next page. Keep the same board, filters and `order`; only `limit` may change. `page.total` is the number of all matching tickets; `nextCursor: null` marks the end. There is no page number or `hasMore` field.
+
+```bash
+# First five tickets in the same order as a completion lane.
+curl -fsS --get http://127.0.0.1:3000/api/boards/3/tickets \
+  --data-urlencode 'lane_id=11' --data-urlencode 'order=completed_desc' \
+  --data-urlencode 'limit=5'
+
+# Copy page.nextCursor from that response. Keep all original filters/order.
+CURSOR='paste-the-returned-nextCursor-here'
+curl -fsS --get http://127.0.0.1:3000/api/boards/3/tickets \
+  --data-urlencode 'lane_id=11' --data-urlencode 'order=completed_desc' \
+  --data-urlencode 'limit=50' --data-urlencode "cursor=$CURSOR"
+```
+
+`order` accepts `id_asc` (paged default), `position_asc` (legacy lane/archive/position/ID order), and `completed_desc` (completion time descending, position ascending, ID descending; unknown completion times last). Explicit `order` also works without pagination. `priority=1,3` matches low OR high priority; filtering happens before page boundaries and total counting.
+
+Malformed cursors, changed query conditions, invalid arguments or cursor without limit return 400. A change to the board's ticket-list data expires its cursor and returns 409. Changes to referenced tickets on other boards may also expire it. Discard partial results and restart without cursor, with a bounded retry policy. The API does not retain a historical snapshot. A parent and child may be on different pages; an unfetched relation is not an absent relation.
+
+Paged responses also include `X-Kanbalone-Ticket-Revision`. When combining independent filtered collections from one board, compare these revisions and restart the whole collection if they differ. This does not expose or replace the cursor.
+
+For automation that modifies tickets, finish collecting the list before writing, or track already-processed IDs and make retries safe. Do not combine rows from before and after a 409, and do not blindly repeat writes.
+
 ## Health Check
 
 ```bash
