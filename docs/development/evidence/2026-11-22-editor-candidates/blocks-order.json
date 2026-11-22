@@ -1,0 +1,18 @@
+[
+  {
+    "phase": "before",
+    "newFixtureTicketId": 8,
+    "blocks": [
+      "#5Publish delivery update",
+      "#8Urgent delivery follow-up"
+    ]
+  },
+  {
+    "phase": "after",
+    "newFixtureTicketId": 8,
+    "blocks": [
+      "#8Urgent delivery follow-up",
+      "#5Publish delivery update"
+    ]
+  }
+]

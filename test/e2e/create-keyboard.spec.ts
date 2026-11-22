@@ -169,7 +169,7 @@ test("creation restores filtered List scroll and safely falls back if the origin
   } finally { await close(); }
 });
 
-test("pending Group creation cannot open the previous Group after selection changes", async ({ page }) => {
+test("pending relation candidates cannot restore the previous Group creation after selection changes", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   let release = () => {};
   const gate = new Promise<void>(resolve => { release = resolve; });
@@ -191,15 +191,20 @@ test("pending Group creation cannot open the previous Group after selection chan
       await route.continue();
     });
     await first.press("n");
+    await expect(editor(page)).toHaveJSProperty("open", true);
+    await expect(page.locator(".editor-group-context")).toContainText("First");
+    expect(requested).toBe(false);
+    await page.locator("#ticket-relation-add-button").click();
+    await page.locator('[data-relation-add-type="related"]').click();
+    await page.locator("#ticket-related-search").fill("candidate");
     await expect.poll(() => requested).toBe(true);
+    await page.keyboard.press("Escape");
+    await page.keyboard.press("Escape");
+    await expect(editor(page)).toHaveJSProperty("open", false);
     await second.click();
     await expect(second).toHaveAttribute("aria-current", "true");
-    const completed = page.waitForResponse(response => {
-      const url = new URL(response.url());
-      return url.pathname === `/api/boards/${board.id}/tickets` && url.searchParams.get("archived") === "all" && !url.searchParams.has("groupId");
-    });
     release();
-    await completed;
+    await page.waitForLoadState("networkidle");
     await expect(editor(page)).toHaveJSProperty("open", false);
     await expect(second).toBeFocused();
     await second.press("n");

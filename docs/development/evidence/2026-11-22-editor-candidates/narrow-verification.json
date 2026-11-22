@@ -1,0 +1,50 @@
+[
+  {
+    "phase": "before",
+    "language": "ja",
+    "dialog": {
+      "x": 16,
+      "y": 48,
+      "width": 350,
+      "height": 951.1875,
+      "viewport": 390
+    },
+    "viewportSetBeforePageOpen": true
+  },
+  {
+    "phase": "before",
+    "language": "en",
+    "dialog": {
+      "x": 16,
+      "y": 48,
+      "width": 350,
+      "height": 951.1875,
+      "viewport": 390
+    },
+    "viewportSetBeforePageOpen": true
+  },
+  {
+    "phase": "after",
+    "language": "ja",
+    "dialog": {
+      "x": 16,
+      "y": 48,
+      "width": 350,
+      "height": 951.1875,
+      "viewport": 390
+    },
+    "viewportSetBeforePageOpen": true
+  },
+  {
+    "phase": "after",
+    "language": "en",
+    "dialog": {
+      "x": 16,
+      "y": 48,
+      "width": 350,
+      "height": 951.1875,
+      "viewport": 390
+    },
+    "viewportSetBeforePageOpen": true
+  }
+]

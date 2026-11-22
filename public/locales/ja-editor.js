@@ -1,5 +1,8 @@
 // UI strings only; user-authored content and API values remain unchanged.
 export default {
+  "Loading tickets...": "チケットを読み込み中…",
+  "Could not load tickets": "チケットを読み込めませんでした",
+  "Try again": "再試行",
   "Save (Ctrl/Cmd+Enter)": "保存（Ctrl/Cmd＋Enter）",
   "N: create a ticket.": "N：チケットを作成",
   "Provider, lane, and issue URL are required": "サービス、レーン、Issue URLを指定してください",

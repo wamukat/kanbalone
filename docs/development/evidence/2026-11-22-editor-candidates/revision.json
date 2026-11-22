@@ -1,0 +1,27 @@
+{
+  "baseline": "ac23f0f12b9efb7da330b9b4142c87642ba9441c",
+  "node": "26.13.1",
+  "actualScreenshotBrowser": "Google Chrome 158.0.8127.37 (agent-browser 0.26.0)",
+  "os": "macOS-26.7.3-x86_64-i386-64bit-Mach-O",
+  "desktopViewport": [
+    1440,
+    1000
+  ],
+  "narrowViewport": [
+    390,
+    844
+  ],
+  "fixtureServers": {
+    "before": "http://127.0.0.1:3624",
+    "after": "http://127.0.0.1:3625"
+  },
+  "sourceSha256": {
+    "public/app-editor.js": "0c0c64003671f2cfcc781631a65439370aad9fdb14743df2d407dbf8fbe4061b",
+    "public/app-ticket-detail-renderers.js": "a4127f92a6274fd71fd8fca9a0a3f7c72bb7c9ec7648fe1cfc5b8bf877d8bf15",
+    "public/app-ticket-relation-picker.js": "5f7bb44a4a53fb0b48c9d13abbc03589aee5594b84ecd6e12c74febe78dcdea4",
+    "public/app-ticket-relations.js": "01fae0c2202acc1c164efdb15b7c2cbb6d1def5f4edeb75af5fd6c481a6e6c07",
+    "public/locales/ja-editor.js": "23179bc5a4f7161920d4d278f0620f00753884bf314d05aa5c453284e20077b1",
+    "public/styles/tag-picker-options.css": "074c594c468f8f564c6ba09d54902cc920cc9235e3d46a53471fa170065d37d7"
+  },
+  "note": "Main paired captures preceded the status-only CSS review fix; loading/error captures were repeated against final source. The status-only CSS does not apply to the paired settled screens. Supplemental Blocks/narrow captures use one extra synthetic urgent blocked ticket on both servers."
+}

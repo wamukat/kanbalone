@@ -90,3 +90,27 @@
   color: var(--accent);
   font-weight: var(--font-weight-semibold);
 }
+
+/* Keep transient relation states level while loading, failing and retrying. */
+.ticket-relation-status {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2.1rem;
+  padding: 0 0.4rem;
+}
+
+.ticket-relation-status > span {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ticket-relation-status > button {
+  flex: none;
+  padding: 0.2rem 0.45rem;
+  white-space: nowrap;
+}

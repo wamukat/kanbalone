@@ -7,11 +7,11 @@ export function createTicketRelationPicker(ctx) {
     return ctx.getSelectedTicketIds().map(ctx.getTicketById).filter(Boolean);
   }
 
-  function syncOptions() {
+  function syncOptions(refreshSummary = true) {
     const selectedIds = ctx.getSelectedTicketIds();
     const selectedTickets = getSelectedTickets();
     const placeholder = ctx.getPlaceholder();
-    elements.summary.innerHTML = selectedTickets.length
+    if (refreshSummary) elements.summary.innerHTML = selectedTickets.length
       ? selectedTickets.map((ticket) => ctx.renderSummaryChip(ticket, ctx.removeAttr)).join("")
       : placeholder
         ? `<span class="ticket-tag-placeholder">${ctx.escapeHtml(placeholder)}</span>`
@@ -25,9 +25,22 @@ export function createTicketRelationPicker(ctx) {
       }
     }
 
+    elements.options.removeAttribute("aria-busy");
     const query = ctx.getQuery().trim();
     if (!query) {
       elements.options.innerHTML = "";
+      activeOptionIndex = 0;
+      return;
+    }
+
+    const candidateStatus = ctx.getCandidateStatus();
+    if (candidateStatus !== "ready") {
+      if (candidateStatus === "error") {
+        elements.options.innerHTML = `<div class="tag-picker-empty ticket-relation-status"><span role="status" title="${t("Could not load tickets")}">${t("Could not load tickets")}</span><button type="button" class="ghost" data-retry-relation-candidates>${t("Try again")}</button></div>`;
+      } else {
+        elements.options.setAttribute("aria-busy", "true");
+        elements.options.innerHTML = `<div class="tag-picker-empty ticket-relation-status"><span role="status" title="${t("Loading tickets...")}">${t("Loading tickets...")}</span></div>`;
+      }
       activeOptionIndex = 0;
       return;
     }
@@ -73,6 +86,7 @@ export function createTicketRelationPicker(ctx) {
 
   function handleSearchInput(event) {
     ctx.setQuery(event.target.value);
+    if (event.target.value.trim()) void ctx.ensureCandidates();
     syncOptions();
     if (event.target.value.trim()) {
       openOptions();
@@ -147,6 +161,7 @@ export function createTicketRelationPicker(ctx) {
   }
 
   function selectTicket(ticketId) {
+    if (ctx.getCandidateStatus() !== "ready") return;
     ctx.selectTicket(ticketId);
     ctx.setQuery("");
     elements.search.value = "";
@@ -156,6 +171,13 @@ export function createTicketRelationPicker(ctx) {
   }
 
   function handleOptionClick(event) {
+    const retry = event.target.closest?.("[data-retry-relation-candidates]");
+    if (retry && elements.options.contains(retry)) {
+      // The retry button is replaced by the loading message; retain keyboard focus.
+      elements.search.focus();
+      void ctx.ensureCandidates(true);
+      return true;
+    }
     const option = event.target.closest?.(`[${ctx.optionAttr}]`);
     if (!option || !elements.options.contains(option)) {
       return false;
