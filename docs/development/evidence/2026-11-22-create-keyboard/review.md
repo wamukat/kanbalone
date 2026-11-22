@@ -42,4 +42,12 @@ A small-height dark screenshot revealed nearly black Tags/Relations labels. Inde
 
 ## Limits and acceptance
 
-Real OS IME and assistive-technology evaluation remain unverified. Synthetic composition tests demonstrate event guards only. The approved mock is not treated as before/after product evidence. The final source fingerprint, author capture sequence, persisted results and regression logs were checked. Images must still be embedded and verified in the Kanbalone ticket before Acceptance. User acceptance and passing GitHub Required checks are still required before merging.
+Real OS IME and assistive-technology evaluation remain unverified. Synthetic composition tests demonstrate event guards only. The approved mock is not treated as before/after product evidence. The final source fingerprint, author capture sequence, persisted results and regression logs were checked. Images must be embedded and verified in the Kanbalone ticket before Acceptance; the author records the completed live-ticket verification in README. User acceptance and passing GitHub Required checks are still required before merging.
+
+## CI assertion alignment
+
+The first full PR #33 CI run passed 156 of 158 E2E tests. Both failures were the English/Japanese `action-recovery` creation flow expecting the search box to receive focus after saving a ticket opened from a lane's existing + button. Reviewed the failing job log and the proposed test-only correction independently.
+
+The approved creation flow explicitly returns to its initiating title/button after save or cancellation. The new assertion therefore checks the exact initiating Source/Todo lane `.add-ticket-button`, replacing the obsolete search fallback expectation. It retains a concrete focus assertion and the later edit, move, and persisted-board/body checks; it does not remove or weaken focus verification. The lane-specific locator also avoids ambiguity from `.first()` when multiple lanes exist. Search remains the fallback when a usable origin is absent, covered by the separate filtered-origin regression case.
+
+No runtime file changed for this correction; independently rechecked all runtime hashes against `revision.json`. Existing actual-screen evidence remains applicable. Targeted rerun and the subsequent full GitHub checks must pass before merge; this review approves the assertion's alignment with the accepted behavior, not a CI bypass.

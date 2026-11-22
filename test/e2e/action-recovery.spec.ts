@@ -55,10 +55,11 @@ for (const locale of ["en-US", "ja-JP"]) {
       const source = await createBoard(page.request, baseUrl, { name: "Source", laneNames: ["Todo"] });
       const target = await createBoard(page.request, baseUrl, { name: "Target", laneNames: ["Review"] });
       await page.goto(`${baseUrl}/boards/${source.board.id}`);
-      await page.getByRole("button", { name: locale === "ja-JP" ? "新しいチケット" : "New ticket", exact: true }).first().click();
+      const createButton = page.locator(`.lane[data-lane-id="${source.lanes[0].id}"] .add-ticket-button`);
+      await createButton.click();
       await page.locator("#ticket-title").fill("Focus ticket");
       await page.locator("#editor-form button[type=submit]").click();
-      await expect(page.locator("#search-input")).toBeFocused();
+      await expect(createButton).toBeFocused();
       const { tickets } = await (await page.request.get(`${baseUrl}/api/boards/${source.board.id}/tickets`)).json();
       await page.goto(`${baseUrl}/tickets/${tickets[0].id}`);
       await page.locator("#header-edit-button").click();

@@ -47,3 +47,9 @@ Supplemental actual Group creation captures at 1280×720, in light and emulated 
 - Synthetic 503 and delayed requests validate local recovery paths; they are not evidence of a specific external service's behavior.
 - No API contract or database format changed. No production migration or runtime update was performed.
 - Images must be embedded in the Kanbalone ticket and their published URLs verified before moving this ticket to Acceptance. Local files alone do not meet that gate.
+
+## Full CI assertion alignment and ticket evidence
+
+The first full PR #33 CI run passed 156/158 E2E tests. Two legacy action-recovery assertions expected search focus after saving from a lane + button; the approved behavior now returns to that initiating button. The test-only update checks the exact Source/Todo + button and retains editing, moving and persistence assertions. The affected action-recovery and new-creation suite then passed all 17 tests (`ci-alignment.txt`). Runtime hashes and captured images are unchanged. Full GitHub checks are rerun on the updated commit.
+
+The author embedded all 18 primary images in Kanbalone #1511 from immutable commit `af6d96b9c2a4b1eb3007487f19be434c79742b24` and verified them in its actual ticket screen: all loaded at 1440×1000. The pre-existing dark label issue was reproduced on baseline and candidate, with both comparison images attached to separate ticket #1513.
