@@ -1,0 +1,1942 @@
+{
+  "baseline": "d36c55d824b18212517a69b9d7252526f46219c1",
+  "measuredEquivalentBaseline": "7ad30ca286dac9027b1944c78f66ae3d0c1dc6f8",
+  "candidate": "367df68b6d0ab205964beaa2f8898844ac549432",
+  "candidateTriggerSha256": "c5a4689a198a6cb7fc15a1b3323b927df3584fc73d4df21fbbb4b3b288d9eab2",
+  "browserFixtureSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+  "writeTiming": {
+    "runtime": "v26.13.1",
+    "records": [
+      {
+        "size": 3000,
+        "action": "edit",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 57.0948249999999,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 11.592938000000004,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "edit",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 4.387192000000141,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 5.056286,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "edit",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 5.392127000000073,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 4.55511099999967,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "edit",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 5.507614999999987,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 4.420078999999987,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "edit",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 5.44042300000001,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 4.135565999999926,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "edit",
+        "pair": 5,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 4.155361999999968,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 4.504615999999714,
+          "fields": {
+            "id": 1501,
+            "laneId": 1,
+            "position": 1500,
+            "isArchived": false,
+            "title": "Synthetic edited title"
+          },
+          "revisionDelta": 1,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1212.4697949999995,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 249.602038,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 297.23429099999976,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1192.023988,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1257.3401939999994,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 246.8874360000009,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 269.35118800000055,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1463.8592919999992,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1292.531296000001,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 239.1216000000004,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "adjacent",
+        "pair": 5,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 245.0380210000003,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1231.0989150000005,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 1,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "last-to-first",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1374.0764230000004,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 567.7836900000002,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "last-to-first",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 577.6058929999999,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1415.6615740000016,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "last-to-first",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1423.8454190000011,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 556.0384169999998,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "last-to-first",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 576.7379590000019,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1379.3558859999976,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "last-to-first",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1469.074267,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 577.4630899999975,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "last-to-first",
+        "pair": 5,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 729.2332969999989,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1427.5999630000006,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 3005,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 2869.9383799999996,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 1060.423576000001,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 1021.0988560000042,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 2803.6234870000044,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 2807.310848000001,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 1040.6763879999999,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 1077.5227740000046,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 3138.0680739999952,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 3019.178789000005,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 1029.725830999996,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "cross-lane",
+        "pair": 5,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 1155.0681029999978,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 3168.4504989999987,
+          "fields": {
+            "id": 1501,
+            "laneId": 2,
+            "position": 0,
+            "isArchived": false,
+            "title": "Synthetic ticket 1-1500"
+          },
+          "revisionDelta": 6010,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1240.8751129999946,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 395.4458400000003,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 405.49187299999903,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1203.3608470000036,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1260.7154569999984,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 382.15347499999916,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 408.7740230000054,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1208.8385500000004,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 1202.9807619999992,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 401.7178320000021,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-first",
+        "pair": 5,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 487.56478900000366,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 1219.128040999989,
+          "fields": {
+            "id": 1,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-0"
+          },
+          "revisionDelta": 3007,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 0,
+        "warmup": true,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 46.85485299999709,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 39.13735199999064,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 1,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 40.28031000000192,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 41.37329299999692,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 2,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 43.14355700000306,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 40.696809999994,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 3,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 39.50887700000021,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 43.653693999993266,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 4,
+        "warmup": false,
+        "order": [
+          "before",
+          "after"
+        ],
+        "before": {
+          "apiMs": 43.06515700000455,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        },
+        "after": {
+          "apiMs": 45.580524000004516,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        }
+      },
+      {
+        "size": 3000,
+        "action": "archive-last",
+        "pair": 5,
+        "warmup": false,
+        "order": [
+          "after",
+          "before"
+        ],
+        "after": {
+          "apiMs": 38.23458499999833,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        },
+        "before": {
+          "apiMs": 40.80866100000276,
+          "fields": {
+            "id": 3000,
+            "laneId": 1,
+            "position": 3004,
+            "isArchived": true,
+            "title": "Synthetic ticket 1-2999"
+          },
+          "revisionDelta": 8,
+          "staleCursorStatus": 409
+        }
+      }
+    ]
+  },
+  "existingDatabase": {
+    "changedNames": [
+      "ticket_list_ticket_blockers_delete",
+      "ticket_list_ticket_blockers_insert",
+      "ticket_list_ticket_blockers_update",
+      "ticket_list_ticket_external_references_delete",
+      "ticket_list_ticket_external_references_insert",
+      "ticket_list_ticket_external_references_update",
+      "ticket_list_ticket_related_links_delete",
+      "ticket_list_ticket_related_links_insert",
+      "ticket_list_ticket_related_links_update",
+      "ticket_list_ticket_remote_links_delete",
+      "ticket_list_ticket_remote_links_insert",
+      "ticket_list_ticket_remote_links_update",
+      "ticket_list_ticket_tag_reasons_delete",
+      "ticket_list_ticket_tag_reasons_insert",
+      "ticket_list_ticket_tag_reasons_update",
+      "ticket_list_ticket_tags_delete",
+      "ticket_list_ticket_tags_insert",
+      "ticket_list_ticket_tags_update",
+      "ticket_list_tickets_delete",
+      "ticket_list_tickets_insert",
+      "ticket_list_tickets_update"
+    ],
+    "timings": {
+      "existing": 426.126432,
+      "existingRestart": 145.67567600000007,
+      "upgrade": 132.19013099999984,
+      "secondStartup": 139.77817900000036,
+      "rollback": 117.64088700000002,
+      "reopenAfterWrites": 108.68832100000009
+    },
+    "snapshots": {
+      "existing": {
+        "rows": "3555035f58d4df28d6c51aae8488e2838c9e15126ddbe9833ff0be1662969879",
+        "schemaVersion": 5,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "d595a3dfe8267f20be5138a445f0596370b981aa6252d445020c1196b118b49f"
+      },
+      "existingRestart": {
+        "rows": "3555035f58d4df28d6c51aae8488e2838c9e15126ddbe9833ff0be1662969879",
+        "schemaVersion": 7,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "d595a3dfe8267f20be5138a445f0596370b981aa6252d445020c1196b118b49f"
+      },
+      "upgrade": {
+        "rows": "3555035f58d4df28d6c51aae8488e2838c9e15126ddbe9833ff0be1662969879",
+        "schemaVersion": 51,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "e44f1ad45ac042d500dcfcf0ef3055619dc7db1bee1daaf95f7c9a4bcae7377f"
+      },
+      "secondStartup": {
+        "rows": "3555035f58d4df28d6c51aae8488e2838c9e15126ddbe9833ff0be1662969879",
+        "schemaVersion": 53,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "e44f1ad45ac042d500dcfcf0ef3055619dc7db1bee1daaf95f7c9a4bcae7377f"
+      },
+      "rollback": {
+        "rows": "3555035f58d4df28d6c51aae8488e2838c9e15126ddbe9833ff0be1662969879",
+        "schemaVersion": 55,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 10049
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "e44f1ad45ac042d500dcfcf0ef3055619dc7db1bee1daaf95f7c9a4bcae7377f"
+      },
+      "rollbackAfterWrite": {
+        "rows": "f5e6cd46124f07dade6201a268b6ec6a8a54fd68b755ca407c3c8e865fe9db0a",
+        "schemaVersion": 55,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 11713
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "e44f1ad45ac042d500dcfcf0ef3055619dc7db1bee1daaf95f7c9a4bcae7377f"
+      },
+      "reopenAfterWrites": {
+        "rows": "f5e6cd46124f07dade6201a268b6ec6a8a54fd68b755ca407c3c8e865fe9db0a",
+        "schemaVersion": 57,
+        "revisions": [
+          {
+            "board_id": 1,
+            "revision": 1049
+          },
+          {
+            "board_id": 2,
+            "revision": 11713
+          },
+          {
+            "board_id": 3,
+            "revision": 0
+          },
+          {
+            "board_id": 4,
+            "revision": 0
+          },
+          {
+            "board_id": 5,
+            "revision": 0
+          },
+          {
+            "board_id": 6,
+            "revision": 0
+          },
+          {
+            "board_id": 7,
+            "revision": 0
+          }
+        ],
+        "integrity": "ok",
+        "foreignKeyErrors": 0,
+        "triggerCount": 40,
+        "triggerHash": "e44f1ad45ac042d500dcfcf0ef3055619dc7db1bee1daaf95f7c9a4bcae7377f"
+      }
+    },
+    "statuses": {
+      "firstOld": 200,
+      "secondOld": 200,
+      "thirdOld": 200,
+      "oldCursorOnNew": 200,
+      "oldCursorAfterRestart": 200,
+      "newCursorOnOld": 200,
+      "positionOnOld": 200,
+      "archiveOnOld": 200,
+      "staleOnOld": 409,
+      "readStoredPosition": 200,
+      "readStoredArchive": 200,
+      "staleOnNew": 409
+    }
+  },
+  "revisionCases": [
+    {
+      "name": "position and timestamp",
+      "boardRevisionDeltas": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "cda7e9b13e3f9ae3bd9d83d0002b662e2601647ca1b381da15df8c543982c6c6"
+    },
+    {
+      "name": "no-op",
+      "boardRevisionDeltas": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "9c1374a62846ba9294c81317c73710db83d761e7366c089aa6ff5efc3a8fcbfb"
+    },
+    {
+      "name": "cross-board parent cleared",
+      "boardRevisionDeltas": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "777815aad6fca7f4720233682afab17e58cede57a7d068aeb34dc48e12e6f646"
+    },
+    {
+      "name": "cross-board parent changed",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "df8d992b3cba62cc50f7b933ecf8cce639243db2f900ee992f06ee72abd6be8e"
+    },
+    {
+      "name": "blocker lookup reverse direction",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "b9b05f9ab8a0c2476e92983f93257513fc776b9237816c24b037b586fd9a50f8"
+    },
+    {
+      "name": "blocker update dependent side",
+      "boardRevisionDeltas": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "c0bb48b172b0ad38391460d5182c94d03f19722aecf50889a92233ae4c79c5df"
+    },
+    {
+      "name": "related lookup high side",
+      "boardRevisionDeltas": [
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "8eb23744265e4ab753b191a50b68fcaa99895619ecc4a5da446b56ea66f783d9"
+    },
+    {
+      "name": "related lookup low side",
+      "boardRevisionDeltas": [
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "67f53277998c1704779075a568b8e15c517ae232fe6973bfe66eda65a7fa622c"
+    },
+    {
+      "name": "blocker inserted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "cfbfe453c3eb5fa848a411db136156364902b055b8902e9cf262d2cec87b1179"
+    },
+    {
+      "name": "blocker deleted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "4523f2498b84911c7e0db81b92d421c699506941877fe44ab9b53fd5c5af9519"
+    },
+    {
+      "name": "related inserted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "14121dfcc2393f32f31cacbb07ad6729b0f9f8e9704dd68dd62d399ddf7c2455"
+    },
+    {
+      "name": "related deleted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "a75b13bb958b244fb2a51a091a276a798f09ef05bb0e550917842706c7afe7d2"
+    },
+    {
+      "name": "tag attached",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "90b736cfedb6c03b304de9968e696d108fd64b1da531ab3dff641a2efc075a74"
+    },
+    {
+      "name": "tag reason attached",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "687db651498dd74fee5cc6915b4120463af123beff3650063942715932fa5b3e"
+    },
+    {
+      "name": "tag reason changed",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "d706b80a2d68e575b5703463842f996175ed8053c11fca2ece88291eb2a45f2c"
+    },
+    {
+      "name": "tag detached with reason cascade",
+      "boardRevisionDeltas": [
+        2,
+        0,
+        2,
+        2,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "37425a4a21ca9856d0802e68eac6cc97e7b33e180cb37544aa157b97d137a62d"
+    },
+    {
+      "name": "remote link inserted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "b48d7150ae8e69819efd61fd814b83da1706f225f740ba27026a8b724da360a8"
+    },
+    {
+      "name": "external reference inserted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "c87beb1ebdf61101c302ecabaf5168f2de4c424ec4cfd15dac341de451dd9b65"
+    },
+    {
+      "name": "external reference deleted",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "8636a2764942e0211f1900fc21db685efe18cc1fba478c59a0817876e66bf9ef"
+    },
+    {
+      "name": "board and lane moved",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "35b79397d61807f11a66ef9bd36370966bbff1c54812dee62d8811215df84318"
+    },
+    {
+      "name": "cascade delete",
+      "boardRevisionDeltas": [
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "41ca528a751f093a6e97c231058cc6f46e1bf5de2b2baf5a7fedf7c43470eaf1"
+    },
+    {
+      "name": "relation cascade delete",
+      "boardRevisionDeltas": [
+        0,
+        1,
+        0,
+        2,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "9bd6247e5dd19182e43356a664b6e416fc08f80b3dd200a09e9ded349f57497d"
+    },
+    {
+      "name": "completion insert with nested updates",
+      "boardRevisionDeltas": [
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "d6e838400faf091e3a2954f413f69871c8f989fa9ed42408a7eca34da6d17d8a"
+    },
+    {
+      "name": "transaction rolled back",
+      "boardRevisionDeltas": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "collectionAndCursorResponsesSha256": "6c5184f368466c615292af19c2df59dd4abb318b143ab940efa18eb9c1f546c5"
+    }
+  ],
+  "browser": {
+    "version": "159.0.8154.6",
+    "properties": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en-US",
+      "colorScheme": "light"
+    },
+    "pictures": {
+      "move-start": {
+        "before": {
+          "sha256": "d13c8c4ac3e28d0b0573e5debd67406a41ae7291de1f307893495c5b6e639b6f",
+          "name": "indexed-writes-en-light-before-move-start.png"
+        },
+        "after": {
+          "sha256": "d13c8c4ac3e28d0b0573e5debd67406a41ae7291de1f307893495c5b6e639b6f",
+          "name": "indexed-writes-en-light-after-move-start.png"
+        }
+      },
+      "move-reload": {
+        "before": {
+          "sha256": "063351c749c6d77c31c67a680a8d66e621d00449dfcd16126b5226a88eb2af6f",
+          "name": "indexed-writes-en-light-before-move-reload.png"
+        },
+        "after": {
+          "sha256": "063351c749c6d77c31c67a680a8d66e621d00449dfcd16126b5226a88eb2af6f",
+          "name": "indexed-writes-en-light-after-move-reload.png"
+        }
+      },
+      "archive-start": {
+        "before": {
+          "sha256": "d72eed3e678514423d27a3887923690085bf32d5a6a795932419fa27be920f58",
+          "name": "indexed-writes-en-light-before-archive-start.png"
+        },
+        "after": {
+          "sha256": "d72eed3e678514423d27a3887923690085bf32d5a6a795932419fa27be920f58",
+          "name": "indexed-writes-en-light-after-archive-start.png"
+        }
+      },
+      "archive-reload": {
+        "before": {
+          "sha256": "ae84fd7ed8994fea214a2e60a44b0636b681fc962aee64417c042ca64aa14cc9",
+          "name": "indexed-writes-en-light-before-archive-reload.png"
+        },
+        "after": {
+          "sha256": "ae84fd7ed8994fea214a2e60a44b0636b681fc962aee64417c042ca64aa14cc9",
+          "name": "indexed-writes-en-light-after-archive-reload.png"
+        }
+      }
+    },
+    "records": [
+      {
+        "phase": "before",
+        "boardId": 1,
+        "sourceLane": 1,
+        "targetLane": 2,
+        "archiveLane": 3,
+        "targetId": 41,
+        "beforeDrag": {
+          "id": 2,
+          "laneId": 1,
+          "position": 0,
+          "isArchived": false
+        },
+        "moved": {
+          "id": 2,
+          "laneId": 2,
+          "position": 0,
+          "isArchived": false
+        },
+        "beforeArchive": {
+          "id": 42,
+          "laneId": 3,
+          "position": 4,
+          "isArchived": false
+        },
+        "archived": {
+          "id": 42,
+          "laneId": 3,
+          "position": 95,
+          "isArchived": true
+        },
+        "staleMoveCursor": 409,
+        "staleArchiveCursor": 409,
+        "dragTrusted": true
+      },
+      {
+        "phase": "after",
+        "boardId": 1,
+        "sourceLane": 1,
+        "targetLane": 2,
+        "archiveLane": 3,
+        "targetId": 41,
+        "beforeDrag": {
+          "id": 2,
+          "laneId": 1,
+          "position": 0,
+          "isArchived": false
+        },
+        "moved": {
+          "id": 2,
+          "laneId": 2,
+          "position": 0,
+          "isArchived": false
+        },
+        "beforeArchive": {
+          "id": 42,
+          "laneId": 3,
+          "position": 4,
+          "isArchived": false
+        },
+        "archived": {
+          "id": 42,
+          "laneId": 3,
+          "position": 95,
+          "isArchived": true
+        },
+        "staleMoveCursor": 409,
+        "staleArchiveCursor": 409,
+        "dragTrusted": true
+      }
+    ]
+  }
+}
