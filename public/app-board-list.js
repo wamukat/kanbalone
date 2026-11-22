@@ -55,7 +55,9 @@ export function createListBoardModule(ctx, options) {
   }
 
   function renderListBoard(detail) {
-    state.selectedListTicketIds = state.selectedListTicketIds.filter((ticketId) => detail.tickets.some((ticket) => ticket.id === ticketId));
+    const availableTicketIds = new Set(detail.tickets.map((ticket) => ticket.id));
+    state.selectedListTicketIds = state.selectedListTicketIds.filter((ticketId) => availableTicketIds.has(ticketId));
+    const selectedTicketIds = new Set(state.selectedListTicketIds);
     if (detail.tickets.length === 0) {
       elements.listBoard.className = "list-board empty";
       const firstLaneId = state.boardDetail?.lanes?.[0]?.id;
@@ -101,7 +103,7 @@ export function createListBoardModule(ctx, options) {
     elements.listBoard.className = "list-board";
     const orderedTickets = getListTickets(detail.tickets, listSort);
     const visibleTicketIds = orderedTickets.map(({ ticket }) => ticket.id);
-    const allSelected = visibleTicketIds.length > 0 && visibleTicketIds.every((ticketId) => state.selectedListTicketIds.includes(ticketId));
+    const allSelected = visibleTicketIds.length > 0 && visibleTicketIds.every((ticketId) => selectedTicketIds.has(ticketId));
     const previousScrollTop = elements.listBoard.querySelector(".list-viewport")?.scrollTop ?? 0;
     const actions = renderListActions(
       detail.tickets,
@@ -133,7 +135,7 @@ export function createListBoardModule(ctx, options) {
     }
     const selectAll = elements.listBoard.querySelector("#list-select-all");
     if (selectAll) {
-      const selectedCount = visibleTicketIds.filter((ticketId) => state.selectedListTicketIds.includes(ticketId)).length;
+      const selectedCount = visibleTicketIds.filter((ticketId) => selectedTicketIds.has(ticketId)).length;
       selectAll.indeterminate = selectedCount > 0 && selectedCount < visibleTicketIds.length;
     }
     paintVisibleListRows();

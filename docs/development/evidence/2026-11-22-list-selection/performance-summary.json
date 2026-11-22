@@ -1,0 +1,90 @@
+{
+  "1005-before": [
+    {
+      "medianMs": 119.1,
+      "minMs": 90.7,
+      "maxMs": 124.4
+    },
+    {
+      "medianMs": 41.7,
+      "minMs": 36.6,
+      "maxMs": 44.2
+    },
+    {
+      "medianMs": 45.8,
+      "minMs": 39.3,
+      "maxMs": 52.9
+    },
+    {
+      "medianMs": 30.1,
+      "minMs": 29.7,
+      "maxMs": 38.1
+    }
+  ],
+  "1005-after": [
+    {
+      "medianMs": 92.2,
+      "minMs": 85.7,
+      "maxMs": 116.4
+    },
+    {
+      "medianMs": 31.1,
+      "minMs": 30.1,
+      "maxMs": 38.7
+    },
+    {
+      "medianMs": 30.3,
+      "minMs": 29.1,
+      "maxMs": 38.2
+    },
+    {
+      "medianMs": 29.5,
+      "minMs": 29.3,
+      "maxMs": 39.1
+    }
+  ],
+  "10005-before": [
+    {
+      "medianMs": 907,
+      "minMs": 799.3,
+      "maxMs": 1239.5
+    },
+    {
+      "medianMs": 556.3,
+      "minMs": 534,
+      "maxMs": 681.1
+    },
+    {
+      "medianMs": 445.9,
+      "minMs": 368,
+      "maxMs": 471.2
+    },
+    {
+      "medianMs": 40.2,
+      "minMs": 39,
+      "maxMs": 49.1
+    }
+  ],
+  "10005-after": [
+    {
+      "medianMs": 105.6,
+      "minMs": 104.6,
+      "maxMs": 121.6
+    },
+    {
+      "medianMs": 44.6,
+      "minMs": 40.6,
+      "maxMs": 47.1
+    },
+    {
+      "medianMs": 44.6,
+      "minMs": 42.5,
+      "maxMs": 47.3
+    },
+    {
+      "medianMs": 43.1,
+      "minMs": 39.5,
+      "maxMs": 45.4
+    }
+  ]
+}

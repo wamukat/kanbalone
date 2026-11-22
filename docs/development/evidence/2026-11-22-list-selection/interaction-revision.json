@@ -1,0 +1,30 @@
+{
+  "baseline": "963b37bcdd5e773ef01889bbcea9dbd33a21d1bd",
+  "node": "26.13.1",
+  "desktopViewport": [
+    1440,
+    1000
+  ],
+  "desktopTheme": "light",
+  "narrowViewport": [
+    390,
+    844
+  ],
+  "narrowTheme": "dark",
+  "ports": {
+    "before": 3630,
+    "after": 3631
+  },
+  "data": "separate SQLite backup of synthetic 240 tickets per language board; no existing user data",
+  "backend": "same baseline backend for both; production changes only three static files",
+  "beforeSourceSha256": {
+    "public/app-board-list.js": "e2fa740b50f18650b87f6ff526d0948a92587e7d3b0a64fd23b479fbdd3ba66d",
+    "public/app-board-list-actions.js": "9548b5cb7f9e1d7984550480d39af992c3b523459f0ef811b5316ed34bfe1272",
+    "public/app-board-list-selection.js": "9790ed918a446e4bc1eb07162e946342bdb409d3ff8e5052a18ed3974e9b7747"
+  },
+  "afterSourceSha256": {
+    "public/app-board-list.js": "159289605fee7cda7b3743eef13928ea22d66128d324e46d8ded0e9f0ca84901",
+    "public/app-board-list-actions.js": "ffb577b2f480ac561f7b40c3e6ed8ea97952aa88315958003d2784d870a53782",
+    "public/app-board-list-selection.js": "81049c2fd2ef51ff0c74cf330bbf0cbaa9284c0dfd3bad15a3f8c36338d3df99"
+  }
+}
