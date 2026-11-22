@@ -70,6 +70,9 @@ function relativeLuminance({ r, g, b }) {
 
 /** @param {string} name @param {number} maxLength */
 function truncateTagName(name, maxLength) {
+  if (name.length <= maxLength) {
+    return name;
+  }
   const characters = splitGraphemes(name);
   if (characters.length <= maxLength) {
     return name;
