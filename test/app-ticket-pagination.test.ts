@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createHash, createHmac } from "node:crypto";
 import path from "node:path";
 import { buildApp } from "../src/app.js";
+import type { PageOptions } from "../src/db-modules/ticket-pagination.js";
 import { KanbanDb } from "../src/db.js";
 import type { TicketRelationCandidateView, TicketSummaryView } from "../src/types.js";
 import { createDbFile } from "./app-test-helpers.js";
@@ -303,9 +304,21 @@ test("relation candidates page over the board in ID order with only the picker f
   } finally { await f.app.close(); f.db.close(); }
 });
 
-test("relation candidate cursors reuse their signed total and recalculate for a previous-format cursor", async (t) => {
+for (const collection of ["relation candidates", "ungrouped tickets", "List references"] as const)
+test(`${collection} reuse their signed total and recalculate for a previous-format cursor`, async (t) => {
   const f = setup();
   try {
+    const boardId = f.board.board.id;
+    const filters = { includeArchived: true };
+    const loaders = {
+      "relation candidates": (options: PageOptions) => f.db.listTicketRelationCandidatePage(boardId, options),
+      "ungrouped tickets": (options: PageOptions) => f.db.listGroupTicketPage(boardId, null, options),
+      "List references": (options: PageOptions) => f.db.listTicketReferencePage(boardId, filters, options),
+    };
+    const readPage = loaders[collection];
+    const expectedIds = collection === "List references"
+      ? f.db.listTicketSummaries(boardId, filters).map(ticket => ticket.id)
+      : f.ids;
     const { sqlite } = f.db;
     const { secret } = sqlite.prepare("SELECT secret FROM ticket_cursor_secret WHERE id=1").get() as { secret: string };
     const sign = (body: string) => createHmac("sha256", secret).update(body).digest("base64url");
@@ -320,8 +333,7 @@ test("relation candidate cursors reuse their signed total and recalculate for a 
       return prepare(sql);
     });
 
-    const boardId = f.board.board.id;
-    const first = f.db.listTicketRelationCandidatePage(boardId, { limit: 5 });
+    const first = readPage({ limit: 5 });
     const cursor = first.page.nextCursor;
     assert.ok(cursor);
     const [body, signature] = cursor.split(".");
@@ -330,30 +342,30 @@ test("relation candidate cursors reuse their signed total and recalculate for a 
     assert.equal(signature, sign(body!));
     assert.equal(countCalls, 1);
 
-    const expected = f.db.listTicketRelationCandidatePage(boardId, { limit: 10, cursor });
+    const expected = readPage({ limit: 10, cursor });
     assert.equal(countCalls, 1);
     assert.equal(expected.page.total, 65);
-    assert.deepEqual(expected.tickets.map(ticket => ticket.id), f.ids.slice(5, 15));
+    assert.deepEqual(expected.tickets.map(ticket => ticket.id), expectedIds.slice(5, 15));
 
     const previousBody = toBody(previousPayload);
-    const previous = f.db.listTicketRelationCandidatePage(boardId, {
+    const previous = readPage({
       limit: 10, cursor: `${previousBody}.${sign(previousBody)}`,
     });
     assert.equal(countCalls, 2);
     assert.deepEqual(previous, expected);
 
     assert.ok(previous.page.nextCursor);
-    const last = f.db.listTicketRelationCandidatePage(boardId, { limit: 200, cursor: previous.page.nextCursor });
+    const last = readPage({ limit: 200, cursor: previous.page.nextCursor });
     assert.equal(countCalls, 2);
     assert.deepEqual(last.page, { nextCursor: null, total: 65 });
-    assert.deepEqual(last.tickets.map(ticket => ticket.id), f.ids.slice(15));
+    assert.deepEqual(last.tickets.map(ticket => ticket.id), expectedIds.slice(15));
 
     const tamperedBody = toBody({ ...previousPayload, total: 66 });
-    assert.throws(() => f.db.listTicketRelationCandidatePage(boardId, { limit: 1, cursor: `${tamperedBody}.${signature}` }),
+    assert.throws(() => readPage({ limit: 1, cursor: `${tamperedBody}.${signature}` }),
       { message: "invalid pagination cursor", statusCode: 400 });
     for (const invalidTotal of [-1, 0.5, "65", null, Number.MAX_SAFE_INTEGER + 1]) {
       const invalidBody = toBody({ ...previousPayload, total: invalidTotal });
-      assert.throws(() => f.db.listTicketRelationCandidatePage(boardId, {
+      assert.throws(() => readPage({
         limit: 1, cursor: `${invalidBody}.${sign(invalidBody)}`,
       }), { message: "invalid pagination cursor", statusCode: 400 });
     }

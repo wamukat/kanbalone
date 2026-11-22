@@ -164,7 +164,7 @@ export function listTicketReferencePage(sqlite: Database.Database, boardId: numb
   const order = "position_asc";
   const filtered = ticketFilterQuery(boardId, filters);
   const query = createHash("sha256").update(JSON.stringify(["list-ticket-references", filtered.sql, filtered.params, order])).digest("hex");
-  return readTicketPage(sqlite, boardId, filtered, options, orderKeys(order), query, referenceProjection,
+  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, orderKeys(order), query, referenceProjection,
     (rows: ListTicketReferenceRow[]) => rows.map(mapListTicketReference));
 }
 
@@ -178,7 +178,7 @@ export function listGroupTicketPage(sqlite: Database.Database, boardId: number, 
   const query = createHash("sha256").update(JSON.stringify(["group-tickets", filtered.sql, filtered.params, order])).digest("hex");
   const projection = `${referenceProjection}, t.priority, t.is_archived,
     EXISTS (SELECT 1 FROM tickets child WHERE child.parent_ticket_id = t.id) AS has_children`;
-  return readTicketPage(sqlite, boardId, filtered, options, orderKeys(order), query, projection,
+  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, orderKeys(order), query, projection,
     (rows: GroupTicketRow[]): GroupTicketView[] => {
       const tags = getTagsForTicketIds(sqlite, rows.map(row => row.id));
       return rows.map(row => ({
