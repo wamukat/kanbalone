@@ -1,0 +1,426 @@
+[
+  {
+    "key": "en-light-1440-before",
+    "geometry": [
+      [
+        567,
+        286.375,
+        840,
+        52,
+        "\n    #1Parent: review the complete family\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        338.375,
+        819,
+        97.75,
+        "\n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        436.125,
+        819,
+        52,
+        "\n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        567,
+        500.125,
+        840,
+        52,
+        "\n    #4Archived parent: context remains visible\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        552.125,
+        819,
+        52,
+        "\n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        567,
+        616.125,
+        840,
+        52,
+        "\n    #7Standalone completed ticket\n    Done\n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "en-light-1440-after",
+    "geometry": [
+      [
+        567,
+        286.375,
+        840,
+        52,
+        "\n    \n    \n    #1Parent: review the complete family\n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        588,
+        338.375,
+        819,
+        97.75,
+        "\n    \n    \n    \n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        436.125,
+        819,
+        52,
+        "\n    \n    \n    \n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        567,
+        500.125,
+        840,
+        52,
+        "\n    \n    \n    #4Archived parent: context remains visible\n    \n    \n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        588,
+        552.125,
+        819,
+        52,
+        "\n    \n    \n    \n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        567,
+        616.125,
+        840,
+        52,
+        "\n    \n    \n    \n    #7Standalone completed ticket\n    Done\n    \n    \n    \n    \n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "en-dark-390-before",
+    "geometry": [
+      [
+        33,
+        524.546875,
+        324,
+        79.5625,
+        "\n    #1Parent: review the complete family\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        604.109375,
+        303,
+        497.875,
+        "\n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        1101.984375,
+        303,
+        79.5625,
+        "\n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        33,
+        1193.546875,
+        324,
+        79.5625,
+        "\n    #4Archived parent: context remains visible\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        1273.109375,
+        303,
+        79.5625,
+        "\n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        33,
+        1364.671875,
+        324,
+        61.375,
+        "\n    #7Standalone completed ticket\n    Done\n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "en-dark-390-after",
+    "geometry": [
+      [
+        33,
+        524.546875,
+        324,
+        79.5625,
+        "\n    \n    \n    #1Parent: review the complete family\n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        54,
+        604.109375,
+        303,
+        497.875,
+        "\n    \n    \n    \n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        1101.984375,
+        303,
+        79.5625,
+        "\n    \n    \n    \n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        33,
+        1193.546875,
+        324,
+        79.5625,
+        "\n    \n    \n    #4Archived parent: context remains visible\n    \n    \n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        54,
+        1273.109375,
+        303,
+        79.5625,
+        "\n    \n    \n    \n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        33,
+        1364.671875,
+        324,
+        61.375,
+        "\n    \n    \n    \n    #7Standalone completed ticket\n    Done\n    \n    \n    \n    \n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "ja-light-1440-before",
+    "geometry": [
+      [
+        567,
+        286.375,
+        840,
+        52,
+        "\n    #1Parent: review the complete family\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        338.375,
+        819,
+        97.75,
+        "\n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        436.125,
+        819,
+        52,
+        "\n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        567,
+        500.125,
+        840,
+        52,
+        "\n    #4Archived parent: context remains visible\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        552.125,
+        819,
+        52,
+        "\n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        567,
+        616.125,
+        840,
+        52,
+        "\n    #7Standalone completed ticket\n    Done\n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "ja-light-1440-after",
+    "geometry": [
+      [
+        567,
+        286.375,
+        840,
+        52,
+        "\n    \n    \n    #1Parent: review the complete family\n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        588,
+        338.375,
+        819,
+        97.75,
+        "\n    \n    \n    \n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        588,
+        436.125,
+        819,
+        52,
+        "\n    \n    \n    \n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        567,
+        500.125,
+        840,
+        52,
+        "\n    \n    \n    #4Archived parent: context remains visible\n    \n    \n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        588,
+        552.125,
+        819,
+        52,
+        "\n    \n    \n    \n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        567,
+        616.125,
+        840,
+        52,
+        "\n    \n    \n    \n    #7Standalone completed ticket\n    Done\n    \n    \n    \n    \n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "ja-dark-390-before",
+    "geometry": [
+      [
+        33,
+        543.4375,
+        324,
+        79.5625,
+        "\n    #1Parent: review the complete family\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        623,
+        303,
+        497.875,
+        "\n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        1120.875,
+        303,
+        79.5625,
+        "\n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        33,
+        1212.4375,
+        324,
+        79.5625,
+        "\n    #4Archived parent: context remains visible\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        1292,
+        303,
+        79.5625,
+        "\n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        33,
+        1383.5625,
+        324,
+        61.375,
+        "\n    #7Standalone completed ticket\n    Done\n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  },
+  {
+    "key": "ja-dark-390-after",
+    "geometry": [
+      [
+        33,
+        543.4375,
+        324,
+        79.5625,
+        "\n    \n    \n    #1Parent: review the complete family\n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        54,
+        623,
+        303,
+        497.875,
+        "\n    \n    \n    \n    #2Child: Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions. Long title wraps without moving adjacent actions.\n    Todo\n    \n  "
+      ],
+      [
+        54,
+        1120.875,
+        303,
+        79.5625,
+        "\n    \n    \n    \n    #3Second child: completed work\n    Done\n    \n  "
+      ],
+      [
+        33,
+        1212.4375,
+        324,
+        79.5625,
+        "\n    \n    \n    #4Archived parent: context remains visible\n    \n    \n    Todo\n    \n    \n    \n    \n    \n  "
+      ],
+      [
+        54,
+        1292,
+        303,
+        79.5625,
+        "\n    \n    \n    \n    #5Child of archived parent\n    Todo\n    \n  "
+      ],
+      [
+        33,
+        1383.5625,
+        324,
+        61.375,
+        "\n    \n    \n    \n    #7Standalone completed ticket\n    Done\n    \n    \n    \n    \n    \n  "
+      ]
+    ],
+    "saved": {
+      "groupId": null,
+      "parentTicketId": 1
+    },
+    "cancelPreserved": true,
+    "reloadPreserved": true
+  }
+]
