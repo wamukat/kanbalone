@@ -1,0 +1,51 @@
+{
+  "baseline": "2c44327c1b05753b165181ee663af9fb5253e40f",
+  "files": {
+    "public/app-group-board.js": "16cad47c2c4077a97d49956dba512723f7b38c0395c6eda999af43625e3bb546",
+    "public/app-group-view.d.ts": "87f345060f3a0cb6e97d8a125c9040de24e3f76362c653d9af955b37da3539cc",
+    "public/app-group-view.js": "ee2e70ab6b23f1084e564114101c8bc54297974e784e72ec6c6bf1b3b39b5a83",
+    "public/styles/groups.css": "5195b5e476dbe7ff36312f5924070eb17920c3b01a175d4b42f40fb8fcec615b"
+  },
+  "fingerprint": "c899de5b195e89d295cb9164238bec89ec1bc8b58c7a46918674d4eb1f6ad3d3",
+  "served": {
+    "public/app-group-board.js": {
+      "before": "d6a904c06ca602f354bdcc81db260e1d0537d180fd2a8392573dcbce19d1f982",
+      "after": "16cad47c2c4077a97d49956dba512723f7b38c0395c6eda999af43625e3bb546"
+    },
+    "public/app-group-view.js": {
+      "before": "beebef12e2ea466ba93b5d42d8c97e79763c7ce1aa1c640e2c81aeaf378e5580",
+      "after": "ee2e70ab6b23f1084e564114101c8bc54297974e784e72ec6c6bf1b3b39b5a83"
+    },
+    "public/styles/groups.css": {
+      "before": "7b3802ee9fcbe368011db7e544ec2e1ade46eccdecf64109dd9661e57acff3d2",
+      "after": "5195b5e476dbe7ff36312f5924070eb17920c3b01a175d4b42f40fb8fcec615b"
+    }
+  },
+  "capturedAt": "2026-11-22T06:24:57.550847+00:00",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "theme": "light",
+  "supplemental": [
+    {
+      "viewport": [
+        1440,
+        1000
+      ],
+      "theme": "dark"
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "theme": "light"
+    }
+  ],
+  "node": "26.13.1",
+  "browserTool": "agent-browser 0.26.0",
+  "publishedEquivalent": "1f63826ad713de97870bb91d914d249ada8508ac",
+  "baselineTree": "9fd16bba08c98cb5e82d80b788fdc08f551cdc7f",
+  "publishedEquivalentTree": "9fd16bba08c98cb5e82d80b788fdc08f551cdc7f"
+}

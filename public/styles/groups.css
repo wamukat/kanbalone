@@ -505,3 +505,8 @@
   color: var(--text-muted);
   font-weight: var(--font-weight-regular);
 }
+
+/* Independent updates keep ticket nodes mounted without adding layout boxes. */
+.group-render-section {
+  display: contents;
+}

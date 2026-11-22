@@ -1,5 +1,5 @@
 // @ts-check
-import { t as tr } from "./app-i18n.js";
+import { t as tr, getLocale } from "./app-i18n.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
@@ -10,7 +10,7 @@ import {
   relatedTickets,
   searchGroupCandidates,
   renderGroupOptions,
-  renderGroupView,
+  renderGroupViewSections,
 } from "./app-group-view.js";
 
 // Keep the board sidebar intact: group selection and ticket families share the content area.
@@ -46,6 +46,37 @@ export function createGroupBoardModule(ctx) {
     activeOption = 0;
   /** @type {GroupTicket[]} */ let candidates = [];
   /** @type {number[]} */ let chosen = [];
+  let ticketRevision = 0;
+  let renderedTicketKey = "";
+  let renderedBusy = false;
+  /** @type {Record<string, HTMLElement> | null} */
+  let sections = null;
+  /** @type {Record<string, string>} */
+  let sectionHtml = {};
+
+  // Compare the fields used by Group rows/order/counts only when a collection
+  // arrives. Form edits must not rescan or serialize the ticket collection.
+  /** @param {GroupTicket[]} next */
+  function receiveTickets(next) {
+    const same = tickets.length === next.length && tickets.every((previous, index) => {
+      const current = next[index];
+      return previous.id === current.id && previous.title === current.title
+        && previous.laneId === current.laneId && previous.parentTicketId === current.parentTicketId
+        && previous.hasChildren === current.hasChildren && previous.priority === current.priority
+        && previous.isResolved === current.isResolved && previous.isArchived === current.isArchived;
+    });
+    if (!same) ticketRevision += 1;
+    tickets = next;
+  }
+
+  function syncTicketBusy() {
+    if (!sections || renderedBusy === busy) return;
+    for (const button of sections.tickets.querySelectorAll("[data-group-remove]")) {
+      if (button instanceof HTMLButtonElement) button.disabled = busy;
+    }
+    renderedBusy = busy;
+  }
+
   let busy = false,
     error = "",
     generation = 0;
@@ -73,7 +104,7 @@ export function createGroupBoardModule(ctx) {
     groups = [];
     selectedId = null;
     selected = null;
-    tickets = [];
+    receiveTickets([]);
     all = false;
     showArchived = false;
     creating = false;
@@ -134,10 +165,10 @@ export function createGroupBoardModule(ctx) {
         )
           return;
         selected = /** @type {GroupView} */ (detail);
-        tickets = /** @type {{tickets: GroupTicket[]}} */ (rows).tickets;
+        receiveTickets(/** @type {{tickets: GroupTicket[]}} */ (rows).tickets);
       } else {
         selected = null;
-        tickets = [];
+        receiveTickets([]);
       }
       render();
     } catch (e) {
@@ -224,9 +255,27 @@ export function createGroupBoardModule(ctx) {
         : null;
     if (!boardId) {
       host.innerHTML = "";
+      sections = null;
+      sectionHtml = {};
+      renderedTicketKey = "";
       return;
     }
-    host.innerHTML = renderGroupView(
+    if (!sections || !host.contains(sections.tickets)) {
+      host.innerHTML = '<div class="group-render-section" data-group-section="list"></div><div class="group-content-panel"><div class="group-render-section" data-group-section="header"></div><div class="group-render-section" data-group-section="tickets"></div><div class="group-render-section" data-group-section="footer"></div></div>';
+      sections = {};
+      for (const name of ["list", "header", "tickets", "footer"]) {
+        sections[name] = /** @type {HTMLElement} */ (host.querySelector(`[data-group-section="${name}"]`));
+      }
+      sectionHtml = {};
+      renderedTicketKey = "";
+    }
+    const lanes = state.boardDetail?.lanes ?? [];
+    const ticketKey = JSON.stringify([
+      boardId, selectedId, selected?.id, ticketRevision, showArchived, getLocale(), !!groups.length,
+      lanes.map((lane) => [lane.id, lane.name]),
+    ]);
+    const updateTickets = ticketKey !== renderedTicketKey;
+    const html = renderGroupViewSections(
       {
         groups,
         selectedId,
@@ -251,8 +300,22 @@ export function createGroupBoardModule(ctx) {
         query,
         activeOption,
       },
-      { escapeHtml: esc, lanes: state.boardDetail?.lanes ?? [] },
+      { escapeHtml: esc, lanes },
+      updateTickets,
     );
+    for (const name of ["list", "header", "footer"]) {
+      const value = html[/** @type {"list" | "header" | "footer"} */ (name)];
+      if (sectionHtml[name] === value) continue;
+      sections[name].innerHTML = value;
+      sectionHtml[name] = value;
+    }
+    if (updateTickets) {
+      sections.tickets.innerHTML = html.tickets ?? "";
+      renderedTicketKey = ticketKey;
+      renderedBusy = busy;
+    } else {
+      syncTicketBusy();
+    }
     if (focusSelector) {
       const next =
         host.querySelector(focusSelector) ||
@@ -475,6 +538,10 @@ export function createGroupBoardModule(ctx) {
     const targetGroupId = addGroupId;
     let membershipSaved = false;
     busy = true;
+    // Submission temporarily changes the DOM outside the render cache. Ensure
+    // success/failure restores the form's computed submit-button state.
+    delete sectionHtml[kind === "create" ? "list" : "header"];
+    syncTicketBusy();
     error = "";
     form.querySelectorAll('button[type="submit"]').forEach((b) => {
       if (b instanceof HTMLButtonElement) b.disabled = true;

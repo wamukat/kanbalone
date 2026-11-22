@@ -1,0 +1,132 @@
+[
+  {
+    "before": "before-en-candidate-search.png",
+    "after": "after-en-candidate-search.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 21,
+    "bounds": [
+      406,
+      147,
+      623,
+      409
+    ]
+  },
+  {
+    "before": "before-en-candidate-selected.png",
+    "after": "after-en-candidate-selected.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 1,
+    "bounds": [
+      411,
+      176,
+      411,
+      176
+    ]
+  },
+  {
+    "before": "before-en-dark.png",
+    "after": "after-en-dark.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-description-preview.png",
+    "after": "after-en-description-preview.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 1,
+    "bounds": [
+      411,
+      176,
+      411,
+      176
+    ]
+  },
+  {
+    "before": "before-en-initial.png",
+    "after": "after-en-initial.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-en-mobile.png",
+    "after": "after-en-mobile.png",
+    "size": [
+      390,
+      844
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-ja-candidate-search.png",
+    "after": "after-ja-candidate-search.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 3,
+    "bounds": [
+      404,
+      148,
+      405,
+      180
+    ]
+  },
+  {
+    "before": "before-ja-candidate-selected.png",
+    "after": "after-ja-candidate-selected.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 2,
+    "bounds": [
+      404,
+      180,
+      405,
+      180
+    ]
+  },
+  {
+    "before": "before-ja-description-preview.png",
+    "after": "after-ja-description-preview.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 2,
+    "bounds": [
+      404,
+      180,
+      405,
+      180
+    ]
+  },
+  {
+    "before": "before-ja-initial.png",
+    "after": "after-ja-initial.png",
+    "size": [
+      1440,
+      1000
+    ],
+    "differentPixels": 0,
+    "bounds": null
+  }
+]

@@ -1,0 +1,167 @@
+[
+  {
+    "variant": "baseline",
+    "initial": true,
+    "first": 4389.20000000298,
+    "states": [
+      {
+        "label": "initial",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      },
+      {
+        "label": "middle",
+        "scrollHeight": 640077,
+        "scrollTop": 320039,
+        "focused": null,
+        "firstRow": -319794.625,
+        "lastRow": 52
+      },
+      {
+        "label": "bottom",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": null,
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "focus-last",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": "11000",
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "tab-after-last",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": null,
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "returned-top",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      }
+    ]
+  },
+  {
+    "variant": "contain",
+    "initial": true,
+    "first": 4116.20000000298,
+    "states": [
+      {
+        "label": "initial",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      },
+      {
+        "label": "middle",
+        "scrollHeight": 640077,
+        "scrollTop": 320039,
+        "focused": null,
+        "firstRow": -319794.625,
+        "lastRow": 52
+      },
+      {
+        "label": "bottom",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": null,
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "focus-last",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": "11000",
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "tab-after-last",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": null,
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "returned-top",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      }
+    ]
+  },
+  {
+    "variant": "auto",
+    "initial": true,
+    "first": 2816.39999999851,
+    "states": [
+      {
+        "label": "initial",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      },
+      {
+        "label": "middle",
+        "scrollHeight": 640077,
+        "scrollTop": 320039,
+        "focused": null,
+        "firstRow": -319794.625,
+        "lastRow": 52
+      },
+      {
+        "label": "bottom",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": null,
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "focus-last",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": "11000",
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "tab-after-last",
+        "scrollHeight": 640077,
+        "scrollTop": 639196,
+        "focused": null,
+        "firstRow": -638951.625,
+        "lastRow": 52
+      },
+      {
+        "label": "returned-top",
+        "scrollHeight": 640077,
+        "scrollTop": 0,
+        "focused": null,
+        "firstRow": 244.375,
+        "lastRow": 52
+      }
+    ]
+  }
+]
