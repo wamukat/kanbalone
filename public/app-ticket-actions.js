@@ -34,7 +34,7 @@ export function createTicketActionsModule(ctx, options) {
 
   async function saveTicket(event) {
     event.preventDefault();
-    if (!state.activeBoardId || state.editorSaving) {
+    if (!state.activeBoardId || state.editorSaving || !options.canSaveBody()) {
       return;
     }
     const tagIds = options.getSelectedTagIds();

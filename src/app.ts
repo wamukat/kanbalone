@@ -5,6 +5,7 @@ import fastifyStatic from "@fastify/static";
 
 import { readPackageMeta } from "./app-meta.js";
 import { BoardEventHub } from "./board-event-hub.js";
+import { boardTransferByteLimit } from "./db-modules/attachment-transfer.js";
 import { KanbanDb } from "./db.js";
 import type { RemoteAdapterRegistry } from "./remote/adapters.js";
 import { getConfiguredCredentialProviders, getConfiguredCredentialScopes, type ConfiguredRemoteCredentialScope } from "./remote/credentials.js";
@@ -19,6 +20,7 @@ import {
   setErrorHandler,
 } from "./route-helpers.js";
 import { registerGroupRoutes } from "./routes/groups.js";
+import { registerAttachmentRoutes } from "./routes/attachments.js";
 import { registerBoardRoutes } from "./routes/boards.js";
 import { registerLaneRoutes } from "./routes/lanes.js";
 import * as routeSchemas from "./routes/schemas.js";
@@ -42,7 +44,7 @@ type BuildAppOptions = {
 };
 
 export function buildApp(options: BuildAppOptions): FastifyInstance {
-  const app = fastify({ logger: false, bodyLimit: 64 * 1024 * 1024 });
+  const app = fastify({ logger: false, bodyLimit: boardTransferByteLimit });
   const parseJson = app.getDefaultJsonParser("error", "error");
   app.addContentTypeParser<string>("application/json", { parseAs: "string" }, (request, body, done) => {
     if (body === "" && request.method === "DELETE" && !request.routeOptions.schema?.body) {
@@ -83,6 +85,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     remoteAdapters,
     remoteCredentialScopes,
   });
+  registerAttachmentRoutes(app, db.attachments);
   registerBoardRoutes(app, {
     addBoardEventClient: boardEventHub.addClient,
     db,

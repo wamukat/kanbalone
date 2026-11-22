@@ -60,6 +60,8 @@ COPY --chown=node:node --from=build /app/package.json ./package.json
 COPY --chown=node:node --from=prod-deps /app/node_modules ./node_modules
 COPY --chown=node:node --from=build /app/dist ./dist
 COPY --chown=node:node --from=build /app/public ./public
+COPY --chown=node:node scripts/kanbalone-backup.mjs ./scripts/kanbalone-backup.mjs
+COPY --chown=node:node src/image-policy.json ./src/image-policy.json
 
 RUN mkdir -p /app/data \
   && chown -R node:node /app

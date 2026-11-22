@@ -1,0 +1,23 @@
+# #1529 independent visual review
+
+Reviewed November 22, 2026. Scope: the original viewport captures and recorded results for the synthetic image attachment task, against `docs/development/ui-ux-review.md`. Baseline `5ff44622f74c2116147d60c11be7f86fbc2208d2`; candidate capture source and subsequent changes are identified by `source-fingerprint.json` and `working-tree-comparison.json`. Node 26.13.1, Headless Chrome 158, device scale 1; Japanese and English at 1440 × 900 light and 390 × 844 dark. The original fixtures and steps are in [README](README.md).
+
+## Inspected files
+
+Viewed both original PNGs for each of the eight representative pairs linked in the README: Japanese wide ticket creation editor and reloaded detail; Japanese narrow full ticket editor; English narrow inline body editor, new comment editor and reloaded detail; English wide inline comment editor; Japanese wide reloaded inline comment. Also viewed `after-en-dark-390-ticket-upload-failure.png`, `after-en-dark-390-comment-creation-discard-prompt.png`, `after-ja-light-1440-ticket-upload-failure.png`, and `after-ja-light-1440-comment-inline-edit-discard-prompt.png` in `captures/`. Read `before-results.json` and `after-results.json` for stored values and dimensions.
+
+## Observations
+
+- The reviewed after editors show the inserted Markdown while keeping the prior draft text. The added drop/paste hint wraps at narrow width; save and cancel controls remain visible in the reviewed editor states. The hint increases vertical height and moves subsequent controls down, particularly in narrow view.
+- The reviewed reloaded details show the fixture image in the appropriate ticket or comment; the corresponding before details retain the text without an image. The English narrow saved comment image stays within the comment card. No added-image overflow or broken existing control was visible in the reviewed pairs.
+- Across all 20 normal records in the JSON, the reported candidate stored Markdown equals the editor Markdown, fetched image hashes match the source hashes, and reloaded image bounds lie within the reported container. Baseline stored text equals the original text. At 390 px, the reported rendered width is about 300.34 px for the 560 px source. These are recorded automated observations, not independent reruns.
+- In the two recorded cancellation settings, comment prompt cancellation retains the draft and discard leaves the new comment unsaved or the existing comment at its previously stored revision. Ticket edit cancellation leaves the original body stored; the separately uploaded blob still returns 200. Injected 503 captures show readable retry guidance and preserved body text; JSON records the same stored body. These captures do not prove timing behavior by themselves.
+- Readability finding: the English dark discard confirmation screenshot renders its heading “Discard changes?” in black on a dark panel, making it hard to read. The English dark new-comment label “Add Comment” is likewise dark on dark in both before and after images, so that label predates this change. The discard heading's baseline attribution requires confirmation; it is reported separately to the implementation team.
+
+## Assessment and limits
+
+No blocking image-layout regression was observed in the reviewed pairs. The dark confirmation heading needs attribution and disposition; the existing comment label is also a readability issue. This is an image-based review, not user acceptance or proof of usability. It does not independently exercise OS clipboard, Finder drag, physical touch, pending uploads or pending saves. Synthetic `DataTransfer` and `ClipboardEvent` inputs use a PNG fixture. The captured candidate predates the later source changes described in the README; pending-request paths require their separate browser tests. Screenshots, recorded GET/reload outcomes, and image hashes have distinct evidentiary roles. Ticket attachment and actual embedded-image loading remain separate requirements before Acceptance.
+
+## Attribution follow-up
+
+The implementation agent subsequently measured baseline commit 5ff4462 and the final candidate at 390 px dark. Both the discard heading and comment label were rgb(0,0,0) against panel rgb(23,29,25) in both revisions. This is a pre-existing contrast issue, retained as a limitation rather than a new-image-feature blocker. The final loading-state geometry was separately checked in all 20 editor/locale/width combinations with zero Save-position delta; see validation.md and frontend-layout.json. These follow-up measurements were supplied by the implementation agent, not independently rerun by the visual reviewer.

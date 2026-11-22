@@ -366,6 +366,7 @@ export type BoardShellView = {
 
 export type BoardExport = {
   formatVersion?: number;
+  attachments?: import("./attachments.js").AttachmentExport[];
   groups?: Array<Pick<GroupView, "id" | "name" | "descriptionMarkdown" | "createdAt" | "updatedAt">>;
   board: BoardView;
   lanes: LaneView[];

@@ -2,6 +2,7 @@ import { listTicketPage, listTicketRelationCandidatePage, type TicketPageOptions
 import * as groups from "./db-modules/groups.js";
 import { setCompletionLanes, type CompletionLaneExpectation } from "./db-modules/lane-completion.js";
 import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
+import { AttachmentStore } from "./attachments.js";
 import Database from "better-sqlite3";
 
 import {
@@ -65,6 +66,7 @@ import {
   type PositionTicketInput,
   type UpdateTicketInput,
 } from "./db-modules/ticket-mutations.js";
+import { exportBoardImages, importBoardImages } from "./db-modules/attachment-transfer.js";
 import { importBoardPayload, toBoardExport } from "./db-modules/board-transfer.js";
 import { migrate } from "./db-modules/migration.js";
 import {
@@ -118,9 +120,11 @@ import {
 
 export class KanbanDb {
   readonly sqlite: Database.Database;
+  readonly attachments: AttachmentStore;
 
   constructor(filename: string) {
     this.sqlite = new Database(filename);
+    this.attachments = new AttachmentStore(this.sqlite, filename);
     this.sqlite.pragma("journal_mode = WAL");
     this.sqlite.pragma("foreign_keys = ON");
     try {
@@ -133,6 +137,7 @@ export class KanbanDb {
 
   close(): void {
     this.sqlite.close();
+    this.attachments.close();
   }
 
   now(): string {
@@ -469,17 +474,17 @@ export class KanbanDb {
   }
 
   exportBoard(boardId: Id): BoardExport {
-    return toBoardExport(this.getBoardDetail(boardId));
+    return exportBoardImages(toBoardExport(this.getBoardDetail(boardId)), this.attachments);
   }
 
   importBoard(payload: BoardExport): BoardDetailView {
-    return importBoardPayload(this.sqlite, payload, {
+    return importBoardImages(payload, this.attachments, () => importBoardPayload(this.sqlite, payload, {
       addComment: this.addComment.bind(this),
       createBoard: this.createBoard.bind(this),
       createTag: this.createTag.bind(this),
       createTicket: this.createTicket.bind(this),
       getBoardDetail: this.getBoardDetail.bind(this),
-    });
+    }));
   }
 
 }

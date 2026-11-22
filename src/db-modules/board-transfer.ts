@@ -72,10 +72,10 @@ export function importBoardPayload(
       if (!positiveId(ticket.parentTicketId) || !parent || parent.id === ticket.id || parent.parentTicketId != null) groupError("Invalid parent/child relationships in export", "INVALID_EXPORT_FORMAT", 400);
     }
     const version = payload.formatVersion;
-    if (version !== undefined && version !== 2) groupError("Unsupported board export format", "INVALID_EXPORT_FORMAT", 400);
+    if (version !== undefined && version !== 2 && version !== 3) groupError("Unsupported board export format", "INVALID_EXPORT_FORMAT", 400);
     if (version === undefined && (Object.hasOwn(payload, "groups") || payload.tickets.some(t => Object.hasOwn(t, "groupId")))) groupError("Group fields require formatVersion 2", "INVALID_EXPORT_FORMAT", 400);
-    if (version === 2) {
-      if (!Array.isArray(payload.groups) || payload.tickets.some(t => !Object.hasOwn(t, "groupId"))) groupError("Group data missing from version 2 export", "INVALID_EXPORT_FORMAT", 400);
+    if (version === 2 || version === 3) {
+      if (!Array.isArray(payload.groups) || payload.tickets.some(t => !Object.hasOwn(t, "groupId"))) groupError("Group data missing from board export", "INVALID_EXPORT_FORMAT", 400);
       const validId = (id: unknown) => typeof id === "number" && Number.isSafeInteger(id) && id > 0;
       const validDate = (date: unknown) => typeof date === "string" && Number.isFinite(Date.parse(date));
       if (payload.groups!.some(g=>!validId(g.id) || typeof g.name!=="string" || typeof g.descriptionMarkdown!=="string" || !validDate(g.createdAt) || !validDate(g.updatedAt))) groupError("Invalid Group definition", "INVALID_EXPORT_FORMAT", 400);

@@ -1,0 +1,31 @@
+{
+  "comparedAt": "2026-11-22T14:02:09.482Z",
+  "captured": "b80e7fbead1dd5b3904d63ff4aaf368b2b436594786d318d3aca0a316b79b02d",
+  "compared": "0beef8012cfaafc422e0dbaab79d6afc9d7d2f237389ead77268175cdf3dbae4",
+  "changes": {
+    "public/app-editor.js": {
+      "capture": "b17ad600549a7528d79cd6099d1da1eb6454a5988cc4ecf3bf04da279154ab4b",
+      "compared": "00532391b1c70efe23a6e945b606c7390864d1a9f5aff78a5f48428518395665"
+    },
+    "public/app-image-attachments.js": {
+      "capture": "0c41ca6d1ea0d5457c0b30e315d1f1845d7135310e8f0e51a7d8f5d7ea6a4f7a",
+      "compared": "46f68603a527898d88e366ebb584353ab0e61bc1e19faffde61ea5e2fe747af0"
+    },
+    "public/app-ticket-comments.js": {
+      "capture": "47f493d4bcb656b01ac4e8d50c9c303333edfe1fbda5de5de8ba8178f2fb34c8",
+      "compared": "960f56f528a9ae3d428ef1df94d8d5746261dd33167c184d95a9e6b9fee82c28"
+    },
+    "public/styles/ticket-editor.css": {
+      "capture": "f27d13fbb7efd34bccea5c98d023d882d7e5061217475ed3a01427d6331d1125",
+      "compared": "d6a1bd26bb6572d78f4b8e3b337bcb4c176e7ce7ca0b36195d964ed293565312"
+    },
+    "src/image-format.ts": {
+      "capture": "2a12f7e3bc423d0a56d7026fbe770a353cfa60bbb05bf4a13c397e1f77cfce2b",
+      "compared": "7616a6a3b37bc3eaa2dfa3e69e63e06856c13906206ea3e179dee8e52be6be7a"
+    },
+    "src/image-policy.json": {
+      "capture": null,
+      "compared": "056148313ccc7bb25ed7f8657c7bc16c4dd7433c1a96d150e9b357150b812721"
+    }
+  }
+}

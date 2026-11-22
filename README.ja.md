@@ -81,13 +81,15 @@ docker compose -f docker-compose.image.yml up
 KANBAN_PORT=3457 docker compose -f docker-compose.image.yml up
 ```
 
-アプリは SQLite データベースを以下に保存します。
+アプリはSQLiteデータベースと添付画像を以下に保存します。
 
 ```text
 /app/data/kanbalone.sqlite
+/app/data/attachments/
 ```
 
 同梱の Compose ファイルでは、永続化のために `kanbalone-data` という Docker named volume を使います。
+バックアップと復元ではDBと画像をまとめて扱います。[バックアップと復元の手順](docs/ja/migration-guide.md#database-and-image-backup)を参照してください。
 
 Windows では、Docker Desktop または Rancher Desktop with WSL2 を使い、named volume の構成を維持してください。
 

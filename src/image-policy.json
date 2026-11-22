@@ -1,0 +1,9 @@
+{
+  "byteLimit": 10485760,
+  "mediaTypes": {
+    "image/png": true,
+    "image/jpeg": true,
+    "image/gif": true,
+    "image/webp": true
+  }
+}
