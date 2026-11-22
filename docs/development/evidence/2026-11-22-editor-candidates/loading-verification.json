@@ -1,0 +1,322 @@
+[
+  {
+    "language": "ja",
+    "viewportWidth": 1440,
+    "errorGeometry": {
+      "scrollWidth": 589,
+      "clientWidth": 589,
+      "retryRight": 1054.515625,
+      "containerRight": 1066
+    },
+    "loadingErrorRectsEqual": true,
+    "successRects": {
+      "ticket-title": {
+        "x": 374,
+        "y": 100.15625,
+        "width": 686.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 674.171875,
+        "y": 576.34375,
+        "width": 384.53125,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 465.6875,
+        "y": 570.453125,
+        "width": 600.3125,
+        "height": 43.71875
+      },
+      "ticket-children-row": {
+        "x": 374,
+        "y": 707.796875,
+        "width": 692,
+        "height": 43.71875
+      },
+      "save-ticket-button": {
+        "x": 1010.8125,
+        "y": 765.609375,
+        "width": 55.1875,
+        "height": 38.375
+      }
+    },
+    "injectedFailure": true,
+    "titleRetained": true,
+    "queryRetained": true,
+    "fixedControlRects": {
+      "ticket-title": {
+        "x": 374,
+        "y": 100.15625,
+        "width": 686.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 674.171875,
+        "y": 576.34375,
+        "width": 384.53125,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 465.6875,
+        "y": 570.453125,
+        "width": 600.3125,
+        "height": 43.71875
+      },
+      "ticket-children-row": {
+        "x": 374,
+        "y": 675.609375,
+        "width": 692,
+        "height": 43.71875
+      },
+      "save-ticket-button": {
+        "x": 1010.8125,
+        "y": 733.421875,
+        "width": 55.1875,
+        "height": 38.375
+      }
+    },
+    "retryCount": 2,
+    "focusAfterRetry": "ticket-related-search"
+  },
+  {
+    "language": "en",
+    "viewportWidth": 1440,
+    "errorGeometry": {
+      "scrollWidth": 589,
+      "clientWidth": 589,
+      "retryRight": 1054.515625,
+      "containerRight": 1066
+    },
+    "loadingErrorRectsEqual": true,
+    "successRects": {
+      "ticket-title": {
+        "x": 374,
+        "y": 100.15625,
+        "width": 686.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 674.171875,
+        "y": 576.34375,
+        "width": 384.53125,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 465.6875,
+        "y": 570.453125,
+        "width": 600.3125,
+        "height": 43.71875
+      },
+      "ticket-children-row": {
+        "x": 374,
+        "y": 707.796875,
+        "width": 692,
+        "height": 43.71875
+      },
+      "save-ticket-button": {
+        "x": 1007.0625,
+        "y": 765.609375,
+        "width": 58.9375,
+        "height": 38.375
+      }
+    },
+    "injectedFailure": true,
+    "titleRetained": true,
+    "queryRetained": true,
+    "fixedControlRects": {
+      "ticket-title": {
+        "x": 374,
+        "y": 100.15625,
+        "width": 686.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 674.171875,
+        "y": 576.34375,
+        "width": 384.53125,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 465.6875,
+        "y": 570.453125,
+        "width": 600.3125,
+        "height": 43.71875
+      },
+      "ticket-children-row": {
+        "x": 374,
+        "y": 675.609375,
+        "width": 692,
+        "height": 43.71875
+      },
+      "save-ticket-button": {
+        "x": 1007.0625,
+        "y": 733.421875,
+        "width": 58.9375,
+        "height": 38.375
+      }
+    },
+    "retryCount": 2,
+    "focusAfterRetry": "ticket-related-search"
+  },
+  {
+    "language": "ja",
+    "viewportWidth": 390,
+    "errorGeometry": {
+      "scrollWidth": 219,
+      "clientWidth": 219,
+      "retryRight": 340.515625,
+      "containerRight": 352
+    },
+    "loadingErrorRectsEqual": true,
+    "successRects": {
+      "ticket-title": {
+        "x": 30,
+        "y": 100.15625,
+        "width": 316.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 128.984375,
+        "y": 679.890625,
+        "width": 215.71875,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 121.6875,
+        "y": 646.71875,
+        "width": 230.3125,
+        "height": 71
+      },
+      "ticket-children-row": {
+        "x": 30,
+        "y": 811.34375,
+        "width": 322,
+        "height": 71
+      },
+      "save-ticket-button": {
+        "x": 296.8125,
+        "y": 946.8125,
+        "width": 55.1875,
+        "height": 38.375
+      }
+    },
+    "injectedFailure": true,
+    "titleRetained": true,
+    "queryRetained": true,
+    "fixedControlRects": {
+      "ticket-title": {
+        "x": 30,
+        "y": 100.15625,
+        "width": 316.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 128.984375,
+        "y": 679.890625,
+        "width": 215.71875,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 121.6875,
+        "y": 646.71875,
+        "width": 230.3125,
+        "height": 71
+      },
+      "ticket-children-row": {
+        "x": 30,
+        "y": 779.15625,
+        "width": 322,
+        "height": 71
+      },
+      "save-ticket-button": {
+        "x": 296.8125,
+        "y": 914.625,
+        "width": 55.1875,
+        "height": 38.375
+      }
+    },
+    "retryCount": 2,
+    "focusAfterRetry": "ticket-related-search"
+  },
+  {
+    "language": "en",
+    "viewportWidth": 390,
+    "errorGeometry": {
+      "scrollWidth": 219,
+      "clientWidth": 219,
+      "retryRight": 340.515625,
+      "containerRight": 352
+    },
+    "loadingErrorRectsEqual": true,
+    "successRects": {
+      "ticket-title": {
+        "x": 30,
+        "y": 100.15625,
+        "width": 316.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 128.984375,
+        "y": 679.890625,
+        "width": 215.71875,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 121.6875,
+        "y": 646.71875,
+        "width": 230.3125,
+        "height": 71
+      },
+      "ticket-children-row": {
+        "x": 30,
+        "y": 811.34375,
+        "width": 322,
+        "height": 71
+      },
+      "save-ticket-button": {
+        "x": 293.0625,
+        "y": 946.8125,
+        "width": 58.9375,
+        "height": 38.375
+      }
+    },
+    "injectedFailure": true,
+    "titleRetained": true,
+    "queryRetained": true,
+    "fixedControlRects": {
+      "ticket-title": {
+        "x": 30,
+        "y": 100.15625,
+        "width": 316.40625,
+        "height": 40.34375
+      },
+      "ticket-related-search": {
+        "x": 128.984375,
+        "y": 679.890625,
+        "width": 215.71875,
+        "height": 31.9375
+      },
+      "ticket-related-toggle": {
+        "x": 121.6875,
+        "y": 646.71875,
+        "width": 230.3125,
+        "height": 71
+      },
+      "ticket-children-row": {
+        "x": 30,
+        "y": 779.15625,
+        "width": 322,
+        "height": 71
+      },
+      "save-ticket-button": {
+        "x": 293.0625,
+        "y": 914.625,
+        "width": 58.9375,
+        "height": 38.375
+      }
+    },
+    "retryCount": 2,
+    "focusAfterRetry": "ticket-related-search"
+  }
+]

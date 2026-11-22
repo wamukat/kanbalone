@@ -1,0 +1,16 @@
+[
+  {
+    "lang": "ja",
+    "detailContainsReverseDependencyAndArchivedRelation": true,
+    "candidateId": 6,
+    "query": "checklist",
+    "focused": "ticket-related-search"
+  },
+  {
+    "lang": "en",
+    "detailContainsReverseDependencyAndArchivedRelation": true,
+    "candidateId": 6,
+    "query": "checklist",
+    "focused": "ticket-related-search"
+  }
+]

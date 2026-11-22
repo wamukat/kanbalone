@@ -1,0 +1,35 @@
+
+Running 10 tests using 2 workers
+
+(node:99601) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (6.2s)
+  ✓   1 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (6.6s)
+(node:99611) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (6.6s)
+(node:99622) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (7.5s)
+(node:99639) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (5.5s)
+  ✓   5 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (7.0s)
+(node:99656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99659) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (10.5s)
+  ✓   7 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (12.2s)
+(node:99695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (10.1s)
+  ✓   9 [chromium] › test/e2e/editor-candidates.spec.ts:197:1 › save and re-edit invalidates candidates and keeps selected relations (10.4s)
+
+  10 passed (53.3s)

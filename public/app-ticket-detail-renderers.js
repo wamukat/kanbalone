@@ -82,7 +82,7 @@ export function createTicketDetailRenderers(ctx) {
       return "";
     }
     const parts = [];
-    const blocking = ctx.getBlockingTickets(ticket.id);
+    const blocking = ticket.blockedBy ?? [];
     if (ticket.parent) {
       parts.push(renderRelationRow(t("Parent"), "folder-up", renderRelationChip(ticket.parent, "parent")));
     }

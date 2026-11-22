@@ -1,0 +1,10 @@
+{
+  "boardId": 1,
+  "laneId": 2,
+  "subjectId": 3,
+  "childId": 4,
+  "blockerId": 1,
+  "relatedId": 2,
+  "blockedId": 5,
+  "candidateId": 6
+}

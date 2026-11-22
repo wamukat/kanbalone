@@ -71,7 +71,6 @@ export function createEditorModule(ctx) {
 
   const detailModule = createTicketDetailModule({
     ...ctx,
-    getBlockingTickets: relationsModule.getBlockingTickets,
     confirmDiscardChanges,
     refreshDialogTicket,
     updateDialogTicket,
@@ -179,6 +178,7 @@ export function createEditorModule(ctx) {
   }
 
   function resetDialogState() {
+    relationsModule.resetCandidates();
     composing = false;
     editorOpenGeneration += 1;
     state.editingTicketId = null;
@@ -223,6 +223,7 @@ export function createEditorModule(ctx) {
   }
 
   function closeEditor() {
+    relationsModule.resetCandidates();
     if (elements.editorDialog.open) {
       elements.editorDialog.close();
     }
@@ -232,6 +233,7 @@ export function createEditorModule(ctx) {
   }
 
   function hydrateDialogTicket(ticket, activity = [], events = []) {
+    relationsModule.resetCandidates(ticket);
     state.dialogTicket = ticket;
     state.dialogActivity = activity;
     state.dialogEvents = events;
@@ -351,14 +353,14 @@ export function createEditorModule(ctx) {
     if (!state.boardDetail || state.editorSaving) {
       return;
     }
+    // Keep the current ticket's selected relations if opening another ticket fails.
+    relationsModule.resetCandidates(state.dialogTicket);
     const request = ++editorOpenGeneration;
     const boardId = state.activeBoardId;
     const viewMode = state.viewMode;
     const originVersion = ctx.captureEditorOrigin?.();
     const isCurrent = () => request === editorOpenGeneration && boardId === state.activeBoardId && viewMode === state.viewMode
       && (!creationGroup || ctx.isActiveGroup(creationGroup.id));
-    const boardTickets = (await ctx.api(`/api/boards/${boardId}/tickets?archived=all`)).tickets;
-    if (!isCurrent()) return;
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
         ctx.api(`/api/tickets/${ticketId}`),
@@ -371,7 +373,7 @@ export function createEditorModule(ctx) {
     detailModule.resetInlineEdit();
     state.editingTicketId = ticketId;
     state.editorCreateGroup = ticketId ? null : creationGroup;
-    state.boardTickets = boardTickets;
+    relationsModule.resetCandidates(ticket);
 
     const activity = activityPayload.activity ?? [];
     const events = eventsPayload.events ?? [];

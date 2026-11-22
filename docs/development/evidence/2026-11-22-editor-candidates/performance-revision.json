@@ -1,0 +1,179 @@
+{
+  "baseline": "ac23f0f12b9efb7da330b9b4142c87642ba9441c",
+  "node": "26.13.1",
+  "platform": "macOS-26.7.3-x86_64-i386-64bit-Mach-O",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "locale": "en-US",
+  "theme": "light",
+  "sourceSha256": {
+    "public/app-editor.js": "0c0c64003671f2cfcc781631a65439370aad9fdb14743df2d407dbf8fbe4061b",
+    "public/app-ticket-detail-renderers.js": "a4127f92a6274fd71fd8fca9a0a3f7c72bb7c9ec7648fe1cfc5b8bf877d8bf15",
+    "public/app-ticket-relation-picker.js": "5f7bb44a4a53fb0b48c9d13abbc03589aee5594b84ecd6e12c74febe78dcdea4",
+    "public/app-ticket-relations.js": "01fae0c2202acc1c164efdb15b7c2cbb6d1def5f4edeb75af5fd6c481a6e6c07",
+    "public/locales/ja-editor.js": "23179bc5a4f7161920d4d278f0620f00753884bf314d05aa5c453284e20077b1",
+    "public/styles/tag-picker-options.css": "17ff69f8681f3a4dd41ab374503262aa9a7c085d61d88893cc36c1fdb7bb8fb3"
+  },
+  "fixtures": {
+    "100": {
+      "activity_logs": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "boards": {
+        "rows": 1,
+        "sha256": "c6d792dc5c1dac298dcb98f6872e88cb4c861723ca7a993f8965845c075e1523"
+      },
+      "comment_remote_sync": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "comments": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "group_activity_logs": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "groups": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "lanes": {
+        "rows": 4,
+        "sha256": "3014ad52f9eceab9ca06629d7d3886d984613674e51bf046f8fe38aa3845127f"
+      },
+      "tags": {
+        "rows": 1,
+        "sha256": "9541f749b1c8a9ed3589393e6eed0433f6addd7f6bdcf1ce575af8a473d3b1bc"
+      },
+      "ticket_blockers": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_cursor_secret": {
+        "rows": 1,
+        "sha256": "3d27d855406bc46b71bd3cb6606a81149dbd02743e2b4d243d2b338b4c3b7f6c"
+      },
+      "ticket_events": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_external_references": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_list_revisions": {
+        "rows": 1,
+        "sha256": "75817460cd6b8bd15f6e2e27e28f776241caae8f7093d1bddc9ccd2181d9809f"
+      },
+      "ticket_related_links": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_remote_links": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_tag_reasons": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_tags": {
+        "rows": 100,
+        "sha256": "413c37faffef2e990944c9cbdc14deb68871ffd84fde88b776d067f99dc14cf0"
+      },
+      "tickets": {
+        "rows": 100,
+        "sha256": "b90dd3a300077a7a30d1f2e556b506ce1581cb0574f2aed1cab40d7e1199b784"
+      }
+    },
+    "10000": {
+      "activity_logs": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "boards": {
+        "rows": 1,
+        "sha256": "5458c9a53a1723dcf36f9bcf2b10619fb6bd80a9aaa79a6c8081ed415ac06714"
+      },
+      "comment_remote_sync": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "comments": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "group_activity_logs": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "groups": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "lanes": {
+        "rows": 4,
+        "sha256": "3014ad52f9eceab9ca06629d7d3886d984613674e51bf046f8fe38aa3845127f"
+      },
+      "tags": {
+        "rows": 1,
+        "sha256": "9541f749b1c8a9ed3589393e6eed0433f6addd7f6bdcf1ce575af8a473d3b1bc"
+      },
+      "ticket_blockers": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_cursor_secret": {
+        "rows": 1,
+        "sha256": "20661e26da642f39d4140c886e8fa8608ecf9e57c0f718b38be522c56d353954"
+      },
+      "ticket_events": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_external_references": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_list_revisions": {
+        "rows": 1,
+        "sha256": "4f0e3fa74307ab52f58f3ae4f32ed7714ec744e25f34960109a8fbd858d06e8a"
+      },
+      "ticket_related_links": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_remote_links": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_tag_reasons": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ticket_tags": {
+        "rows": 10000,
+        "sha256": "b7bb9c9b64a5944127603d09f657be1be5f8c184af311fdeca925d1bb66b6f55"
+      },
+      "tickets": {
+        "rows": 10000,
+        "sha256": "d38a2a0b0df9bd09dcf49d8489bc86278eab4eb4f148fce8e8aa0f1daac84f3e"
+      }
+    }
+  },
+  "chromium": "159.0.8154.6",
+  "finalSourceSha256": {
+    "public/app-editor.js": "0c0c64003671f2cfcc781631a65439370aad9fdb14743df2d407dbf8fbe4061b",
+    "public/app-ticket-detail-renderers.js": "a4127f92a6274fd71fd8fca9a0a3f7c72bb7c9ec7648fe1cfc5b8bf877d8bf15",
+    "public/app-ticket-relation-picker.js": "5f7bb44a4a53fb0b48c9d13abbc03589aee5594b84ecd6e12c74febe78dcdea4",
+    "public/app-ticket-relations.js": "01fae0c2202acc1c164efdb15b7c2cbb6d1def5f4edeb75af5fd6c481a6e6c07",
+    "public/locales/ja-editor.js": "23179bc5a4f7161920d4d278f0620f00753884bf314d05aa5c453284e20077b1",
+    "public/styles/tag-picker-options.css": "074c594c468f8f564c6ba09d54902cc920cc9235e3d46a53471fa170065d37d7"
+  },
+  "postMeasurementChange": "Final CSS adds min-width: 0 to .ticket-relation-status so the retry button remains visible at narrow widths. Measurement sources above are retained unchanged; production JavaScript and measured desktop successful paths are unchanged. Final narrow visual/geometry verification is separate."
+}

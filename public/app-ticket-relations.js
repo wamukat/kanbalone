@@ -5,20 +5,87 @@ import { createTicketRelationRenderers } from "./app-ticket-relation-renderers.j
 export function createTicketRelationsModule(ctx, options) {
   const { state, elements } = ctx;
 
+  let candidateTickets = null;
+  let selectedTickets = new Map();
+  let candidateStatus = "idle";
+  let candidateRequest = null;
+  let candidateController = null;
+  let candidateGeneration = 0;
+  let candidateBoardId = null;
+  let candidateViewMode = null;
+
+  function resetCandidates(ticket = null) {
+    candidateGeneration += 1;
+    candidateController?.abort();
+    candidateController = null;
+    candidateRequest = null;
+    candidateTickets = null;
+    candidateStatus = "idle";
+    candidateBoardId = state.activeBoardId;
+    candidateViewMode = state.viewMode;
+    selectedTickets = new Map([
+      ticket?.parent, ...(ticket?.children ?? []), ...(ticket?.blockers ?? []),
+      ...(ticket?.blockedBy ?? []), ...(ticket?.related ?? []),
+    ].filter(Boolean).map((entry) => [entry.id, entry]));
+  }
+
+  function isCandidateContextCurrent() {
+    return elements.editorDialog.open && candidateBoardId === state.activeBoardId
+      && candidateViewMode === state.viewMode;
+  }
+
+  function getCandidateStatus() {
+    return isCandidateContextCurrent() ? candidateStatus : "idle";
+  }
+
+  function syncCandidateOptions() {
+    // Only refresh candidate options. Do not replace focused summary chips, hydrate inputs,
+    // reopen closed pickers or change the user's relationship selections.
+    parentPicker.syncOptions(false);
+    blockerPicker.syncOptions(false);
+    relatedPicker.syncOptions(false);
+    childPicker.syncOptions(false);
+  }
+
+  function ensureCandidates(retry = false) {
+    if (!isCandidateContextCurrent()) return Promise.resolve();
+    if (candidateRequest) return candidateRequest;
+    if (candidateStatus === "ready" || (candidateStatus === "error" && !retry)) return Promise.resolve();
+    const generation = candidateGeneration;
+    const controller = new AbortController();
+    candidateController = controller;
+    candidateStatus = "loading";
+    syncCandidateOptions();
+    candidateRequest = ctx.api(`/api/boards/${candidateBoardId}/tickets?archived=all`, { signal: controller.signal })
+      .then((result) => {
+        if (generation !== candidateGeneration || !isCandidateContextCurrent()) return;
+        // Publish only the complete collection; partial board pages are not candidates.
+        candidateTickets = result.tickets;
+        candidateStatus = "ready";
+        syncCandidateOptions();
+      }).catch(() => {
+        if (generation !== candidateGeneration || !isCandidateContextCurrent() || controller.signal.aborted) return;
+        candidateStatus = "error";
+        syncCandidateOptions();
+      }).finally(() => {
+        if (generation === candidateGeneration) {
+          candidateRequest = null;
+          candidateController = null;
+        }
+      });
+    return candidateRequest;
+  }
+
   function getBoardTickets() {
-    return state.boardTickets ?? [];
+    return getCandidateStatus() === "ready" ? candidateTickets ?? [] : [];
   }
 
   function getTicketById(ticketId) {
-    return getBoardTickets().find((ticket) => ticket.id === ticketId) ?? null;
+    return getBoardTickets().find((ticket) => ticket.id === ticketId) ?? selectedTickets.get(ticketId) ?? null;
   }
 
   function hasChildOnBoard(ticketId) {
     return getBoardTickets().some((ticket) => ticket.parentTicketId === ticketId);
-  }
-
-  function getBlockingTickets(ticketId) {
-    return getBoardTickets().filter((ticket) => ticket.id !== ticketId && ticket.blockerIds.includes(ticketId));
   }
 
   const {
@@ -220,6 +287,8 @@ export function createTicketRelationsModule(ctx, options) {
   const relationPickerContext = {
     escapeHtml: ctx.escapeHtml,
     getTicketById,
+    getCandidateStatus,
+    ensureCandidates,
     matchTicketQuery,
     renderOption: renderTicketOption,
     renderSummaryChip: renderTicketSummaryChip,
@@ -412,7 +481,7 @@ export function createTicketRelationsModule(ctx, options) {
     closeOptions,
     containsTarget,
     getActiveRelationTypes,
-    getBlockingTickets,
+    resetCandidates,
     handleAddRelation,
     handleAddRelationTypeClick,
     handleBlockerFieldClick: blockerPicker.handleFieldClick,
