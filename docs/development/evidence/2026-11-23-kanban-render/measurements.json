@@ -1,0 +1,3154 @@
+{
+  "provenance": {
+    "os": "Darwin Kernel Version 25.6.0: Mon Oct 12 00:33:09 PDT 2026; root:xnu-12377.161.15.701.48~2/RELEASE_X86_64",
+    "release": "25.6.0",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "logicalCpus": 12,
+    "node": "v26.13.1",
+    "serverRevision": "12a100e70e1666169ad902c13680f15df0d33829",
+    "decompressedFixtureSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+    "date": "2026-11-22T22:08:25.382Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "language": "en",
+    "theme": "light",
+    "method": "Fresh Chromium context and navigation per sequential sample. DOM mutation detection plus two requestAnimationFrame callbacks. CDP cumulative durations from navigation. Server-Timing covers onRequest to onSend, including handler and serialization.",
+    "diagnostics": false,
+    "variants": [
+      {
+        "name": "baseline",
+        "assetTreeSha256": "db8343f2796a4de2b23f5cf1edc7080db11cca547a33fd5625cd55f7b6046218",
+        "files": {
+          "app-group-board.js": "7eaea3b592f97b2e47625439d54933e25e698f7eeabb7e1a1f6c1a36403b3e73",
+          "app-group-view.js": "732d799fd3e70f4f5b11f7e1138fb50a54f38aa12370c204fd86bf3b0d48b3e6",
+          "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+          "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+          "app-kanban-ticket-card.js": "d612f96127ccff85fe5b37d1d2d3f4b12f99c216e6693f5af0d53275547333c4",
+          "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+          "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+        }
+      },
+      {
+        "name": "inline",
+        "assetTreeSha256": "e0fa3aa1b7c1e227249003dfe9d82f592cb0068690b5dfbf41ac536ac939f555",
+        "files": {
+          "app-group-board.js": "7eaea3b592f97b2e47625439d54933e25e698f7eeabb7e1a1f6c1a36403b3e73",
+          "app-group-view.js": "e3994db43ddd7ee50d6c4cbbf958715f3bc9d4652c87709d41f85ed0ecf7a093",
+          "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+          "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+          "app-kanban-ticket-card.js": "73abbea1d8ee92a52491a77c74c334f77d7861d5900a0c7ef4fc842e001f986d",
+          "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+          "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+        }
+      },
+      {
+        "name": "inline-block",
+        "assetTreeSha256": "f568afab0d4fb41e542aee062d39220def221623a499c39be5d3512291cff6b8",
+        "files": {
+          "app-group-board.js": "7eaea3b592f97b2e47625439d54933e25e698f7eeabb7e1a1f6c1a36403b3e73",
+          "app-group-view.js": "e3994db43ddd7ee50d6c4cbbf958715f3bc9d4652c87709d41f85ed0ecf7a093",
+          "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+          "app-kanban-board.js": "6a25be0d0ba9c7b972054dab1ca8b62184854a7aef32e106e94b8668c56907db",
+          "app-kanban-ticket-card.js": "73abbea1d8ee92a52491a77c74c334f77d7861d5900a0c7ef4fc842e001f986d",
+          "app-api.js": "6053582b8121a2137648b342f5b14986d1ef510cf0e4f0bac02e73100577f2c4",
+          "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+        }
+      }
+    ],
+    "chromium": "159.0.8154.6"
+  },
+  "samples": [
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 395.19999998807907
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 5425,
+      "useCount": 649,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 202.59999999403954,
+        "responseEnd": 236.09999999403954,
+        "collectionSpan": 33.5,
+        "elapsedAfterLastResponse": 208.59999999403954,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 29.509999999999998
+      },
+      "timing": {
+        "first": 395.19999998807907,
+        "complete": 444.69999998807907,
+        "completeMutation": 395.19999998807907
+      },
+      "longestReportedLongTaskMs": 76,
+      "CDPMs": {
+        "LayoutDuration": 68.213,
+        "RecalcStyleDuration": 50.166000000000004,
+        "ScriptDuration": 74.374
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline",
+      "run": 0,
+      "warmup": true,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 312.1000000089407
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 167.80000001192093,
+        "responseEnd": 192.30000001192093,
+        "collectionSpan": 24.5,
+        "elapsedAfterLastResponse": 152.3999999910593,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 21.832
+      },
+      "timing": {
+        "first": 312.1000000089407,
+        "complete": 344.70000000298023,
+        "completeMutation": 312
+      },
+      "longestReportedLongTaskMs": 50,
+      "CDPMs": {
+        "LayoutDuration": 50.967999999999996,
+        "RecalcStyleDuration": 28.379,
+        "ScriptDuration": 47.086000000000006
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline-block",
+      "run": 0,
+      "warmup": true,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 329.90000000596046
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 178.5,
+        "responseEnd": 203.20000000298023,
+        "collectionSpan": 24.700000002980232,
+        "elapsedAfterLastResponse": 155.79999999701977,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 21.636
+      },
+      "timing": {
+        "first": 329.90000000596046,
+        "complete": 359,
+        "completeMutation": 329.79999999701977
+      },
+      "longestReportedLongTaskMs": 53,
+      "CDPMs": {
+        "LayoutDuration": 52.967,
+        "RecalcStyleDuration": 31.078000000000003,
+        "ScriptDuration": 47.822
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline-block",
+      "run": 1,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 315.5
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 177.79999999701977,
+        "responseEnd": 190.3999999910593,
+        "collectionSpan": 12.599999994039536,
+        "elapsedAfterLastResponse": 152.80000001192093,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.692
+      },
+      "timing": {
+        "first": 315.5,
+        "complete": 343.20000000298023,
+        "completeMutation": 315.3999999910593
+      },
+      "longestReportedLongTaskMs": 53,
+      "CDPMs": {
+        "LayoutDuration": 55.22,
+        "RecalcStyleDuration": 31.169999999999998,
+        "ScriptDuration": 49.934
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline",
+      "run": 1,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 344.29999999701977
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 205.20000000298023,
+        "responseEnd": 219.79999999701977,
+        "collectionSpan": 14.599999994039536,
+        "elapsedAfterLastResponse": 157.1000000089407,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 11.004
+      },
+      "timing": {
+        "first": 344.29999999701977,
+        "complete": 376.90000000596046,
+        "completeMutation": 344.09999999403954
+      },
+      "longestReportedLongTaskMs": 52,
+      "CDPMs": {
+        "LayoutDuration": 61.263999999999996,
+        "RecalcStyleDuration": 30.843,
+        "ScriptDuration": 48.514
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 333.09999999403954
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 5425,
+      "useCount": 649,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 180.70000000298023,
+        "responseEnd": 192.5,
+        "collectionSpan": 11.799999997019768,
+        "elapsedAfterLastResponse": 190.20000000298023,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.075
+      },
+      "timing": {
+        "first": 333.09999999403954,
+        "complete": 382.70000000298023,
+        "completeMutation": 333
+      },
+      "longestReportedLongTaskMs": 59,
+      "CDPMs": {
+        "LayoutDuration": 68.81,
+        "RecalcStyleDuration": 49.753,
+        "ScriptDuration": 60.765
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 302.5
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 5425,
+      "useCount": 649,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 160.09999999403954,
+        "responseEnd": 169.79999999701977,
+        "collectionSpan": 9.700000002980232,
+        "elapsedAfterLastResponse": 179.5,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 7.189
+      },
+      "timing": {
+        "first": 302.5,
+        "complete": 349.29999999701977,
+        "completeMutation": 302.3999999910593
+      },
+      "longestReportedLongTaskMs": 55,
+      "CDPMs": {
+        "LayoutDuration": 62.70100000000001,
+        "RecalcStyleDuration": 47.205,
+        "ScriptDuration": 55.709
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline",
+      "run": 2,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 300.1000000089407
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 159.20000000298023,
+        "responseEnd": 170.30000001192093,
+        "collectionSpan": 11.100000008940697,
+        "elapsedAfterLastResponse": 157.19999998807907,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 8.719999999999999
+      },
+      "timing": {
+        "first": 300.1000000089407,
+        "complete": 327.5,
+        "completeMutation": 300
+      },
+      "longestReportedLongTaskMs": 56,
+      "CDPMs": {
+        "LayoutDuration": 55.895,
+        "RecalcStyleDuration": 30.471999999999998,
+        "ScriptDuration": 49.152
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline-block",
+      "run": 2,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 295.09999999403954
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 153.09999999403954,
+        "responseEnd": 164.79999999701977,
+        "collectionSpan": 11.700000002980232,
+        "elapsedAfterLastResponse": 161.70000000298023,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.151
+      },
+      "timing": {
+        "first": 295.09999999403954,
+        "complete": 326.5,
+        "completeMutation": 295
+      },
+      "longestReportedLongTaskMs": 57,
+      "CDPMs": {
+        "LayoutDuration": 51.916999999999994,
+        "RecalcStyleDuration": 31.416,
+        "ScriptDuration": 49.3
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline-block",
+      "run": 3,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 291
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 159.70000000298023,
+        "responseEnd": 171.40000000596046,
+        "collectionSpan": 11.700000002980232,
+        "elapsedAfterLastResponse": 153.8999999910593,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.267
+      },
+      "timing": {
+        "first": 291,
+        "complete": 325.29999999701977,
+        "completeMutation": 291
+      },
+      "longestReportedLongTaskMs": 51,
+      "CDPMs": {
+        "LayoutDuration": 51.558,
+        "RecalcStyleDuration": 29.784000000000002,
+        "ScriptDuration": 47.010000000000005
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline",
+      "run": 3,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 340
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 167.5,
+        "responseEnd": 180.3999999910593,
+        "collectionSpan": 12.899999991059303,
+        "elapsedAfterLastResponse": 195.1000000089407,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.755
+      },
+      "timing": {
+        "first": 340,
+        "complete": 375.5,
+        "completeMutation": 339.8999999910593
+      },
+      "longestReportedLongTaskMs": 65,
+      "CDPMs": {
+        "LayoutDuration": 62.269,
+        "RecalcStyleDuration": 33.982,
+        "ScriptDuration": 54.756
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 428.30000001192093
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 5425,
+      "useCount": 649,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 206,
+        "responseEnd": 228.90000000596046,
+        "collectionSpan": 22.900000005960464,
+        "elapsedAfterLastResponse": 254.90000000596046,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 19.498
+      },
+      "timing": {
+        "first": 428.30000001192093,
+        "complete": 483.80000001192093,
+        "completeMutation": 428.20000000298023
+      },
+      "longestReportedLongTaskMs": 96,
+      "CDPMs": {
+        "LayoutDuration": 77.94800000000001,
+        "RecalcStyleDuration": 56.855999999999995,
+        "ScriptDuration": 76.44
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 312
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 5425,
+      "useCount": 649,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 155,
+        "responseEnd": 167,
+        "collectionSpan": 12,
+        "elapsedAfterLastResponse": 193,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.038
+      },
+      "timing": {
+        "first": 311.8999999910593,
+        "complete": 360,
+        "completeMutation": 311.8999999910593
+      },
+      "longestReportedLongTaskMs": 62,
+      "CDPMs": {
+        "LayoutDuration": 65.274,
+        "RecalcStyleDuration": 50.153000000000006,
+        "ScriptDuration": 61.535
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline",
+      "run": 4,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 288.5
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 154.70000000298023,
+        "responseEnd": 166,
+        "collectionSpan": 11.299999997019768,
+        "elapsedAfterLastResponse": 159.40000000596046,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 8.788
+      },
+      "timing": {
+        "first": 288.5,
+        "complete": 325.40000000596046,
+        "completeMutation": 288.5
+      },
+      "longestReportedLongTaskMs": 52,
+      "CDPMs": {
+        "LayoutDuration": 52.949999999999996,
+        "RecalcStyleDuration": 28.831,
+        "ScriptDuration": 48.657
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline-block",
+      "run": 4,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 293.90000000596046
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 162,
+        "responseEnd": 173.6000000089407,
+        "collectionSpan": 11.600000008940697,
+        "elapsedAfterLastResponse": 152.59999999403954,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 8.692
+      },
+      "timing": {
+        "first": 293.90000000596046,
+        "complete": 326.20000000298023,
+        "completeMutation": 293.79999999701977
+      },
+      "longestReportedLongTaskMs": 52,
+      "CDPMs": {
+        "LayoutDuration": 51.613,
+        "RecalcStyleDuration": 30.209,
+        "ScriptDuration": 48.412
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline-block",
+      "run": 5,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 286.59999999403954
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 158.5,
+        "responseEnd": 167.59999999403954,
+        "collectionSpan": 9.099999994039536,
+        "elapsedAfterLastResponse": 145.29999999701977,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 6.934
+      },
+      "timing": {
+        "first": 286.5,
+        "complete": 312.8999999910593,
+        "completeMutation": 286.3999999910593
+      },
+      "longestReportedLongTaskMs": 0,
+      "CDPMs": {
+        "LayoutDuration": 49.315999999999995,
+        "RecalcStyleDuration": 30.134,
+        "ScriptDuration": 45.574999999999996
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "inline",
+      "run": 5,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 295.79999999701977
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 6697,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 160.09999999403954,
+        "responseEnd": 171.29999999701977,
+        "collectionSpan": 11.200000002980232,
+        "elapsedAfterLastResponse": 153.09999999403954,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 8.538
+      },
+      "timing": {
+        "first": 295.79999999701977,
+        "complete": 324.3999999910593,
+        "completeMutation": 295.70000000298023
+      },
+      "longestReportedLongTaskMs": 52,
+      "CDPMs": {
+        "LayoutDuration": 54.68,
+        "RecalcStyleDuration": 30.787,
+        "ScriptDuration": 48.317
+      }
+    },
+    {
+      "fixture": "kanban-1000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 313,
+      "idHash": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "geometryHash": "f98abb173ee3929254ebbc669d71a6e1a2d16e1c1ffbdd7f861e7086e2e99b6b",
+      "subgeometryHash": "d7cdb85c1048a32ad51586052d1f8496333f7f89fad82e238c3ecf632eaf032d",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 5
+        },
+        "timestamp": 315.6000000089407
+      },
+      "tagMarkupHash": "2ce18767229262fd7ee41fbbffcadbfdda8a5a58f7f7462c326ccea057266d2c",
+      "laneSizes": [
+        116,
+        96,
+        96,
+        5
+      ],
+      "scrollHeights": [
+        11851,
+        9887,
+        9882,
+        543
+      ],
+      "rowElementCount": 5425,
+      "useCount": 649,
+      "errors": [],
+      "ticketTiming": {
+        "count": 4,
+        "collectionStart": 161.90000000596046,
+        "responseEnd": 174,
+        "collectionSpan": 12.099999994039536,
+        "elapsedAfterLastResponse": 189.5,
+        "decodedBodyBytes": 170648,
+        "cumulativeServerMs": 9.341000000000001
+      },
+      "timing": {
+        "first": 315.5,
+        "complete": 363.5,
+        "completeMutation": 315.5
+      },
+      "longestReportedLongTaskMs": 62,
+      "CDPMs": {
+        "LayoutDuration": 66.855,
+        "RecalcStyleDuration": 49.089,
+        "ScriptDuration": 60.121
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 420.1000000089407
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 51325,
+      "useCount": 6049,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 166.6000000089407,
+        "responseEnd": 259.90000000596046,
+        "collectionSpan": 93.29999999701977,
+        "elapsedAfterLastResponse": 2396.2999999970198,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 78.14899999999999
+      },
+      "timing": {
+        "first": 420.1000000089407,
+        "complete": 2656.2000000029802,
+        "completeMutation": 2509.4000000059605
+      },
+      "longestReportedLongTaskMs": 135,
+      "CDPMs": {
+        "LayoutDuration": 842.273,
+        "RecalcStyleDuration": 389.532,
+        "ScriptDuration": 416.565
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline",
+      "run": 0,
+      "warmup": true,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 421.3999999910593
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 179,
+        "responseEnd": 278,
+        "collectionSpan": 99,
+        "elapsedAfterLastResponse": 1770,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 82.51700000000001
+      },
+      "timing": {
+        "first": 421.3999999910593,
+        "complete": 2048,
+        "completeMutation": 1972.0999999940395
+      },
+      "longestReportedLongTaskMs": 119,
+      "CDPMs": {
+        "LayoutDuration": 715.6479999999999,
+        "RecalcStyleDuration": 171.843,
+        "ScriptDuration": 303.97
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline-block",
+      "run": 0,
+      "warmup": true,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 377.5
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 161.20000000298023,
+        "responseEnd": 245.90000000596046,
+        "collectionSpan": 84.70000000298023,
+        "elapsedAfterLastResponse": 1629.5,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 71.229
+      },
+      "timing": {
+        "first": 377.5,
+        "complete": 1875.4000000059605,
+        "completeMutation": 1810.7999999970198
+      },
+      "longestReportedLongTaskMs": 87,
+      "CDPMs": {
+        "LayoutDuration": 522.715,
+        "RecalcStyleDuration": 184.923,
+        "ScriptDuration": 311.24
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline-block",
+      "run": 1,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 369.5
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 169.29999999701977,
+        "responseEnd": 238.79999999701977,
+        "collectionSpan": 69.5,
+        "elapsedAfterLastResponse": 1727.0999999940395,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 59.486000000000004
+      },
+      "timing": {
+        "first": 369.5,
+        "complete": 1965.8999999910593,
+        "completeMutation": 1890
+      },
+      "longestReportedLongTaskMs": 128,
+      "CDPMs": {
+        "LayoutDuration": 567.455,
+        "RecalcStyleDuration": 184.76999999999998,
+        "ScriptDuration": 329.907
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline",
+      "run": 1,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 520.1000000089407
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 230.40000000596046,
+        "responseEnd": 366.90000000596046,
+        "collectionSpan": 136.5,
+        "elapsedAfterLastResponse": 2066.2999999970198,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 108.104
+      },
+      "timing": {
+        "first": 520,
+        "complete": 2433.2000000029802,
+        "completeMutation": 2341.7999999970198
+      },
+      "longestReportedLongTaskMs": 138,
+      "CDPMs": {
+        "LayoutDuration": 841.932,
+        "RecalcStyleDuration": 191.61,
+        "ScriptDuration": 341.38800000000003
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 451.29999999701977
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 51325,
+      "useCount": 6049,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 188.40000000596046,
+        "responseEnd": 277.40000000596046,
+        "collectionSpan": 89,
+        "elapsedAfterLastResponse": 2599.2999999970198,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 68.071
+      },
+      "timing": {
+        "first": 451.20000000298023,
+        "complete": 2876.7000000029802,
+        "completeMutation": 2725.1000000089407
+      },
+      "longestReportedLongTaskMs": 135,
+      "CDPMs": {
+        "LayoutDuration": 923.692,
+        "RecalcStyleDuration": 412.751,
+        "ScriptDuration": 445.26
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 427.70000000298023
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 51325,
+      "useCount": 6049,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 180.5,
+        "responseEnd": 259.70000000298023,
+        "collectionSpan": 79.20000000298023,
+        "elapsedAfterLastResponse": 2623.0999999940395,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 61.932
+      },
+      "timing": {
+        "first": 427.70000000298023,
+        "complete": 2882.7999999970198,
+        "completeMutation": 2734.9000000059605
+      },
+      "longestReportedLongTaskMs": 210,
+      "CDPMs": {
+        "LayoutDuration": 923.77,
+        "RecalcStyleDuration": 407.57500000000005,
+        "ScriptDuration": 427.917
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline",
+      "run": 2,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 419.80000001192093
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 176.70000000298023,
+        "responseEnd": 277.1000000089407,
+        "collectionSpan": 100.40000000596046,
+        "elapsedAfterLastResponse": 1850.5999999940395,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 74.54999999999998
+      },
+      "timing": {
+        "first": 419.80000001192093,
+        "complete": 2127.7000000029802,
+        "completeMutation": 2047.6000000089407
+      },
+      "longestReportedLongTaskMs": 118,
+      "CDPMs": {
+        "LayoutDuration": 742.4119999999999,
+        "RecalcStyleDuration": 177.66000000000003,
+        "ScriptDuration": 322.03
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline-block",
+      "run": 2,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 411.29999999701977
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 172.19999998807907,
+        "responseEnd": 262.09999999403954,
+        "collectionSpan": 89.90000000596046,
+        "elapsedAfterLastResponse": 1665,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 71.614
+      },
+      "timing": {
+        "first": 411.29999999701977,
+        "complete": 1927.0999999940395,
+        "completeMutation": 1861.3999999910593
+      },
+      "longestReportedLongTaskMs": 94,
+      "CDPMs": {
+        "LayoutDuration": 540.3480000000001,
+        "RecalcStyleDuration": 183.273,
+        "ScriptDuration": 318.363
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline-block",
+      "run": 3,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 373.59999999403954
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 166.09999999403954,
+        "responseEnd": 240.09999999403954,
+        "collectionSpan": 74,
+        "elapsedAfterLastResponse": 1688.0999999940395,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 63.141999999999996
+      },
+      "timing": {
+        "first": 373.5,
+        "complete": 1928.199999988079,
+        "completeMutation": 1861.8999999910593
+      },
+      "longestReportedLongTaskMs": 115,
+      "CDPMs": {
+        "LayoutDuration": 542.356,
+        "RecalcStyleDuration": 185.925,
+        "ScriptDuration": 338.269
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline",
+      "run": 3,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 377.40000000596046
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 162.1000000089407,
+        "responseEnd": 238.1000000089407,
+        "collectionSpan": 76,
+        "elapsedAfterLastResponse": 1788.2999999970198,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 58.21800000000001
+      },
+      "timing": {
+        "first": 377.40000000596046,
+        "complete": 2026.4000000059605,
+        "completeMutation": 1948.5
+      },
+      "longestReportedLongTaskMs": 115,
+      "CDPMs": {
+        "LayoutDuration": 712.586,
+        "RecalcStyleDuration": 172.96200000000002,
+        "ScriptDuration": 307.05100000000004
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 406.79999999701977
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 51325,
+      "useCount": 6049,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 177.5,
+        "responseEnd": 253.5,
+        "collectionSpan": 76,
+        "elapsedAfterLastResponse": 2366,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 58.49399999999999
+      },
+      "timing": {
+        "first": 406.79999999701977,
+        "complete": 2619.5,
+        "completeMutation": 2471.9000000059605
+      },
+      "longestReportedLongTaskMs": 133,
+      "CDPMs": {
+        "LayoutDuration": 831.623,
+        "RecalcStyleDuration": 381.111,
+        "ScriptDuration": 411.926
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 371.70000000298023
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 51325,
+      "useCount": 6049,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 151.70000000298023,
+        "responseEnd": 224.29999999701977,
+        "collectionSpan": 72.59999999403954,
+        "elapsedAfterLastResponse": 2301.7000000029802,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 56.81799999999999
+      },
+      "timing": {
+        "first": 371.70000000298023,
+        "complete": 2526,
+        "completeMutation": 2382.2000000029802
+      },
+      "longestReportedLongTaskMs": 126,
+      "CDPMs": {
+        "LayoutDuration": 805.292,
+        "RecalcStyleDuration": 376.407,
+        "ScriptDuration": 402.264
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline",
+      "run": 4,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 367.20000000298023
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 161.6000000089407,
+        "responseEnd": 236.40000000596046,
+        "collectionSpan": 74.79999999701977,
+        "elapsedAfterLastResponse": 1756.2000000029802,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 59.48200000000001
+      },
+      "timing": {
+        "first": 367.20000000298023,
+        "complete": 1992.6000000089407,
+        "completeMutation": 1914.7999999970198
+      },
+      "longestReportedLongTaskMs": 116,
+      "CDPMs": {
+        "LayoutDuration": 692.65,
+        "RecalcStyleDuration": 172.88500000000002,
+        "ScriptDuration": 304.74
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline-block",
+      "run": 4,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 402.1000000089407
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 175.90000000596046,
+        "responseEnd": 261,
+        "collectionSpan": 85.09999999403954,
+        "elapsedAfterLastResponse": 1582.6000000089407,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 67.375
+      },
+      "timing": {
+        "first": 402,
+        "complete": 1843.6000000089407,
+        "completeMutation": 1780.2000000029802
+      },
+      "longestReportedLongTaskMs": 88,
+      "CDPMs": {
+        "LayoutDuration": 514.8770000000001,
+        "RecalcStyleDuration": 179.565,
+        "ScriptDuration": 305.861
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline-block",
+      "run": 5,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 351.40000000596046
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 160.6000000089407,
+        "responseEnd": 228.20000000298023,
+        "collectionSpan": 67.59999999403954,
+        "elapsedAfterLastResponse": 1579.9000000059605,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 58.039999999999985
+      },
+      "timing": {
+        "first": 351.40000000596046,
+        "complete": 1808.1000000089407,
+        "completeMutation": 1741.7999999970198
+      },
+      "longestReportedLongTaskMs": 85,
+      "CDPMs": {
+        "LayoutDuration": 499.94300000000004,
+        "RecalcStyleDuration": 178.166,
+        "ScriptDuration": 303.21799999999996
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "inline",
+      "run": 5,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 372.79999999701977
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 63397,
+      "useCount": 18,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 162,
+        "responseEnd": 238,
+        "collectionSpan": 76,
+        "elapsedAfterLastResponse": 1836,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 58.479000000000006
+      },
+      "timing": {
+        "first": 372.79999999701977,
+        "complete": 2074,
+        "completeMutation": 1981.0999999940395
+      },
+      "longestReportedLongTaskMs": 123,
+      "CDPMs": {
+        "LayoutDuration": 734.6819999999999,
+        "RecalcStyleDuration": 177.531,
+        "ScriptDuration": 311.371
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 3013,
+      "idHash": "52f060408691fbcec40091b2fd16f51ecf0023c0272ace3170bdded5082ac534",
+      "geometryHash": "c29cc032a55b148e87da296b0510613ded5e638cfb2101e82ae08d3593ac97ca",
+      "subgeometryHash": "b671068d6b7554a89a1153d630e37cf4745744a1b087cd3952602f716191fd3a",
+      "initialViewport": {
+        "visiblePrefix": {
+          "5": 8,
+          "6": 8,
+          "7": 8,
+          "8": 5
+        },
+        "timestamp": 366.40000000596046
+      },
+      "tagMarkupHash": "a501d56bdb4acd36df603fb3a9dc18283a219457a9dec61112240e7f04398b9a",
+      "laneSizes": [
+        1016,
+        996,
+        996,
+        5
+      ],
+      "scrollHeights": [
+        104466,
+        102503,
+        102498,
+        566
+      ],
+      "rowElementCount": 51325,
+      "useCount": 6049,
+      "errors": [],
+      "ticketTiming": {
+        "count": 17,
+        "collectionStart": 147.1000000089407,
+        "responseEnd": 220.70000000298023,
+        "collectionSpan": 73.59999999403954,
+        "elapsedAfterLastResponse": 2324.7000000029802,
+        "decodedBodyBytes": 1664569,
+        "cumulativeServerMs": 57.035999999999994
+      },
+      "timing": {
+        "first": 366.40000000596046,
+        "complete": 2545.4000000059605,
+        "completeMutation": 2402.800000011921
+      },
+      "longestReportedLongTaskMs": 128,
+      "CDPMs": {
+        "LayoutDuration": 813.834,
+        "RecalcStyleDuration": 377.484,
+        "ScriptDuration": 404.543
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 0,
+      "warmup": true,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 402.80000001192093
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 51361,
+      "useCount": 6073,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 164.30000001192093,
+        "responseEnd": 256.90000000596046,
+        "collectionSpan": 92.59999999403954,
+        "elapsedAfterLastResponse": 2457.0999999940395,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 77.621
+      },
+      "timing": {
+        "first": 402.80000001192093,
+        "complete": 2714,
+        "completeMutation": 2551.9000000059605
+      },
+      "longestReportedLongTaskMs": 128,
+      "CDPMs": {
+        "LayoutDuration": 810.659,
+        "RecalcStyleDuration": 382.12800000000004,
+        "ScriptDuration": 409.24399999999997
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline",
+      "run": 0,
+      "warmup": true,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 389.59999999403954
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 163.09999999403954,
+        "responseEnd": 251.20000000298023,
+        "collectionSpan": 88.1000000089407,
+        "elapsedAfterLastResponse": 1924.699999988079,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 74.50999999999999
+      },
+      "timing": {
+        "first": 389.5,
+        "complete": 2175.8999999910593,
+        "completeMutation": 2090.7999999970198
+      },
+      "longestReportedLongTaskMs": 128,
+      "CDPMs": {
+        "LayoutDuration": 709.795,
+        "RecalcStyleDuration": 176.503,
+        "ScriptDuration": 322.735
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline-block",
+      "run": 0,
+      "warmup": true,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 385.30000001192093
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 165.90000000596046,
+        "responseEnd": 253.40000000596046,
+        "collectionSpan": 87.5,
+        "elapsedAfterLastResponse": 1738.7999999970198,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 73.83600000000001
+      },
+      "timing": {
+        "first": 385.30000001192093,
+        "complete": 1992.2000000029802,
+        "completeMutation": 1923.6000000089407
+      },
+      "longestReportedLongTaskMs": 100,
+      "CDPMs": {
+        "LayoutDuration": 512.116,
+        "RecalcStyleDuration": 179.272,
+        "ScriptDuration": 320.756
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline-block",
+      "run": 1,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 364.5
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 156.70000000298023,
+        "responseEnd": 229.3999999910593,
+        "collectionSpan": 72.69999998807907,
+        "elapsedAfterLastResponse": 1744.800000011921,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 58.888000000000005
+      },
+      "timing": {
+        "first": 364.5,
+        "complete": 1974.2000000029802,
+        "completeMutation": 1906.3999999910593
+      },
+      "longestReportedLongTaskMs": 100,
+      "CDPMs": {
+        "LayoutDuration": 517.922,
+        "RecalcStyleDuration": 179.607,
+        "ScriptDuration": 322.29600000000005
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline",
+      "run": 1,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 345.29999999701977
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 148.90000000596046,
+        "responseEnd": 219.20000000298023,
+        "collectionSpan": 70.29999999701977,
+        "elapsedAfterLastResponse": 1894.0999999940395,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 56.094999999999985
+      },
+      "timing": {
+        "first": 345.29999999701977,
+        "complete": 2113.2999999970198,
+        "completeMutation": 2028.2000000029802
+      },
+      "longestReportedLongTaskMs": 117,
+      "CDPMs": {
+        "LayoutDuration": 706.077,
+        "RecalcStyleDuration": 172.79,
+        "ScriptDuration": 315.00800000000004
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 1,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 389.40000000596046
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 51361,
+      "useCount": 6073,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 156,
+        "responseEnd": 228,
+        "collectionSpan": 72,
+        "elapsedAfterLastResponse": 2494.7000000029802,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 57.35799999999999
+      },
+      "timing": {
+        "first": 389.40000000596046,
+        "complete": 2722.7000000029802,
+        "completeMutation": 2568.7999999970198
+      },
+      "longestReportedLongTaskMs": 123,
+      "CDPMs": {
+        "LayoutDuration": 823.09,
+        "RecalcStyleDuration": 385.686,
+        "ScriptDuration": 415.207
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 2,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 394.79999999701977
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 51361,
+      "useCount": 6073,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 158,
+        "responseEnd": 231.29999999701977,
+        "collectionSpan": 73.29999999701977,
+        "elapsedAfterLastResponse": 2514.1000000089407,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 59.113
+      },
+      "timing": {
+        "first": 394.79999999701977,
+        "complete": 2745.4000000059605,
+        "completeMutation": 2591.5999999940395
+      },
+      "longestReportedLongTaskMs": 125,
+      "CDPMs": {
+        "LayoutDuration": 823.4110000000001,
+        "RecalcStyleDuration": 392.32099999999997,
+        "ScriptDuration": 420.796
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline",
+      "run": 2,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 363.3999999910593
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 165.29999999701977,
+        "responseEnd": 235.29999999701977,
+        "collectionSpan": 70,
+        "elapsedAfterLastResponse": 1908.7000000029802,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 55.925
+      },
+      "timing": {
+        "first": 363.29999999701977,
+        "complete": 2144,
+        "completeMutation": 2060.5
+      },
+      "longestReportedLongTaskMs": 124,
+      "CDPMs": {
+        "LayoutDuration": 716.564,
+        "RecalcStyleDuration": 173.22799999999998,
+        "ScriptDuration": 318.014
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline-block",
+      "run": 2,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 363.79999999701977
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 157.70000000298023,
+        "responseEnd": 229.5,
+        "collectionSpan": 71.79999999701977,
+        "elapsedAfterLastResponse": 1762,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 57.437999999999995
+      },
+      "timing": {
+        "first": 363.79999999701977,
+        "complete": 1991.5,
+        "completeMutation": 1923.5999999940395
+      },
+      "longestReportedLongTaskMs": 97,
+      "CDPMs": {
+        "LayoutDuration": 523.068,
+        "RecalcStyleDuration": 183.51899999999998,
+        "ScriptDuration": 317.851
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline-block",
+      "run": 3,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 383.70000000298023
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 156.09999999403954,
+        "responseEnd": 232.20000000298023,
+        "collectionSpan": 76.1000000089407,
+        "elapsedAfterLastResponse": 1809.0999999940395,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 61.818999999999996
+      },
+      "timing": {
+        "first": 383.59999999403954,
+        "complete": 2041.2999999970198,
+        "completeMutation": 1968.7000000029802
+      },
+      "longestReportedLongTaskMs": 98,
+      "CDPMs": {
+        "LayoutDuration": 532.787,
+        "RecalcStyleDuration": 187.76000000000002,
+        "ScriptDuration": 330.549
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline",
+      "run": 3,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 375.80000001192093
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 172.6000000089407,
+        "responseEnd": 247.5,
+        "collectionSpan": 74.8999999910593,
+        "elapsedAfterLastResponse": 1898.800000011921,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 61.107000000000006
+      },
+      "timing": {
+        "first": 375.70000000298023,
+        "complete": 2146.300000011921,
+        "completeMutation": 2063.4000000059605
+      },
+      "longestReportedLongTaskMs": 119,
+      "CDPMs": {
+        "LayoutDuration": 710.0079999999999,
+        "RecalcStyleDuration": 175.596,
+        "ScriptDuration": 319.61699999999996
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 3,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 499.79999999701977
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 51361,
+      "useCount": 6073,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 201.5,
+        "responseEnd": 292,
+        "collectionSpan": 90.5,
+        "elapsedAfterLastResponse": 2549.2999999970198,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 77.021
+      },
+      "timing": {
+        "first": 499.70000000298023,
+        "complete": 2841.2999999970198,
+        "completeMutation": 2690.0999999940395
+      },
+      "longestReportedLongTaskMs": 126,
+      "CDPMs": {
+        "LayoutDuration": 822.357,
+        "RecalcStyleDuration": 424.557,
+        "ScriptDuration": 432.349
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 4,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 388.6000000089407
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 51361,
+      "useCount": 6073,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 157.90000000596046,
+        "responseEnd": 231,
+        "collectionSpan": 73.09999999403954,
+        "elapsedAfterLastResponse": 2483,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 58.165000000000006
+      },
+      "timing": {
+        "first": 388.5,
+        "complete": 2714,
+        "completeMutation": 2562.7000000029802
+      },
+      "longestReportedLongTaskMs": 131,
+      "CDPMs": {
+        "LayoutDuration": 822.299,
+        "RecalcStyleDuration": 383.612,
+        "ScriptDuration": 415.273
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline",
+      "run": 4,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 423
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 190,
+        "responseEnd": 271,
+        "collectionSpan": 81,
+        "elapsedAfterLastResponse": 1957.300000011921,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 65.802
+      },
+      "timing": {
+        "first": 422.90000000596046,
+        "complete": 2228.300000011921,
+        "completeMutation": 2136.300000011921
+      },
+      "longestReportedLongTaskMs": 123,
+      "CDPMs": {
+        "LayoutDuration": 729.758,
+        "RecalcStyleDuration": 180.99699999999999,
+        "ScriptDuration": 328.37699999999995
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline-block",
+      "run": 4,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 388
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 181.79999999701977,
+        "responseEnd": 260.5,
+        "collectionSpan": 78.70000000298023,
+        "elapsedAfterLastResponse": 1733.7000000029802,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 63.632
+      },
+      "timing": {
+        "first": 388,
+        "complete": 1994.2000000029802,
+        "completeMutation": 1921.4000000059605
+      },
+      "longestReportedLongTaskMs": 105,
+      "CDPMs": {
+        "LayoutDuration": 520.657,
+        "RecalcStyleDuration": 178.201,
+        "ScriptDuration": 319.085
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline-block",
+      "run": 5,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 351.8999999910593
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 163.3999999910593,
+        "responseEnd": 224.20000000298023,
+        "collectionSpan": 60.80000001192093,
+        "elapsedAfterLastResponse": 1733.199999988079,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 52.354
+      },
+      "timing": {
+        "first": 351.79999999701977,
+        "complete": 1957.3999999910593,
+        "completeMutation": 1879.7000000029802
+      },
+      "longestReportedLongTaskMs": 105,
+      "CDPMs": {
+        "LayoutDuration": 518.2710000000001,
+        "RecalcStyleDuration": 178.454,
+        "ScriptDuration": 313.512
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "inline",
+      "run": 5,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 416.5
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 64157,
+      "useCount": 30,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 178.20000000298023,
+        "responseEnd": 262.59999999403954,
+        "collectionSpan": 84.3999999910593,
+        "elapsedAfterLastResponse": 1945.9000000059605,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 66.24499999999999
+      },
+      "timing": {
+        "first": 416.5,
+        "complete": 2208.5,
+        "completeMutation": 2119.5
+      },
+      "longestReportedLongTaskMs": 119,
+      "CDPMs": {
+        "LayoutDuration": 718.607,
+        "RecalcStyleDuration": 182.242,
+        "ScriptDuration": 328.279
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "run": 5,
+      "warmup": false,
+      "size": 3005,
+      "idHash": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "geometryHash": "f0e55949dfeeb5d180be72ee91e5c5fdb92c65d373e829f200e3e341142de11c",
+      "subgeometryHash": "39f9f6a3153e1bdb01764ff903df407c18f5335682e1edccc4c42deb12499322",
+      "initialViewport": {
+        "visiblePrefix": {
+          "1": 8,
+          "2": 8,
+          "3": 8,
+          "4": 8
+        },
+        "timestamp": 464.70000000298023
+      },
+      "tagMarkupHash": "d3b060feeec0aa9a25ec181636c558256267ce50ad7b91773822de8c8b5edc29",
+      "laneSizes": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        5
+      ],
+      "scrollHeights": [
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        51563,
+        566
+      ],
+      "rowElementCount": 51361,
+      "useCount": 6073,
+      "errors": [],
+      "ticketTiming": {
+        "count": 19,
+        "collectionStart": 189,
+        "responseEnd": 279,
+        "collectionSpan": 90,
+        "elapsedAfterLastResponse": 2576.2999999970198,
+        "decodedBodyBytes": 1609104,
+        "cumulativeServerMs": 70.65099999999998
+      },
+      "timing": {
+        "first": 464.59999999403954,
+        "complete": 2855.2999999970198,
+        "completeMutation": 2702.7000000029802
+      },
+      "longestReportedLongTaskMs": 127,
+      "CDPMs": {
+        "LayoutDuration": 857.385,
+        "RecalcStyleDuration": 397.21299999999997,
+        "ScriptDuration": 440.487
+      }
+    }
+  ],
+  "initialScreens": {
+    "kanban-confirm-kanban-1000-baseline.png": "8ff874dd19e55629c2d74ca276ace2004c666f307d52ea48f88598e45cdd348d",
+    "kanban-confirm-kanban-1000-inline-block.png": "8ff874dd19e55629c2d74ca276ace2004c666f307d52ea48f88598e45cdd348d",
+    "kanban-confirm-kanban-1000-inline.png": "8ff874dd19e55629c2d74ca276ace2004c666f307d52ea48f88598e45cdd348d",
+    "kanban-confirm-kanban-10000-baseline.png": "025148000ec0f67eb216c7b9a87a59ebc8f9f0b8cd8df60bc2d9ee654f6252dd",
+    "kanban-confirm-kanban-10000-inline-block.png": "025148000ec0f67eb216c7b9a87a59ebc8f9f0b8cd8df60bc2d9ee654f6252dd",
+    "kanban-confirm-kanban-10000-inline.png": "025148000ec0f67eb216c7b9a87a59ebc8f9f0b8cd8df60bc2d9ee654f6252dd",
+    "kanban-confirm-kanban-high-active-baseline.png": "a4b3d6d8acd7fe9d902a08db1611013cd1bce44f8deabaef6b179565c1cec547",
+    "kanban-confirm-kanban-high-active-inline-block.png": "a4b3d6d8acd7fe9d902a08db1611013cd1bce44f8deabaef6b179565c1cec547",
+    "kanban-confirm-kanban-high-active-inline.png": "a4b3d6d8acd7fe9d902a08db1611013cd1bce44f8deabaef6b179565c1cec547"
+  }
+}

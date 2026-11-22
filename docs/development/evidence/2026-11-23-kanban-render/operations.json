@@ -1,0 +1,624 @@
+{
+  "keyboard": [
+    {
+      "key": {
+        "at": 537.7000000029802,
+        "deliveredAt": 587.7000000029802,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "baseline",
+      "round": 0,
+      "warmup": true,
+      "first": {
+        "at": 477.09999999403954,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 905.2999999970198,
+        "dialogOpenAt": 816.4000000059605,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 430.0028000000002,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 390.79999999701977,
+        "deliveredAt": 424,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "candidate",
+      "round": 0,
+      "warmup": true,
+      "first": {
+        "at": 336.29999999701977,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 663.0999999940395,
+        "dialogOpenAt": 603.5999999940395,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 328.44025699999975,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 355.79999999701977,
+        "deliveredAt": 388.5,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "candidate",
+      "round": 1,
+      "warmup": false,
+      "first": {
+        "at": 307.20000000298023,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 615.2000000029802,
+        "dialogOpenAt": 564.7999999970198,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 314.92943599999944,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 360.90000000596046,
+        "deliveredAt": 412.79999999701977,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "baseline",
+      "round": 1,
+      "warmup": false,
+      "first": {
+        "at": 311,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 775,
+        "dialogOpenAt": 699.1000000089407,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 489.4931980000001,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 391.20000000298023,
+        "deliveredAt": 446.70000000298023,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "baseline",
+      "round": 2,
+      "warmup": false,
+      "first": {
+        "at": 340.5,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 809.7999999970198,
+        "dialogOpenAt": 733.7999999970198,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 495.4733919999999,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 338.3999999910593,
+        "deliveredAt": 370.5,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "candidate",
+      "round": 2,
+      "warmup": false,
+      "first": {
+        "at": 286,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 605.3999999910593,
+        "dialogOpenAt": 544.6999999880791,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 324.5972780000002,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 335.90000000596046,
+        "deliveredAt": 368.5,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "candidate",
+      "round": 3,
+      "warmup": false,
+      "first": {
+        "at": 282.5,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 602.5,
+        "dialogOpenAt": 541.7000000029802,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 328.56923499999994,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 352.1000000089407,
+        "deliveredAt": 403.40000000596046,
+        "isTrusted": true,
+        "ticketId": 1002
+      },
+      "variant": "baseline",
+      "round": 3,
+      "warmup": false,
+      "first": {
+        "at": 301.20000000298023,
+        "ticketId": 1002
+      },
+      "result": {
+        "at": 763.1000000089407,
+        "dialogOpenAt": 687.8000000119209,
+        "title": "Child 1002: remaining work"
+      },
+      "hostKeyToObservedResult": 486.67996200000016,
+      "fixture": "kanban-10000"
+    },
+    {
+      "key": {
+        "at": 370.6000000089407,
+        "deliveredAt": 430.6000000089407,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "baseline",
+      "round": 0,
+      "warmup": true,
+      "first": {
+        "at": 314.90000000596046,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 840.2000000029802,
+        "dialogOpenAt": 754.1000000089407,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 550.8844329999993,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 357.1000000089407,
+        "deliveredAt": 396.6000000089407,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "candidate",
+      "round": 0,
+      "warmup": true,
+      "first": {
+        "at": 306.80000001192093,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 650.8000000119209,
+        "dialogOpenAt": 584.9000000059605,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 357.1078549999984,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 347.29999999701977,
+        "deliveredAt": 387.3999999910593,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "candidate",
+      "round": 1,
+      "warmup": false,
+      "first": {
+        "at": 294.29999999701977,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 649.3999999910593,
+        "dialogOpenAt": 589.2999999970198,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 368.57738900000004,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 375.40000000596046,
+        "deliveredAt": 435.6000000089407,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "baseline",
+      "round": 1,
+      "warmup": false,
+      "first": {
+        "at": 317.70000000298023,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 763.2000000029802,
+        "dialogOpenAt": 660.7999999970198,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 460.7917040000011,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 374,
+        "deliveredAt": 444.8999999910593,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "baseline",
+      "round": 2,
+      "warmup": false,
+      "first": {
+        "at": 314.09999999403954,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 778.7999999970198,
+        "dialogOpenAt": 679.6999999880791,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 486.3980069999998,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 358.19999998807907,
+        "deliveredAt": 397.59999999403954,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "candidate",
+      "round": 2,
+      "warmup": false,
+      "first": {
+        "at": 305.5,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 655.7999999970198,
+        "dialogOpenAt": 589.5,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 361.6795660000007,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 358.40000000596046,
+        "deliveredAt": 397.79999999701977,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "candidate",
+      "round": 3,
+      "warmup": false,
+      "first": {
+        "at": 308.5,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 653.4000000059605,
+        "dialogOpenAt": 588.7999999970198,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 360.4754389999998,
+      "fixture": "kanban-high-active"
+    },
+    {
+      "key": {
+        "at": 363.90000000596046,
+        "deliveredAt": 421.40000000596046,
+        "isTrusted": true,
+        "ticketId": 1
+      },
+      "variant": "baseline",
+      "round": 3,
+      "warmup": false,
+      "first": {
+        "at": 307.40000000596046,
+        "ticketId": 1
+      },
+      "result": {
+        "at": 753.2000000029802,
+        "dialogOpenAt": 641.2000000029802,
+        "title": "Verify retry and delivery history 1"
+      },
+      "hostKeyToObservedResult": 461.9821059999995,
+      "fixture": "kanban-high-active"
+    }
+  ],
+  "laneDrag": [
+    {
+      "variant": "baseline",
+      "round": 0,
+      "warmup": true,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 470.73064799999975,
+      "eventDispatchToCaptureMs": 6.799999997019768,
+      "captureToSetDragImageMs": 219.20000000298023,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 219.20000000298023,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "candidate",
+      "round": 0,
+      "warmup": true,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 329.9277170000005,
+      "eventDispatchToCaptureMs": 12,
+      "captureToSetDragImageMs": 151.3999999910593,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 151.5,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "candidate",
+      "round": 1,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 331.5807080000013,
+      "eventDispatchToCaptureMs": 16.80000001192093,
+      "captureToSetDragImageMs": 149.19999998807907,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 149.29999999701977,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "baseline",
+      "round": 1,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 472.9999229999994,
+      "eventDispatchToCaptureMs": 19.200000002980232,
+      "captureToSetDragImageMs": 221.09999999403954,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 221.09999999403954,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "baseline",
+      "round": 2,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 472.98838199999955,
+      "eventDispatchToCaptureMs": 18.600000008940697,
+      "captureToSetDragImageMs": 223.79999999701977,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 223.79999999701977,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "candidate",
+      "round": 2,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 329.05552599999646,
+      "eventDispatchToCaptureMs": 17.399999991059303,
+      "captureToSetDragImageMs": 156.5,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 156.5,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "candidate",
+      "round": 3,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 321.8374509999994,
+      "eventDispatchToCaptureMs": 16,
+      "captureToSetDragImageMs": 133,
+      "setDragImageCallMs": 0,
+      "captureToBubbleMs": 133.09999999403954,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "variant": "baseline",
+      "round": 3,
+      "warmup": false,
+      "previewCards": 1016,
+      "previewHeight": "420px",
+      "hostMoveToObservedDragStartMs": 466.9202709999954,
+      "eventDispatchToCaptureMs": 16.099999994039536,
+      "captureToSetDragImageMs": 217.6000000089407,
+      "setDragImageCallMs": 0.10000000894069672,
+      "captureToBubbleMs": 217.6000000089407,
+      "persistedAndReloadedOrder": [
+        6,
+        5,
+        7,
+        8
+      ]
+    }
+  ],
+  "laneDragImages": {
+    "baseline-lane-drag-before.png": "025148000ec0f67eb216c7b9a87a59ebc8f9f0b8cd8df60bc2d9ee654f6252dd",
+    "baseline-lane-drag-moved.png": "0765939fe9fa42d19dfd8d949af3b2a172e592cfd5dc13c4cc66af6b6f7822f6",
+    "baseline-lane-drag-reloaded.png": "ba8cf2abfdffe1d074e61a73582e6dcfeb958ac975cd5acf35f82631ce436c72",
+    "candidate-lane-drag-before.png": "025148000ec0f67eb216c7b9a87a59ebc8f9f0b8cd8df60bc2d9ee654f6252dd",
+    "candidate-lane-drag-moved.png": "0765939fe9fa42d19dfd8d949af3b2a172e592cfd5dc13c4cc66af6b6f7822f6",
+    "candidate-lane-drag-reloaded.png": "ba8cf2abfdffe1d074e61a73582e6dcfeb958ac975cd5acf35f82631ce436c72"
+  },
+  "findEngine": [
+    {
+      "fixture": "kanban-10000",
+      "variant": "baseline",
+      "found": true,
+      "rightTarget": false,
+      "selectedText": "",
+      "title": "Task 09992 notification review",
+      "anchorTag": "SPAN",
+      "ticketId": 10992,
+      "before": {
+        "y": 102563.265625,
+        "x": 999.03125
+      },
+      "after": {
+        "y": 102563.265625,
+        "x": 999.03125
+      }
+    },
+    {
+      "fixture": "kanban-10000",
+      "variant": "candidate",
+      "found": true,
+      "rightTarget": false,
+      "selectedText": "",
+      "title": "Task 09992 notification review",
+      "anchorTag": "SPAN",
+      "ticketId": 10992,
+      "before": {
+        "y": 102563.265625,
+        "x": 999.03125
+      },
+      "after": {
+        "y": 102563.265625,
+        "x": 999.03125
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "baseline",
+      "found": true,
+      "rightTarget": false,
+      "selectedText": "",
+      "title": "Verify retry and delivery history 3196",
+      "anchorTag": "BUTTON",
+      "ticketId": 3196,
+      "before": {
+        "y": 587.890625,
+        "x": 2259.5
+      },
+      "after": {
+        "y": 587.890625,
+        "x": 1133.5
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "variant": "candidate",
+      "found": true,
+      "rightTarget": false,
+      "selectedText": "",
+      "title": "Verify retry and delivery history 3196",
+      "anchorTag": "BUTTON",
+      "ticketId": 3196,
+      "before": {
+        "y": 587.890625,
+        "x": 2259.5
+      },
+      "after": {
+        "y": 587.890625,
+        "x": 1133.5
+      }
+    }
+  ],
+  "integratedVerification": {
+    "baseRevision": "3b6519dae6b5e1e3499647e7b2c93edd8319abff",
+    "testedRevision": "96791e5ead1a79f7196b4f15c892a7f1e456235e",
+    "unitTestsPassed": 257,
+    "chromiumTestsPassed": 48,
+    "latestImagePair": [
+      {
+        "fixture": "kanban-10000",
+        "variant": "baseline",
+        "version": "1.1.0",
+        "expectedRows": 3013,
+        "filename": "visual-integrated-kanban-10000-baseline-1440x1000-en-light.png",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "language": "en",
+        "theme": "light",
+        "sha256": "c500a158fa00d4d57cb6dca1a0cd100658879c8e0fb9ada32d740952a84dcb48",
+        "browserToolVersion": "agent-browser 0.26.0"
+      },
+      {
+        "fixture": "kanban-10000",
+        "variant": "candidate",
+        "version": "1.1.0",
+        "expectedRows": 3013,
+        "filename": "visual-integrated-kanban-10000-candidate-1440x1000-en-light.png",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "language": "en",
+        "theme": "light",
+        "sha256": "c500a158fa00d4d57cb6dca1a0cd100658879c8e0fb9ada32d740952a84dcb48",
+        "browserToolVersion": "agent-browser 0.26.0"
+      }
+    ],
+    "ticketImageComment": 4576,
+    "attachedImagesDecoded": 14
+  }
+}

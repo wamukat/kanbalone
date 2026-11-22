@@ -40,9 +40,9 @@ export function renderPriorityBadge(priority) {
   return `<span class="ticket-priority-badge ticket-priority-${level.key}" title="${label}" aria-label="${label}">${icon(level.icon)}<span>${level.label}</span></span>`;
 }
 
-/** @param {unknown} priority */
-export function renderPriorityIcon(priority) {
+/** @param {unknown} priority @param {(name: string) => string} [renderIcon] */
+export function renderPriorityIcon(priority, renderIcon = icon) {
   const level = getPriorityLevel(priority);
   const label = tr("{priority} priority", { priority: level.label });
-  return `<span class="ticket-priority-icon ticket-priority-${level.key}" title="${label}" aria-label="${label}">${icon(level.icon)}</span>`;
+  return `<span class="ticket-priority-icon ticket-priority-${level.key}" title="${label}" aria-label="${label}">${renderIcon(level.icon)}</span>`;
 }

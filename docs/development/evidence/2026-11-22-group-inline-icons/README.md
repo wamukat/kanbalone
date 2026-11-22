@@ -48,7 +48,7 @@ All eight language/theme/phase runs passed. `interaction-results.json` records g
 
 ## Reproduction
 
-From repository root with Node 26 and installed dependencies:
+Use a checkout of the commit containing this change, with Node 26 and installed dependencies. Run the commands from its repository root:
 
 ```sh
 node scripts/generate-group-icons.mjs --check
