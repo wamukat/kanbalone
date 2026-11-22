@@ -77,6 +77,11 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
   app.register(fastifyStatic, {
     root: staticDir,
     prefix: "/",
+    setHeaders(reply, filePath) {
+      const bundled = path.dirname(filePath) === path.join(staticDir, "generated")
+        && /^(?:app-[A-Z0-9]{8}\.js|styles-[A-Z0-9]{8}\.css)$/.test(path.basename(filePath));
+      if (bundled) reply.header("Cache-Control", "public, max-age=31536000, immutable");
+    },
   });
 
   registerSystemRoutes(app, {

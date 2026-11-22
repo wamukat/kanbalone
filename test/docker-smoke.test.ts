@@ -12,8 +12,10 @@ const sha = "a".repeat(40);
 const imageId = `sha256:${"b".repeat(64)}`;
 const options = { image: "kanbalone:release-check", version: "1.0.0-rc.1", sha };
 
-function fixture({ loseData = false, failRun = false, wrongRevision = false } = {}) {
+function fixture({ loseData = false, failRun = false, wrongRevision = false, missingAssets = false, legacyAssets = false } = {}) {
   const commands: string[][] = [];
+  const js = legacyAssets ? "/app.js" : "/generated/app-ABCD1234.js";
+  const css = legacyAssets ? "/styles.css" : "/generated/styles-ABCD1234.css";
   let body = "";
   let restarted = false;
   const run = async (command: string, args: string[]) => {
@@ -28,13 +30,22 @@ function fixture({ loseData = false, failRun = false, wrongRevision = false } = 
     if (args[0] === "restart") restarted = true;
     return "";
   };
-  const fetcher = async (url: string, init: RequestInit) => {
+  const fetcher = async (url: string, init: RequestInit = {}) => {
     assert.equal(new URL(url).origin, `http://127.0.0.1:${restarted ? "45679" : "45678"}`, "use the current port after restart");
     const endpoint = new URL(url).pathname;
     if (endpoint === "/api/health") return Response.json({ ok: true });
     if (endpoint === "/api/meta") return Response.json({ name: "Kanbalone", version: options.version });
     if (endpoint === "/api/boards") return Response.json({ board: { id: 1 }, lanes: [{ id: 2 }] });
     if (endpoint === "/api/boards/1/tickets") return Response.json({ id: 3 });
+    if (endpoint === "/tickets/3") return new Response(
+      `<link rel="stylesheet" href="${css}"><script type="module" src="${js}"></script>`,
+      { headers: { "content-type": "text/html" } },
+    );
+    if (endpoint === css) return new Response("body{}", { headers: { "content-type": "text/css" } });
+    if (endpoint === js) return new Response("export {};", {
+      status: missingAssets ? 404 : 200,
+      headers: { "content-type": "text/javascript" },
+    });
     if (init.method === "PATCH") { body = JSON.parse(String(init.body)).bodyMarkdown; return Response.json({ id: 3 }); }
     assert.equal(endpoint, "/api/tickets/3");
     assert.ok(restarted, "readback must happen after restart");
@@ -45,7 +56,9 @@ function fixture({ loseData = false, failRun = false, wrongRevision = false } = 
 
 test("smoke verifies persistence after the host port changes on restart, using owned resources", async () => {
   const fake = fixture();
-  assert.equal((await smokeImage(options, fake)).persistenceVerified, true);
+  const result = await smokeImage(options, fake);
+  assert.equal(result.persistenceVerified, true);
+  assert.equal(result.assetsVerified, true);
   const run = fake.commands.find((args) => args[1] === "run")!;
   assert.equal(run.at(-1), imageId);
   assert.ok(run.includes("127.0.0.1::3000"));
@@ -59,6 +72,16 @@ test("lost persistence fails the smoke while cleaning only its own container and
   const fake = fixture({ loseData: true });
   await assert.rejects(smokeImage(options, fake), /did not persist[\s\S]*CI fixture server logs/);
   assert.deepEqual(fake.commands.slice(-2).map((args) => args.slice(0, 3)), [["docker", "rm", "--force"], ["docker", "volume", "rm"]]);
+});
+
+test("missing bundled browser assets fail the deployed image smoke", async () => {
+  const fake = fixture({ missingAssets: true });
+  await assert.rejects(smokeImage(options, fake), /Missing browser asset \/generated\/app-ABCD1234.js/);
+});
+
+test("smoke can verify a runtime that still references source asset URLs", async () => {
+  const fake = fixture({ legacyAssets: true });
+  assert.equal((await smokeImage(options, fake)).assetsVerified, true);
 });
 
 test("partial container startup is cleaned; wrong revision never starts any container", async () => {

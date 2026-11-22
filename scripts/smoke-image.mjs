@@ -76,6 +76,25 @@ export async function smokeImage(options, dependencies = {}) {
       const meta = await api("/api/meta");
       if (meta.name !== "Kanbalone" || meta.version !== options.version) throw new Error("Runtime metadata does not match release version");
     }
+    async function verifyAssets(endpoint) {
+      const shell = await fetcher(`${origin}${endpoint}`, { signal: AbortSignal.timeout(3000) });
+      if (!shell.ok || !shell.headers.get("content-type")?.includes("text/html")) {
+        throw new Error(`Missing application shell at ${endpoint}`);
+      }
+      const html = await shell.text();
+      const entries = [
+        [html.match(/<script\b[^>]*\bsrc="(\/(?!\/)[^"]+\.js)"/i)?.[1], "javascript"],
+        [html.match(/<link\b[^>]*\bhref="(\/(?!\/)[^"]+\.css)"/i)?.[1], "text/css"],
+      ];
+      for (const [file, contentType] of entries) {
+        if (!file) throw new Error(`Missing ${contentType} reference in ${endpoint}`);
+        const asset = await fetcher(`${origin}${file}`, { signal: AbortSignal.timeout(3000) });
+        if (!asset.ok || !asset.headers.get("content-type")?.includes(contentType)) {
+          throw new Error(`Missing browser asset ${file}`);
+        }
+        await asset.arrayBuffer();
+      }
+    }
     await ready();
     await verifyVersion();
     const board = await api("/api/boards", "POST", { name: "CI isolated persistence check", laneNames: ["Inbox"] });
@@ -87,11 +106,12 @@ export async function smokeImage(options, dependencies = {}) {
     origin = await containerOrigin();
     await ready();
     await verifyVersion();
+    await verifyAssets(`/tickets/${ticket.id}`);
     const stored = await api(`/api/tickets/${ticket.id}`);
     if (stored.title !== "CI persistence" || stored.bodyMarkdown !== persistedBody || stored.boardId !== board.board.id || stored.laneId !== board.lanes[0].id) {
       throw new Error("Ticket did not persist across container restart");
     }
-    report = { imageId, platform: "linux/amd64", version: options.version, sha: options.sha, persistenceVerified: true };
+    report = { imageId, platform: "linux/amd64", version: options.version, sha: options.sha, persistenceVerified: true, assetsVerified: true };
   } catch (error) {
     failure = error;
     if (runAttempted) {
