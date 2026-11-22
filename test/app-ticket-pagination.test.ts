@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
+import { createHash, createHmac } from "node:crypto";
 import path from "node:path";
 import { buildApp } from "../src/app.js";
 import { KanbanDb } from "../src/db.js";
@@ -239,6 +239,8 @@ test("cursor revisions cover joins, moves, cascades, completion, and referenced 
 test("signed cursor survives restart with unchanged data", async () => {
   const f=setup();
   const first=(await f.app.inject(`${f.url}?limit=5`)).json();
+  const relationUrl = `/api/boards/${f.board.board.id}/relation-candidates`;
+  const firstRelation = (await f.app.inject(`${relationUrl}?limit=5`)).json();
   await f.app.close();f.db.close();
   const restarted=buildApp({dbFile:f.file,staticDir:path.join(process.cwd(),"public")});
   try {
@@ -246,6 +248,10 @@ test("signed cursor survives restart with unchanged data", async () => {
     assert.equal(next.statusCode,200,next.body);
     assert.equal(next.json().tickets.length,50);
     assert.equal(next.json().tickets[0].id,first.tickets.at(-1).id+1);
+    const nextRelation = await restarted.inject(`${relationUrl}?limit=50&cursor=${firstRelation.page.nextCursor}`);
+    assert.equal(nextRelation.statusCode, 200, nextRelation.body);
+    assert.equal(nextRelation.json().page.total, 65);
+    assert.deepEqual(nextRelation.json().tickets.map((ticket: TicketRelationCandidateView) => ticket.id), f.ids.slice(5, 55));
   } finally {await restarted.close();}
 });
 
@@ -294,6 +300,64 @@ test("relation candidates page over the board in ID order with only the picker f
     })));
     assert.deepEqual(candidates.at(-1)?.blockerIds, [parentId, external.id]);
     assert.equal(candidates.at(-1)?.parentTicketId, childId);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
+test("relation candidate cursors reuse their signed total and recalculate for a previous-format cursor", async (t) => {
+  const f = setup();
+  try {
+    const { sqlite } = f.db;
+    const { secret } = sqlite.prepare("SELECT secret FROM ticket_cursor_secret WHERE id=1").get() as { secret: string };
+    const sign = (body: string) => createHmac("sha256", secret).update(body).digest("base64url");
+    const toBody = (payload: object) => Buffer.from(JSON.stringify(payload)).toString("base64url");
+    const prepare = sqlite.prepare.bind(sqlite);
+    let countCalls = 0;
+    t.mock.method(sqlite, "prepare", (sql: string) => {
+      if (sql.includes("COUNT(*) AS total")) {
+        assert.equal(sqlite.inTransaction, true);
+        countCalls++;
+      }
+      return prepare(sql);
+    });
+
+    const boardId = f.board.board.id;
+    const first = f.db.listTicketRelationCandidatePage(boardId, { limit: 5 });
+    const cursor = first.page.nextCursor;
+    assert.ok(cursor);
+    const [body, signature] = cursor.split(".");
+    const { total, ...previousPayload } = JSON.parse(Buffer.from(body!, "base64url").toString("utf8"));
+    assert.equal(total, 65);
+    assert.equal(signature, sign(body!));
+    assert.equal(countCalls, 1);
+
+    const expected = f.db.listTicketRelationCandidatePage(boardId, { limit: 10, cursor });
+    assert.equal(countCalls, 1);
+    assert.equal(expected.page.total, 65);
+    assert.deepEqual(expected.tickets.map(ticket => ticket.id), f.ids.slice(5, 15));
+
+    const previousBody = toBody(previousPayload);
+    const previous = f.db.listTicketRelationCandidatePage(boardId, {
+      limit: 10, cursor: `${previousBody}.${sign(previousBody)}`,
+    });
+    assert.equal(countCalls, 2);
+    assert.deepEqual(previous, expected);
+
+    assert.ok(previous.page.nextCursor);
+    const last = f.db.listTicketRelationCandidatePage(boardId, { limit: 200, cursor: previous.page.nextCursor });
+    assert.equal(countCalls, 2);
+    assert.deepEqual(last.page, { nextCursor: null, total: 65 });
+    assert.deepEqual(last.tickets.map(ticket => ticket.id), f.ids.slice(15));
+
+    const tamperedBody = toBody({ ...previousPayload, total: 66 });
+    assert.throws(() => f.db.listTicketRelationCandidatePage(boardId, { limit: 1, cursor: `${tamperedBody}.${signature}` }),
+      { message: "invalid pagination cursor", statusCode: 400 });
+    for (const invalidTotal of [-1, 0.5, "65", null, Number.MAX_SAFE_INTEGER + 1]) {
+      const invalidBody = toBody({ ...previousPayload, total: invalidTotal });
+      assert.throws(() => f.db.listTicketRelationCandidatePage(boardId, {
+        limit: 1, cursor: `${invalidBody}.${sign(invalidBody)}`,
+      }), { message: "invalid pagination cursor", statusCode: 400 });
+    }
+    assert.equal(countCalls, 2);
   } finally { await f.app.close(); f.db.close(); }
 });
 

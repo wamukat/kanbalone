@@ -17,7 +17,7 @@ type TicketListResult = TicketPage<TicketSummaryView> | { tickets: TicketSummary
 type RelationCandidateRow = Pick<TicketRow, "id" | "title" | "parent_ticket_id" | "priority" | "is_resolved">;
 type ListTicketReferenceRow = Pick<TicketRow, "id" | "title" | "lane_id" | "parent_ticket_id" | "is_resolved">;
 type GroupTicketRow = ListTicketReferenceRow & Pick<TicketRow, "priority" | "is_archived"> & { has_children: number };
-type Cursor = { v: 1; board: number; revision: number; query: string; keys: number[] };
+type Cursor = { v: 1; board: number; revision: number; query: string; keys: number[]; total?: number };
 type Key = { expression: string; direction: "ASC" | "DESC" };
 function fail(message: string, statusCode = 400): never { throw Object.assign(new Error(message), { statusCode }); }
 const completionTime = "COALESCE(CAST(round((julianday(t.resolved_at) - 2440587.5) * 86400000) AS INTEGER), 0)";
@@ -57,7 +57,7 @@ function readTicketPage<Row, View>(
   sqlite: Database.Database,
   boardId: number,
   filtered: ReturnType<typeof ticketFilterQuery>,
-  options: PageOptions,
+  options: PageOptions & { reuseTotal?: true },
   keys: Key[],
   query: string,
   projection: string,
@@ -68,10 +68,15 @@ function readTicketPage<Row, View>(
     const revision = (sqlite.prepare("SELECT revision FROM ticket_list_revisions WHERE board_id = ?").get(boardId) as { revision: number } | undefined)?.revision ?? 0;
     const params = [...filtered.params];
     let sql = filtered.sql.replace("SELECT t.*", `SELECT ${projection}, ${keys.map((key, i) => `${key.expression} AS cursor_key_${i}`).join(", ")}`);
+    let total: number | undefined;
     if (options.cursor !== undefined) {
       const cursor = decode(secret, options.cursor);
       if (cursor.board !== boardId || cursor.query !== query || cursor.keys.length !== keys.length) fail("cursor does not match board, filters or order");
       if (cursor.revision !== revision) fail("ticket list changed; restart pagination", 409);
+      if (options.reuseTotal && cursor.total !== undefined) {
+        if (!Number.isSafeInteger(cursor.total) || cursor.total < 0) fail("invalid pagination cursor");
+        total = cursor.total;
+      }
       const clauses = keys.map((key, i) => {
         const equals = keys.slice(0, i).map((previous, j) => { params.push(cursor.keys[j]!); return `${previous.expression} = ?`; });
         params.push(cursor.keys[i]!);
@@ -84,11 +89,17 @@ function readTicketPage<Row, View>(
     const more = rows.length > options.limit;
     const pageRows = rows.slice(0, options.limit);
     const last = pageRows.at(-1);
-    const total = (sqlite.prepare(filtered.sql.replace("SELECT t.*", "SELECT COUNT(*) AS total")).get(...filtered.params) as { total: number }).total;
+    total ??= (sqlite.prepare(filtered.sql.replace("SELECT t.*", "SELECT COUNT(*) AS total")).get(...filtered.params) as { total: number }).total;
     return {
       tickets: mapRows(pageRows),
       revision,
-      page: { total, nextCursor: more && last ? encode(secret, { v: 1, board: boardId, revision, query, keys: keys.map((_key, i) => last[`cursor_key_${i}`]!) }) : null },
+      page: {
+        total,
+        nextCursor: more && last ? encode(secret, {
+          v: 1, board: boardId, revision, query, keys: keys.map((_key, i) => last[`cursor_key_${i}`]!),
+          ...(options.reuseTotal ? { total } : {}),
+        }) : null,
+      },
     };
   })();
 }
@@ -121,7 +132,7 @@ export function listTicketRelationCandidatePage(sqlite: Database.Database, board
   const order = "id_asc";
   const filtered = ticketFilterQuery(boardId, { includeArchived: true });
   const query = createHash("sha256").update(JSON.stringify(["relation-candidates", filtered.sql, filtered.params, order])).digest("hex");
-  return readTicketPage(sqlite, boardId, filtered, options, orderKeys(order), query,
+  return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, orderKeys(order), query,
     "t.id, t.title, t.parent_ticket_id, t.priority, t.is_resolved",
     (rows: RelationCandidateRow[]): TicketRelationCandidateView[] => {
       const blockers = getBlockerIdsForTicketIds(sqlite, rows.map(row => row.id));
