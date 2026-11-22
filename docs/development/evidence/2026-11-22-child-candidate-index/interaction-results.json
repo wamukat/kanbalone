@@ -1,0 +1,122 @@
+[
+  {
+    "key": "en-light-1440-before",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "en-light-1440-after",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "en-dark-390-before",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "en-dark-390-after",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "ja-light-1440-before",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "ja-light-1440-after",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "ja-dark-390-before",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  },
+  {
+    "key": "ja-dark-390-after",
+    "optionIds": [
+      6,
+      7,
+      5
+    ],
+    "excludedParentId": 3,
+    "cancelPreserved": true,
+    "savedChildIds": [
+      6,
+      2
+    ],
+    "reloaded": true
+  }
+]

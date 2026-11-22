@@ -1,0 +1,151 @@
+[
+  {
+    "before": "before-10005.png",
+    "after": "after-10005.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "before-1005.png",
+    "after": "after-1005.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-dark-390-before-excluded.png",
+    "after": "en-dark-390-after-excluded.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-dark-390-before-saved.png",
+    "after": "en-dark-390-after-saved.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-dark-390-before-search.png",
+    "after": "en-dark-390-after-search.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-dark-390-before-selected.png",
+    "after": "en-dark-390-after-selected.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-light-1440-before-excluded.png",
+    "after": "en-light-1440-after-excluded.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-light-1440-before-saved.png",
+    "after": "en-light-1440-after-saved.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-light-1440-before-search.png",
+    "after": "en-light-1440-after-search.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "en-light-1440-before-selected.png",
+    "after": "en-light-1440-after-selected.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-dark-390-before-excluded.png",
+    "after": "ja-dark-390-after-excluded.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-dark-390-before-saved.png",
+    "after": "ja-dark-390-after-saved.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-dark-390-before-search.png",
+    "after": "ja-dark-390-after-search.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-dark-390-before-selected.png",
+    "after": "ja-dark-390-after-selected.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-light-1440-before-excluded.png",
+    "after": "ja-light-1440-after-excluded.png",
+    "byteIdentical": false,
+    "differentPixels": 6,
+    "maxChannelDelta": 21,
+    "bounds": [
+      601,
+      574,
+      602,
+      590
+    ]
+  },
+  {
+    "before": "ja-light-1440-before-saved.png",
+    "after": "ja-light-1440-after-saved.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-light-1440-before-search.png",
+    "after": "ja-light-1440-after-search.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  },
+  {
+    "before": "ja-light-1440-before-selected.png",
+    "after": "ja-light-1440-after-selected.png",
+    "byteIdentical": true,
+    "differentPixels": 0,
+    "maxChannelDelta": 0,
+    "bounds": null
+  }
+]

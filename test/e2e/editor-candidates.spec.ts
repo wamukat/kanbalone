@@ -245,3 +245,41 @@ test("narrow retry status fits the picker and retains a reachable retry action",
     await expect(page.locator("#ticket-related-search")).toHaveValue("Late");
   } finally { await f.close(); }
 });
+
+test("child candidates retain hierarchy exclusions, archived children, ordering and saved membership", async ({ page }) => {
+  const f = await fixture(page);
+  try {
+    const make = (title: string, extra = {}) => createTicket(page.request, f.baseUrl, f.board.board.id, { laneId: f.board.lanes[0].id, title, ...extra });
+    const parent = await make("Eligible-looking parent");
+    await make("Archived descendant", { parentTicketId: parent.id, isArchived: true });
+    const low = await make("Candidate standalone low", { priority: 1 });
+    const high = await make("Candidate standalone high", { priority: 4, isArchived: true });
+    const same = await make("Candidate standalone equal", { priority: 4 });
+    const otherParent = await make("Other parent");
+    await make("Candidate already parented", { parentTicketId: otherParent.id });
+    await openDetail(page, f.subject.id); await page.locator("#header-edit-button").click();
+    const search = page.locator("#ticket-child-search");
+    await search.fill("Candidate");
+    const ids = () => page.locator("#ticket-child-options [data-child-id]").evaluateAll(es => es.map(e => Number(e.getAttribute("data-child-id"))));
+    await expect.poll(ids).toEqual([high.id, same.id, f.candidate.id, low.id]);
+    await search.fill("Eligible-looking");
+    await expect(page.locator("#ticket-child-options")).toContainText("No matching tickets");
+    await search.fill(f.subject.title);
+    await expect(page.locator("#ticket-child-options")).toContainText("No matching tickets");
+    await search.fill(`#${high.id}`);
+    await expect.poll(ids).toEqual([high.id]);
+    await search.press("Enter");
+    await expect(page.locator("#ticket-child-summary")).toContainText(high.title);
+    await expect(page.locator("#ticket-child-summary")).toContainText(f.child.title);
+    await page.locator('#editor-form button[type="submit"]').click();
+    await expect(page.locator("#ticket-view")).toBeVisible();
+    expect((await (await page.request.get(`${f.baseUrl}/api/tickets/${high.id}`)).json()).parentTicketId).toBe(f.subject.id);
+    await page.reload(); await page.locator("#header-edit-button").click();
+    await expect(page.locator("#ticket-child-summary")).toContainText(high.title);
+    await page.locator(`[data-remove-child-id="${high.id}"]`).click();
+    await search.fill(`#${high.id}`);
+    // The fetched snapshot still has its persisted parent; deselection must
+    // not accidentally make it an unparented candidate before saving.
+    await expect(page.locator("#ticket-child-options")).toContainText("No matching tickets");
+  } finally { await f.close(); }
+});
