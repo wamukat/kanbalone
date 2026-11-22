@@ -90,6 +90,8 @@ export default {
   "Moving...": "移動中…",
   "Moved": "移動しました",
   "Ticket moved": "チケットを移動しました",
+  "Ticket archived, but the view could not refresh. Reload to continue.": "チケットはアーカイブしましたが、画面を更新できませんでした。再読み込みしてください。",
+  "Ticket restored, but the view could not refresh. Reload to continue.": "チケットは復元しましたが、画面を更新できませんでした。再読み込みしてください。",
   "Ticket moved, but the view could not refresh. Reload to continue.": "チケットは移動しましたが、画面を更新できませんでした。再読み込みしてください。",
   "Move failed": "移動に失敗しました",
   "Board": "ボード",

@@ -1,0 +1,233 @@
+[
+  {
+    "id": "",
+    "tag": "BUTTON",
+    "name": "新しいチケット",
+    "x": 307.5,
+    "y": 171.265625,
+    "width": 281,
+    "height": 29.390625,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "ticket-title",
+    "tag": "INPUT",
+    "name": "",
+    "x": 294,
+    "y": 79.859375,
+    "width": 686.40625,
+    "height": 40.34375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "ticket-body",
+    "tag": "TEXTAREA",
+    "name": "チケットの本文",
+    "x": 294,
+    "y": 132.203125,
+    "width": 692,
+    "height": 223.15625,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "save-ticket-button",
+    "tag": "BUTTON",
+    "name": "保存",
+    "x": 930.8125,
+    "y": 555.421875,
+    "width": 55.1875,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "",
+    "tag": "BUTTON",
+    "name": "#25\n          Keyboard created ja-JP",
+    "x": 364.875,
+    "y": 196.96875,
+    "width": 185.375,
+    "height": 18.1875,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "header-edit-button",
+    "tag": "BUTTON",
+    "name": "チケットを編集",
+    "x": 960.8125,
+    "y": 75.53125,
+    "width": 25.1875,
+    "height": 25.1875,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "ticket-body",
+    "tag": "TEXTAREA",
+    "name": "チケットの本文",
+    "x": 294,
+    "y": 152.5,
+    "width": 692,
+    "height": 223.15625,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "save-ticket-button",
+    "tag": "BUTTON",
+    "name": "保存",
+    "x": 930.8125,
+    "y": 575.71875,
+    "width": 55.1875,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "header-edit-button",
+    "tag": "BUTTON",
+    "name": "チケットを編集",
+    "x": 960.8125,
+    "y": 75.53125,
+    "width": 25.1875,
+    "height": 25.1875,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "move-ticket-button",
+    "tag": "BUTTON",
+    "name": "移動",
+    "x": 512.453125,
+    "y": 575.71875,
+    "width": 76.78125,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "",
+    "tag": "SELECT",
+    "name": "Keyboard and zoom reviewKeyboard and zoom reviewKeyboard and zoom reviewIndepend",
+    "x": 451,
+    "y": 439.671875,
+    "width": 378,
+    "height": 39.1875,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "ux-submit-button",
+    "tag": "BUTTON",
+    "name": "移動",
+    "x": 773.8125,
+    "y": 575.8125,
+    "width": 55.1875,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "header-edit-button",
+    "tag": "BUTTON",
+    "name": "チケットを編集",
+    "x": 960.8125,
+    "y": 75.53125,
+    "width": 25.1875,
+    "height": 25.1875,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "archive-ticket-button",
+    "tag": "BUTTON",
+    "name": "アーカイブ",
+    "x": 382.78125,
+    "y": 575.71875,
+    "width": 117.671875,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "archive-ticket-button",
+    "tag": "BUTTON",
+    "name": "アーカイブ",
+    "x": 382.78125,
+    "y": 575.71875,
+    "width": 117.671875,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "header-edit-button",
+    "tag": "BUTTON",
+    "name": "チケットを編集",
+    "x": 960.8125,
+    "y": 75.53125,
+    "width": 25.1875,
+    "height": 25.1875,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "archive-ticket-button",
+    "tag": "BUTTON",
+    "name": "復元",
+    "x": 382.78125,
+    "y": 575.71875,
+    "width": 76.78125,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "archive-ticket-button",
+    "tag": "BUTTON",
+    "name": "復元",
+    "x": 382.78125,
+    "y": 575.71875,
+    "width": 76.78125,
+    "height": 38.375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "board-settings-toggle-button",
+    "tag": "BUTTON",
+    "name": "ボード設定",
+    "x": 231,
+    "y": 769.6875,
+    "width": 32,
+    "height": 32,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "export-board-button",
+    "tag": "BUTTON",
+    "name": "エクスポート",
+    "x": 25.09375,
+    "y": 701.7059326171875,
+    "width": 110.90625,
+    "height": 31.59375,
+    "hiddenAncestor": false,
+    "visible": true
+  },
+  {
+    "id": "export-board-button",
+    "tag": "BUTTON",
+    "name": "エクスポート",
+    "x": 25.09375,
+    "y": 706.3125,
+    "width": 110.90625,
+    "height": 31.59375,
+    "hiddenAncestor": false,
+    "visible": true
+  }
+]

@@ -122,15 +122,19 @@ export function createBoardSettingsModule(ctx) {
     if (!state.activeBoardId) {
       return;
     }
-    const payload = await ctx.api(`/api/boards/${state.activeBoardId}/export`);
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${payload.board.name.replace(/\s+/g, "-").toLowerCase() || "board"}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-    ctx.showToast(tr("Download started"));
+    try {
+      const payload = await ctx.api(`/api/boards/${state.activeBoardId}/export`);
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${payload.board.name.replace(/\s+/g, "-").toLowerCase() || "board"}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      ctx.showToast(tr("Download started"));
+    } catch (error) {
+      ctx.showToast(tr("Could not export board. Please try again."), "error");
+    }
   }
 
   async function importBoard(event) {

@@ -1,0 +1,3163 @@
+[
+  {
+    "locale": "ja-JP",
+    "fixture": {
+      "board": {
+        "id": 26,
+        "name": "Independent Group keyboard ja-JP",
+        "position": 25,
+        "createdAt": "2026-11-22T01:12:55.436Z",
+        "updatedAt": "2026-11-22T01:12:55.436Z"
+      },
+      "lanes": [
+        {
+          "isCompletionLane": false,
+          "id": 32,
+          "boardId": 26,
+          "name": "Todo",
+          "position": 0
+        }
+      ],
+      "tags": [],
+      "tickets": [],
+      "groups": [],
+      "group": {
+        "id": 3,
+        "boardId": 26,
+        "name": "Keyboard Group",
+        "isActive": true,
+        "totalTicketCount": 0,
+        "openTicketCount": 0,
+        "archivedTicketCount": 0,
+        "revision": 1,
+        "createdAt": "2026-11-22T01:12:55.445Z",
+        "updatedAt": "2026-11-22T01:12:55.445Z",
+        "descriptionMarkdown": "",
+        "descriptionHtml": ""
+      },
+      "parent": {
+        "id": 21,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": null,
+        "hasChildren": false,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:55.449Z",
+        "updatedAt": "2026-11-22T01:12:55.449Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [],
+        "ref": "Independent Group keyboard ja-JP#21",
+        "shortRef": "#21",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "294ab96588790caaf5af8ece14fd490b7f49571070fde583798c612be273aeef"
+      },
+      "child": {
+        "id": 22,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": 21,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:55.455Z",
+        "updatedAt": "2026-11-22T01:12:55.456Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 21,
+          "title": "Keyboard parent",
+          "laneId": 32,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard ja-JP#21",
+          "shortRef": "#21",
+          "groupId": null,
+          "group": null
+        },
+        "children": [],
+        "ref": "Independent Group keyboard ja-JP#22",
+        "shortRef": "#22",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "042bdecc4c18c7e2f28d46582f615110da9f7c211df19a5fff6008b69cd84846"
+      }
+    },
+    "log": [
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard and zoom review",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 16,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard and zoom review",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 61.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard and zoom review",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 106.75,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 152.125,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 215.6875,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 279.25,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 324.625,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 370,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 415.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 460.75,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 506.125,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 551.5,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 596.875,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 642.25,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 687.625,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 733,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 778.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 805.75,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Z1795309546122-ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 403.125,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 448.5,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Z1795309557007-en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 493.875,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure ja-JP false",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 539.25,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure ja-JP true",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 584.625,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure en-US false",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 630,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure en-US true",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 675.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 720.75,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "new-board-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 785.703125,
+            "width": 32,
+            "height": 18
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "カンバン",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 17,
+            "y": 562.234375,
+            "width": 82,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "リスト",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 99,
+            "y": 562.234375,
+            "width": 82,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "グループ",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 181,
+            "y": 562.234375,
+            "width": 81,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "new-sidebar-tag-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 231,
+            "y": 624.515625,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "board-settings-toggle-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 231,
+            "y": 760.375,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "A",
+          "text": "Kanbalone (v1.0.0-rc.2)",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 805.96875,
+            "width": 155.6875,
+            "height": 17.5
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "sidebar-toggle-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 268.1015625,
+            "y": 410.1015625,
+            "width": 23.796875,
+            "height": 23.796875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "アクティブ",
+          "action": "active",
+          "remove": null,
+          "rect": {
+            "x": 297,
+            "y": 148.375,
+            "width": 67.921875,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "すべて",
+          "action": "all",
+          "remove": null,
+          "rect": {
+            "x": 364.921875,
+            "y": 148.375,
+            "width": 43.171875,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "group-sort-groups-createdAt",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 417.09375,
+            "y": 148.515625,
+            "width": 48,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "group-sort-groups-name",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 469.09375,
+            "y": 148.515625,
+            "width": 48,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard Group未完了 0 件 · 全 0 件",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 296,
+            "y": 193.671875,
+            "width": 230,
+            "height": 55.78125
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": "create",
+          "remove": null,
+          "rect": {
+            "x": 296,
+            "y": 257.453125,
+            "width": 230,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard Group",
+          "action": "rename",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 120.375,
+            "width": 119.34375,
+            "height": 29.5
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "説明を追加",
+          "action": "edit-description",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 156.375,
+            "width": 82,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "ArrowDown",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 340.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 384.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "チケットを 2 件追加",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 155.03125,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "キャンセル",
+          "action": "cancel-add",
+          "remove": null,
+          "rect": {
+            "x": 730.03125,
+            "y": 435.265625,
+            "width": 96.640625,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "add-cancel",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "ArrowDown",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 340.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 384.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "チケットを 2 件追加",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 155.03125,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "add-selected",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "チケットを 2 件追加",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 155.03125,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "チケットを 2 件追加",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 155.03125,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "added",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "チケットを作成",
+          "action": "new-ticket",
+          "remove": null,
+          "rect": {
+            "x": 701,
+            "y": 204.375,
+            "width": 102,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "#21Keyboard parent",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 591.796875,
+            "y": 253.875,
+            "width": 464.703125,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "21",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "21",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "remove-confirm",
+        "focus": {
+          "id": "ux-cancel-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 803.8125,
+            "y": 290.5625,
+            "width": 25.1875,
+            "height": 25.1875
+          },
+          "dialog": true
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "21",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "remove-cancel",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "21",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "21",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "ux-dismiss-button",
+          "tag": "BUTTON",
+          "text": "キャンセル",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 583.6875,
+            "y": 530.6875,
+            "width": 96.640625,
+            "height": 38.375
+          },
+          "dialog": true
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "ux-submit-button",
+          "tag": "BUTTON",
+          "text": "グループから解除",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 692.328125,
+            "y": 530.6875,
+            "width": 136.671875,
+            "height": 38.375
+          },
+          "dialog": true
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "21",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "removed",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "既存チケットを追加",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 126,
+            "height": 32
+          },
+          "dialog": false
+        }
+      }
+    ],
+    "status": "passed",
+    "initial": [
+      {
+        "id": 21,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:55.449Z",
+        "updatedAt": "2026-11-22T01:12:55.449Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [
+          {
+            "id": 22,
+            "title": "Keyboard child",
+            "laneId": 32,
+            "isResolved": false,
+            "priority": 2,
+            "ref": "Independent Group keyboard ja-JP#22",
+            "shortRef": "#22",
+            "groupId": null,
+            "group": null
+          }
+        ],
+        "ref": "Independent Group keyboard ja-JP#21",
+        "shortRef": "#21",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d395beb41b31017c7350052412b764f12dd07f38c255192db4100ea6583e8683"
+      },
+      {
+        "id": 22,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": 21,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:55.455Z",
+        "updatedAt": "2026-11-22T01:12:55.456Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 21,
+          "title": "Keyboard parent",
+          "laneId": 32,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard ja-JP#21",
+          "shortRef": "#21",
+          "groupId": null,
+          "group": null
+        },
+        "children": [],
+        "ref": "Independent Group keyboard ja-JP#22",
+        "shortRef": "#22",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "042bdecc4c18c7e2f28d46582f615110da9f7c211df19a5fff6008b69cd84846"
+      }
+    ],
+    "added": [
+      {
+        "id": 21,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:55.449Z",
+        "updatedAt": "2026-11-22T01:12:56.471Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [
+          {
+            "id": 22,
+            "title": "Keyboard child",
+            "laneId": 32,
+            "isResolved": false,
+            "priority": 2,
+            "ref": "Independent Group keyboard ja-JP#22",
+            "shortRef": "#22",
+            "groupId": 3,
+            "group": {
+              "id": 3,
+              "name": "Keyboard Group"
+            }
+          }
+        ],
+        "ref": "Independent Group keyboard ja-JP#21",
+        "shortRef": "#21",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": 3,
+        "group": {
+          "id": 3,
+          "name": "Keyboard Group"
+        },
+        "editToken": "d395beb41b31017c7350052412b764f12dd07f38c255192db4100ea6583e8683"
+      },
+      {
+        "id": 22,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": 21,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:55.455Z",
+        "updatedAt": "2026-11-22T01:12:56.471Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 21,
+          "title": "Keyboard parent",
+          "laneId": 32,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard ja-JP#21",
+          "shortRef": "#21",
+          "groupId": 3,
+          "group": {
+            "id": 3,
+            "name": "Keyboard Group"
+          }
+        },
+        "children": [],
+        "ref": "Independent Group keyboard ja-JP#22",
+        "shortRef": "#22",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": 3,
+        "group": {
+          "id": 3,
+          "name": "Keyboard Group"
+        },
+        "editToken": "042bdecc4c18c7e2f28d46582f615110da9f7c211df19a5fff6008b69cd84846"
+      }
+    ],
+    "removed": [
+      {
+        "id": 21,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:55.449Z",
+        "updatedAt": "2026-11-22T01:12:56.942Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [
+          {
+            "id": 22,
+            "title": "Keyboard child",
+            "laneId": 32,
+            "isResolved": false,
+            "priority": 2,
+            "ref": "Independent Group keyboard ja-JP#22",
+            "shortRef": "#22",
+            "groupId": null,
+            "group": null
+          }
+        ],
+        "ref": "Independent Group keyboard ja-JP#21",
+        "shortRef": "#21",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d395beb41b31017c7350052412b764f12dd07f38c255192db4100ea6583e8683"
+      },
+      {
+        "id": 22,
+        "boardId": 26,
+        "laneId": 32,
+        "parentTicketId": 21,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:55.455Z",
+        "updatedAt": "2026-11-22T01:12:56.942Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 21,
+          "title": "Keyboard parent",
+          "laneId": 32,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard ja-JP#21",
+          "shortRef": "#21",
+          "groupId": null,
+          "group": null
+        },
+        "children": [],
+        "ref": "Independent Group keyboard ja-JP#22",
+        "shortRef": "#22",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "042bdecc4c18c7e2f28d46582f615110da9f7c211df19a5fff6008b69cd84846"
+      }
+    ]
+  },
+  {
+    "locale": "en-US",
+    "fixture": {
+      "board": {
+        "id": 27,
+        "name": "Independent Group keyboard en-US",
+        "position": 26,
+        "createdAt": "2026-11-22T01:12:57.620Z",
+        "updatedAt": "2026-11-22T01:12:57.620Z"
+      },
+      "lanes": [
+        {
+          "isCompletionLane": false,
+          "id": 33,
+          "boardId": 27,
+          "name": "Todo",
+          "position": 0
+        }
+      ],
+      "tags": [],
+      "tickets": [],
+      "groups": [],
+      "group": {
+        "id": 4,
+        "boardId": 27,
+        "name": "Keyboard Group",
+        "isActive": true,
+        "totalTicketCount": 0,
+        "openTicketCount": 0,
+        "archivedTicketCount": 0,
+        "revision": 1,
+        "createdAt": "2026-11-22T01:12:57.626Z",
+        "updatedAt": "2026-11-22T01:12:57.626Z",
+        "descriptionMarkdown": "",
+        "descriptionHtml": ""
+      },
+      "parent": {
+        "id": 23,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": null,
+        "hasChildren": false,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:57.630Z",
+        "updatedAt": "2026-11-22T01:12:57.630Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [],
+        "ref": "Independent Group keyboard en-US#23",
+        "shortRef": "#23",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "336e8fabfcda67d979d89c358d8aceb76111249227986d81168560317c58c8d2"
+      },
+      "child": {
+        "id": 24,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": 23,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:57.637Z",
+        "updatedAt": "2026-11-22T01:12:57.638Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 23,
+          "title": "Keyboard parent",
+          "laneId": 33,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard en-US#23",
+          "shortRef": "#23",
+          "groupId": null,
+          "group": null
+        },
+        "children": [],
+        "ref": "Independent Group keyboard en-US#24",
+        "shortRef": "#24",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d6f9e4da5948611255a9f4b140a3b856c0280e5156f2a1b1480bdc5dd90105b0"
+      }
+    },
+    "log": [
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard and zoom review",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 16,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard and zoom review",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 61.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard and zoom review",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 106.75,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 152.125,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 215.6875,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 279.25,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 324.625,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 370,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 415.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 460.75,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 506.125,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 551.5,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 596.875,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 642.25,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 687.625,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 733,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Move target en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 778.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 805.75,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Z1795309546122-ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 403.125,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard verification en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 448.5,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Z1795309557007-en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 493.875,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure ja-JP false",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 539.25,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure ja-JP true",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 584.625,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure en-US false",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 630,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Post-save failure en-US true",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 675.375,
+            "width": 247,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard ja-JP",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 720.75,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Independent Group keyboard en-US",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 784.3125,
+            "width": 247,
+            "height": 56.5625
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "new-board-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 486.265625,
+            "width": 32,
+            "height": 18
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Kanban",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 17,
+            "y": 562.796875,
+            "width": 82,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "List",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 99,
+            "y": 562.796875,
+            "width": 82,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Group",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 181,
+            "y": 562.796875,
+            "width": 81,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "new-sidebar-tag-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 231,
+            "y": 625.078125,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "board-settings-toggle-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 231,
+            "y": 760.9375,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "A",
+          "text": "Kanbalone (v1.0.0-rc.2)",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 16,
+            "y": 806.53125,
+            "width": 155.6875,
+            "height": 17.5
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "sidebar-toggle-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 268.1015625,
+            "y": 410.1015625,
+            "width": 23.796875,
+            "height": 23.796875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Active",
+          "action": "active",
+          "remove": null,
+          "rect": {
+            "x": 297,
+            "y": 148.375,
+            "width": 62.234375,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "All",
+          "action": "all",
+          "remove": null,
+          "rect": {
+            "x": 359.234375,
+            "y": 148.375,
+            "width": 52,
+            "height": 32.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "group-sort-groups-createdAt",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 424.234375,
+            "y": 148.515625,
+            "width": 48,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "group-sort-groups-name",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 476.234375,
+            "y": 148.515625,
+            "width": 48,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard Group0 open · 0 total",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 296,
+            "y": 193.671875,
+            "width": 230,
+            "height": 55.78125
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": "create",
+          "remove": null,
+          "rect": {
+            "x": 296,
+            "y": 257.453125,
+            "width": 230,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Keyboard Group",
+          "action": "rename",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 120.375,
+            "width": 119.34375,
+            "height": 29.5
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add description",
+          "action": "edit-description",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 156.375,
+            "width": 113.5,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "ArrowDown",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 340.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 384.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add 2 tickets",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 113.65625,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Cancel",
+          "action": "cancel-add",
+          "remove": null,
+          "rect": {
+            "x": 688.65625,
+            "y": 435.265625,
+            "width": 72.546875,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "add-cancel",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "ArrowDown",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 340.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "group-ticket-search",
+          "tag": "INPUT",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 384.96875,
+            "width": 680,
+            "height": 38.296875
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add 2 tickets",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 113.65625,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "add-selected",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add 2 tickets",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 435.265625,
+            "width": 113.65625,
+            "height": 38.375
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BODY",
+          "text": "Keyboard and zoom reviewKeyboard and zoom reviewKeyboard and zoom revi",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 844
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "added",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Create ticket",
+          "action": "new-ticket",
+          "remove": null,
+          "rect": {
+            "x": 706.484375,
+            "y": 204.375,
+            "width": 92.265625,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "#23Keyboard parent",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 591.796875,
+            "y": 253.875,
+            "width": 464.703125,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "23",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "23",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "remove-confirm",
+        "focus": {
+          "id": "ux-cancel-button",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 803.8125,
+            "y": 290.5625,
+            "width": 25.1875,
+            "height": 25.1875
+          },
+          "dialog": true
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "23",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "remove-cancel",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "23",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "23",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "ux-dismiss-button",
+          "tag": "BUTTON",
+          "text": "Cancel",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 585.71875,
+            "y": 530.6875,
+            "width": 72.546875,
+            "height": 38.375
+          },
+          "dialog": true
+        }
+      },
+      {
+        "key": "Tab",
+        "focus": {
+          "id": "ux-submit-button",
+          "tag": "BUTTON",
+          "text": "Remove from Group",
+          "action": null,
+          "remove": null,
+          "rect": {
+            "x": 670.265625,
+            "y": 530.6875,
+            "width": 158.734375,
+            "height": 38.375
+          },
+          "dialog": true
+        }
+      },
+      {
+        "key": "Enter",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "",
+          "action": null,
+          "remove": "23",
+          "rect": {
+            "x": 1215,
+            "y": 253.875,
+            "width": 32,
+            "height": 32
+          },
+          "dialog": false
+        }
+      },
+      {
+        "checkpoint": "removed",
+        "focus": {
+          "id": "",
+          "tag": "BUTTON",
+          "text": "Add existing tickets",
+          "action": "add",
+          "remove": null,
+          "rect": {
+            "x": 567,
+            "y": 204.375,
+            "width": 131.484375,
+            "height": 32
+          },
+          "dialog": false
+        }
+      }
+    ],
+    "status": "passed",
+    "initial": [
+      {
+        "id": 23,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:57.630Z",
+        "updatedAt": "2026-11-22T01:12:57.630Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [
+          {
+            "id": 24,
+            "title": "Keyboard child",
+            "laneId": 33,
+            "isResolved": false,
+            "priority": 2,
+            "ref": "Independent Group keyboard en-US#24",
+            "shortRef": "#24",
+            "groupId": null,
+            "group": null
+          }
+        ],
+        "ref": "Independent Group keyboard en-US#23",
+        "shortRef": "#23",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d9eb8c6606668137c5938818fcab03d37605988c6b32efcfc4fbddb8f44a48f0"
+      },
+      {
+        "id": 24,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": 23,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:57.637Z",
+        "updatedAt": "2026-11-22T01:12:57.638Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 23,
+          "title": "Keyboard parent",
+          "laneId": 33,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard en-US#23",
+          "shortRef": "#23",
+          "groupId": null,
+          "group": null
+        },
+        "children": [],
+        "ref": "Independent Group keyboard en-US#24",
+        "shortRef": "#24",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d6f9e4da5948611255a9f4b140a3b856c0280e5156f2a1b1480bdc5dd90105b0"
+      }
+    ],
+    "added": [
+      {
+        "id": 23,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:57.630Z",
+        "updatedAt": "2026-11-22T01:12:58.666Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [
+          {
+            "id": 24,
+            "title": "Keyboard child",
+            "laneId": 33,
+            "isResolved": false,
+            "priority": 2,
+            "ref": "Independent Group keyboard en-US#24",
+            "shortRef": "#24",
+            "groupId": 4,
+            "group": {
+              "id": 4,
+              "name": "Keyboard Group"
+            }
+          }
+        ],
+        "ref": "Independent Group keyboard en-US#23",
+        "shortRef": "#23",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": 4,
+        "group": {
+          "id": 4,
+          "name": "Keyboard Group"
+        },
+        "editToken": "d9eb8c6606668137c5938818fcab03d37605988c6b32efcfc4fbddb8f44a48f0"
+      },
+      {
+        "id": 24,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": 23,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:57.637Z",
+        "updatedAt": "2026-11-22T01:12:58.666Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 23,
+          "title": "Keyboard parent",
+          "laneId": 33,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard en-US#23",
+          "shortRef": "#23",
+          "groupId": 4,
+          "group": {
+            "id": 4,
+            "name": "Keyboard Group"
+          }
+        },
+        "children": [],
+        "ref": "Independent Group keyboard en-US#24",
+        "shortRef": "#24",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": 4,
+        "group": {
+          "id": 4,
+          "name": "Keyboard Group"
+        },
+        "editToken": "d6f9e4da5948611255a9f4b140a3b856c0280e5156f2a1b1480bdc5dd90105b0"
+      }
+    ],
+    "removed": [
+      {
+        "id": 23,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Keyboard parent",
+        "bodyMarkdown": "Preserve parent",
+        "bodyHtml": "<p>Preserve parent</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T01:12:57.630Z",
+        "updatedAt": "2026-11-22T01:12:59.093Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": null,
+        "children": [
+          {
+            "id": 24,
+            "title": "Keyboard child",
+            "laneId": 33,
+            "isResolved": false,
+            "priority": 2,
+            "ref": "Independent Group keyboard en-US#24",
+            "shortRef": "#24",
+            "groupId": null,
+            "group": null
+          }
+        ],
+        "ref": "Independent Group keyboard en-US#23",
+        "shortRef": "#23",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d9eb8c6606668137c5938818fcab03d37605988c6b32efcfc4fbddb8f44a48f0"
+      },
+      {
+        "id": 24,
+        "boardId": 27,
+        "laneId": 33,
+        "parentTicketId": 23,
+        "hasChildren": false,
+        "title": "Keyboard child",
+        "bodyMarkdown": "Preserve child",
+        "bodyHtml": "<p>Preserve child</p>\n",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T01:12:57.637Z",
+        "updatedAt": "2026-11-22T01:12:59.093Z",
+        "tags": [],
+        "comments": [],
+        "blockerIds": [],
+        "relatedIds": [],
+        "blockers": [],
+        "blockedBy": [],
+        "related": [],
+        "parent": {
+          "id": 23,
+          "title": "Keyboard parent",
+          "laneId": 33,
+          "isResolved": false,
+          "priority": 2,
+          "ref": "Independent Group keyboard en-US#23",
+          "shortRef": "#23",
+          "groupId": null,
+          "group": null
+        },
+        "children": [],
+        "ref": "Independent Group keyboard en-US#24",
+        "shortRef": "#24",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null,
+        "editToken": "d6f9e4da5948611255a9f4b140a3b856c0280e5156f2a1b1480bdc5dd90105b0"
+      }
+    ]
+  }
+]

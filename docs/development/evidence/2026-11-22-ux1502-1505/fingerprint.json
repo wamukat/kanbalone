@@ -1,0 +1,8 @@
+{
+  "public/app-board-settings.js": "b67964e5c00a3d1c00b7ad182cd7f121ba75625f675a35a8a7eb9b518de7fb41",
+  "public/app-editor.js": "a448b0b85f243110cb959392960649ccfe998f92d7d067a838a262e9da611bf0",
+  "public/app-group-board.js": "98f84a53598a8db03b71c618fea0df460f39c473d888470ad23901cb6e298cd7",
+  "public/app-ticket-actions.js": "f159bacfcd9287045b18072dd6cacbfd6f700148542490a6af20129b5e349dbb",
+  "public/locales/ja-board.js": "f870f153a182cc70e3fb9268f8cd44760d5f69ee5fcc15d20f270aa8dbde1d4a",
+  "public/locales/ja-editor.js": "81b4ad4288fa3302e24fe3c1d2527e290f107bf6874954539cf7fa55e497e1e6"
+}

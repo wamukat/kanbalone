@@ -96,6 +96,7 @@ export function createTicketActionsModule(ctx, options) {
     } finally {
       elements.editorForm.inert = wasInert;
       state.editorSaving = false;
+      options.restoreActionFocus?.(elements.editorForm.querySelector("button[type=submit]"));
     }
   }
 
@@ -108,6 +109,8 @@ export function createTicketActionsModule(ctx, options) {
     state.editorSaving = true;
     const wasInert = elements.editorForm.inert;
     elements.editorForm.inert = true;
+    let saved = false;
+    let archived = false;
     try {
       const current = await ctx.api(`/api/tickets/${ticketId}`);
       setSaveState("saving", current.isArchived ? t("Restoring...") : t("Archiving..."));
@@ -115,6 +118,8 @@ export function createTicketActionsModule(ctx, options) {
         method: "PATCH",
         body: { isArchived: !current.isArchived },
       });
+      saved = true;
+      archived = !current.isArchived;
       await ctx.refreshBoardDetail();
       if (!current.isArchived && !state.filters.includeArchived) {
         options.closeEditor();
@@ -125,11 +130,19 @@ export function createTicketActionsModule(ctx, options) {
       options.setDialogMode("view");
       setSaveState("saved", current.isArchived ? t("Restored") : t("Archived"));
     } catch (error) {
-      setSaveState("error", t("Save failed"));
-      ctx.showToast(error.message, "error");
+      if (saved) {
+        options.closeEditor();
+        ctx.showToast(t(archived
+          ? "Ticket archived, but the view could not refresh. Reload to continue."
+          : "Ticket restored, but the view could not refresh. Reload to continue."), "error");
+      } else {
+        setSaveState("error", t("Save failed"));
+        ctx.showToast(error.message, "error");
+      }
     } finally {
       elements.editorForm.inert = wasInert;
       state.editorSaving = false;
+      options.restoreActionFocus?.(elements.archiveTicketButton);
     }
   }
 
@@ -254,6 +267,7 @@ export function createTicketActionsModule(ctx, options) {
     } finally {
       elements.editorForm.inert = wasInert;
       state.editorSaving = false;
+      options.restoreActionFocus?.(elements.moveTicketButton);
     }
   }
 

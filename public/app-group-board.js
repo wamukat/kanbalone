@@ -55,6 +55,12 @@ export function createGroupBoardModule(ctx) {
     const element = host.querySelector(selector);
     if (element instanceof HTMLElement) element.focus();
   }
+  /** @param {number | null} targetBoardId @param {number | null} targetGroupId */
+  function focusMembershipAction(targetBoardId, targetGroupId) {
+    if (state.viewMode === "group" && state.activeBoardId === targetBoardId && selectedId === targetGroupId) {
+      focus('[data-group-action="add"]');
+    }
+  }
   function renderOptions() {
     const options = host.querySelector("#group-ticket-options");
     if (options) options.innerHTML = optionsHtml();
@@ -263,6 +269,7 @@ export function createGroupBoardModule(ctx) {
   async function remove(id) {
     const group = selected;
     if (!group) return;
+    const targetBoardId = boardId;
     const request = { ticketIds: [id], groupId: null };
     const preview = /** @type {GroupPreview} */ (
       await ctx.sendJson(`/api/boards/${boardId}/group-memberships/preview`, {
@@ -282,6 +289,7 @@ export function createGroupBoardModule(ctx) {
       body: { ...request, expectedToken: preview.expectedToken },
     });
     await ctx.refreshBoardDetail();
+    focusMembershipAction(targetBoardId, group.id);
   }
   /** @param {HTMLButtonElement} button */
   async function act(button) {
@@ -460,6 +468,9 @@ export function createGroupBoardModule(ctx) {
     if (!(form instanceof HTMLFormElement)) return;
     const data = new FormData(form),
       kind = form.dataset.groupForm;
+    const targetBoardId = boardId;
+    const targetGroupId = addGroupId;
+    let membershipSaved = false;
     busy = true;
     error = "";
     form.querySelectorAll('button[type="submit"]').forEach((b) => {
@@ -513,6 +524,7 @@ export function createGroupBoardModule(ctx) {
           body: { ...request, expectedToken: preview.expectedToken },
         });
         adding = false;
+        membershipSaved = true;
       }
       await ctx.refreshBoardDetail();
       await load();
@@ -521,6 +533,7 @@ export function createGroupBoardModule(ctx) {
     } finally {
       busy = false;
       render();
+      if (membershipSaved) focusMembershipAction(targetBoardId, targetGroupId);
     }
   });
   host.addEventListener("input", (e) => {

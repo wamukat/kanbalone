@@ -1,0 +1,21 @@
+{
+  "unit": {
+    "passed": 176,
+    "failed": 0
+  },
+  "e2e": {
+    "action-recovery": 6,
+    "group-membership-focus": 2,
+    "ux-move-regressions": 4
+  },
+  "checks": {
+    "public-types": "passed",
+    "build": "passed",
+    "diff-check": "passed"
+  },
+  "browserCases": {
+    "ticketAndExport": 8,
+    "postSaveFailure": 4,
+    "groupLocaleFlows": 2
+  }
+}
