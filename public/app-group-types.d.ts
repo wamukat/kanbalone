@@ -94,5 +94,6 @@ export type GroupViewState = GroupSearchState & {
 };
 export type GroupViewOptions = {
   escapeHtml(value: string): string;
+  rowIcon?: (name: string) => string;
   lanes: Array<{ id: number; name: string }>;
 };

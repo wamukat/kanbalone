@@ -1,0 +1,44 @@
+[
+  {
+    "unsupported": false,
+    "icon": {
+      "tag": "span",
+      "mask": "url(\"http://127.0.0.1:52348/generated/trash-2-XB6X3P6K.svg\")"
+    },
+    "assets": {
+      "/generated/archive-TRGHHGKJ.svg": {
+        "status": 200,
+        "mime": "image/svg+xml"
+      },
+      "/generated/folder-tree-WQW6YDZY.svg": {
+        "status": 200,
+        "mime": "image/svg+xml"
+      },
+      "/generated/trash-2-XB6X3P6K.svg": {
+        "status": 200,
+        "mime": "image/svg+xml"
+      },
+      "/generated/folder-up-7WHWHFHY.svg": {
+        "status": 200,
+        "mime": "image/svg+xml"
+      },
+      "/generated/check-36YSAFZQ.svg": {
+        "status": 200,
+        "mime": "image/svg+xml"
+      },
+      "/generated/ticket-25BZPGZH.svg": {
+        "status": 200,
+        "mime": "image/svg+xml"
+      }
+    }
+  },
+  {
+    "unsupported": true,
+    "icon": {
+      "tag": "svg",
+      "mask": "none",
+      "path": "M3 6h18"
+    },
+    "assets": {}
+  }
+]

@@ -1,0 +1,164 @@
+{
+  "baseline": "de3406197f3efe8e790608003d6b74c91625ba92",
+  "candidate": "c38372b052ee846f580fa68bda8c19b74c2f3d23",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "theme": "light",
+  "language": "en",
+  "chromium": "159.0.8154.6",
+  "entries": [
+    {
+      "label": "現行 Group 10,000行 英語ライト 1440 × 1000",
+      "path": "product-compiled-group-10000-baseline.png",
+      "sha256": "13a57b0471e271e24cd698de13e94c2628bb8a41b0980ea01182421ed7bc17b5",
+      "fixture": "group-10000",
+      "variant": "baseline",
+      "rows": 10000,
+      "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "geometrySha256": "0363d4aed7c3b4398fbbb255fad586227d2e682159185b60199ce4661cf363ef",
+      "controlsGeometrySha256": "265cf32a348204aebef966fb0a41e8e414d9ee33a94c94799b3bec5758c53d8a",
+      "scrollHeights": [
+        848428
+      ],
+      "maskAssets": []
+    },
+    {
+      "label": "製品候補 Group 10,000行 英語ライト 1440 × 1000",
+      "path": "product-compiled-group-10000-mask.png",
+      "sha256": "f973db3d8fa2ebc9a808d7ffa9cdd00c4a754ccfa4a9ed6b9d920e583737ead4",
+      "fixture": "group-10000",
+      "variant": "mask",
+      "rows": 10000,
+      "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "geometrySha256": "0363d4aed7c3b4398fbbb255fad586227d2e682159185b60199ce4661cf363ef",
+      "controlsGeometrySha256": "265cf32a348204aebef966fb0a41e8e414d9ee33a94c94799b3bec5758c53d8a",
+      "scrollHeights": [
+        848428
+      ],
+      "maskAssets": [
+        {
+          "file": "/generated/folder-up-7WHWHFHY.svg",
+          "end": 480.30000001192093,
+          "status": 200,
+          "transferBytes": 650,
+          "bodyBytes": 350
+        },
+        {
+          "file": "/generated/archive-TRGHHGKJ.svg",
+          "end": 481.40000000596046,
+          "status": 200,
+          "transferBytes": 597,
+          "bodyBytes": 297
+        },
+        {
+          "file": "/generated/trash-2-XB6X3P6K.svg",
+          "end": 482,
+          "status": 200,
+          "transferBytes": 679,
+          "bodyBytes": 379
+        },
+        {
+          "file": "/generated/folder-tree-WQW6YDZY.svg",
+          "end": 482.40000000596046,
+          "status": 200,
+          "transferBytes": 806,
+          "bodyBytes": 506
+        },
+        {
+          "file": "/generated/check-36YSAFZQ.svg",
+          "end": 482.90000000596046,
+          "status": 200,
+          "transferBytes": 492,
+          "bodyBytes": 192
+        },
+        {
+          "file": "/generated/ticket-25BZPGZH.svg",
+          "end": 483.20000000298023,
+          "status": 200,
+          "transferBytes": 653,
+          "bodyBytes": 353
+        }
+      ]
+    },
+    {
+      "label": "現行 No Group 10,000行 英語ライト 1440 × 1000",
+      "path": "product-compiled-ungrouped-10000-baseline.png",
+      "sha256": "f74149eaac88ee815b6db06088469b0432f75c443d63dcdadd735d9b00b9c07a",
+      "fixture": "ungrouped-10000",
+      "variant": "baseline",
+      "rows": 10000,
+      "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "geometrySha256": "0776b1f875aaf95e8c176f839fbb1f8f0f97e698ade518c011ad4c919a53b9fd",
+      "controlsGeometrySha256": "f255954eb28654d3066622a58442a2612014f3ad56acc0be11aa1e695eeb883d",
+      "scrollHeights": [
+        848350
+      ],
+      "maskAssets": []
+    },
+    {
+      "label": "製品候補 No Group 10,000行 英語ライト 1440 × 1000",
+      "path": "product-compiled-ungrouped-10000-mask.png",
+      "sha256": "c5738122a549482e48a199725363bd3745392806cb9f80d725fb4c544f8a3586",
+      "fixture": "ungrouped-10000",
+      "variant": "mask",
+      "rows": 10000,
+      "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "geometrySha256": "0776b1f875aaf95e8c176f839fbb1f8f0f97e698ade518c011ad4c919a53b9fd",
+      "controlsGeometrySha256": "f255954eb28654d3066622a58442a2612014f3ad56acc0be11aa1e695eeb883d",
+      "scrollHeights": [
+        848350
+      ],
+      "maskAssets": [
+        {
+          "file": "/generated/folder-up-7WHWHFHY.svg",
+          "end": 457.1000000089407,
+          "status": 200,
+          "transferBytes": 650,
+          "bodyBytes": 350
+        },
+        {
+          "file": "/generated/archive-TRGHHGKJ.svg",
+          "end": 457.5,
+          "status": 200,
+          "transferBytes": 597,
+          "bodyBytes": 297
+        },
+        {
+          "file": "/generated/folder-tree-WQW6YDZY.svg",
+          "end": 458.29999999701977,
+          "status": 200,
+          "transferBytes": 806,
+          "bodyBytes": 506
+        },
+        {
+          "file": "/generated/check-36YSAFZQ.svg",
+          "end": 458.5,
+          "status": 200,
+          "transferBytes": 492,
+          "bodyBytes": 192
+        },
+        {
+          "file": "/generated/ticket-25BZPGZH.svg",
+          "end": 459.20000000298023,
+          "status": 200,
+          "transferBytes": 653,
+          "bodyBytes": 353
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "fixture": "group-10000",
+      "differingPixels": 724,
+      "maxDifference": 6
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "differingPixels": 544,
+      "maxDifference": 6
+    }
+  ]
+}

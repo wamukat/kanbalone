@@ -1,0 +1,526 @@
+{
+  "provenance": {
+    "os": "Darwin Kernel Version 25.6.0: Mon Oct 12 00:33:09 PDT 2026; root:xnu-12377.161.15.701.48~2/RELEASE_X86_64",
+    "release": "25.6.0",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz",
+    "logicalCpus": 12,
+    "node": "v26.13.1",
+    "serverRevision": "c38372b052ee846f580fa68bda8c19b74c2f3d23",
+    "decompressedFixtureSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+    "date": "2026-11-22T23:57:10.352Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "language": "en",
+    "theme": "light",
+    "method": "Fresh Chromium context and navigation per sequential sample. DOM mutation detection plus two requestAnimationFrame callbacks. CDP cumulative durations from navigation. Server-Timing covers onRequest to onSend, including handler and serialization.",
+    "diagnostics": false,
+    "variants": [
+      {
+        "name": "baseline",
+        "staticDir": "baseline/dist/public",
+        "backendRepo": "candidate",
+        "serverEntry": "candidate/src/app.ts",
+        "serverRevision": "c38372b052ee846f580fa68bda8c19b74c2f3d23",
+        "serverEntrySha256": "0a409807a6ee202981b80c6d91605782fc0957dcc9efcf0bbc1da9b238ab4597",
+        "assetTreeSha256": "3517dcb01c234fd2ffee904c550c86aed2d5934c96452ece2a2f68e6d15f1aae",
+        "files": {
+          "app-group-board.js": "d2118791a97d69009fe82ff27088c8c643c3c7264a31127731a81d0e5942382b",
+          "app-group-view.js": "e3994db43ddd7ee50d6c4cbbf958715f3bc9d4652c87709d41f85ed0ecf7a093",
+          "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+          "app-kanban-board.js": "73d4e012b8da074c9c824b3fa466b6eeb4233fe38643f5a6aa283cc75e47a0df",
+          "app-kanban-ticket-card.js": "73abbea1d8ee92a52491a77c74c334f77d7861d5900a0c7ef4fc842e001f986d",
+          "app-api.js": "011301f3c1bddf7dfa24e965404d09a9081afc20c2059d22d85dda2082486d73",
+          "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+        }
+      },
+      {
+        "name": "mask",
+        "staticDir": "candidate/dist/public",
+        "backendRepo": "candidate",
+        "serverEntry": "candidate/src/app.ts",
+        "serverRevision": "c38372b052ee846f580fa68bda8c19b74c2f3d23",
+        "serverEntrySha256": "0a409807a6ee202981b80c6d91605782fc0957dcc9efcf0bbc1da9b238ab4597",
+        "assetTreeSha256": "4358f7e734660d197f1aeeb28a84bd9b44703bf5885209a82d81c9b5d2b45347",
+        "files": {
+          "app-group-board.js": "ca975ad77d89ccffc7d3a882009bcd07d0e15794c9a519c71a8961117926d57f",
+          "app-group-view.js": "7a95062b0dbf774c8db8506687c5c033c6eac4b28e5692c6bbaeb8d2ecc9d99d",
+          "app-tags.js": "802a3756dc34101ad85105dc21d69f65a55752423019a6f8273b8d8984ba9d1b",
+          "app-kanban-board.js": "73d4e012b8da074c9c824b3fa466b6eeb4233fe38643f5a6aa283cc75e47a0df",
+          "app-kanban-ticket-card.js": "73abbea1d8ee92a52491a77c74c334f77d7861d5900a0c7ef4fc842e001f986d",
+          "app-api.js": "011301f3c1bddf7dfa24e965404d09a9081afc20c2059d22d85dda2082486d73",
+          "icons.js": "003402a2909756542340affdc160143ef3be0da844c3ad40a11cf5904e545a9a"
+        }
+      }
+    ],
+    "chromium": "159.0.8154.6"
+  },
+  "fixtures": {
+    "group-10000": {
+      "baseline": {
+        "fullWithAssetsMs": {
+          "median": 3311.1,
+          "range": [
+            3275.2,
+            3435.6
+          ],
+          "each": [
+            3275.2,
+            3435.6,
+            3311.1
+          ]
+        },
+        "firstRowMs": {
+          "median": 3311.1,
+          "range": [
+            3275.2,
+            3435.5
+          ],
+          "each": [
+            3275.2,
+            3435.5,
+            3311.1
+          ]
+        },
+        "fullDomMs": {
+          "median": 3311.1,
+          "range": [
+            3275.2,
+            3435.6
+          ],
+          "each": [
+            3275.2,
+            3435.6,
+            3311.1
+          ]
+        },
+        "afterDomMs": {
+          "median": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "each": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "coldAssetCount": 0,
+        "coldAssetBodyBytes": [
+          0,
+          0,
+          0
+        ],
+        "coldAssetTransferBytes": [
+          0,
+          0,
+          0
+        ],
+        "coldAssetLastResponseMs": {
+          "median": 0,
+          "range": [
+            0,
+            0
+          ],
+          "each": [
+            0,
+            0,
+            0
+          ]
+        },
+        "layoutMs": {
+          "median": 1428.67,
+          "range": [
+            1426.69,
+            1474.71
+          ],
+          "each": [
+            1426.69,
+            1428.67,
+            1474.71
+          ]
+        },
+        "styleMs": {
+          "median": 572.07,
+          "range": [
+            538.92,
+            681.71
+          ],
+          "each": [
+            572.07,
+            681.71,
+            538.92
+          ]
+        },
+        "longestTaskMs": {
+          "median": 2404,
+          "range": [
+            2404,
+            2507
+          ],
+          "each": [
+            2404,
+            2507,
+            2404
+          ]
+        },
+        "rowChildren": [
+          279246,
+          279246,
+          279246
+        ],
+        "under1Second": 0
+      },
+      "mask": {
+        "fullWithAssetsMs": {
+          "median": 2912.3,
+          "range": [
+            2847.8,
+            2913.9
+          ],
+          "each": [
+            2847.8,
+            2913.9,
+            2912.3
+          ]
+        },
+        "firstRowMs": {
+          "median": 2807.6,
+          "range": [
+            2746.4,
+            2808.2
+          ],
+          "each": [
+            2746.4,
+            2808.2,
+            2807.6
+          ]
+        },
+        "fullDomMs": {
+          "median": 2807.6,
+          "range": [
+            2746.5,
+            2808.2
+          ],
+          "each": [
+            2746.5,
+            2808.2,
+            2807.6
+          ]
+        },
+        "afterDomMs": {
+          "median": 104.7,
+          "range": [
+            101.3,
+            105.7
+          ],
+          "each": [
+            101.3,
+            105.7,
+            104.7
+          ]
+        },
+        "coldAssetCount": 6,
+        "coldAssetBodyBytes": [
+          2077,
+          2077,
+          2077
+        ],
+        "coldAssetTransferBytes": [
+          3877,
+          3877,
+          3877
+        ],
+        "coldAssetLastResponseMs": {
+          "median": 529.6,
+          "range": [
+            483.2,
+            539.1
+          ],
+          "each": [
+            529.6,
+            539.1,
+            483.2
+          ]
+        },
+        "layoutMs": {
+          "median": 1324.44,
+          "range": [
+            1269.75,
+            1338.73
+          ],
+          "each": [
+            1269.75,
+            1324.44,
+            1338.73
+          ]
+        },
+        "styleMs": {
+          "median": 446.95,
+          "range": [
+            426.4,
+            461.05
+          ],
+          "each": [
+            446.95,
+            426.4,
+            461.05
+          ]
+        },
+        "longestTaskMs": {
+          "median": 2167,
+          "range": [
+            2111,
+            2220
+          ],
+          "each": [
+            2111,
+            2167,
+            2220
+          ]
+        },
+        "rowChildren": [
+          182354,
+          182354,
+          182354
+        ],
+        "under1Second": 0
+      }
+    },
+    "ungrouped-10000": {
+      "baseline": {
+        "fullWithAssetsMs": {
+          "median": 2806.1,
+          "range": [
+            2768.8,
+            2820.4
+          ],
+          "each": [
+            2820.4,
+            2768.8,
+            2806.1
+          ]
+        },
+        "firstRowMs": {
+          "median": 2806.1,
+          "range": [
+            2768.8,
+            2820.4
+          ],
+          "each": [
+            2820.4,
+            2768.8,
+            2806.1
+          ]
+        },
+        "fullDomMs": {
+          "median": 2806.1,
+          "range": [
+            2768.8,
+            2820.4
+          ],
+          "each": [
+            2820.4,
+            2768.8,
+            2806.1
+          ]
+        },
+        "afterDomMs": {
+          "median": 0.0,
+          "range": [
+            0.0,
+            0.0
+          ],
+          "each": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "coldAssetCount": 0,
+        "coldAssetBodyBytes": [
+          0,
+          0,
+          0
+        ],
+        "coldAssetTransferBytes": [
+          0,
+          0,
+          0
+        ],
+        "coldAssetLastResponseMs": {
+          "median": 0,
+          "range": [
+            0,
+            0
+          ],
+          "each": [
+            0,
+            0,
+            0
+          ]
+        },
+        "layoutMs": {
+          "median": 1321.89,
+          "range": [
+            1316.53,
+            1354.54
+          ],
+          "each": [
+            1354.54,
+            1321.89,
+            1316.53
+          ]
+        },
+        "styleMs": {
+          "median": 432.54,
+          "range": [
+            428.66,
+            442.17
+          ],
+          "each": [
+            432.54,
+            428.66,
+            442.17
+          ]
+        },
+        "longestTaskMs": {
+          "median": 2088,
+          "range": [
+            2084,
+            2118
+          ],
+          "each": [
+            2118,
+            2084,
+            2088
+          ]
+        },
+        "rowChildren": [
+          209369,
+          209369,
+          209369
+        ],
+        "under1Second": 0
+      },
+      "mask": {
+        "fullWithAssetsMs": {
+          "median": 2615,
+          "range": [
+            2577.6,
+            2629.6
+          ],
+          "each": [
+            2615,
+            2629.6,
+            2577.6
+          ]
+        },
+        "firstRowMs": {
+          "median": 2536.4,
+          "range": [
+            2484,
+            2550.9
+          ],
+          "each": [
+            2536.4,
+            2550.9,
+            2484
+          ]
+        },
+        "fullDomMs": {
+          "median": 2536.4,
+          "range": [
+            2484,
+            2550.9
+          ],
+          "each": [
+            2536.4,
+            2550.9,
+            2484
+          ]
+        },
+        "afterDomMs": {
+          "median": 78.7,
+          "range": [
+            78.6,
+            93.6
+          ],
+          "each": [
+            78.6,
+            78.7,
+            93.6
+          ]
+        },
+        "coldAssetCount": 5,
+        "coldAssetBodyBytes": [
+          1698,
+          1698,
+          1698
+        ],
+        "coldAssetTransferBytes": [
+          3198,
+          3198,
+          3198
+        ],
+        "coldAssetLastResponseMs": {
+          "median": 456.3,
+          "range": [
+            455.2,
+            459.2
+          ],
+          "each": [
+            456.3,
+            455.2,
+            459.2
+          ]
+        },
+        "layoutMs": {
+          "median": 1250.43,
+          "range": [
+            1225.64,
+            1302.27
+          ],
+          "each": [
+            1250.43,
+            1302.27,
+            1225.64
+          ]
+        },
+        "styleMs": {
+          "median": 386.6,
+          "range": [
+            373.61,
+            410.81
+          ],
+          "each": [
+            410.81,
+            373.61,
+            386.6
+          ]
+        },
+        "longestTaskMs": {
+          "median": 2009,
+          "range": [
+            1956,
+            2023
+          ],
+          "each": [
+            2009,
+            2023,
+            1956
+          ]
+        },
+        "rowChildren": [
+          162377,
+          162377,
+          162377
+        ],
+        "under1Second": 0
+      }
+    }
+  }
+}

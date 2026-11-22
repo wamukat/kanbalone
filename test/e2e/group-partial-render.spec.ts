@@ -9,6 +9,7 @@ async function rowsRetained(page: Page) {
 }
 
 test("Group controls and description changes retain ticket nodes and save descriptions", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 680 });
   const { baseUrl, close } = await startTestApp(page);
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Partial Group", laneNames: ["Todo"] });
@@ -52,9 +53,34 @@ test("Group controls and description changes retain ticket nodes and save descri
     await expect(page.locator(`[data-group-pick="${candidate.id}"]`)).toBeVisible();
     expect(await rowsRetained(page)).toBe(true);
     await page.locator(`[data-group-pick="${candidate.id}"]`).click();
-    await expect(page.locator('#group-ticket-search')).toBeFocused();
-    expect(await rowsRetained(page)).toBe(true);
-    await page.locator(`[data-group-unpick="${candidate.id}"]`).click();
+    const search = page.locator("#group-ticket-search");
+    const chosen = page.locator(`[data-group-unpick="${candidate.id}"]`);
+    await expect(search).toBeFocused();
+    await search.fill("candidate");
+    await search.evaluate((input: HTMLInputElement) => input.setSelectionRange(2, 5));
+    const removeIcon = page.locator("[data-group-remove] .icon").first();
+    await expect(removeIcon).toHaveCSS("mask-image", /trash-2\.svg/);
+    const boardScroll = page.locator("#group-board");
+    const scrollPosition = await boardScroll.evaluate(element => {
+      element.scrollTop = 40;
+      return element.scrollTop;
+    });
+    expect(scrollPosition).toBeGreaterThan(0);
+    for (const forcedColors of ["active", "none"] as const) {
+      await page.emulateMedia({ forcedColors });
+      if (forcedColors === "active") {
+        await expect(page.locator("[data-group-remove] svg path").first()).toHaveAttribute("d", "M3 6h18");
+      } else {
+        await expect(removeIcon).toHaveCSS("mask-image", /trash-2\.svg/);
+      }
+      expect(await rowsRetained(page)).toBe(true);
+      await expect(search).toBeFocused();
+      await expect(search).toHaveValue("candidate");
+      await expect(chosen).toBeVisible();
+      expect(await search.evaluate((input: HTMLInputElement) => [input.selectionStart, input.selectionEnd])).toEqual([2, 5]);
+      expect(await boardScroll.evaluate(element => element.scrollTop)).toEqual(scrollPosition);
+    }
+    await chosen.click();
     expect(await rowsRetained(page)).toBe(true);
     await page.locator('[data-group-action="cancel-add"]').click();
     expect(await rowsRetained(page)).toBe(true);
