@@ -247,7 +247,9 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-bulk-resolve='false']")).toHaveCount(0);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await expect(page.locator("#lane-board")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Parent candidate" }).locator("..").locator(".ticket-status-icon-resolved use[href='/icons.svg#check']")).toHaveCount(1);
+    const resolvedCardStatus = page.getByRole("button", { name: "Parent candidate" }).locator("..").locator(".ticket-status-icon-resolved");
+    await expect(resolvedCardStatus).toHaveAttribute("aria-label", "Resolved");
+    await expect(resolvedCardStatus.locator('svg[viewBox="0 0 24 24"] > path')).toHaveCount(1);
     await expect(page.locator("#export-board-button use[href='/icons.svg#download']")).toHaveCount(1);
     await expect(page.locator(".import-button use[href='/icons.svg#upload']")).toHaveCount(1);
     await expect(page.locator("#board-rename-inline-host")).toContainText("UI Smoke");
@@ -257,7 +259,9 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#status-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(5);
     await expect(page.locator("#lane-board")).not.toContainText("No matching tickets");
-    await expect(page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
+    const archivedCardStatus = page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived");
+    await expect(archivedCardStatus).toHaveAttribute("aria-label", "Archived");
+    await expect(archivedCardStatus.locator('svg[viewBox="0 0 24 24"] > rect')).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='list']").click();
     await expect(page.locator(".list-row", { hasText: "Archived candidate" }).locator(".list-status-cell .ticket-status-icon-archived use[href='/icons.svg#archive']")).toHaveCount(1);
     await page.locator(".list-row", { hasText: "Archived candidate" }).locator("[data-list-ticket-id]").check();

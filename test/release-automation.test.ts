@@ -68,7 +68,8 @@ function mockRun(f: ReturnType<typeof fixture>, options: any = {}) {
   const scratch = mkdtempSync(path.join(f.root, "promotion-"));
   const artifactDirectory = path.join(scratch, "release-artifact");
   const archive = path.join(scratch, "candidate.zip");
-  execFileSync("zip", ["-q", archive, ...(options.files ?? ["image.tar", "manifest.json"])], { cwd: f.artifactPath });
+  // Exclude access times so reads do not change a mock candidate’s ZIP digest.
+  execFileSync("zip", ["-q", "-X", archive, ...(options.files ?? ["image.tar", "manifest.json"])], { cwd: f.artifactPath });
   const artifactDigest = `sha256:${hash(readFileSync(archive))}`;
   const provenance = { runId, runAttempt: 2, workflowSha, artifactId: options.artifactId ?? candidateArtifactId, artifactDigest };
   const artifactEndpoint = `repos/${repository}/actions/artifacts/${provenance.artifactId}`;
