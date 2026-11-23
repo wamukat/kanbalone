@@ -165,7 +165,9 @@ export function createBoardKeyboardModule(ctx, listModule, {
     const target = returnTarget;
     // A user who already moved elsewhere while a refresh was pending keeps control.
     const active = document.activeElement;
-    if (active !== document.body && visible(active) && !describeOrigin(active)) {
+    const current = active === document.body && sameContext(repaintTarget) ? repaintTarget : describeOrigin(active);
+    const moved = current && (current.id !== target.id || current.query !== target.query);
+    if (moved || (!current && active !== document.body && visible(active))) {
       returnTarget = null;
       editorReturnPending = false;
       return;

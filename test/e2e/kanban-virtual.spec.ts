@@ -93,15 +93,70 @@ test("native Tab and Shift+Tab mount the next logical card across a Kanban windo
     await page.keyboard.press("Enter");
     await expect(page.locator("#ticket-title")).toHaveValue(first.title);
     await page.keyboard.press("Escape");
+    await expect(page.locator("body")).not.toHaveClass(/editor-dialog-open/);
     await expect(title(page, first.id)).toBeFocused();
     const last = (await f.ordered(f.source)).at(-1)!;
-    await page.locator(`#lane-board .lane[data-lane-id="${f.source}"] .add-ticket-button`).focus();
+    const footer = page.locator(`#lane-board .lane[data-lane-id="${f.source}"] .add-ticket-button`);
+    await footer.focus();
+    await expect(footer).toBeFocused();
     await expect(title(page, last.id)).toHaveCount(0);
     await page.keyboard.press("Shift+Tab");
     await expect(title(page, last.id)).toBeFocused();
     await expect(title(page, last.id)).toBeInViewport();
   } finally { await f.close(); }
 });
+
+for (const laneToUpdate of ["other", "same"] as const) {
+  test(`an editor close waiting for SSE keeps subsequent native Tab focus when the ${laneToUpdate} lane changes`, async ({ page }) => {
+    await page.addInitScript(() => {
+      const NativeEventSource = window.EventSource;
+      const observed = { opened: false, updates: 0 };
+      Object.assign(window, { kanbanObservedEvents: observed });
+      window.EventSource = class extends NativeEventSource {
+        constructor(url: string | URL, options?: EventSourceInit) {
+          super(url, options);
+          this.addEventListener("open", () => { observed.opened = true; });
+          this.addEventListener("message", () => { observed.updates++; });
+        }
+      };
+    });
+    const f = await fixture(page);
+    let releaseRefresh: (() => void) | undefined;
+    try {
+      await page.waitForFunction(() => (window as unknown as { kanbanObservedEvents: { opened: boolean } }).kanbanObservedEvents.opened);
+      const [first, next, third] = await f.ordered(f.source);
+      const changed = laneToUpdate === "same" ? third : (await f.ordered(f.target))[0];
+      await title(page, first.id).focus();
+      await page.keyboard.press("Enter");
+      await expect(page.locator("#editor-dialog")).toHaveAttribute("open", "");
+      const update = await page.request.patch(`${f.baseUrl}/api/tickets/${changed.id}`, { data: { title: "Changed while detail was open" } });
+      expect(update.ok()).toBe(true);
+      await page.waitForFunction(() => (window as unknown as { kanbanObservedEvents: { updates: number } }).kanbanObservedEvents.updates > 0);
+
+      const delayed = new Promise<void>(resolve => { releaseRefresh = resolve; });
+      let startRefresh!: () => void;
+      const refreshStarted = new Promise<void>(resolve => { startRefresh = resolve; });
+      await page.route(f.boardUrl, async route => {
+        startRefresh();
+        await delayed;
+        await route.continue();
+      });
+      await page.keyboard.press("Escape");
+      await refreshStarted;
+      await expect(page.locator("body")).not.toHaveClass(/editor-dialog-open/);
+      await expect(title(page, first.id)).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(title(page, next.id)).toBeFocused();
+      releaseRefresh?.();
+      await expect(title(page, changed.id)).toHaveText("Changed while detail was open");
+      await twoFrames(page);
+      await expect(title(page, next.id)).toBeFocused();
+    } finally {
+      releaseRefresh?.();
+      await f.close();
+    }
+  });
+}
 
 test("virtual Kanban saves logical same-lane, cross-lane and completion drops", async ({ page }) => {
   const f = await fixture(page);
