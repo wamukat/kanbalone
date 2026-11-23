@@ -208,6 +208,7 @@ Content-Type: application/json
 - `position` は0始まりです。他のチケットの並び順はサーバーが振り直します。全チケットの送信は不要です。
 - チケット5の直前なら `{ "laneId": 9, "beforeTicketId": 5 }`、直後なら `{ "laneId": 9, "afterTicketId": 5 }` を送ります。指定するチケットは移動先レーンに属し、移動対象自身とは異なる必要があります。
 - 絞り込みで一部のチケットだけ見えている場合は、表示上のインデックスではなく `beforeTicketId` / `afterTicketId` を使います。指定の優先順位は `beforeTicketId` → `afterTicketId` → `position` です。
+- 読み取った時点の並び順を前提に移動する場合は、移動元チケットの `expectedSourceLaneId` と `expectedSourcePosition` を両方送ります。この前提と併せて2件の異なるアンカーを指定するときは、移動先レーンのアーカイブ状態、位置、IDの順で比較した `expectedAnchorOrder`（`after-before` または `before-after`）も必要です。アンカーの間に別のチケットがあっても指定できます。移動元の位置、移動先レーン、または指定したアンカーの所属や順序が変わっていた場合、保存せず409を返します。再試行前にボードを取得し直してください。タイトルだけの編集は位置の前提に影響しません。
 - 成功時は更新後のチケットが返ります。`GET /api/boards/:boardId/tickets?lane_id=9` で各チケットの `position` を確認できます。
 - 1件の並べ替えには `position`、同じレーン内の複数件には `POST /api/lanes/:laneId/tickets/reorder` を使います。削除済みのボード全体の並べ替えAPIは404を返します。
 

@@ -70,6 +70,9 @@ export const ticketPositionBodySchema = {
   additionalProperties: false,
   properties: {
     laneId: positiveIntegerSchema,
+    expectedSourceLaneId: positiveIntegerSchema,
+    expectedSourcePosition: { type: "integer" },
+    expectedAnchorOrder: { type: "string", enum: ["after-before", "before-after"] },
     position: { type: "integer", minimum: 0 },
     beforeTicketId: {
       anyOf: [positiveIntegerSchema, { type: "null" }],

@@ -277,6 +277,124 @@ test("ticket position endpoint validates lane and anchor scope", async () => {
   await app.close();
 });
 
+test("guarded ticket moves preserve the observed source and relative anchor order", async () => {
+  const dbFile = createDbFile();
+  const db = new KanbanDb(dbFile);
+  const app = buildApp({ dbFile });
+  try {
+    const { board, lanes: [source, target, done] } = db.createBoard({
+      name: "Guarded position API", laneNames: ["Source", "Target", "Done"],
+    });
+    db.updateLane(done.id, { isCompletionLane: true });
+    const create = (laneId: number, title: string) => db.createTicket({ boardId: board.id, laneId, title });
+    const moving = create(source.id, "Moving");
+    const after = create(target.id, "After");
+    const between = create(target.id, "Hidden by current filter");
+    const before = create(target.id, "Before");
+    db.sqlite.prepare("UPDATE tickets SET position = -2 WHERE id = ?").run(moving.id);
+    const move = (payload: object) => app.inject({ method: "PATCH", url: `/api/tickets/${moving.id}/position`, payload });
+    const anchors = { beforeTicketId: before.id, afterTicketId: after.id };
+    const sourceGuard = { expectedSourceLaneId: source.id, expectedSourcePosition: -2 };
+
+    const titleChange = await app.inject({
+      method: "PATCH", url: `/api/tickets/${moving.id}`, payload: { title: "Updated title" },
+    });
+    assert.equal(titleChange.statusCode, 200);
+    for (const malformed of [
+      { expectedSourceLaneId: source.id },
+      { ...sourceGuard, ...anchors },
+      { ...sourceGuard, expectedAnchorOrder: "after-before" },
+      { ...sourceGuard, beforeTicketId: before.id, afterTicketId: before.id, expectedAnchorOrder: "after-before" },
+      { ...sourceGuard, expectedSourcePosition: -2.5 },
+    ]) {
+      assert.equal((await move({ laneId: target.id, ...malformed })).statusCode, 400);
+    }
+
+    const moved = await move({ laneId: target.id, ...sourceGuard, ...anchors, expectedAnchorOrder: "after-before" });
+    assert.equal(moved.statusCode, 200, moved.body);
+    assert.equal(moved.json().title, "Updated title");
+    const ordered = () => db.listTickets(board.id, { laneId: target.id }).map(({ id }) => id);
+    assert.deepEqual(ordered(), [after.id, between.id, moving.id, before.id]);
+
+    const reversed = await move({
+      laneId: target.id, expectedSourceLaneId: target.id, expectedSourcePosition: moved.json().position,
+      beforeTicketId: after.id, afterTicketId: before.id, expectedAnchorOrder: "before-after",
+    });
+    assert.equal(reversed.statusCode, 200, reversed.body);
+    assert.deepEqual(ordered(), [moving.id, after.id, between.id, before.id]);
+
+    const completed = await move({
+      laneId: done.id, position: 0, beforeTicketId: null, afterTicketId: null,
+      expectedSourceLaneId: target.id, expectedSourcePosition: reversed.json().position,
+    });
+    assert.equal(completed.statusCode, 200, completed.body);
+    assert.equal(completed.json().isResolved, true);
+    assert.equal(completed.json().position, 0);
+    // An earlier client can still send position and both anchors without a source guard.
+    const legacy = await move({ laneId: target.id, position: 0, ...anchors });
+    assert.equal(legacy.statusCode, 200, legacy.body);
+    assert.deepEqual(ordered(), [after.id, between.id, moving.id, before.id]);
+  } finally {
+    await app.close();
+    db.close();
+  }
+});
+
+test("a rejected guarded move leaves positions, timestamps, activity and list revision intact", async () => {
+  const dbFile = createDbFile();
+  const db = new KanbanDb(dbFile);
+  const app = buildApp({ dbFile });
+  try {
+    const { board, lanes: [source, target, spare] } = db.createBoard({
+      name: "Position API concurrent edits", laneNames: ["Source", "Target", "Spare"],
+    });
+    const create = (laneId: number, title: string) => db.createTicket({ boardId: board.id, laneId, title });
+    create(source.id, "Other source ticket");
+    const moving = create(source.id, "Moving");
+    const after = create(target.id, "After");
+    const before = create(target.id, "Before");
+    const move = (id: number, payload: object) => app.inject({ method: "PATCH", url: `/api/tickets/${id}/position`, payload });
+    const oldIntent = {
+      laneId: target.id, beforeTicketId: before.id, afterTicketId: after.id, expectedAnchorOrder: "after-before",
+      expectedSourceLaneId: source.id, expectedSourcePosition: moving.position,
+    };
+    const snapshot = async () => {
+      const page = await app.inject({ url: `/api/boards/${board.id}/tickets?limit=20&archived=all` });
+      const history = await app.inject({ url: `/api/tickets/${moving.id}/activity` });
+      assert.equal(page.statusCode, 200, page.body);
+      assert.equal(history.statusCode, 200, history.body);
+      const revision = page.headers["x-kanbalone-ticket-revision"];
+      assert.match(String(revision), /^\d+$/);
+      return { tickets: page.json().tickets, activity: history.json().activity, revision };
+    };
+    const reject = async () => {
+      const state = await snapshot();
+      const rejected = await move(moving.id, oldIntent);
+      assert.equal(rejected.statusCode, 409, rejected.body);
+      assert.deepEqual(await snapshot(), state);
+    };
+
+    assert.equal((await move(moving.id, { laneId: source.id, position: 0 })).statusCode, 200);
+    await reject();
+
+    assert.equal((await move(moving.id, { laneId: spare.id, position: 0 })).statusCode, 200);
+    await reject();
+
+    assert.equal((await move(moving.id, { laneId: source.id, position: moving.position })).statusCode, 200);
+    assert.equal((await move(before.id, { laneId: target.id, position: 0 })).statusCode, 200);
+    await reject();
+
+    assert.equal((await move(after.id, { laneId: spare.id, position: 0 })).statusCode, 200);
+    await reject();
+    const deleted = await app.inject({ method: "DELETE", url: `/api/tickets/${before.id}` });
+    assert.equal(deleted.statusCode, 204);
+    await reject();
+  } finally {
+    await app.close();
+    db.close();
+  }
+});
+
 test("deleting a lane compacts remaining lane positions", () => {
   const db = new KanbanDb(createDbFile());
   const board = db.createBoard({ name: "Lane Position Board", laneNames: ["Todo", "Doing", "Review", "Done"] });
