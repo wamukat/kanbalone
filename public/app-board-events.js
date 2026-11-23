@@ -50,7 +50,7 @@ export function createBoardEventsModule(ctx, options) {
     }
     state.boardRefreshInFlight = true;
     try {
-      await options.refreshBoardDetail();
+      await options.refreshBoardDetail({ reuseReadyKanbanLanes: true });
     } catch (error) {
       console.error(error);
     } finally {

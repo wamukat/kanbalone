@@ -40,9 +40,12 @@ export function normalizeBoardPositions(sqlite: Database.Database): void {
 }
 
 export function normalizeVisibleAndArchivedTicketPositions(sqlite: Database.Database, laneId: Id): void {
-  const rows = sqlite
-    .prepare("SELECT id FROM tickets WHERE lane_id = ? ORDER BY is_archived ASC, position ASC, id ASC")
-    .all(laneId) as Array<{ id: Id }>;
-  const stmt = sqlite.prepare("UPDATE tickets SET position = ? WHERE id = ?");
-  rows.forEach((row, index) => stmt.run(index, row.id));
+  sqlite.prepare(`
+    WITH ranked AS MATERIALIZED (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY is_archived ASC, position ASC, id ASC) - 1 AS new_position
+      FROM tickets WHERE lane_id = ?
+    )
+    UPDATE tickets SET position = ranked.new_position FROM ranked
+    WHERE tickets.id = ranked.id AND tickets.position IS NOT ranked.new_position
+  `).run(laneId);
 }

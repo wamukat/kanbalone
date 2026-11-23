@@ -1,6 +1,7 @@
 // @ts-check
 import { t as tr, getLocale } from "./app-i18n.js";
 import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
+import { createGroupRowIconRenderer } from "./app-group-row-icons.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
@@ -20,6 +21,7 @@ import {
 export function createGroupBoardModule(ctx) {
   const { state, elements } = ctx;
   const host = elements.groupBoard;
+  const getRowIcon = createGroupRowIconRenderer(host);
   const esc = ctx.escapeHtml;
   /** @type {number | null} */ let boardId = null;
   /** @type {GroupSummary[]} */ let groups = [];
@@ -327,7 +329,7 @@ export function createGroupBoardModule(ctx) {
         query,
         activeOption,
       },
-      { escapeHtml: esc, lanes },
+      { escapeHtml: esc, lanes, rowIcon: getRowIcon() },
       updateTickets,
     );
     for (const name of ["list", "header", "footer"]) {

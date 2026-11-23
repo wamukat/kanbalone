@@ -326,7 +326,7 @@ function collapseCompletionTickets(laneId, count = 5) {
   if (current) current.visibleCount = count;
 }
 
-async function refreshBoardDetail({ awaitGroupLoad = false } = {}) {
+async function refreshBoardDetail({ awaitGroupLoad = false, reuseReadyKanbanLanes = false } = {}) {
   const generation = ++boardRefreshGeneration;
   boardRefreshAbort?.abort();
   boardRefreshAbort = new AbortController();
@@ -374,7 +374,7 @@ async function refreshBoardDetail({ awaitGroupLoad = false } = {}) {
     successfulBoardContext = boardRequestContext();
     syncBoardEvents();
     renderBoards();
-    groupLoad = renderBoardDetail();
+    groupLoad = renderBoardDetail({ reuseReadyKanbanLanes });
     syncActiveFilterStyles();
   } catch (error) {
     if (generation === boardRefreshGeneration) {

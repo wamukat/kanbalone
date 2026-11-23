@@ -123,6 +123,45 @@ test("reordering visible tickets preserves stable archived positions on restore"
   db.close();
 });
 
+test("position normalization preserves legacy ties and rolls back a failed write", () => {
+  const db = new KanbanDb(createDbFile());
+  try {
+    const { board, lanes } = db.createBoard({ name: "Legacy positions", laneNames: ["Work"] });
+    const laneId = lanes[0]!.id;
+    const create = (title: string, isArchived = false) => db.createTicket({ boardId: board.id, laneId, title, isArchived });
+    const first = create("First");
+    const second = create("Second");
+    const archived = create("Archived", true);
+    const removed = create("Remove this");
+    const setPosition = db.sqlite.prepare("UPDATE tickets SET position = ? WHERE id = ?");
+    setPosition.run(7, first.id);
+    setPosition.run(7, second.id);
+    setPosition.run(-3, archived.id);
+
+    const readPositions = () => db.listTickets(board.id, { includeArchived: true })
+      .map(({ id, position, updatedAt }) => ({ id, position, updatedAt }));
+    const readRevision = () => db.sqlite.prepare("SELECT revision FROM ticket_list_revisions WHERE board_id = ?").pluck().get(board.id);
+    const original = readPositions();
+    const revision = readRevision();
+    db.sqlite.exec(`
+      CREATE TRIGGER fail_position_update BEFORE UPDATE OF position ON tickets
+      WHEN NEW.id = ${second.id} AND OLD.position IS NOT NEW.position
+      BEGIN SELECT RAISE(ABORT, 'Failed position update'); END;
+    `);
+    assert.throws(() => db.deleteTicket(removed.id), /Failed position update/);
+    assert.deepEqual(readPositions(), original);
+    assert.equal(readRevision(), revision);
+
+    db.sqlite.exec("DROP TRIGGER fail_position_update");
+    db.deleteTicket(removed.id);
+    assert.deepEqual(readPositions(), [
+      { id: first.id, position: 0, updatedAt: first.updatedAt },
+      { id: second.id, position: 1, updatedAt: second.updatedAt },
+      { id: archived.id, position: 2, updatedAt: archived.updatedAt },
+    ]);
+  } finally { db.close(); }
+});
+
 test("positioning one ticket moves it without requiring hidden board tickets", () => {
   const db = new KanbanDb(createDbFile());
   const board = db.createBoard({ name: "Single Position Board", laneNames: ["todo", "done"] });

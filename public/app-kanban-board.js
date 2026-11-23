@@ -9,6 +9,7 @@ const COMPLETION_PAGE_SIZE = 50;
 const INACTIVE_COLLAPSE_THRESHOLD = 8;
 const INACTIVE_PREVIEW_COUNT = 3;
 const INACTIVE_SHOW_MORE_COUNT = 50;
+const KANBAN_TICKET_BATCH_SIZE = 120;
 
 export function createKanbanBoardModule(ctx, options) {
   const { state, elements } = ctx;
@@ -20,29 +21,25 @@ export function createKanbanBoardModule(ctx, options) {
   const previousCompletionIds = new Map();
   const previousCompletionHeads = new Map();
   let completionBoardId = null;
+  let completedLaneSnapshot = null;
+  let laneSnapshotEpoch = 0;
+  let laneWriteCount = 0;
+  const replacedLaneScrollQueues = new WeakMap();
+
+  function invalidateLaneSnapshot() {
+    completedLaneSnapshot = null;
+    laneSnapshotEpoch += 1;
+  }
 
   function cancelPendingRender() {
+    invalidateLaneSnapshot();
     state.boardKeyboardRenderPending = false;
     kanbanRenderToken += 1;
     kanbanNextLaneIndex = 0;
   }
 
-  function renderKanbanBoard(detail) {
-    state.boardKeyboardRenderPending = true;
-    const renderToken = ++kanbanRenderToken;
-    kanbanNextLaneIndex = 0;
-    const scrollState = captureKanbanScrollState();
-    if (completionBoardId !== state.activeBoardId) {
-      completionLimits.clear();
-      previousCompletionIds.clear();
-      previousCompletionHeads.clear();
-      completionBoardId = state.activeBoardId;
-    }
-    elements.laneBoard.className = "lane-board";
-    elements.laneBoard.innerHTML = "";
-    const laneQueues = [];
-
-    for (const lane of detail.lanes.sort((a, b) => a.position - b.position)) {
+  function planLaneTickets(detail) {
+    return detail.lanes.sort((a, b) => a.position - b.position).map((lane) => {
       const laneTickets = detail.tickets.filter((item) => item.laneId === lane.id).sort((a, b) => a.position - b.position);
       if (lane.isCompletionLane) {
         laneTickets.sort((a, b) => {
@@ -56,6 +53,74 @@ export function createKanbanBoardModule(ctx, options) {
       const { visibleTickets, hiddenInactiveTickets, inactiveTotal } = lane.isCompletionLane
         ? { visibleTickets: laneTickets.slice(0, limit), hiddenInactiveTickets: [], inactiveTotal: 0 }
         : getKanbanLaneTicketGroups(laneTickets);
+      // Recreate paging controls because their callbacks close over this response.
+      const key = !lane.isCompletionLane && hiddenInactiveTickets.length === 0
+        && visibleTickets.every((ticket) => typeof ticket.hasChildren === "boolean")
+        ? JSON.stringify([lane, laneTickets]) : null;
+      return { lane, laneTickets, page, visibleTickets, hiddenInactiveTickets, inactiveTotal, key };
+    });
+  }
+
+  function retainOrdinaryLanes(scope, plans) {
+    if (completedLaneSnapshot?.scope !== scope || state.boardKeyboardRenderPending || laneWriteCount
+        || state.isCreatingLane || document.activeElement === elements.searchInput
+        || elements.laneBoard.className !== "lane-board"
+        || elements.laneBoard.querySelector(".ticket-card.dragging, .lane-title-edit-form, .inline-action-menu.expanded")) return null;
+    const children = Array.from(elements.laneBoard.children);
+    const adder = children.pop();
+    if (!adder?.matches(".add-lane-button") || children.length !== plans.length
+        || plans.some(({ lane }, i) => Number(children[i]?.dataset.laneId) !== lane.id)) return null;
+    const retained = new Map();
+    const current = new Map();
+    plans.forEach(({ lane, key, visibleTickets }, i) => {
+      const element = children[i];
+      current.set(lane.id, element);
+      const cached = completedLaneSnapshot.lanes.get(lane.id);
+      if (!key || cached?.key !== key || cached.element !== element || cached.list.children.length !== visibleTickets.length) return;
+      let index = 0;
+      for (const card of cached.list.children) {
+        if (!card.matches(".ticket-card:not(.dragging)") || Number(card.dataset.ticketId) !== visibleTickets[index++].id) return;
+      }
+      retained.set(lane.id, cached);
+    });
+    // Search ArrowDown must still find the first real card while changed lanes fill.
+    const first = plans.find(({ visibleTickets }) => visibleTickets.length > 0);
+    const firstCard = first && retained.get(first.lane.id)?.list.firstElementChild;
+    const firstTitle = firstCard?.querySelector(".ticket-link");
+    if (!firstTitle?.getClientRects().length || firstTitle.closest("[hidden], [inert]")
+        || getComputedStyle(firstTitle).visibility !== "visible" || plans.length > KANBAN_TICKET_BATCH_SIZE) return null;
+    return { retained, current };
+  }
+
+  function renderKanbanBoard(detail, { reuseReadyLanes = false } = {}) {
+    if (completionBoardId !== state.activeBoardId) {
+      completionLimits.clear();
+      previousCompletionIds.clear();
+      previousCompletionHeads.clear();
+      completionBoardId = state.activeBoardId;
+    }
+    const scope = JSON.stringify([state.activeBoardId, state.filters]);
+    const plans = planLaneTickets(detail);
+    const reuse = reuseReadyLanes ? retainOrdinaryLanes(scope, plans) : null;
+    const epoch = laneSnapshotEpoch;
+    const canCommitSnapshot = laneWriteCount === 0 && state.activeLaneDragId === null
+      && !elements.laneBoard.classList.contains("is-dragging-ticket");
+    completedLaneSnapshot = null;
+    const nextSnapshot = new Map();
+    state.boardKeyboardRenderPending = true;
+    const renderToken = ++kanbanRenderToken;
+    kanbanNextLaneIndex = 0;
+    const scrollState = captureKanbanScrollState();
+    elements.laneBoard.className = "lane-board";
+    if (!reuse) elements.laneBoard.innerHTML = "";
+    const laneQueues = [];
+
+    for (const { lane, laneTickets, page, visibleTickets, hiddenInactiveTickets, inactiveTotal, key } of plans) {
+      const retained = reuse?.retained.get(lane.id);
+      if (retained) {
+        nextSnapshot.set(lane.id, retained);
+        continue;
+      }
       const { laneElement, list } = createKanbanLane(ctx, lane, laneTickets, {
         bindDropZone,
         bindLaneDrag,
@@ -93,15 +158,18 @@ export function createKanbanBoardModule(ctx, options) {
         afterRenderDone: false,
       };
       trackLaneScroll(list, queue);
+      if (reuse) replacedLaneScrollQueues.set(list, queue);
 
-      elements.laneBoard.append(laneElement);
+      if (reuse) reuse.current.get(lane.id).replaceWith(laneElement);
+      else elements.laneBoard.append(laneElement);
       laneQueues.push(queue);
+      if (key) nextSnapshot.set(lane.id, { key, element: laneElement, list });
     }
 
-    const addLaneButton = document.createElement("button");
     if (state.isCreatingLane) {
       elements.laneBoard.append(createLaneInputColumn());
-    } else {
+    } else if (!reuse) {
+      const addLaneButton = document.createElement("button");
       addLaneButton.type = "button";
       addLaneButton.className = "add-lane-button icon-button";
       addLaneButton.innerHTML = icon("plus");
@@ -112,7 +180,11 @@ export function createKanbanBoardModule(ctx, options) {
     }
 
     restoreKanbanBoardScrollState(scrollState);
-    renderKanbanTicketsInBatches(renderToken, laneQueues);
+    renderKanbanTicketsInBatches(renderToken, laneQueues, Boolean(reuse), () => {
+      if (canCommitSnapshot && laneSnapshotEpoch === epoch && laneWriteCount === 0 && kanbanRenderToken === renderToken) {
+        completedLaneSnapshot = { scope, lanes: nextSnapshot };
+      }
+    });
   }
 
   function createCompletionSummary(lane, tickets, list, initialCount, page) {
@@ -202,6 +274,11 @@ export function createKanbanBoardModule(ctx, options) {
     elements.laneBoard.scrollTop = scrollState.boardScrollTop;
   }
 
+  function stopKeyboardScrollRestore(list) {
+    const queue = replacedLaneScrollQueues.get(list);
+    if (queue) queue.restoreScrollPending = false;
+  }
+
   function trackLaneScroll(list, queue) {
     list.addEventListener("scroll", () => {
       laneScrollTopById.set(queue.laneId, list.scrollTop);
@@ -285,13 +362,14 @@ export function createKanbanBoardModule(ctx, options) {
     return createKanbanLaneInputColumn(submitLaneCreate, cancelLaneCreate);
   }
 
-  function renderKanbanTicketsInBatches(renderToken, laneQueues) {
-    const batchSize = 120;
-    function step() {
+  function renderKanbanTicketsInBatches(renderToken, laneQueues, immediate, onComplete) {
+    const stepNextFrame = () => step(KANBAN_TICKET_BATCH_SIZE);
+
+    function step(limit) {
       if (renderToken !== kanbanRenderToken) {
         return;
       }
-      const { selections, nextLaneIndex } = takeRoundRobinBatch(laneQueues, kanbanNextLaneIndex, batchSize);
+      const { selections, nextLaneIndex } = takeRoundRobinBatch(laneQueues, kanbanNextLaneIndex, limit);
       kanbanNextLaneIndex = nextLaneIndex;
       const fragments = new Map();
       for (const selection of selections) {
@@ -310,14 +388,16 @@ export function createKanbanBoardModule(ctx, options) {
         }
         restoreLaneScroll(queue);
       }
-      state.boardKeyboardRenderPending = laneQueues.some((queue) => queue.index < queue.tickets.length);
+      const hasMore = laneQueues.some((queue) => queue.index < queue.tickets.length);
+      state.boardKeyboardRenderPending = hasMore;
       options.afterRender?.();
-      if (laneQueues.some((queue) => queue.index < queue.tickets.length)) {
-        requestAnimationFrame(step);
-      }
+      if (hasMore) requestAnimationFrame(stepNextFrame);
+      else onComplete();
     }
 
-    requestAnimationFrame(step);
+    // Leave a target in every changed lane before keyboard input can reach the board.
+    if (immediate) step(Math.max(24, laneQueues.length));
+    else requestAnimationFrame(stepNextFrame);
   }
 
   function restoreLaneScroll(queue) {
@@ -364,9 +444,15 @@ export function createKanbanBoardModule(ctx, options) {
       const afterElement = getTicketDropAnchor(list, event.clientY);
       // Place cards before the paging controls when dropping at the end.
       const endControl = list.querySelector(".completion-ticket-summary, .inactive-ticket-summary");
-      list.insertBefore(dragging, afterElement ?? endControl);
-      clearDropLaneFeedback();
-      await persistTicketPosition(dragging, list);
+      invalidateLaneSnapshot();
+      laneWriteCount += 1;
+      try {
+        list.insertBefore(dragging, afterElement ?? endControl);
+        clearDropLaneFeedback();
+        await persistTicketPosition(dragging, list);
+      } finally {
+        laneWriteCount -= 1;
+      }
     });
 
     list.addEventListener("dragleave", (event) => {
@@ -415,6 +501,7 @@ export function createKanbanBoardModule(ctx, options) {
     handle.classList.add("lane-draggable");
 
     handle.addEventListener("dragstart", (event) => {
+      invalidateLaneSnapshot();
       state.activeLaneDragId = Number(laneElement.dataset.laneId);
       elements.laneBoard.classList.add("is-dragging-lane");
       laneElement.classList.add("dragging-lane");
@@ -439,7 +526,13 @@ export function createKanbanBoardModule(ctx, options) {
       clearLaneDropFeedback();
       removeLaneDragPreview();
       state.activeLaneDragId = null;
-      await persistLaneOrder();
+      invalidateLaneSnapshot();
+      laneWriteCount += 1;
+      try {
+        await persistLaneOrder();
+      } finally {
+        laneWriteCount -= 1;
+      }
     });
   }
 
@@ -690,6 +783,7 @@ export function createKanbanBoardModule(ctx, options) {
   return {
     renderKanbanBoard,
     cancelPendingRender,
+    stopKeyboardScrollRestore,
     handleLaneDragOver,
     createLane,
     cancelLaneCreate,
