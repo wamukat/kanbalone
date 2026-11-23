@@ -350,6 +350,8 @@ async function refreshBoardDetail({ awaitGroupLoad = false, reuseReadyKanbanLane
     if (generation !== boardRefreshGeneration || boardId !== state.activeBoardId || viewMode !== state.viewMode) return;
     normalizeBoardFiltersForDetail(detail);
     const url = buildTicketListUrl();
+    // Keep cache cleanup tied to the request that produced this board detail.
+    const hasDefaultKanbanTickets = viewMode === "kanban" && state.filters.status.length === 2 && !url.includes("?");
     const key = `${boardId}:${url}:${state.filters.status.join(",")}`;
     if (key !== completionQueryKey) {
       completionRequested.clear();
@@ -369,6 +371,7 @@ async function refreshBoardDetail({ awaitGroupLoad = false, reuseReadyKanbanLane
       tags: detail.tags,
       tickets: filterTicketsForDisplay(allTickets.tickets),
       completionPages: allTickets.completionPages,
+      hasDefaultKanbanTickets,
     };
     state.boardNavigationReady = true;
     successfulBoardContext = boardRequestContext();

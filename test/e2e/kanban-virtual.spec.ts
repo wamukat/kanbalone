@@ -69,6 +69,52 @@ async function beginCardDrag(page: Page, sourceId: number, beforeId: number) {
   await expect(card(page, beforeId)).toHaveClass(/is-ticket-drop-before/);
 }
 
+test("Kanban height measurements survive search and release a deleted ticket", async ({ page }) => {
+  await page.addInitScript(() => {
+    const seen = new WeakSet<Map<unknown, unknown>>();
+    const maps: Array<WeakRef<Map<unknown, unknown>>> = [];
+    const set = Map.prototype.set;
+    Map.prototype.set = function (id, sample) {
+      if (Number.isSafeInteger(id) && Number.isFinite(sample?.height) && Number.isFinite(sample?.width)
+          && typeof sample?.revision === "string" && !seen.has(this)) {
+        seen.add(this);
+        maps.push(new WeakRef(this));
+      }
+      return set.call(this, id, sample);
+    };
+    Reflect.set(window, "hasKanbanHeightMeasurement", (id: number) => maps.some(ref => ref.deref()?.has(id)));
+  });
+  const hasMeasurement = (id: number) => page.evaluate(ticketId => Reflect.get(window, "hasKanbanHeightMeasurement")(ticketId), id);
+  const f = await fixture(page);
+  try {
+    const [first] = await f.ordered(f.source);
+    await expect.poll(() => hasMeasurement(first.id)).toBe(true);
+    const response = await page.request.post(`${f.boardUrl}/tickets`, {
+      data: { laneId: f.source, title: "Temporary ticket with a long title for the measured height cache regression" },
+    });
+    expect(response.status()).toBe(201);
+    const created = await response.json() as { id: number };
+    const list = lane(page, f.source);
+    await expect(list).toHaveAttribute("data-kanban-window", "207");
+    await scrollTo(list, 1);
+    await expect(title(page, created.id)).toBeInViewport();
+    await expect.poll(() => hasMeasurement(created.id)).toBe(true);
+
+    await page.locator("#search-input").fill(`#${created.id}`);
+    await expect(card(page, first.id)).toHaveCount(0);
+    expect(await hasMeasurement(first.id)).toBe(true);
+    await page.locator("#search-clear-button").click();
+    await expect(list).toHaveAttribute("data-kanban-window", "207");
+    await expect(title(page, created.id)).toBeInViewport();
+
+    const deleted = await page.request.delete(`${f.baseUrl}/api/tickets/${created.id}`);
+    expect(deleted.status()).toBe(204);
+    await expect(list).toHaveAttribute("data-kanban-window", "206");
+    await expect.poll(() => hasMeasurement(created.id)).toBe(false);
+    expect((await page.request.get(`${f.baseUrl}/api/tickets/${created.id}`)).status()).toBe(404);
+  } finally { await f.close(); }
+});
+
 test("native Tab and Shift+Tab mount the next logical card across a Kanban window", async ({ page, browserName }) => {
   const f = await fixture(page);
   try {

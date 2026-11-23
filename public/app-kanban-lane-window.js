@@ -1,8 +1,17 @@
 const OVERSCAN = 5;
 const ESTIMATED_CARD_HEIGHT = 92;
 
-export function createKanbanLaneWindow(list, tickets, createCard, measurements) {
+export function discardMeasurementsOutside(measurements, ticketIds) {
+  for (const id of measurements.keys()) {
+    if (!ticketIds.has(id)) measurements.delete(id);
+  }
+}
+
+export function createKanbanLaneWindow(list, tickets, createCard, measurements, pruneMeasurements) {
   const indexById = new Map(tickets.map((ticket, index) => [ticket.id, index]));
+  if (pruneMeasurements) discardMeasurementsOutside(measurements, indexById);
+  const measurementCapacity = Math.max(indexById.size, measurements.size);
+  const evictionCandidates = measurements.keys();
   const gap = Number.parseFloat(getComputedStyle(list).paddingBlockStart) || 0;
   const offsets = new Float64Array(tickets.length + 1);
   const heights = new Float64Array(tickets.length);
@@ -17,6 +26,18 @@ export function createKanbanLaneWindow(list, tickets, createCard, measurements) 
   let dragId = null;
   let positionBeforeLayout = null;
   let observedScrollTop = 0;
+
+  function rememberHeight(ticket, height) {
+    if (!measurements.has(ticket.id) && measurements.size === measurementCapacity) {
+      // A full cache with a missing current ID must contain an ID from outside this window's model.
+      for (const id of evictionCandidates) {
+        if (indexById.has(id)) continue;
+        measurements.delete(id);
+        break;
+      }
+    }
+    measurements.set(ticket.id, { height, width, revision: ticket.updatedAt });
+  }
 
   function rememberPosition() {
     positionBeforeLayout = anchor();
@@ -124,8 +145,7 @@ export function createKanbanLaneWindow(list, tickets, createCard, measurements) 
     }
     for (const [index, height] of measured) {
       heights[index] = height;
-      const ticket = tickets[index];
-      measurements.set(ticket.id, { height, width, revision: ticket.updatedAt });
+      rememberHeight(tickets[index], height);
     }
     updateOffsets();
     restore(position);
@@ -140,7 +160,7 @@ export function createKanbanLaneWindow(list, tickets, createCard, measurements) 
       if (typeof index !== "number") continue;
       const height = card.getBoundingClientRect().height;
       heights[index] = height;
-      measurements.set(tickets[index].id, { height, width, revision: tickets[index].updatedAt });
+      rememberHeight(tickets[index], height);
     }
     updateOffsets();
     restore(position);

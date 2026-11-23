@@ -2,7 +2,7 @@ import { t as tr } from "./app-i18n.js";
 import { takeRoundRobinBatch } from "./app-board-utils.js";
 import { createKanbanLane, createKanbanLaneInputColumn } from "./app-kanban-lane.js";
 import { createKanbanTicketCard } from "./app-kanban-ticket-card.js";
-import { createKanbanLaneWindow } from "./app-kanban-lane-window.js";
+import { createKanbanLaneWindow, discardMeasurementsOutside } from "./app-kanban-lane-window.js";
 import { kanbanCardIconNames } from "./app-ticket-inline-icons.js";
 import { createTicketMaskRenderer } from "./app-ticket-mask-icons.js";
 import { icon } from "./icons.js";
@@ -209,8 +209,15 @@ export function createKanbanBoardModule(ctx, options) {
     elements.laneBoard.className = "lane-board";
     if (!reuse) elements.laneBoard.innerHTML = "";
     const laneQueues = [];
+    const obsoleteMeasurementLanes = new Set(measuredByLane.keys());
 
     for (const { lane, laneTickets, page, visibleTickets, hiddenInactiveTickets, inactiveTotal, key, useWindow } of plans) {
+      obsoleteMeasurementLanes.delete(lane.id);
+      const measurements = detail.hasDefaultKanbanTickets && !useWindow && measuredByLane.get(lane.id);
+      if (measurements) {
+        if (!lane.isCompletionLane) discardMeasurementsOutside(measurements, new Set(visibleTickets.map(ticket => ticket.id)));
+        if (lane.isCompletionLane || measurements.size === 0) measuredByLane.delete(lane.id);
+      }
       const retained = reuse?.retained.get(lane.id);
       if (retained) {
         nextSnapshot.set(lane.id, retained);
@@ -248,6 +255,7 @@ export function createKanbanBoardModule(ctx, options) {
         replacesReadyLane: Boolean(reuse),
         tickets: visibleTickets,
         useWindow,
+        pruneMeasurements: detail.hasDefaultKanbanTickets,
         index: 0,
         afterRender: lane.isCompletionLane && (page?.total ?? laneTickets.length) > COMPLETION_PREVIEW_COUNT
           ? () => list.append(createCompletionSummary(lane, laneTickets, list, visibleTickets.length, page))
@@ -263,6 +271,7 @@ export function createKanbanBoardModule(ctx, options) {
       laneQueues.push(queue);
       if (key) nextSnapshot.set(lane.id, { key, element: laneElement, list });
     }
+    for (const laneId of obsoleteMeasurementLanes) measuredByLane.delete(laneId);
 
     if (state.isCreatingLane) {
       elements.laneBoard.append(createLaneInputColumn());
@@ -530,7 +539,7 @@ export function createKanbanBoardModule(ctx, options) {
         const measurements = measuredByLane.get(queue.laneId) ?? new Map();
         measuredByLane.set(queue.laneId, measurements);
         const renderCard = ticket => createKanbanTicketCard(ctx, ticket, getCardIcon());
-        const laneWindow = createKanbanLaneWindow(queue.list, queue.tickets, renderCard, measurements);
+        const laneWindow = createKanbanLaneWindow(queue.list, queue.tickets, renderCard, measurements, queue.pruneMeasurements);
         laneWindows.set(queue.list, laneWindow);
         queue.index = queue.tickets.length;
       }
