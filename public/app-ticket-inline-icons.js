@@ -4,6 +4,7 @@
 import { icon } from "./icons.js";
 
 export const groupRowIconNames = ["folder-up","folder-tree","ticket","check","archive","trash-2"];
+export const kanbanCardIconNames = ["folder-up","folder-tree","ticket","check","archive","priority-low","priority-medium","priority-high","circle-alert","octagon-alert"];
 
 /** @type {Record<string, string>} */
 const inlineIcons = {

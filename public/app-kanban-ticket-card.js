@@ -6,7 +6,7 @@ import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 
-export function createKanbanTicketCard(ctx, ticket) {
+export function createKanbanTicketCard(ctx, ticket, renderIcon = ticketInlineIcon) {
   const { state } = ctx;
   const card = document.createElement("article");
   card.className = `ticket-card ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}`;
@@ -17,13 +17,13 @@ export function createKanbanTicketCard(ctx, ticket) {
       <span class="ticket-id-stack">
         <span class="ticket-id">#${ticket.id}</span>
         <span class="ticket-card-meta-icons">
-          ${renderTicketHierarchyIcon(ticket, state.boardTickets ?? [], { renderIcon: ticketInlineIcon })}
-          ${renderPriorityIcon(ticket.priority, ticketInlineIcon)}
-          ${renderBlockerIndicator(ticket)}
+          ${renderTicketHierarchyIcon(ticket, state.boardTickets ?? [], { renderIcon })}
+          ${renderPriorityIcon(ticket.priority, renderIcon)}
+          ${renderBlockerIndicator(ticket, renderIcon)}
         </span>
       </span>
       <button type="button" class="ticket-link">${ctx.escapeHtml(ticket.title)}</button>
-      <span class="ticket-status-icons">${renderTicketStatusIcons(ticket, { renderIcon: ticketInlineIcon })}</span>
+      <span class="ticket-status-icons">${renderTicketStatusIcons(ticket, { renderIcon })}</span>
     </div>
     ${ticket.remote ? renderRemoteRefBadge(ticket.remote, ctx.escapeHtml, "ticket-remote-card-ref") : ""}
     ${(ticket.externalReferences ?? []).map((reference) => renderRemoteRefBadge(reference, ctx.escapeHtml, "ticket-external-card-ref")).join("")}
@@ -65,9 +65,9 @@ export function createKanbanTicketCard(ctx, ticket) {
   return card;
 }
 
-function renderBlockerIndicator(ticket) {
+function renderBlockerIndicator(ticket, renderIcon) {
   const count = ticket.unresolvedBlockerCount ?? 0;
   if (!count) return "";
   const label = tr(count === 1 ? "Blocked by {count} unresolved ticket" : "Blocked by {count} unresolved tickets", { count });
-  return `<span class="ticket-blocker-indicator" title="${label}" aria-label="${label}">${ticketInlineIcon("octagon-alert")}<span>${count}</span></span>`;
+  return `<span class="ticket-blocker-indicator" title="${label}" aria-label="${label}">${renderIcon("octagon-alert")}<span>${count}</span></span>`;
 }

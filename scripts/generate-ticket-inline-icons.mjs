@@ -5,7 +5,9 @@ import path from "node:path";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(root, "public/icons.svg"), "utf8");
 const groupRowNames = ["folder-up", "folder-tree", "ticket", "check", "archive", "trash-2"];
-const names = [...groupRowNames, "priority-low", "priority-medium", "priority-high", "circle-alert", "octagon-alert"];
+const kanbanOnlyNames = ["priority-low", "priority-medium", "priority-high", "circle-alert", "octagon-alert"];
+const kanbanCardNames = [...groupRowNames.filter(name => name !== "trash-2"), ...kanbanOnlyNames];
+const names = [...groupRowNames, ...kanbanOnlyNames];
 const symbols = new Map(names.map(name => {
   const match = source.match(new RegExp(`<symbol id="${name}" viewBox="([^"]+)">([\\s\\S]*?)<\\/symbol>`));
   if (!match) throw new Error(`Missing canonical icon: ${name}`);
@@ -23,6 +25,7 @@ const inline = `// @ts-check
 import { icon } from "./icons.js";
 
 export const groupRowIconNames = ${JSON.stringify(groupRowNames)};
+export const kanbanCardIconNames = ${JSON.stringify(kanbanCardNames)};
 
 /** @type {Record<string, string>} */
 const inlineIcons = {
@@ -36,31 +39,37 @@ export function ticketInlineIcon(name) {
   return Object.hasOwn(inlineIcons, name) ? inlineIcons[name] : icon(name);
 }
 `;
-const masksCss = [
-  `/* ${generated} */`,
-  ".group-ticket-row .group-row-icon {",
-  "  background-color: currentColor;",
-  "  mask-mode: alpha;",
-  "  mask-position: center;",
-  "  mask-repeat: no-repeat;",
-  "  mask-size: 100% 100%;",
-  "}",
-  "",
-  ...groupRowNames.map(name => [
-    `.group-row-icon[data-group-row-icon="${name}"] {`,
-    `  mask-image: url("../group-row-icons/${name}.svg");`,
+function iconDirectory(name) {
+  return groupRowNames.includes(name) ? "group-row-icons" : "kanban-card-icons";
+}
+function maskStyles(names, scope, className, marker) {
+  return [
+    `/* ${generated} */`,
+    `${scope} .${className} {`,
+    "  background-color: currentColor;",
+    "  mask-mode: alpha;",
+    "  mask-position: center;",
+    "  mask-repeat: no-repeat;",
+    "  mask-size: 100% 100%;",
     "}",
-  ].join("\n")),
-  "",
-].join("\n");
+    "",
+    ...names.map(name => [
+      `.${className}[${marker}="${name}"] {`,
+      `  mask-image: url("../${iconDirectory(name)}/${name}.svg");`,
+      "}",
+    ].join("\n")),
+    "",
+  ].join("\n");
+}
 const outputs = new Map([
   ["public/app-ticket-inline-icons.js", inline],
-  ["public/styles/group-row-icon-masks.css", masksCss],
+  ["public/styles/group-row-icon-masks.css", maskStyles(groupRowNames, ".group-ticket-row", "group-row-icon", "data-group-row-icon")],
+  ["public/styles/kanban-card-icon-masks.css", maskStyles(kanbanCardNames, ".ticket-card", "kanban-card-icon", "data-kanban-card-icon")],
 ]);
-for (const name of groupRowNames) {
+for (const name of names) {
   const { viewBox, children } = symbols.get(name);
   const strokeWidth = name === "check" || name === "archive" ? 2.4 : 2;
-  outputs.set(`public/group-row-icons/${name}.svg`,
+  outputs.set(`public/${iconDirectory(name)}/${name}.svg`,
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" fill="none" stroke="black" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">
   ${children}
 </svg>

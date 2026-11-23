@@ -1,0 +1,22 @@
+[
+  {
+    "condition": "313-light",
+    "before": "coverage/kanban-card-mask/baseline-313-light.png",
+    "after": "coverage/kanban-card-mask/mask-313-light.png",
+    "beforeSha256": "00c905359c411dd4f084bc190c1956d31bc0294f92d979457600a59a2f17a26b",
+    "afterSha256": "47d64cffd08e00a1a0e87eb578b3f24a02e89768f5d2972fb2c504c4d8ec0bfb",
+    "different": 1627,
+    "outsideIcons": 0,
+    "max": 6
+  },
+  {
+    "condition": "mixed-dark-hover",
+    "before": "coverage/kanban-card-mask/baseline-mixed-dark-hover.png",
+    "after": "coverage/kanban-card-mask/mask-mixed-dark-hover.png",
+    "beforeSha256": "6b5cf331711a011097c8b7966d2501eececc99e12109933208ef7e76ca715b99",
+    "afterSha256": "c1671e55d8f8a8fb6f2761a21161c6f1ba212dd9330970208807cb8c8f80b0a8",
+    "different": 1931,
+    "outsideIcons": 0,
+    "max": 6
+  }
+]

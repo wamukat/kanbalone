@@ -2,6 +2,8 @@ import { t as tr } from "./app-i18n.js";
 import { takeRoundRobinBatch } from "./app-board-utils.js";
 import { createKanbanLane, createKanbanLaneInputColumn } from "./app-kanban-lane.js";
 import { createKanbanTicketCard } from "./app-kanban-ticket-card.js";
+import { kanbanCardIconNames } from "./app-ticket-inline-icons.js";
+import { createTicketMaskRenderer } from "./app-ticket-mask-icons.js";
 import { icon } from "./icons.js";
 
 const COMPLETION_PREVIEW_COUNT = 5;
@@ -13,6 +15,12 @@ const KANBAN_TICKET_BATCH_SIZE = 120;
 
 export function createKanbanBoardModule(ctx, options) {
   const { state, elements } = ctx;
+  const getCardIcon = createTicketMaskRenderer(elements.laneBoard, {
+    names: kanbanCardIconNames,
+    scope: ".ticket-card",
+    marker: "data-kanban-card-icon",
+    className: "kanban-card-icon",
+  });
   let kanbanRenderToken = 0;
   let kanbanNextLaneIndex = 0;
   let laneDragPreview = null;
@@ -224,7 +232,7 @@ export function createKanbanBoardModule(ctx, options) {
         }
         if (renderToken !== kanbanRenderToken || !list.isConnected) return;
         const fragment = document.createDocumentFragment();
-        next.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
+        next.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket, getCardIcon())));
         list.insertBefore(fragment, summary);
         shown += next.length;
         completionLimits.set(lane.id, shown);
@@ -363,7 +371,7 @@ export function createKanbanBoardModule(ctx, options) {
 
       const nextTickets = hiddenTickets.slice(renderedCount, renderedCount + INACTIVE_SHOW_MORE_COUNT);
       const fragment = document.createDocumentFragment();
-      nextTickets.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket)));
+      nextTickets.forEach((ticket) => fragment.append(createKanbanTicketCard(ctx, ticket, getCardIcon())));
       list.append(fragment);
       renderedCount += nextTickets.length;
       list.hidden = false;
@@ -402,7 +410,7 @@ export function createKanbanBoardModule(ctx, options) {
       for (const selection of selections) {
         const queue = laneQueues[selection.laneIndex];
         const fragment = fragments.get(selection.laneIndex) ?? document.createDocumentFragment();
-        fragment.append(createKanbanTicketCard(ctx, queue.tickets[selection.ticketIndex]));
+        fragment.append(createKanbanTicketCard(ctx, queue.tickets[selection.ticketIndex], getCardIcon()));
         fragments.set(selection.laneIndex, fragment);
       }
       for (const [laneIndex, fragment] of fragments.entries()) {

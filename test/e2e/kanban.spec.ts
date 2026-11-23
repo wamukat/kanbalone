@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { closeTestApp, buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
 
-test("kanban cards show parent child and standalone hierarchy icons", async ({ page }) => {
+test("kanban hierarchy icons retain their semantics when forced colors change", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
 
   try {
@@ -37,15 +37,28 @@ test("kanban cards show parent child and standalone hierarchy icons", async ({ p
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
 
-    for (const [id, hierarchy, label] of [
-      [parent.id, "parent", "Parent ticket"],
-      [resolvedChildParent.id, "parent", "Parent ticket"],
-      [child.id, "child", "Child ticket"],
-      [standalone.id, "single", "Standalone ticket"],
-    ] as const) {
-      const icon = page.locator(`.ticket-card[data-ticket-id="${id}"] .ticket-hierarchy-icon-${hierarchy}`);
-      await expect(icon).toHaveAttribute("aria-label", label);
-      await expect(icon.locator('svg[viewBox="0 0 24 24"] > path').first()).toBeAttached();
+    const title = page.getByRole("button", { name: "Child ticket", exact: true });
+    await title.focus();
+    const originalTitle = await title.elementHandle();
+    const hierarchyIcons = [
+      [parent.id, "parent", "Parent ticket", "folder-up"],
+      [resolvedChildParent.id, "parent", "Parent ticket", "folder-up"],
+      [child.id, "child", "Child ticket", "folder-tree"],
+      [standalone.id, "single", "Standalone ticket", "ticket"],
+    ] as const;
+    for (const forcedColors of ["none", "active", "none"] as const) {
+      await page.emulateMedia({ forcedColors });
+      for (const [id, hierarchy, label, name] of hierarchyIcons) {
+        const icon = page.locator(`.ticket-card[data-ticket-id="${id}"] .ticket-hierarchy-icon-${hierarchy}`);
+        await expect(icon).toHaveAttribute("aria-label", label);
+        await expect(icon.locator(".icon")).toHaveAttribute("aria-hidden", "true");
+        if (forcedColors === "active") {
+          await expect(icon.locator('svg[viewBox="0 0 24 24"] > path').first()).toBeAttached();
+        } else {
+          await expect(icon.locator(".kanban-card-icon")).toHaveCSS("mask-image", new RegExp(`/group-row-icons/${name}\\.svg`));
+        }
+      }
+      expect(await originalTitle?.evaluate(element => element === document.activeElement)).toBe(true);
     }
   } finally {
     await close();
@@ -271,8 +284,11 @@ test("lane drag previews keep the scroll range with only nearby cards", async ({
       }));
       const preview = document.querySelector<HTMLElement>(".lane-drag-preview .ticket-list");
       if (!preview) throw new Error("Drag preview is missing");
+      const priorityIcon = preview.querySelector(".ticket-priority-icon .kanban-card-icon");
+      if (!priorityIcon) throw new Error("Priority icon is missing from the preview");
       const sizes = {
         contentHeight,
+        priorityMask: getComputedStyle(priorityIcon).maskImage,
         sourceHeight: list.clientHeight,
         previewHeight: preview.clientHeight,
         previewScrollHeight: preview.scrollHeight,
@@ -288,6 +304,7 @@ test("lane drag previews keep the scroll range with only nearby cards", async ({
     expect(result.previewCards).toBeGreaterThan(0);
     expect(result.previewCards).toBeLessThan(7);
     expect(result.offset).toEqual([24, 18]);
+    expect(result.priorityMask).toMatch(/\/kanban-card-icons\/priority-medium\.svg/);
     await expect(page.locator(".lane-drag-preview")).toHaveCount(0);
     await expect(source.locator(".ticket-card")).toHaveCount(7);
   } finally {
