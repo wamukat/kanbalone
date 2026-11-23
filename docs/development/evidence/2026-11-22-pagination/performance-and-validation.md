@@ -1,4 +1,6 @@
-# #1510 性能と最終検証
+# ページング実装の性能と最終検証
+
+[実装 PR](https://github.com/wamukat/kanbalone/pull/31)
 
 ## 対照を交互に測ったAPI結果
 
@@ -17,7 +19,7 @@
 
 `completion_initial`は、従来の完了レーン全件取得と、新しい初回5件取得の比較。返す件数は異なるが、画面にまず5件表示するための取得コストを比較している。10,000件で応答量は3,662,003→2,859 bytes。初回5件の中央値は191.71→6.63msとなった。画面全体の描画時間を測った値ではない。
 
-引数なし全件取得は同一のSQL・応答量を保つ。10,000件の中央値は281.40→307.41ms、最大は321.99→316.22msであり、この小標本から完全な無劣化を保証しない。旧・新DBのEXPLAINではいずれもtickets_active_board_lane_position_idxを使用した。最初の#1508とは計測時点/JSON解析の有無が違うので、その値を直結した前後比は使わない。
+引数なし全件取得は同一のSQL・応答量を保つ。10,000件の中央値は281.40→307.41ms、最大は321.99→316.22msであり、この小標本から完全な無劣化を保証しない。旧・新DBのEXPLAINではいずれもtickets_active_board_lane_position_idxを使用した。最初のページング設計時の計測とは計測時点/JSON解析の有無が違うので、その値を直結した前後比は使わない。
 
 ## 分割取得のコスト
 
@@ -44,6 +46,6 @@
 - `e2e-teardown-analysis.json`: 最初の終了待ちtimeoutのtrace要約。原因を製品不具合と断定していない。
 - 追加の重点8ケースとレーン間移動中の整合性E2Eも個別成功。独立サブエージェントのcode/画像レビュー承認済み。
 - `upgrade-data-check.json`: 元のv1.0.0 fixture DBを候補版で起動しても、既存17テーブルの全内容が一致。新テーブル/trigger/indexは追加のみ。production DBは更新していない。
-- `ticket-attachments.json`: #1510コメント内の12画像を実ブラウザで読込確認（1440×1000、naturalWidth/Height）。
+- `ticket-attachments.json`: 比較画像12枚を実ブラウザで読込確認（1440×1000、naturalWidth/Height）。
 
 ベンチマークの再実行には、同じfixtureを3592（候補）と3593（対照）で起動し、benchmark-api.py、benchmark-paired.pyを逐次実行する。プロセス/CPU/OSキャッシュのばらつきは残る。

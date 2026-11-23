@@ -1,4 +1,6 @@
-# #1510 GUI全般のページング適用 — 操作・画像エビデンス
+# GUI全般のページング適用 — 操作・画像検証
+
+[実装 PR](https://github.com/wamukat/kanbalone/pull/31)
 
 ## 比較条件
 
@@ -49,10 +51,10 @@
 - `after-capture.txt`: 最終ソースで日英全20状態の採取を完了。`after-revision.json` のsourceUnchangedDuringCapture=true。ソース指紋: `f4b063321035df83da396f47e6f6e5f74ef2c4fab987d0c2147f04c3f741ac68`。
 - 最終再撮影の最初の試行では、起動処理中のlocalStorage初期化が以前のurgentフィルタで上書きされ、Verify検索が0件になった。実際の条件とAPI応答を確認し、画面準備を既存のフィルタ解除操作と状態確認へ変更して再撮影した。これは製品の検索不具合とは扱わない。
 - `comparison.json`: 全20状態でGroup/List表示IDとスクロール位置が一致。完了件数は5→55→詳細復帰55を維持し、条件変更時のみ17→5となる。
-- #1510の画像12枚は、コミット `921b6a36e7fc7616ce6c97dd1356cbce002a4a36` のGitHub固定URLへ置き換え、チケット内で全12枚の読込を再確認した。ローカル画像サーバに依存しない。URLと読込結果は `ticket-attachments.json` に保存。
+- 比較画像12枚は、コミット `921b6a36e7fc7616ce6c97dd1356cbce002a4a36` のGitHub固定URLへ置き換え、チケット内で全12枚の読込を再確認した。ローカル画像サーバに依存しない。URLと読込結果は `ticket-attachments.json` に保存。
 
 独立サブエージェントの最終レビューは同ディレクトリのレビュー記録を参照。未実施の実ユーザ評価は成功扱いにしない。
 
 ## 全体検証と性能
 
-[性能と最終検証](performance-and-validation.md) に192テスト、全147ブラウザケースの初回/再実行の内訳、既存17テーブル保持、1,000/10,000件の対照計測を記録した。#1510の画像コメントはticket-attachments.jsonに記録。
+[性能と最終検証](performance-and-validation.md) に192テスト、全147ブラウザケースの初回/再実行の内訳、既存17テーブル保持、1,000/10,000件の対照計測を記録した。画像の読込結果も `ticket-attachments.json` に記録した。

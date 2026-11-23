@@ -1,6 +1,6 @@
-# Independent review — #1511 creation keyboard mock
+# Independent review of the keyboard creation mock
 
-Reviewer: `/root/next_review`, separate from mock author. Date: 2026-11-22.
+Reviewed independently of the mock author. Date: 2026-11-22.
 
 ## Decision
 

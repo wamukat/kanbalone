@@ -1,4 +1,6 @@
-# Group view evidence for #1520–#1523
+# Group view evidence
+
+[PR #44](https://github.com/wamukat/kanbalone/pull/44)
 
 Captured on 2026-11-22 JST. The baseline was Git commit
 `5ff44622f74c2116147d60c11be7f86fbc2208d2`. The candidate runtime source
@@ -18,7 +20,7 @@ fonts, animations, and two animation frames. Filenames record
 The JS records include the Chromium version, API-derived values and
 computed styles. Each ticket has its own image directory.
 
-## #1520 Group progress and completed marker
+## Group progress and completed marker
 
 Open Release review → Group → All. Use Enter to select Release checklist.
 The all-groups image shows zero-ticket Ideas, open Next milestone, mixed
@@ -50,7 +52,7 @@ states.
 - Candidate completion and reopen.
   [Completed](1520/en-light-1440-after-completed.png) · [Reopened](1520/en-light-1440-after-reopened.png)
 
-## #1521 Ticket tags in Group rows
+## Ticket tags in Group rows
 
 In Release checklist, inspect Prepare release handoff and its child Verify
 keyboard navigation. The baseline stores their tags and shows them in the
@@ -74,7 +76,7 @@ row and GET, and stays absent after reload while the other tags remain.
 - Candidate live rename and recolor, then removal.
   [Renamed and recolored](1521/en-light-1440-after-renamed-and-recolored.png) · [Removed and reloaded](1521/en-light-1440-after-removed-and-reloaded.png)
 
-## #1522 Green links in Group descriptions
+## Green links in Group descriptions
 
 Read the short Release checklist description. Select Next milestone and
 expand its long description. The plain summary has no link nodes. Expanding
@@ -98,7 +100,7 @@ increment of one; reload reproduces the changed description.
 - Candidate saved description.
   [Saved and reloaded](1522/en-light-1440-after-saved-and-reloaded.png)
 
-## #1523 Include unassigned tickets in Group view
+## Include unassigned tickets in Group view
 
 Open the separate Grouping review fixture. Planned work contains Scheduled
 review; three additional tickets, including an archived ticket, have no Group.
@@ -197,9 +199,9 @@ node --import tsx "$evidence/no-group.mjs" after
 (cd "$evidence" && shasum -a 256 -c SHA256SUMS)
 ```
 
-- #1520–#1522 raw interaction and geometry records.
+- Raw interaction and geometry records for progress, tags, and description links.
   [Before](before-results.json) · [After](after-results.json)
-- #1523 raw membership and focus records.
+- Raw membership and focus records for No Group.
   [Before](1523-before-results.json) · [After](1523-after-results.json)
 
 - Independent code and visual review.

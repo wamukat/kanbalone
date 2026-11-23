@@ -1,6 +1,6 @@
 # CIからリリースまでの自動化
 
-ローカルKanbalone #1489の実装仕様です。操作手順は[リリース手順](./release.md)を参照してください。ワークフローの実装と、GitHub上での導入確認は区別します。リポジトリ設定、Actionsでの実行、公開結果の確認は別途必要です。
+リリースCIを導入した時点の実装仕様です。操作手順は[リリース手順](./release.md)を参照してください。ワークフローの実装と、GitHub上での導入確認は区別します。リポジトリ設定、Actionsでの実行、公開結果の確認は別途必要です。
 
 ## 1. 公開までの流れ
 
@@ -50,7 +50,7 @@ flowchart TD
 - GHCRの`vVERSION`／`VERSION`を認証なしでpullし、イメージID・revision・versionを確認します。registry digestとローカルimage IDは別々に記録します。
 - RCはlatestを変更しません。安定版でも現在のlatestより新しい場合のみ更新します。
 
-Dockerスモークは[公開前のイメージ検証](https://docs.docker.com/build/ci/github-actions/test-before-push/)に、Kanbaloneの書き込みと永続化確認を加えたものです。既存データのmigration・バックアップ・復元検証（#1490）の代替ではありません。
+Dockerスモークは[公開前のイメージ検証](https://docs.docker.com/build/ci/github-actions/test-before-push/)に、Kanbaloneの書き込みと永続化確認を加えたものです。既存データの移行・バックアップ・復元検証は別途実施します。 [旧版の更新・復元を検証する PR](https://github.com/wamukat/kanbalone/pull/20)
 
 ## 4. 途中失敗と再実行
 
@@ -67,6 +67,6 @@ Dockerスモークは[公開前のイメージ検証](https://docs.docker.com/bu
 3. App未設定時は`GITHUB_TOKEN`で準備PRを作成し、承認待ちのCIを承認する。App使用時に追加承認なしでCIが動くことも確認する。[GitHub公式のトークン仕様](https://docs.github.com/en/actions/concepts/security/github_token)
 4. マージ済みSHAでdry-runを実行し、CI・E2E・Dockerの結果を確認する。ローカル確認に使ったartifactのIDを記録する。
 5. 明示的な公開判断後に同じartifactのIDを指定して公開し、タグ・日英ノート・GHCRの認証なし取得を確認する。先行試用でRCを公開した場合は、latestが変わらないことも確認する。途中失敗の再実行も検証する。
-6. #1490で決める既存データの更新・バックアップ・復元検証を隔離fixtureで追加する。
+6. 既存データの更新・バックアップ・復元検証を隔離fixtureで追加する。 [検証を追加した PR](https://github.com/wamukat/kanbalone/pull/20)
 
 正式版の公開前に、対象版のdry-runとローカル確認の結果を記録します。DB・保存形式・更新手順に影響する場合は、更新と復元の結果も確認します。公開の判断は[リリース手順](./release.md#リリースノートと公開判断)に従います。

@@ -1,6 +1,6 @@
 # Kanban card and lane rendering
 
-Kanbalone #1542 uses SVG markup generated from `public/icons.svg` for the repeated hierarchy, priority, status and blocker icons on Kanban cards. Group uses the same generator. Scrollable Kanban lanes lay out their items as blocks with the existing spacing. The release change is confined to browser assets and requires no migration.
+This change uses SVG markup generated from `public/icons.svg` for the repeated hierarchy, priority, status and blocker icons on Kanban cards. Group uses the same generator. Scrollable Kanban lanes lay out their items as blocks with the existing spacing. The release change is confined to browser assets and requires no migration. [PR #53](https://github.com/wamukat/kanbalone/pull/53)
 
 ## Performance
 
@@ -37,7 +37,7 @@ The retained durations, ranges, experiment warmups and screenshot hashes are in 
 
 ## Verification on the current base
 
-The change was rebased onto `3b6519dae6b5e1e3499647e7b2c93edd8319abff` after the keyboard and editor changes landed. The original comparison above used `12a100e`. An additional initial-screen capture of the 3,013-card board on the new base was byte-identical before and after. `pnpm check` passed 257 tests and the OpenAPI, build, public type and documentation checks. All 48 targeted Chromium E2E tests passed, including occupied and completion lane drops, cancelled and rejected drops, inactive and completion pagination, lane and board scroll, keyboard focus, and Group layout. The 14 originals in Kanbalone #1542 comment 4576 decoded successfully in a read-only browser session.
+The change was rebased onto `3b6519dae6b5e1e3499647e7b2c93edd8319abff` after the keyboard and editor changes landed. The original comparison above used `12a100e`. An additional initial-screen capture of the 3,013-card board on the new base was byte-identical before and after. `pnpm check` passed 257 tests and the OpenAPI, build, public type and documentation checks. All 48 targeted Chromium E2E tests passed, including occupied and completion lane drops, cancelled and rejected drops, inactive and completion pagination, lane and board scroll, keyboard focus, and Group layout. The 14 original captures decoded successfully in a read-only browser session.
 
 ## Reproduction
 

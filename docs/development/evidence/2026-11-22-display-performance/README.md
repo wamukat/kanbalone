@@ -1,6 +1,8 @@
-# #1512: repeated hierarchy scans in List and Group
+# Reduce repeated hierarchy scans in List and Group
 
-Status: implementation and automated checks passed; independent review recorded in `review.md`. This is the first bounded improvement for #1512; API collection and large Kanban/Group DOM work remain.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/32)
+
+Status: implementation and automated checks passed; independent review recorded in `review.md`. This was an initial performance improvement. API collection and large Kanban and Group rendering remained at the time.
 
 ## Change
 
@@ -32,7 +34,7 @@ An initial agent-browser repeated-navigation harness accumulated queued requests
 - Regression tests cover sorted parent/child order, missing-parent fallback, explicit flat List sorting, fresh membership indexes, archived-parent/open-child context, hidden archived-only rows, parent-only removal actions/counts, chosen-family exclusion, and 2,000-child option counts.
 - Screenshots show that the visible interface is unchanged. They do not prove timing, persistent writes or keyboard ergonomics. This read/render-only change does not add writes; data and hierarchy behavior are separately checked.
 - Kanban rendering is not changed. Group still inserts all selected Group rows; List and Group still aggregate all required API pages. Large data can still take seconds to display. Treat bounded API collection/virtual rendering as subsequent work, preserving sorting, related-ticket context, selection and keyboard/drag behavior.
-- No claim that all #1512 performance work is complete. No production migration, publication or local runtime replacement performed.
+- This record covers the hierarchy-rendering change. No production migration, publication or local runtime replacement performed.
 
 ## Observed results
 

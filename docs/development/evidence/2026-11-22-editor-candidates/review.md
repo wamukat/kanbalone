@@ -1,4 +1,6 @@
-# Independent review — #1518
+# Independent review of relation candidate loading
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/38)
 
 Reviewer: `1518_policy`. Reviewed policy before implementation, then independently inspected the production diff, focused tests, actual images, interaction records and performance samples. No product code was edited by the reviewer.
 

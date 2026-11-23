@@ -1,4 +1,6 @@
-# #1517 — Load the routed board once at startup
+# Load the routed board once at startup
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/37)
 
 Startup previously loaded the remembered/default board, then loaded the URL's destination again. Startup now obtains the board list without fetching its detail; the existing router performs the single destination load. Ordinary `refreshBoards()` calls still refresh detail by default, preserving creation, deletion and import behavior.
 

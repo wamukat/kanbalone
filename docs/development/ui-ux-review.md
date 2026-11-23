@@ -26,7 +26,7 @@ Automated regression tests support this procedure; they do not establish that pe
 
 ## Per-ticket image evidence (required)
 
-Every UI/UX ticket must have before-and-after images attached in its Kanbalone record before entering Acceptance or completion. A text-only test report, a file path, or an aggregate screenshot does not meet this requirement.
+Every UI/UX ticket must have before-and-after images attached in its Kanbalone record before entering Acceptance or completion. A text-only test report, a file path, or an aggregate screenshot does not meet this requirement. Summarize the steps, results and limitations in the public PR, with links reviewers can access. Keep local tracker numbers, ticket URLs and private evidence links in the local record.
 
 - Capture the actual UI using the same starting data, viewport, theme, and equivalent action/state. Record the baseline tag/commit and the changed revision or working-tree fingerprint.
 - Include at least one labelled before image and one labelled after image per ticket. Use additional frames for input → action → result when a single frame cannot demonstrate the issue.
@@ -56,4 +56,4 @@ Use representative tasks with people who capture personal work, develop with AI,
 - [TOHFU: UX evaluation with AI skills](https://note.com/tohfu_tronica/n/ne52d958944b6): distinguish heuristic review, machine checks, and simulated behavior.
 - [ZimaSpace: UI/UX design skills and tools](https://shop.zimaspace.com/ja/blogs/tech-ai-hub/10-best-ai-design-skills-tools-for-better-ui-ux): separate style discovery, design proposals, and validation; tool rankings are not product evidence.
 
-The detailed 2026-11-21 task plan is tracked in local Kanbalone #1486, with findings #1474–#1485. Its local evidence is under `coverage/ux-improvement-plan-20261121/` and `coverage/ux-improvement-20261121/`; these generated artifacts are not distributed documentation.
+The repository retains the [initial usability evaluation](evidence/2026-11-21/README.md) and subsequent fixes for [hidden keyboard targets](https://github.com/wamukat/kanbalone/pull/27) and [recovery after actions](https://github.com/wamukat/kanbalone/pull/28).

@@ -1,4 +1,6 @@
-# #1491 — Group ticket status visibility
+# Group ticket status visibility
+
+[PR #24](https://github.com/wamukat/kanbalone/pull/24)
 
 Captured 2026-11-21 using Chromium/agent-browser, 1280×844, light, Japanese and English.
 
@@ -30,14 +32,10 @@ The fix adds the existing translated completion icon, reserves two status slots 
 - Group Chromium E2E: 8 passed, including new bilingual regression for mixed status, completed parent/open child, independent icon columns, lane alignment, unchanged existing title bounds on archive toggle, and unchanged stored ticket responses.
 - Public JavaScript type check and git diff check passed.
 - Manual API comparison: matching title/body/lane/parent/Group/resolved/archive values for all 11 synthetic tickets across before/after.
-- Independent reviewer inspected code, tests, bilingual guide text and actual images. Reviewer caught two Japanese screenshots taken before the target screen settled; these were recaptured after target-ticket readiness. Final review recorded on ticket #1491.
+- Independent reviewer inspected code, tests, bilingual guide text and actual images. Reviewer caught two Japanese screenshots taken before the target screen settled; these were recaptured after target-ticket readiness.
 - Screenshots demonstrate appearance, not persistence; API/E2E comparisons support the no-data-change claim.
 - This evidence covers desktop/light and both languages; screen-reader speech, dark/narrow layouts and complete keyboard traversal were not manually evaluated here. No claim of a full accessibility audit.
 
-## Viewing images from the Kanbalone ticket
+## Viewing the original images
 
-The original captures are stored in this directory. Ticket embeds use a local-only image server:
-
-    python3 -m http.server 3491 --bind 127.0.0.1 --directory docs/development/evidence/2026-11-21-group-status
-
-Keep this server running to view the embedded images; another computer requires its own server or updated image URLs.
+Open the original captures from the comparison links above.

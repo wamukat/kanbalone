@@ -1,4 +1,6 @@
-# #1518 — Open tickets without collecting every relation candidate
+# Open tickets without collecting every relation candidate
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/38)
 
 The baseline is merged main `ac23f0f12b9efb7da330b9b4142c87642ba9441c`, also installed in the ordinary local runtime before this investigation. The candidate opens a new editor immediately and loads an existing ticket's own detail, activity and events without waiting for the complete board collection. The first nonempty relation search still loads **all** candidate pages, including archived tickets, once for that editor session.
 

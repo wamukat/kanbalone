@@ -1,4 +1,6 @@
-# #1514: retain unchanged Group tickets while operating controls
+# Retain unchanged Group tickets while operating controls
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/34)
 
 Group description, search and selection controls previously rebuilt the entire ticket area. This change updates the Group list, controls, tickets and footer independently. Unchanged ticket rows remain in the document; changed titles, hierarchy, status, ordering, lane names, membership, archive visibility and locale still refresh the relevant rows. No visible row limit or new user operation is introduced.
 

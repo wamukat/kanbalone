@@ -1,4 +1,6 @@
-# #1487 — Translate ticket hierarchy labels
+# Translate ticket hierarchy labels
+
+[PR #23](https://github.com/wamukat/kanbalone/pull/23)
 
 Captured 2026-11-21, Chromium via agent-browser, 1280 × 844, light theme.
 

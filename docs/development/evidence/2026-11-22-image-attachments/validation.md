@@ -1,6 +1,6 @@
 # Development validation
 
-All checks used the isolated image-attachment worktree and synthetic data. Normal runtime `127.0.0.1:3470` was not updated.
+All checks used the isolated image-attachment worktree and synthetic data.
 
 - Root ran `pnpm check`: OpenAPI lint, 217 unit/API tests, TypeScript build, public JavaScript type checking, and documentation build passed. This run preceded the last review fixes.
 - After the shared storage-policy fix, the backup agent reran 28 affected tests (16 backup, 4 attachment, 8 upgrade comparison), build, public type checking, and documentation build successfully.

@@ -1,6 +1,6 @@
 # Position-order ticket pages
 
-Kanbalone #1541. Position-ascending pages use a row-value comparison for the remaining sort keys after the lane or archive filter fixes a value. The cursor keeps the full four keys, signature and revision. The new SQLite index orders the board, lane, archive flag, position and ID. The ID and completion orders retain their original continuation logic.
+Position-ascending pages use a row-value comparison for the remaining sort keys after the lane or archive filter fixes a value. The cursor keeps the full four keys, signature and revision. The new SQLite index orders the board, lane, archive flag, position and ID. The ID and completion orders retain their original continuation logic. [PR #56](https://github.com/wamukat/kanbalone/pull/56)
 
 ## Collection timing
 
@@ -51,7 +51,7 @@ Both builds completed in under one second in both retained trials of this List f
 | Japanese, archived-inclusive List, 390 × 844 dark, top | [List](position-ja-dark-390x844-baseline-top.png) | [List](position-ja-dark-390x844-candidate-top.png) |
 | Japanese, archived-inclusive List, 390 × 844 dark, middle | [List](position-ja-dark-390x844-baseline-middle.png) | [List](position-ja-dark-390x844-candidate-middle.png) |
 
-Captured on 2026-11-23 JST. Each pair matches byte for byte. An independent reviewer inspected the original captures and confirmed ticket IDs, parent indentation, status markers, tags, sticky headers and narrow-screen truncation. The eight original images in Kanbalone #1541 comment 4588 loaded on its ticket screen.
+Captured on 2026-11-23 JST. Each pair matches byte for byte. An independent reviewer inspected the original captures and confirmed ticket IDs, parent indentation, status markers, tags, sticky headers and narrow-screen truncation. The eight original images also loaded in the tracker.
 
 ## Verification and reproduction
 

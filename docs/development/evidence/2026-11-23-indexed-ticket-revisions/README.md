@@ -1,6 +1,6 @@
 # Ticket revision triggers
 
-Kanbalone #1545 changes the affected-board lookup used when a ticket, its relations or its metadata changes. Six indexed queries supply the same board IDs. The revision update still runs once per affected board per trigger. Ticket updates, timestamps, position normalization and cursor format retain their existing behavior.
+This optimization changes the affected-board lookup used when a ticket, its relations or its metadata changes. Six indexed queries supply the same board IDs. The revision update still runs once per affected board per trigger. Ticket updates, timestamps, position normalization and cursor format retain their existing behavior. [PR #57](https://github.com/wamukat/kanbalone/pull/57)
 
 ## Local server timing
 
@@ -15,7 +15,7 @@ The two lanes each contained 3,000 active and five archived synthetic tickets. E
 | Archive the first ticket | 1,208.8 ms (1,203.0–1,260.7) | 405.5 ms (382.2–487.6) |
 | Archive the last ticket | 43.1 ms (40.8–43.7) | 40.3 ms (38.2–45.6) |
 
-Moving between two large lanes exceeded one second in all five retained server samples. The normalized rows still receive the same writes and timestamp updates. The initial exploratory cross-lane run observed 497.3 ms once with the pre-#1541 index set. The table reports the final paired comparison with the position index included in both builds. The index set, sampling design and run differed between those measurements. Every pair returned the same saved ticket fields and the same board revision delta. Previously issued cursors received 409 after each write.
+Moving between two large lanes exceeded one second in all five retained server samples. The normalized rows still receive the same writes and timestamp updates. The initial exploratory cross-lane run observed 497.3 ms once with the index set from before the position seek change. [PR #56](https://github.com/wamukat/kanbalone/pull/56) The table reports the final paired comparison with the position index included in both builds. The index set, sampling design and run differed between those measurements. Every pair returned the same saved ticket fields and the same board revision delta. Previously issued cursors received 409 after each write.
 
 ## Revision equivalence and database upgrade
 
@@ -36,7 +36,7 @@ English, light, 1440 × 900 Chromium 159.0.8154.6. Both builds opened separate c
 | Archive, before save | #42 is open in the editor with Archive available |
 | Archive, after reload | #42 displays Archived and retains the Acceptance lane |
 
-The four original image pairs match byte for byte. An independent reviewer inspected the eight originals. All eight images in Kanbalone #1545 comment 4597 decoded successfully on its ticket screen. The [measurements](measurements.json) include the file names, hashes, source identities, all timing samples, migration observations and saved state.
+The four original image pairs match byte for byte. An independent reviewer inspected the eight originals. All eight originals also decoded successfully in the tracker. The [measurements](measurements.json) include the file names, hashes, source identities, all timing samples, migration observations and saved state.
 
 ## Verification
 

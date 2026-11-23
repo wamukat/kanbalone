@@ -1,6 +1,8 @@
-# Independent review — #1519 List selection
+# Independent review of List selection
 
-Reviewer: `render_1512_review`. Baseline: `963b37bcdd5e773ef01889bbcea9dbd33a21d1bd`.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/39)
+
+Independent review. Baseline: `963b37bcdd5e773ef01889bbcea9dbd33a21d1bd`.
 
 ## Result
 
@@ -30,4 +32,4 @@ Full check log confirms 198 tests passed, zero failed, followed by successful bu
 
 ## Scope boundary
 
-This is a bounded improvement within #1512. Large Group DOM/layout work and first relation-search collection remain. The older Group rendering measurements must not be presented as a fresh benchmark of this baseline. Group virtualization/progressive display should be considered separately with explicit decisions on variable-height titles, parent/child context, scroll stability, keyboard navigation and browser text search; it is not a low-risk extension of this Set-only patch.
+This review covers the List selection improvement. Large Group DOM/layout work and first relation-search collection remain. The older Group rendering measurements must not be presented as a fresh benchmark of this baseline. Group virtualization/progressive display should be considered separately with explicit decisions on variable-height titles, parent/child context, scroll stability, keyboard navigation and browser text search; it is not a low-risk extension of this Set-only patch.

@@ -1,4 +1,6 @@
-# #1517 実装後の初期表示計測
+# 対象ボードを一度だけ取得したときの初期表示計測
+
+[実装 PR](https://github.com/wamukat/kanbalone/pull/37)
 
 修正前 `1c87193ec553cbbd4bbc563f5a28b7ee67611600` と、`refreshBoards({ refreshDetail: false })` で最初のdetail取得を省く実装を比較した。診断用のroute書き換え試作とは別の実装後計測である。
 
@@ -22,4 +24,4 @@ DOMの100枚＋5枚、boardNavigationReady=true/loading=false/renderPending=fals
 
 ## 再実行
 
-独立作業ディレクトリで、前述調査のseed/serverを `coverage/completion-heavy/` に配置し、fixtureを作成してserver3616を起動する。基準publicのarchiveを上記パスへ展開する。このフォルダの `startup-production.mjs` を同じcoverageディレクトリへコピーし、リポジトリルートから `node coverage/completion-heavy/startup-production.mjs` を実行する。candidateには#1517の実装が必要。出力JSONはcoverage側に生成する。
+独立作業ディレクトリで、前述調査のseed/serverを `coverage/completion-heavy/` に配置し、fixtureを作成してserver3616を起動する。基準publicのarchiveを上記パスへ展開する。このフォルダの `startup-production.mjs` を同じcoverageディレクトリへコピーし、リポジトリルートから `node coverage/completion-heavy/startup-production.mjs` を実行する。候補には起動時読み込みの改善を含める。出力JSONはcoverage側に生成する。

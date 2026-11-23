@@ -7,7 +7,8 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 ### Branches and merging
 
 - Keep `main` releasable. Do not maintain a long-lived `develop` branch or permanent release branches.
-- Start a short-lived `codex/<ticket>-<topic>` branch from current `main` and open a PR with one purpose. Documentation and CI changes follow the same process.
+- Start a short-lived `codex/<topic>` branch from current `main` and open a PR with one purpose. Documentation and CI changes follow the same process.
+- Use descriptive branch names, commit messages and PR titles. Keep local Kanbalone tracking numbers, ticket URLs and local-only references in the local tracker or handoff. In public PR descriptions and documentation, link verified GitHub PRs or issues where relevant. When a link cannot be verified, describe the change directly. Synthetic IDs and local API examples are part of the documentation and remain valid.
 - Merging requires passing **Required checks** and user acceptance in chat. GitHub approval counts are not required; the agent checks review findings, CI results and the accepted diff, then performs the merge. If the content changes after acceptance, explain the changes and obtain acceptance again. AI review alone does not constitute user acceptance. Update against current main, normally squash merge, and delete the work branch after merging.
 - Do not use administrator bypass for routine work. For an incident requiring an exception, the repository owner records the reason, verification results and follow-up PR. Do not skip acceptance in chat or routinely push directly to main.
 - Use the Actions-created `codex/release-VERSION` branch for release preparation. Hold unrelated main merges from preparation until the target SHA is fixed, then resume normal development.

@@ -1,9 +1,11 @@
-# #1493 — Native ticket drag persistence
+# Native ticket drag persistence
+
+[PR #24](https://github.com/wamukat/kanbalone/pull/24)
 
 Captured 2026-11-21, Chromium / agent-browser 0.26.0, macOS, 1280×844, light theme, Japanese and English.
 
-Baseline: commit df3b465 plus the accepted #1492 working-tree changes, frozen before the #1493 fix in coverage/drag-1493/before-public.
-After: the same working tree plus the #1493 fix. Source/image SHA-256 fingerprints are recorded in manifest.json.
+Baseline: commit df3b465 plus the accepted completion preview changes, captured before the native drag fix.
+After: the same working tree plus the native drag fix. Source/image SHA-256 fingerprints are recorded in manifest.json.
 Both isolated servers (3496 before, 3497 after) use matching synthetic board/ticket content. Their creation timestamps differ slightly; no user data was used.
 
 ## User task and reproduction
@@ -57,7 +59,7 @@ Diagnostic-mouse-attempt.png records an unsuccessful attempt to hold a drag with
 
 ## Independent review
 
-A separate reviewer inspected the three implementation files, tests, Japanese/English images, insertion-marker image, and trusted event/API logs. No required changes remain. All seven embeds were opened from ticket #1493 and verified loaded at 1280 pixels wide. Documentation build also passed.
+A separate reviewer inspected the three implementation files, tests, Japanese/English images, insertion-marker image, and trusted event/API logs. No required changes remain. All seven embeds were opened in the tracker and verified loaded at 1280 pixels wide. Documentation build also passed.
 
 ## Local image hosting
 

@@ -1,6 +1,6 @@
 # Group and List reference collection
 
-Kanbalone #1534 reuses the total in the signed cursor for Group members and List references. The server verifies the board, filters, order and revision before reusing it. Previous cursors without a total still use COUNT. Kanbalone #1539 sends up to 800 rows per page on those two projections. The browser starts at 200 and uses the server's `X-Kanbalone-Ticket-Page-Limit` header for later pages. After a 400 on a larger page, it tries the same cursor once at 200 and keeps that limit through the rest of the collection.
+This change reuses the total in the signed cursor for Group members and List references. The server verifies the board, filters, order and revision before reusing it. Previous cursors without a total still use COUNT. The two projections now send up to 800 rows per page on those two projections. The browser starts at 200 and uses the server's `X-Kanbalone-Ticket-Page-Limit` header for later pages. After a 400 on a larger page, it tries the same cursor once at 200 and keeps that limit through the rest of the collection. [PR #54](https://github.com/wamukat/kanbalone/pull/54)
 
 ## API collection
 

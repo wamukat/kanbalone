@@ -1,10 +1,12 @@
-# Child candidate parent lookup — 2026-11-22 JST
+# Index child candidate relationships
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/41)
 
 ## Scope
 
-Local #1512 continuation after PR #40 (`80d7410cd24091ca0c8f8abc9f94403a89840f96`). Child candidate construction previously scanned all candidate tickets for every eligible root ticket to decide whether it already has children. Build a parent-ID Set once per candidate calculation from the same complete candidate collection. Keep existing self/parent/selected-child rules, archived membership, matching and priority-descending/ID-ascending order.
+This work followed the Group row icon change. [PR #40](https://github.com/wamukat/kanbalone/pull/40) (`80d7410cd24091ca0c8f8abc9f94403a89840f96`). Child candidate construction previously scanned all candidate tickets for every eligible root ticket to decide whether it already has children. Build a parent-ID Set once per candidate calculation from the same complete candidate collection. Keep existing self/parent/selected-child rules, archived membership, matching and priority-descending/ID-ascending order.
 
-This adds no retained cache, API, pagination, storage or UI contract. No migration required. It does not remove the full candidate fetch, selected-ID array lookups, rendering costs for broad matches or other #1512 bottlenecks.
+This adds no retained cache, API, pagination, storage or UI contract. No migration required. It does not remove the full candidate fetch, selected-ID array lookups, rendering costs for broad matches or other large-board costs.
 
 ## Performance method
 

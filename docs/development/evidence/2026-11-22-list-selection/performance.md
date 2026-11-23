@@ -1,4 +1,6 @@
-# #1519: List selection with large collections
+# List selection with large collections
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/39)
 
 The actual production change replaces repeated linear membership scans with local Sets. Selection remains an ordered ID array and is pruned from the current filtered collection on every render; no persistent index or new cache is introduced. These measurements concern **selection interactions**, not initial List/Group loading, API speed, or the remaining large Group DOM cost.
 
@@ -44,4 +46,4 @@ The two compressed `performance-board-*.json.gz` exports contain only those synt
 
 The portable re-import can remap IDs and generates import metadata/timestamps; it retains ticket contents, relationships and populations. It omits the old unmeasured timing-start boards. Therefore this replay is comparable fixture generation, not a claim of byte-identical recreation of the original SQLite backup. The committed raw results remain the original measured observations. No SQLite/user database is distributed. Both bundled exports were successfully re-imported through the actual API into a fresh in-memory database (1,005 / 10,005 tickets, board IDs 1 / 2); this checks portable fixture validity, not benchmark timing.
 
-Results are bounded local observations. Devices, browsers, network conditions and task patterns can differ; no claim is made that all #1512 performance work is complete.
+Results are bounded local observations. Devices, browsers, network conditions and task patterns can differ; these results apply to List selection.

@@ -1,6 +1,6 @@
 # Ticket detail and Group reads
 
-Kanbalone #1538. The List still uses the complete priority-independent references for the rows it displays. When ticket detail is open at the end of a List refresh, the board retrieves the same unfiltered and archived references through the lightweight endpoint. Board rows and references must share a ticket revision. The Group link and Group forms wait on the member collection that the board render already started.
+The List still uses the complete priority-independent references for the rows it displays. When ticket detail is open at the end of a List refresh, the board retrieves the same unfiltered and archived references through the lightweight endpoint. Board rows and references must share a ticket revision. The Group link and Group forms wait on the member collection that the board render already started. [PR #52](https://github.com/wamukat/kanbalone/pull/52)
 
 ## Timing
 

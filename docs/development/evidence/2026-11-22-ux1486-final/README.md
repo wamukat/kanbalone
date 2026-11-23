@@ -1,13 +1,13 @@
-# #1486 v1.0前の必須検証（2026-11-22）
+# v1.0前の必須検証（2026-11-22）
 
 **判定: 操作と保存を確認できたが、4件の必須修正が残る。正式リリースへ進める状態ではない。**
 
-ユーザー合意により後続対応は #1498 実スクリーンリーダー、#1499 実利用者評価、#1500 実外部サービス障害・長時間遅延、#1501 Preview処理中表示へ分離。これらを未確認のまま完了とは扱わず、v1.0の必須条件から外すことに合意した。
+ユーザー合意により後続対応は 実スクリーンリーダー、実利用者評価、実外部サービス障害・長時間遅延、Preview処理中表示へ分離。これらを未確認のまま完了とは扱わず、v1.0の必須条件から外すことに合意した。
 
 ## 環境・方法
 
 - SHA `24920cc1313b995bc857a48964aa5b3512898a37`、製品コード変更なし。
-- 独立環境 http://127.0.0.1:3556 、合成データのみ。運用3470は課題登録以外に触れていない。
+- 独立環境で合成データのみを使用した。
 - Chromium、1280×844、ライトテーマ、ja-JP/en-US。
 - APIでfixtureを作成した後、直接URLを開き、Tab/Shift+Tab/文字入力/Enterで操作。障害注入・フォーカス追跡・保存結果比較にPlaywrightを使用。
 - 500はブラウザで注入した模擬障害。保存前のPATCH失敗と、PATCHは成功した後の一覧GET失敗を区別する。
@@ -29,7 +29,7 @@
 
 ## 登録した必須修正
 
-1. **#1502: 保存後の再取得失敗で再試行が逆操作になる（高優先）**
+1. **保存後の再取得失敗で再試行が逆操作になる（高優先）**
 
    ![Archive保存後の失敗表示](ja-JP-archive-post-save-failure.png)
    ![再試行でRestoreされる](en-US-archive-post-save-retry.png)
@@ -37,21 +37,21 @@
 
    画像と`post-save-results.json`を併読。Archiveはfalse→true(保存成功)→false(再試行)、Restoreはtrue→false→true。初回の古いラベルとSave failed表示が保存実態に一致しない。
 
-2. **#1503: Export失敗が画面に通知されない**
+2. **Export失敗が画面に通知されない**
 
    ![Export失敗時の画面](ja-JP-export-failed.png)
    ![Export再試行](en-US-export-retried.png)
 
    失敗後もExportボタンは操作できるがtoastなし。再試行でDownload startedとなりファイル保存できる。実OSディスク不足の検証ではない。
 
-3. **#1504: チケット操作後・Archive/Restore失敗後のfocus消失**
+3. **チケット操作後・Archive/Restore失敗後のfocus消失**
 
    ![編集成功後](ja-JP-edited.png)
    ![Move成功後](en-US-moved.png)
 
    各言語focus-logおよびresults内createdFocus/editedFocus/movedFocus/failedFocus/successFocusでBODYを記録。詳細がモデルレスで背景へTab移動できる既存仕様とは分けて扱う。
 
-4. **#1505: Group追加・解除成功後のfocus消失**
+4. **Group追加・解除成功後のfocus消失**
 
    ![Group追加成功後](group/ja-JP-added.png)
    ![Group解除成功後](group/en-US-removed.png)
@@ -60,10 +60,10 @@
 
 ## 独立レビュー
 
-ux1486_audit_review が最終10ケースと保存後再取得失敗4ケースのharness・JSON・実画像を照合。4分類での登録と#1502の高優先化に同意。Groupは同担当が独立して日英を実操作した。ソース修正は行っていない。
+独立レビュー担当が最終10ケースと保存後再取得失敗4ケースのharness・JSON・実画像を照合。4分類と、保存後の再取得失敗への優先対応に同意。Groupは同担当が独立して日英を実操作した。ソース修正は行っていない。
 
 ## 次の対応
 
-#1502 → #1503 → #1504 → #1505を修正し、日英の同条件比較・保存結果・独立レビューを実施する。今回の画像は**修正前の現状**であり、修正後の証拠ではない。#1486はDoingを維持する。
+後続では上記の順に対応し、日英の同条件比較、保存結果、独立レビューを確認しました。ここに掲載した画像は修正前の状態です。 [後続の修正 PR](https://github.com/wamukat/kanbalone/pull/28)
 
-再現スクリプトは本ディレクトリの`verify.mjs`、`post-save.mjs`、`group/verify.mjs`。Node26、インストール済みPlaywright、合成データ専用3556を用いる。毎回新規fixtureを作り結果を上書きするため再実行前に証拠を退避する。チケット内の現状画像は未pushのためlocalhost:3558で配信し、原本は本ディレクトリに保持する。コミット・push時に固定SHA URLへ置換して表示を再確認する。
+再現スクリプトは本ディレクトリの`verify.mjs`、`post-save.mjs`、`group/verify.mjs`。Node26、インストール済みPlaywright、合成データ専用3556を用いる。毎回新規fixtureを作り結果を上書きするため再実行前に証拠を退避する。原画像は本ディレクトリにある。

@@ -1,6 +1,6 @@
 # Lane drag preview
 
-Kanbalone #1543 limits the number of cards copied to the browser's lane drag preview. The preview copies a prefix of the lane and uses the height of the remaining items to keep its scroll range. The same rule applies to an expanded inactive-ticket list inside the preview. The full board keeps its original cards and drag targets.
+This change limits the number of cards copied to the browser's lane drag preview. The preview copies a prefix of the lane and uses the height of the remaining items to keep its scroll range. The same rule applies to an expanded inactive-ticket list inside the preview. The full board keeps its original cards and drag targets. [PR #56](https://github.com/wamukat/kanbalone/pull/56)
 
 ## Native drag timing
 
@@ -26,6 +26,6 @@ Each run kept the preview height at 420px and the preview list at 327px with a s
 
 All three edge cases used a real pointer to start the drag, then Escape and mouse release to cancel. The preview cleared and the lane order read back from the API matched the initial order. Separate injected negative coordinates reported the same minimum `setDragImage` offset of `[24, 18]` in both phases. The targeted E2E also measures the original card extent in a deliberately taller source lane and checks the clipped preview's scroll range, copied card count, offset, cleanup and source card count.
 
-Seven English/light 1440 × 1000 image pairs were byte-identical and independently reviewed. The three board captures show the source lane before the drag, the board's feedback during the move, and the saved lane order after reloading. The other four pairs show the app-created preview element positioned temporarily for diagnostic capture. The OS cursor image is outside the capture. Kanbalone #1543 comment 4585 holds the 14 original PNGs. All 14 decoded successfully in a read-only browser session.
+Seven English/light 1440 × 1000 image pairs were byte-identical and independently reviewed. The three board captures show the source lane before the drag, the board's feedback during the move, and the saved lane order after reloading. The other four pairs show the app-created preview element positioned temporarily for diagnostic capture. The OS cursor image is outside the capture. All 14 original PNGs decoded successfully in a read-only browser session.
 
 The supplemental Japanese/dark 390 × 1000 comparison for the seven-card lane also matched byte-for-byte and retained the 611px scroll range and 327px client height. Its original capture hashes are recorded separately in `measurements.json`.

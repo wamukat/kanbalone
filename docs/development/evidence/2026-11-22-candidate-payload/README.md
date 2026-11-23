@@ -73,7 +73,7 @@ The timing covers synthetic input through two frame callbacks. Native typing,
 INP, paint completion, human task time, other browser engines and remote
 network latency remain unmeasured. The synthetic scale fixture is mainly
 standalone tickets. Collection still loads every candidate, and the separate
-List/Group collection and large-result DOM costs remain #1512 work.
+List and Group collection and large-result DOM costs remained outside this change. [PR #43](https://github.com/wamukat/kanbalone/pull/43)
 
 ## Visual review and stored results
 

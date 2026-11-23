@@ -1,6 +1,8 @@
-# Independent review — #1517 single startup load
+# Independent review of single startup loading
 
-Reviewer: `/root/create_1511_review`, separate from implementation and evidence authors. Reviewed baseline `1c87193ec553cbbd4bbc563f5a28b7ee67611600` and candidate fingerprint `21c3180f3b23afd4de64b0bf89bf9daf3ddbfa689688f69d6e118871d0f8f566`. Both source/test hashes match `revision.json`; runtime app.js SHA-256 is `4e02a8613f22e6a16733e6039b6a31cdbe4588c69acce2d85e3d4c9f59777b2e`.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/37)
+
+Reviewed independently of the implementation and evidence authors. Reviewed baseline `1c87193ec553cbbd4bbc563f5a28b7ee67611600` and candidate fingerprint `21c3180f3b23afd4de64b0bf89bf9daf3ddbfa689688f69d6e118871d0f8f566`. Both source/test hashes match `revision.json`; runtime app.js SHA-256 is `4e02a8613f22e6a16733e6039b6a31cdbe4588c69acce2d85e3d4c9f59777b2e`.
 
 ## Implementation and routing
 

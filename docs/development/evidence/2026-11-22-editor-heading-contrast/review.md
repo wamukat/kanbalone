@@ -1,6 +1,8 @@
-# Independent review — #1513 editor heading contrast
+# Independent review of editor heading contrast
 
-Reviewer: `/root/create_1511_review`, separate from the implementation/evidence author. Result: no blocking finding for this scoped fix.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/35)
+
+Reviewed independently of the implementation/evidence author. Result: no blocking finding for this scoped fix.
 
 Reviewed the actual one-property production diff: `.editor-field-label` now sets `color: var(--text-strong)`. This is the existing semantic heading foreground token, already adapted to light/dark themes. It resolves the native dialog's black inherited foreground without changing dialog-wide inheritance, typography, spacing or control behavior. The shared remote-import headings also receive the token; those forms were not separately exercised.
 

@@ -1,4 +1,6 @@
-# #1529 independent visual review
+# Independent visual review of image attachments
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/45)
 
 Reviewed November 22, 2026. Scope: the original viewport captures and recorded results for the synthetic image attachment task, against `docs/development/ui-ux-review.md`. Baseline `5ff44622f74c2116147d60c11be7f86fbc2208d2`; candidate capture source and subsequent changes are identified by `source-fingerprint.json` and `working-tree-comparison.json`. Node 26.13.1, Headless Chrome 158, device scale 1; Japanese and English at 1440 × 900 light and 390 × 844 dark. The original fixtures and steps are in [README](README.md).
 

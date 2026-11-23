@@ -1,4 +1,6 @@
-# #1515: Group initial retrieval and display
+# Group initial retrieval and display
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/36)
 
 ## Scope
 
@@ -37,7 +39,7 @@ The earlier `content-visibility` prototype was also not adopted: variable-height
 
 ## Reproduction and limitations
 
-Run `performance-navigation.mjs` from the repository root with dependencies installed and Node 26. It expects baseline on 3606, candidate on 3607 and the same isolated mixed #1514 performance fixture; results are written under `coverage/render-next/`. That fixture's copy/setup is documented in `../2026-11-22-group-partial-render/performance.md`. Start the two checkouts with their own source/static trees and separate SQLite backups; `PORT` and `KANBALONE_DB_FILE` can select those endpoints. The navigation script does not perform API writes.
+Run `performance-navigation.mjs` from the repository root with dependencies installed and Node 26. It expects baseline on 3606, candidate on 3607 and the same isolated mixed Group form-rendering fixture; results are written under `coverage/render-next/`. That fixture's copy/setup is documented in `../2026-11-22-group-partial-render/performance.md`. Start the two checkouts with their own source/static trees and separate SQLite backups; `PORT` and `KANBALONE_DB_FILE` can select those endpoints. The navigation script does not perform API writes.
 
 The order probe expects the baseline API on 3606. For the historical Group-lookup probe, copy its script back to `coverage/initial-render/` in a baseline checkout, point its readonly database path at the synthetic fixture, and run with `node --import tsx`. The whitespace diagnostic uses a browser route override; the archived `compact-group-view.js` is only a rejected prototype, not a shipped module. Copy those diagnostic files to `coverage/render-next/` before running its script.
 

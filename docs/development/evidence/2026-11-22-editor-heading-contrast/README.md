@@ -1,4 +1,6 @@
-# #1513 — Editor heading contrast
+# Editor heading contrast
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/35)
 
 The Tags and Relations headings inherited the browser's black dialog text, making them difficult to read in dark mode. The shared `.editor-field-label` now uses the existing `--text-strong` token. No layout, JavaScript, API, or storage behavior changes.
 

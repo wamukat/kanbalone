@@ -1,13 +1,13 @@
-# #1487 — English / Japanese interface evidence
+# English and Japanese interface verification
 
-Open `index.html`, or serve this directory with `python3 -m http.server 3477 --bind 127.0.0.1 --directory docs/development/evidence/2026-11-21-i18n`. Ticket images use `http://127.0.0.1:3477/`; that server must remain running for embedded local images. Original PNGs and metadata are stored here, independently of disposable test output.
+Open `index.html`, or serve this directory with `python3 -m http.server 3477 --bind 127.0.0.1 --directory docs/development/evidence/2026-11-21-i18n`. The index links to the original PNGs and metadata in this directory.
 
 ## Comparison
 
 - Baseline: commit `69636cc`, English-only UI. Changed: working tree on that commit; `manifest.json` records a SHA-256 of the sorted `public`/`src` paths and contents, each separated with NUL bytes.
 - Agent-browser Chromium, light theme, 1280×844; narrow Group 650×844 with a fresh navigation at that viewport and the responsive sidebar default. Settings captures scroll the sidebar until the Delete action is visible so the complete settings panel can be compared.
 - All 27 PNGs are original captures. Eight cases have baseline, English and Japanese screenshots; three additional images show language-change draft input → confirmation → cancellation.
-- Synthetic fixtures only, in separate SQLite databases on localhost3473 (before) and3474 (after). Existing user data on3470 is not used for evaluation. Ticket #1487 is the project tracking record.
+- Before and after used synthetic fixtures in separate SQLite databases.
 - Browser actions selected language through the settings control, changed Kanban/List/Group views, opened ticket detail/edit/delete confirmation, cancelled deletion, and cancelled a language change with an unsaved Group description. The 8 original fixture tickets were read through the API afterward; title, body, lane, board, parent, priority, Group, archive/completion status and relation IDs matched the baseline. No destructive confirmation was submitted.
 
 ## Reproduce

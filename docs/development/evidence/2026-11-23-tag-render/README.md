@@ -1,6 +1,6 @@
 # Group and Kanban initial display
 
-This investigation covers #1527 and #1528. The change skips grapheme segmentation when a tag name already fits within the label limit in UTF-16 code units. Every grapheme spans at least one code unit, so the existing segmentation and truncation path handles the remaining names. One diagnostic run with 10,000 Group rows attributed about 213 ms to grapheme segmentation. At 3,013 Kanban cards, segmentation accounted for about 91 ms.
+The change skips grapheme segmentation when a tag name already fits within the label limit in UTF-16 code units. Every grapheme spans at least one code unit, so the existing segmentation and truncation path handles the remaining names. One diagnostic run with 10,000 Group rows attributed about 213 ms to grapheme segmentation. At 3,013 Kanban cards, segmentation accounted for about 91 ms. [PR #51](https://github.com/wamukat/kanbalone/pull/51)
 
 Baseline `899d0f0117ee52e6d57db59241312f0fa4fcd0f7`, corresponding to version 1.1.0. The candidate served the byte-identical `app-tags.js` from `b1355ebecc47d5aa1f2d9f2dd8f9b2248aa266ed` with the same baseline backend. Candidate and baseline source fingerprints are in the measurement results. The original timing launcher started outside the repository, so the application displayed its fallback version label v0.0.0 in the timing captures. Both timing variants used the same startup environment. The reproduction script now starts from the chosen repository to read the package version.
 
@@ -14,7 +14,7 @@ The November 23 JST runs used Node 26.13.1 and Playwright Chromium 159.0.8154.6 
 
 The timing endpoint detects the expected IDs and row/card count in the DOM, with a timestamp after two animation frames. Kanban also records the first card and the first card in every nonempty lane. These instrument navigation and DOM availability. Paint completion, INP, other browser engines, and human task time are outside the measurement scope. Resource Timing tracks ticket pages, decoded bytes, and response completion. Server-Timing measures request start to the start of sending, including handler work and response serialization. CDP durations are cumulative from navigation. The separate diagnostic run estimates JavaScript costs using the CPU profiler and timing around HTML generation, DOM insertion and JSON consumption. An additional replay times synchronous JSON.parse on response texts held in memory.
 
-## #1527 Group and No Group
+## Group and No Group
 
 Medians in milliseconds. Ranges and request counts are in `measurements.json`.
 
@@ -27,7 +27,7 @@ Medians in milliseconds. Ranges and request counts are in `measurements.json`.
 
 The separate large Group diagnostic measured 338 ms for markup generation, 532 ms for synchronous row insertion, and about 1,497 ms for cumulative layout. No Group measured 292 ms, 362 ms, and about 1,335 ms respectively. Synchronous JSON replay medians were 12.7 and 11.3 ms for all pages. The Group and No Group main runs received 5.76 MB and 5.48 MB of ticket payloads in 50 pages. After the tag improvement, both still render their complete row set in one update. Layout, DOM construction and retrieval account for most of the remaining time.
 
-## #1528 Kanban
+## Kanban
 
 Medians in milliseconds.
 
