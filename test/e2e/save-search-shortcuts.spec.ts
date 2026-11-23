@@ -116,9 +116,11 @@ test("slash focuses the existing Kanban and List search without consuming text i
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Search shortcuts", laneNames: ["Todo"] });
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Find this ticket" });
     const search = page.locator("#search-input");
+    const card = page.locator(`.ticket-card[data-ticket-id="${ticket.id}"] .ticket-link`);
+    const row = page.locator(`.list-ticket-link[data-open-ticket-id="${ticket.id}"]`);
     for (const view of ["", "/list"]) {
       await page.goto(`${baseUrl}/boards/${board.id}${view}`);
-      const title = page.getByRole("button", { name: ticket.title, exact: true });
+      const title = view ? row : card;
       await search.fill("Find");
       await title.focus();
       for (const properties of [{ isComposing: true }, { keyCode: 229 }, { repeat: true }, { ctrlKey: true }, { altKey: true }, { shiftKey: true }, { metaKey: true }]) {
@@ -137,16 +139,14 @@ test("slash focuses the existing Kanban and List search without consuming text i
       const editor = document.createElement("div");
       editor.contentEditable = "true";
       editor.id = "test-contenteditable";
-      editor.append(document.createElement("span"));
       document.querySelector("main")!.append(editor);
-      editor.querySelector("span")!.focus();
     });
     const editable = page.locator("#test-contenteditable");
     await editable.press("/");
     await expect(editable).toBeFocused();
     await expect(editable).toHaveText("/");
     await search.clear();
-    await page.getByRole("button", { name: ticket.title, exact: true }).click();
+    await row.click();
     await expect(page.locator("#editor-dialog")).toBeVisible();
     await page.keyboard.press("/");
     await expect(search).not.toBeFocused();
