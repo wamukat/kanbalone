@@ -69,7 +69,7 @@ async function beginCardDrag(page: Page, sourceId: number, beforeId: number) {
   await expect(card(page, beforeId)).toHaveClass(/is-ticket-drop-before/);
 }
 
-test("native Tab and Shift+Tab mount the next logical card across a Kanban window", async ({ page }) => {
+test("native Tab and Shift+Tab mount the next logical card across a Kanban window", async ({ page, browserName }) => {
   const f = await fixture(page);
   try {
     const [first, next] = await f.ordered(f.source);
@@ -81,12 +81,12 @@ test("native Tab and Shift+Tab mount the next logical card across a Kanban windo
     await expect(title(page, next.id)).toHaveCount(0);
     expect(await list.locator(":scope > .ticket-card").count()).toBeLessThan(40);
     expect(await firstHandle?.evaluate(node => node === document.activeElement)).toBe(true);
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(browserName === "webkit" ? "Alt+Tab" : "Tab");
     await expect(title(page, next.id)).toBeFocused();
     await expect(title(page, next.id)).toBeInViewport();
     await scrollTo(list, 0.55);
     await expect(title(page, first.id)).toHaveCount(0);
-    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press(browserName === "webkit" ? "Alt+Shift+Tab" : "Shift+Tab");
     await twoFrames(page);
     await expect(title(page, first.id)).toBeFocused();
     await expect(title(page, first.id)).toBeInViewport();
@@ -100,14 +100,14 @@ test("native Tab and Shift+Tab mount the next logical card across a Kanban windo
     await footer.focus();
     await expect(footer).toBeFocused();
     await expect(title(page, last.id)).toHaveCount(0);
-    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press(browserName === "webkit" ? "Alt+Shift+Tab" : "Shift+Tab");
     await expect(title(page, last.id)).toBeFocused();
     await expect(title(page, last.id)).toBeInViewport();
   } finally { await f.close(); }
 });
 
 for (const laneToUpdate of ["other", "same"] as const) {
-  test(`an editor close waiting for SSE keeps subsequent native Tab focus when the ${laneToUpdate} lane changes`, async ({ page }) => {
+  test(`an editor close waiting for SSE keeps subsequent native Tab focus when the ${laneToUpdate} lane changes`, async ({ page, browserName }) => {
     await page.addInitScript(() => {
       const NativeEventSource = window.EventSource;
       const observed = { opened: false, updates: 0 };
@@ -145,7 +145,7 @@ for (const laneToUpdate of ["other", "same"] as const) {
       await refreshStarted;
       await expect(page.locator("body")).not.toHaveClass(/editor-dialog-open/);
       await expect(title(page, first.id)).toBeFocused();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(browserName === "webkit" ? "Alt+Tab" : "Tab");
       await expect(title(page, next.id)).toBeFocused();
       releaseRefresh?.();
       await expect(title(page, changed.id)).toHaveText("Changed while detail was open");

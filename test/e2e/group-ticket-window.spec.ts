@@ -47,8 +47,10 @@ async function assertSmallWindow(page: Page) {
   expect(await page.locator(".group-ticket-window-row").count()).toBeLessThan(80);
 }
 
-test("large Group preserves parent-child geometry and native keyboard order across virtual windows", async ({ page }) => {
+test("large Group preserves parent-child geometry and native keyboard order across virtual windows", async ({ page, browserName }) => {
   const { baseUrl, close } = await startTestApp(page);
+  const tab = browserName === "webkit" ? "Alt+Tab" : "Tab";
+  const shiftTab = browserName === "webkit" ? "Alt+Shift+Tab" : "Shift+Tab";
   try {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await openGroup(page, baseUrl);
@@ -59,32 +61,32 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await expect(title(page, 1201)).toHaveCount(0);
 
     await page.getByRole("button", { name: "Find tickets", exact: true }).focus();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     await expect(remove(page, 1)).toBeFocused();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     await expect(title(page, 2)).toBeFocused();
     await scrollToEnd(page);
     await expect(title(page, 2)).toBeFocused();
     await assertSmallWindow(page);
     await expect(title(page, 3)).toHaveCount(0);
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     await expect(title(page, 3)).toBeFocused();
     await expect(title(page, 3)).toBeInViewport();
 
     await scrollToEnd(page);
     await title(page, 1201).focus();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     const footer = page.getByRole("button", { name: "Show archived tickets (1)" });
     await expect(footer).toBeFocused();
     await viewport(page).evaluate(root => { root.scrollTop = 0; });
     await expect(title(page, 1201)).toHaveCount(0);
-    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press(shiftTab);
     await expect(title(page, 1201)).toBeFocused();
     await expect(title(page, 1201)).toBeInViewport();
     await scrollToStart(page);
     await expect(title(page, 1201)).toBeFocused();
     await expect(title(page, 1200)).toHaveCount(0);
-    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press(shiftTab);
     await expect(title(page, 1200)).toBeFocused();
     await expect(title(page, 1200)).toBeInViewport();
     await assertSmallWindow(page);
