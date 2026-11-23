@@ -366,7 +366,7 @@ export function createGroupTicketWindow(root, section, initial) {
       updated = true;
     }
     if (updated) writeOffsets();
-    if (updated || keepBottom) restore(anchor);
+    if ((updated || keepBottom) && anchor) restore(anchor);
     else paint();
     lastTop = root.scrollTop;
     lastAnchor = capture();

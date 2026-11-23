@@ -130,6 +130,30 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await expect.poll(bottomGap).toBeGreaterThan(100);
     await anchor();
     expect(await bottomGap()).toBeGreaterThan(100);
+
+    await scrollToStart(page);
+    const farScroll = await viewport(page).evaluate(async root => {
+      const canvas = root.querySelector(".group-ticket-window")!;
+      const visible = () => {
+        const clip = root.getBoundingClientRect();
+        return [...canvas.children].filter(row => {
+          const box = row.getBoundingClientRect();
+          return box.bottom > clip.top && box.top < clip.bottom;
+        }).length;
+      };
+      const width = canvas.clientWidth;
+      root.style.inlineSize = `${root.clientWidth - 120}px`;
+      const newWidth = canvas.clientWidth;
+      root.scrollTop = (root.scrollHeight - root.clientHeight) / 2;
+      const beforePaint = visible();
+      // Queue the normal scroll handler before sampling this frame's mounted rows.
+      root.dispatchEvent(new Event("scroll"));
+      const afterPaint = await new Promise<number>(resolve => requestAnimationFrame(() => resolve(visible())));
+      return { width, newWidth, beforePaint, afterPaint };
+    });
+    expect(farScroll.newWidth).toBeLessThan(farScroll.width);
+    expect(farScroll.beforePaint).toBe(0);
+    expect(farScroll.afterPaint).toBeGreaterThan(0);
   } finally { await close(); }
 });
 
