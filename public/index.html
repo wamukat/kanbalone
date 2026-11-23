@@ -104,7 +104,7 @@
           <div class="toolbar-actions">
             <label class="toolbar-search" for="search-input">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#search"></use></svg>
-              <input id="search-input" type="search" placeholder="Search keywords or #123" data-i18n-placeholder="Search keywords or #123" />
+              <input id="search-input" type="search" aria-keyshortcuts="/" placeholder="Search keywords or #123" data-i18n-placeholder="Search keywords or #123" />
               <button id="search-clear-button" type="button" class="search-clear-button" aria-label="Clear search" data-i18n-aria-label="Clear search" hidden>
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
               </button>
@@ -248,7 +248,7 @@
               <div class="editor-actions">
                 <div id="comment-save-state" class="editor-save-state comment-save-state" hidden></div>
                 <div class="editor-actions-right">
-                  <button id="save-comment-button" type="button" class="primary-action" data-i18n="Add Comment">Add Comment</button>
+                  <button id="save-comment-button" type="submit" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter" title="Add Comment (Ctrl/Cmd+Enter)" data-i18n-title="Add Comment (Ctrl/Cmd+Enter)" data-i18n="Add Comment">Add Comment</button>
                 </div>
               </div>
             </form>
@@ -395,7 +395,7 @@
             </button>
             <div class="editor-actions-right">
               <button id="cancel-edit-button" type="button" class="ghost" data-i18n="Cancel">Cancel</button>
-              <button id="save-ticket-button" type="submit" class="primary-action" data-i18n="Save">Save</button>
+              <button id="save-ticket-button" type="submit" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter" title="Save (Ctrl/Cmd+Enter)" data-i18n-title="Save (Ctrl/Cmd+Enter)" data-i18n="Save">Save</button>
             </div>
           </div>
         </form>

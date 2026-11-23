@@ -24,6 +24,7 @@ export function createGroupWindowSearch(options) {
   form.setAttribute("role", "search");
   const input = document.createElement("input");
   input.type = "search";
+  input.setAttribute("aria-keyshortcuts", "/");
   input.placeholder = t("Title or #123");
   input.setAttribute("aria-label", t("Find tickets in this view"));
   input.setAttribute("aria-describedby", "group-window-search-help");

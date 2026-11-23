@@ -240,17 +240,32 @@ export function createBoardKeyboardModule(ctx, listModule, {
     }
   }
 
+  function focusSearch(event) {
+    if (event.repeat || !state.activeBoardId) return;
+    const source = event.target;
+    if (source instanceof Element && (source.closest("input, textarea, select, [role='textbox'], [role='searchbox']")
+        || (source instanceof HTMLElement && source.isContentEditable))) return;
+    const search = state.viewMode === "group"
+      ? elements.groupBoard.querySelector(".group-window-search input")
+      : elements.searchInput;
+    if (!(search instanceof HTMLInputElement) || search.disabled || !visible(search)) return;
+    event.preventDefault();
+    search.focus();
+  }
+
   function handleKeydown(event) {
-    if (!event.defaultPrevented && !event.isComposing && event.keyCode !== 229 && !event.repeat
-        && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
-        && !elements.editorDialog.open && !elements.uxDialog.open
-        && event.key.toLowerCase() === 'n' && event.target === document.activeElement && describeOrigin(event.target)) {
+    if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey
+        || elements.editorDialog.open || elements.uxDialog.open) return;
+    if (event.key === "/") {
+      focusSearch(event);
+      return;
+    }
+    if (!event.repeat && event.key.toLowerCase() === 'n' && event.target === document.activeElement && describeOrigin(event.target)) {
       event.preventDefault();
       void createFromOrigin(event.target);
       return;
     }
-    if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey
-        || elements.editorDialog.open || elements.uxDialog.open || !["list", "kanban"].includes(state.viewMode)) return;
+    if (!["list", "kanban"].includes(state.viewMode)) return;
     if (event.target === elements.searchInput && event.key === "ArrowDown") {
       event.preventDefault();
       if (state.boardNavigationLoading) searchPending = true;

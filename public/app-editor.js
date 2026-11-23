@@ -22,9 +22,13 @@ export function createEditorModule(ctx) {
   let editorOpenGeneration = 0;
   let dialogSession = 0;
   let dialogBoardId = null;
-  let composing = false;
+  let compositionTarget = null;
   const imageAttachments = createImageAttachments(ctx.api, ctx.showToast);
   const isDialogCurrent = () => elements.editorDialog.open && state.activeBoardId === dialogBoardId;
+  const isComposing = (event) => event.isComposing || event.keyCode === 229 || event.target === compositionTarget;
+  const isSaveShortcut = (event) => !event.defaultPrevented && !isComposing(event)
+    && !elements.uxDialog.open && event.key === "Enter" && (event.ctrlKey || event.metaKey)
+    && !event.altKey && !event.shiftKey;
 
   imageAttachments.bind(elements.ticketBody, () => isDialogCurrent() && state.dialogMode === "edit");
 
@@ -87,6 +91,8 @@ export function createEditorModule(ctx) {
     updateDialogTicket,
     imageAttachments,
     isDialogCurrent,
+    isComposing,
+    isSaveShortcut,
   });
 
   function restoreActionFocus(preferred) {
@@ -204,7 +210,7 @@ export function createEditorModule(ctx) {
     detailModule.resetInlineEdit();
     commentsModule.resetImageUploads();
     relationsModule.resetCandidates();
-    composing = false;
+    compositionTarget = null;
     editorOpenGeneration += 1;
     state.editingTicketId = null;
     state.dialogMode = "view";
@@ -412,6 +418,7 @@ export function createEditorModule(ctx) {
     if (!isCurrent()) return;
     editorOriginVersion = originVersion;
     dialogSession++;
+    compositionTarget = null;
     dialogBoardId = boardId;
     imageAttachments.reset(elements.ticketBody);
     commentsModule.resetImageUploads();
@@ -507,29 +514,33 @@ export function createEditorModule(ctx) {
         lane?.isCompletionLane ? t('Tickets in this lane are resolved') : '',
       ].filter(Boolean).join(' · ') : '';
     }
-    const save = elements.editorForm.querySelector('button[type="submit"]');
-    if (creating) {
-      save?.setAttribute('title', t('Save (Ctrl/Cmd+Enter)'));
-      save?.setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
-    } else {
-      save?.removeAttribute('title');
-      save?.removeAttribute('aria-keyshortcuts');
-    }
   }
 
   elements.ticketLane.addEventListener('change', syncCreationContext);
-  elements.editorForm.addEventListener('compositionstart', () => { composing = true; });
-  elements.editorForm.addEventListener('compositionend', () => { composing = false; });
-  elements.editorForm.addEventListener('keydown', (event) => {
-    if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || composing
-        || state.editingTicketId || state.dialogMode !== 'edit' || !elements.editorDialog.open) return;
-    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey) {
+  elements.editorDialog.addEventListener("compositionstart", (event) => { compositionTarget = event.target; });
+  function clearComposition(event) {
+    if (event.target === compositionTarget) compositionTarget = null;
+  }
+  elements.editorDialog.addEventListener("compositionend", clearComposition);
+  elements.editorDialog.addEventListener("focusout", clearComposition);
+
+  elements.editorForm.addEventListener("keydown", (event) => {
+    if (event.defaultPrevented || isComposing(event) || elements.uxDialog.open
+        || state.dialogMode !== "edit" || !isDialogCurrent()) return;
+    if (isSaveShortcut(event)) {
       event.preventDefault();
       if (!event.repeat && !state.editorSaving) elements.editorForm.requestSubmit();
-    } else if (event.key === 'Enter' && event.target === elements.ticketTitle) {
+    } else if (!state.editingTicketId && event.key === "Enter" && event.target === elements.ticketTitle) {
       // Enter confirms text; creating a ticket uses the explicit save action.
       event.preventDefault();
     }
+  });
+
+  elements.commentBody.addEventListener("keydown", (event) => {
+    if (state.dialogMode !== "view" || !isDialogCurrent() || elements.commentForm.hidden
+        || elements.commentsSection.hidden || !isSaveShortcut(event)) return;
+    event.preventDefault();
+    if (!event.repeat && !elements.saveCommentButton.disabled) elements.commentForm.requestSubmit();
   });
 
   function handleDocumentClick(event) {
