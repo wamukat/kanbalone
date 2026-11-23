@@ -239,6 +239,39 @@ export function createGroupBoardModule(ctx) {
     return /** @type {HTMLElement | null} */ (sections?.header.querySelector(".group-ticket-toolbar") ?? null);
   }
 
+  /** @param {HTMLElement} header @param {string} html */
+  function updateSearchHeader(header, html) {
+    const current = toolbar();
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    const next = template.content.querySelector(".group-ticket-toolbar");
+    const incoming = Array.from(template.content.childNodes);
+    const split = next ? incoming.indexOf(next) : -1;
+    if (current?.parentElement !== header || split < 0 || !next) {
+      header.innerHTML = html;
+      return;
+    }
+    // Keep the search input connected while SSE updates the surrounding title and counters.
+    for (const node of Array.from(header.childNodes)) {
+      if (node !== current) node.remove();
+    }
+    header.insertBefore(collect(incoming.slice(0, split)), current);
+    header.append(collect(incoming.slice(split + 1)));
+    const oldActions = [...current.children].filter(child => !child.matches(".group-window-search"));
+    const newActions = [...next.children];
+    if (oldActions.map(node => node.outerHTML).join("") !== newActions.map(node => node.outerHTML).join("")) {
+      for (const action of oldActions) action.remove();
+      current.prepend(...newActions);
+    }
+  }
+
+  /** @param {ChildNode[]} nodes */
+  function collect(nodes) {
+    const fragment = document.createDocumentFragment();
+    fragment.append(...nodes);
+    return fragment;
+  }
+
   function captureTicketAnchor() {
     return ticketWindow?.capture() ?? null;
   }
@@ -373,6 +406,8 @@ export function createGroupBoardModule(ctx) {
     const updateTickets = ticketKey !== renderedTicketKey;
     const viewScope = JSON.stringify([boardId, loadedSelection]);
     const sameView = renderedViewScope === viewScope;
+    const previousSearch = ticketSearch;
+    const searchFocus = sameView ? previousSearch?.captureFocus() ?? null : null;
     const html = renderGroupViewSections(
       {
         groups,
@@ -410,7 +445,8 @@ export function createGroupBoardModule(ctx) {
     for (const name of ["list", "header", "footer"]) {
       const value = html[/** @type {"list" | "header" | "footer"} */ (name)];
       if (sectionHtml[name] === value) continue;
-      sections[name].innerHTML = value;
+      if (name === "header" && sameView && ticketSearch) updateSearchHeader(sections[name], value);
+      else sections[name].innerHTML = value;
       sectionHtml[name] = value;
     }
     if (updateTickets) {
@@ -460,6 +496,11 @@ export function createGroupBoardModule(ctx) {
       syncTicketBusy();
     }
     ticketSearch?.attach(toolbar());
+    if (searchFocus && previousSearch === ticketSearch) ticketSearch?.restoreFocus(searchFocus);
+    else if (searchFocus && !ticketSearch && document.activeElement === document.body) {
+      const create = host.querySelector('[data-group-action="new-ticket"]');
+      if (create instanceof HTMLButtonElement) create.focus({ preventScroll: true });
+    }
     if (handoffFocus && document.activeElement === document.body) restoreTicketFocus(handoffFocus);
     if (focusSelector || focusedRemovedUngrouped) {
       const next = focusedRemovedUngrouped

@@ -5,6 +5,7 @@ import { icon } from "./icons.js";
 /** @typedef {import("./app-group-types.js").GroupTicketRow} Row */
 /** @typedef {import("./app-group-types.js").GroupTicketAnchor} Anchor */
 /** @typedef {import("./app-group-types.js").GroupTicketFocus} Focus */
+/** @typedef {{active: HTMLElement, selection: [number | null, number | null, "forward" | "backward" | "none" | null] | null}} SearchFocus */
 
 /**
  * @param {{
@@ -40,7 +41,9 @@ export function createGroupWindowSearch(options) {
   const help = document.createElement("span");
   help.id = "group-window-search-help";
   help.className = "visually-hidden";
-  help.textContent = t("Search can find tickets beyond the rows currently shown. Browser Find searches the rows on screen.");
+  const advice = t("Search can find tickets beyond the rows currently shown. Browser Find searches the rendered rows.");
+  help.textContent = advice;
+  input.title = advice;
   const actions = document.createElement("div");
   actions.className = "group-window-search-actions";
   actions.append(previous, next, open, clear, status);
@@ -53,6 +56,7 @@ export function createGroupWindowSearch(options) {
   /** @type {Anchor | null} */ let returnAnchor = null;
   /** @type {Focus | null} */ let returnFocus = null;
   let viewingResults = false;
+  let composing = false;
 
   /** @param {string} label @param {string} iconName */
   function button(label, iconName) {
@@ -130,12 +134,15 @@ export function createGroupWindowSearch(options) {
     if (index >= 0) returnFocus = { id, index, remove: previous.hasAttribute("data-group-remove") };
   });
   form.addEventListener("click", event => event.stopPropagation());
+  input.addEventListener("compositionstart", () => { composing = true; });
+  input.addEventListener("compositionend", () => { composing = false; });
   form.addEventListener("submit", event => {
     event.preventDefault();
     event.stopPropagation();
-    move(1);
+    if (!composing) move(1);
   });
   form.addEventListener("keydown", event => {
+    if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || composing) return;
     if (event.key === "Escape" && input.value) {
       event.preventDefault();
       event.stopPropagation();
@@ -166,6 +173,27 @@ export function createGroupWindowSearch(options) {
       toolbar = nextToolbar;
       toolbar?.append(form);
       sync();
+    },
+    /** @returns {SearchFocus | null} */
+    captureFocus() {
+      const active = document.activeElement;
+      if (!(active instanceof HTMLElement) || !form.contains(active)) return null;
+      return {
+        active,
+        selection: active === input ? [input.selectionStart, input.selectionEnd, input.selectionDirection] : null,
+      };
+    },
+    /** @param {SearchFocus | null} snapshot */
+    restoreFocus(snapshot) {
+      if (!snapshot || document.activeElement !== document.body) return;
+      const active = snapshot.active;
+      const target = active instanceof HTMLButtonElement && active.disabled ? input : active;
+      if (!form.contains(target) || !target.isConnected) return;
+      target.focus({ preventScroll: true });
+      if (target === input && snapshot.selection) {
+        const [start, end, direction] = snapshot.selection;
+        input.setSelectionRange(start, end, direction ?? undefined);
+      }
     },
     /** @param {Row[]} nextRows */
     update(nextRows) {

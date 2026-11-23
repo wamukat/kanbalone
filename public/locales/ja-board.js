@@ -129,7 +129,7 @@ export default {
   "Next match": "次の一致へ",
   "Open matching ticket": "一致したチケットを開く",
   "Clear ticket search": "チケット検索を解除",
-  "Search can find tickets beyond the rows currently shown. Browser Find searches the rows on screen.": "この検索では画面外のチケットも探せます。ブラウザーのページ内検索は表示されている行が対象です。",
+  "Search can find tickets beyond the rows currently shown. Browser Find searches the rendered rows.": "この検索では画面外のチケットも探せます。ブラウザーのページ内検索は、現在表示用に描画されている行が対象です。",
   "{count} matching tickets": "{count}件一致",
   "Match {index} of {count}": "{count}件中{index}件目",
   "Find unassigned tickets": "未所属のチケットを検索",
