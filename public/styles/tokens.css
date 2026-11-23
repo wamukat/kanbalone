@@ -70,6 +70,7 @@
   --bg: var(--surface-canvas);
   --panel: var(--surface-1);
   --panel-strong: var(--surface-2);
+  --resolved-row-bg: color-mix(in srgb, var(--text-muted) 4%, transparent);
   --line: var(--border-soft);
   --text: var(--text-strong);
   --muted: var(--text-muted);

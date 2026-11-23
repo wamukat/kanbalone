@@ -546,6 +546,9 @@
 .group-ticket-status .ticket-status-icon-archived {
   grid-column: 2;
 }
+.group-ticket-row.group-ticket-resolved:not(.group-ticket-context) {
+  background: var(--resolved-row-bg);
+}
 .group-ticket-resolved .group-ticket-title,
 .group-ticket-archived .group-ticket-title {
   color: var(--text-muted);

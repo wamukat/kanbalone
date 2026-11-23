@@ -21,3 +21,20 @@
 .list-relation-ticket-link:hover {
   text-decoration: underline;
 }
+
+.ticket-card .ticket-link:focus-visible,
+.list-row .list-ticket-link:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+/* List titles sit inside a cell that clips overflow. */
+.list-row .list-ticket-link:focus-visible {
+  outline-offset: -2px;
+}
+
+@media (forced-colors: active) {
+  .ticket-card .ticket-link:focus-visible,
+  .list-row .list-ticket-link:focus-visible {
+    outline-color: Highlight;
+  }
+}
