@@ -17,6 +17,9 @@ export function createBoardModule(ctx) {
   );
   const keyboard = createBoardKeyboardModule(ctx, listModule, {
     onKanbanKeyboardScroll: (list) => kanbanModule.stopKeyboardScrollRestore(list),
+    captureGroupAnchor: () => groupModule.captureTicketAnchor(),
+    restoreGroupAnchor: (anchor) => groupModule.restoreTicketAnchor(anchor),
+    focusGroupEditorTicket: (id, anchor) => groupModule.focusEditorTicket(id, anchor),
   });
   const boardSettingsModule = createBoardSettingsModule(ctx);
   const kanbanModule = createKanbanBoardModule(ctx, { renderBoardDetail, afterRender: keyboard.afterRender });

@@ -1,7 +1,9 @@
 // @ts-check
 /** @typedef {import("./app-group-types.js").GroupTicketWindowModel} Model */
 /** @typedef {import("./app-group-types.js").GroupTicketRow} Row */
-/** @typedef {{id: number, index: number, offset: number, bottom: boolean}} Anchor */
+/** @typedef {import("./app-group-types.js").GroupTicketAnchor} Anchor */
+
+/** @typedef {import("./app-group-types.js").GroupTicketFocus} TicketFocus */
 
 const overscan = 650;
 
@@ -68,6 +70,7 @@ export function createGroupTicketWindow(root, section, initial) {
   let offsets = new Float64Array(0);
   let busy = false;
   let frame = 0;
+  /** @type {number | null} */ let preparedId = null;
   let lastWidth = canvas.clientWidth;
   let lastTop = root.scrollTop;
   /** @type {Anchor | null} */
@@ -76,6 +79,8 @@ export function createGroupTicketWindow(root, section, initial) {
   observer.observe(root);
   observer.observe(canvas);
   root.addEventListener("scroll", schedule, { passive: true });
+  document.addEventListener("keydown", prepareTab, true);
+  document.addEventListener("focusin", clearPreparedRow);
 
   /** @param {Model} next */
   function indexModel(next) {
@@ -144,33 +149,161 @@ export function createGroupTicketWindow(root, section, initial) {
     return entry;
   }
 
+  function activeRow() {
+    const active = document.activeElement;
+    const row = active?.closest("[data-group-window-id]");
+    return row instanceof HTMLElement && canvas.contains(row) ? row : null;
+  }
+
   /** @param {boolean} [updateRows] */
   function paint(updateRows = false) {
     if (!root.clientHeight) return;
+    const focusedRow = activeRow();
+    const focusedId = Number(focusedRow?.dataset.groupWindowId);
+    const focusedAction = focusedRow && document.activeElement?.hasAttribute("data-group-remove")
+      ? "[data-group-remove]" : "[data-group-ticket]";
     const relative = root.scrollTop - canvasTop();
     const from = rowAt(Math.max(0, relative - overscan));
     const to = Math.min(model.rows.length, rowAt(relative + root.clientHeight + overscan) + 1);
-    /** @type {Set<number>} */
-    const needed = new Set();
-    for (let index = from; index < to; index++) needed.add(model.rows[index].ticket.id);
+    const needed = new Set(Array.from({ length: to - from }, (_, index) => index + from));
+    for (const id of [focusedId, preparedId]) {
+      const index = id === null ? undefined : indices.get(id);
+      if (index !== undefined) needed.add(index);
+    }
     for (const [id, entry] of mounted) {
-      if (needed.has(id)) continue;
+      const index = indices.get(id);
+      if (index !== undefined && needed.has(index)) continue;
       observer.unobserve(entry.node);
       entry.node.remove();
       mounted.delete(id);
     }
-    let next = canvas.firstElementChild;
-    for (let index = from; index < to; index++) {
+    const nodes = [];
+    for (const index of [...needed].sort((a, b) => a - b)) {
       const entry = rowElement(index);
       if (!entry) continue;
       if (updateRows || !entry.html) {
         const html = model.renderRow(model.rows[index]);
         if (html !== entry.html) entry.node.innerHTML = entry.html = html;
       }
-      if (entry.node !== next) canvas.insertBefore(entry.node, next);
-      next = entry.node.nextElementSibling;
       syncRowBusy(entry.node);
+      nodes.push(entry.node);
     }
+    const pinned = focusedRow ? nodes.indexOf(focusedRow) : -1;
+    let next = canvas.firstElementChild;
+    if (pinned >= 0) {
+      // Put siblings around the focused node so native focus stays attached.
+      let before = focusedRow;
+      for (let index = pinned - 1; index >= 0; index--) {
+        const node = nodes[index];
+        if (node.nextElementSibling !== before || node.parentElement !== canvas) canvas.insertBefore(node, before);
+        before = node;
+      }
+      next = focusedRow?.nextElementSibling ?? null;
+    }
+    for (let index = pinned + 1; index < nodes.length; index++) {
+      const node = nodes[index];
+      if (node !== next) canvas.insertBefore(node, next ?? null);
+      next = node.nextElementSibling;
+    }
+    if (focusedRow && canvas.contains(focusedRow) && document.activeElement === document.body) {
+      const action = focusedRow.querySelector(focusedAction);
+      if (action instanceof HTMLButtonElement && !action.disabled) action.focus({ preventScroll: true });
+    }
+  }
+
+  /** @param {number} start @param {number} step */
+  function findFocusableRow(start, step) {
+    for (let index = start; index >= 0 && index < model.rows.length; index += step) {
+      const row = model.rows[index];
+      if (!row.context || (row.canRemove && !busy)) return index;
+    }
+    return -1;
+  }
+
+  /** @param {KeyboardEvent} event */
+  function prepareTab(event) {
+    if (!event.isTrusted || event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey || event.isComposing
+      || event.defaultPrevented || !root.clientHeight || document.querySelector("dialog[open]")) return;
+    const active = document.activeElement;
+    if (!(active instanceof HTMLElement)) return;
+    const step = event.shiftKey ? -1 : 1;
+    const current = activeRow();
+    let start;
+    if (current) {
+      const actions = [...current.querySelectorAll("button:not(:disabled)")];
+      const within = actions.indexOf(active) + step;
+      if (within >= 0 && within < actions.length) return;
+      const index = indices.get(Number(current.dataset.groupWindowId));
+      if (index === undefined) return;
+      start = index + step;
+    } else {
+      const relation = active.compareDocumentPosition(canvas);
+      if (step === 1 && (relation & Node.DOCUMENT_POSITION_FOLLOWING)) start = 0;
+      else if (step === -1 && (relation & Node.DOCUMENT_POSITION_PRECEDING)) start = model.rows.length - 1;
+      else return;
+    }
+    const target = findFocusableRow(start, step);
+    if (target < 0) return;
+    preparedId = model.rows[target].ticket.id;
+    paint();
+    schedule();
+  }
+
+  function clearPreparedRow() {
+    if (preparedId === null) return;
+    preparedId = null;
+    schedule();
+  }
+
+  /** @param {number} id @param {number} [inset] */
+  function reveal(id, inset = 0) {
+    const index = indices.get(id);
+    if (index === undefined || !root.clientHeight) return null;
+    const clip = viewportTop(root) + inset;
+    let entry = mounted.get(id);
+    const box = entry?.node.getBoundingClientRect();
+    if (!box || box.top < clip || box.bottom > viewportTop(root) + root.clientHeight) {
+      root.scrollTop = canvasTop() + offsets[index] - inset;
+      paint();
+      entry = mounted.get(id);
+      if (entry) root.scrollTop += entry.node.getBoundingClientRect().top - clip;
+    }
+    schedule();
+    return entry?.node ?? null;
+  }
+
+  function captureFocus() {
+    const active = document.activeElement;
+    const current = activeRow();
+    if (!current) return null;
+    const id = Number(current.dataset.groupWindowId);
+    const index = indices.get(id);
+    return index === undefined ? null : { id, index, remove: !!active?.hasAttribute("data-group-remove") };
+  }
+
+  /** @param {TicketFocus} origin @param {boolean} [revealTarget] */
+  function focus(origin, revealTarget = false) {
+    const index = indices.get(origin.id);
+    const row = index === undefined ? null : model.rows[index];
+    const preferred = origin.remove ? "[data-group-remove]" : "[data-group-ticket]";
+    if (row && ((origin.remove && row.canRemove && !busy) || (!origin.remove && !row.context))) {
+      preparedId = origin.id;
+      paint();
+      const node = revealTarget ? reveal(origin.id) : mounted.get(origin.id)?.node;
+      const action = node?.querySelector(preferred);
+      if (action instanceof HTMLButtonElement && !action.disabled) {
+        action.focus({ preventScroll: true });
+        return true;
+      }
+    }
+    const start = index ?? Math.min(origin.index, model.rows.length - 1);
+    const next = findFocusableRow(start, 1);
+    const fallback = next >= 0 ? next : findFocusableRow(start - 1, -1);
+    if (fallback < 0) return false;
+    const button = reveal(model.rows[fallback].ticket.id)?.querySelector("button:not(:disabled)");
+    if (!(button instanceof HTMLButtonElement)) return false;
+    button.focus({ preventScroll: true });
+    return true;
   }
 
   /** @param {HTMLElement} node */
@@ -195,6 +328,7 @@ export function createGroupTicketWindow(root, section, initial) {
 
   function refresh() {
     frame = 0;
+    preparedId = null;
     if (!canvas.isConnected || !root.clientHeight) return;
     const width = canvas.clientWidth;
     const widthChanged = lastWidth !== width;
@@ -227,6 +361,9 @@ export function createGroupTicketWindow(root, section, initial) {
 
   return {
     capture,
+    captureFocus,
+    focus,
+    reveal,
     restore,
     /** @param {Model} next @param {Anchor | null} anchor */
     update(next, anchor) {
@@ -244,6 +381,8 @@ export function createGroupTicketWindow(root, section, initial) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       root.removeEventListener("scroll", schedule);
+      document.removeEventListener("keydown", prepareTab, true);
+      document.removeEventListener("focusin", clearPreparedRow);
       root.classList.remove("has-group-ticket-window");
       canvas.remove();
     },

@@ -12,6 +12,8 @@ export type GroupTicketRow = {
   canRemove: boolean;
   lastInFamily: boolean;
 };
+export type GroupTicketFocus = { id: number; index: number; remove: boolean };
+export type GroupTicketAnchor = { id: number; index: number; offset: number; bottom: boolean };
 export type GroupTicketWindowModel = {
   rows: GroupTicketRow[];
   renderRow(row: GroupTicketRow): string;

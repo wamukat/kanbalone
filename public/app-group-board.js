@@ -233,6 +233,54 @@ export function createGroupBoardModule(ctx) {
   }
   /** @param {number} id @param {GroupTicket[]} [source] */
   const related = (id, source = tickets) => relatedTickets(id, source);
+  function captureTicketAnchor() {
+    return ticketWindow?.capture() ?? null;
+  }
+
+  /** @param {import("./app-group-types.js").GroupTicketAnchor} anchor */
+  function restoreTicketAnchor(anchor) {
+    if (ticketWindow) ticketWindow.restore(anchor);
+    else if (sections) restoreGroupTicketAnchor(host, sections.tickets, anchor);
+  }
+
+  /** @param {Element | null} active */
+  function captureTicketFocus(active) {
+    if (ticketWindow) return ticketWindow.captureFocus();
+    if (!sections || !(active instanceof HTMLButtonElement) || !sections.tickets.contains(active)) return null;
+    const row = active.closest("[data-group-row-id]");
+    if (!row) return null;
+    const index = Array.from(sections.tickets.querySelectorAll("[data-group-row-id]")).indexOf(row);
+    return { id: Number(row.getAttribute("data-group-row-id")), index, remove: active.hasAttribute("data-group-remove") };
+  }
+
+  /** @param {import("./app-group-types.js").GroupTicketFocus} origin @param {boolean} [reveal] */
+  function restoreTicketFocus(origin, reveal = false) {
+    if (ticketWindow) return ticketWindow.focus(origin, reveal);
+    if (!sections) return false;
+    const attribute = origin.remove ? "data-group-remove" : "data-group-ticket";
+    const section = sections.tickets;
+    const existing = section.querySelector(`[${attribute}="${origin.id}"]:not(:disabled)`);
+    if (existing instanceof HTMLButtonElement) {
+      existing.focus({ preventScroll: true });
+      return true;
+    }
+    const rows = Array.from(section.querySelectorAll("[data-group-row-id]"));
+    const index = Math.max(0, Math.min(origin.index, rows.length - 1));
+    for (const row of [...rows.slice(index), ...rows.slice(0, index).reverse()]) {
+      const candidate = row.querySelector("button:not(:disabled)");
+      if (!(candidate instanceof HTMLButtonElement)) continue;
+      candidate.focus();
+      return true;
+    }
+    return false;
+  }
+
+  /** @param {number} id @param {import("./app-group-types.js").GroupTicketAnchor | null} anchor */
+  function focusEditorTicket(id, anchor) {
+    if (!ticketWindow && !anchor) return false;
+    return restoreTicketFocus({ id, index: anchor?.index ?? 0, remove: false }, true);
+  }
+
   function render() {
     ctx.beforeGroupRender?.();
     // Live board events must not interrupt a draft or move the caret while typing.
@@ -344,6 +392,8 @@ export function createGroupBoardModule(ctx) {
       { escapeHtml: esc, lanes, rowIcon: (name) => getRowIcon()(name) },
       updateTickets ? "auto" : false,
     );
+    const handoffFocus = updateTickets && sameView && (ticketWindow || html.ticketWindow)
+      ? captureTicketFocus(active) : null;
     const anchor = updateTickets && sameView && (ticketWindow || html.ticketWindow)
       ? ticketWindow?.capture() ?? captureGroupTicketAnchor(host, sections.tickets)
       : null;
@@ -378,6 +428,7 @@ export function createGroupBoardModule(ctx) {
     } else {
       syncTicketBusy();
     }
+    if (handoffFocus && document.activeElement === document.body) restoreTicketFocus(handoffFocus);
     if (focusSelector || focusedRemovedUngrouped) {
       const next = focusedRemovedUngrouped
         ? host.querySelector('[data-select-group][aria-current="true"]') || host.querySelector('[data-group-action="create"]')
@@ -401,25 +452,39 @@ export function createGroupBoardModule(ctx) {
     if (!group) return;
     const targetBoardId = boardId;
     const request = { ticketIds: [id], groupId: null };
-    const preview = /** @type {GroupPreview} */ (
-      await ctx.sendJson(`/api/boards/${boardId}/group-memberships/preview`, {
-        method: "POST",
-        body: request,
-      })
-    );
-    const confirmed = await ctx.openFormDialog({
-      title: tr("Remove from Group?"),
-      message: tr("Remove {count} ticket(s) from “{name}”? Parent/child relationships and ticket status stay unchanged.", { count: preview.tickets.length, name: group.name }),
-      fields: `<ul class="group-impact-list">${preview.tickets.map((t) => `<li>#${t.id} ${esc(t.title)}${t.isArchived ? ` <span class="muted">${tr("Archived")}</span>` : ""}</li>`).join("")}</ul>`,
-      submitLabel: tr("Remove from Group"),
-    });
-    if (!confirmed) return;
-    await ctx.sendJson(`/api/boards/${boardId}/group-memberships`, {
-      method: "PUT",
-      body: { ...request, expectedToken: preview.expectedToken },
-    });
-    await ctx.refreshBoardDetail();
-    focusMembershipAction(targetBoardId, group.id);
+    const origin = ticketWindow?.captureFocus();
+    const restoreOrigin = () => {
+      if (origin && state.activeBoardId === targetBoardId && loadedSelection === group.id && state.viewMode === "group") {
+        restoreTicketFocus(origin, true);
+      }
+    };
+    try {
+      const preview = /** @type {GroupPreview} */ (
+        await ctx.sendJson(`/api/boards/${boardId}/group-memberships/preview`, {
+          method: "POST",
+          body: request,
+        })
+      );
+      const confirmed = await ctx.openFormDialog({
+        title: tr("Remove from Group?"),
+        message: tr("Remove {count} ticket(s) from “{name}”? Parent/child relationships and ticket status stay unchanged.", { count: preview.tickets.length, name: group.name }),
+        fields: `<ul class="group-impact-list">${preview.tickets.map((t) => `<li>#${t.id} ${esc(t.title)}${t.isArchived ? ` <span class="muted">${tr("Archived")}</span>` : ""}</li>`).join("")}</ul>`,
+        submitLabel: tr("Remove from Group"),
+      });
+      if (!confirmed) {
+        restoreOrigin();
+        return;
+      }
+      await ctx.sendJson(`/api/boards/${boardId}/group-memberships`, {
+        method: "PUT",
+        body: { ...request, expectedToken: preview.expectedToken },
+      });
+      await ctx.refreshBoardDetail();
+      focusMembershipAction(targetBoardId, group.id);
+    } catch (error) {
+      restoreOrigin();
+      throw error;
+    }
   }
   /** @param {HTMLButtonElement} button */
   async function act(button) {
@@ -735,5 +800,5 @@ export function createGroupBoardModule(ctx) {
   });
   /** @param {number} id */
   const isActiveGroup = (id) => state.viewMode === "group" && boardId === state.activeBoardId && selectedId === id;
-  return { renderGroupBoard, openGroup, isActiveGroup };
+  return { renderGroupBoard, openGroup, isActiveGroup, captureTicketAnchor, restoreTicketAnchor, focusEditorTicket };
 }

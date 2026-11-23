@@ -1,7 +1,7 @@
 import { t } from "./app-i18n.js";
 
 // Navigate the existing title buttons, independently of List bulk selection.
-export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScroll } = {}) {
+export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScroll, captureGroupAnchor, restoreGroupAnchor, focusGroupEditorTicket } = {}) {
   const { state, elements } = ctx;
   let creationOpening = false;
   let returnTarget = null;
@@ -24,7 +24,7 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
     if (!(element instanceof HTMLElement) || !visible(element)) return null;
     if (isBoardTitle(element)) return { id: identity(element) };
     if (elements.groupBoard.contains(element)) {
-      if (element.matches('[data-group-ticket]')) return { query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
+      if (element.matches('[data-group-ticket]')) return { groupTicketId: Number(element.dataset.groupTicket), query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
       if (element.matches('[data-select-group][aria-current="true"]')) return { query: `[data-select-group="${CSS.escape(element.dataset.selectGroup)}"]` };
       if (element.matches('[data-group-action="new-ticket"]')) return { query: '[data-group-action="new-ticket"]' };
     }
@@ -36,6 +36,7 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
   }
 
   function focusOrigin(target) {
+    if (target.view === "group" && target.groupTicketId != null && focusGroupEditorTicket?.(target.groupTicketId, target.scroll.groupAnchor)) return true;
     if (target.id != null) return focusTitle(target.id, false);
     const host = target.view === 'group' ? elements.groupBoard : target.view === 'list' ? elements.listBoard : elements.laneBoard;
     const element = host.querySelector(target.query);
@@ -71,6 +72,7 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
     return {
       windowX: window.scrollX, windowY: window.scrollY,
       groupLeft: elements.groupBoard.scrollLeft, groupTop: elements.groupBoard.scrollTop,
+      groupAnchor: state.viewMode === "group" ? captureGroupAnchor?.() : null,
       boardLeft: elements.laneBoard.scrollLeft,
       boardTop: elements.laneBoard.scrollTop,
       listLeft: elements.listBoard.scrollLeft,
@@ -83,7 +85,8 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
   function restoreScroll(scroll) {
     window.scrollTo(scroll.windowX, scroll.windowY);
     elements.groupBoard.scrollLeft = scroll.groupLeft;
-    elements.groupBoard.scrollTop = scroll.groupTop;
+    if (state.viewMode === "group" && scroll.groupAnchor && restoreGroupAnchor) restoreGroupAnchor(scroll.groupAnchor);
+    else elements.groupBoard.scrollTop = scroll.groupTop;
     elements.laneBoard.scrollLeft = scroll.boardLeft;
     elements.laneBoard.scrollTop = scroll.boardTop;
     elements.listBoard.scrollLeft = scroll.listLeft;
