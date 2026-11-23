@@ -16,13 +16,26 @@
 .cv-choices, .cv-meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
 .cv-choices label { display: inline-flex; align-items: center; gap: var(--space-1); }
 .cv-choices input { margin: 0; accent-color: var(--accent); }
-.cv-group, .cv-form, .cv-empty { border: 1px solid var(--line); border-radius: var(--radius-surface); background: var(--panel); }
-.cv-group { margin-bottom: var(--space-4); overflow: hidden; }
-.cv-group header { padding: var(--space-3) var(--space-4); background: var(--panel-strong); }
-.cv-group header h3 { font-size: var(--font-size-section-title); }
+.cv-form, .cv-empty { border: 1px solid var(--line); border-radius: var(--radius-surface); background: var(--panel); }
+.cv-group { margin-block-end: var(--space-6); }
+.cv-group > header {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-surface);
+  background: color-mix(in srgb, var(--text-muted) 15%, var(--panel));
+}
+.cv-group > header h3 { font-size: var(--font-size-app-title); }
 .cv-group-line { justify-content: start; align-items: baseline; flex-wrap: wrap; }
 .cv-group-line span, .cv-condition, .cv-meta, .cv-excerpt h4, .cv-excerpt time { color: var(--muted); font-size: var(--font-size-meta); }
-.cv-ticket { padding: var(--space-4); border-top: 1px solid var(--line); }
+.cv-ticket {
+  margin-block-start: var(--space-2);
+  margin-inline-start: var(--space-5);
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-surface);
+  background-color: var(--panel);
+}
+.cv-ticket :is(.cv-meta, .cv-excerpt) { padding-inline-start: var(--space-3); }
 .cv-ticket > h4 { font-size: var(--font-size-section-title); }
 .cv-ticket > h4 a { color: var(--text); text-decoration: none; }
 .cv-ticket > h4 a:hover { color: var(--accent); text-decoration: underline; }
@@ -54,6 +67,6 @@
   .cv-rule-head { align-items: start; flex-direction: column; }
 }
 
-.cv-ticket.resolved { background: var(--resolved-row-bg); }
+.cv-ticket.resolved { background-image: linear-gradient(var(--resolved-row-bg), var(--resolved-row-bg)); }
 .cv-ticket .ticket-status-icon { margin-inline-end: var(--space-1); }
 .cv-warning { color: var(--warning); padding-block: var(--space-1); }
