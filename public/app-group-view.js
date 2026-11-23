@@ -57,7 +57,7 @@ export function renderGroupView(view, options) {
   return sections.list + `<div class="group-content-panel">${sections.header}${sections.tickets}${sections.footer}</div>`;
 }
 
-/** @param {import("./app-group-types.js").GroupViewState} view @param {import("./app-group-types.js").GroupViewOptions} options @param {boolean} [includeTickets] */
+/** @param {import("./app-group-types.js").GroupViewState} view @param {import("./app-group-types.js").GroupViewOptions} options @param {boolean | "auto"} [includeTickets] */
 export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon = ticketInlineIcon }, includeTickets = true) {
   const {
     groups,
@@ -116,29 +116,31 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
     t,
     parent = false,
     context = false,
-  ) => `<div class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
+  ) => `<div data-group-row-id="${t.id}" class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
     <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: rowIcon })}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: rowIcon })}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
     ${parent && !showUngrouped ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${rowIcon("trash-2")}</button>` : ""}
     ${t.tags.length ? `<div class="tag-list group-ticket-tags">${t.tags.map((tag) => renderTag(tag, esc)).join("")}</div>` : ""}
   </div>`;
-  function ticketRows() {
+  function ticketFamilies() {
     const comparator = getListTicketComparator(null);
     return tickets
-      .filter(
-        (t) =>
-          t.parentTicketId == null ||
-          !hierarchy().byId.has(t.parentTicketId),
-      )
+      .filter((t) => t.parentTicketId == null || !hierarchy().byId.has(t.parentTicketId))
       .sort(comparator)
-      .map((parent) => {
-        const children = (hierarchy().childrenByParent.get(parent.id) ?? [])
-          .sort(comparator)
+      .flatMap((parent) => {
+        const children = (hierarchy().childrenByParent.get(parent.id) ?? []).sort(comparator)
           .filter((t) => showArchived || !t.isArchived);
-        if (!showArchived && parent.isArchived && !children.length) return "";
-        return `<div class="group-ticket-family">${row(parent, true, parent.isArchived && !showArchived)}${children.map((t) => `<div class="group-ticket-child">${row(t)}</div>`).join("")}</div>`;
-      })
-      .join("");
+        return !showArchived && parent.isArchived && !children.length ? [] : [{ parent, children }];
+      });
+  }
+  /** @param {{parent: GroupTicket, children: GroupTicket[]}} family */
+  function renderFamily({ parent, children }) {
+    return `<div class="group-ticket-family">${row(parent, true, parent.isArchived && !showArchived)}${children.map(t => `<div class="group-ticket-child">${row(t)}</div>`).join("")}</div>`;
+  }
+  /** @param {import("./app-group-types.js").GroupTicketRow} item */
+  function renderWindowRow(item) {
+    const html = row(item.ticket, !item.child, item.context);
+    return item.child ? `<div class="group-ticket-child">${html}</div>` : html;
   }
   function description() {
     if (!selected) return "";
@@ -268,8 +270,19 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
     `<div class="group-detail-heading"><h3>${tr("No Group")}</h3><span class="muted group-ticket-count">${ungroupedCount}</span></div>`,
     `<div class="group-ticket-toolbar">${createTicket}</div>`,
   ].join("") : "";
-  const rows = !includeTickets ? null : selected || showUngrouped
-    ? ticketRows() || `<p class="group-empty muted">${tickets.length ? tr("All tickets are archived.") : tr("Add or create tickets to get started.")}</p>`
+  const families = includeTickets && (selected || showUngrouped) ? ticketFamilies() : null;
+  /** @type {import("./app-group-types.js").GroupTicketWindowModel | null} */ let ticketWindow = null;
+  if (includeTickets === "auto" && families && families.reduce((count, family) => count + family.children.length + 1, 0) >= 1000) {
+    const rows = families.flatMap(({ parent, children }) => [
+      { ticket: parent, familyId: parent.id, child: false, context: parent.isArchived && !showArchived, canRemove: !showUngrouped, lastInFamily: !children.length },
+      ...children.map((ticket, index) => ({
+        ticket, familyId: parent.id, child: true, context: false, canRemove: false, lastInFamily: index === children.length - 1,
+      })),
+    ]);
+    ticketWindow = { rows, renderRow: renderWindowRow };
+  }
+  const rows = !includeTickets || ticketWindow ? null : families
+    ? families.map(renderFamily).join("") || `<p class="group-empty muted">${tickets.length ? tr("All tickets are archived.") : tr("Add or create tickets to get started.")}</p>`
     : `<p class="group-empty muted">${groups.length ? tr("Select All to see your inactive Groups.") : tr("Create a Group to organize tickets.")}</p>`;
   const footer = [
     selected || showUngrouped ? archiveToggle() : "",
@@ -278,5 +291,5 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
       : "",
     `<p class="group-error" role="alert">${esc(error)}</p>`,
   ].join("");
-  return { list: groupList(), header, tickets: rows, footer };
+  return { list: groupList(), header, tickets: rows, footer, ticketWindow };
 }

@@ -1,6 +1,8 @@
 // @ts-check
 import { t as tr, getLocale } from "./app-i18n.js";
 import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
+import { captureGroupTicketAnchor, createGroupTicketWindow, restoreGroupTicketAnchor } from "./app-group-ticket-window.js";
+import { createGroupWindowSearch } from "./app-group-window-search.js";
 import { createGroupRowIconRenderer } from "./app-group-row-icons.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
@@ -54,6 +56,9 @@ export function createGroupBoardModule(ctx) {
   let ticketRevision = 0;
   let renderedTicketKey = "";
   let renderedBusy = false;
+  let renderedViewScope = "";
+  /** @type {ReturnType<typeof createGroupTicketWindow> | null} */ let ticketWindow = null;
+  /** @type {ReturnType<typeof createGroupWindowSearch> | null} */ let ticketSearch = null;
   /** @type {Record<string, HTMLElement> | null} */
   let sections = null;
   /** @type {Record<string, string>} */
@@ -83,6 +88,7 @@ export function createGroupBoardModule(ctx) {
     for (const button of sections.tickets.querySelectorAll("[data-group-remove]")) {
       if (button instanceof HTMLButtonElement) button.disabled = busy;
     }
+    ticketWindow?.setBusy(busy);
     renderedBusy = busy;
   }
 
@@ -229,6 +235,91 @@ export function createGroupBoardModule(ctx) {
   }
   /** @param {number} id @param {GroupTicket[]} [source] */
   const related = (id, source = tickets) => relatedTickets(id, source);
+  function toolbar() {
+    return /** @type {HTMLElement | null} */ (sections?.header.querySelector(".group-ticket-toolbar") ?? null);
+  }
+
+  /** @param {HTMLElement} header @param {string} html */
+  function updateSearchHeader(header, html) {
+    const current = toolbar();
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    const next = template.content.querySelector(".group-ticket-toolbar");
+    const incoming = Array.from(template.content.childNodes);
+    const split = next ? incoming.indexOf(next) : -1;
+    if (current?.parentElement !== header || split < 0 || !next) {
+      header.innerHTML = html;
+      return;
+    }
+    // Keep the search input connected while SSE updates the surrounding title and counters.
+    for (const node of Array.from(header.childNodes)) {
+      if (node !== current) node.remove();
+    }
+    header.insertBefore(collect(incoming.slice(0, split)), current);
+    header.append(collect(incoming.slice(split + 1)));
+    const oldActions = [...current.children].filter(child => !child.matches(".group-window-search"));
+    const newActions = [...next.children];
+    if (oldActions.map(node => node.outerHTML).join("") !== newActions.map(node => node.outerHTML).join("")) {
+      for (const action of oldActions) action.remove();
+      current.prepend(...newActions);
+    }
+  }
+
+  /** @param {ChildNode[]} nodes */
+  function collect(nodes) {
+    const fragment = document.createDocumentFragment();
+    fragment.append(...nodes);
+    return fragment;
+  }
+
+  function captureTicketAnchor() {
+    return ticketWindow?.capture() ?? null;
+  }
+
+  /** @param {import("./app-group-types.js").GroupTicketAnchor} anchor */
+  function restoreTicketAnchor(anchor) {
+    if (ticketWindow) ticketWindow.restore(anchor);
+    else if (sections) restoreGroupTicketAnchor(host, sections.tickets, anchor);
+  }
+
+  /** @param {Element | null} active */
+  function captureTicketFocus(active) {
+    if (ticketWindow) return ticketWindow.captureFocus();
+    if (!sections || !(active instanceof HTMLButtonElement) || !sections.tickets.contains(active)) return null;
+    const row = active.closest("[data-group-row-id]");
+    if (!row) return null;
+    const index = Array.from(sections.tickets.querySelectorAll("[data-group-row-id]")).indexOf(row);
+    return { id: Number(row.getAttribute("data-group-row-id")), index, remove: active.hasAttribute("data-group-remove") };
+  }
+
+  /** @param {import("./app-group-types.js").GroupTicketFocus} origin @param {boolean} [reveal] */
+  function restoreTicketFocus(origin, reveal = false) {
+    if (ticketWindow) return ticketWindow.focus(origin, reveal);
+    if (!sections) return false;
+    const attribute = origin.remove ? "data-group-remove" : "data-group-ticket";
+    const section = sections.tickets;
+    const existing = section.querySelector(`[${attribute}="${origin.id}"]:not(:disabled)`);
+    if (existing instanceof HTMLButtonElement) {
+      existing.focus({ preventScroll: true });
+      return true;
+    }
+    const rows = Array.from(section.querySelectorAll("[data-group-row-id]"));
+    const index = Math.max(0, Math.min(origin.index, rows.length - 1));
+    for (const row of [...rows.slice(index), ...rows.slice(0, index).reverse()]) {
+      const candidate = row.querySelector("button:not(:disabled)");
+      if (!(candidate instanceof HTMLButtonElement)) continue;
+      candidate.focus();
+      return true;
+    }
+    return false;
+  }
+
+  /** @param {number} id @param {import("./app-group-types.js").GroupTicketAnchor | null} anchor */
+  function focusEditorTicket(id, anchor) {
+    if (!ticketWindow && !anchor) return false;
+    return restoreTicketFocus({ id, index: anchor?.index ?? 0, remove: false }, true);
+  }
+
   function render() {
     ctx.beforeGroupRender?.();
     // Live board events must not interrupt a draft or move the caret while typing.
@@ -282,6 +373,11 @@ export function createGroupBoardModule(ctx) {
         ? [focused.selectionStart, focused.selectionEnd]
         : null;
     if (!boardId) {
+      ticketSearch?.dispose();
+      ticketSearch = null;
+      ticketWindow?.dispose();
+      ticketWindow = null;
+      renderedViewScope = "";
       host.innerHTML = "";
       sections = null;
       sectionHtml = {};
@@ -289,6 +385,11 @@ export function createGroupBoardModule(ctx) {
       return;
     }
     if (!sections || !host.contains(sections.tickets)) {
+      ticketSearch?.dispose();
+      ticketSearch = null;
+      ticketWindow?.dispose();
+      ticketWindow = null;
+      renderedViewScope = "";
       host.innerHTML = '<div class="group-render-section" data-group-section="list"></div><div class="group-content-panel"><div class="group-render-section" data-group-section="header"></div><div class="group-render-section" data-group-section="tickets"></div><div class="group-render-section" data-group-section="footer"></div></div>';
       sections = {};
       for (const name of ["list", "header", "tickets", "footer"]) {
@@ -303,6 +404,10 @@ export function createGroupBoardModule(ctx) {
       lanes.map((lane) => [lane.id, lane.name]),
     ]);
     const updateTickets = ticketKey !== renderedTicketKey;
+    const viewScope = JSON.stringify([boardId, loadedSelection]);
+    const sameView = renderedViewScope === viewScope;
+    const previousSearch = ticketSearch;
+    const searchFocus = sameView ? previousSearch?.captureFocus() ?? null : null;
     const html = renderGroupViewSections(
       {
         groups,
@@ -329,22 +434,74 @@ export function createGroupBoardModule(ctx) {
         query,
         activeOption,
       },
-      { escapeHtml: esc, lanes, rowIcon: getRowIcon() },
-      updateTickets,
+      { escapeHtml: esc, lanes, rowIcon: (name) => getRowIcon()(name) },
+      updateTickets ? "auto" : false,
     );
+    const handoffFocus = updateTickets && sameView && (ticketWindow || html.ticketWindow)
+      ? captureTicketFocus(active) : null;
+    const anchor = updateTickets && sameView && (ticketWindow || html.ticketWindow)
+      ? ticketWindow?.capture() ?? captureGroupTicketAnchor(host, sections.tickets)
+      : null;
     for (const name of ["list", "header", "footer"]) {
       const value = html[/** @type {"list" | "header" | "footer"} */ (name)];
       if (sectionHtml[name] === value) continue;
-      sections[name].innerHTML = value;
+      if (name === "header" && sameView && ticketSearch) updateSearchHeader(sections[name], value);
+      else sections[name].innerHTML = value;
       sectionHtml[name] = value;
     }
     if (updateTickets) {
-      sections.tickets.innerHTML = html.tickets ?? "";
+      const hadWindow = !!ticketWindow;
+      if (html.ticketWindow) {
+        if (ticketWindow && sameView) {
+          ticketWindow.update(html.ticketWindow, anchor);
+          ticketSearch?.update(html.ticketWindow.rows);
+        } else {
+          ticketSearch?.dispose();
+          ticketWindow?.dispose();
+          ticketWindow = createGroupTicketWindow(host, sections.tickets, html.ticketWindow);
+          const windowView = ticketWindow;
+          ticketSearch = createGroupWindowSearch({
+            rows: html.ticketWindow.rows,
+            capture: windowView.capture,
+            restore: windowView.restore,
+            reveal: windowView.reveal,
+            focus: windowView.focus,
+            highlight: windowView.highlight,
+            open(id) {
+              const node = windowView.reveal(id, toolbar()?.getBoundingClientRect().height);
+              const title = node?.querySelector("[data-group-ticket]");
+              if (title instanceof HTMLButtonElement) {
+                title.focus({ preventScroll: true });
+                title.click();
+              }
+            },
+          });
+          if (!sameView) host.scrollTop = 0;
+          ticketWindow.restore(anchor);
+        }
+        ticketWindow.setBusy(busy);
+      } else {
+        ticketSearch?.dispose();
+        ticketSearch = null;
+        ticketWindow?.dispose();
+        ticketWindow = null;
+        sections.tickets.innerHTML = html.tickets ?? "";
+        if (anchor) restoreGroupTicketAnchor(host, sections.tickets, anchor);
+        else if (hadWindow && !sameView) host.scrollTop = 0;
+      }
+      renderedViewScope = viewScope;
       renderedTicketKey = ticketKey;
       renderedBusy = busy;
     } else {
       syncTicketBusy();
     }
+    ticketSearch?.attach(toolbar());
+    if (searchFocus && previousSearch === ticketSearch) ticketSearch?.restoreFocus(searchFocus);
+    else if (searchFocus && !ticketSearch && document.activeElement === document.body) {
+      const create = host.querySelector('[data-group-action="new-ticket"]');
+      if (create instanceof HTMLButtonElement) create.focus({ preventScroll: true });
+    }
+    if (handoffFocus && document.activeElement === document.body) restoreTicketFocus(handoffFocus);
     if (focusSelector || focusedRemovedUngrouped) {
       const next = focusedRemovedUngrouped
         ? host.querySelector('[data-select-group][aria-current="true"]') || host.querySelector('[data-group-action="create"]')
@@ -368,25 +525,39 @@ export function createGroupBoardModule(ctx) {
     if (!group) return;
     const targetBoardId = boardId;
     const request = { ticketIds: [id], groupId: null };
-    const preview = /** @type {GroupPreview} */ (
-      await ctx.sendJson(`/api/boards/${boardId}/group-memberships/preview`, {
-        method: "POST",
-        body: request,
-      })
-    );
-    const confirmed = await ctx.openFormDialog({
-      title: tr("Remove from Group?"),
-      message: tr("Remove {count} ticket(s) from “{name}”? Parent/child relationships and ticket status stay unchanged.", { count: preview.tickets.length, name: group.name }),
-      fields: `<ul class="group-impact-list">${preview.tickets.map((t) => `<li>#${t.id} ${esc(t.title)}${t.isArchived ? ` <span class="muted">${tr("Archived")}</span>` : ""}</li>`).join("")}</ul>`,
-      submitLabel: tr("Remove from Group"),
-    });
-    if (!confirmed) return;
-    await ctx.sendJson(`/api/boards/${boardId}/group-memberships`, {
-      method: "PUT",
-      body: { ...request, expectedToken: preview.expectedToken },
-    });
-    await ctx.refreshBoardDetail();
-    focusMembershipAction(targetBoardId, group.id);
+    const origin = ticketWindow?.captureFocus();
+    const restoreOrigin = () => {
+      if (origin && state.activeBoardId === targetBoardId && loadedSelection === group.id && state.viewMode === "group") {
+        restoreTicketFocus(origin, true);
+      }
+    };
+    try {
+      const preview = /** @type {GroupPreview} */ (
+        await ctx.sendJson(`/api/boards/${boardId}/group-memberships/preview`, {
+          method: "POST",
+          body: request,
+        })
+      );
+      const confirmed = await ctx.openFormDialog({
+        title: tr("Remove from Group?"),
+        message: tr("Remove {count} ticket(s) from “{name}”? Parent/child relationships and ticket status stay unchanged.", { count: preview.tickets.length, name: group.name }),
+        fields: `<ul class="group-impact-list">${preview.tickets.map((t) => `<li>#${t.id} ${esc(t.title)}${t.isArchived ? ` <span class="muted">${tr("Archived")}</span>` : ""}</li>`).join("")}</ul>`,
+        submitLabel: tr("Remove from Group"),
+      });
+      if (!confirmed) {
+        restoreOrigin();
+        return;
+      }
+      await ctx.sendJson(`/api/boards/${boardId}/group-memberships`, {
+        method: "PUT",
+        body: { ...request, expectedToken: preview.expectedToken },
+      });
+      await ctx.refreshBoardDetail();
+      focusMembershipAction(targetBoardId, group.id);
+    } catch (error) {
+      restoreOrigin();
+      throw error;
+    }
   }
   /** @param {HTMLButtonElement} button */
   async function act(button) {
@@ -702,5 +873,5 @@ export function createGroupBoardModule(ctx) {
   });
   /** @param {number} id */
   const isActiveGroup = (id) => state.viewMode === "group" && boardId === state.activeBoardId && selectedId === id;
-  return { renderGroupBoard, openGroup, isActiveGroup };
+  return { renderGroupBoard, openGroup, isActiveGroup, captureTicketAnchor, restoreTicketAnchor, focusEditorTicket };
 }

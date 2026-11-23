@@ -15,50 +15,69 @@ import {
 import type { PositionTicketInput } from "./ticket-mutations.js";
 import type { Id, LaneRow, TicketView } from "../types.js";
 
+function positionConflict(): never {
+  throw Object.assign(new Error("Ticket position changed; refresh the board"), { statusCode: 409 });
+}
+
 export function positionTicket(
   sqlite: Database.Database,
   ticketId: Id,
   input: PositionTicketInput,
   now: Now,
 ): TicketView {
-  const current = getTicket(sqlite, ticketId);
-  if (!current) {
-    throw new Error("Ticket not found");
-  }
-  const lane = sqlite
-    .prepare("SELECT * FROM lanes WHERE id = ?")
-    .get(input.laneId) as LaneRow | undefined;
-  if (!lane || lane.board_id !== current.boardId) {
-    throw new Error("Lane does not belong to board");
-  }
+  return sqlite.transaction(() => {
+    const bothAnchors = input.beforeTicketId != null && input.afterTicketId != null;
+    const guarded = input.expectedSourceLaneId !== undefined;
+    if ((input.expectedSourcePosition !== undefined) !== guarded
+        || (input.expectedAnchorOrder !== undefined) !== (guarded && bothAnchors)
+        || (guarded && bothAnchors && input.beforeTicketId === input.afterTicketId)) {
+      throw new Error("Invalid position precondition");
+    }
+    const current = getTicket(sqlite, ticketId);
+    if (!current) {
+      if (guarded) positionConflict();
+      throw new Error("Ticket not found");
+    }
+    if (guarded && (current.laneId !== input.expectedSourceLaneId || current.position !== input.expectedSourcePosition)) positionConflict();
+    const lane = sqlite
+      .prepare("SELECT * FROM lanes WHERE id = ?")
+      .get(input.laneId) as LaneRow | undefined;
+    if (!lane && guarded) positionConflict();
+    if (!lane || lane.board_id !== current.boardId) {
+      throw new Error("Lane does not belong to board");
+    }
 
-  const targetRows = sqlite
-    .prepare("SELECT id FROM tickets WHERE lane_id = ? AND id != ? ORDER BY is_archived ASC, position ASC, id ASC")
-    .all(input.laneId, ticketId) as Array<{ id: Id }>;
-  const beforeIndex = input.beforeTicketId == null
-    ? -1
-    : targetRows.findIndex((row) => row.id === input.beforeTicketId);
-  const afterIndex = input.afterTicketId == null
-    ? -1
-    : targetRows.findIndex((row) => row.id === input.afterTicketId);
-  if ((input.beforeTicketId != null && beforeIndex < 0) || (input.afterTicketId != null && afterIndex < 0)) {
-    throw new Error("Anchor ticket does not belong to lane");
-  }
-  const fallbackPosition = typeof input.position === "number" ? input.position : targetRows.length;
-  const targetIndex = beforeIndex >= 0
-    ? beforeIndex
-    : afterIndex >= 0
-      ? afterIndex + 1
-      : Math.max(0, Math.min(fallbackPosition, targetRows.length));
-  targetRows.splice(targetIndex, 0, { id: ticketId });
-
-  const sourceRows = current.laneId === input.laneId
-    ? []
-    : sqlite
+    const targetRows = sqlite
       .prepare("SELECT id FROM tickets WHERE lane_id = ? AND id != ? ORDER BY is_archived ASC, position ASC, id ASC")
-      .all(current.laneId, ticketId) as Array<{ id: Id }>;
-  const updateStmt = sqlite.prepare("UPDATE tickets SET lane_id = ?, position = ?, updated_at = ? WHERE id = ?");
-  const tx = sqlite.transaction(() => {
+      .all(input.laneId, ticketId) as Array<{ id: Id }>;
+    const beforeIndex = input.beforeTicketId == null
+      ? -1
+      : targetRows.findIndex((row) => row.id === input.beforeTicketId);
+    const afterIndex = input.afterTicketId == null
+      ? -1
+      : targetRows.findIndex((row) => row.id === input.afterTicketId);
+    if ((input.beforeTicketId != null && beforeIndex < 0) || (input.afterTicketId != null && afterIndex < 0)) {
+      if (guarded) positionConflict();
+      throw new Error("Anchor ticket does not belong to lane");
+    }
+    if (input.expectedAnchorOrder
+        && input.expectedAnchorOrder !== (afterIndex < beforeIndex ? "after-before" : "before-after")) {
+      positionConflict();
+    }
+    const fallbackPosition = typeof input.position === "number" ? input.position : targetRows.length;
+    const targetIndex = beforeIndex >= 0
+      ? beforeIndex
+      : afterIndex >= 0
+        ? afterIndex + 1
+        : Math.max(0, Math.min(fallbackPosition, targetRows.length));
+    targetRows.splice(targetIndex, 0, { id: ticketId });
+
+    const sourceRows = current.laneId === input.laneId
+      ? []
+      : sqlite
+        .prepare("SELECT id FROM tickets WHERE lane_id = ? AND id != ? ORDER BY is_archived ASC, position ASC, id ASC")
+        .all(current.laneId, ticketId) as Array<{ id: Id }>;
+    const updateStmt = sqlite.prepare("UPDATE tickets SET lane_id = ?, position = ?, updated_at = ? WHERE id = ?");
     const updatedAt = now();
     if (current.laneId !== input.laneId) {
       sourceRows.forEach((row, index) => updateStmt.run(current.laneId, index, updatedAt, row.id));
@@ -81,9 +100,8 @@ export function positionTicket(
       );
     }
     touchBoard(sqlite, current.boardId, now());
-  });
-  tx();
-  return getTicket(sqlite, ticketId)!;
+    return getTicket(sqlite, ticketId)!;
+  }).immediate();
 }
 
 export function reorderLaneTickets(sqlite: Database.Database, laneId: Id, ticketIds: Id[], now: Now) {

@@ -350,6 +350,9 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
           position: body.position,
           beforeTicketId: body.beforeTicketId,
           afterTicketId: body.afterTicketId,
+          expectedSourceLaneId: body.expectedSourceLaneId,
+          expectedSourcePosition: body.expectedSourcePosition,
+          expectedAnchorOrder: body.expectedAnchorOrder,
         },
       );
       publishBoardEvent(ticket.boardId);

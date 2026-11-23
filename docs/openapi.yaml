@@ -1246,6 +1246,17 @@ paths:
                   anyOf:
                     - type: integer
                     - type: "null"
+                expectedSourceLaneId:
+                  type: integer
+                  minimum: 1
+                  description: Current source lane captured before the move. Supply with expectedSourcePosition.
+                expectedSourcePosition:
+                  type: integer
+                  description: Current source position captured before the move. Supply with expectedSourceLaneId.
+                expectedAnchorOrder:
+                  type: string
+                  enum: [after-before, before-after]
+                  description: Relative order of the distinct anchors in the target lane ordered by archived status, position, and ID. Required when the source precondition and two anchors are supplied.
               required: [laneId]
       responses:
         "200":
@@ -1258,6 +1269,9 @@ paths:
           $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+          description: The source position, destination, or anchor membership or order changed before the guarded move. No move was saved.
 
   /api/tickets/{ticketId}/remote-refresh:
     post:

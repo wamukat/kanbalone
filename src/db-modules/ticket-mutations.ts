@@ -74,6 +74,9 @@ export type PositionTicketInput = {
   position?: number;
   beforeTicketId?: Id | null;
   afterTicketId?: Id | null;
+  expectedSourceLaneId?: Id;
+  expectedSourcePosition?: number;
+  expectedAnchorOrder?: "after-before" | "before-after";
 };
 
 export type BulkTransitionTicketsInput = {

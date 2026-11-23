@@ -203,6 +203,7 @@ Content-Type: application/json
 - `position` is zero-based. The server reindexes the other tickets; you do not need to send every ticket.
 - To insert immediately before ticket 5, send `{ "laneId": 9, "beforeTicketId": 5 }`; immediately after it, send `{ "laneId": 9, "afterTicketId": 5 }`. Anchors must belong to the target lane and must not be the moving ticket itself.
 - When filters hide some tickets, use `beforeTicketId` / `afterTicketId` instead of an index in the filtered view. Precedence is `beforeTicketId`, then `afterTicketId`, then `position`.
+- For a move based on a previously observed order, send both `expectedSourceLaneId` and `expectedSourcePosition` from the moving ticket. When sending two distinct anchors with this precondition, also send `expectedAnchorOrder` (`after-before` or `before-after`) from the target lane's order by archived status, position, and ID. The anchors can have other tickets between them. The server returns 409 without saving if the source position, target lane, or requested anchor membership or order changed. Refetch the board before trying again. A title edit alone leaves this precondition satisfied.
 - Success returns the updated ticket. Use `GET /api/boards/:boardId/tickets?lane_id=9` to verify each ticket's `position`.
 - Reorder one ticket with `position`, or several tickets in one lane with `POST /api/lanes/:laneId/tickets/reorder`. The removed board-wide reorder endpoint returns 404.
 

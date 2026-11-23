@@ -1,7 +1,11 @@
 import { t } from "./app-i18n.js";
 
 // Navigate the existing title buttons, independently of List bulk selection.
-export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScroll } = {}) {
+export function createBoardKeyboardModule(ctx, listModule, {
+  onKanbanKeyboardScroll, findKanbanTitle, firstKanbanTitle, kanbanNeighbor,
+  captureKanbanAnchor, restoreKanbanAnchor,
+  captureGroupAnchor, restoreGroupAnchor, focusGroupEditorTicket,
+} = {}) {
   const { state, elements } = ctx;
   let creationOpening = false;
   let returnTarget = null;
@@ -24,7 +28,7 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
     if (!(element instanceof HTMLElement) || !visible(element)) return null;
     if (isBoardTitle(element)) return { id: identity(element) };
     if (elements.groupBoard.contains(element)) {
-      if (element.matches('[data-group-ticket]')) return { query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
+      if (element.matches('[data-group-ticket]')) return { groupTicketId: Number(element.dataset.groupTicket), query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
       if (element.matches('[data-select-group][aria-current="true"]')) return { query: `[data-select-group="${CSS.escape(element.dataset.selectGroup)}"]` };
       if (element.matches('[data-group-action="new-ticket"]')) return { query: '[data-group-action="new-ticket"]' };
     }
@@ -36,6 +40,7 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
   }
 
   function focusOrigin(target) {
+    if (target.view === "group" && target.groupTicketId != null && focusGroupEditorTicket?.(target.groupTicketId, target.scroll.groupAnchor)) return true;
     if (target.id != null) return focusTitle(target.id, false);
     const host = target.view === 'group' ? elements.groupBoard : target.view === 'list' ? elements.listBoard : elements.laneBoard;
     const element = host.querySelector(target.query);
@@ -71,27 +76,29 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
     return {
       windowX: window.scrollX, windowY: window.scrollY,
       groupLeft: elements.groupBoard.scrollLeft, groupTop: elements.groupBoard.scrollTop,
+      groupAnchor: state.viewMode === "group" ? captureGroupAnchor?.() : null,
       boardLeft: elements.laneBoard.scrollLeft,
       boardTop: elements.laneBoard.scrollTop,
       listLeft: elements.listBoard.scrollLeft,
       listTop: elements.listBoard.querySelector(".list-viewport")?.scrollTop ?? 0,
       lanes: [...elements.laneBoard.querySelectorAll(".ticket-list[data-lane-id]")]
-        .map((list) => [list.dataset.laneId, list.scrollTop]),
+        .map((list) => [list.dataset.laneId, list.scrollTop, captureKanbanAnchor?.(list)]),
     };
   }
 
   function restoreScroll(scroll) {
     window.scrollTo(scroll.windowX, scroll.windowY);
     elements.groupBoard.scrollLeft = scroll.groupLeft;
-    elements.groupBoard.scrollTop = scroll.groupTop;
+    if (state.viewMode === "group" && scroll.groupAnchor && restoreGroupAnchor) restoreGroupAnchor(scroll.groupAnchor);
+    else elements.groupBoard.scrollTop = scroll.groupTop;
     elements.laneBoard.scrollLeft = scroll.boardLeft;
     elements.laneBoard.scrollTop = scroll.boardTop;
     elements.listBoard.scrollLeft = scroll.listLeft;
     const viewport = elements.listBoard.querySelector(".list-viewport");
     if (viewport) viewport.scrollTop = scroll.listTop;
-    for (const [id, top] of scroll.lanes) {
+    for (const [id, top, anchor] of scroll.lanes) {
       const list = elements.laneBoard.querySelector(`.ticket-list[data-lane-id="${id}"]`);
-      if (list) list.scrollTop = top;
+      if (list && !restoreKanbanAnchor?.(list, anchor)) list.scrollTop = top;
     }
   }
 
@@ -101,7 +108,7 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
 
   function focusTitle(id, scroll = true) {
     if (state.viewMode === "list") return listModule.focusTicket(id, { scroll });
-    const title = elements.laneBoard.querySelector(`.ticket-card[data-ticket-id="${id}"] .ticket-link`);
+    const title = findKanbanTitle?.(id, scroll) ?? elements.laneBoard.querySelector(`.ticket-card[data-ticket-id="${id}"] .ticket-link`);
     return visible(title) && focusKanbanTitle(title, scroll);
   }
 
@@ -158,7 +165,9 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
     const target = returnTarget;
     // A user who already moved elsewhere while a refresh was pending keeps control.
     const active = document.activeElement;
-    if (active !== document.body && visible(active) && !describeOrigin(active)) {
+    const current = active === document.body && sameContext(repaintTarget) ? repaintTarget : describeOrigin(active);
+    const moved = current && (current.id !== target.id || current.query !== target.query);
+    if (moved || (!current && active !== document.body && visible(active))) {
       returnTarget = null;
       editorReturnPending = false;
       return;
@@ -220,6 +229,8 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
       const id = listModule.getOrderedTicketIds()[0];
       return id != null && Number.isFinite(id) && focusTitle(id);
     }
+    const first = firstKanbanTitle?.();
+    if (visible(first)) return focusKanbanTitle(first);
     const titles = elements.laneBoard.getElementsByClassName("ticket-link");
     // Index the live collection without reading its length before finding the first title.
     for (let index = 0; ; index += 1) {
@@ -274,6 +285,16 @@ export function createBoardKeyboardModule(ctx, listModule, { onKanbanKeyboardScr
     }
     const list = title.closest(".ticket-list");
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      const direction = event.key === "ArrowDown" ? 1 : -1;
+      const logicalNeighbor = kanbanNeighbor?.(list, identity(title), direction);
+      if (logicalNeighbor != null) {
+        focusTitle(logicalNeighbor);
+        return;
+      }
+      if (logicalNeighbor === null && direction < 0) {
+        elements.searchInput.focus({ preventScroll: true });
+        return;
+      }
       const titles = kanbanButtons(list);
       const next = titles.indexOf(title) + (event.key === "ArrowDown" ? 1 : -1);
       if (next < 0) elements.searchInput.focus({ preventScroll: true });

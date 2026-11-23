@@ -152,6 +152,8 @@ Click **×** at the right of the search field to clear your search.
 
 ![Clearing a search](../assets/user-guide/14-search-clear.png)
 
+Large Kanban lanes and Group views render cards and rows around the visible area. The browser's Find command searches only the rendered content. Use Kanban's search field to search all tickets in the current filters. In a large Group or No Group view, use that view's ticket search to find a ticket by title or `#ID`, including rows outside the visible area.
+
 ### Find And Open Tickets With The Keyboard
 
 Press **↓** in the search field to select a displayed ticket.

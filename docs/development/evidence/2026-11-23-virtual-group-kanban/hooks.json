@@ -1,0 +1,8 @@
+{
+  "groupProjection": {
+    "file": "public/app-group-view.js",
+    "anchor": "    ticketWindow = { rows, renderRow: renderWindowRow };",
+    "source": "    globalThis.__fixtureTrial?.capture('projection', rows.length, () => rows.map(row => row.ticket.id));"
+  },
+  "snapshotFixtures": ["group-10000", "kanban-high-active"]
+}

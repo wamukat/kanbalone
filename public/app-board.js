@@ -17,6 +17,14 @@ export function createBoardModule(ctx) {
   );
   const keyboard = createBoardKeyboardModule(ctx, listModule, {
     onKanbanKeyboardScroll: (list) => kanbanModule.stopKeyboardScrollRestore(list),
+    findKanbanTitle: (id, scroll) => kanbanModule.findKanbanTitle(id, scroll),
+    firstKanbanTitle: () => kanbanModule.firstKanbanTitle(),
+    kanbanNeighbor: (list, id, direction) => kanbanModule.kanbanNeighbor(list, id, direction),
+    captureKanbanAnchor: (list) => kanbanModule.captureWindowAnchor(list),
+    restoreKanbanAnchor: (list, anchor) => kanbanModule.restoreWindowAnchor(list, anchor),
+    captureGroupAnchor: () => groupModule.captureTicketAnchor(),
+    restoreGroupAnchor: (anchor) => groupModule.restoreTicketAnchor(anchor),
+    focusGroupEditorTicket: (id, anchor) => groupModule.focusEditorTicket(id, anchor),
   });
   const boardSettingsModule = createBoardSettingsModule(ctx);
   const kanbanModule = createKanbanBoardModule(ctx, { renderBoardDetail, afterRender: keyboard.afterRender });

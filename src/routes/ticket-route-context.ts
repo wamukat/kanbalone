@@ -36,6 +36,9 @@ export type TicketPositionBody = {
   position?: number;
   beforeTicketId?: number | null;
   afterTicketId?: number | null;
+  expectedSourceLaneId?: number;
+  expectedSourcePosition?: number;
+  expectedAnchorOrder?: "after-before" | "before-after";
 };
 
 export type TicketExternalReferenceBody = {

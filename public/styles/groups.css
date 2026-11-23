@@ -556,3 +556,48 @@
 .group-render-section {
   display: contents;
 }
+
+.has-group-ticket-window {
+  overflow-anchor: none;
+}
+.group-ticket-window {
+  position: relative;
+}
+.group-ticket-window-row {
+  position: absolute;
+  inset-inline: 0;
+  display: flow-root;
+}
+.group-ticket-window-row[data-group-family-end] {
+  padding-bottom: var(--space-3);
+}
+
+.group-window-search,
+.group-window-search-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.group-window-search-actions[hidden] {
+  display: none;
+}
+.group-window-search input {
+  width: min(220px, 55vw);
+  box-sizing: border-box;
+  height: 32px;
+  padding-block: 0;
+}
+.group-window-search-status {
+  font-size: var(--font-size-meta);
+}
+.group-ticket-toolbar.group-window-search-docked {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border-soft);
+}
+.group-ticket-window-row[data-group-search-match] .group-ticket-row {
+  background: var(--accent-soft);
+}

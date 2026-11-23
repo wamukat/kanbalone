@@ -1,0 +1,56 @@
+Before the fix
+Running 1 test using 1 worker
+
+(node:50573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › test/e2e/kanban-virtual.spec.ts:106:1 › an editor close waiting for SSE keeps subsequent native Tab focus (9.6s)
+
+
+  1) [chromium] › test/e2e/kanban-virtual.spec.ts:106:1 › an editor close waiting for SSE keeps subsequent native Tab focus
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  locator('#lane-board .ticket-card[data-ticket-id="5"]').locator('.ticket-link')
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" locator('#lane-board .ticket-card[data-ticket-id="5"]').locator('.ticket-link') with timeout 5000ms
+      - waiting for locator('#lane-board .ticket-card[data-ticket-id="5"]').locator('.ticket-link')
+        14 × locator resolved to <button type="button" class="ticket-link" aria-keyshortcuts="n" title="N: create a ticket." aria-description="N: create a ticket.">Card 1:2 with a title long enough to wrap across …</button>
+           - unexpected value "inactive"
+
+
+      147 |     await expect(title(page, other.id)).toHaveText("Changed while detail was open");
+      148 |     await twoFrames(page);
+    > 149 |     await expect(title(page, next.id)).toBeFocused();
+          |                                        ^
+      150 |   } finally {
+      151 |     releaseRefresh?.();
+      152 |     await f.close();
+        at test/e2e/kanban-virtual.spec.ts:149:40
+
+    Error Context: e2e-tab-race-repro/kanban-virtual-an-editor-c-b66be-subsequent-native-Tab-focus-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    e2e-tab-race-repro/kanban-virtual-an-editor-c-b66be-subsequent-native-Tab-focus-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace e2e-tab-race-repro/kanban-virtual-an-editor-c-b66be-subsequent-native-Tab-focus-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › test/e2e/kanban-virtual.spec.ts:106:1 › an editor close waiting for SSE keeps subsequent native Tab focus
+
+After the fix
+Running 3 tests using 1 worker
+
+(node:50630) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › test/e2e/kanban-virtual.spec.ts:72:1 › native Tab and Shift+Tab mount the next logical card across a Kanban window (7.0s)
+  ✓  2 [chromium] › test/e2e/kanban-virtual.spec.ts:110:3 › an editor close waiting for SSE keeps subsequent native Tab focus when the other lane changes (6.2s)
+  ✓  3 [chromium] › test/e2e/kanban-virtual.spec.ts:110:3 › an editor close waiting for SSE keeps subsequent native Tab focus when the same lane changes (6.4s)
+
+  3 passed (23.3s)
