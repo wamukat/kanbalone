@@ -2,6 +2,7 @@
 import { t as tr, getLocale } from "./app-i18n.js";
 import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
 import { captureGroupTicketAnchor, createGroupTicketWindow, restoreGroupTicketAnchor } from "./app-group-ticket-window.js";
+import { createGroupWindowSearch } from "./app-group-window-search.js";
 import { createGroupRowIconRenderer } from "./app-group-row-icons.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
@@ -57,6 +58,7 @@ export function createGroupBoardModule(ctx) {
   let renderedBusy = false;
   let renderedViewScope = "";
   /** @type {ReturnType<typeof createGroupTicketWindow> | null} */ let ticketWindow = null;
+  /** @type {ReturnType<typeof createGroupWindowSearch> | null} */ let ticketSearch = null;
   /** @type {Record<string, HTMLElement> | null} */
   let sections = null;
   /** @type {Record<string, string>} */
@@ -233,6 +235,10 @@ export function createGroupBoardModule(ctx) {
   }
   /** @param {number} id @param {GroupTicket[]} [source] */
   const related = (id, source = tickets) => relatedTickets(id, source);
+  function toolbar() {
+    return /** @type {HTMLElement | null} */ (sections?.header.querySelector(".group-ticket-toolbar") ?? null);
+  }
+
   function captureTicketAnchor() {
     return ticketWindow?.capture() ?? null;
   }
@@ -334,6 +340,8 @@ export function createGroupBoardModule(ctx) {
         ? [focused.selectionStart, focused.selectionEnd]
         : null;
     if (!boardId) {
+      ticketSearch?.dispose();
+      ticketSearch = null;
       ticketWindow?.dispose();
       ticketWindow = null;
       renderedViewScope = "";
@@ -344,6 +352,8 @@ export function createGroupBoardModule(ctx) {
       return;
     }
     if (!sections || !host.contains(sections.tickets)) {
+      ticketSearch?.dispose();
+      ticketSearch = null;
       ticketWindow?.dispose();
       ticketWindow = null;
       renderedViewScope = "";
@@ -408,14 +418,35 @@ export function createGroupBoardModule(ctx) {
       if (html.ticketWindow) {
         if (ticketWindow && sameView) {
           ticketWindow.update(html.ticketWindow, anchor);
+          ticketSearch?.update(html.ticketWindow.rows);
         } else {
+          ticketSearch?.dispose();
           ticketWindow?.dispose();
           ticketWindow = createGroupTicketWindow(host, sections.tickets, html.ticketWindow);
+          const windowView = ticketWindow;
+          ticketSearch = createGroupWindowSearch({
+            rows: html.ticketWindow.rows,
+            capture: windowView.capture,
+            restore: windowView.restore,
+            reveal: windowView.reveal,
+            focus: windowView.focus,
+            highlight: windowView.highlight,
+            open(id) {
+              const node = windowView.reveal(id, toolbar()?.getBoundingClientRect().height);
+              const title = node?.querySelector("[data-group-ticket]");
+              if (title instanceof HTMLButtonElement) {
+                title.focus({ preventScroll: true });
+                title.click();
+              }
+            },
+          });
           if (!sameView) host.scrollTop = 0;
           ticketWindow.restore(anchor);
         }
         ticketWindow.setBusy(busy);
       } else {
+        ticketSearch?.dispose();
+        ticketSearch = null;
         ticketWindow?.dispose();
         ticketWindow = null;
         sections.tickets.innerHTML = html.tickets ?? "";
@@ -428,6 +459,7 @@ export function createGroupBoardModule(ctx) {
     } else {
       syncTicketBusy();
     }
+    ticketSearch?.attach(toolbar());
     if (handoffFocus && document.activeElement === document.body) restoreTicketFocus(handoffFocus);
     if (focusSelector || focusedRemovedUngrouped) {
       const next = focusedRemovedUngrouped

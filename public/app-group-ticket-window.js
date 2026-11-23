@@ -69,6 +69,7 @@ export function createGroupTicketWindow(root, section, initial) {
   const measured = new Map();
   let offsets = new Float64Array(0);
   let busy = false;
+  /** @type {number | null} */ let highlightedId = null;
   let frame = 0;
   /** @type {number | null} */ let preparedId = null;
   let lastWidth = canvas.clientWidth;
@@ -145,6 +146,7 @@ export function createGroupTicketWindow(root, section, initial) {
     }
     entry.node.dataset.groupFamilyId = String(row.familyId);
     entry.node.toggleAttribute("data-group-family-end", row.lastInFamily);
+    entry.node.toggleAttribute("data-group-search-match", id === highlightedId);
     entry.node.style.top = offsets[index] + "px";
     return entry;
   }
@@ -365,6 +367,11 @@ export function createGroupTicketWindow(root, section, initial) {
     focus,
     reveal,
     restore,
+    /** @param {number | null} id */
+    highlight(id) {
+      highlightedId = id;
+      for (const [key, { node }] of mounted) node.toggleAttribute("data-group-search-match", key === id);
+    },
     /** @param {Model} next @param {Anchor | null} anchor */
     update(next, anchor) {
       indexModel(next);
