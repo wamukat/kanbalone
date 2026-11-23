@@ -176,3 +176,12 @@
 .ticket-list > * + * {
   margin-block-start: var(--space-2);
 }
+
+.ticket-list[data-kanban-window] {
+  overflow-anchor: none;
+}
+
+.ticket-list[data-kanban-window] > .kanban-window-spacer {
+  margin-block-start: 0;
+  pointer-events: none;
+}
