@@ -1,5 +1,6 @@
-import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+import { createHash } from "node:crypto";
 import type Database from "better-sqlite3";
+import { decodePaginationToken, encodePaginationToken } from "./pagination-token.js";
 import { ticketFilterQuery, type ListTicketsFilters } from "./ticket-queries.js";
 import { mapTicketSummaries, listTicketSummaries } from "./ticket-read-model.js";
 import { getBlockerIdsForTicketIds, getTagsForTicketIds } from "./ticket-loaders.js";
@@ -30,20 +31,8 @@ function orderKeys(order: TicketOrder): Key[] {
     default: return fail("invalid ticket order");
   }
 }
-function sign(secret: string, value: string): string { return createHmac("sha256", secret).update(value).digest("base64url"); }
-function encode(secret: string, cursor: Cursor): string {
-  const value = Buffer.from(JSON.stringify(cursor)).toString("base64url");
-  return `${value}.${sign(secret, value)}`;
-}
 function decode(secret: string, value: string): Cursor {
-  const [body, signature, extra] = value.split(".");
-  if (!body || !signature || extra !== undefined || value.length > 4096 || !/^[\w-]+$/.test(body) || !/^[\w-]+$/.test(signature)) fail("invalid pagination cursor");
-  const expected = Buffer.from(sign(secret, body));
-  const supplied = Buffer.from(signature);
-  if (expected.length !== supplied.length || !timingSafeEqual(expected, supplied)) fail("invalid pagination cursor");
-  let parsed: Cursor;
-  try { parsed = JSON.parse(Buffer.from(body, "base64url").toString("utf8")) as Cursor; }
-  catch { return fail("invalid pagination cursor"); }
+  const parsed = decodePaginationToken(secret, value) as Cursor | undefined;
   if (!parsed || parsed.v !== 1 || !Number.isSafeInteger(parsed.board) || !Number.isSafeInteger(parsed.revision)
     || typeof parsed.query !== "string" || !Array.isArray(parsed.keys) || !parsed.keys.every(Number.isSafeInteger)) fail("invalid pagination cursor");
   return parsed;
@@ -107,7 +96,7 @@ function readTicketPage<Row, View>(
       revision,
       page: {
         total,
-        nextCursor: more && last ? encode(secret, {
+        nextCursor: more && last ? encodePaginationToken(secret, {
           v: 1, board: boardId, revision, query, keys: keys.map((_key, i) => last[`cursor_key_${i}`]!),
           ...(options.reuseTotal ? { total } : {}),
         }) : null,

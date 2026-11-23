@@ -10,7 +10,7 @@ export function registerWebRoutes(app: FastifyInstance): void {
     });
   }
 
-  for (const url of ["/", "/index.html", "/boards/:boardId", "/boards/:boardId/list", "/boards/:boardId/group", "/tickets/:ticketId"]) {
+  for (const url of ["/", "/index.html", "/boards/:boardId", "/boards/:boardId/list", "/boards/:boardId/group", "/tickets/:ticketId", "/views", "/views/:viewId"]) {
     app.get(url, sendShell);
   }
 }

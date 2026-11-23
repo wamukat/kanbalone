@@ -54,14 +54,23 @@ export function createEditorModule(ctx) {
     }
     if (!hasUnsavedChanges()) return true;
     if (discardPending) return discardPending;
+    const focused = document.activeElement;
+    const selection = focused instanceof HTMLTextAreaElement || (focused instanceof HTMLInputElement && focused.selectionStart !== null)
+      ? [focused.selectionStart, focused.selectionEnd, focused.selectionDirection] : null;
     discardPending = ctx.confirmAndRun({
       title: t("Discard changes?"),
       message: t("Your unsaved changes will be lost."),
       submitLabel: t("Discard changes"),
       run: async () => {},
     });
-    try { return await discardPending; }
-    finally { discardPending = null; }
+    try {
+      const discard = await discardPending;
+      if (!discard && focused instanceof HTMLElement && focused.isConnected && elements.editorDialog.contains(focused)) {
+        focused.focus({ preventScroll: true });
+        if (selection) focused.setSelectionRange(...selection);
+      }
+      return discard;
+    } finally { discardPending = null; }
   }
 
   async function requestCloseEditor() {
@@ -203,6 +212,12 @@ export function createEditorModule(ctx) {
     }
   }
 
+  // Board and custom-view routes can share the same board ID and view mode.
+  // Revoke requests across that boundary before replacing the editor's owner.
+  function invalidateOpening() {
+    editorOpenGeneration++;
+  }
+
   function resetDialogState() {
     dialogSession++;
     dialogBoardId = null;
@@ -211,7 +226,7 @@ export function createEditorModule(ctx) {
     commentsModule.resetImageUploads();
     relationsModule.resetCandidates();
     compositionTarget = null;
-    editorOpenGeneration += 1;
+    invalidateOpening();
     state.editingTicketId = null;
     state.dialogMode = "view";
     state.editorTagIds = [];
@@ -241,6 +256,7 @@ export function createEditorModule(ctx) {
   }
 
   async function handleEditorDialogClose() {
+    if (elements.editorDialog.open) return;
     const originVersion = editorOriginVersion;
     const shouldSync = !state.skipDialogCloseSync && window.location.pathname.startsWith("/tickets/");
     resetDialogState();
@@ -363,6 +379,7 @@ export function createEditorModule(ctx) {
       ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
     ]);
     if (!isCurrent()) return null;
+    if (ticket.boardId !== state.activeBoardId) throw new Error(t("Ticket moved to a different board. Reopen it from the updated list."));
     dialogBoardId = ticket.boardId;
     hydrateDialogTicket(ticket, activityPayload.activity ?? [], eventsPayload.events ?? []);
     ctx.syncDialogScrollLock?.();
@@ -396,7 +413,7 @@ export function createEditorModule(ctx) {
     }
   }
 
-  async function openEditor(ticketId = null, mode = "edit", defaultLaneId = null, creationGroup = null) {
+  async function openEditor(ticketId = null, mode = "edit", defaultLaneId = null, creationGroup = null, stillOpening = () => true) {
     if (!state.boardDetail || state.editorSaving) {
       return;
     }
@@ -406,7 +423,7 @@ export function createEditorModule(ctx) {
     const boardId = state.activeBoardId;
     const viewMode = state.viewMode;
     const originVersion = ctx.captureEditorOrigin?.();
-    const isCurrent = () => request === editorOpenGeneration && boardId === state.activeBoardId && viewMode === state.viewMode
+    const isCurrent = () => stillOpening() && request === editorOpenGeneration && boardId === state.activeBoardId && viewMode === state.viewMode
       && (!creationGroup || ctx.isActiveGroup(creationGroup.id));
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
@@ -416,6 +433,7 @@ export function createEditorModule(ctx) {
       ])
       : [null, { activity: [] }, { events: [] }];
     if (!isCurrent()) return;
+    if (ticket && ticket.boardId !== boardId) throw new Error(t("Ticket moved to a different board. Reopen it from the updated list."));
     editorOriginVersion = originVersion;
     dialogSession++;
     compositionTarget = null;
@@ -592,6 +610,7 @@ export function createEditorModule(ctx) {
   }
 
   return {
+    invalidateOpening,
     hasUnsavedChanges,
     confirmDiscardChanges,
     requestCloseEditor,

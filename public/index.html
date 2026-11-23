@@ -81,6 +81,15 @@
             </div>
           </div>
         </section>
+        <nav id="custom-view-nav" class="sidebar-section" aria-labelledby="custom-view-nav-title">
+          <div class="sidebar-section-head">
+            <h3 id="custom-view-nav-title" data-i18n="Custom views">Custom views</h3>
+            <button id="new-custom-view-button" type="button" class="icon-button" aria-label="New custom view" title="New custom view" data-i18n-aria-label="New custom view" data-i18n-title="New custom view">
+              <svg class="icon" aria-hidden="true"><use href="/icons.svg#plus"></use></svg>
+            </button>
+          </div>
+          <div id="custom-view-links" class="board-list"></div>
+        </nav>
         <footer class="sidebar-footer">
           <a class="sidebar-github-link" href="https://github.com/wamukat/kanbalone" target="_blank" rel="noreferrer">
             <svg class="github-icon" aria-hidden="true" focusable="false"><use href="/icons.svg#github"></use></svg>
@@ -191,6 +200,7 @@
         </section>
         <section id="list-board" class="list-board" hidden></section>
         <section id="group-board" class="group-board" aria-label="Groups" data-i18n-aria-label="Groups" hidden></section>
+        <section id="custom-view-panel" aria-labelledby="custom-view-heading" hidden></section>
       </main>
     </div>
 
@@ -208,6 +218,7 @@
             </div>
           </div>
           <div class="editor-header-actions">
+            <button id="return-custom-view" type="button" class="ghost" data-i18n="Back to view" hidden>Back to view</button>
             <div id="editor-save-state" class="editor-save-state" hidden data-i18n="Saved">Saved</div>
             <button id="header-edit-button" type="button" class="ghost icon-button dialog-close-button" aria-label="Edit ticket" data-i18n-aria-label="Edit ticket" title="Edit" data-i18n-title="Edit" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#pencil"></use></svg>

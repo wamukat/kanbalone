@@ -326,3 +326,5 @@ Groupのエラーコード（スキーマ検証や汎用エラーでは `code` �
 | 409 | `GROUP_CONFLICT` | detailsの候補を確認し、同じ編集内容に解決先とtokenを付けて再送する。 |
 | 409 | `STALE_GROUP / STALE_GROUP_CONTEXT / STALE_TICKET_EDIT / STALE_RELATIONS` | 現状を読み直し、変化した内容を確認してから再試行する。 |
 | 428 | `PRECONDITION_REQUIRED` | 必要な編集・preview token、またはIf-Matchを指定する。 |
+
+保存した横断ビューは専用の定義・取得APIを使い、課題の所属やワークフローを変更しません。明示的な空条件、古いページの扱い、保存競合は[未リリースの横断ビューAPI](./api-examples.md)を参照してください。

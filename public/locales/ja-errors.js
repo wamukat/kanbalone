@@ -49,6 +49,13 @@ export default {
   "Pushed comments are read-only": "外部に投稿済みのコメントは編集できません。",
   "Pushed comments cannot be deleted": "外部に投稿済みのコメントは削除できません。",
   "backlinkUrl must be an absolute http or https URL": "リンク先にはhttpまたはhttpsで始まるURLを入力してください。",
+  "custom view not found": "カスタムビューが見つかりません。",
+  "custom view changed; reload before saving or deleting": "カスタムビューが更新されました。保存または削除する前に再読み込みしてください。",
+  "new board and tag references must exist on the configured board": "対象ボードまたはタグが変更されました。設定を開き直して選択してください。",
+  "a name and a single valid rule per configured board are required": "ビュー名と、各ボードに有効なタグ条件を指定してください。",
+  "invalid custom view cursor": "一覧のページ情報を読み込めませんでした。",
+  "custom view results changed; restart pagination": "結果が更新されました。最初のページから読み直してください。",
+  "ticket text not found": "課題の本文またはコメントが見つかりません。",
   "Failed to fetch": "通信できませんでした。接続を確認してもう一度お試しください。",
   "NetworkError when attempting to fetch resource.": "通信できませんでした。接続を確認してもう一度お試しください。",
 };

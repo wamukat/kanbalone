@@ -490,3 +490,34 @@ curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
 ```
 
 非空のGroupや古いrevisionは拒否します。Groupの削除でチケットを連鎖削除しません。配布APIヘルパーは `If-Match` を指定できないため、この操作には `curl` を使います。
+
+## 保存した横断ビュー（未リリース）
+
+このAPIはv1.3.0には含まれません。実行環境のバージョンを確認してから利用してください。`GET /api/custom-views/catalog` でボード・タグIDを取得します。以下のIDは合成例です。
+
+`POST /api/custom-views` で定義を作成します。
+
+```json
+{
+  "name": "Review queue",
+  "scope": "selected",
+  "boardIds": [1, 2],
+  "rules": [
+    {"boardId": 1, "mode": "tags", "tagIds": [3, 4]},
+    {"boardId": 2, "mode": "all", "tagIds": []}
+  ],
+  "completion": "open",
+  "showBody": true,
+  "showLatestComment": true
+}
+```
+
+`GET /api/custom-views` は `{views:[{id,name,version}]}`、`GET /api/custom-views/:id` は `id`・`version` 付きの全定義を返します。更新は `PUT /api/custom-views/:id` に全定義と `expectedVersion`、削除は `DELETE /api/custom-views/:id?expectedVersion=N` を指定します。古い版での更新・削除は409です。下書きを保持して保存済み定義を再取得し、競合を解消してください。書込みを無条件に再試行しません。
+
+`scope: "all"` は現在と将来追加される全ボードを対象としますが、タグ条件はボードごとに必要です。ルールなしは未設定で0件、`mode: "tags"` かつ `tagIds: []` も0件です。明示的な `mode: "all"` だけがタグで絞りません。タグは所属ボード内のOR条件です。削除された参照は `warnings` に示し、条件を広げません。同名のボード・タグを作り直してもIDは別です。`completion` は `open`・`done`・`all`、アーカイブ済みは対象外です。
+
+保存せずに取得するには `POST /api/custom-views/query` に `{definition, limit: 50}` を送ります。結果は `total`・`boardCounts`・`warnings`・`tickets`・`nextCursor`・`revision` を含みます。件数は現在ページではなく条件に一致する全課題の数です。limitの既定値は50、最大100です。同じ定義と `nextCursor` で続きを取得し、古いカーソルによる409なら途中結果を破棄して先頭から取り直します。不正なカーソルや条件の異なるカーソルは400です。1ページだけを全件とみなして一括操作しないでください。
+
+並び順はボード順・レーン順・課題位置で、同順位はIDで確定します。本文と最新コメントの抜粋は表示が有効な場合だけ返し、最大360 Unicodeコードポイントです。最新コメントは投稿日時、同時刻ならIDの新しいものです。投稿日時を含み、投稿者フィールドはありません。原文Markdownは `GET /api/custom-views/tickets/:ticketId/text?field=body` または `field=comment&commentId=N` で取得します。コメントIDはその課題に属している必要があります。
+
+`GET /api/custom-views/events` は更新を知らせる `views_updated`・`board_updated` を配信します。永続イベントログではないため、再接続時や詳細からの復帰時は再取得します。ビュー設定の変更・削除で課題を変更しません。DB全体のバックアップには定義が含まれますが、単一ボードのJSONでは移しません。

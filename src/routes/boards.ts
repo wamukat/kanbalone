@@ -28,6 +28,7 @@ type RegisterBoardRoutesContext = {
   db: KanbanDb;
   getIdParam(params: unknown, key: string): Id;
   publishBoardEvent(boardId: Id, event?: string): void;
+  publishGlobalBoardUpdate(): void;
   removeBoardEventClient(boardId: Id, response: ServerResponse): void;
   remoteAdapters: RemoteAdapterRegistry;
   sanitizeStringArray(values: unknown): string[] | undefined;
@@ -42,6 +43,7 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
     db,
     getIdParam,
     publishBoardEvent,
+    publishGlobalBoardUpdate,
     removeBoardEventClient,
     remoteAdapters,
     sanitizeStringArray,
@@ -190,6 +192,7 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
     }
     try {
       const boards = db.reorderBoards(boardIds);
+      publishGlobalBoardUpdate();
       return { boards };
     } catch (error) {
       const message = error instanceof Error ? error.message : "board reorder failed";

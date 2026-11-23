@@ -254,3 +254,23 @@ http://127.0.0.1:3000
 This command saves data in `kanbalone-data`, so it remains available when you recreate the container.
 
 Kanbalone does not include authentication. Do not expose it directly to untrusted networks.
+
+## Custom views across boards
+
+This section describes the unreleased custom-view feature in the source tree. Use the guide from your installed release tag when running a published image.
+
+Open **Custom views** in the sidebar to save a named list across boards. Choose all boards or specific boards, then configure tags separately for each board. Tags on one board match with OR; a ticket appears once even if several tags match.
+
+- **Not configured** or all tag checkboxes off: that board contributes no tickets.
+- **Do not filter by tags**: include tickets regardless of their tags. Select this explicitly.
+- **All boards** includes newly created boards as configuration choices. They contribute no tickets until their tag rule is set.
+
+Choose open, completed or all completion states. Archived tickets are excluded. The list keeps board sections and the existing board, lane and ticket order. Total and board counts describe all matching tickets, including those on later pages.
+
+Show or hide the body and latest comment independently. These display changes are temporary until saved; **Revert** restores the saved settings. Reloading restores the saved view. Expand an excerpt to read the original text. The latest comment includes its posting time, without an author field; tickets without comments say so.
+
+Open a title to use the usual ticket details, comments and lane controls. Posting a comment does not change its lane or tags. A ticket stays in the view as long as it matches the conditions. When it stops matching, closing the details returns focus to a nearby ticket or the view heading.
+
+Renaming a board or tag preserves the selection. Deleted references are shown for repair and never turn into an unrestricted filter; recreating the same name does not reconnect it. Deleting a custom view only deletes its settings.
+
+Saved views belong to the database and are included in a full database backup. A single-board JSON export or import does not transfer cross-board view settings.
