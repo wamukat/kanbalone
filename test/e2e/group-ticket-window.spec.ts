@@ -65,6 +65,7 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await expect(title(page, 2)).toBeFocused();
     await scrollToEnd(page);
     await expect(title(page, 2)).toBeFocused();
+    await assertSmallWindow(page);
     await expect(title(page, 3)).toHaveCount(0);
     await page.keyboard.press("Tab");
     await expect(title(page, 3)).toBeFocused();
