@@ -1,0 +1,954 @@
+{
+  "baseRevision": "691c55db03798a5789802b30752c0b156ee4a028",
+  "candidateRevision": "c562d2baef971024b68b76fb629a47c25cfdf066",
+  "baselineAssetSha256": "e83df55774c0a5779c8151065e26e579e94a0632406aab1a6834c6b76eee0d85",
+  "candidateAssetSha256": "b3b2cad4303f768fc0fb446b9be3cbd391c0535c024501f652dd9b8f694844c4",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "theme": "light",
+  "locale": "en-US",
+  "baseline": [
+    {
+      "variant": "baseline",
+      "mode": "full",
+      "direction": "forward",
+      "editedId": 1,
+      "laneId": 1,
+      "key": {
+        "trusted": true,
+        "shift": false,
+        "target": "icon-button action-menu-toggle",
+        "targetCards": 40,
+        "expectedId": 1
+      },
+      "focus": {
+        "ticketId": 1,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 1,
+      "visible": false,
+      "y": -50534.734375,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Updated while keyboard navigation is in progress",
+        "matches": true
+      },
+      "screenshot": "baseline-tabs-full-forward-baseline.png",
+      "sha256": "4e9fd32a9af6900f65b49c1b85aeb027fd032a3cb537fd580ee7b16ea1103d2f"
+    },
+    {
+      "variant": "baseline",
+      "mode": "full",
+      "direction": "backward",
+      "editedId": 1,
+      "laneId": 1,
+      "key": {
+        "trusted": true,
+        "shift": true,
+        "target": "add-ticket-button icon-button",
+        "targetCards": 60,
+        "expectedId": 355
+      },
+      "focus": {
+        "ticketId": 355,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 355,
+      "visible": false,
+      "y": -44442.96875,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Verify retry and delivery history 355",
+        "matches": true
+      }
+    },
+    {
+      "variant": "baseline",
+      "mode": "reuse",
+      "direction": "forward",
+      "editedId": 2,
+      "laneId": 2,
+      "key": {
+        "trusted": true,
+        "shift": false,
+        "target": "icon-button action-menu-toggle",
+        "targetCards": 259,
+        "expectedId": 2
+      },
+      "focus": {
+        "ticketId": 2,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 2,
+      "visible": false,
+      "y": -50534.734375,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Updated while keyboard navigation is in progress",
+        "matches": true
+      },
+      "screenshot": "baseline-tabs-reuse-forward-baseline.png",
+      "sha256": "4e9fd32a9af6900f65b49c1b85aeb027fd032a3cb537fd580ee7b16ea1103d2f"
+    },
+    {
+      "variant": "baseline",
+      "mode": "reuse",
+      "direction": "backward",
+      "editedId": 2,
+      "laneId": 2,
+      "key": {
+        "trusted": true,
+        "shift": true,
+        "target": "add-ticket-button icon-button",
+        "targetCards": 379,
+        "expectedId": 2270
+      },
+      "focus": {
+        "ticketId": 2270,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 2270,
+      "visible": false,
+      "y": -11554.984375,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Verify retry and delivery history 2270",
+        "matches": true
+      }
+    }
+  ],
+  "candidate": [
+    {
+      "variant": "candidate",
+      "mode": "full",
+      "direction": "forward",
+      "editedId": 1,
+      "laneId": 1,
+      "key": {
+        "trusted": true,
+        "shift": false,
+        "target": "icon-button action-menu-toggle",
+        "targetCards": 40,
+        "expectedId": 1
+      },
+      "focus": {
+        "ticketId": 1,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 1,
+      "visible": true,
+      "y": 176.265625,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Updated while keyboard navigation is in progress",
+        "matches": true
+      },
+      "screenshot": "candidate-tabs-full-forward-candidate.png",
+      "sha256": "e550cda395c2fa222c34f994c9d01fe188a0f8dc892e41947f41843883502c8a"
+    },
+    {
+      "variant": "candidate",
+      "mode": "full",
+      "direction": "backward",
+      "editedId": 1,
+      "laneId": 1,
+      "key": {
+        "trusted": true,
+        "shift": true,
+        "target": "add-ticket-button icon-button",
+        "targetCards": 60,
+        "expectedId": 355
+      },
+      "focus": {
+        "ticketId": 355,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 355,
+      "visible": true,
+      "y": 837.03125,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          5431
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Verify retry and delivery history 355",
+        "matches": true
+      }
+    },
+    {
+      "variant": "candidate",
+      "mode": "reuse",
+      "direction": "forward",
+      "editedId": 2,
+      "laneId": 2,
+      "key": {
+        "trusted": true,
+        "shift": false,
+        "target": "icon-button action-menu-toggle",
+        "targetCards": 259,
+        "expectedId": 2
+      },
+      "focus": {
+        "ticketId": 2,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 2,
+      "visible": true,
+      "y": 176.265625,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Updated while keyboard navigation is in progress",
+        "matches": true
+      },
+      "screenshot": "candidate-tabs-reuse-forward-candidate.png",
+      "sha256": "2b9b877e5a6e5b692a9cc07dc59dfdf43fbdbc7fc9f66a74512269c135c0fc69"
+    },
+    {
+      "variant": "candidate",
+      "mode": "reuse",
+      "direction": "backward",
+      "editedId": 2,
+      "laneId": 2,
+      "key": {
+        "trusted": true,
+        "shift": true,
+        "target": "add-ticket-button icon-button",
+        "targetCards": 379,
+        "expectedId": 2270
+      },
+      "focus": {
+        "ticketId": 2270,
+        "relationMatches": true,
+        "keyEventPhase": 0,
+        "defaultPrevented": false,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 2270,
+      "visible": true,
+      "y": 837.015625,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          38319
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expectedCardCount": 3005,
+      "enter": {
+        "storedTitle": "Verify retry and delivery history 2270",
+        "matches": true
+      }
+    },
+    {
+      "variant": "candidate",
+      "mode": "full",
+      "direction": "control",
+      "editedId": 1,
+      "laneId": 1,
+      "key": null,
+      "focus": null,
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 1,
+      "visible": false,
+      "y": -50534.734375,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [],
+      "expectedCardCount": 3005
+    },
+    {
+      "variant": "candidate",
+      "mode": "reuse",
+      "direction": "canceled",
+      "editedId": 2,
+      "laneId": 2,
+      "key": {
+        "trusted": true,
+        "shift": false,
+        "target": "icon-button action-menu-toggle",
+        "targetCards": 259,
+        "expectedId": 2
+      },
+      "focus": {
+        "ticketId": 2,
+        "relationMatches": true,
+        "keyEventPhase": 3,
+        "defaultPrevented": true,
+        "nativeFocusEvent": true
+      },
+      "original": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "ticketId": 2,
+      "visible": false,
+      "y": -50534.734375,
+      "viewportTop": 155.265625,
+      "viewportBottom": 927.109375,
+      "scroll": [
+        [
+          1,
+          50711
+        ],
+        [
+          2,
+          50711
+        ],
+        [
+          3,
+          50711
+        ],
+        [
+          4,
+          50711
+        ],
+        [
+          5,
+          50711
+        ],
+        [
+          6,
+          50711
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "retained": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expectedCardCount": 3005
+    }
+  ]
+}
