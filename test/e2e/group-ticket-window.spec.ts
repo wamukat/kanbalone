@@ -90,11 +90,22 @@ test("large Group preserves parent-child geometry and native keyboard order acro
 
     await viewport(page).evaluate(root => { root.scrollTop = (root.scrollHeight - root.clientHeight) / 2; });
     const anchor = async () => viewport(page).evaluate(async root => {
-      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-      const top = root.getBoundingClientRect().top + root.clientTop;
-      const item = Array.from(root.querySelectorAll(".group-ticket-window-row"))
-        .find(row => row.getBoundingClientRect().bottom > top && row.getBoundingClientRect().top < top + root.clientHeight);
-      return { id: item?.getAttribute("data-group-window-id"), offset: (item?.getBoundingClientRect().top ?? 0) - top };
+      const readAnchor = () => {
+        const top = root.getBoundingClientRect().top + root.clientTop;
+        const item = Array.from(root.querySelectorAll(".group-ticket-window-row"))
+          .find(row => row.getBoundingClientRect().bottom > top && row.getBoundingClientRect().top < top + root.clientHeight);
+        return { id: item?.getAttribute("data-group-window-id"), offset: (item?.getBoundingClientRect().top ?? 0) - top };
+      };
+      let current = readAnchor();
+      let unchanged = 0;
+      for (let frame = 0; frame < 24 && unchanged < 3; frame++) {
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+        const observed = readAnchor();
+        unchanged = observed.id === current.id && observed.offset === current.offset ? unchanged + 1 : 0;
+        current = observed;
+      }
+      if (unchanged < 3 || !current.id) throw new Error("Group scroll position did not settle");
+      return current;
     });
     const before = await anchor();
     expect(Number(before.id)).toBeGreaterThan(400);
