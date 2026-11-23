@@ -2,7 +2,7 @@
 
 ## Change and decision
 
-#1512 follow-up: preserve all Group rows, ordering, variable-height titles and operations while reducing repeated external SVG `<use>` layout work. Only Group row hierarchy/status/remove icons use six generated inline shapes from `public/icons.svg`. Shared renderers default to their existing external SVG behavior elsewhere. No API, database, pagination, membership or display-limit change; no migration required.
+The Group icon change preserves all Group rows, ordering, variable-height titles and operations while reducing repeated external SVG `<use>` layout work. [PR #40](https://github.com/wamukat/kanbalone/pull/40) Only Group row hierarchy/status/remove icons use six generated inline shapes from `public/icons.svg`. Shared renderers default to their existing external SVG behavior elsewhere. No API, database, pagination, membership or display-limit change; no migration required.
 
 Baseline: `aebd2687631ff831c89b67607893f74ab023e532`. Candidate files are identified in `source-sha256.json` and the containing commit. Synthetic SQLite data only; regular port 3470 and user data were not modified by the evaluation. Node 26.13.1, Playwright Chromium 159.0.8154.6, macOS, local server 3632. Both phases intercept identical module URLs; baseline modules are read from the baseline Git commit, candidate modules from the working tree. All other source and backend are identical.
 

@@ -16,6 +16,6 @@ Recommended next production work remains separating Group controls/form updates 
 
 Files: `probe.mjs`, `results.json`, initial/returned screenshots for three variants. The script can be rerun from repository root; it never modifies persistent fixture data.
 
-## Source and relationship to #1514
+## Source and relationship to the Group interaction benchmark
 
-This exploratory probe used the #1512 hierarchy-rendering candidate served at port 3594 (`91bfcadba88a816a499a57844b608d8c1f66b124`), before integrating the #1511 creation shortcuts. It is supporting evidence for rejecting a quick CSS-only approach, not the baseline or measured gain of #1514. The #1514 interaction benchmark uses the separately recorded PR #32/#33 integration baseline and its own comparable data.
+This exploratory probe used the hierarchy-rendering candidate served at port 3594 (`91bfcadba88a816a499a57844b608d8c1f66b124`), before integrating the ticket creation shortcuts. It is supporting evidence for rejecting a quick CSS-only approach, not the baseline or measured gain of the later Group form-rendering change. [PR #34](https://github.com/wamukat/kanbalone/pull/34) The later interaction benchmark uses a separately recorded integration baseline and its own comparable data. That baseline combined hierarchy rendering and keyboard creation. [PR #32](https://github.com/wamukat/kanbalone/pull/32), [PR #33](https://github.com/wamukat/kanbalone/pull/33)

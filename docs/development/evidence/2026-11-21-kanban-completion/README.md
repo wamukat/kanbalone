@@ -1,4 +1,6 @@
-# #1492 — Completion lane preview
+# Completion lane preview
+
+[PR #24](https://github.com/wamukat/kanbalone/pull/24)
 
 Captured 2026-11-21 with Chromium / agent-browser, 1280×844, light theme, Japanese and English.
 
@@ -32,13 +34,13 @@ Additional after images: [55 / Japanese](after-ja-expanded55.png), [collapsed](a
 - Backend suite: 176 passed. Focused Kanban suite: 6 passed; filter/default/i18n suite: 22 passed.
 - Full Chromium run: 100/102 passed initially. One obsolete collapse-label expectation was corrected; one test timed out during teardown after its assertions. Both passed on a single-worker rerun (2/2), covering all 102 scenarios.
 - Server and public TypeScript checks, OpenAPI lint and documentation build passed.
-- All five image embeds were opened in ticket #1492 and verified loaded (naturalWidth 1280).
+- All five image embeds were opened in the tracker and verified loaded (naturalWidth 1280).
 - Saved filters are preserved. Users with a saved open-only filter need to reset or include resolved tickets.
 - Completion ordering is automatic in Kanban; manual within-lane reorder is not supported there. API position ordering and List are unchanged.
 - Images alone do not establish persistence; API snapshots and E2E assertions provide that evidence.
 - Desktop/light images were manually inspected. Screen-reader speech and a complete keyboard audit were not performed.
 - Independent review found no required code/UI changes. Screenshots containing a temporary reviewer board were recaptured after its deletion.
-- Native drag onto an occupied lane did not emit a drop event in browser automation, both before and after this change; an empty target worked. This is tracked separately as #1493. Whether physical mouse use is affected remains unverified. The after movement images use the editor lane selector; synthetic drag regression does not resolve this native-drag limitation.
+- Native drag onto an occupied lane did not emit a drop event in browser automation, both before and after this change; an empty target worked. The [native drag follow-up](../2026-11-21-native-drag/README.md) covers the occupied-lane behavior. Whether physical mouse use is affected remains unverified. The after movement images use the editor lane selector; synthetic drag regression does not resolve this native-drag limitation.
 - Expanded screenshots scroll into view of the controls; this also shifts the horizontal scroll slightly. No pixels were edited.
 
 ## Local image hosting

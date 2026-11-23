@@ -1,4 +1,6 @@
-# #1510 implementation and visual review
+# Pagination implementation and visual review
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/31)
 
 Date: 2026-11-22 (JST)
 Independent reviewer: `paging_spec_review`

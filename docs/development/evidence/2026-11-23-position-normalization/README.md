@@ -1,10 +1,10 @@
 # Ticket position normalization
 
-Kanbalone #1551 applies the existing lane position order in one SQLite statement. A materialized ranking fixes the archive, position and ID order before the update. The update writes changed positions only. The preceding ticket and timestamp updates, revision triggers and transaction boundaries retain their existing behavior.
+This change applies the existing lane position order in one SQLite statement. A materialized ranking fixes the archive, position and ID order before the update. The update writes changed positions only. The preceding ticket and timestamp updates, revision triggers and transaction boundaries retain their existing behavior. [PR #58](https://github.com/wamukat/kanbalone/pull/58)
 
 ## Local save timing
 
-The comparison reused the #1545 product code as its control. Each lane had 3,000 active and five archived synthetic tickets. The four builds used separate copies of the same data, with one warmup and four retained samples per action and a rotated order. The measured interval ran from the local Fastify injection call to the save response. Separate reads verified the stored values and cursor status.
+The comparison used the indexed ticket-revision change as its control. [PR #57](https://github.com/wamukat/kanbalone/pull/57) Each lane had 3,000 active and five archived synthetic tickets. The four builds used separate copies of the same data, with one warmup and four retained samples per action and a rotated order. The measured interval ran from the local Fastify injection call to the save response. Separate reads verified the stored values and cursor status.
 
 | Action | Existing | SQL equality guard | Skip in JavaScript | Single SQLite update |
 | --- | ---: | ---: | ---: | ---: |
@@ -27,7 +27,7 @@ On an existing 10,005-ticket fixture, the previous backend continued its cursor 
 
 ## Browser verification
 
-English, light, 1440 × 900 Chromium 159.0.8154.6. Both builds used fresh copies of the same 1,005-ticket fixture. A trusted drag moved #2 from todo to the first position in doing. The editor archived #42. Reload and API readback confirmed the moved ticket's lane and position, the archived ticket and both stale cursors returning 409. Four before-and-after image pairs capture the two starting states and the two saved states. Every pair matches byte for byte. An independent reviewer inspected the eight originals. All eight images in Kanbalone #1551 comment 4600 decoded successfully on its ticket screen.
+English, light, 1440 × 900 Chromium 159.0.8154.6. Both builds used fresh copies of the same 1,005-ticket fixture. A trusted drag moved #2 from todo to the first position in doing. The editor archived #42. Reload and API readback confirmed the moved ticket's lane and position, the archived ticket and both stale cursors returning 409. Four before-and-after image pairs capture the two starting states and the two saved states. Every pair matches byte for byte. An independent reviewer inspected the eight originals. All eight original captures also decoded successfully in the tracker.
 
 [Measurements](measurements.json) record the source hashes, raw timing samples, save observations and image hashes. The four related local unit files passed 40 tests, including the transaction-abort regression, old-schema completion migration and pagination checks.
 

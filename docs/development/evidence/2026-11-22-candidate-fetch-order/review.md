@@ -8,4 +8,4 @@ Final reviewer independently recalculated all API/browser medians, confirmed com
 
 Actual en-light blocker before/after, ja-dark child before/after, selected and saved images were reviewed with no visible candidate/label/layout regression.20 of26 pairs are byte-identical. The remaining6 pairs' small raster differences and unestablished cause are disclosed in README/image-comparison.json, as requested by the reviewer.
 
-Decision: no blocker; ready for PR/user acceptance after CI and ticket image loading verification. Review is not merge or release authorization. #1512 remains ongoing for complete collection and large DOM costs.
+Decision: no blocker; ready for PR/user acceptance after CI and ticket image loading verification. Review is not merge or release authorization. Complete collection and large DOM costs remained outside the scope of this review.

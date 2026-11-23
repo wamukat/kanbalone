@@ -1,4 +1,6 @@
-# #1494 — Completion and archive filters
+# Completion and archive filters
+
+[PR #25](https://github.com/wamukat/kanbalone/pull/25)
 
 Captured 2026-11-21 in Chromium, 1280×844, light theme, Japanese and English.
 Before: c2786ca516c2a8a2c2cdaeb467e300f62bbb268c, frozen public assets on isolated server 3501.
@@ -54,7 +56,7 @@ Ticket image embeds require this server. These original files remain available i
 - Final targeted recheck: 7 passed, 2 failed because the new test used the hidden collapse button to reopen the sidebar. After correcting the selector to the existing reopen button, both Japanese/English height tests passed (2/2). The seven passing checks cover both locales' filter combinations and conflict recovery, compact Reset, ticket CRUD and unsaved edits.
 - Other affected filters, archive-editor behavior, preference migration, Group independence and dark/narrow geometry passed in focused checks. Public TypeScript, documentation build and diff whitespace checks passed after final production edits.
 - Supplementary dark images: [390px Japanese](after-narrow-dark.png), [980px English](after-medium-dark.png). These use the regression fixture with four tickets, so they supplement rather than replace the matching before/after fixture.
-- Seven before/after image embeds were loaded from the actual #1494 ticket page; dimensions and load results are recorded in ticket-image-loads.json. The local image server must remain running to display them there.
+- Seven before/after image embeds loaded in the tracker. Dimensions and loading results are recorded in `ticket-image-loads.json`.
 - Decision: accept for human review. No product/API data migration is needed; browser preference migration and its semantics are documented. No release or production runtime replacement is included.
 
 ## CI follow-up before merge

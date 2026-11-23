@@ -2,7 +2,7 @@
 
 Date: 2026-11-22 (JST)
 Reviewer: independent sub-agent `paging_spec_review`
-Scope: #1509 contract and the associated OpenAPI, Japanese/English API examples and AI guides, and distributed `kanbalone-api` skill/reference. This is a specification/documentation review, not implementation acceptance.
+Scope: pagination contract and the associated OpenAPI, Japanese/English API examples and AI guides, and distributed `kanbalone-api` skill/reference. The review covers the specification and documentation. [PR #31](https://github.com/wamukat/kanbalone/pull/31)
 
 ## Result
 

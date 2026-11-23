@@ -1,10 +1,10 @@
 ## Change
 
-Describe the problem and resulting user-visible behavior. Link the ticket.
+Describe the problem and resulting user-visible behavior. Link relevant public GitHub issues or PRs when verified. Keep local tracking numbers and ticket URLs in the local tracker.
 
 ## Verification
 
-Record local commands or manual steps, results and limitations. For UI changes, link comparable before/after screenshots and Japanese/English checks.
+Record the commands or manual steps, results, and limitations. For UI changes, summarize the Japanese and English checks and link comparable before/after images that reviewers can access.
 
 ## Release impact
 

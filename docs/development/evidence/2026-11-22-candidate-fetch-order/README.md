@@ -1,12 +1,16 @@
-# Relation candidate fetch order — 2026-11-22 JST
+# Collect relation candidates in ID order
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/42)
 
 ## Scope and compatibility
 
-#1512 continuation after PR41, baseline `c12cf07f21e5abde1dbde5781e0975c864615a10`. Request relation candidates using existing `order=id_asc` rather than the client collector's default `position_asc`. The product diff is one URL in `ensureCandidates`. Candidate source is identified by `source-sha256.json` and the containing commit.
+The baseline includes the child candidate indexing change. [PR #41](https://github.com/wamukat/kanbalone/pull/41)
+
+The baseline is `c12cf07f21e5abde1dbde5781e0975c864615a10`. Request relation candidates using existing `order=id_asc` rather than the client collector's default `position_asc`. The product diff is one URL in `ensureCandidates`. Candidate source is identified by `source-sha256.json` and the containing commit.
 
 Every Parent / Blocker / Related / Child picker already sorts the complete fetched candidates by priority descending, then ID ascending. Selected chips follow their selected-ID arrays. Other consumers use ID lookup and a parent-ID Set. None uses the server's lane/archive/position ordering. Changing the collection order preserves those outputs while avoiding the more expensive compound-key paging query.
 
-No API/storage/schema change, new cache, search filter, page-size increase, partial candidate publication or display limit. Archived inclusion, ID substring matching (including `#5` matching `#50`), title matching, hierarchy/dependency restrictions, generation/abort/retry and revision checks remain. No migration required. Complete collection transfer and large DOM remain #1512 work.
+No API/storage/schema change, new cache, search filter, page-size increase, partial candidate publication or display limit. Archived inclusion, ID substring matching (including `#5` matching `#50`), title matching, hierarchy/dependency restrictions, generation/abort/retry and revision checks remain. No migration required. Complete collection transfer and large DOM costs remained at the time of this comparison.
 
 ## Isolated API diagnostic
 

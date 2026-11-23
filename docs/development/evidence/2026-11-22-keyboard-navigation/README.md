@@ -1,6 +1,8 @@
-# #1506 / #1507 — 検索結果のキーボード選択
+# 検索結果のキーボード選択
 
-2026-11-22（Asia/Tokyo）。List #1506、Kanban #1507。ユーザー承認済みモックを実装し、人の受入待ち。
+[実装 PR](https://github.com/wamukat/kanbalone/pull/30)
+
+2026-11-22（Asia/Tokyo）。ListとKanbanが対象です。ユーザー承認済みモックを実装し、人の受入待ち。
 
 ## 環境と再現
 
@@ -16,8 +18,8 @@
 
 | チケット | 操作 | Before | After |
 | --- | --- | --- | --- |
-| #1506 List | ↓×18 → Enter → Esc | ↓で行を選択できず、Enterでも詳細は開かない | #18の詳細を開き、検索語・フォーカス・縦位置380pxを保持して同じ行へ復帰 |
-| #1507 Kanban | ↓×8 → →×2 → Enter → Esc | カード選択やレーン間移動ができず、詳細は開かない | todo→doing→空のAcceptanceを飛ばしてdoneへ。#26を開閉し、同じカードと横位置124pxへ復帰 |
+| List | ↓×18 → Enter → Esc | ↓で行を選択できず、Enterでも詳細は開かない | #18の詳細を開き、検索語・フォーカス・縦位置380pxを保持して同じ行へ復帰 |
+| Kanban | ↓×8 → →×2 → Enter → Esc | カード選択やレーン間移動ができず、詳細は開かない | todo→doing→空のAcceptanceを飛ばしてdoneへ。#26を開閉し、同じカードと横位置124pxへ復帰 |
 
 BeforeのEscは検索欄に対するブラウザ標準操作で、検索文字を消す。Beforeの`*-detail.png`は「Enterを押しても開かなかった状態」であり、詳細画面の画像ではない。
 
@@ -27,14 +29,14 @@ BeforeのEscは検索欄に対するブラウザ標準操作で、検索文字�
 
 ## 画像
 
-### #1506 List
+### List
 
 | | 修正前：↓操作後 | 修正後：選択 | 修正後：詳細 | 修正後：復帰 |
 | --- | --- | --- | --- | --- |
 | 日本語 | ![Before JA](before-list-ja-selected.png) | ![After selected JA](after-list-ja-selected.png) | ![After detail JA](after-list-ja-detail.png) | ![After return JA](after-list-ja-return.png) |
 | English | ![Before EN](before-list-en-selected.png) | ![After selected EN](after-list-en-selected.png) | ![After detail EN](after-list-en-detail.png) | ![After return EN](after-list-en-return.png) |
 
-### #1507 Kanban
+### Kanban
 
 | | 修正前：矢印操作後 | 修正後：選択 | 修正後：詳細 | 修正後：復帰 |
 | --- | --- | --- | --- | --- |
@@ -53,4 +55,4 @@ BeforeのEscは検索欄に対するブラウザ標準操作で、検索文字�
 
 制限: 実OSの日本語IME、スクリーンリーダー、Firefox/Safari、人による速度・発見性評価は未実施。IME回帰は合成イベント。新コントローラーは既存boardモジュールと同じく厳密なpublic型検査対象外で、構文・E2E・コードレビューで検証。DB/API仕様の変更なし、データ移行不要。
 
-画像は各チケットのコメントにも埋め込み、取得時は `http://127.0.0.1:3582/2026-11-22-keyboard-navigation/` で配信。ローカル配信を止めるとチケット内画像は表示されない。原本はこのディレクトリに保持。コミット・push後の共有時は固定SHAのURLへの切り替えが必要。
+原画像はこのディレクトリにあります。比較画像は上の一覧から参照できます。

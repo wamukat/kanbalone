@@ -1,6 +1,6 @@
 ---
 name: kanbalone-ticket-flow
-description: Project-specific workflow for processing wamukat/kanbalone tickets from GitHub issue intake through local Kanbalone tracking, implementation, sub-agent review when requested, release, GitHub issue closure, and local acceptance handoff. Use when the user asks to handle Kanbalone project tickets, import GitHub issues into the local Kanbalone board, proceed to the next ticket step, release Kanbalone, close related GitHub/local tickets, or update the local kanban on port 3470.
+description: Project-specific workflow for processing wamukat/kanbalone tickets from GitHub issue intake through local Kanbalone tracking, implementation, sub-agent review when requested, release, GitHub issue closure, and local acceptance handoff. Use when the user asks to handle Kanbalone project tickets, import GitHub issues into the local Kanbalone board, proceed to the next ticket step, release Kanbalone, close related GitHub/local tickets, or update the configured local Kanbalone runtime.
 ---
 
 # Kanbalone Ticket Flow
@@ -8,8 +8,8 @@ description: Project-specific workflow for processing wamukat/kanbalone tickets 
 ## Project Constants
 
 - Repository: `wamukat/kanbalone`
-- Workspace: `/Users/takuma/workspace/kanbalone`
-- Local Kanbalone tracking board: `http://127.0.0.1:3470/boards/4`
+- Workspace: the current Kanbalone checkout
+- Local Kanbalone tracking board: read its URL from the local handoff. Set `KANBALONE_BOARD_URL` to that board URL and `KANBALONE_BOARD_ID` to its numeric board ID for the commands below.
 - Local board name: `Kanbalone`
 - Resolve current lanes from the board API. Work moves through `todo`, `doing`, and the normal `Acceptance` lane. Identify final completion lanes by `isCompletionLane`, not their names; migrated boards may retain a normal lane named `done`.
 - Default release cadence: next patch version from the latest `vX.Y.Z` tag
@@ -25,12 +25,12 @@ Use the `kanbalone-api` skill for local Kanbalone API mutations. Use the GitHub 
    - Verify GitHub issue state and local ticket state before mutating either side.
 
 2. Import or sync GitHub issues into local Kanbalone:
-   - Use `POST /api/boards/:boardId/remote-import/preview`, then `/remote-import`, when importing a GitHub issue into board `4`.
+   - Use `POST /api/boards/:boardId/remote-import/preview`, then `/remote-import`, when importing a GitHub issue into the configured tracking board.
    - Do not manually copy issue text if remote import is available.
    - After import, report both IDs: local `#NNN` and GitHub `owner/repo#N`.
 
 3. Implement:
-   - Work in `/Users/takuma/workspace/kanbalone`.
+   - Work in the Kanbalone checkout.
    - Prefer existing project patterns and keep changes scoped to the issue.
    - Add or update tests proportional to risk.
    - Update OpenAPI when API routes or schemas change.
@@ -50,6 +50,7 @@ Use the `kanbalone-api` skill for local Kanbalone API mutations. Use the GitHub 
    - Check `git status --short` and `git diff --stat`.
    - Run `git diff --check`.
    - Commit implementation separately from release/version bumps when practical.
+   - Use descriptive branches, commits and PR titles. Keep local tracker numbers, ticket URLs and local-only evidence in the local tracker or handoff. In PR descriptions and public docs, use verified GitHub links and explain what was tested and what happened.
    - Use direct commit messages, e.g. `Add ticket tag reasons and structured events`, `Release v0.9.21`.
 
 7. Release (when requested by the user):
@@ -74,7 +75,7 @@ Use the `kanbalone-api` skill for local Kanbalone API mutations. Use the GitHub 
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
+  --base "$KANBALONE_BOARD_URL" \
   PATCH /api/tickets/<ticket-id>/transition \
   '{"laneName":"Acceptance"}'
 ```
@@ -83,7 +84,7 @@ python3 skills/kanbalone-api/scripts/kanbalone_api.py \
 
 10. Final response:
    - State the release URL, Docker image tags, closed GitHub issues, local ticket IDs awaiting acceptance, and key verification commands.
-   - Explicitly mention anything not done, such as local runtime upgrade on port `3470`.
+   - Explicitly mention anything not done, such as the local runtime upgrade.
 
 ## Local Kanbalone API Recipes
 
@@ -93,7 +94,7 @@ Health:
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
+  --base "$KANBALONE_BOARD_URL" \
   GET /api/health
 ```
 
@@ -101,15 +102,15 @@ Read local board:
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
-  GET /api/boards/4
+  --base "$KANBALONE_BOARD_URL" \
+  GET "/api/boards/$KANBALONE_BOARD_ID"
 ```
 
 Add implementation comment:
 
 ```bash
 python3 skills/kanbalone-api/scripts/kanbalone_api.py \
-  --base http://127.0.0.1:3470/boards/4 \
+  --base "$KANBALONE_BOARD_URL" \
   POST /api/tickets/<ticket-id>/comments \
   '{"bodyMarkdown":"Implemented in `<sha>`.\n\nVerification: `<command>` passed."}'
 ```
@@ -146,5 +147,5 @@ gh run watch <run-id> --repo wamukat/kanbalone --exit-status
 - After a requested release, close the related GitHub issues and hand local tickets to Acceptance; human acceptance determines local completion.
 - Do not close GitHub issues before a release is published unless the user explicitly asks.
 - Do not move or rewrite published release tags. If a released tag has a problem, create a new patch release.
-- Do not update the local `:3470` runtime silently; mention whether it has or has not been upgraded.
+- Do not update the configured local runtime silently; mention whether it has or has not been upgraded.
 - Prefer exact IDs, SHAs, URLs, and command results in final status.

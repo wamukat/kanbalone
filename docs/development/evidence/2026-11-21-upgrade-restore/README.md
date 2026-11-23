@@ -1,4 +1,6 @@
-# #1490: Upgrade, backup and restoration verification
+# Upgrade, backup and restoration verification
+
+[PR #20](https://github.com/wamukat/kanbalone/pull/20)
 
 ## Candidate and environment
 
@@ -42,5 +44,5 @@ The matrix is three source releases × Docker volume/bind mount. Expected migrat
 - Volume uses the default image user; bind mount uses the host UID/GID because this host rejects `chown` on shared mounts.
 - Failure injection covers the completion migration transaction, not disk exhaustion or every migration statement.
 - Provider state is synthetic. Authentication, actual remote synchronization, live copying and native/ARM installations are outside this test.
-- Local candidate acceptance and the first Release workflow dry-run remain tracked separately in #1489. This task does not publish a release.
+- Local candidate acceptance and the first Release workflow dry run were separate from the upgrade and restoration tests. This task does not publish a release.
 - No UI changes: data snapshots, image digests and logs are the evidence, rather than screenshots.

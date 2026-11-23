@@ -1,6 +1,8 @@
-# Independent review — #1511 keyboard ticket creation
+# Independent review of keyboard ticket creation
 
-Reviewer: `/root/create_1511_review`, separate from implementation and evidence authors. Date: 2026-11-22. Baseline: `b7dc02e8885f740afd9a47f12fab4c9079346041`.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/33)
+
+Reviewed independently of the implementation and evidence authors. Date: 2026-11-22. Baseline: `b7dc02e8885f740afd9a47f12fab4c9079346041`.
 
 Reviewed candidate source fingerprint: `d844c9a6599820229c2f4804c11bd3487d3f939acb900ab45b958b64a6b85c0b`. Independently verified every file hash in `revision.json` against the final working tree. Status: no unresolved blocker in this change; ready for user/PR review.
 
@@ -20,7 +22,7 @@ Review findings addressed:
 
 ## Independent actual-browser observations
 
-Used an isolated `agent-browser` session against candidate `http://127.0.0.1:3602`, with the disposable fixture only. No tickets were saved or changed by this reviewer.
+Used an isolated `agent-browser` session with the candidate and a disposable fixture. No tickets were saved or changed by this reviewer.
 
 - Japanese Group: focused ticket #14, pressed N, observed title focus and first-lane/current-Group context. Entered a draft, pressed Escape and cancelled dismissal: draft remained. Repeated Escape and discarded: focus returned to ticket #14.
 - English Kanban: focused a Doing ticket, pressed N, observed title focus, Doing selected, board context, and the English save shortcut tooltip.

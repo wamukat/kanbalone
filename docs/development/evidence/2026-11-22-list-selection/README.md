@@ -1,6 +1,8 @@
-# #1519 — Keep large List selections responsive
+# Keep large List selections responsive
 
-Part of #1512. Selecting all tickets previously compared the selected IDs with the entire ticket collection repeatedly. The change builds temporary Sets for membership checks during rendering, bulk-move setup and parent/child selection. Selection IDs remain an ordered array. The UI, selection scope, API, storage and row order are unchanged.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/39)
+
+Selecting all tickets previously compared the selected IDs with the entire ticket collection repeatedly. The change builds temporary Sets for membership checks during rendering, bulk-move setup and parent/child selection. Selection IDs remain an ordered array. The UI, selection scope, API, storage and row order are unchanged.
 
 On the isolated **10,005-ticket** fixture, select-all improved from **907.0 to 105.6 ms**, and deselecting one ticket from **556.3 to 44.6 ms**. These are change-event-to-two-animation-frame medians of five alternating local runs per variant, not human task times or INP. Clear-all did not improve. See [measurement method, results and reproduction](performance.md).
 
@@ -23,8 +25,8 @@ Baseline: merged main `963b37bcdd5e773ef01889bbcea9dbd33a21d1bd`. Candidate: the
 
 Images establish the retained appearance, not speed or persistence. [Interaction and regression verification](verification.md) records selection counts, filter changes, the bulk-write payload, API reads and reload results. [Independent review](review.md) covers source, measurements and actual images separately from user acceptance.
 
-## Remaining #1512 work
+## Remaining performance work
 
-This change does not reduce initial List/Group data collection or Group DOM/layout work. Group already has hierarchy indexing, partial control rendering and optimized retrieval. A previous #1515 experiment on older source measured substantial remaining large-Group rendering time; those historical numbers are not re-labelled as measurements of this baseline.
+This change does not reduce initial List/Group data collection or Group DOM/layout work. Group already has hierarchy indexing, partial control rendering and optimized retrieval. A previous Group initial-load experiment on older source measured substantial remaining large-Group rendering time; those historical numbers apply to the older baseline. [PR #36](https://github.com/wamukat/kanbalone/pull/36)
 
-Group virtualization or progressive display needs an explicit design decision about variable-height titles, parent/child boundaries, stable scroll position, keyboard navigation and browser text search. The earlier estimated-height content-visibility prototype was rejected for scroll shifts. The first relation search also still collects all candidate pages after #1518; server-side candidate search needs matching/sorting compatibility work. These remain separate work under #1512, not benefits claimed by this patch.
+Group virtualization or progressive display needs an explicit design decision about variable-height titles, parent/child boundaries, stable scroll position, keyboard navigation and browser text search. The earlier estimated-height content-visibility prototype was rejected for scroll shifts. The first relation search also still collects all candidate pages after deferring candidate collection until search. Server-side candidate search needs matching/sorting compatibility work. These were outside the scope of this selection change. [PR #38](https://github.com/wamukat/kanbalone/pull/38)

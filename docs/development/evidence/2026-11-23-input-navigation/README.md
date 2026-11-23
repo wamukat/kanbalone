@@ -4,7 +4,9 @@ Baseline revision `12a100e70e1666169ad902c13680f15df0d33829`. The candidate keep
 
 The two applications reported Kanbalone 1.1.0 and used separate copies of the same synthetic SQLite fixture. Fixture SHA-256 is `c693342296088324d35caf03b0cf07c734154309e5ab412c6bf5a341bf5b1c88`. Timing used Chromium 159.0.8154.6, Node 26.13.1, localhost, Intel Core i7-9750H macOS x64, 1440 × 900, English, and light mode on 2026-11-23 JST. Hosts issued real keyboard and mouse input. Timing started before dispatch and ended after the expected focus, query, or selection state plus two animation frames. The raw records also capture trusted event timestamps and browser-side measurements. The first sample in each repeated scenario warmed up the action and is excluded. A fresh process, context and database copy began each variant. Each variant recorded 86 samples.
 
-## #1535 Kanban keyboard navigation and detail return
+The keyboard navigation changes were merged together. [PR #52](https://github.com/wamukat/kanbalone/pull/52)
+
+## Kanban keyboard navigation and detail return
 
 | Operation | Baseline median [min–max] | Candidate median [min–max] | Samples per version |
 |---|---:|---:|---:|
@@ -19,7 +21,7 @@ Open the populated Kanban board, focus Search and press Down. The first visible 
 
 The candidate changes the keyboard lookup. First detail-open elapsed 88.5 ms on 1,000 active and 137.1 ms on 3,000 active in one sample each. The original 3,000-active single sample was 123.6 ms. General detail load timing varies separately from focus return.
 
-## #1537 Group candidate keyboard navigation
+## Group candidate keyboard navigation
 
 | Operation | Baseline median [min–max] | Candidate median [min–max] | Samples per version |
 |---|---:|---:|---:|

@@ -1,6 +1,8 @@
-# Independent review — #1514 Group partial rendering
+# Independent review of Group partial rendering
 
-Reviewer: `/root/create_1511_review`, separate from implementation and evidence authors. Baseline: `2c44327c1b05753b165181ee663af9fb5253e40f` (local integration of PR #32 and #33). Status: no remaining blocking finding in the reviewed local implementation and evidence. Final source fingerprint: `c899de5b195e89d295cb9164238bec89ec1bc8b58c7a46918674d4eb1f6ad3d3`; independently checked all four file hashes against `revision.json`.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/34)
+
+Reviewed independently of the implementation and evidence authors. Baseline: `2c44327c1b05753b165181ee663af9fb5253e40f` (local integration of PR #32 and #33). Status: no remaining blocking finding in the reviewed local implementation and evidence. Final source fingerprint: `c899de5b195e89d295cb9164238bec89ec1bc8b58c7a46918674d4eb1f6ad3d3`; independently checked all four file hashes against `revision.json`.
 
 ## Strategy and invalidation
 
@@ -16,7 +18,7 @@ The first partial-render draft could keep a submit button disabled after a faile
 
 ## Preservation checks
 
-The review covers state freshness after SSE, archive and parent/child changes, priority sorting, lane rename, selected Group/board changes, focused title restoration from #1511, description caret/drafts, scroll, and pending-write controls. Section caching must not be accepted merely because steady-state images look identical. Initial rendering and full API collection still occur; interaction timing claims must be scoped to the measured control/form operations rather than presented as a first-load improvement.
+The review covers state freshness after SSE, archive and parent/child changes, priority sorting, lane rename, selected Group/board changes, focused title restoration after keyboard creation, description caret/drafts, scroll, and pending-write controls. Section caching must not be accepted merely because steady-state images look identical. Initial rendering and full API collection still occur; interaction timing claims must be scoped to the measured control/form operations rather than presented as a first-load improvement.
 
 ## Browser and image evidence
 
@@ -30,7 +32,7 @@ Checked both language sequences in the verification JSON: all five candidate row
 
 Independently recomputed all 24 action/size/phase medians from the 72 raw samples; they match `performance.md`. The six measured control operations drop from approximately 337–427 ms to 31–42 ms at 1,000 members, and 3,886–4,157 ms to 313–360 ms at 10,000 members. Every candidate sample retains its representative original row and expected row count; baseline samples replace it. Measurements are three repetitions per action on one local environment, sequential before/after, from click dispatch to two animation frames. They exclude driver waiting and initial loading and are not field INP measurements. Initial loading and the full ticket DOM remain limitations.
 
-Reviewed the final successful logs: `pnpm check` includes 196 unit/API tests plus lint/type/document checks; 49 affected E2E tests passed. Cases include cache invalidation for title, hierarchy, priority, completion, archive, lane names and membership, delayed-write busy controls, failed-save retry, live-update caret/scroll preservation and #1511 creation focus recovery. Tests were run by the separate verification agent, not rerun by this reviewer.
+Reviewed the final successful logs: `pnpm check` includes 196 unit/API tests plus lint/type/document checks; 49 affected E2E tests passed. Cases include cache invalidation for title, hierarchy, priority, completion, archive, lane names and membership, delayed-write busy controls, failed-save retry, live-update caret/scroll preservation and keyboard creation focus recovery. [PR #33](https://github.com/wamukat/kanbalone/pull/33) Tests were run by the separate verification agent, not rerun by this reviewer.
 
 ## Decision and limits
 

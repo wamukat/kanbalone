@@ -1,4 +1,6 @@
-# #1511: keyboard ticket creation
+# Keyboard ticket creation
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/33)
 
 This directory contains **actual application captures**, separate from the earlier [interaction mock](../2026-11-22-create-keyboard-mock/README.md). All boards and writes below are disposable evaluation fixtures. Production data was not used.
 
@@ -52,4 +54,4 @@ Supplemental actual Group creation captures at 1280×720, in light and emulated 
 
 The first full PR #33 CI run passed 156/158 E2E tests. Two legacy action-recovery assertions expected search focus after saving from a lane + button; the approved behavior now returns to that initiating button. The test-only update checks the exact Source/Todo + button and retains editing, moving and persistence assertions. The affected action-recovery and new-creation suite then passed all 17 tests (`ci-alignment.txt`). Runtime hashes and captured images are unchanged. Full GitHub checks are rerun on the updated commit.
 
-The author embedded all 18 primary images in Kanbalone #1511 from immutable commit `af6d96b9c2a4b1eb3007487f19be434c79742b24` and verified them in its actual ticket screen: all loaded at 1440×1000. The pre-existing dark label issue was reproduced on baseline and candidate, with both comparison images attached to separate ticket #1513.
+The author verified that all 18 original images from commit `af6d96b9c2a4b1eb3007487f19be434c79742b24` loaded at 1440×1000. The pre-existing dark label issue was reproduced on the baseline and candidate and fixed separately. [PR #35](https://github.com/wamukat/kanbalone/pull/35)

@@ -1,4 +1,6 @@
-# #1519 — List selection regression and visual verification
+# List selection regression and visual verification
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/39)
 
 Baseline: merged main `963b37bcdd5e773ef01889bbcea9dbd33a21d1bd`. Candidate: the same source with three List selection modules changed; exact static-file hashes are in [interaction-revision.json](interaction-revision.json). Both capture servers use the same unchanged backend and independent copies of synthetic SQLite data. Existing user data and normal port 3470 are not used.
 

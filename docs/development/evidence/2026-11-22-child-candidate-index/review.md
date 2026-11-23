@@ -8,4 +8,4 @@ Final reviewer independently recalculated all README medians from 60 retained op
 
 Reviewer inspected Japanese narrow dark search/saved and Japanese desktop excluded before/after images: no visible candidate, selected state, saved state or position regression. Seventeen of eighteen image pairs are byte-identical; the six-pixel selected-chip edge difference is disclosed, with no claimed definitive rasterization cause. Eight interaction records retain cancellation, saved children [6,2] and reload results. Root ran `pnpm check` (200 tests) and the related 11 E2E tests successfully; the reviewer did not independently rerun them.
 
-Decision: no blocker; ready for PR and user acceptance once CI and ticket-image loading are verified. #1512 remains open for full candidate collection and other large-data costs. This review is not merge authorization.
+Decision: no blocker; ready for PR and user acceptance once CI and ticket-image loading are verified. Full candidate collection and other large-data costs remained outside this review. This review is not merge authorization.

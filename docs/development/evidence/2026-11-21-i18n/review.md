@@ -1,4 +1,4 @@
-# Independent review — #1487
+# Independent review of English and Japanese interface verification
 
 Three sub-agents implemented separate areas and reviewed each other's work. The parent inspected the actual screens and retained original screenshots.
 

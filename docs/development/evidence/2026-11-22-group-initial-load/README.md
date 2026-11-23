@@ -1,4 +1,6 @@
-# #1515 — Group initial retrieval
+# Group initial retrieval
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/36)
 
 Group now collects its members with the existing `id_asc` cursor order, then applies its established visible priority/parent order. The backend reuses Group metadata only within one summary mapping call. Public default ordering, page size, response fields and the displayed member set remain unchanged.
 

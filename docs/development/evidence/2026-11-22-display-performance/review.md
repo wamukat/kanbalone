@@ -1,6 +1,8 @@
-# Independent review â€” #1512 hierarchy rendering
+# Independent review of hierarchy rendering
 
-Reviewer: `/root/next_review`, separate from implementation author. Date: 2026-11-22.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/32)
+
+Reviewed independently of the implementation author. Date: 2026-11-22.
 Baseline: `b7dc02e8885f740afd9a47f12fab4c9079346041`.
 Reviewed production fingerprint: `afd2a969dd2747c24dacffc68cd01472774138461e11a88b0d6ea460972dbe0a` (three modules listed in `revision.json`).
 
@@ -24,7 +26,7 @@ The local measurements support a bounded improvement: 10k List first rows 1,563â
 
 ## Decision and remaining work
 
-Accept the three-module optimization and unchanged visual behavior for review. The author's `pnpm check` log confirms 196 passing unit/API tests, backend/public type checks, OpenAPI lint and docs build; the relevant Group/keyboard E2E log confirms 25 passing tests. The two added declaration files match the runtime exports and introduce no runtime behavior. User acceptance and CI are still required before merge. Keep #1512 open: Group still renders all rows, List/Group still collect all needed pages, and Kanban still builds thousands of cards. No release, production data update or runtime replacement is covered by this review.
+Accept the three-module optimization and unchanged visual behavior for review. The author's `pnpm check` log confirms 196 passing unit/API tests, backend/public type checks, OpenAPI lint and docs build; the relevant Group/keyboard E2E log confirms 25 passing tests. The two added declaration files match the runtime exports and introduce no runtime behavior. User acceptance and CI are still required before merge. At the time of this review, Group still rendered all rows, List and Group still collected all needed pages, and Kanban still built thousands of cards. No release, production data update or runtime replacement is covered by this review.
 
 ## Final measurement correction audit
 

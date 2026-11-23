@@ -1,4 +1,6 @@
-# #1518 opening and first relation search
+# Ticket opening and first relation search
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/38)
 
 Local measurements on baseline main `ac23f0f` and the candidate production sources recorded in performance-revision.json. Synthetic fixtures use 100 open tickets plus 0 or 9,900 completed. Both versions initially render the same open tickets and up to five completed; before/after fixture table contents are identical.
 

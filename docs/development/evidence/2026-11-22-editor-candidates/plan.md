@@ -1,6 +1,8 @@
-# #1518 — Plan reviewed before implementation
+# Plan for deferring relation candidates
 
-Baseline: merged main `ac23f0f12b9efb7da330b9b4142c87642ba9441c`. Normal localhost:3470 was updated and evaluated before choosing this work. Existing data is not used for screenshots or writes in this change.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/38)
+
+Baseline: merged main `ac23f0f12b9efb7da330b9b4142c87642ba9441c`. The running app was checked before choosing this work. Screenshots and writes for this change use isolated fixtures.
 
 ## Decision and scope
 

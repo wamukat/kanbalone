@@ -1,6 +1,8 @@
-# Independent review — #1515 Group initial retrieval
+# Independent review of Group initial retrieval
 
-Reviewer: `/root/create_1511_review`, separate from implementation and measurement authors. Baseline `09ad816c1fb51c3a0af143ee0cee477e2964eee9`. Reviewed fingerprint `dcea4ba770efd0013d1bd8fd52ec8841b57bc9c7f78ce4142f6eb8e83e150bbc`; independently verified all four source/test hashes in `revision.json`.
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/36)
+
+Reviewed independently of the implementation and measurement authors. Baseline `09ad816c1fb51c3a0af143ee0cee477e2964eee9`. Reviewed fingerprint `dcea4ba770efd0013d1bd8fd52ec8841b57bc9c7f78ce4142f6eb8e83e150bbc`; independently verified all four source/test hashes in `revision.json`.
 
 ## Semantics and cache lifetime
 

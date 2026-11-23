@@ -1,6 +1,6 @@
 # Native Tab during Kanban lane rendering
 
-Kanbalone #1550 keeps a card visible when the browser moves focus to it with Tab or Shift+Tab while its lane is still rendering. The focus event ends pending scroll restoration for that lane. The other lanes continue to restore their saved positions. Existing explicit Arrow navigation retains its separate rule for partially replaced lanes.
+This change keeps a card visible when the browser moves focus to it with Tab or Shift+Tab while its lane is still rendering. The focus event ends pending scroll restoration for that lane. The other lanes continue to restore their saved positions. Existing explicit Arrow navigation retains its separate rule for partially replaced lanes. [PR #59](https://github.com/wamukat/kanbalone/pull/59)
 
 The baseline was `691c55db03798a5789802b30752c0b156ee4a028`. The candidate was `c562d2baef971024b68b76fb629a47c25cfdf066`. The experiment used Chromium 159.0.8154.6, Node 26.13.1 and source assets over loopback HTTP with an isolated SQLite fixture.
 
@@ -26,7 +26,7 @@ The candidate kept all four focused cards visible through the remaining batches.
 
 A standalone programmatic focus call retained the old scroll restoration. A canceled Tab with programmatic focus during keydown also retained scroll restoration. The regression test holds the later animation frames at the first changed-title mutation. It sends a native Tab and resumes the frames before checking the focused card's viewport intersection and the saved detail opened by Enter.
 
-The two original image pairs in Kanbalone #1550 comment 4602 show the forward Tab result for full redraw and lane reuse, after the complete card set and before pressing Enter. The target lane's visible scroll position reflects the native focus result. The other visible lanes remain at the same positions in each pair. The raw checks record focus, scroll and the read-back title. The interaction observations apply to the tested Chromium engine.
+The two original image pairs show the forward Tab result for full redraw and lane reuse, after the complete card set and before pressing Enter. The target lane's visible scroll position reflects the native focus result. The other visible lanes remain at the same positions in each pair. The raw checks record focus, scroll and the read-back title. The interaction observations apply to the tested Chromium engine.
 
 All four originals decoded at 1440 × 1000 in a read-only browser session.
 

@@ -1,4 +1,6 @@
-# #1529 image attachment evidence
+# Image attachment evidence
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/45)
 
 Captured on November 22, 2026 (JST). The baseline is Kanbalone v1.0.0 at `5ff44622f74c2116147d60c11be7f86fbc2208d2`, extracted with `git archive`. The candidate is the source snapshot identified by [source-fingerprint.json](source-fingerprint.json). The manifest hashes the API, frontend and package inputs for each runtime. The [before](before-results.json) and [after](after-results.json) records include the browser version and observed values.
 

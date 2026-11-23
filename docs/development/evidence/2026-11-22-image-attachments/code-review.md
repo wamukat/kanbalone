@@ -1,4 +1,6 @@
-# Independent implementation review for #1529
+# Independent implementation review of image attachments
+
+[Implementation PR](https://github.com/wamukat/kanbalone/pull/45)
 
 Reviewed the working tree on 2026-11-22, based on `5ff44622f74c2116147d60c11be7f86fbc2208d2`. The reviewer exercised the application and backup helper with Node 26.13.1, temporary SQLite databases, generated data and isolated Chromium sessions. Each storage probe created and removed its own directories. The [evidence index](README.md) links the source fingerprint and capture matrix.
 
@@ -21,7 +23,7 @@ Reviewed the working tree on 2026-11-22, based on `5ff44622f74c2116147d60c11be7f
 
 ## Result
 
-All four findings were addressed and independently rechecked. The reviewed implementation has no outstanding code blocker for #1529.
+All four findings were addressed and independently rechecked. The reviewed implementation has no outstanding code blocker.
 
 ## Boundaries
 
