@@ -79,6 +79,7 @@ test("native Tab and Shift+Tab mount the next logical card across a Kanban windo
     await scrollTo(list, 0.55);
     await expect(title(page, first.id)).not.toBeInViewport();
     await expect(title(page, next.id)).toHaveCount(0);
+    expect(await list.locator(":scope > .ticket-card").count()).toBeLessThan(40);
     expect(await firstHandle?.evaluate(node => node === document.activeElement)).toBe(true);
     await page.keyboard.press("Tab");
     await expect(title(page, next.id)).toBeFocused();
@@ -280,6 +281,7 @@ test("drag scroll keeps the native source mounted and uses logical neighbors acr
     if (!viewport) throw new Error("Missing source viewport");
     await page.mouse.move(viewport.x + 140, viewport.y + viewport.height - 14, { steps: 6 });
     await expect.poll(() => sourceList.evaluate(list => list.scrollTop)).toBeGreaterThan(900);
+    expect(await sourceList.locator(":scope > .ticket-card").count()).toBeLessThan(40);
     expect(await sourceHandle?.evaluate(node => node.isConnected && node.classList.contains("dragging"))).toBe(true);
 
     await scrollTo(targetList, 0.55);
