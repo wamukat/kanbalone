@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { startTestApp, updateTicket } from "./helpers.js";
+import { createCompletionLane, startTestApp, updateTicket } from "./helpers.js";
 
 const title = (page: Page, id: number) => page.locator(`[data-group-ticket="${id}"]`);
 const remove = (page: Page, id: number) => page.locator(`[data-group-remove="${id}"]`);
@@ -283,20 +283,32 @@ for (const language of ["en", "ja"] as const) {
   });
 }
 
-test("Group highlights only the current search result in forced colors", async ({ page }) => {
+test("Group search highlighting takes precedence over completion tint and stays visible in forced colors", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
-    await page.emulateMedia({ forcedColors: "active" });
-    await openGroup(page, baseUrl);
+    const boardId = await openGroup(page, baseUrl);
+    const done = await createCompletionLane(page.request, baseUrl, boardId);
+    await updateTicket(page.request, baseUrl, 10, { laneId: done.id });
     const input = page.getByRole("searchbox", { name: "Find tickets in this view" });
     const marker = page.locator("[data-group-search-match]");
     const markedRow = marker.locator(".group-ticket-row");
+    const completedRow = page.locator('.group-ticket-row[data-group-row-id="10"]');
+    await expect(completedRow).toHaveClass(/\bgroup-ticket-resolved\b/);
+    const { tint, searchBackground } = await completedRow.evaluate(row => {
+      const style = getComputedStyle(row);
+      const probe = document.createElement("span").style;
+      probe.backgroundColor = style.getPropertyValue("--accent-soft");
+      return { tint: style.backgroundColor, searchBackground: probe.backgroundColor };
+    });
+    expect(tint).not.toBe("rgba(0, 0, 0, 0)");
     await title(page, 2).focus();
     await page.keyboard.press("/");
     await expect(input).toBeFocused();
     await input.fill("Release 2026");
     await input.press("Enter");
     await expect(marker).toHaveAttribute("data-group-window-id", "10");
+    await expect(markedRow).toHaveCSS("background-color", searchBackground);
+    await page.emulateMedia({ forcedColors: "active" });
     await expect(markedRow).toHaveCSS("outline-style", "solid");
     await expect(markedRow).toHaveCSS("outline-width", "2px");
     await expect(markedRow).toHaveCSS("outline-offset", "-2px");
@@ -306,7 +318,9 @@ test("Group highlights only the current search result in forced colors", async (
     await expect(page.locator('[data-group-window-id="601"] .group-ticket-row')).toHaveCSS("outline-style", "none");
     await input.press("Escape");
     await expect(marker).toHaveCount(0);
-    await expect(page.locator('[data-group-window-id="10"] .group-ticket-row')).toHaveCSS("outline-style", "none");
+    await expect(completedRow).toHaveCSS("outline-style", "none");
+    await page.emulateMedia({ forcedColors: "none" });
+    await expect(completedRow).toHaveCSS("background-color", tint);
   } finally { await close(); }
 });
 
