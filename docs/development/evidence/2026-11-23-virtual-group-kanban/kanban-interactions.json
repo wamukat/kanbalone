@@ -1,0 +1,1591 @@
+{
+  "manifests": [
+    {
+      "ticket": 1556,
+      "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+      "candidate": "df63ad50aff0578ae16c463e433803f8dd532d5e",
+      "candidatePublicSha256": "dff4bb6aa314099795adfcb4e538cbbeb6836ad84081f224788b1332e4880544",
+      "buildFingerprints": {
+        "baseline": "66850709a03ccc99b75ac9c09b4e6274e9141924ec27f46069440e054d32527c",
+        "production": "f6522dd4c4953a29a50646b82924728b642bb48d124c7af5167585d2cdc3cc07"
+      },
+      "chromium": "159.0.8154.6",
+      "fixture": "kanban-high-active",
+      "entries": [
+        {
+          "label": "現行 英語ライト・Tab で次のカードに移動",
+          "path": "ticket-1556-baseline-en-tab-result.png",
+          "sha256": "3db2b234eeb2360d57567d2ac337ddbd140b65af0e882caef362471ef6babfbb",
+          "url": "/api/attachments/3db2b234eeb2360d57567d2ac337ddbd140b65af0e882caef362471ef6babfbb",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "baseline",
+          "stage": "tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/0"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "現行 英語ライト・Shift+Tab で前のカードに移動",
+          "path": "ticket-1556-baseline-en-shift-tab-result.png",
+          "sha256": "c02fbdba05c2fbc446381c0872fbca468882e5c778cfda315c6a13c454c62a59",
+          "url": "/api/attachments/c02fbdba05c2fbc446381c0872fbca468882e5c778cfda315c6a13c454c62a59",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "baseline",
+          "stage": "shift-tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/0"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "現行 日本語ダーク・Tab で次のカードに移動",
+          "path": "ticket-1556-baseline-ja-tab-result.png",
+          "sha256": "c3cbdad1d25476b0242b014e1e412f437688a304ba11be3bf5c932261b320d9c",
+          "url": "/api/attachments/c3cbdad1d25476b0242b014e1e412f437688a304ba11be3bf5c932261b320d9c",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "baseline",
+          "stage": "tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/2"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "現行 日本語ダーク・Shift+Tab で前のカードに移動",
+          "path": "ticket-1556-baseline-ja-shift-tab-result.png",
+          "sha256": "b774e9619e81035b6474f552f658f9dd5c72e222584d714c1583a3108a95485a",
+          "url": "/api/attachments/b774e9619e81035b6474f552f658f9dd5c72e222584d714c1583a3108a95485a",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "baseline",
+          "stage": "shift-tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/2"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "製品候補 英語ライト・Tab で次のカードに移動",
+          "path": "ticket-1556-production-en-tab-result.png",
+          "sha256": "8516100baa6397fbcc8ecf0e363a5bf9d60cd3d3574fd26819677a4ff28d905b",
+          "url": "/api/attachments/8516100baa6397fbcc8ecf0e363a5bf9d60cd3d3574fd26819677a4ff28d905b",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "production",
+          "stage": "tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/4"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "製品候補 英語ライト・Shift+Tab で前のカードに移動",
+          "path": "ticket-1556-production-en-shift-tab-result.png",
+          "sha256": "474fce61f964780161d3c3160ead08c472381e57510c9003d1311caaadac956c",
+          "url": "/api/attachments/474fce61f964780161d3c3160ead08c472381e57510c9003d1311caaadac956c",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "production",
+          "stage": "shift-tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/4"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "製品候補 日本語ダーク・Tab で次のカードに移動",
+          "path": "ticket-1556-production-ja-tab-result.png",
+          "sha256": "15cc824e5ba2fa5f53d7ae3bb79668af0b157b9c2b1350d9b7f4a3cc320b8a7a",
+          "url": "/api/attachments/15cc824e5ba2fa5f53d7ae3bb79668af0b157b9c2b1350d9b7f4a3cc320b8a7a",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "production",
+          "stage": "tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/6"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        },
+        {
+          "label": "製品候補 日本語ダーク・Shift+Tab で前のカードに移動",
+          "path": "ticket-1556-production-ja-shift-tab-result.png",
+          "sha256": "b3f97509a3e89ba1352bf5c714a4f4bc42b9ed57cfec8f3d9cfe653554a38df6",
+          "url": "/api/attachments/b3f97509a3e89ba1352bf5c714a4f4bc42b9ed57cfec8f3d9cfe653554a38df6",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "production",
+          "stage": "shift-tab-result",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/6"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1"
+          }
+        }
+      ],
+      "commentId": 4629
+    },
+    {
+      "ticket": 1557,
+      "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+      "candidate": "df63ad50aff0578ae16c463e433803f8dd532d5e",
+      "candidatePublicSha256": "dff4bb6aa314099795adfcb4e538cbbeb6836ad84081f224788b1332e4880544",
+      "buildFingerprints": {
+        "baseline": "66850709a03ccc99b75ac9c09b4e6274e9141924ec27f46069440e054d32527c",
+        "production": "f6522dd4c4953a29a50646b82924728b642bb48d124c7af5167585d2cdc3cc07"
+      },
+      "chromium": "159.0.8154.6",
+      "fixture": "kanban-high-active",
+      "entries": [
+        {
+          "label": "現行 英語ライト・別レーンの挿入位置を示す",
+          "path": "ticket-1557-baseline-en-native-drag-target.png",
+          "sha256": "a64e51a274646a7bab65a4835170ed8e0564db0d07921cb14c2061dda4453b8a",
+          "url": "/api/attachments/a64e51a274646a7bab65a4835170ed8e0564db0d07921cb14c2061dda4453b8a",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "baseline",
+          "stage": "native-drag-target",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/1"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "現行 英語ライト・ドロップ保存後に再読み込み",
+          "path": "ticket-1557-baseline-en-saved-after-reload.png",
+          "sha256": "8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496",
+          "url": "/api/attachments/8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "baseline",
+          "stage": "saved-after-reload",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/1"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "現行 日本語ダーク・別レーンの挿入位置を示す",
+          "path": "ticket-1557-baseline-ja-native-drag-target.png",
+          "sha256": "ca47a2835caa2fe2a4ee7de3a164905932bb707ee3d07efb9897d22f06e5b286",
+          "url": "/api/attachments/ca47a2835caa2fe2a4ee7de3a164905932bb707ee3d07efb9897d22f06e5b286",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "baseline",
+          "stage": "native-drag-target",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/3"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "現行 日本語ダーク・ドロップ保存後に再読み込み",
+          "path": "ticket-1557-baseline-ja-saved-after-reload.png",
+          "sha256": "8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897",
+          "url": "/api/attachments/8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "baseline",
+          "stage": "saved-after-reload",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/3"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "製品候補 英語ライト・別レーンの挿入位置を示す",
+          "path": "ticket-1557-production-en-native-drag-target.png",
+          "sha256": "0554ef4f24e478298196aae469ab5573a3c75699c26e6d9c5155eb80f5f53277",
+          "url": "/api/attachments/0554ef4f24e478298196aae469ab5573a3c75699c26e6d9c5155eb80f5f53277",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "production",
+          "stage": "native-drag-target",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/5"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "製品候補 英語ライト・ドロップ保存後に再読み込み",
+          "path": "ticket-1557-production-en-saved-after-reload.png",
+          "sha256": "8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496",
+          "url": "/api/attachments/8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "locale": "en",
+          "version": "production",
+          "stage": "saved-after-reload",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/5"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "製品候補 日本語ダーク・別レーンの挿入位置を示す",
+          "path": "ticket-1557-production-ja-native-drag-target.png",
+          "sha256": "3e7727d73c7a067957f419ab4a33642cd130797af7be2a07fe74e0e2bca9c15d",
+          "url": "/api/attachments/3e7727d73c7a067957f419ab4a33642cd130797af7be2a07fe74e0e2bca9c15d",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "production",
+          "stage": "native-drag-target",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/7"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "label": "製品候補 日本語ダーク・ドロップ保存後に再読み込み",
+          "path": "ticket-1557-production-ja-saved-after-reload.png",
+          "sha256": "8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897",
+          "url": "/api/attachments/8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "locale": "ja",
+          "version": "production",
+          "stage": "saved-after-reload",
+          "operationRaw": {
+            "path": "interaction-evidence.json",
+            "jsonPointer": "/results/7"
+          },
+          "storedTicketCheck": {
+            "method": "GET",
+            "fixtureEndpoint": "/api/tickets/1",
+            "matchedId": 1,
+            "matchedTitle": "Verify retry and delivery history 1",
+            "laneId": 2,
+            "position": 2,
+            "orderedNeighbors": [
+              8,
+              1,
+              14
+            ]
+          }
+        }
+      ],
+      "commentId": 4630
+    }
+  ],
+  "actions": {
+    "baseRevision": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+    "candidate": "df63ad50aff0578ae16c463e433803f8dd532d5e",
+    "fixture": "kanban-high-active",
+    "chromium": "159.0.8154.6",
+    "buildFingerprints": {
+      "baseline": "66850709a03ccc99b75ac9c09b4e6274e9141924ec27f46069440e054d32527c",
+      "production": "f6522dd4c4953a29a50646b82924728b642bb48d124c7af5167585d2cdc3cc07"
+    },
+    "publicSourceFingerprint": "dff4bb6aa314099795adfcb4e538cbbeb6836ad84081f224788b1332e4880544",
+    "images": [
+      {
+        "ticket": 1556,
+        "stage": "tab-result",
+        "version": "baseline",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-baseline-en-tab-result.png",
+        "sha256": "3db2b234eeb2360d57567d2ac337ddbd140b65af0e882caef362471ef6babfbb"
+      },
+      {
+        "ticket": 1556,
+        "stage": "shift-tab-result",
+        "version": "baseline",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-baseline-en-shift-tab-result.png",
+        "sha256": "c02fbdba05c2fbc446381c0872fbca468882e5c778cfda315c6a13c454c62a59"
+      },
+      {
+        "ticket": 1557,
+        "stage": "native-drag-target",
+        "version": "baseline",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-baseline-en-native-drag-target.png",
+        "sha256": "a64e51a274646a7bab65a4835170ed8e0564db0d07921cb14c2061dda4453b8a"
+      },
+      {
+        "ticket": 1557,
+        "stage": "saved-after-reload",
+        "version": "baseline",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-baseline-en-saved-after-reload.png",
+        "sha256": "8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496"
+      },
+      {
+        "ticket": 1556,
+        "stage": "tab-result",
+        "version": "baseline",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-baseline-ja-tab-result.png",
+        "sha256": "c3cbdad1d25476b0242b014e1e412f437688a304ba11be3bf5c932261b320d9c"
+      },
+      {
+        "ticket": 1556,
+        "stage": "shift-tab-result",
+        "version": "baseline",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-baseline-ja-shift-tab-result.png",
+        "sha256": "b774e9619e81035b6474f552f658f9dd5c72e222584d714c1583a3108a95485a"
+      },
+      {
+        "ticket": 1557,
+        "stage": "native-drag-target",
+        "version": "baseline",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-baseline-ja-native-drag-target.png",
+        "sha256": "ca47a2835caa2fe2a4ee7de3a164905932bb707ee3d07efb9897d22f06e5b286"
+      },
+      {
+        "ticket": 1557,
+        "stage": "saved-after-reload",
+        "version": "baseline",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-baseline-ja-saved-after-reload.png",
+        "sha256": "8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897"
+      },
+      {
+        "ticket": 1556,
+        "stage": "tab-result",
+        "version": "production",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-production-en-tab-result.png",
+        "sha256": "8516100baa6397fbcc8ecf0e363a5bf9d60cd3d3574fd26819677a4ff28d905b"
+      },
+      {
+        "ticket": 1556,
+        "stage": "shift-tab-result",
+        "version": "production",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-production-en-shift-tab-result.png",
+        "sha256": "474fce61f964780161d3c3160ead08c472381e57510c9003d1311caaadac956c"
+      },
+      {
+        "ticket": 1557,
+        "stage": "native-drag-target",
+        "version": "production",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-production-en-native-drag-target.png",
+        "sha256": "0554ef4f24e478298196aae469ab5573a3c75699c26e6d9c5155eb80f5f53277"
+      },
+      {
+        "ticket": 1557,
+        "stage": "saved-after-reload",
+        "version": "production",
+        "locale": "en",
+        "theme": "light",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-production-en-saved-after-reload.png",
+        "sha256": "8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496"
+      },
+      {
+        "ticket": 1556,
+        "stage": "tab-result",
+        "version": "production",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-production-ja-tab-result.png",
+        "sha256": "15cc824e5ba2fa5f53d7ae3bb79668af0b157b9c2b1350d9b7f4a3cc320b8a7a"
+      },
+      {
+        "ticket": 1556,
+        "stage": "shift-tab-result",
+        "version": "production",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1556-production-ja-shift-tab-result.png",
+        "sha256": "b3f97509a3e89ba1352bf5c714a4f4bc42b9ed57cfec8f3d9cfe653554a38df6"
+      },
+      {
+        "ticket": 1557,
+        "stage": "native-drag-target",
+        "version": "production",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-production-ja-native-drag-target.png",
+        "sha256": "3e7727d73c7a067957f419ab4a33642cd130797af7be2a07fe74e0e2bca9c15d"
+      },
+      {
+        "ticket": 1557,
+        "stage": "saved-after-reload",
+        "version": "production",
+        "locale": "ja",
+        "theme": "dark",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "file": "ticket-1557-production-ja-saved-after-reload.png",
+        "sha256": "8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897"
+      }
+    ],
+    "results": [
+      {
+        "ticket": 1556,
+        "version": "baseline",
+        "locale": "en",
+        "forward": {
+          "wasMounted": 1,
+          "id": 7,
+          "focused": true,
+          "visible": true,
+          "y": 123.90625,
+          "title": "Verify retry and delivery history 7"
+        },
+        "backward": {
+          "wasMounted": 1,
+          "id": 1,
+          "focused": true,
+          "visible": true,
+          "y": 21,
+          "title": "Verify retry and delivery history 1"
+        },
+        "events": [
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": true,
+            "trusted": true,
+            "ticket": "7"
+          },
+          {
+            "type": "keydown",
+            "key": "Enter",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          }
+        ],
+        "saved": {
+          "id": 1,
+          "title": "Verify retry and delivery history 1"
+        }
+      },
+      {
+        "ticket": 1557,
+        "version": "baseline",
+        "locale": "en",
+        "events": [
+          {
+            "type": "dragstart",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "drop",
+            "shift": false,
+            "trusted": true,
+            "ticket": "14"
+          }
+        ],
+        "payload": {
+          "laneId": 2,
+          "position": 2,
+          "beforeTicketId": 14,
+          "afterTicketId": 8
+        },
+        "before": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 1,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 0,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-22T00:00:01.000Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "95c94520c63fa1de1f330445c14e549159d90c3e38de729d4d002b2d4d035cec"
+        },
+        "saved": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 2,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 2,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-23T02:29:46.371Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "a77ab62caa0784acf0aa7deacc095bb09b57b3fb752c336e5156e826ad7ecee3"
+        },
+        "savedNeighbors": [
+          8,
+          1,
+          14
+        ]
+      },
+      {
+        "ticket": 1556,
+        "version": "baseline",
+        "locale": "ja",
+        "forward": {
+          "wasMounted": 1,
+          "id": 7,
+          "focused": true,
+          "visible": true,
+          "y": 123.90625,
+          "title": "Verify retry and delivery history 7"
+        },
+        "backward": {
+          "wasMounted": 1,
+          "id": 1,
+          "focused": true,
+          "visible": true,
+          "y": 21,
+          "title": "Verify retry and delivery history 1"
+        },
+        "events": [
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": true,
+            "trusted": true,
+            "ticket": "7"
+          },
+          {
+            "type": "keydown",
+            "key": "Enter",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          }
+        ],
+        "saved": {
+          "id": 1,
+          "title": "Verify retry and delivery history 1"
+        }
+      },
+      {
+        "ticket": 1557,
+        "version": "baseline",
+        "locale": "ja",
+        "events": [
+          {
+            "type": "dragstart",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "drop",
+            "shift": false,
+            "trusted": true,
+            "ticket": "14"
+          }
+        ],
+        "payload": {
+          "laneId": 2,
+          "position": 2,
+          "beforeTicketId": 14,
+          "afterTicketId": 8
+        },
+        "before": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 1,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 0,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-22T00:00:01.000Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "95c94520c63fa1de1f330445c14e549159d90c3e38de729d4d002b2d4d035cec"
+        },
+        "saved": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 2,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 2,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-23T02:29:57.170Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "a77ab62caa0784acf0aa7deacc095bb09b57b3fb752c336e5156e826ad7ecee3"
+        },
+        "savedNeighbors": [
+          8,
+          1,
+          14
+        ]
+      },
+      {
+        "ticket": 1556,
+        "version": "production",
+        "locale": "en",
+        "forward": {
+          "wasMounted": 0,
+          "id": 7,
+          "focused": true,
+          "visible": true,
+          "y": 123.90625,
+          "title": "Verify retry and delivery history 7"
+        },
+        "backward": {
+          "wasMounted": 0,
+          "id": 1,
+          "focused": true,
+          "visible": true,
+          "y": 21,
+          "title": "Verify retry and delivery history 1"
+        },
+        "events": [
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": true,
+            "trusted": true,
+            "ticket": "7"
+          },
+          {
+            "type": "keydown",
+            "key": "Enter",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          }
+        ],
+        "saved": {
+          "id": 1,
+          "title": "Verify retry and delivery history 1"
+        }
+      },
+      {
+        "ticket": 1557,
+        "version": "production",
+        "locale": "en",
+        "events": [
+          {
+            "type": "dragstart",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "drop",
+            "shift": false,
+            "trusted": true,
+            "ticket": "14"
+          }
+        ],
+        "payload": {
+          "position": 2,
+          "beforeTicketId": 14,
+          "afterTicketId": 8,
+          "expectedSourceLaneId": 1,
+          "expectedSourcePosition": 0,
+          "expectedAnchorOrder": "after-before",
+          "laneId": 2
+        },
+        "before": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 1,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 0,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-22T00:00:01.000Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "95c94520c63fa1de1f330445c14e549159d90c3e38de729d4d002b2d4d035cec"
+        },
+        "saved": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 2,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 2,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-23T02:30:01.645Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "a77ab62caa0784acf0aa7deacc095bb09b57b3fb752c336e5156e826ad7ecee3"
+        },
+        "savedNeighbors": [
+          8,
+          1,
+          14
+        ]
+      },
+      {
+        "ticket": 1556,
+        "version": "production",
+        "locale": "ja",
+        "forward": {
+          "wasMounted": 0,
+          "id": 7,
+          "focused": true,
+          "visible": true,
+          "y": 123.90625,
+          "title": "Verify retry and delivery history 7"
+        },
+        "backward": {
+          "wasMounted": 0,
+          "id": 1,
+          "focused": true,
+          "visible": true,
+          "y": 21,
+          "title": "Verify retry and delivery history 1"
+        },
+        "events": [
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "keydown",
+            "key": "Tab",
+            "shift": true,
+            "trusted": true,
+            "ticket": "7"
+          },
+          {
+            "type": "keydown",
+            "key": "Enter",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          }
+        ],
+        "saved": {
+          "id": 1,
+          "title": "Verify retry and delivery history 1"
+        }
+      },
+      {
+        "ticket": 1557,
+        "version": "production",
+        "locale": "ja",
+        "events": [
+          {
+            "type": "dragstart",
+            "shift": false,
+            "trusted": true,
+            "ticket": "1"
+          },
+          {
+            "type": "drop",
+            "shift": false,
+            "trusted": true,
+            "ticket": "14"
+          }
+        ],
+        "payload": {
+          "position": 2,
+          "beforeTicketId": 14,
+          "afterTicketId": 8,
+          "expectedSourceLaneId": 1,
+          "expectedSourcePosition": 0,
+          "expectedAnchorOrder": "after-before",
+          "laneId": 2
+        },
+        "before": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 1,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 0,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-22T00:00:01.000Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "95c94520c63fa1de1f330445c14e549159d90c3e38de729d4d002b2d4d035cec"
+        },
+        "saved": {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 2,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Verify retry and delivery history 1",
+          "bodyMarkdown": "Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver",
+          "bodyHtml": "<p>Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and delivery history. Synthetic notification work. Verify retry behavior and deliver</p>\n",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 2,
+          "createdAt": "2026-11-22T00:00:01.000Z",
+          "updatedAt": "2026-11-23T02:30:05.595Z",
+          "tags": [
+            {
+              "id": 1,
+              "boardId": 1,
+              "name": "engineering",
+              "color": "#557766"
+            }
+          ],
+          "comments": [],
+          "blockerIds": [],
+          "relatedIds": [],
+          "blockers": [],
+          "blockedBy": [
+            {
+              "id": 3,
+              "title": "Verify retry and delivery history 3",
+              "laneId": 3,
+              "isResolved": false,
+              "priority": 4,
+              "ref": "Kanban activity lab#3",
+              "shortRef": "#3",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "related": [],
+          "parent": null,
+          "children": [
+            {
+              "id": 2,
+              "title": "Verify retry and delivery history 2",
+              "laneId": 2,
+              "isResolved": false,
+              "priority": 3,
+              "ref": "Kanban activity lab#2",
+              "shortRef": "#2",
+              "groupId": null,
+              "group": null
+            }
+          ],
+          "ref": "Kanban activity lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": null,
+          "group": null,
+          "editToken": "a77ab62caa0784acf0aa7deacc095bb09b57b3fb752c336e5156e826ad7ecee3"
+        },
+        "savedNeighbors": [
+          8,
+          1,
+          14
+        ]
+      }
+    ]
+  },
+  "decoded": [
+    {
+      "ticket": 1556,
+      "runtime": "http://127.0.0.1:3470",
+      "decoded": 8,
+      "images": [
+        {
+          "height": 1000,
+          "path": "/api/attachments/3db2b234eeb2360d57567d2ac337ddbd140b65af0e882caef362471ef6babfbb",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/c02fbdba05c2fbc446381c0872fbca468882e5c778cfda315c6a13c454c62a59",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/c3cbdad1d25476b0242b014e1e412f437688a304ba11be3bf5c932261b320d9c",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/b774e9619e81035b6474f552f658f9dd5c72e222584d714c1583a3108a95485a",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/8516100baa6397fbcc8ecf0e363a5bf9d60cd3d3574fd26819677a4ff28d905b",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/474fce61f964780161d3c3160ead08c472381e57510c9003d1311caaadac956c",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/15cc824e5ba2fa5f53d7ae3bb79668af0b157b9c2b1350d9b7f4a3cc320b8a7a",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/b3f97509a3e89ba1352bf5c714a4f4bc42b9ed57cfec8f3d9cfe653554a38df6",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "ticket": 1557,
+      "runtime": "http://127.0.0.1:3470",
+      "decoded": 8,
+      "images": [
+        {
+          "height": 1000,
+          "path": "/api/attachments/a64e51a274646a7bab65a4835170ed8e0564db0d07921cb14c2061dda4453b8a",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/ca47a2835caa2fe2a4ee7de3a164905932bb707ee3d07efb9897d22f06e5b286",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/0554ef4f24e478298196aae469ab5573a3c75699c26e6d9c5155eb80f5f53277",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/8d884e8a86a8c85c013036187dbef979245f97447c435fe9bff1aa8fc3da7496",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/3e7727d73c7a067957f419ab4a33642cd130797af7be2a07fe74e0e2bca9c15d",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "path": "/api/attachments/8f9aba6a3ef4e56f4d165b1bb83c227435740b400d54cd52f2a0d3b53a805897",
+          "width": 1440
+        }
+      ]
+    }
+  ]
+}

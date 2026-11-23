@@ -1,0 +1,4927 @@
+{
+  "provenance": {
+    "node": "v26.13.1",
+    "pnpm": "pnpm.cjs",
+    "locale": "en-US",
+    "theme": "light",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "fixtureFile": "fixtures.json",
+    "fixtureFileSha256": "e587831539951b13c5fe35f3953a0e056afd0657c738d7177699fadc90c1615d",
+    "retained": 3,
+    "fixtureCases": [
+      {
+        "key": "group-1000",
+        "view": "group",
+        "dbFile": "group-1000.sqlite",
+        "sha256": "c1f5973d024a1f0090dba2c6810316945dfd23fa7e1c616f841b3f06536a1525",
+        "idSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+      },
+      {
+        "key": "kanban-1000",
+        "view": "kanban",
+        "dbFile": "kanban-1000.sqlite",
+        "sha256": "2c78b469b676c1b24047b7a063b32f8464be5b9234691c079c70687fcc0844c8",
+        "idSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+      },
+      {
+        "key": "group-10000",
+        "view": "group",
+        "dbFile": "group-10000.sqlite",
+        "sha256": "1e512233abe16de49ab21db3bbf80423b606822a8d75a0ba03a6e9cca5f53f75",
+        "idSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+      },
+      {
+        "key": "ungrouped-10000",
+        "view": "group",
+        "dbFile": "ungrouped-10000.sqlite",
+        "sha256": "5e3ae5e9097a822df571dcce790993c4e7e7ddc7e800bc1aaf3f6b6dffc3dfe2",
+        "idSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+      },
+      {
+        "key": "kanban-high-active",
+        "view": "kanban",
+        "dbFile": "kanban-high-active.sqlite",
+        "sha256": "2e6e3f34e50006f123431d1223fd8421e38e9ce03a7b3f6159d2772e3cabb22d",
+        "idSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+      }
+    ],
+    "builds": [
+      {
+        "version": "baseline",
+        "revision": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+        "tree": "60042073d67ee6e9a932c4b4fa26031f58d645bd",
+        "sourceSha256": "baf456d4b30e91faef4d1ff5ed2ef82ea92fe149b3598fb1d25d326bd12ffe76",
+        "hooks": [
+          {
+            "file": "public/app-group-board.js",
+            "anchor": "      receiveTickets(nextTickets);",
+            "source": "globalThis.__fixtureTrial?.capture(\"collection\", nextTickets.length, () => nextTickets.map(ticket => ticket.id));"
+          },
+          {
+            "file": "public/app.js",
+            "anchor": "    state.boardTickets = allTickets.referenceTickets ?? allTickets.tickets;",
+            "source": "if (viewMode === \"kanban\") globalThis.__fixtureTrial?.capture(\"collection\", allTickets.tickets.length, () => allTickets.tickets.map(ticket => ticket.id));"
+          },
+          {
+            "file": "public/app-kanban-board.js",
+            "anchor": "    const plans = planLaneTickets(detail);",
+            "source": "globalThis.__fixtureTrial?.capture(\"projection\", plans.reduce((count, plan) => count + plan.visibleTickets.length, 0), () => plans.flatMap(plan => plan.visibleTickets.map(ticket => ticket.id)));"
+          }
+        ],
+        "staticDir": "public",
+        "backendDir": "src",
+        "staticSha256": "bc02a8e618fbe9ea565f9c710aba07e1434b2ac19618a18add744a1de4f95364",
+        "backendSha256": "8ea36cfc29cf57f4e15cd0600e439c68edcf768164403740541c78e8f174aaac",
+        "lockSha256": "ac311364f30ad6f53c35d4f702f6cc7e4ab7f39dd20e7231539a78ec94f77c13"
+      },
+      {
+        "version": "candidate",
+        "revision": "f508fa3e5a20f9c2993c89c3d6d6d69fea0c0c2b",
+        "tree": "b5667f4d4423c461a66c77a395ae7285ae13c366",
+        "sourceSha256": "a73a155447926a3729f4cab226c44bd6a9ccf5b6794e1eaee86a68d513b29040",
+        "hooks": [
+          {
+            "file": "public/app-group-board.js",
+            "anchor": "      receiveTickets(nextTickets);",
+            "source": "globalThis.__fixtureTrial?.capture(\"collection\", nextTickets.length, () => nextTickets.map(ticket => ticket.id));"
+          },
+          {
+            "file": "public/app.js",
+            "anchor": "    state.boardTickets = allTickets.referenceTickets ?? allTickets.tickets;",
+            "source": "if (viewMode === \"kanban\") globalThis.__fixtureTrial?.capture(\"collection\", allTickets.tickets.length, () => allTickets.tickets.map(ticket => ticket.id));"
+          },
+          {
+            "file": "public/app-kanban-board.js",
+            "anchor": "    const plans = planLaneTickets(detail);",
+            "source": "globalThis.__fixtureTrial?.capture(\"projection\", plans.reduce((count, plan) => count + plan.visibleTickets.length, 0), () => plans.flatMap(plan => plan.visibleTickets.map(ticket => ticket.id)));"
+          },
+          {
+            "file": "public/app-group-view.js",
+            "anchor": "    ticketWindow = { rows, renderRow: renderWindowRow };",
+            "source": "    globalThis.__fixtureTrial?.capture('projection', rows.length, () => rows.map(row => row.ticket.id));"
+          }
+        ],
+        "staticDir": "public",
+        "backendDir": "src",
+        "staticSha256": "107c123f6543b884cd4e500b92e9557b35c9488cfd93f78cb7b95afa3416ab99",
+        "backendSha256": "761cacb246f0762d2cd986fdc87ed88db5a26d65dae043c0105a2a9dc7b00404",
+        "lockSha256": "ac311364f30ad6f53c35d4f702f6cc7e4ab7f39dd20e7231539a78ec94f77c13"
+      }
+    ],
+    "chromium": "159.0.8154.6"
+  },
+  "summary": {
+    "group-1000": {
+      "baseline": {
+        "collectionReady": {
+          "median": 200.09999999403954,
+          "min": 199.5,
+          "max": 200.6000000089407,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": null,
+        "firstDomPlus2Frames": {
+          "median": 530.5,
+          "min": 526.5,
+          "max": 535.5,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 530.3999999910593,
+          "min": 526.5,
+          "max": 535.4000000059605,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": {
+          "median": 530.5,
+          "min": 526.5,
+          "max": 535.5,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 688.472474000002,
+          "min": 671.3566489999976,
+          "max": 702.3684380000013,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 40.486714000002394,
+          "min": 39.86111100000198,
+          "max": 43.55030700000134,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 106.47517900000094,
+          "min": 94.67754499999864,
+          "max": 109.31355099999928,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 102.20000000298023,
+          "min": 88.40000000596046,
+          "max": 103.3999999910593,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          1000,
+          1000
+        ],
+        "generatedResourceAfterViewportRange": [
+          -275.70000000298023,
+          -264.59999999403954
+        ]
+      },
+      "candidate": {
+        "collectionReady": {
+          "median": 203.29999999701977,
+          "min": 200.19999998807907,
+          "max": 210.79999999701977,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 207.29999999701977,
+          "min": 205.3999999910593,
+          "max": 215.09999999403954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 246,
+          "min": 239.8999999910593,
+          "max": 253.19999998807907,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 246,
+          "min": 239.8999999910593,
+          "max": 253.09999999403954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": null,
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 378.8740199999993,
+          "min": 366.6275949999981,
+          "max": 384.06992900000114,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 28.718856999999844,
+          "min": 26.57111999999688,
+          "max": 28.73576099999991,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 85.90705199999866,
+          "min": 84.44081000000006,
+          "max": 86.56455999999889,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 82.3999999910593,
+          "min": 80.70000000298023,
+          "max": 84.09999999403954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          18,
+          18
+        ],
+        "generatedResourceAfterViewportRange": [
+          -18.600000008940697,
+          -15.400000005960464
+        ]
+      },
+      "maxPairedInitialRectangleDeltaPx": 0
+    },
+    "kanban-1000": {
+      "baseline": {
+        "collectionReady": {
+          "median": 187.5,
+          "min": 175.29999999701977,
+          "max": 234,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 191.90000000596046,
+          "min": 180.5,
+          "max": 238.90000000596046,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 407.70000000298023,
+          "min": 372.40000000596046,
+          "max": 449,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 407.6000000089407,
+          "min": 372.40000000596046,
+          "max": 448.90000000596046,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": {
+          "median": 436.40000000596046,
+          "min": 397.79999999701977,
+          "max": 499.90000000596046,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 568.9178729999985,
+          "min": 531.9495440000028,
+          "max": 703.1154119999992,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 42.408869000006234,
+          "min": 40.14494199999899,
+          "max": 46.26474900000176,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 97.27755500000058,
+          "min": 96.11636099999305,
+          "max": 179.23336500000005,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 94.90000000596046,
+          "min": 92.79999999701977,
+          "max": 127.19999998807907,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          313,
+          313
+        ],
+        "generatedResourceAfterViewportRange": [
+          -152.90000000596046,
+          -135.1000000089407
+        ]
+      },
+      "candidate": {
+        "collectionReady": {
+          "median": 188.79999999701977,
+          "min": 184.20000000298023,
+          "max": 191.5,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 194.40000000596046,
+          "min": 190.59999999403954,
+          "max": 197.09999999403954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 386,
+          "min": 373.5,
+          "max": 396.79999999701977,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 385.90000000596046,
+          "min": 373.3999999910593,
+          "max": 396.59999999403954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": {
+          "median": 411.5,
+          "min": 408.1000000089407,
+          "max": 427.29999999701977,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 616.7196919999988,
+          "min": 554.0969519999999,
+          "max": 622.8220910000018,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 41.017212999999174,
+          "min": 39.12367500000255,
+          "max": 43.69928699999582,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 155.7375800000009,
+          "min": 109.40511799999513,
+          "max": 179.9954130000042,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 129.09999999403954,
+          "min": 91.29999999701977,
+          "max": 137.5,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          313,
+          313
+        ],
+        "generatedResourceAfterViewportRange": [
+          -140.5,
+          -124.5
+        ]
+      },
+      "maxPairedInitialRectangleDeltaPx": 0
+    },
+    "group-10000": {
+      "baseline": {
+        "collectionReady": {
+          "median": 475.19999998807907,
+          "min": 463.1000000089407,
+          "max": 506.70000000298023,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": null,
+        "firstDomPlus2Frames": {
+          "median": 4993.9000000059605,
+          "min": 4947.5999999940395,
+          "max": 5343.70000000298,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 4993.9000000059605,
+          "min": 4947.5999999940395,
+          "max": 5343.5999999940395,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "completeDomPlus2Frames": {
+          "median": 4993.9000000059605,
+          "min": 4947.5999999940395,
+          "max": 5343.70000000298,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 5721.7024639999945,
+          "min": 5695.653925999999,
+          "max": 6111.45293900001,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 243.985603000001,
+          "min": 223.37104399999953,
+          "max": 247.17919299998903,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 502.16292500001146,
+          "min": 465.5130250000002,
+          "max": 517.3578619999971,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 471.40000000596046,
+          "min": 437.79999999701977,
+          "max": 481.90000000596046,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          10000,
+          10000
+        ],
+        "generatedResourceAfterViewportRange": [
+          -4382.899999991059,
+          -4042.0999999940395
+        ]
+      },
+      "candidate": {
+        "collectionReady": {
+          "median": 488.1000000089407,
+          "min": 445.1000000089407,
+          "max": 514.8999999910593,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 501.79999999701977,
+          "min": 457.30000001192093,
+          "max": 529,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 554.9000000059605,
+          "min": 504.20000000298023,
+          "max": 580.2999999970198,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 554.7999999970198,
+          "min": 504.1000000089407,
+          "max": 580.0999999940395,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": null,
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 730.7969830000002,
+          "min": 674.0172060000041,
+          "max": 756.0871649999972,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 40.62833099999989,
+          "min": 35.2123719999945,
+          "max": 41.57041500000196,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 124.34939499999746,
+          "min": 113.66275300000416,
+          "max": 124.8900599999979,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 116.09999999403954,
+          "min": 109.09999999403954,
+          "max": 120.69999998807907,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          18,
+          18
+        ],
+        "generatedResourceAfterViewportRange": [
+          -25.899999991059303,
+          -21.400000005960464
+        ]
+      },
+      "maxPairedInitialRectangleDeltaPx": 0
+    },
+    "ungrouped-10000": {
+      "baseline": {
+        "collectionReady": {
+          "median": 465.3999999910593,
+          "min": 457.6000000089407,
+          "max": 485.29999999701977,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": null,
+        "firstDomPlus2Frames": {
+          "median": 5091.20000000298,
+          "min": 4859.399999991059,
+          "max": 5215.20000000298,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 5091.0999999940395,
+          "min": 4859.29999999702,
+          "max": 5215.20000000298,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "completeDomPlus2Frames": {
+          "median": 5091.29999999702,
+          "min": 4859.399999991059,
+          "max": 5215.29999999702,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 5842.109503999993,
+          "min": 5549.221884999992,
+          "max": 5953.298118999999,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 229.77130900000338,
+          "min": 215.98897600000782,
+          "max": 240.7725769999961,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 488.9922970000043,
+          "min": 461.2615569999907,
+          "max": 491.89635799999814,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 459.70000000298023,
+          "min": 436.70000000298023,
+          "max": 474.0,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          10000,
+          10000
+        ],
+        "generatedResourceAfterViewportRange": [
+          -4332.29999999702,
+          -4003.7000000029802
+        ]
+      },
+      "candidate": {
+        "collectionReady": {
+          "median": 452.70000000298023,
+          "min": 449.70000000298023,
+          "max": 500.5,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 466.20000000298023,
+          "min": 462.59999999403954,
+          "max": 514.4000000059605,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 513.1000000089407,
+          "min": 509.09999999403954,
+          "max": 561,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 513.1000000089407,
+          "min": 508.90000000596046,
+          "max": 560.9000000059605,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": null,
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 699.354634000003,
+          "min": 699.0257320000092,
+          "max": 749.9398840000067,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 40.043988999997964,
+          "min": 38.899949999991804,
+          "max": 40.12047999999777,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 127.36599100001331,
+          "min": 125.20837400000892,
+          "max": 135.21086900000228,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 120.8999999910593,
+          "min": 119.70000000298023,
+          "max": 129.8999999910593,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          19,
+          19
+        ],
+        "generatedResourceAfterViewportRange": [
+          -22.900000005960464,
+          -21.400000005960464
+        ]
+      },
+      "maxPairedInitialRectangleDeltaPx": 0
+    },
+    "kanban-high-active": {
+      "baseline": {
+        "collectionReady": {
+          "median": 347.70000000298023,
+          "min": 346.20000000298023,
+          "max": 348.40000000596046,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 362.30000001192093,
+          "min": 360.09999999403954,
+          "max": 362.90000000596046,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 639.5,
+          "min": 636.7999999970198,
+          "max": 645.9000000059605,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 639.4000000059605,
+          "min": 636.7000000029802,
+          "max": 645.9000000059605,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": {
+          "median": 3292.7999999970198,
+          "min": 3180.6000000089407,
+          "max": 3498.2000000029802,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 1884.1161189999984,
+          "min": 1869.1477809999924,
+          "max": 2266.070252999998,
+          "atOrBelow1000": 0,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 557.1104020000057,
+          "min": 541.4742780000088,
+          "max": 597.7257990000071,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 597.4190989999915,
+          "min": 560.9121449999948,
+          "max": 923.5867299999954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 474.40000000596046,
+          "min": 441.09999999403954,
+          "max": 746.0,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          360,
+          360
+        ],
+        "generatedResourceAfterViewportRange": [
+          -201.40000000596046,
+          -187.30000001192093
+        ]
+      },
+      "candidate": {
+        "collectionReady": {
+          "median": 368.6000000089407,
+          "min": 354.1000000089407,
+          "max": 419.19999998807907,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "explicitProjectionReady": {
+          "median": 384.79999999701977,
+          "min": 370,
+          "max": 434.29999999701977,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "firstDomPlus2Frames": {
+          "median": 580.2000000029802,
+          "min": 567.3000000119209,
+          "max": 626.0999999940395,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "sameViewportPlus2Frames": {
+          "median": 581.4000000059605,
+          "min": 568.3000000119209,
+          "max": 627.0999999940395,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "completeDomPlus2Frames": null,
+        "hostNavigationToTrustedEnterDetail": {
+          "median": 805.4284430000116,
+          "min": 775.3629489999876,
+          "max": 876.2460560000036,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostViewportObservedToKeyDispatch": {
+          "median": 44.14240099999006,
+          "min": 43.56930000000284,
+          "max": 47.01555900000676,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "hostKeyDispatchToDetail": {
+          "median": 128.39507799998682,
+          "min": 116.73873900000763,
+          "max": 135.27659100000164,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "browserTrustedKeyToDetail": {
+          "median": 116.70000000298023,
+          "min": 111.40000000596046,
+          "max": 121.59999999403954,
+          "atOrBelow1000": 3,
+          "n": 3
+        },
+        "initialMountedRange": [
+          83,
+          83
+        ],
+        "generatedResourceAfterViewportRange": [
+          -104.1000000089407,
+          -99.09999999403954
+        ]
+      },
+      "maxPairedInitialRectangleDeltaPx": 0
+    }
+  },
+  "samples": [
+    {
+      "fixture": "group-1000",
+      "version": "baseline",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 302.40000000596046,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": null,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 621.7999999970198,
+      "completeDomPlus2Frames": 621.7999999970198,
+      "mountedAtViewport": 1000,
+      "maxBeforeSampleRead": 1000,
+      "mountedAtSampleRead": 1000,
+      "mountedOrderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b",
+      "key": {
+        "at": 717.9000000059605,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 868.4000000059605
+      },
+      "host": {
+        "viewportToKey": 68.415563999999,
+        "keyToDetail": 159.84442800000033,
+        "navigationToDetail": 879.8350069999979
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 54.20000000298023,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 60.5,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 366.90000000596046,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 366.59999999403954,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 369.20000000298023,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 369.5,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 370.29999999701977,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 372.29999999701977,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "candidate",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 214,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        },
+        "projection": {
+          "at": 219,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 253.1000000089407,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 253.1000000089407,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "20092e54608c69908e715df551f1792c7bd7a508b65cd62232ab42dd3389fcd6",
+      "key": {
+        "at": 301.40000000596046,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 398.1000000089407
+      },
+      "host": {
+        "viewportToKey": 26.70729399999982,
+        "keyToDetail": 102.87451599999986,
+        "navigationToDetail": 405.59878799999933
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 23.80000001192093,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 26.30000001192093,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 240.80000001192093,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 241.1000000089407,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 241.1000000089407,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 241.80000001192093,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 242,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "candidate",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 203.29999999701977,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        },
+        "projection": {
+          "at": 207.29999999701977,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 246,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 246,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "20092e54608c69908e715df551f1792c7bd7a508b65cd62232ab42dd3389fcd6",
+      "key": {
+        "at": 293,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 373.70000000298023
+      },
+      "host": {
+        "viewportToKey": 26.57111999999688,
+        "keyToDetail": 84.44081000000006,
+        "navigationToDetail": 378.8740199999993
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 20.599999994039536,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 23,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 223.59999999403954,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 225.29999999701977,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 226,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 227.09999999403954,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 227.3999999910593,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "baseline",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 200.6000000089407,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 526.5,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 526.5,
+      "completeDomPlus2Frames": 526.5,
+      "mountedAtViewport": 1000,
+      "maxBeforeSampleRead": 1000,
+      "mountedAtSampleRead": 1000,
+      "mountedOrderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b",
+      "key": {
+        "at": 575.5,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 663.9000000059605
+      },
+      "host": {
+        "viewportToKey": 39.86111100000198,
+        "keyToDetail": 94.67754499999864,
+        "navigationToDetail": 671.3566489999976
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 18.400000005960464,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 21.100000008940697,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 256.6000000089407,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 257.5,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 258.79999999701977,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 259.5,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 260.29999999701977,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 260.5,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "baseline",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 199.5,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 535.4000000059605,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 535.5,
+      "completeDomPlus2Frames": 535.5,
+      "mountedAtViewport": 1000,
+      "maxBeforeSampleRead": 1000,
+      "mountedAtSampleRead": 1000,
+      "mountedOrderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b",
+      "key": {
+        "at": 594.7000000029802,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 698.0999999940395
+      },
+      "host": {
+        "viewportToKey": 43.55030700000134,
+        "keyToDetail": 106.47517900000094,
+        "navigationToDetail": 702.3684380000013
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 23.599999994039536,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 25.900000005960464,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 255.59999999403954,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 257.29999999701977,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 258.40000000596046,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 258.90000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 259.59999999403954,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 259.70000000298023,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "candidate",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 210.79999999701977,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        },
+        "projection": {
+          "at": 215.09999999403954,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 253.09999999403954,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 253.19999998807907,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "20092e54608c69908e715df551f1792c7bd7a508b65cd62232ab42dd3389fcd6",
+      "key": {
+        "at": 296.29999999701977,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 380.3999999910593
+      },
+      "host": {
+        "viewportToKey": 28.73576099999991,
+        "keyToDetail": 86.56455999999889,
+        "navigationToDetail": 384.06992900000114
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 23.69999998807907,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 26.899999991059303,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 235.3999999910593,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 235.5,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 237.19999998807907,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 237.29999999701977,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 237.69999998807907,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "candidate",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 200.19999998807907,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        },
+        "projection": {
+          "at": 205.3999999910593,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 239.8999999910593,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 239.8999999910593,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "20092e54608c69908e715df551f1792c7bd7a508b65cd62232ab42dd3389fcd6",
+      "key": {
+        "at": 279.29999999701977,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 361.69999998807907
+      },
+      "host": {
+        "viewportToKey": 28.718856999999844,
+        "keyToDetail": 85.90705199999866,
+        "navigationToDetail": 366.6275949999981
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 18.899999991059303,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 22,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 220.79999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 221,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 223.3999999910593,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 223.09999999403954,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 224,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-1000",
+      "version": "baseline",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 200.09999999403954,
+          "count": 1000,
+          "orderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b"
+        }
+      },
+      "initialViewport": 530.3999999910593,
+      "initialVisibleIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "initialVisibleGeometrySha256": "251ef79d992872d1c573a5bb6acae070a397c7472105e65689ad7bb1115c05d1",
+      "firstDomPlus2Frames": 530.5,
+      "completeDomPlus2Frames": 530.5,
+      "mountedAtViewport": 1000,
+      "maxBeforeSampleRead": 1000,
+      "mountedAtSampleRead": 1000,
+      "mountedOrderedIdSha256": "0de41d33d8e41ee4a69e898bcbcc42f7c9e65f7cdce1239a00def95ef7dd206b",
+      "key": {
+        "at": 577.5999999940395,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 679.7999999970198
+      },
+      "host": {
+        "viewportToKey": 40.486714000002394,
+        "keyToDetail": 109.31355099999928,
+        "navigationToDetail": 688.472474000002
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 23.700000002980232,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 25.599999994039536,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 258.79999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 259.70000000298023,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 261.70000000298023,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 265.09999999403954,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 265.29999999701977,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 265.79999999701977,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "baseline",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 161.79999999701977,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 166,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": null,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 319.70000000298023,
+      "completeDomPlus2Frames": 351.70000000298023,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 408.59999999403954,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 485
+      },
+      "host": {
+        "viewportToKey": 35.19323599999916,
+        "keyToDetail": 78.8627869999982,
+        "navigationToDetail": 488.56228399999964
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 25.399999991059303,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 27.700000002980232,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 214.8999999910593,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 215.8999999910593,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 215.70000000298023,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 216.3999999910593,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 220.20000000298023,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 220.3999999910593,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "candidate",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 178.79999999701977,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 184.3999999910593,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 359.19999998807907,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 359.19999998807907,
+      "completeDomPlus2Frames": 384.79999999701977,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 419.79999999701977,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 517.3999999910593
+      },
+      "host": {
+        "viewportToKey": 41.05424700000003,
+        "keyToDetail": 116.33833999999479,
+        "navigationToDetail": 538.4707889999991
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 22.399999991059303,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 26.799999997019768,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 231.3999999910593,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 232.3999999910593,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 232.5,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 233.3999999910593,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 236.09999999403954,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 236.29999999701977,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "candidate",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 191.5,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 197.09999999403954,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 396.59999999403954,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 396.79999999701977,
+      "completeDomPlus2Frames": 427.29999999701977,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 463.40000000596046,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 600.9000000059605
+      },
+      "host": {
+        "viewportToKey": 41.017212999999174,
+        "keyToDetail": 155.7375800000009,
+        "navigationToDetail": 622.8220910000018
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 22,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 25.900000005960464,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 249.5,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 249.79999999701977,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 251.09999999403954,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 253.40000000596046,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 255.29999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 256.09999999403954,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "baseline",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 234,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 238.90000000596046,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 448.90000000596046,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 449,
+      "completeDomPlus2Frames": 499.90000000596046,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 522.9000000059605,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 650.0999999940395
+      },
+      "host": {
+        "viewportToKey": 46.26474900000176,
+        "keyToDetail": 179.23336500000005,
+        "navigationToDetail": 703.1154119999992
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 27.900000005960464,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 31.200000002980232,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 297.40000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 301.59999999403954,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 302.59999999403954,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 302.70000000298023,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 304.29999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 304.5,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "baseline",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 187.5,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 191.90000000596046,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 407.6000000089407,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 407.70000000298023,
+      "completeDomPlus2Frames": 436.40000000596046,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 471.1000000089407,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 563.9000000059605
+      },
+      "host": {
+        "viewportToKey": 42.408869000006234,
+        "keyToDetail": 96.11636099999305,
+        "navigationToDetail": 568.9178729999985
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 25.100000008940697,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 28.200000002980232,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 246.90000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 246.6000000089407,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 248.70000000298023,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 249.30000001192093,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 253.1000000089407,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 254.70000000298023,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "candidate",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 188.79999999701977,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 194.40000000596046,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 385.90000000596046,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 386,
+      "completeDomPlus2Frames": 408.1000000089407,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 443.20000000298023,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 534.5
+      },
+      "host": {
+        "viewportToKey": 39.12367500000255,
+        "keyToDetail": 109.40511799999513,
+        "navigationToDetail": 554.0969519999999
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 23.299999997019768,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 26.900000005960464,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 254.40000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 254.1000000089407,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 255.90000000596046,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 255.70000000298023,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 257,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 258.1000000089407,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "candidate",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 184.20000000298023,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 190.59999999403954,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 373.3999999910593,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 373.5,
+      "completeDomPlus2Frames": 411.5,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 435.70000000298023,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 564.7999999970198
+      },
+      "host": {
+        "viewportToKey": 43.69928699999582,
+        "keyToDetail": 179.9954130000042,
+        "navigationToDetail": 616.7196919999988
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 24.399999991059303,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 30.399999991059303,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 242.20000000298023,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 242.5,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 247.70000000298023,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 247.8999999910593,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 248.70000000298023,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 248.8999999910593,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-1000",
+      "version": "baseline",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 175.29999999701977,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        },
+        "projection": {
+          "at": 180.5,
+          "count": 313,
+          "orderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d"
+        }
+      },
+      "initialViewport": 372.40000000596046,
+      "initialVisibleIds": [
+        2,
+        10,
+        4,
+        12,
+        20,
+        22,
+        30,
+        6,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        42,
+        52,
+        62,
+        72,
+        82,
+        92,
+        102,
+        112,
+        31,
+        11,
+        3,
+        7,
+        15
+      ],
+      "initialVisibleGeometrySha256": "f7aeb6fbb97a62968c33047718e412a3941b342b8f1501a2331261d55cb40912",
+      "firstDomPlus2Frames": 372.40000000596046,
+      "completeDomPlus2Frames": 397.79999999701977,
+      "mountedAtViewport": 313,
+      "maxBeforeSampleRead": 313,
+      "mountedAtSampleRead": 313,
+      "mountedOrderedIdSha256": "5a3532a32b46fb87c0159baca409981d068f32532df1c0a692e426db6d78a48d",
+      "key": {
+        "at": 433.29999999701977,
+        "trusted": true,
+        "id": 2
+      },
+      "detail": {
+        "id": 2,
+        "title": "Child 2: remaining work",
+        "at": 528.2000000029802
+      },
+      "host": {
+        "viewportToKey": 40.14494199999899,
+        "keyToDetail": 97.27755500000058,
+        "navigationToDetail": 531.9495440000028
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 22.299999997019768,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 25.900000005960464,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 233,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 233.20000000298023,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 233.40000000596046,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 234.09999999403954,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 237.09999999403954,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 237.29999999701977,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-10000",
+      "version": "baseline",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 389.29999999701977,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": null,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 4391.5999999940395,
+      "completeDomPlus2Frames": 4391.5999999940395,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 4743.899999991059,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5201.5999999940395
+      },
+      "host": {
+        "viewportToKey": 211.87273999999888,
+        "keyToDetail": 487.49222900000314,
+        "navigationToDetail": 5232.366275
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 24.399999991059303,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 26.5,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 773.7999999970198,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 774.5999999940395,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 776.5,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 776.8999999910593,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 777.7000000029802,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 777.8999999910593,
+          "bytes": 353
+        }
+      ],
+      "restoredScreenshot": {
+        "file": "group-10000-baseline-restored.png",
+        "sha256": "4593d2193a0c810ae77f46b93ef21f763ccafb5926455d05141f4a25372695c9"
+      }
+    },
+    {
+      "fixture": "group-10000",
+      "version": "candidate",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 457.70000000298023,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 469.79999999701977,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 516.7999999970198,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 516.9000000059605,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "9be367660c40f6d8142ceddcd1001e2a9a6127b91c195a5199da92aaea1e37e3",
+      "key": {
+        "at": 568.7000000029802,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 680.7999999970198
+      },
+      "host": {
+        "viewportToKey": 38.84266200000275,
+        "keyToDetail": 116.32816900000034,
+        "navigationToDetail": 687.6041130000012
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 32.5,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 37.099999994039536,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 491.59999999403954,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 491.90000000596046,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 494.59999999403954,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 495.40000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 495,
+          "bytes": 192
+        }
+      ],
+      "restoredScreenshot": {
+        "file": "group-10000-candidate-restored.png",
+        "sha256": "79a20bf31ec890eeaacd464b6de4fd129ae3d9954b4325f9d459c136dbb0ba32"
+      }
+    },
+    {
+      "fixture": "group-10000",
+      "version": "candidate",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 445.1000000089407,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 457.30000001192093,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 504.1000000089407,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 504.20000000298023,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "9be367660c40f6d8142ceddcd1001e2a9a6127b91c195a5199da92aaea1e37e3",
+      "key": {
+        "at": 557.6000000089407,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 666.7000000029802
+      },
+      "host": {
+        "viewportToKey": 35.2123719999945,
+        "keyToDetail": 113.66275300000416,
+        "navigationToDetail": 674.0172060000041
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 27.700000002980232,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 32.400000005960464,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 477.80000001192093,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 478.90000000596046,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 481.20000000298023,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 481.40000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 482.70000000298023,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-10000",
+      "version": "baseline",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 475.19999998807907,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 4947.5999999940395,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 4947.5999999940395,
+      "completeDomPlus2Frames": 4947.5999999940395,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5206.5999999940395,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5688.5
+      },
+      "host": {
+        "viewportToKey": 243.985603000001,
+        "keyToDetail": 517.3578619999971,
+        "navigationToDetail": 5721.7024639999945
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 25.599999994039536,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 28.5,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 901.7999999970198,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 903.8999999910593,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 903.6999999880791,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 904.7999999970198,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 904.8999999910593,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 905.5,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "group-10000",
+      "version": "baseline",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 463.1000000089407,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 4993.9000000059605,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 4993.9000000059605,
+      "completeDomPlus2Frames": 4993.9000000059605,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5228.4000000059605,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5666.20000000298
+      },
+      "host": {
+        "viewportToKey": 223.37104399999953,
+        "keyToDetail": 465.5130250000002,
+        "navigationToDetail": 5695.653925999999
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 29.700000002980232,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 33.20000000298023,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 895.5,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 896.6000000089407,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 898,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 899.4000000059605,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 899.6000000089407,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 900.6000000089407,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "group-10000",
+      "version": "candidate",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 514.8999999910593,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 529,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 580.0999999940395,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 580.2999999970198,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "9be367660c40f6d8142ceddcd1001e2a9a6127b91c195a5199da92aaea1e37e3",
+      "key": {
+        "at": 629.7999999970198,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 745.8999999910593
+      },
+      "host": {
+        "viewportToKey": 40.62833099999989,
+        "keyToDetail": 124.8900599999979,
+        "navigationToDetail": 756.0871649999972
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 30.799999997019768,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 36.20000000298023,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 551.3999999910593,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 553.7000000029802,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 554,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 556,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 556.3999999910593,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-10000",
+      "version": "candidate",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 488.1000000089407,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 501.79999999701977,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 554.7999999970198,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 554.9000000059605,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 18,
+      "maxBeforeSampleRead": 18,
+      "mountedAtSampleRead": 18,
+      "mountedOrderedIdSha256": "9be367660c40f6d8142ceddcd1001e2a9a6127b91c195a5199da92aaea1e37e3",
+      "key": {
+        "at": 605.1000000089407,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 725.7999999970198
+      },
+      "host": {
+        "viewportToKey": 41.57041500000196,
+        "keyToDetail": 124.34939499999746,
+        "navigationToDetail": 730.7969830000002
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 30.200000002980232,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 33.6000000089407,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 525.2999999970198,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 526.2999999970198,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 527.2999999970198,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 528.7000000029802,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 528.9000000059605,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "group-10000",
+      "version": "baseline",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 506.70000000298023,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 5343.5999999940395,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "8e15836b8040cc9b745df02440a5d01c79290abe60b9fb860bb2a004037e1329",
+      "firstDomPlus2Frames": 5343.70000000298,
+      "completeDomPlus2Frames": 5343.70000000298,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5608,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 6079.4000000059605
+      },
+      "host": {
+        "viewportToKey": 247.17919299998903,
+        "keyToDetail": 502.16292500001146,
+        "navigationToDetail": 6111.45293900001
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 31.900000005960464,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 35.70000000298023,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 954.4000000059605,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 957,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/trash-2-XB6X3P6K.svg",
+          "responseEnd": 959.0999999940395,
+          "bytes": 379
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 960,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 960.2000000029802,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 960.7000000029802,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "baseline",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 457.19999998807907,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": null,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 4848.0999999940395,
+      "completeDomPlus2Frames": 4848.199999988079,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5204.699999988079,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5645.199999988079
+      },
+      "host": {
+        "viewportToKey": 227.6762529999978,
+        "keyToDetail": 471.2196410000033,
+        "navigationToDetail": 5677.500574000005
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 27,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 30.5,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 827.2999999970198,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 828.8999999910593,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 830.5999999940395,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 830.7999999970198,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 831.5999999940395,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "candidate",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 454.5,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 467.5,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 514.2000000029802,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 514.2999999970198,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 19,
+      "maxBeforeSampleRead": 19,
+      "mountedAtSampleRead": 19,
+      "mountedOrderedIdSha256": "f849c92dc31c5d7811fb2546c64bf747794bb51e5db13fd25e87ad90fdb5715a",
+      "key": {
+        "at": 564.5,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 683.2000000029802
+      },
+      "host": {
+        "viewportToKey": 40.013334999996005,
+        "keyToDetail": 123.0339959999983,
+        "navigationToDetail": 689.5048839999945
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 28.200000002980232,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 32.099999994039536,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 489.59999999403954,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 490.29999999701977,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 492.09999999403954,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 492.40000000596046,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "candidate",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 449.70000000298023,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 462.59999999403954,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 508.90000000596046,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 509.09999999403954,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 19,
+      "maxBeforeSampleRead": 19,
+      "mountedAtSampleRead": 19,
+      "mountedOrderedIdSha256": "f849c92dc31c5d7811fb2546c64bf747794bb51e5db13fd25e87ad90fdb5715a",
+      "key": {
+        "at": 572.2999999970198,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 692
+      },
+      "host": {
+        "viewportToKey": 38.899949999991804,
+        "keyToDetail": 125.20837400000892,
+        "navigationToDetail": 699.0257320000092
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 29.700000002980232,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 33.599999994039536,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 484.29999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 484.90000000596046,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 486,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 486.79999999701977,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "baseline",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 465.3999999910593,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 4859.29999999702,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 4859.399999991059,
+      "completeDomPlus2Frames": 4859.399999991059,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5086.0999999940395,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5522.79999999702
+      },
+      "host": {
+        "viewportToKey": 215.98897600000782,
+        "keyToDetail": 461.2615569999907,
+        "navigationToDetail": 5549.221884999992
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 32.69999998807907,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 37.29999999701977,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 851.6999999880791,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 852.5999999940395,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 854,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 854.5,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 855.5999999940395,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "baseline",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 457.6000000089407,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 5215.20000000298,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 5215.20000000298,
+      "completeDomPlus2Frames": 5215.29999999702,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5462.70000000298,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5922.4000000059605
+      },
+      "host": {
+        "viewportToKey": 229.77130900000338,
+        "keyToDetail": 488.9922970000043,
+        "navigationToDetail": 5953.298118999999
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 29.799999997019768,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 34.900000005960464,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 879.7000000029802,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 882.9000000059605,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 879.9000000059605,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 881,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 882.5,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "candidate",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 500.5,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 514.4000000059605,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 560.9000000059605,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 561,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 19,
+      "maxBeforeSampleRead": 19,
+      "mountedAtSampleRead": 19,
+      "mountedOrderedIdSha256": "f849c92dc31c5d7811fb2546c64bf747794bb51e5db13fd25e87ad90fdb5715a",
+      "key": {
+        "at": 620.4000000059605,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 741.2999999970198
+      },
+      "host": {
+        "viewportToKey": 40.12047999999777,
+        "keyToDetail": 127.36599100001331,
+        "navigationToDetail": 749.9398840000067
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 33.70000000298023,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 37.099999994039536,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 535.7000000029802,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 536.2000000029802,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 538,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 537.7999999970198,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "candidate",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 452.70000000298023,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        },
+        "projection": {
+          "at": 466.20000000298023,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 513.1000000089407,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 513.1000000089407,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 19,
+      "maxBeforeSampleRead": 19,
+      "mountedAtSampleRead": 19,
+      "mountedOrderedIdSha256": "f849c92dc31c5d7811fb2546c64bf747794bb51e5db13fd25e87ad90fdb5715a",
+      "key": {
+        "at": 561.9000000059605,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 691.7999999970198
+      },
+      "host": {
+        "viewportToKey": 40.043988999997964,
+        "keyToDetail": 135.21086900000228,
+        "navigationToDetail": 699.354634000003
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 24.900000005960464,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 29.799999997019768,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 489.1000000089407,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 489.40000000596046,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 491.40000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 491.70000000298023,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "ungrouped-10000",
+      "version": "baseline",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 485.29999999701977,
+          "count": 10000,
+          "orderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74"
+        }
+      },
+      "initialViewport": 5091.0999999940395,
+      "initialVisibleIds": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "initialVisibleGeometrySha256": "d393ece2fefd1662276aec2835d093945af531131620cf69020f5622d4d5529e",
+      "firstDomPlus2Frames": 5091.20000000298,
+      "completeDomPlus2Frames": 5091.29999999702,
+      "mountedAtViewport": 10000,
+      "maxBeforeSampleRead": 10000,
+      "mountedAtSampleRead": 10000,
+      "mountedOrderedIdSha256": "9afe5e54699d1963d4570088d5f4144d2cc8f16d944861f536c36bbb1b2fba74",
+      "key": {
+        "at": 5348.9000000059605,
+        "trusted": true,
+        "id": 1002
+      },
+      "detail": {
+        "id": 1002,
+        "title": "Child 1002: remaining work",
+        "at": 5822.9000000059605
+      },
+      "host": {
+        "viewportToKey": 240.7725769999961,
+        "keyToDetail": 491.89635799999814,
+        "navigationToDetail": 5842.109503999993
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 37.70000000298023,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 41.5,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 872.0999999940395,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/archive-TRGHHGKJ.svg",
+          "responseEnd": 873.2999999970198,
+          "bytes": 297
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 874.4000000059605,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 874.5999999940395,
+          "bytes": 192
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 875.2000000029802,
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "baseline",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 416.70000000298023,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 431.09999999403954,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": null,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 674.4000000059605,
+      "completeDomPlus2Frames": 3160.0999999940395,
+      "mountedAtViewport": 3005,
+      "maxBeforeSampleRead": 3005,
+      "mountedAtSampleRead": 3005,
+      "mountedOrderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "key": {
+        "at": 3315,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 3600.5
+      },
+      "host": {
+        "viewportToKey": 134.21566899999743,
+        "keyToDetail": 354.5796390000032,
+        "navigationToDetail": 3672.376150000011
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 31.099999994039536,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 35.70000000298023,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 506.40000000596046,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 509.79999999701977,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 506.79999999701977,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 510.20000000298023,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 510.40000000596046,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 526.7000000029802,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 526.9000000059605,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 527.2999999970198,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 514.5,
+          "bytes": 192
+        }
+      ],
+      "restoredScreenshot": {
+        "file": "kanban-high-active-baseline-restored.png",
+        "sha256": "f4f8d1ca0292513f16b35e9a73569ec0a87cfb7366fdd81c97f7e2d3f35f8fb2"
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "candidate",
+      "round": 0,
+      "warmup": true,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 408.6000000089407,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 426,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 640.2999999970198,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 638.7000000029802,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 83,
+      "maxBeforeSampleRead": 83,
+      "mountedAtSampleRead": 83,
+      "mountedOrderedIdSha256": "e5e5f2d3bf02de29ac89535b7b14820d964e4dcec57bc00a85226fb233b94af0",
+      "key": {
+        "at": 757,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 885.4000000059605
+      },
+      "host": {
+        "viewportToKey": 45.29987099999562,
+        "keyToDetail": 134.5134170000092,
+        "navigationToDetail": 893.4445220000052
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 33.20000000298023,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 39.400000005960464,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 465.29999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 466.20000000298023,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 468.29999999701977,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 468.6000000089407,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 473.1000000089407,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 474.90000000596046,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 477,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 482.29999999701977,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 533.7999999970198,
+          "bytes": 192
+        }
+      ],
+      "restoredScreenshot": {
+        "file": "kanban-high-active-candidate-restored.png",
+        "sha256": "03686daa595e423707ea52024e15dc456b6df9b975997f5687b3c451fd236ea3"
+      }
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "candidate",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 419.19999998807907,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 434.29999999701977,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 627.0999999940395,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 626.0999999940395,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 83,
+      "maxBeforeSampleRead": 83,
+      "mountedAtSampleRead": 83,
+      "mountedOrderedIdSha256": "e5e5f2d3bf02de29ac89535b7b14820d964e4dcec57bc00a85226fb233b94af0",
+      "key": {
+        "at": 739.2999999970198,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 856
+      },
+      "host": {
+        "viewportToKey": 43.56930000000284,
+        "keyToDetail": 135.27659100000164,
+        "navigationToDetail": 876.2460560000036
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 37.29999999701977,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 44.8999999910593,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 475.19999998807907,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 475.5,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 476.59999999403954,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 478.19999998807907,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 482.3999999910593,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 482.69999998807907,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 483.3999999910593,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 486.09999999403954,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 528,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "baseline",
+      "round": 1,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 348.40000000596046,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 362.90000000596046,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 639.4000000059605,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 639.5,
+      "completeDomPlus2Frames": 3498.2000000029802,
+      "mountedAtViewport": 360,
+      "maxBeforeSampleRead": 3005,
+      "mountedAtSampleRead": 3005,
+      "mountedOrderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "key": {
+        "at": 1341.9000000059605,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 2087.9000000059605
+      },
+      "host": {
+        "viewportToKey": 597.7257990000071,
+        "keyToDetail": 923.5867299999954,
+        "navigationToDetail": 2266.070252999998
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 28.299999997019768,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 32.70000000298023,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 438.29999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 438.59999999403954,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 441.09999999403954,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 441.5,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 443.70000000298023,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 447.5,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 448,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 451.79999999701977,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 452.09999999403954,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "baseline",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 346.20000000298023,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 360.09999999403954,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 636.7000000029802,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 636.7999999970198,
+      "completeDomPlus2Frames": 3292.7999999970198,
+      "mountedAtViewport": 360,
+      "maxBeforeSampleRead": 3005,
+      "mountedAtSampleRead": 3005,
+      "mountedOrderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "key": {
+        "at": 1285.5999999940395,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 1760
+      },
+      "host": {
+        "viewportToKey": 541.4742780000088,
+        "keyToDetail": 597.4190989999915,
+        "navigationToDetail": 1884.1161189999984
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 30.599999994039536,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 34.70000000298023,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 433.29999999701977,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 433.5,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 435.5,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 435.70000000298023,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 436,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 437.40000000596046,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 438.29999999701977,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 440.5,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 440.70000000298023,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "candidate",
+      "round": 2,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 368.6000000089407,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 384.79999999701977,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 581.4000000059605,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 580.2000000029802,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 83,
+      "maxBeforeSampleRead": 83,
+      "mountedAtSampleRead": 83,
+      "mountedOrderedIdSha256": "e5e5f2d3bf02de29ac89535b7b14820d964e4dcec57bc00a85226fb233b94af0",
+      "key": {
+        "at": 645.1000000089407,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 766.7000000029802
+      },
+      "host": {
+        "viewportToKey": 47.01555900000676,
+        "keyToDetail": 128.39507799998682,
+        "navigationToDetail": 775.3629489999876
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 31.400000005960464,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 36.70000000298023,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 423.5,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 423.79999999701977,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 424.40000000596046,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 425.79999999701977,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 430.6000000089407,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 430.90000000596046,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 433.20000000298023,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 436.79999999701977,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 478.1000000089407,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "candidate",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 354.1000000089407,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 370,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 568.3000000119209,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 567.3000000119209,
+      "completeDomPlus2Frames": null,
+      "mountedAtViewport": 83,
+      "maxBeforeSampleRead": 83,
+      "mountedAtSampleRead": 83,
+      "mountedOrderedIdSha256": "e5e5f2d3bf02de29ac89535b7b14820d964e4dcec57bc00a85226fb233b94af0",
+      "key": {
+        "at": 687,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 798.4000000059605
+      },
+      "host": {
+        "viewportToKey": 44.14240099999006,
+        "keyToDetail": 116.73873900000763,
+        "navigationToDetail": 805.4284430000116
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-WNCPGYXB.css",
+          "responseEnd": 30.80000001192093,
+          "bytes": 125421
+        },
+        {
+          "path": "/generated/app-UBG2U7WV.js",
+          "responseEnd": 35.70000000298023,
+          "bytes": 505829
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 408.40000000596046,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 408.6000000089407,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 409.40000000596046,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 410,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 415.1000000089407,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 415.30000001192093,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 416.70000000298023,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 420.1000000089407,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 464.20000000298023,
+          "bytes": 192
+        }
+      ]
+    },
+    {
+      "fixture": "kanban-high-active",
+      "version": "baseline",
+      "round": 3,
+      "warmup": false,
+      "collectionAndProjection": {
+        "collection": {
+          "at": 347.70000000298023,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        },
+        "projection": {
+          "at": 362.30000001192093,
+          "count": 3005,
+          "orderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4"
+        }
+      },
+      "initialViewport": 645.9000000059605,
+      "initialVisibleIds": [
+        1,
+        7,
+        13,
+        19,
+        25,
+        31,
+        37,
+        43,
+        2,
+        8,
+        14,
+        20,
+        26,
+        32,
+        38,
+        44,
+        3,
+        9,
+        15,
+        21,
+        27,
+        33,
+        39,
+        45,
+        4,
+        10,
+        16,
+        22,
+        28,
+        34,
+        40,
+        46
+      ],
+      "initialVisibleGeometrySha256": "3cfa507b10be1698aee0658b526367a0a4cdbeb1367e24ab946a01146a365054",
+      "firstDomPlus2Frames": 645.9000000059605,
+      "completeDomPlus2Frames": 3180.6000000089407,
+      "mountedAtViewport": 360,
+      "maxBeforeSampleRead": 3005,
+      "mountedAtSampleRead": 3005,
+      "mountedOrderedIdSha256": "00b9145d81e4a9be801479510d6e231343fc62f4d738ed832291fb021ef219f4",
+      "key": {
+        "at": 1306.800000011921,
+        "trusted": true,
+        "id": 1
+      },
+      "detail": {
+        "id": 1,
+        "title": "Verify retry and delivery history 1",
+        "at": 1747.9000000059605
+      },
+      "host": {
+        "viewportToKey": 557.1104020000057,
+        "keyToDetail": 560.9121449999948,
+        "navigationToDetail": 1869.1477809999924
+      },
+      "generatedAssets": [
+        {
+          "path": "/generated/styles-6R3HBFMN.css",
+          "responseEnd": 28.5,
+          "bytes": 124229
+        },
+        {
+          "path": "/generated/app-B7ZAXDAM.js",
+          "responseEnd": 31,
+          "bytes": 448914
+        },
+        {
+          "path": "/generated/folder-up-7WHWHFHY.svg",
+          "responseEnd": 435.80000001192093,
+          "bytes": 350
+        },
+        {
+          "path": "/generated/priority-medium-BWY6GETU.svg",
+          "responseEnd": 435.40000000596046,
+          "bytes": 207
+        },
+        {
+          "path": "/generated/ticket-25BZPGZH.svg",
+          "responseEnd": 438,
+          "bytes": 353
+        },
+        {
+          "path": "/generated/circle-alert-RRZRKMBP.svg",
+          "responseEnd": 438.30000001192093,
+          "bytes": 287
+        },
+        {
+          "path": "/generated/folder-tree-WQW6YDZY.svg",
+          "responseEnd": 440.20000000298023,
+          "bytes": 506
+        },
+        {
+          "path": "/generated/priority-high-JBQJ4P7K.svg",
+          "responseEnd": 441.20000000298023,
+          "bytes": 234
+        },
+        {
+          "path": "/generated/priority-low-Z7TBGA3A.svg",
+          "responseEnd": 442.1000000089407,
+          "bytes": 183
+        },
+        {
+          "path": "/generated/octagon-alert-BTJ5FO7W.svg",
+          "responseEnd": 443.30000001192093,
+          "bytes": 465
+        },
+        {
+          "path": "/generated/check-36YSAFZQ.svg",
+          "responseEnd": 444.5,
+          "bytes": 192
+        }
+      ]
+    }
+  ]
+}

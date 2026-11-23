@@ -1,0 +1,951 @@
+{
+  "manifests": [
+    {
+      "ticketId": 1555,
+      "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+      "candidate": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+      "pairs": [
+        {
+          "fixture": "Group parent with 1,200 children",
+          "language": "en",
+          "theme": "light",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "state": "親1・子1,200の大規模Group。アーカイブ済みの親の文脈表示と初期可視行。実mount数は画面外を含め基準1,201、候補は英語27・日本語23。",
+          "targetTicketId": 2,
+          "baselineTargetY": 305.875,
+          "candidateTargetY": 305.875,
+          "images": [
+            {
+              "label": "Before",
+              "path": "ticket-1555-en-light-baseline.png",
+              "filename": "ticket-1555-en-light-baseline.png",
+              "sha256": "a835d102d1285490563049ebae8541410b76de00106bf39d8e6689a4f40e25e6",
+              "url": "/api/attachments/a835d102d1285490563049ebae8541410b76de00106bf39d8e6689a4f40e25e6"
+            },
+            {
+              "label": "After",
+              "path": "revised-ticket-1555-en-light-candidate.png",
+              "filename": "revised-ticket-1555-en-light-candidate.png",
+              "sha256": "8254dfbb79be093ea289079c3981e77a7dcae45fdc92944ee65da26ee409bde3",
+              "url": "/api/attachments/8254dfbb79be093ea289079c3981e77a7dcae45fdc92944ee65da26ee409bde3"
+            }
+          ]
+        },
+        {
+          "fixture": "Group parent with 1,200 children",
+          "language": "ja",
+          "theme": "dark",
+          "viewport": {
+            "width": 1280,
+            "height": 760
+          },
+          "state": "親1・子1,200の大規模Group。アーカイブ済みの親の文脈表示と初期可視行。実mount数は画面外を含め基準1,201、候補は英語27・日本語23。",
+          "targetTicketId": 2,
+          "baselineTargetY": 305.875,
+          "candidateTargetY": 305.875,
+          "images": [
+            {
+              "label": "Before",
+              "path": "ticket-1555-ja-dark-baseline.png",
+              "filename": "ticket-1555-ja-dark-baseline.png",
+              "sha256": "9a5acd70d45f54f252075cca99dc4a6128131426e7f6c43a706e479c2d1f11b6",
+              "url": "/api/attachments/9a5acd70d45f54f252075cca99dc4a6128131426e7f6c43a706e479c2d1f11b6"
+            },
+            {
+              "label": "After",
+              "path": "revised-ticket-1555-ja-dark-candidate.png",
+              "filename": "revised-ticket-1555-ja-dark-candidate.png",
+              "sha256": "4173a815f260357540ccd809aba6f76ca9d849846500eafd5cb3af6f3e27b49d",
+              "url": "/api/attachments/4173a815f260357540ccd809aba6f76ca9d849846500eafd5cb3af6f3e27b49d"
+            }
+          ]
+        }
+      ],
+      "commentId": 4626
+    },
+    {
+      "ticketId": 1556,
+      "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+      "candidate": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+      "pairs": [
+        {
+          "fixture": "Group parent with 1,200 children",
+          "language": "en",
+          "theme": "light",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "state": "先頭付近の#2へfocus、末尾へスクロールし、同じ真Tabで#3へ移動した結果。両版で#3へfocusし、対象タイトルの位置が一致。",
+          "targetTicketId": 3,
+          "baselineTargetY": 357.875,
+          "candidateTargetY": 357.875,
+          "images": [
+            {
+              "label": "Before",
+              "path": "ticket-1556-en-light-baseline.png",
+              "filename": "ticket-1556-en-light-baseline.png",
+              "sha256": "82c0ac4aa17b7d1db41e9cf80e2125a3a91ce717bbe591acc893b3a4a750d99b",
+              "url": "/api/attachments/82c0ac4aa17b7d1db41e9cf80e2125a3a91ce717bbe591acc893b3a4a750d99b"
+            },
+            {
+              "label": "After",
+              "path": "revised-ticket-1556-en-light-candidate.png",
+              "filename": "revised-ticket-1556-en-light-candidate.png",
+              "sha256": "abbad4fc66de398af6fcfc62b7a1811278a206b77920d61fb02681aaefb1952e",
+              "url": "/api/attachments/abbad4fc66de398af6fcfc62b7a1811278a206b77920d61fb02681aaefb1952e"
+            }
+          ]
+        },
+        {
+          "fixture": "Group parent with 1,200 children",
+          "language": "ja",
+          "theme": "dark",
+          "viewport": {
+            "width": 1280,
+            "height": 760
+          },
+          "state": "先頭付近の#2へfocus、末尾へスクロールし、同じ真Tabで#3へ移動した結果。両版で#3へfocusし、対象タイトルの位置が一致。",
+          "targetTicketId": 3,
+          "baselineTargetY": 357.875,
+          "candidateTargetY": 357.875,
+          "images": [
+            {
+              "label": "Before",
+              "path": "ticket-1556-ja-dark-baseline.png",
+              "filename": "ticket-1556-ja-dark-baseline.png",
+              "sha256": "6b99a8e51fdd9677b040e31176ca8219497b4c4ab47bd1f0b06b73792d1b7c1d",
+              "url": "/api/attachments/6b99a8e51fdd9677b040e31176ca8219497b4c4ab47bd1f0b06b73792d1b7c1d"
+            },
+            {
+              "label": "After",
+              "path": "revised-ticket-1556-ja-dark-candidate.png",
+              "filename": "revised-ticket-1556-ja-dark-candidate.png",
+              "sha256": "1ee045d055c9c2b0a68f5be9b899284ca1c4be9cab36293a109f1590afd0860b",
+              "url": "/api/attachments/1ee045d055c9c2b0a68f5be9b899284ca1c4be9cab36293a109f1590afd0860b"
+            }
+          ]
+        }
+      ],
+      "commentId": 4627
+    },
+    {
+      "ticketId": 1558,
+      "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+      "candidate": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+      "pairs": [
+        {
+          "fixture": "No Group 1,201 rows",
+          "language": "en",
+          "theme": "light",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "state": "No Groupの#600を開いてEscapeで閉じた状態と保存タイトルの照合。基準は通常スクロールで同じチケットに到達。候補は2026を検索し次の一致を選択、sticky検索欄と2件目の表示位置が新規動作。",
+          "targetTicketId": 600,
+          "baselineTargetY": 527.875,
+          "candidateTargetY": 145.875,
+          "images": [
+            {
+              "label": "Before",
+              "path": "ticket-1558-en-light-baseline.png",
+              "filename": "ticket-1558-en-light-baseline.png",
+              "sha256": "d08fc8d4d7a56ef73ba21962f435a3a135052e3530e1b099eff85d363290fbeb",
+              "url": "/api/attachments/d08fc8d4d7a56ef73ba21962f435a3a135052e3530e1b099eff85d363290fbeb"
+            },
+            {
+              "label": "After",
+              "path": "revised-ticket-1558-en-light-candidate.png",
+              "filename": "revised-ticket-1558-en-light-candidate.png",
+              "sha256": "c98f563c61c062c5f70d403def7ecbefb92be24b086adbcf7e69e68754e100ff",
+              "url": "/api/attachments/c98f563c61c062c5f70d403def7ecbefb92be24b086adbcf7e69e68754e100ff"
+            }
+          ]
+        },
+        {
+          "fixture": "No Group 1,201 rows",
+          "language": "ja",
+          "theme": "dark",
+          "viewport": {
+            "width": 1280,
+            "height": 760
+          },
+          "state": "No Groupの#600を開いてEscapeで閉じた状態と保存タイトルの照合。基準は通常スクロールで同じチケットに到達。候補は2026を検索し次の一致を選択、sticky検索欄と2件目の表示位置が新規動作。",
+          "targetTicketId": 600,
+          "baselineTargetY": 407.75,
+          "candidateTargetY": 145.375,
+          "images": [
+            {
+              "label": "Before",
+              "path": "ticket-1558-ja-dark-baseline.png",
+              "filename": "ticket-1558-ja-dark-baseline.png",
+              "sha256": "71d45416ffaabd838eb6b274176a36d51b303f123ef5e7e07152adb2f5af5a1c",
+              "url": "/api/attachments/71d45416ffaabd838eb6b274176a36d51b303f123ef5e7e07152adb2f5af5a1c"
+            },
+            {
+              "label": "After",
+              "path": "revised-ticket-1558-ja-dark-candidate.png",
+              "filename": "revised-ticket-1558-ja-dark-candidate.png",
+              "sha256": "7023c75d9d49c9ee5707fd2da59358713f11a19f19367cff367d359b5dceccfa",
+              "url": "/api/attachments/7023c75d9d49c9ee5707fd2da59358713f11a19f19367cff367d359b5dceccfa"
+            }
+          ]
+        }
+      ],
+      "commentId": 4628
+    }
+  ],
+  "actions": {
+    "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+    "candidate": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+    "chromium": "159.0.8154.6",
+    "results": [
+      {
+        "ticketId": 1555,
+        "variant": "candidate",
+        "revision": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "language": "en",
+        "theme": "light",
+        "boardId": 1,
+        "fixture": "Group parent with 1,200 children",
+        "mountedInitially": 27,
+        "targetId": 2,
+        "activeId": null,
+        "scrollTop": 0,
+        "rows": [
+          {
+            "id": 1,
+            "y": 244.375,
+            "h": 52
+          },
+          {
+            "id": 2,
+            "y": 296.375,
+            "h": 52
+          },
+          {
+            "id": 3,
+            "y": 348.375,
+            "h": 52
+          },
+          {
+            "id": 4,
+            "y": 400.375,
+            "h": 52
+          },
+          {
+            "id": 5,
+            "y": 452.375,
+            "h": 52
+          },
+          {
+            "id": 6,
+            "y": 504.375,
+            "h": 52
+          },
+          {
+            "id": 7,
+            "y": 556.375,
+            "h": 52
+          },
+          {
+            "id": 8,
+            "y": 608.375,
+            "h": 52
+          },
+          {
+            "id": 9,
+            "y": 660.375,
+            "h": 52
+          },
+          {
+            "id": 10,
+            "y": 712.375,
+            "h": 52
+          },
+          {
+            "id": 11,
+            "y": 764.375,
+            "h": 52
+          },
+          {
+            "id": 12,
+            "y": 816.375,
+            "h": 52
+          },
+          {
+            "id": 13,
+            "y": 868.375,
+            "h": 52
+          },
+          {
+            "id": 14,
+            "y": 920.375,
+            "h": 52
+          },
+          {
+            "id": 15,
+            "y": 972.375,
+            "h": 52
+          }
+        ],
+        "targetY": 305.875,
+        "presses": [],
+        "screenshot": {
+          "path": "revised-ticket-1555-en-light-candidate.png",
+          "filename": "revised-ticket-1555-en-light-candidate.png",
+          "sha256": "8254dfbb79be093ea289079c3981e77a7dcae45fdc92944ee65da26ee409bde3"
+        }
+      },
+      {
+        "ticketId": 1556,
+        "variant": "candidate",
+        "revision": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "language": "en",
+        "theme": "light",
+        "boardId": 1,
+        "fixture": "Group parent with 1,200 children",
+        "mountedInitially": 27,
+        "targetId": 3,
+        "activeId": 3,
+        "scrollTop": 0,
+        "rows": [
+          {
+            "id": 1,
+            "y": 244.375,
+            "h": 52
+          },
+          {
+            "id": 2,
+            "y": 296.375,
+            "h": 52
+          },
+          {
+            "id": 3,
+            "y": 348.375,
+            "h": 52
+          },
+          {
+            "id": 4,
+            "y": 400.375,
+            "h": 52
+          },
+          {
+            "id": 5,
+            "y": 452.375,
+            "h": 52
+          },
+          {
+            "id": 6,
+            "y": 504.375,
+            "h": 52
+          },
+          {
+            "id": 7,
+            "y": 556.375,
+            "h": 52
+          },
+          {
+            "id": 8,
+            "y": 608.375,
+            "h": 52
+          },
+          {
+            "id": 9,
+            "y": 660.375,
+            "h": 52
+          },
+          {
+            "id": 10,
+            "y": 712.375,
+            "h": 52
+          },
+          {
+            "id": 11,
+            "y": 764.375,
+            "h": 52
+          },
+          {
+            "id": 12,
+            "y": 816.375,
+            "h": 52
+          },
+          {
+            "id": 13,
+            "y": 868.375,
+            "h": 52
+          },
+          {
+            "id": 14,
+            "y": 920.375,
+            "h": 52
+          },
+          {
+            "id": 15,
+            "y": 972.375,
+            "h": 52
+          }
+        ],
+        "targetY": 357.875,
+        "presses": [
+          {
+            "key": "Tab",
+            "trusted": true
+          }
+        ],
+        "screenshot": {
+          "path": "revised-ticket-1556-en-light-candidate.png",
+          "filename": "revised-ticket-1556-en-light-candidate.png",
+          "sha256": "abbad4fc66de398af6fcfc62b7a1811278a206b77920d61fb02681aaefb1952e"
+        }
+      },
+      {
+        "ticketId": 1558,
+        "variant": "candidate",
+        "revision": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "language": "en",
+        "theme": "light",
+        "boardId": 1,
+        "fixture": "No Group 1,201 rows",
+        "mountedInitially": 28,
+        "targetId": 600,
+        "detail": "Release 2026 ticket 600",
+        "activeId": 600,
+        "scrollTop": 31221,
+        "rows": [
+          {
+            "id": 599,
+            "y": 84.375,
+            "h": 52
+          },
+          {
+            "id": 600,
+            "y": 136.375,
+            "h": 52
+          },
+          {
+            "id": 601,
+            "y": 188.375,
+            "h": 52
+          },
+          {
+            "id": 602,
+            "y": 240.375,
+            "h": 52
+          },
+          {
+            "id": 603,
+            "y": 292.375,
+            "h": 52
+          },
+          {
+            "id": 604,
+            "y": 344.375,
+            "h": 52
+          },
+          {
+            "id": 605,
+            "y": 396.375,
+            "h": 52
+          },
+          {
+            "id": 606,
+            "y": 448.375,
+            "h": 52
+          },
+          {
+            "id": 607,
+            "y": 500.375,
+            "h": 52
+          },
+          {
+            "id": 608,
+            "y": 552.375,
+            "h": 52
+          },
+          {
+            "id": 609,
+            "y": 604.375,
+            "h": 52
+          },
+          {
+            "id": 610,
+            "y": 656.375,
+            "h": 52
+          },
+          {
+            "id": 611,
+            "y": 708.375,
+            "h": 52
+          },
+          {
+            "id": 612,
+            "y": 760.375,
+            "h": 52
+          },
+          {
+            "id": 613,
+            "y": 812.375,
+            "h": 52
+          },
+          {
+            "id": 614,
+            "y": 864.375,
+            "h": 52
+          },
+          {
+            "id": 615,
+            "y": 916.375,
+            "h": 52
+          },
+          {
+            "id": 616,
+            "y": 968.375,
+            "h": 52
+          }
+        ],
+        "targetY": 145.875,
+        "presses": [
+          {
+            "key": "Enter",
+            "trusted": true
+          },
+          {
+            "key": "Enter",
+            "trusted": true
+          },
+          {
+            "key": "Escape",
+            "trusted": true
+          }
+        ],
+        "screenshot": {
+          "path": "revised-ticket-1558-en-light-candidate.png",
+          "filename": "revised-ticket-1558-en-light-candidate.png",
+          "sha256": "c98f563c61c062c5f70d403def7ecbefb92be24b086adbcf7e69e68754e100ff"
+        }
+      },
+      {
+        "ticketId": 1555,
+        "variant": "candidate",
+        "revision": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+        "viewport": {
+          "width": 1280,
+          "height": 760
+        },
+        "language": "ja",
+        "theme": "dark",
+        "boardId": 1,
+        "fixture": "Group parent with 1,200 children",
+        "mountedInitially": 23,
+        "targetId": 2,
+        "activeId": null,
+        "scrollTop": 0,
+        "rows": [
+          {
+            "id": 1,
+            "y": 244.375,
+            "h": 52
+          },
+          {
+            "id": 2,
+            "y": 296.375,
+            "h": 52
+          },
+          {
+            "id": 3,
+            "y": 348.375,
+            "h": 52
+          },
+          {
+            "id": 4,
+            "y": 400.375,
+            "h": 52
+          },
+          {
+            "id": 5,
+            "y": 452.375,
+            "h": 52
+          },
+          {
+            "id": 6,
+            "y": 504.375,
+            "h": 52
+          },
+          {
+            "id": 7,
+            "y": 556.375,
+            "h": 52
+          },
+          {
+            "id": 8,
+            "y": 608.375,
+            "h": 52
+          },
+          {
+            "id": 9,
+            "y": 660.375,
+            "h": 52
+          },
+          {
+            "id": 10,
+            "y": 712.375,
+            "h": 52
+          }
+        ],
+        "targetY": 305.875,
+        "presses": [],
+        "screenshot": {
+          "path": "revised-ticket-1555-ja-dark-candidate.png",
+          "filename": "revised-ticket-1555-ja-dark-candidate.png",
+          "sha256": "4173a815f260357540ccd809aba6f76ca9d849846500eafd5cb3af6f3e27b49d"
+        }
+      },
+      {
+        "ticketId": 1556,
+        "variant": "candidate",
+        "revision": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+        "viewport": {
+          "width": 1280,
+          "height": 760
+        },
+        "language": "ja",
+        "theme": "dark",
+        "boardId": 1,
+        "fixture": "Group parent with 1,200 children",
+        "mountedInitially": 23,
+        "targetId": 3,
+        "activeId": 3,
+        "scrollTop": 0,
+        "rows": [
+          {
+            "id": 1,
+            "y": 244.375,
+            "h": 52
+          },
+          {
+            "id": 2,
+            "y": 296.375,
+            "h": 52
+          },
+          {
+            "id": 3,
+            "y": 348.375,
+            "h": 52
+          },
+          {
+            "id": 4,
+            "y": 400.375,
+            "h": 52
+          },
+          {
+            "id": 5,
+            "y": 452.375,
+            "h": 52
+          },
+          {
+            "id": 6,
+            "y": 504.375,
+            "h": 52
+          },
+          {
+            "id": 7,
+            "y": 556.375,
+            "h": 52
+          },
+          {
+            "id": 8,
+            "y": 608.375,
+            "h": 52
+          },
+          {
+            "id": 9,
+            "y": 660.375,
+            "h": 52
+          },
+          {
+            "id": 10,
+            "y": 712.375,
+            "h": 52
+          }
+        ],
+        "targetY": 357.875,
+        "presses": [
+          {
+            "key": "Tab",
+            "trusted": true
+          }
+        ],
+        "screenshot": {
+          "path": "revised-ticket-1556-ja-dark-candidate.png",
+          "filename": "revised-ticket-1556-ja-dark-candidate.png",
+          "sha256": "1ee045d055c9c2b0a68f5be9b899284ca1c4be9cab36293a109f1590afd0860b"
+        }
+      },
+      {
+        "ticketId": 1558,
+        "variant": "candidate",
+        "revision": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+        "viewport": {
+          "width": 1280,
+          "height": 760
+        },
+        "language": "ja",
+        "theme": "dark",
+        "boardId": 1,
+        "fixture": "No Group 1,201 rows",
+        "mountedInitially": 23,
+        "targetId": 600,
+        "detail": "Release 2026 ticket 600",
+        "activeId": 600,
+        "scrollTop": 31259,
+        "rows": [
+          {
+            "id": 599,
+            "y": 83.875,
+            "h": 52
+          },
+          {
+            "id": 600,
+            "y": 135.875,
+            "h": 52
+          },
+          {
+            "id": 601,
+            "y": 187.875,
+            "h": 52
+          },
+          {
+            "id": 602,
+            "y": 239.875,
+            "h": 52
+          },
+          {
+            "id": 603,
+            "y": 291.875,
+            "h": 61.375
+          },
+          {
+            "id": 604,
+            "y": 353.25,
+            "h": 52
+          },
+          {
+            "id": 605,
+            "y": 405.25,
+            "h": 52
+          },
+          {
+            "id": 606,
+            "y": 457.25,
+            "h": 61.375
+          },
+          {
+            "id": 607,
+            "y": 518.625,
+            "h": 52
+          },
+          {
+            "id": 608,
+            "y": 570.625,
+            "h": 52
+          },
+          {
+            "id": 609,
+            "y": 622.625,
+            "h": 61.375
+          },
+          {
+            "id": 610,
+            "y": 684,
+            "h": 52
+          },
+          {
+            "id": 611,
+            "y": 736,
+            "h": 52
+          }
+        ],
+        "targetY": 145.375,
+        "presses": [
+          {
+            "key": "Enter",
+            "trusted": true
+          },
+          {
+            "key": "Enter",
+            "trusted": true
+          },
+          {
+            "key": "Escape",
+            "trusted": true
+          }
+        ],
+        "screenshot": {
+          "path": "revised-ticket-1558-ja-dark-candidate.png",
+          "filename": "revised-ticket-1558-ja-dark-candidate.png",
+          "sha256": "7023c75d9d49c9ee5707fd2da59358713f11a19f19367cff367d359b5dceccfa"
+        }
+      }
+    ]
+  },
+  "decoded": [
+    {
+      "ticketId": 1555,
+      "commentId": 4626,
+      "imageCount": 4,
+      "decoded": 4,
+      "orderMatches": true,
+      "images": [
+        {
+          "height": 1000,
+          "url": "http://127.0.0.1:3470/api/attachments/a835d102d1285490563049ebae8541410b76de00106bf39d8e6689a4f40e25e6",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "url": "http://127.0.0.1:3470/api/attachments/8254dfbb79be093ea289079c3981e77a7dcae45fdc92944ee65da26ee409bde3",
+          "width": 1440
+        },
+        {
+          "height": 760,
+          "url": "http://127.0.0.1:3470/api/attachments/9a5acd70d45f54f252075cca99dc4a6128131426e7f6c43a706e479c2d1f11b6",
+          "width": 1280
+        },
+        {
+          "height": 760,
+          "url": "http://127.0.0.1:3470/api/attachments/4173a815f260357540ccd809aba6f76ca9d849846500eafd5cb3af6f3e27b49d",
+          "width": 1280
+        }
+      ]
+    },
+    {
+      "ticketId": 1556,
+      "commentId": 4627,
+      "imageCount": 4,
+      "decoded": 4,
+      "orderMatches": true,
+      "images": [
+        {
+          "height": 1000,
+          "url": "http://127.0.0.1:3470/api/attachments/82c0ac4aa17b7d1db41e9cf80e2125a3a91ce717bbe591acc893b3a4a750d99b",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "url": "http://127.0.0.1:3470/api/attachments/abbad4fc66de398af6fcfc62b7a1811278a206b77920d61fb02681aaefb1952e",
+          "width": 1440
+        },
+        {
+          "height": 760,
+          "url": "http://127.0.0.1:3470/api/attachments/6b99a8e51fdd9677b040e31176ca8219497b4c4ab47bd1f0b06b73792d1b7c1d",
+          "width": 1280
+        },
+        {
+          "height": 760,
+          "url": "http://127.0.0.1:3470/api/attachments/1ee045d055c9c2b0a68f5be9b899284ca1c4be9cab36293a109f1590afd0860b",
+          "width": 1280
+        }
+      ]
+    },
+    {
+      "ticketId": 1558,
+      "commentId": 4628,
+      "imageCount": 4,
+      "decoded": 4,
+      "orderMatches": true,
+      "images": [
+        {
+          "height": 1000,
+          "url": "http://127.0.0.1:3470/api/attachments/d08fc8d4d7a56ef73ba21962f435a3a135052e3530e1b099eff85d363290fbeb",
+          "width": 1440
+        },
+        {
+          "height": 1000,
+          "url": "http://127.0.0.1:3470/api/attachments/c98f563c61c062c5f70d403def7ecbefb92be24b086adbcf7e69e68754e100ff",
+          "width": 1440
+        },
+        {
+          "height": 760,
+          "url": "http://127.0.0.1:3470/api/attachments/71d45416ffaabd838eb6b274176a36d51b303f123ef5e7e07152adb2f5af5a1c",
+          "width": 1280
+        },
+        {
+          "height": 760,
+          "url": "http://127.0.0.1:3470/api/attachments/7023c75d9d49c9ee5707fd2da59358713f11a19f19367cff367d359b5dceccfa",
+          "width": 1280
+        }
+      ]
+    }
+  ],
+  "sourceFingerprints": {
+    "baseline": "e370777b8b5c7fb6501f3208b1d29372e9bc1e5c",
+    "candidate": "7522ab3d5afa9ed020c93666f31043d7579015b3",
+    "changedSource": {
+      "public/app-board-keyboard.js": {
+        "baseline": "ccf6e959174297dfcc0b2f6205e71a720074ff63ef31d6b5581421be8ec69e1a",
+        "candidate": "db4b135d4dd6a3eb73de2d3c9feb379ce2adf55b21a316a927857dfcd954a0ea"
+      },
+      "public/app-board.js": {
+        "baseline": "42423698be1ee31a63c5e480ced225193e1082f13d7df9e1fb9577aff9757fac",
+        "candidate": "b778b50d3ec79921db72fd446746add3e3d78f456c9f5ed74d483cef9aa39c03"
+      },
+      "public/app-group-board.js": {
+        "baseline": "ca975ad77d89ccffc7d3a882009bcd07d0e15794c9a519c71a8961117926d57f",
+        "candidate": "30ff187fd137d9f20d5e522c7dfbe7916ec8fc022d509f49cc0b71f93b162dd0"
+      },
+      "public/app-group-ticket-window.js": {
+        "baseline": null,
+        "candidate": "ceffc2e3608bdbc2e00989ef179cab7f69361713e9cca81a18d6a1b390e26aaf"
+      },
+      "public/app-group-types.d.ts": {
+        "baseline": "b14242ba8918584b46a5bdfe31f0c85c29170aade02a0b8efb2efb44b6884ba1",
+        "candidate": "a98a45bceba1195ff5f83f3541a243cd2b93e90d1e22e7e0e91ded918e0656d0"
+      },
+      "public/app-group-view.d.ts": {
+        "baseline": "87f345060f3a0cb6e97d8a125c9040de24e3f76362c653d9af955b37da3539cc",
+        "candidate": "34767885fc74fe1a3384c383ffacdac3ec1cb63e126328524a525d25babd124f"
+      },
+      "public/app-group-view.js": {
+        "baseline": "7a95062b0dbf774c8db8506687c5c033c6eac4b28e5692c6bbaeb8d2ecc9d99d",
+        "candidate": "5519f0b94b94270864867a6d13b4098795f092f8703e5e76d4958aa5091cd678"
+      },
+      "public/app-group-window-search.js": {
+        "baseline": null,
+        "candidate": "9751731eeee1dbf00dcb4154c00a41b5dddf0417a09b9f9e44cf885f157ab45a"
+      },
+      "public/locales/ja-board.js": {
+        "baseline": "25969f7042252d8de0f0945c5a77264ce0b881b1a0a4e1d3ce316260da6fdbc6",
+        "candidate": "d93aaa88fac802c4f172e94cd3d31a4d7ce4ed52a643189c37cf00cec88775b8"
+      },
+      "public/styles/forms.css": {
+        "baseline": "4871e94cf7ebc0bb5942f281e578fbaf6100dfcb091c2bf6e55fcf60c5bab990",
+        "candidate": "4decb29f9f921d90445e1af32ee2a6da73a47f55e62dd53cf087cd033421a22c"
+      },
+      "public/styles/groups.css": {
+        "baseline": "24bba045f0063145939df3bb6f019b5c953b7ed4f36881944d7b6aae7b5e6c62",
+        "candidate": "4603cca9add7d187dbe01ff1e5323823feea53c710b9bb52d0872a5c790c54ea"
+      },
+      "test/e2e/group-ticket-window.spec.ts": {
+        "baseline": null,
+        "candidate": "a6890b3afb7d42fd70f866ad9bcda2e2e56d4018c20a84456b006ed57aac5d49"
+      }
+    }
+  }
+}
