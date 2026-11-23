@@ -556,3 +556,18 @@
 .group-render-section {
   display: contents;
 }
+
+.has-group-ticket-window {
+  overflow-anchor: none;
+}
+.group-ticket-window {
+  position: relative;
+}
+.group-ticket-window-row {
+  position: absolute;
+  inset-inline: 0;
+  display: flow-root;
+}
+.group-ticket-window-row[data-group-family-end] {
+  padding-bottom: var(--space-3);
+}

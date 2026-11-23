@@ -1,6 +1,7 @@
 // @ts-check
 import { t as tr, getLocale } from "./app-i18n.js";
 import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
+import { captureGroupTicketAnchor, createGroupTicketWindow, restoreGroupTicketAnchor } from "./app-group-ticket-window.js";
 import { createGroupRowIconRenderer } from "./app-group-row-icons.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
@@ -54,6 +55,8 @@ export function createGroupBoardModule(ctx) {
   let ticketRevision = 0;
   let renderedTicketKey = "";
   let renderedBusy = false;
+  let renderedViewScope = "";
+  /** @type {ReturnType<typeof createGroupTicketWindow> | null} */ let ticketWindow = null;
   /** @type {Record<string, HTMLElement> | null} */
   let sections = null;
   /** @type {Record<string, string>} */
@@ -83,6 +86,7 @@ export function createGroupBoardModule(ctx) {
     for (const button of sections.tickets.querySelectorAll("[data-group-remove]")) {
       if (button instanceof HTMLButtonElement) button.disabled = busy;
     }
+    ticketWindow?.setBusy(busy);
     renderedBusy = busy;
   }
 
@@ -282,6 +286,9 @@ export function createGroupBoardModule(ctx) {
         ? [focused.selectionStart, focused.selectionEnd]
         : null;
     if (!boardId) {
+      ticketWindow?.dispose();
+      ticketWindow = null;
+      renderedViewScope = "";
       host.innerHTML = "";
       sections = null;
       sectionHtml = {};
@@ -289,6 +296,9 @@ export function createGroupBoardModule(ctx) {
       return;
     }
     if (!sections || !host.contains(sections.tickets)) {
+      ticketWindow?.dispose();
+      ticketWindow = null;
+      renderedViewScope = "";
       host.innerHTML = '<div class="group-render-section" data-group-section="list"></div><div class="group-content-panel"><div class="group-render-section" data-group-section="header"></div><div class="group-render-section" data-group-section="tickets"></div><div class="group-render-section" data-group-section="footer"></div></div>';
       sections = {};
       for (const name of ["list", "header", "tickets", "footer"]) {
@@ -303,6 +313,8 @@ export function createGroupBoardModule(ctx) {
       lanes.map((lane) => [lane.id, lane.name]),
     ]);
     const updateTickets = ticketKey !== renderedTicketKey;
+    const viewScope = JSON.stringify([boardId, loadedSelection]);
+    const sameView = renderedViewScope === viewScope;
     const html = renderGroupViewSections(
       {
         groups,
@@ -329,9 +341,12 @@ export function createGroupBoardModule(ctx) {
         query,
         activeOption,
       },
-      { escapeHtml: esc, lanes, rowIcon: getRowIcon() },
-      updateTickets,
+      { escapeHtml: esc, lanes, rowIcon: (name) => getRowIcon()(name) },
+      updateTickets ? "auto" : false,
     );
+    const anchor = updateTickets && sameView && (ticketWindow || html.ticketWindow)
+      ? ticketWindow?.capture() ?? captureGroupTicketAnchor(host, sections.tickets)
+      : null;
     for (const name of ["list", "header", "footer"]) {
       const value = html[/** @type {"list" | "header" | "footer"} */ (name)];
       if (sectionHtml[name] === value) continue;
@@ -339,7 +354,25 @@ export function createGroupBoardModule(ctx) {
       sectionHtml[name] = value;
     }
     if (updateTickets) {
-      sections.tickets.innerHTML = html.tickets ?? "";
+      const hadWindow = !!ticketWindow;
+      if (html.ticketWindow) {
+        if (ticketWindow && sameView) {
+          ticketWindow.update(html.ticketWindow, anchor);
+        } else {
+          ticketWindow?.dispose();
+          ticketWindow = createGroupTicketWindow(host, sections.tickets, html.ticketWindow);
+          if (!sameView) host.scrollTop = 0;
+          ticketWindow.restore(anchor);
+        }
+        ticketWindow.setBusy(busy);
+      } else {
+        ticketWindow?.dispose();
+        ticketWindow = null;
+        sections.tickets.innerHTML = html.tickets ?? "";
+        if (anchor) restoreGroupTicketAnchor(host, sections.tickets, anchor);
+        else if (hadWindow && !sameView) host.scrollTop = 0;
+      }
+      renderedViewScope = viewScope;
       renderedTicketKey = ticketKey;
       renderedBusy = busy;
     } else {

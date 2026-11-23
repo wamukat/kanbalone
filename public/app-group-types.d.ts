@@ -4,6 +4,18 @@ export type { GroupView };
 export type GroupSummary = Omit<GroupView, "descriptionMarkdown" | "descriptionHtml">;
 export type GroupSelection = number | "ungrouped" | null;
 export type GroupTicket = GroupTicketView;
+export type GroupTicketRow = {
+  ticket: GroupTicket;
+  familyId: number;
+  child: boolean;
+  context: boolean;
+  canRemove: boolean;
+  lastInFamily: boolean;
+};
+export type GroupTicketWindowModel = {
+  rows: GroupTicketRow[];
+  renderRow(row: GroupTicketRow): string;
+};
 export type GroupTarget = Pick<GroupView, "id" | "revision">;
 export type GroupPreview = {
   expectedToken: string;
