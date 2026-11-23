@@ -1,0 +1,98 @@
+{
+  "base": "19ad93f2c6aa4be5cb8429d7e1b673bea97412aa",
+  "viewportCssPx": [
+    1440,
+    1000
+  ],
+  "entries": [
+    {
+      "label": "現行 小規模313枚・英語ライト",
+      "sha256": "00c905359c411dd4f084bc190c1956d31bc0294f92d979457600a59a2f17a26b",
+      "width": 1440,
+      "height": 1000,
+      "file": "baseline-313-light.png"
+    },
+    {
+      "label": "変更 小規模313枚・英語ライト",
+      "sha256": "47d64cffd08e00a1a0e87eb578b3f24a02e89768f5d2972fb2c504c4d8ec0bfb",
+      "width": 1440,
+      "height": 1000,
+      "file": "mask-313-light.png"
+    },
+    {
+      "label": "現行 混在カード・英語ダーク DPR2・ブロック中の子にホバー",
+      "sha256": "6b5cf331711a011097c8b7966d2501eececc99e12109933208ef7e76ca715b99",
+      "width": 2880,
+      "height": 2000,
+      "file": "baseline-mixed-dark-hover.png"
+    },
+    {
+      "label": "変更 混在カード・英語ダーク DPR2・ブロック中の子にホバー",
+      "sha256": "c1671e55d8f8a8fb6f2761a21161c6f1ba212dd9330970208807cb8c8f80b0a8",
+      "width": 2880,
+      "height": 2000,
+      "file": "mask-mixed-dark-hover.png"
+    },
+    {
+      "label": "現行 3,013枚・英語ライト",
+      "sha256": "025148000ec0f67eb216c7b9a87a59ebc8f9f0b8cd8df60bc2d9ee654f6252dd",
+      "width": 1440,
+      "height": 1000,
+      "file": "kanban-mask-screen-kanban-10000-baseline.png"
+    },
+    {
+      "label": "変更 3,013枚・英語ライト",
+      "sha256": "d247736fe60dbd65d7c3eeb605cbaf544880720646a5c85807b0ad7cb9e190f1",
+      "width": 1440,
+      "height": 1000,
+      "file": "kanban-mask-screen-kanban-10000-mask.png"
+    },
+    {
+      "label": "現行 3,005枚・英語ライト",
+      "sha256": "a4b3d6d8acd7fe9d902a08db1611013cd1bce44f8deabaef6b179565c1cec547",
+      "width": 1440,
+      "height": 1000,
+      "file": "kanban-mask-screen-kanban-high-active-baseline.png"
+    },
+    {
+      "label": "変更 3,005枚・英語ライト",
+      "sha256": "a265c716128f9dcf095ad409836fd8c19d52e8a16b3c8954c1cbcdc6da87fc22",
+      "width": 1440,
+      "height": 1000,
+      "file": "kanban-mask-screen-kanban-high-active-mask.png"
+    },
+    {
+      "label": "現行 313枚・日本語ダークモバイル",
+      "sha256": "081e67dfb0238bf01977bc507379401b593e6a927ff63b75831d395a564fcaf5",
+      "width": 390,
+      "height": 844,
+      "file": "product-ja-dark-mobile-baseline.png"
+    },
+    {
+      "label": "変更 313枚・日本語ダークモバイル",
+      "sha256": "5e58c8f8698898df36b1c55b783b41d5f066389ebe2db728aab1ed35db596b26",
+      "width": 390,
+      "height": 844,
+      "file": "product-ja-dark-mobile-mask.png"
+    }
+  ],
+  "assets": [
+    {
+      "variant": "baseline",
+      "files": 131,
+      "publicSourcesSha256": "307893d33540f38f19e6d1e4697b99acfe48a233f6507e06892c6147e8443a33",
+      "compiledTreeSha256": "46595a062a60f380af17ec6a5b933364f0194ae42a9c73270078565d1fbf332b"
+    },
+    {
+      "variant": "mask",
+      "files": 138,
+      "publicSourcesSha256": "e6719a1894160412de0d555bf355fc28b902071bf9df268c8a2042bb73f7acd4",
+      "compiledTreeSha256": "b4c740a6fb1b9bc93d8cc075f72697dc3b3091d859c630abcfe95999c225a249"
+    }
+  ],
+  "kanbalone": {
+    "ticket": 1552,
+    "comment": 4607,
+    "decoded": 10
+  }
+}

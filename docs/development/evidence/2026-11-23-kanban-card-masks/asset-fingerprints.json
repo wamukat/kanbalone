@@ -1,0 +1,14 @@
+[
+  {
+    "variant": "baseline",
+    "files": 131,
+    "publicSourcesSha256": "307893d33540f38f19e6d1e4697b99acfe48a233f6507e06892c6147e8443a33",
+    "compiledTreeSha256": "46595a062a60f380af17ec6a5b933364f0194ae42a9c73270078565d1fbf332b"
+  },
+  {
+    "variant": "mask",
+    "files": 138,
+    "publicSourcesSha256": "e6719a1894160412de0d555bf355fc28b902071bf9df268c8a2042bb73f7acd4",
+    "compiledTreeSha256": "b4c740a6fb1b9bc93d8cc075f72697dc3b3091d859c630abcfe95999c225a249"
+  }
+]

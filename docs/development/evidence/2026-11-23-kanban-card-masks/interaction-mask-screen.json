@@ -1,0 +1,314 @@
+[
+  {
+    "fixture": "kanban-10000",
+    "variant": "baseline",
+    "round": 0,
+    "warmup": true,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 292.8999999910593,
+      "ticketId": 1002,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 348.3999999910593,
+      "deliveredAt": 380.09999999403954,
+      "isTrusted": true,
+      "ticketId": 1002,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 682.8999999910593,
+      "dialogOpenAt": 604.2999999970198,
+      "title": "Child 1002: remaining work"
+    },
+    "hostKeyToObservedResult": 391.1229589999998
+  },
+  {
+    "fixture": "kanban-10000",
+    "variant": "mask",
+    "round": 0,
+    "warmup": true,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 291,
+      "ticketId": 1002,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 342.79999999701977,
+      "deliveredAt": 373.59999999403954,
+      "isTrusted": true,
+      "ticketId": 1002,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 590,
+      "dialogOpenAt": 535.3999999910593,
+      "title": "Child 1002: remaining work"
+    },
+    "hostKeyToObservedResult": 294.7027310000003
+  },
+  {
+    "fixture": "kanban-10000",
+    "variant": "mask",
+    "round": 1,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 240.90000000596046,
+      "ticketId": 1002,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 284.5,
+      "deliveredAt": 311.90000000596046,
+      "isTrusted": true,
+      "ticketId": 1002,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 516.4000000059605,
+      "dialogOpenAt": 465.20000000298023,
+      "title": "Child 1002: remaining work"
+    },
+    "hostKeyToObservedResult": 274.8413279999995
+  },
+  {
+    "fixture": "kanban-10000",
+    "variant": "baseline",
+    "round": 1,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 244,
+      "ticketId": 1002,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 296.70000000298023,
+      "deliveredAt": 328.40000000596046,
+      "isTrusted": true,
+      "ticketId": 1002,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 555,
+      "dialogOpenAt": 497.59999999403954,
+      "title": "Child 1002: remaining work"
+    },
+    "hostKeyToObservedResult": 315.87635600000067
+  },
+  {
+    "fixture": "kanban-10000",
+    "variant": "baseline",
+    "round": 2,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 227.79999999701977,
+      "ticketId": 1002,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 278.6000000089407,
+      "deliveredAt": 312.1000000089407,
+      "isTrusted": true,
+      "ticketId": 1002,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 542.1000000089407,
+      "dialogOpenAt": 483.40000000596046,
+      "title": "Child 1002: remaining work"
+    },
+    "hostKeyToObservedResult": 318.69032700000025
+  },
+  {
+    "fixture": "kanban-10000",
+    "variant": "mask",
+    "round": 2,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 234.79999999701977,
+      "ticketId": 1002,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 280.59999999403954,
+      "deliveredAt": 309.29999999701977,
+      "isTrusted": true,
+      "ticketId": 1002,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 512.2999999970198,
+      "dialogOpenAt": 461.5,
+      "title": "Child 1002: remaining work"
+    },
+    "hostKeyToObservedResult": 276.1160980000004
+  },
+  {
+    "fixture": "kanban-high-active",
+    "variant": "baseline",
+    "round": 0,
+    "warmup": true,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 231.5,
+      "ticketId": 1,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 284.3999999910593,
+      "deliveredAt": 322.29999999701977,
+      "isTrusted": true,
+      "ticketId": 1,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 589.3999999910593,
+      "dialogOpenAt": 522.2999999970198,
+      "title": "Verify retry and delivery history 1"
+    },
+    "hostKeyToObservedResult": 372.5972149999998
+  },
+  {
+    "fixture": "kanban-high-active",
+    "variant": "mask",
+    "round": 0,
+    "warmup": true,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 251.5,
+      "ticketId": 1,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 296.09999999403954,
+      "deliveredAt": 330.29999999701977,
+      "isTrusted": true,
+      "ticketId": 1,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 552.5999999940395,
+      "dialogOpenAt": 499.70000000298023,
+      "title": "Verify retry and delivery history 1"
+    },
+    "hostKeyToObservedResult": 307.2265729999999
+  },
+  {
+    "fixture": "kanban-high-active",
+    "variant": "mask",
+    "round": 1,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 245.5,
+      "ticketId": 1,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 293.6000000089407,
+      "deliveredAt": 331.20000000298023,
+      "isTrusted": true,
+      "ticketId": 1,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 516,
+      "dialogOpenAt": 460.6000000089407,
+      "title": "Verify retry and delivery history 1"
+    },
+    "hostKeyToObservedResult": 269.00964600000043
+  },
+  {
+    "fixture": "kanban-high-active",
+    "variant": "baseline",
+    "round": 1,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 231.70000000298023,
+      "ticketId": 1,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 279.20000000298023,
+      "deliveredAt": 317.5,
+      "isTrusted": true,
+      "ticketId": 1,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 566.6000000089407,
+      "dialogOpenAt": 501.70000000298023,
+      "title": "Verify retry and delivery history 1"
+    },
+    "hostKeyToObservedResult": 356.1368419999999
+  },
+  {
+    "fixture": "kanban-high-active",
+    "variant": "baseline",
+    "round": 2,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 235.3999999910593,
+      "ticketId": 1,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 283.20000000298023,
+      "deliveredAt": 320,
+      "isTrusted": true,
+      "ticketId": 1,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 572.2000000029802,
+      "dialogOpenAt": 508.20000000298023,
+      "title": "Verify retry and delivery history 1"
+    },
+    "hostKeyToObservedResult": 355.5643220000002
+  },
+  {
+    "fixture": "kanban-high-active",
+    "variant": "mask",
+    "round": 2,
+    "warmup": false,
+    "label": "mask-screen",
+    "minimumCards": 1,
+    "first": {
+      "at": 243.70000000298023,
+      "ticketId": 1,
+      "renderedCards": 120
+    },
+    "key": {
+      "at": 288.6000000089407,
+      "deliveredAt": 321.70000000298023,
+      "isTrusted": true,
+      "ticketId": 1,
+      "renderedCards": 360
+    },
+    "result": {
+      "at": 533.2999999970198,
+      "dialogOpenAt": 478.6000000089407,
+      "title": "Verify retry and delivery history 1"
+    },
+    "hostKeyToObservedResult": 294.35608800000045
+  }
+]
