@@ -121,7 +121,15 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await anchor();
     await page.setViewportSize({ width: 1440, height: 1000 });
     await expect(title(page, 1201)).toBeInViewport();
-    await expect.poll(() => viewport(page).evaluate(root => root.scrollHeight - root.clientHeight - root.scrollTop)).toBeLessThanOrEqual(2);
+    const bottomGap = () => viewport(page).evaluate(root => root.scrollHeight - root.clientHeight - root.scrollTop);
+    await expect.poll(bottomGap).toBeLessThanOrEqual(2);
+
+    await viewport(page).hover();
+    await page.mouse.wheel(0, -280);
+    await page.setViewportSize({ width: 1120, height: 900 });
+    await expect.poll(bottomGap).toBeGreaterThan(100);
+    await anchor();
+    expect(await bottomGap()).toBeGreaterThan(100);
   } finally { await close(); }
 });
 

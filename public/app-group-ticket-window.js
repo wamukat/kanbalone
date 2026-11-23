@@ -73,6 +73,7 @@ export function createGroupTicketWindow(root, section, initial) {
   let frame = 0;
   /** @type {number | null} */ let preparedId = null;
   let lastWidth = canvas.clientWidth;
+  let lastHeight = root.clientHeight;
   let lastTop = root.scrollTop;
   /** @type {Anchor | null} */
   let lastAnchor = null;
@@ -80,6 +81,8 @@ export function createGroupTicketWindow(root, section, initial) {
   observer.observe(root);
   observer.observe(canvas);
   root.addEventListener("scroll", schedule, { passive: true });
+  const scrollInputEvents = ["wheel", "touchmove", "pointerdown", "keydown"];
+  for (const event of scrollInputEvents) root.addEventListener(event, onScrollInput, { passive: true });
   document.addEventListener("keydown", prepareTab, true);
   document.addEventListener("focusin", clearPreparedRow);
 
@@ -257,6 +260,18 @@ export function createGroupTicketWindow(root, section, initial) {
     schedule();
   }
 
+  function forgetBottomAnchor() {
+    if (lastAnchor?.bottom) lastAnchor = null;
+  }
+
+  /** @param {Event} event */
+  function onScrollInput(event) {
+    if (event instanceof KeyboardEvent &&
+        !["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " ", "Tab"].includes(event.key)) return;
+    if (event.type === "pointerdown" && event.target !== root) return;
+    forgetBottomAnchor();
+  }
+
   /** @param {number} id @param {number} [inset] */
   function reveal(id, inset = 0) {
     const index = indices.get(id);
@@ -265,6 +280,7 @@ export function createGroupTicketWindow(root, section, initial) {
     let entry = mounted.get(id);
     const box = entry?.node.getBoundingClientRect();
     if (!box || box.top < clip || box.bottom > viewportTop(root) + root.clientHeight) {
+      forgetBottomAnchor();
       root.scrollTop = canvasTop() + offsets[index] - inset;
       paint();
       entry = mounted.get(id);
@@ -333,9 +349,14 @@ export function createGroupTicketWindow(root, section, initial) {
     preparedId = null;
     if (!canvas.isConnected || !root.clientHeight) return;
     const width = canvas.clientWidth;
+    const height = root.clientHeight;
     const widthChanged = lastWidth !== width;
-    const anchor = widthChanged && Math.abs(root.scrollTop - lastTop) <= 1 ? lastAnchor : capture();
+    // The viewport height can settle a frame after its width and move the native scroll position.
+    const keepBottom = lastHeight !== height && lastAnchor?.bottom;
+    const keepAnchor = widthChanged && Math.abs(root.scrollTop - lastTop) <= 1;
+    const anchor = (keepBottom || keepAnchor) && lastAnchor ? lastAnchor : capture();
     lastWidth = width;
+    lastHeight = height;
     let updated = widthChanged;
     if (widthChanged) measured.clear();
     for (const [id, { node }] of mounted) {
@@ -344,11 +365,9 @@ export function createGroupTicketWindow(root, section, initial) {
       measured.set(id, height);
       updated = true;
     }
-    if (updated) {
-      writeOffsets();
-      restore(anchor);
-    }
-    paint();
+    if (updated) writeOffsets();
+    if (updated || keepBottom) restore(anchor);
+    else paint();
     lastTop = root.scrollTop;
     lastAnchor = capture();
   }
@@ -388,6 +407,7 @@ export function createGroupTicketWindow(root, section, initial) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       root.removeEventListener("scroll", schedule);
+      for (const event of scrollInputEvents) root.removeEventListener(event, onScrollInput);
       document.removeEventListener("keydown", prepareTab, true);
       document.removeEventListener("focusin", clearPreparedRow);
       root.classList.remove("has-group-ticket-window");
