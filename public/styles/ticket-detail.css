@@ -12,6 +12,10 @@
   flex-wrap: wrap;
 }
 
+.ticket-lane-meta {
+  color: var(--text);
+}
+
 .ticket-inline-title-button,
 .ticket-inline-title-static,
 .ticket-detail-badge-button {

@@ -1,13 +1,16 @@
 import { expect, test } from "@playwright/test";
 import { createBoard, createCompletionLane, createTicket, startTestApp, updateTicket } from "./helpers.js";
 
-test("detail identifies its lane without entering edit mode", async ({ page }) => {
+test("dark ticket details identify the lane with the theme text color", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
   const { baseUrl, close } = await startTestApp(page);
   try {
     const board = await createBoard(page.request, baseUrl, { name: "Lane clarity", laneNames: ["Acceptance <review>"] });
     const ticket = await createTicket(page.request, baseUrl, board.board.id, { laneId: board.lanes[0].id, title: "Review this" });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator(".ticket-lane-meta")).toHaveText("Lane: Acceptance <review>");
+    const textColor = await page.locator("body").evaluate((body) => getComputedStyle(body).color);
+    await expect(page.locator(".ticket-lane-meta > span:last-child")).toHaveCSS("color", textColor);
     await expect(page.locator(".ticket-lane-meta button, .ticket-lane-meta select")).toHaveCount(0);
   } finally { await close(); }
 });

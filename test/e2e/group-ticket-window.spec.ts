@@ -121,7 +121,39 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await anchor();
     await page.setViewportSize({ width: 1440, height: 1000 });
     await expect(title(page, 1201)).toBeInViewport();
-    await expect.poll(() => viewport(page).evaluate(root => root.scrollHeight - root.clientHeight - root.scrollTop)).toBeLessThanOrEqual(2);
+    const bottomGap = () => viewport(page).evaluate(root => root.scrollHeight - root.clientHeight - root.scrollTop);
+    await expect.poll(bottomGap).toBeLessThanOrEqual(2);
+
+    await viewport(page).hover();
+    await page.mouse.wheel(0, -280);
+    await page.setViewportSize({ width: 1120, height: 900 });
+    await expect.poll(bottomGap).toBeGreaterThan(100);
+    await anchor();
+    expect(await bottomGap()).toBeGreaterThan(100);
+
+    await scrollToStart(page);
+    const farScroll = await viewport(page).evaluate(async root => {
+      const canvas = root.querySelector(".group-ticket-window")!;
+      const visible = () => {
+        const clip = root.getBoundingClientRect();
+        return [...canvas.children].filter(row => {
+          const box = row.getBoundingClientRect();
+          return box.bottom > clip.top && box.top < clip.bottom;
+        }).length;
+      };
+      const width = canvas.clientWidth;
+      root.style.inlineSize = `${root.clientWidth - 120}px`;
+      const newWidth = canvas.clientWidth;
+      root.scrollTop = (root.scrollHeight - root.clientHeight) / 2;
+      const beforePaint = visible();
+      // Queue the normal scroll handler before sampling this frame's mounted rows.
+      root.dispatchEvent(new Event("scroll"));
+      const afterPaint = await new Promise<number>(resolve => requestAnimationFrame(() => resolve(visible())));
+      return { width, newWidth, beforePaint, afterPaint };
+    });
+    expect(farScroll.newWidth).toBeLessThan(farScroll.width);
+    expect(farScroll.beforePaint).toBe(0);
+    expect(farScroll.afterPaint).toBeGreaterThan(0);
   } finally { await close(); }
 });
 
@@ -145,15 +177,24 @@ test("Group window receives SSE, restores current focus after deletion and after
     await expect(title(page, 601)).toBeInViewport();
 
     await page.getByRole("button", { name: "Clear ticket search" }).click();
-    await remove(page, 1).click();
+    const removeFamily = remove(page, 1);
+    await removeFamily.focus();
+    await page.keyboard.press("Enter");
     await expect(page.locator("#ux-dialog")).toBeVisible();
     await page.route(`**/api/boards/${boardId}/group-memberships`, route =>
       route.fulfill({ status: 500, contentType: "application/json", body: JSON.stringify({ error: "Save failed" }) }));
-    await page.locator("#ux-submit-button").click();
+    await page.locator("#ux-submit-button").press("Enter");
     await expect(page.locator(".group-error")).toContainText("Save failed");
-    await expect(remove(page, 1)).toBeFocused();
-    const saved = await (await page.request.get(`${baseUrl}/api/tickets/2`)).json();
+    await expect(removeFamily).toBeFocused();
+    const ticketUrl = `${baseUrl}/api/tickets/2`;
+    const saved = await (await page.request.get(ticketUrl)).json();
     expect(saved.groupId).toBe(1);
+    expect(saved.parentTicketId).toBe(1);
+    await page.reload();
+    await expect(title(page, 2)).toBeVisible();
+    const reloaded = await (await page.request.get(ticketUrl)).json();
+    expect(reloaded.groupId).toBe(saved.groupId);
+    expect(reloaded.parentTicketId).toBe(saved.parentTicketId);
   } finally { await close(); }
 });
 
@@ -165,15 +206,23 @@ test("Group opts into row windows at one thousand displayed rows and restores th
     await expect(page.locator(".group-ticket-window")).toHaveCount(0);
     await expect(page.getByRole("searchbox", { name: "Find tickets in this view" })).toHaveCount(0);
     const show = page.getByRole("button", { name: "Show archived tickets (1)" });
-    await show.click();
+    await expect(show).toHaveAttribute("aria-expanded", "false");
+    await show.focus();
+    await page.keyboard.press("Enter");
     await expect(page.locator(".group-ticket-window")).toHaveCount(1);
     await expect(title(page, 1000)).toBeInViewport();
     await assertSmallWindow(page);
     const hide = page.getByRole("button", { name: "Hide archived tickets (1)" });
-    await hide.click();
+    await expect(hide).toHaveAttribute("aria-expanded", "true");
+    await expect(hide).toBeFocused();
+    await page.keyboard.press("Enter");
     await expect(page.locator(".group-ticket-window")).toHaveCount(0);
     await expect(page.locator(".group-ticket-row")).toHaveCount(999);
+    await expect(show).toHaveAttribute("aria-expanded", "false");
     await expect(show).toBeFocused();
+    const archived = await (await page.request.get(`${baseUrl}/api/tickets/1000`)).json();
+    expect(archived.isArchived).toBe(true);
+    expect(archived.groupId).toBe(1);
   } finally { await close(); }
 });
 
