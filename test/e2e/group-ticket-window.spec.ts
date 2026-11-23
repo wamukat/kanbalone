@@ -228,6 +228,30 @@ for (const language of ["en", "ja"] as const) {
   });
 }
 
+test("Group highlights only the current search result in forced colors", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    await page.emulateMedia({ forcedColors: "active" });
+    await openGroup(page, baseUrl);
+    const input = page.getByRole("searchbox", { name: "Find tickets in this view" });
+    const marker = page.locator("[data-group-search-match]");
+    const markedRow = marker.locator(".group-ticket-row");
+    await input.fill("Release 2026");
+    await input.press("Enter");
+    await expect(marker).toHaveAttribute("data-group-window-id", "10");
+    await expect(markedRow).toHaveCSS("outline-style", "solid");
+    await expect(markedRow).toHaveCSS("outline-width", "2px");
+    await expect(markedRow).toHaveCSS("outline-offset", "-2px");
+    await input.press("ArrowDown");
+    await expect(marker).toHaveAttribute("data-group-window-id", "600");
+    await expect(markedRow).toHaveCSS("outline-style", "solid");
+    await expect(page.locator('[data-group-window-id="601"] .group-ticket-row')).toHaveCSS("outline-style", "none");
+    await input.press("Escape");
+    await expect(marker).toHaveCount(0);
+    await expect(page.locator('[data-group-window-id="10"] .group-ticket-row')).toHaveCSS("outline-style", "none");
+  } finally { await close(); }
+});
+
 test("Japanese search preserves IME input and caret when an SSE update rebuilds the Group header", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
