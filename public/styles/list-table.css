@@ -26,7 +26,7 @@
 }
 
 .list-row.resolved {
-  background: color-mix(in srgb, var(--text-muted) 4%, transparent);
+  background: var(--resolved-row-bg);
 }
 
 .list-header > :first-child {
