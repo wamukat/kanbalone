@@ -410,7 +410,7 @@ export function createKanbanBoardModule(ctx, options) {
   function rememberNativeTab(event) {
     pendingNativeTab = null;
     if (event.key !== "Tab" || !event.isTrusted || event.defaultPrevented || event.isComposing
-        || event.altKey || event.ctrlKey || event.metaKey || state.viewMode !== "kanban"
+        || event.ctrlKey || event.metaKey || state.viewMode !== "kanban"
         || elements.editorDialog.open || elements.uxDialog.open) return;
     if (event.target instanceof Element) prepareVirtualTab(event.target, event.shiftKey ? -1 : 1);
     if (!state.boardKeyboardRenderPending) return;
@@ -769,9 +769,7 @@ export function createKanbanBoardModule(ctx, options) {
       showDropPosition(list, event.clientY);
       requestDragScroll(list, event.clientY);
     }
-    list.addEventListener("dragenter", (event) => {
-      if (cardDrag) markTicketDragTarget(event);
-    });
+    list.addEventListener("dragenter", markTicketDragTarget);
     list.addEventListener("dragover", markTicketDragTarget);
 
     list.addEventListener("drop", async (event) => {

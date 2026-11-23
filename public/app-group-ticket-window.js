@@ -224,7 +224,7 @@ export function createGroupTicketWindow(root, section, initial) {
 
   /** @param {KeyboardEvent} event */
   function prepareTab(event) {
-    if (!event.isTrusted || event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey || event.isComposing
+    if (!event.isTrusted || event.key !== "Tab" || event.ctrlKey || event.metaKey || event.isComposing
       || event.defaultPrevented || !root.clientHeight || document.querySelector("dialog[open]")) return;
     const active = document.activeElement;
     if (!(active instanceof HTMLElement)) return;

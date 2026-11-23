@@ -47,8 +47,10 @@ async function assertSmallWindow(page: Page) {
   expect(await page.locator(".group-ticket-window-row").count()).toBeLessThan(80);
 }
 
-test("large Group preserves parent-child geometry and native keyboard order across virtual windows", async ({ page }) => {
+test("large Group preserves parent-child geometry and native keyboard order across virtual windows", async ({ page, browserName }) => {
   const { baseUrl, close } = await startTestApp(page);
+  const tab = browserName === "webkit" ? "Alt+Tab" : "Tab";
+  const shiftTab = browserName === "webkit" ? "Alt+Shift+Tab" : "Shift+Tab";
   try {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await openGroup(page, baseUrl);
@@ -59,32 +61,32 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await expect(title(page, 1201)).toHaveCount(0);
 
     await page.getByRole("button", { name: "Find tickets", exact: true }).focus();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     await expect(remove(page, 1)).toBeFocused();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     await expect(title(page, 2)).toBeFocused();
     await scrollToEnd(page);
     await expect(title(page, 2)).toBeFocused();
     await assertSmallWindow(page);
     await expect(title(page, 3)).toHaveCount(0);
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     await expect(title(page, 3)).toBeFocused();
     await expect(title(page, 3)).toBeInViewport();
 
     await scrollToEnd(page);
     await title(page, 1201).focus();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press(tab);
     const footer = page.getByRole("button", { name: "Show archived tickets (1)" });
     await expect(footer).toBeFocused();
     await viewport(page).evaluate(root => { root.scrollTop = 0; });
     await expect(title(page, 1201)).toHaveCount(0);
-    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press(shiftTab);
     await expect(title(page, 1201)).toBeFocused();
     await expect(title(page, 1201)).toBeInViewport();
     await scrollToStart(page);
     await expect(title(page, 1201)).toBeFocused();
     await expect(title(page, 1200)).toHaveCount(0);
-    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press(shiftTab);
     await expect(title(page, 1200)).toBeFocused();
     await expect(title(page, 1200)).toBeInViewport();
     await assertSmallWindow(page);
@@ -225,6 +227,30 @@ for (const language of ["en", "ja"] as const) {
     } finally { await close(); }
   });
 }
+
+test("Group highlights only the current search result in forced colors", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    await page.emulateMedia({ forcedColors: "active" });
+    await openGroup(page, baseUrl);
+    const input = page.getByRole("searchbox", { name: "Find tickets in this view" });
+    const marker = page.locator("[data-group-search-match]");
+    const markedRow = marker.locator(".group-ticket-row");
+    await input.fill("Release 2026");
+    await input.press("Enter");
+    await expect(marker).toHaveAttribute("data-group-window-id", "10");
+    await expect(markedRow).toHaveCSS("outline-style", "solid");
+    await expect(markedRow).toHaveCSS("outline-width", "2px");
+    await expect(markedRow).toHaveCSS("outline-offset", "-2px");
+    await input.press("ArrowDown");
+    await expect(marker).toHaveAttribute("data-group-window-id", "600");
+    await expect(markedRow).toHaveCSS("outline-style", "solid");
+    await expect(page.locator('[data-group-window-id="601"] .group-ticket-row')).toHaveCSS("outline-style", "none");
+    await input.press("Escape");
+    await expect(marker).toHaveCount(0);
+    await expect(page.locator('[data-group-window-id="10"] .group-ticket-row')).toHaveCSS("outline-style", "none");
+  } finally { await close(); }
+});
 
 test("Japanese search preserves IME input and caret when an SSE update rebuilds the Group header", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);

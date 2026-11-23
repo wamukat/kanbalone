@@ -601,3 +601,10 @@
 .group-ticket-window-row[data-group-search-match] .group-ticket-row {
   background: var(--accent-soft);
 }
+
+@media (forced-colors: active) {
+  .group-ticket-window-row[data-group-search-match] .group-ticket-row {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
