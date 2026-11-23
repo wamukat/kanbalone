@@ -769,9 +769,7 @@ export function createKanbanBoardModule(ctx, options) {
       showDropPosition(list, event.clientY);
       requestDragScroll(list, event.clientY);
     }
-    list.addEventListener("dragenter", (event) => {
-      if (cardDrag) markTicketDragTarget(event);
-    });
+    list.addEventListener("dragenter", markTicketDragTarget);
     list.addEventListener("dragover", markTicketDragTarget);
 
     list.addEventListener("drop", async (event) => {
