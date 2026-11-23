@@ -1,6 +1,12 @@
 import { expect, test, type Locator } from "@playwright/test";
 import { createBoard, createTicket, startTestApp } from "./helpers.js";
 
+function holdResponse() {
+  let release!: () => void;
+  const promise = new Promise<void>(resolve => { release = resolve; });
+  return { promise, release };
+}
+
 async function pressGuardedSave(input: Locator) {
   await input.dispatchEvent("compositionstart");
   await input.press("Control+Enter");
@@ -12,7 +18,7 @@ async function pressGuardedSave(input: Locator) {
 
 test("the full ticket editor saves once via the shortcut and persists the title and body", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
-  const responseGate = Promise.withResolvers<void>();
+  const responseGate = holdResponse();
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Ticket shortcuts", laneNames: ["In progress"] });
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Original", bodyMarkdown: "Before" });
@@ -43,21 +49,21 @@ test("the full ticket editor saves once via the shortcut and persists the title 
     await body.press("Control+Enter");
     await expect.poll(() => saves).toBe(1);
     await body.press("Meta+Enter");
-    responseGate.resolve();
+    responseGate.release();
     await expect(page.locator("#editor-header-title")).toHaveText("Changed title");
     expect(saves).toBe(1);
     expect(await (await page.request.get(url)).json()).toMatchObject({ title: "Changed title", bodyMarkdown: "Changed **body**" });
     await page.reload();
     await expect(page.locator("#ticket-view-body")).toContainText("Changed body");
   } finally {
-    responseGate.resolve();
+    responseGate.release();
     await close();
   }
 });
 
 test("the comment composer ignores empty and guarded submissions and posts once via the shortcut", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
-  const responseGate = Promise.withResolvers<void>();
+  const responseGate = holdResponse();
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Comment shortcuts", laneNames: ["Todo"] });
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Discussion" });
@@ -90,7 +96,7 @@ test("the comment composer ignores empty and guarded submissions and posts once 
     await expect.poll(() => posts).toBe(1);
     await input.press("Control+Enter");
     await expect(input).toHaveJSProperty("readOnly", true);
-    responseGate.resolve();
+    responseGate.release();
     await expect(page.locator("#ticket-comments")).toContainText("Posted with the keyboard");
     expect(posts).toBe(1);
     const { comments } = await (await page.request.get(url)).json();
@@ -99,7 +105,7 @@ test("the comment composer ignores empty and guarded submissions and posts once 
     await page.reload();
     await expect(page.locator("#ticket-comments")).toContainText("Posted with the keyboard");
   } finally {
-    responseGate.resolve();
+    responseGate.release();
     await close();
   }
 });
