@@ -96,7 +96,7 @@ test("ticket creation and full edit persist PNGs at the original selection", asy
     await page.locator("#header-edit-button").click();
     await transfer(input, "drop", [{ name: "full-edit.png" }], 0);
     await expect(input).toHaveValue(/^!\[full-edit.png\]/);
-    await page.locator("#save-ticket-button").click();
+    await input.press("Meta+Enter");
     await expect(body.locator("img")).toHaveCount(2);
     const stored = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
     expect(stored.bodyMarkdown).toBe(`![full-edit.png](${src})${createdMarkdown}`);
@@ -161,7 +161,7 @@ test("comment composer and inline editor keep uploads with the correct draft", a
     await composer.fill("A Z");
     await transfer(composer, "paste", [{ name: "comment.png" }], 2);
     await upload.received;
-    await page.locator("#save-comment-button").click();
+    await composer.press("Control+Enter");
     await expect(page.locator("#toast")).toHaveText("Please wait until the image upload finishes");
     await page.locator("#comment-compose-toggle").click();
     await expect(composer).toBeHidden();

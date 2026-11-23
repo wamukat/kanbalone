@@ -121,7 +121,6 @@ function bindEvents() {
   elements.editorForm.addEventListener("submit", saveTicket);
   elements.commentForm.addEventListener("submit", addComment);
   elements.commentComposeToggle.addEventListener("click", toggleCommentComposer);
-  elements.saveCommentButton.addEventListener("click", addComment);
   elements.remoteImportCreateButton.addEventListener("click", openRemoteImportSheet);
   elements.editorRemoteProviderSwitch.addEventListener("click", handleRemoteImportProviderClick);
   elements.editorRemoteImportCloseButton.addEventListener("click", closeRemoteImportSheet);

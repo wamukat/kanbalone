@@ -64,7 +64,7 @@ Click a ticket to read its body, related tickets, and comments. Open the **Activ
 
 ## 6. Edit A Ticket
 
-Click the pencil icon at the top right of ticket details. Change the body, lane, priority, tags, parent-child relationships, or blockers, then click **Save**.
+Click the pencil icon at the top right of ticket details. Change the body, lane, priority, tags, parent-child relationships, or blockers. Click **Save** or press **Ctrl+Enter** (**⌘+Enter** on Mac).
 
 If you have unsaved changes, confirm before closing. Choose **Cancel** to keep editing or **Discard changes** to discard them.
 
@@ -74,7 +74,7 @@ Choose **Lane** in the editor to move within the same board. Use **Move** to sen
 
 ## 7. Use Comments And Activity
 
-Add comments in ticket details to record progress and notes. The **Activity** tab shows changes to tickets and comments.
+Add comments in ticket details to record progress and notes. While composing a new comment, press **Ctrl+Enter** (**⌘+Enter** on Mac) to post it. The **Activity** tab shows changes to tickets and comments.
 
 ![Comments and history](../assets/user-guide/06-ticket-activity.png)
 
@@ -156,7 +156,9 @@ Large Kanban lanes and Group views render cards and rows around the visible area
 
 ### Find And Open Tickets With The Keyboard
 
-Press **↓** in the search field to select a displayed ticket.
+Press **/** to focus search in Kanban or List. In Group and No Group it focuses the ticket search when that field is available. You can use the shortcut while working on the board outside a text field or a dialog.
+
+In Kanban or List, press **↓** in the search field to select a displayed ticket.
 
 - **List**: use ↑↓ to move between tickets.
 - **Kanban**: use ↑↓ within a lane and ←→ between lanes. Lanes with no matching tickets are skipped.

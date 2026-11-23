@@ -208,6 +208,8 @@ test("Group opts into row windows at one thousand displayed rows and restores th
     const show = page.getByRole("button", { name: "Show archived tickets (1)" });
     await expect(show).toHaveAttribute("aria-expanded", "false");
     await show.focus();
+    await page.keyboard.press("/");
+    await expect(show).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(page.locator(".group-ticket-window")).toHaveCount(1);
     await expect(title(page, 1000)).toBeInViewport();
@@ -242,6 +244,10 @@ for (const language of ["en", "ja"] as const) {
       const focusedResult = page.locator("[data-group-search-match]");
       await expect(title(page, 1201)).toHaveCount(0);
 
+      await title(page, 2).focus();
+      await page.keyboard.press("/");
+      await expect(input).toBeFocused();
+      await expect(input).toHaveValue("");
       await input.fill("2026");
       await expect(page.locator(".group-window-search-status")).toHaveText(language === "ja" ? "3件一致" : "3 matching tickets");
       await input.press("Enter");
@@ -285,6 +291,9 @@ test("Group highlights only the current search result in forced colors", async (
     const input = page.getByRole("searchbox", { name: "Find tickets in this view" });
     const marker = page.locator("[data-group-search-match]");
     const markedRow = marker.locator(".group-ticket-row");
+    await title(page, 2).focus();
+    await page.keyboard.press("/");
+    await expect(input).toBeFocused();
     await input.fill("Release 2026");
     await input.press("Enter");
     await expect(marker).toHaveAttribute("data-group-window-id", "10");

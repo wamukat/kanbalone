@@ -66,6 +66,7 @@ export default {
   "The remote issue or repository could not be found with the current token.": "現在のトークンでは、リモートのIssueまたはリポジトリが見つかりません。",
   "Hide Comment Form": "コメント入力を閉じる",
   "Add Comment": "コメントを追加",
+  "Add Comment (Ctrl/Cmd+Enter)": "コメントを追加（Ctrl/Cmd＋Enter）",
   "Comment is required": "コメントを入力してください",
   "Comment saved": "コメントを保存しました",
   "Save failed": "保存に失敗しました",

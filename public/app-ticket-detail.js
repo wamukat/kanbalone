@@ -232,7 +232,7 @@ export function createTicketDetailModule(ctx) {
         <span class="muted">${t("Ctrl+Enter / Cmd+Enter to save")}</span>
         <div class="editor-actions-right">
           <button type="button" class="ghost" data-detail-cancel="body">${t("Cancel")}</button>
-          <button type="button" class="primary-action" data-detail-save-body>${t("Save")}</button>
+          <button type="button" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter" data-detail-save-body>${t("Save")}</button>
         </div>
       </div>
     `;
@@ -383,18 +383,18 @@ export function createTicketDetailModule(ctx) {
       syncEditorHeader(state.dialogTicket);
       return;
     }
-    if (target.matches("[data-detail-title-input]") && event.key === "Enter") {
+    if (target.matches("[data-detail-title-input]") && event.key === "Enter" && !ctx.isComposing(event)) {
       event.preventDefault();
+      if (event.repeat) return;
       const title = target.value.trim();
       if (title) {
         updateInlineTicket({ title }).catch((error) => ctx.showToast(error.message, "error"));
       }
       return;
     }
-    if (target.matches("[data-detail-body-input]") && event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+    if (target.matches("[data-detail-body-input]") && ctx.isSaveShortcut(event)) {
       event.preventDefault();
-      if (!ctx.imageAttachments.canSave(target)) return;
-      updateInlineTicket({ bodyMarkdown: target.value }).catch((error) => ctx.showToast(error.message, "error"));
+      if (!event.repeat && !state.editorSaving) elements.ticketViewBody.querySelector("[data-detail-save-body]")?.click();
     }
   }
 
