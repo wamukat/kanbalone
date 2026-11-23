@@ -95,8 +95,12 @@ test("Groups create, describe, search whole parent/child sets and remove with co
     await expect(page.locator(".group-ticket-context")).toContainText("Archived parent");
     await expect(page.locator(`[data-group-ticket="${child.id}"]`)).toBeVisible();
     await expect(page.locator("[data-group-remove]")).toHaveCount(1);
+    await page.emulateMedia({ colorScheme: "dark" });
     await page.locator("[data-group-remove]").click();
     await expect(page.locator("#ux-fields")).toContainText("Archived parent");
+    const textColor = await page.locator("body").evaluate((body) => getComputedStyle(body).color);
+    await expect(page.locator("#ux-title")).toHaveCSS("color", textColor);
+    await expect(page.locator("#ux-fields .group-impact-list li").first()).toHaveCSS("color", textColor);
     await page.locator("#ux-cancel-button").click();
     await expect(page.locator(".group-ticket-family")).toHaveCount(1);
     await page.locator("[data-group-remove]").click();
