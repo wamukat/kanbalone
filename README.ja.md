@@ -50,7 +50,7 @@ v0.11.0から、同じ目的のチケットをGroupにまとめられます。[�
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v1.2.0
+  ghcr.io/wamukat/kanbalone:v1.3.0
 ```
 
 ブラウザで開きます。
@@ -131,10 +131,10 @@ Docker image だけを使う場合は、GitHub release tag から skill を取�
 
 ```bash
 tmpdir=$(mktemp -d)
-curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v1.2.0.tar.gz \
-  | tar -xz -C "$tmpdir" kanbalone-1.2.0/skills/kanbalone-api
+curl -L https://github.com/wamukat/kanbalone/archive/refs/tags/v1.3.0.tar.gz \
+  | tar -xz -C "$tmpdir" kanbalone-1.3.0/skills/kanbalone-api
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R "$tmpdir"/kanbalone-1.2.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R "$tmpdir"/kanbalone-1.3.0/skills/kanbalone-api "${CODEX_HOME:-$HOME/.codex}/skills/"
 rm -rf "$tmpdir"
 ```
 
