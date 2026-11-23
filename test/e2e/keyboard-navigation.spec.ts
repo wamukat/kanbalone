@@ -364,3 +364,72 @@ test("Kanban keeps an ArrowRight target visible when a lane finishes rebuilding 
     await expect(page.locator("#ticket-title")).toHaveValue(stored.title);
   } finally { await close(); }
 });
+
+test("native Tab keeps its Kanban card visible after a partial lane finishes rebuilding", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    await page.setViewportSize({ width: 1280, height: 760 });
+    const count = 160;
+    const response = await page.request.post(`${baseUrl}/api/boards/import`, { data: {
+      formatVersion: 2,
+      board: { name: "Native Tab during refresh" },
+      lanes: [{ id: 1, name: "Todo", position: 0, isCompletionLane: false }],
+      groups: [],
+      tags: [],
+      tickets: Array.from({ length: count }, (_, index) => ({
+        id: index + 1, laneId: 1, position: index, title: `Card ${index + 1}`, bodyMarkdown: "",
+        priority: 2, isResolved: false, isArchived: false, parentTicketId: null, groupId: null,
+        tags: [], comments: [], blockerIds: [],
+      })),
+    } });
+    expect(response.status(), await response.text()).toBe(201);
+    const { board } = await response.json();
+    await goToBoard(page, `${baseUrl}/boards/${board.id}`);
+    const list = page.locator("#lane-board .ticket-list");
+    await expect(list.locator(".ticket-card")).toHaveCount(count);
+    await list.evaluate((lane) => { lane.scrollTop = lane.scrollHeight; });
+
+    const updatedTitle = "Card changed on another client";
+    const frameGate = await page.evaluateHandle((title) => {
+      const browserFrame = window.requestAnimationFrame.bind(window);
+      const postponed: FrameRequestCallback[] = [];
+      let paused = false;
+      const gate = {
+        ready: false,
+        resume() {
+          paused = false;
+          window.requestAnimationFrame = browserFrame;
+          for (const callback of postponed) browserFrame(callback);
+        },
+      };
+      window.requestAnimationFrame = (callback) => browserFrame((now) => {
+        if (paused) postponed.push(callback);
+        else callback(now);
+      });
+      const boardElement = document.querySelector("#lane-board")!;
+      const observer = new MutationObserver(() => {
+        if (boardElement.querySelector(".ticket-link")?.textContent?.trim() !== title) return;
+        observer.disconnect();
+        // Hold the remaining frames while Playwright sends a native key into the partial lane.
+        paused = true;
+        boardElement.querySelector<HTMLElement>(".action-menu-toggle")!.focus({ preventScroll: true });
+        gate.ready = true;
+      });
+      observer.observe(boardElement, { childList: true, subtree: true });
+      return gate;
+    }, updatedTitle);
+    await updateTicket(page.request, baseUrl, 1, { title: updatedTitle });
+    await page.waitForFunction((gate) => gate.ready, frameGate, { polling: 10 });
+    expect(await list.locator(".ticket-card").count()).toBeLessThan(count);
+    await page.keyboard.press("Tab");
+    await expect(card(page, 1)).toBeFocused();
+    await frameGate.evaluate((gate) => gate.resume());
+
+    await expect(list.locator(".ticket-card")).toHaveCount(count);
+    await expect(card(page, 1)).toBeFocused();
+    await expect(card(page, 1)).toBeInViewport();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await expect(page.locator("#ticket-title")).toHaveValue(updatedTitle);
+  } finally { await close(); }
+});

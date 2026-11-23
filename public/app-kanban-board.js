@@ -24,7 +24,8 @@ export function createKanbanBoardModule(ctx, options) {
   let completedLaneSnapshot = null;
   let laneSnapshotEpoch = 0;
   let laneWriteCount = 0;
-  const replacedLaneScrollQueues = new WeakMap();
+  const laneScrollQueues = new WeakMap();
+  let pendingNativeTab = null;
 
   function invalidateLaneSnapshot() {
     completedLaneSnapshot = null;
@@ -148,6 +149,7 @@ export function createKanbanBoardModule(ctx, options) {
         list,
         restoreScrollPending: restoreScrollTop > 0,
         restoreScrollTop,
+        replacesReadyLane: Boolean(reuse),
         tickets: visibleTickets,
         index: 0,
         afterRender: lane.isCompletionLane && (page?.total ?? laneTickets.length) > COMPLETION_PREVIEW_COUNT
@@ -158,7 +160,6 @@ export function createKanbanBoardModule(ctx, options) {
         afterRenderDone: false,
       };
       trackLaneScroll(list, queue);
-      if (reuse) replacedLaneScrollQueues.set(list, queue);
 
       if (reuse) reuse.current.get(lane.id).replaceWith(laneElement);
       else elements.laneBoard.append(laneElement);
@@ -275,11 +276,37 @@ export function createKanbanBoardModule(ctx, options) {
   }
 
   function stopKeyboardScrollRestore(list) {
-    const queue = replacedLaneScrollQueues.get(list);
-    if (queue) queue.restoreScrollPending = false;
+    const queue = laneScrollQueues.get(list);
+    if (queue?.replacesReadyLane) queue.restoreScrollPending = false;
+  }
+
+  function rememberNativeTab(event) {
+    pendingNativeTab = null;
+    if (event.key !== "Tab" || !event.isTrusted || event.defaultPrevented || event.isComposing
+        || event.altKey || event.ctrlKey || event.metaKey || state.viewMode !== "kanban"
+        || !state.boardKeyboardRenderPending || elements.editorDialog.open || elements.uxDialog.open) return;
+
+    pendingNativeTab = event;
+    window.setTimeout(() => {
+      if (pendingNativeTab === event) pendingNativeTab = null;
+    }, 0);
+  }
+
+  function stopScrollRestoreAfterNativeTab(event) {
+    const keydown = pendingNativeTab;
+    pendingNativeTab = null;
+    // A native Tab moves focus after keydown propagation. An app focus change during keydown can precede it.
+    if (!keydown || keydown.defaultPrevented || keydown.eventPhase !== Event.NONE || !event.isTrusted
+        || event.relatedTarget !== keydown.target || !(event.target instanceof Element)) return;
+
+    const list = event.target.closest(".ticket-list");
+    if (!list?.isConnected || !elements.laneBoard.contains(list)) return;
+    const queue = laneScrollQueues.get(list);
+    if (queue?.restoreScrollPending) queue.restoreScrollPending = false;
   }
 
   function trackLaneScroll(list, queue) {
+    laneScrollQueues.set(list, queue);
     list.addEventListener("scroll", () => {
       laneScrollTopById.set(queue.laneId, list.scrollTop);
     });
@@ -779,6 +806,9 @@ export function createKanbanBoardModule(ctx, options) {
       },
     });
   }
+
+  document.addEventListener("keydown", rememberNativeTab);
+  document.addEventListener("focusin", stopScrollRestoreAfterNativeTab);
 
   return {
     renderKanbanBoard,
