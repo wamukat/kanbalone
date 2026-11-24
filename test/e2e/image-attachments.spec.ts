@@ -158,6 +158,7 @@ test("comment composer and inline editor keep uploads with the correct draft", a
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     const composer = page.locator("#comment-body");
     await page.locator("#comment-compose-toggle").click();
+    const composerPadding = await composer.evaluate(element => getComputedStyle(element).padding);
     await composer.fill("A Z");
     await transfer(composer, "paste", [{ name: "comment.png" }], 2);
     await upload.received;
@@ -201,6 +202,7 @@ test("comment composer and inline editor keep uploads with the correct draft", a
     const delayed = await delayUpload(page);
     try {
       await edit();
+      await expect(inline).toHaveCSS("padding", composerPadding);
       const original = await inline.inputValue();
       await transfer(inline, "paste", [{ name: "cancelled.png" }], 0);
       await delayed.received;

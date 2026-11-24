@@ -1,0 +1,69 @@
+{
+  "candidate": "1908808480ce5c9134b80af6f921d64eea48c15a188c96190528de8a93b9934b",
+  "verifiedAtUtc": "2026-11-24T14:02:02.735106+00:00",
+  "locale": "ja",
+  "theme": "dark",
+  "viewport": [
+    1440,
+    900,
+    1
+  ],
+  "sort": {
+    "initial": "content_activity_desc",
+    "initialOrder": [
+      2,
+      1,
+      3,
+      7,
+      6
+    ],
+    "temporaryOrder": [
+      2,
+      3,
+      1,
+      7,
+      6
+    ],
+    "temporaryFocusRetained": true,
+    "temporaryAPIPreserved": true,
+    "revertedOrder": [
+      2,
+      1,
+      3,
+      7,
+      6
+    ],
+    "settingsCancelAPIPreserved": true,
+    "persisted": "priority_desc",
+    "versions": [
+      4,
+      5
+    ],
+    "otherSettingsPreserved": true,
+    "reloadedOrder": [
+      2,
+      3,
+      1,
+      7,
+      6
+    ]
+  },
+  "comments": {
+    "cancelAPIPreserved": true,
+    "reopenedOriginalDraft": true,
+    "editFocusRestored": true,
+    "pasteMethod": "Browser ClipboardEvent containing a synthetic PNG",
+    "imageSHA256": "54a6c370dbdae5e44ffc68f2687f064052d7322371ae08ed955067375c755f7b",
+    "imageSize": [
+      1,
+      1
+    ],
+    "attachmentBytesMatch": true,
+    "editableCommentIdPreserved": true,
+    "editedBody": "Spacing QA: same editor, saved image below.\n\n![spacing-check.png](/api/attachments/54a6c370dbdae5e44ffc68f2687f064052d7322371ae08ed955067375c755f7b)",
+    "editAndImageReloaded": true,
+    "composerPost": "Spacing QA: a separate composer submission.",
+    "composerPostReloaded": true
+  },
+  "pageErrors": []
+}
