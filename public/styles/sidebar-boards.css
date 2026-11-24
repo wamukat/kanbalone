@@ -43,7 +43,7 @@
 }
 
 .board-add-button.is-empty-target::after {
-  content: "Create board here";
+  content: attr(aria-label);
   position: absolute;
   top: calc(100% + 1.2rem);
   left: 0;
