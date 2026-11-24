@@ -1,0 +1,35 @@
+{
+  "capturedAtDateJst": "2026-11-24",
+  "beforeSource": "Archived screenshot of the pre-entry catalog; exact uncommitted viewer build unavailable",
+  "afterSource": "Current rendered catalog with the current component contracts link",
+  "theme": "light",
+  "language": "ja",
+  "viewport": [
+    1440,
+    900
+  ],
+  "afterDestination": {
+    "heading": "共通UI部品の利用契約",
+    "path": "/current-contracts.html",
+    "viewport": [
+      1440,
+      900,
+      1
+    ]
+  },
+  "files": [
+    {
+      "file": "after-contract.png",
+      "sha256": "1a08babbaf277aa72c4328d4c9378de475ae6c60c05efcc905770fd33ae159bc"
+    },
+    {
+      "file": "after-index.png",
+      "sha256": "3fd92fe59893afbae193adc544fdfdea0d2ecc38ce7bf8e4a4646ad148eccc75"
+    },
+    {
+      "file": "before-index.png",
+      "sha256": "2877c230a4bb8900779a037d7a80a59684f862f20b23c9e1f6bb23f9da56529b"
+    }
+  ],
+  "afterRevision": "0ee89c5163ba26abef48fbb5d235f6a07d4b5e83"
+}

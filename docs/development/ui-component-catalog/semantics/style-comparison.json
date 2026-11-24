@@ -1,0 +1,4488 @@
+{
+  "sourceRevision": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "groups": [
+    {
+      "id": "sidebar-visibility",
+      "label": "ナビゲーションの表示切替",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "閉じる操作はサイドバー端、再表示はツールバー内に置く。閉じ状態の再表示にはキーボードフォーカスがあるため、枠や寸法を位置ごとの仕様として読む。",
+      "candidate": "既存のアイコンボタン下地を使い、端の円形とツールバーの角丸を維持する。",
+      "sourceRefs": [
+        {
+          "file": "public/app-board-settings.js",
+          "line": 165
+        },
+        {
+          "file": "public/styles/app-shell.css",
+          "line": 36
+        }
+      ],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "box",
+          "label": "開閉位置による寸法",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "shell.sidebar-close",
+              "frameId": "ja-dark-kanban-board",
+              "elementIndex": 102,
+              "styleIndex": 76,
+              "domKey": "#sidebar-toggle-button",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "flex",
+                "width": "23.7969px",
+                "height": "23.7969px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "1px",
+                "border-radius": "999px"
+              }
+            },
+            {
+              "elementId": "shell.sidebar-reopen",
+              "frameId": "ja-dark-shell-collapsed",
+              "elementIndex": 105,
+              "styleIndex": 79,
+              "domKey": "#sidebar-reopen-button",
+              "state": "collapsed",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "display": "flex",
+                "width": "32px",
+                "height": "32px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "1px",
+                "border-radius": "6px"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width",
+            "height",
+            "border-radius"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "destination-nav",
+      "label": "ボード・ビューの移動先",
+      "assessment": "cross-screen-review",
+      "disposition": "share-candidate",
+      "reason": "同じサイドバーの未選択項目で、文字の太さ・行高・余白が異なる。並べ替え対象のボードとリンクのビューには異なる操作上の責務がある。",
+      "candidate": "行のタイポグラフィと余白の共通下地を検討し、リンク、並べ替え、現在位置の識別を維持する。",
+      "sourceRefs": [
+        {
+          "file": "public/styles/sidebar-boards.css",
+          "line": 81
+        },
+        {
+          "file": "public/styles/custom-views.css",
+          "line": 4
+        }
+      ],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "サイドバーの未選択の移動先",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "shell.board-button",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 5,
+              "styleIndex": 5,
+              "domKey": "#board-list > button:nth-of-type(2)",
+              "state": "archive-visible",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "38.375px",
+                "padding-top": "9.1px",
+                "padding-left": "12.6px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "shell.custom-link",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 95,
+              "styleIndex": 70,
+              "domKey": "#custom-view-links > a:nth-of-type(1)",
+              "state": "archive-visible",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "39.0781px",
+                "padding-top": "8.4px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-weight",
+            "line-height",
+            "height",
+            "padding-top",
+            "padding-left"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "board-select-filter",
+      "label": "ボード条件の単一選択",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "同じListに置いたレーンとタグの選択は同じ高さ・余白・枠。幅は各条件の選択肢と最小幅に従う。",
+      "candidate": "既存のツールバーselectを維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "通常状態のListの絞り込み",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "list.lane-filter",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 113,
+              "styleIndex": 87,
+              "domKey": "#lane-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "34.2969px",
+                "padding-top": "0px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            },
+            {
+              "elementId": "list.tag-filter",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 121,
+              "styleIndex": 95,
+              "domKey": "#tag-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "34.2969px",
+                "padding-top": "0px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "board-facet",
+      "label": "優先度・完了状態の絞り込み",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "KanbanとListで既存の優先度フィルターを共有する。完了状態にも同じ枠が適用され、文字量と展開・要約が幅を決める。",
+      "candidate": "既存のフィルター枠を維持し、各条件の選択モデルを保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "panel",
+          "label": "優先度フィルターの閉じた枠",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.priority-filter",
+              "frameId": "ja-dark-kanban-board",
+              "elementIndex": 113,
+              "styleIndex": 87,
+              "domKey": "#priority-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "168.141px",
+                "height": "34.8906px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "3.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            },
+            {
+              "elementId": "list.priority-filter",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 114,
+              "styleIndex": 88,
+              "domKey": "#priority-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "168.141px",
+                "height": "34.8906px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "3.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": []
+        },
+        {
+          "mode": "variant",
+          "profile": "panel",
+          "label": "閉じた優先度と完了状態の枠",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.priority-filter",
+              "frameId": "ja-dark-kanban-board",
+              "elementIndex": 113,
+              "styleIndex": 87,
+              "domKey": "#priority-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "168.141px",
+                "height": "34.8906px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "3.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            },
+            {
+              "elementId": "kanban.status-filter",
+              "frameId": "ja-dark-kanban-board",
+              "elementIndex": 121,
+              "styleIndex": 95,
+              "domKey": "#status-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "238.875px",
+                "height": "34.8906px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "3.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "lane-inactive-disclosure",
+      "label": "レーンで折り畳んだチケットの表示",
+      "assessment": "internal-review",
+      "disposition": "preserve-variants",
+      "reason": "完了の残り件数は簡潔な折り畳み行、非アクティブの要約は説明と複数の内訳を含む領域。枠・余白・高さは内容に対応している。",
+      "candidate": "切り替えの位置と説明を維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "panel",
+          "label": "同一フレームの折り畳み要約",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.completion-summary",
+              "frameId": "ja-dark-kanban-completion-and-inactive-collapsed",
+              "elementIndex": 281,
+              "styleIndex": 154,
+              "domKey": "#lane-board > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1)",
+              "state": "completion-and-inactive-collapsed",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "275px",
+                "height": "35.7812px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "8px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "kanban.inactive-summary",
+              "frameId": "ja-dark-kanban-completion-and-inactive-collapsed",
+              "elementIndex": 190,
+              "styleIndex": 130,
+              "domKey": "#lane-board > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1)",
+              "state": "completion-and-inactive-collapsed",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "275px",
+                "height": "102.484px",
+                "padding-top": "12px",
+                "padding-left": "12px",
+                "row-gap": "8px",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(167, 179, 173)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.7)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height",
+            "padding-top",
+            "padding-left",
+            "border-top-width",
+            "border-radius",
+            "color",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-collection",
+      "label": "チケット一覧の表示領域",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "同じ表示幅でも列、行、Group内スクロール、ボード別の結果枠は配置と高さが異なる。",
+      "candidate": "スクロールと仮想表示は画面固有の境界を維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "panel",
+          "label": "主表示領域の配置",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.board",
+              "frameId": "ja-light-kanban-board",
+              "elementIndex": 134,
+              "styleIndex": 105,
+              "domKey": "#lane-board",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "flex",
+                "width": "1128px",
+                "height": "780.625px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "12px",
+                "border-top-width": "0px",
+                "border-radius": "8px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "list.board",
+              "frameId": "ja-light-list-board",
+              "elementIndex": 135,
+              "styleIndex": 106,
+              "domKey": "#list-board",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "1128px",
+                "height": "780.625px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "0px",
+                "border-top-width": "1px",
+                "border-radius": "0px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(255, 255, 255)"
+              }
+            },
+            {
+              "elementId": "group.board",
+              "frameId": "ja-light-group-selected",
+              "elementIndex": 110,
+              "styleIndex": 83,
+              "domKey": "#group-board",
+              "state": "selected",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "1128px",
+                "height": "780.625px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "24px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "custom-view.panel",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 29,
+              "styleIndex": 23,
+              "domKey": "#custom-view-panel",
+              "state": "saved",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "1128px",
+                "height": "868px",
+                "padding-top": "0px",
+                "padding-left": "8px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "display",
+            "height",
+            "padding-left",
+            "row-gap",
+            "border-top-width",
+            "border-radius",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-item",
+      "label": "一覧のチケット項目",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "カード・List行・Group行・ボード内結果は、操作、列、階層、抜粋の違いから余白・枠・配置が異なる。高さは内容量にも依存する。",
+      "candidate": "共有検討を個別のチケット識別・状態・参照部品に限定する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "panel",
+          "label": "同じ画面幅のカードと行の配置",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.card",
+              "frameId": "ja-light-kanban-board",
+              "elementIndex": 145,
+              "styleIndex": 114,
+              "domKey": "#lane-board > section:nth-of-type(1) > div:nth-of-type(2) > article:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "275px",
+                "height": "90.1875px",
+                "padding-top": "12px",
+                "padding-left": "12px",
+                "row-gap": "normal",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(255, 255, 255)"
+              }
+            },
+            {
+              "elementId": "list.row",
+              "frameId": "ja-light-list-board",
+              "elementIndex": 162,
+              "styleIndex": 127,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "1104px",
+                "height": "64px",
+                "padding-top": "7px",
+                "padding-left": "9.8px",
+                "row-gap": "7.7px",
+                "border-top-width": "1px",
+                "border-radius": "0px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "group.row",
+              "frameId": "ja-light-group-selected",
+              "elementIndex": 171,
+              "styleIndex": 133,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1)",
+              "state": "selected",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "829px",
+                "height": "72.2188px",
+                "padding-top": "8px",
+                "padding-left": "0px",
+                "row-gap": "4px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "custom-view.ticket",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 50,
+              "styleIndex": 43,
+              "domKey": "#custom-view-panel > section:nth-of-type(1) > article:nth-of-type(1)",
+              "state": "saved",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "1081px",
+                "height": "342.469px",
+                "padding-top": "16px",
+                "padding-left": "16px",
+                "row-gap": "normal",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(255, 255, 255)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "display",
+            "width",
+            "height",
+            "padding-top",
+            "padding-left",
+            "row-gap",
+            "border-top-width",
+            "border-radius",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-order",
+      "label": "チケットの並べ順指定",
+      "assessment": "cross-screen-review",
+      "disposition": "share-candidate",
+      "reason": "カスタムビュー一覧と設定の同じ意味のselectは高さと余白が揃う一方、文字の太さに差がある。Listの列見出しは列順指定の操作であり、対応する基礎形状が異なる。",
+      "candidate": "既存のselect共通ルールを使い、設定側だけ文字を強調する要否を確認する。",
+      "sourceRefs": [
+        {
+          "file": "public/styles/custom-views.css",
+          "line": 56
+        }
+      ],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "ボード内並び順のselect",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "custom-view.sort",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 39,
+              "styleIndex": 33,
+              "domKey": "#custom-view-panel > div:nth-of-type(1) > div:nth-of-type(1) > label:nth-of-type(1) > select:nth-of-type(1)",
+              "state": "saved",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "35px",
+                "padding-top": "7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            },
+            {
+              "elementId": "custom-view-settings.sort",
+              "frameId": "ja-light-custom-view-settings-edit",
+              "elementIndex": 96,
+              "styleIndex": 66,
+              "domKey": "#custom-view-form > label:nth-of-type(3) > select:nth-of-type(1)",
+              "state": "edit",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "normal",
+                "height": "35px",
+                "padding-top": "7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-weight"
+          ]
+        },
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "列の並べ替えとビューのselect",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "list.sort-id",
+              "frameId": "ja-light-list-board",
+              "elementIndex": 141,
+              "styleIndex": 112,
+              "domKey": "#list-board > div:nth-of-type(2) > button:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "line-height": "17.4px",
+                "height": "17.3906px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "border-radius": "6px",
+                "color": "rgb(102, 115, 109)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "custom-view.sort",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 39,
+              "styleIndex": 33,
+              "domKey": "#custom-view-panel > div:nth-of-type(1) > div:nth-of-type(1) > label:nth-of-type(1) > select:nth-of-type(1)",
+              "state": "saved",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "35px",
+                "padding-top": "7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-size",
+            "font-weight",
+            "line-height",
+            "height",
+            "padding-top",
+            "padding-left",
+            "border-top-width",
+            "color",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "ticket-selection",
+      "label": "操作対象チケットの選択",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "未選択の全件と行チェックは見た目の外枠とアクセントが共通。文字の継承は各コンテナのラベルに従う。",
+      "candidate": "共通選択スタイルを維持し、混合選択と親子の対象範囲を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "checkbox",
+          "label": "未チェックの全件・単一行",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "list.check-all",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 140,
+              "styleIndex": 111,
+              "domKey": "#list-select-all",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "appearance": "auto",
+                "width": "14px",
+                "height": "14px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "accent-color": "auto"
+              }
+            },
+            {
+              "elementId": "list.row-select",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 163,
+              "styleIndex": 128,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "appearance": "auto",
+                "width": "14px",
+                "height": "14px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "accent-color": "auto"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "bulk-ticket-actions",
+      "label": "選択したチケットへの一括操作",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "選択なしと選択ありで枠の高さ・余白は同じ。文字色と表示するボタン群が切り替わる。",
+      "candidate": "共通の操作領域を維持し、個々の移動・アーカイブ・削除の意味を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "panel",
+          "label": "選択なしと選択ありの上側操作枠",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "list.actions-empty",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 136,
+              "styleIndex": 107,
+              "domKey": "#list-board > div:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "display": "flex",
+                "width": "1115px",
+                "height": "37.7969px",
+                "padding-top": "4.9px",
+                "padding-left": "9.8px",
+                "row-gap": "7px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(167, 179, 173)",
+                "background-color": "color(srgb 0.654902 0.701961 0.678431 / 0.04)"
+              }
+            },
+            {
+              "elementId": "list.actions",
+              "frameId": "ja-dark-list-bulk-selection",
+              "elementIndex": 136,
+              "styleIndex": 107,
+              "domKey": "#list-board > div:nth-of-type(1)",
+              "state": "bulk-selection",
+              "interaction": [],
+              "values": {
+                "display": "flex",
+                "width": "1115px",
+                "height": "37.7969px",
+                "padding-top": "4.9px",
+                "padding-left": "9.8px",
+                "row-gap": "7px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.654902 0.701961 0.678431 / 0.04)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-identity",
+      "label": "チケット識別と詳細への入口",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "4画面の詳細リンクは同じ重みの文字を使う。タイトルの行高や幅の使い方はカード、行、抜粋付き記事で異なる。",
+      "candidate": "識別番号・タイトルの強調とフォーカスを比較対象に残し、読み取り専用の親文脈を操作に変えない。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "text",
+          "label": "通常の詳細への入口",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.card-title",
+              "frameId": "ja-light-kanban-board",
+              "elementIndex": 154,
+              "styleIndex": 123,
+              "domKey": "#lane-board > section:nth-of-type(1) > div:nth-of-type(2) > article:nth-of-type(1) > div:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "20.3px",
+                "height": "20.2969px",
+                "display": "flow-root",
+                "color": "rgb(21, 32, 28)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "list.title-link",
+              "frameId": "ja-light-list-board",
+              "elementIndex": 168,
+              "styleIndex": 133,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "18.2px",
+                "height": "18.1875px",
+                "display": "flex",
+                "color": "rgb(21, 32, 28)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "group.ticket",
+              "frameId": "ja-light-group-selected",
+              "elementIndex": 175,
+              "styleIndex": 137,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "selected",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "18.2px",
+                "height": "32px",
+                "display": "flex",
+                "color": "rgb(21, 32, 28)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "custom-view.ticket-link",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 52,
+              "styleIndex": 45,
+              "domKey": "#custom-view-panel > section:nth-of-type(1) > article:nth-of-type(1) > h4:nth-of-type(1) > a:nth-of-type(1)",
+              "state": "saved",
+              "interaction": [],
+              "values": {
+                "font-size": "15px",
+                "font-weight": "600",
+                "line-height": "19.5px",
+                "height": "19.5px",
+                "display": "flex",
+                "color": "rgb(21, 32, 28)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-size",
+            "line-height",
+            "height",
+            "display"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-status",
+      "label": "チケット状態の表示",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "完了アイコンの外枠はKanban、List、Groupで揃う。完了とアーカイブは別軸であり、今回採取していない詳細の状態バッジは同じと判断しない。",
+      "candidate": "既存の状態アイコンを使い、状態別アイコンと復元操作を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "icon",
+          "label": "表示中の完了アイコン",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.card-resolved-icon",
+              "frameId": "ja-dark-kanban-completion-and-inactive-collapsed",
+              "elementIndex": 222,
+              "styleIndex": 147,
+              "domKey": "#lane-board > section:nth-of-type(2) > div:nth-of-type(2) > article:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1)",
+              "state": "completion-and-inactive-collapsed",
+              "interaction": [],
+              "values": {
+                "width": "17.5px",
+                "height": "17.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.0932549)",
+                "color": "rgb(84, 184, 159)"
+              }
+            },
+            {
+              "elementId": "list.resolved-icon",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 230,
+              "styleIndex": 167,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(6) > span:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "width": "17.5px",
+                "height": "17.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.0932549)",
+                "color": "rgb(84, 184, 159)"
+              }
+            },
+            {
+              "elementId": "group.resolved-icon",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 196,
+              "styleIndex": 157,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1)",
+              "state": "archive-visible",
+              "interaction": [],
+              "values": {
+                "width": "17.5px",
+                "height": "17.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.0932549)",
+                "color": "rgb(84, 184, 159)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "ticket-lane-value",
+      "label": "所属レーンの表示",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "所属レーンはListと詳細の主要欄で14px、Groupとカスタムビューの付随情報では12px。色・幅も配置に従う。",
+      "candidate": "主要値と付随情報の文字階層を維持し、レーン選択操作と読取表示の境界を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "text",
+          "label": "所属レーンを表示する欄",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "list.lane-cell",
+              "frameId": "ja-light-list-selector-check-board",
+              "elementIndex": 185,
+              "styleIndex": 149,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(5)",
+              "state": "selector-check-board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "20.2969px",
+                "display": "block",
+                "color": "rgb(102, 115, 109)",
+                "white-space": "nowrap"
+              }
+            },
+            {
+              "elementId": "group.lane-meta",
+              "frameId": "ja-light-group-selected",
+              "elementIndex": 179,
+              "styleIndex": 141,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+              "state": "selected",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "400",
+                "line-height": "17.4px",
+                "height": "17.3906px",
+                "display": "block",
+                "color": "rgb(102, 115, 109)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "custom-view.ticket-lane",
+              "frameId": "ja-light-custom-view-selector-check-saved",
+              "elementIndex": 61,
+              "styleIndex": 54,
+              "domKey": "#custom-view-panel > section:nth-of-type(1) > article:nth-of-type(1) > dl:nth-of-type(1) > div:nth-of-type(1) > dd:nth-of-type(1)",
+              "state": "selector-check-saved",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "400",
+                "line-height": "17.4px",
+                "height": "17.3906px",
+                "display": "flex",
+                "color": "rgb(21, 32, 28)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "ticket-detail.lane-value",
+              "frameId": "ja-light-ticket-detail-body",
+              "elementIndex": 362,
+              "styleIndex": 208,
+              "domKey": "#ticket-view-meta > div:nth-of-type(1) > span:nth-of-type(2)",
+              "state": "body",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "20.2969px",
+                "display": "block",
+                "color": "rgb(21, 32, 28)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-size",
+            "line-height",
+            "height",
+            "display",
+            "color",
+            "white-space"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-relations-value",
+      "label": "チケット関係の読取表示",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "Kanbanの警告件数、Listの参照操作、詳細の参照リンクは異なる情報を示す。文字サイズやインライン配置の差を確認した。",
+      "candidate": "方向・警告・参照先の情報と操作を維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "text",
+          "label": "関係の件数表示と参照リンク",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.card-blockers",
+              "frameId": "ja-light-kanban-board",
+              "elementIndex": 195,
+              "styleIndex": 143,
+              "domKey": "#lane-board > section:nth-of-type(2) > div:nth-of-type(2) > article:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(3)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "11px",
+                "font-weight": "400",
+                "line-height": "11px",
+                "height": "16px",
+                "display": "flex",
+                "color": "rgb(196, 61, 61)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "list.blocker-link",
+              "frameId": "ja-light-list-board",
+              "elementIndex": 243,
+              "styleIndex": 178,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > button:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "20.2969px",
+                "display": "inline-block",
+                "color": "rgb(31, 111, 95)",
+                "white-space": "nowrap"
+              }
+            },
+            {
+              "elementId": "ticket-detail.relation-blocker",
+              "frameId": "ja-light-ticket-detail-body",
+              "elementIndex": 404,
+              "styleIndex": 236,
+              "domKey": "#ticket-relations > div:nth-of-type(2) > span:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "body",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "line-height": "17.4px",
+                "height": "22.3906px",
+                "display": "inline-flex",
+                "color": "rgb(196, 61, 61)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-size",
+            "font-weight",
+            "line-height",
+            "height",
+            "display",
+            "color",
+            "white-space"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-inline-editor",
+      "label": "チケット詳細のインライン編集",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "タイトル編集を開く同じボタンは、本文編集中も同じ形状で表示される。タイトル文字列、優先度select、本文欄は編集方式が異なる。",
+      "candidate": "タイトルの既存描画を維持し、入力種別と保存・取消経路を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "詳細と本文編集中のタイトル編集ボタン",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-detail.title-button",
+              "frameId": "ja-dark-ticket-detail-body",
+              "elementIndex": 352,
+              "styleIndex": 200,
+              "domKey": "#editor-header-title > button:nth-of-type(1)",
+              "state": "body",
+              "interaction": [],
+              "values": {
+                "font-size": "15px",
+                "font-weight": "600",
+                "line-height": "18.75px",
+                "height": "24.0938px",
+                "padding-top": "1.68px",
+                "padding-left": "3.92px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "ticket-inline.title-button",
+              "frameId": "ja-dark-ticket-inline-body",
+              "elementIndex": 352,
+              "styleIndex": 200,
+              "domKey": "#editor-header-title > button:nth-of-type(1)",
+              "state": "body",
+              "interaction": [],
+              "values": {
+                "font-size": "15px",
+                "font-weight": "600",
+                "line-height": "18.75px",
+                "height": "24.0938px",
+                "padding-top": "1.68px",
+                "padding-left": "3.92px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "ticket-actions",
+      "label": "既存チケットの操作",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "編集フッターの削除・アーカイブ・移動で寸法の基礎が揃う。色と強調は操作結果に対応する。詳細で復元が出る状態は実測対象外。",
+      "candidate": "共通のボタン下地と警告色を維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "編集フッターのアーカイブ・移動・削除",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-edit.archive",
+              "frameId": "ja-light-ticket-edit-form",
+              "elementIndex": 415,
+              "styleIndex": 245,
+              "domKey": "#archive-ticket-button",
+              "state": "form",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "38.375px",
+                "padding-top": "9.1px",
+                "padding-left": "12.6px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(102, 115, 109)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "ticket-edit.move",
+              "frameId": "ja-light-ticket-edit-form",
+              "elementIndex": 419,
+              "styleIndex": 249,
+              "domKey": "#move-ticket-button",
+              "state": "form",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "38.375px",
+                "padding-top": "9.1px",
+                "padding-left": "12.6px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "ticket-edit.delete",
+              "frameId": "ja-light-ticket-edit-form",
+              "elementIndex": 411,
+              "styleIndex": 244,
+              "domKey": "#delete-ticket-button",
+              "state": "form",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "38.375px",
+                "padding-top": "9.1px",
+                "padding-left": "12.6px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(196, 61, 61)",
+                "background-color": "rgb(251, 252, 251)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "color",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-tag-picker",
+      "label": "チケットにタグを付ける選択",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "新規と編集で閉じたタグ欄の計測値が揃う。展開では候補領域が加わり高さが増す。",
+      "candidate": "既存タグピッカーを使い、選択済み値と候補・検索・解除の状態を維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "panel",
+          "label": "候補を閉じたタグ欄",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-new.tag-field",
+              "frameId": "ja-light-ticket-new-blank",
+              "elementIndex": 360,
+              "styleIndex": 205,
+              "domKey": "#editor-form > div:nth-of-type(6) > div:nth-of-type(2)",
+              "state": "blank",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "692px",
+                "height": "43.7188px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "ticket-edit.tag-field",
+              "frameId": "ja-light-ticket-edit-form",
+              "elementIndex": 361,
+              "styleIndex": 208,
+              "domKey": "#editor-form > div:nth-of-type(6) > div:nth-of-type(2)",
+              "state": "form",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "692px",
+                "height": "43.7188px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": []
+        },
+        {
+          "mode": "variant",
+          "profile": "panel",
+          "label": "タグ欄と候補展開中",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-edit.tag-field",
+              "frameId": "ja-light-ticket-edit-form",
+              "elementIndex": 361,
+              "styleIndex": 208,
+              "domKey": "#editor-form > div:nth-of-type(6) > div:nth-of-type(2)",
+              "state": "form",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "692px",
+                "height": "43.7188px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "picker-tags.tag-field",
+              "frameId": "ja-light-picker-tags-options",
+              "elementIndex": 361,
+              "styleIndex": 208,
+              "domKey": "#editor-form > div:nth-of-type(6) > div:nth-of-type(2)",
+              "state": "options",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "692px",
+                "height": "89.7812px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "group-navigation",
+      "label": "Groupの選択",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "同じ未選択状態で、Groupと未所属の文字・枠・内余白は共通。高さは名前や件数などを含む枠全体で比較した。",
+      "candidate": "既存Group選択ボタンを維持し、未所属の表示と件数を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "未選択の通常Groupと未所属",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "group.choice",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 139,
+              "styleIndex": 108,
+              "domKey": "#group-board > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > button:nth-of-type(2)",
+              "state": "archive-visible",
+              "interaction": [
+                "aria-current=false"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "63.7812px",
+                "padding-top": "8px",
+                "padding-left": "12px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "group.choice-ungrouped",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 145,
+              "styleIndex": 113,
+              "domKey": "#group-board > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > button:nth-of-type(3)",
+              "state": "archive-visible",
+              "interaction": [
+                "aria-current=false"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "55.7812px",
+                "padding-top": "8px",
+                "padding-left": "12px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "group-order",
+      "label": "Group一覧の順序",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "作成日と名前ボタンの基礎寸法が揃い、選択された作成日だけアクセント背景になる。",
+      "candidate": "並べ替えの選択色と方向表示を維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "選択中の作成日と未選択の名前",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "group.sort-created",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 120,
+              "styleIndex": 93,
+              "domKey": "#group-sort-groups-createdAt",
+              "state": "archive-visible",
+              "interaction": [
+                "aria-pressed=true"
+              ],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "500",
+                "line-height": "17.4px",
+                "height": "32px",
+                "padding-top": "0px",
+                "padding-left": "8px",
+                "border-top-width": "0px",
+                "border-radius": "6px",
+                "color": "rgb(84, 184, 159)",
+                "background-color": "rgba(84, 184, 159, 0.16)"
+              }
+            },
+            {
+              "elementId": "group.sort-name",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 126,
+              "styleIndex": 98,
+              "domKey": "#group-sort-groups-name",
+              "state": "archive-visible",
+              "interaction": [
+                "aria-pressed=false"
+              ],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "500",
+                "line-height": "17.4px",
+                "height": "32px",
+                "padding-top": "0px",
+                "padding-left": "8px",
+                "border-top-width": "0px",
+                "border-radius": "6px",
+                "color": "rgb(167, 179, 173)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "color",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "group-description",
+      "label": "Groupの説明",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "同じMarkdown試料の説明本文と編集プレビューでリンクのフォント・色・行高が揃う。フォーム、開閉、入力は各状態の責務。",
+      "candidate": "Groupの説明とプレビューの共有表現を維持し、他のMarkdown文脈とのリンク差は横断比較で扱う。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "text",
+          "label": "同じMarkdown試料の外部リンク",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "group.description-markdown-link",
+              "frameId": "ja-light-group-markdown-specimen-description",
+              "elementIndex": 152,
+              "styleIndex": 117,
+              "domKey": "#group-description-body > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-description",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(31, 111, 95)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "settings-group.preview-markdown-link",
+              "frameId": "ja-light-settings-group-markdown-specimen-preview",
+              "elementIndex": 155,
+              "styleIndex": 120,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(1) > form:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-preview",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(31, 111, 95)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "group-members",
+      "label": "Group所属の変更",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "同じGroup所属解除のボタンは通常表示と所属選択時で同寸法。選択フォーム内の無効な追加操作とは区別する。",
+      "candidate": "既存の所属解除ボタンを維持し、生命周期をチケット削除から分ける。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "icon",
+          "label": "所属を解除する通常ボタン",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "group.remove",
+              "frameId": "ja-dark-group-archive-visible",
+              "elementIndex": 181,
+              "styleIndex": 143,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "archive-visible",
+              "interaction": [],
+              "values": {
+                "width": "32px",
+                "height": "32px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "background-color": "rgba(0, 0, 0, 0)",
+                "color": "rgb(167, 179, 173)"
+              }
+            },
+            {
+              "elementId": "settings-group.remove",
+              "frameId": "ja-dark-settings-group-add-disabled",
+              "elementIndex": 188,
+              "styleIndex": 150,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "add-disabled",
+              "interaction": [],
+              "values": {
+                "width": "32px",
+                "height": "32px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "background-color": "rgba(0, 0, 0, 0)",
+                "color": "rgb(167, 179, 173)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "group-name-editor",
+      "label": "Groupの名前の入力",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "フォーカス中の名前入力で高さ、文字、内余白、枠が一致する。幅はサイドバー内の作成欄と本文側の改名欄の違い。",
+      "candidate": "既存の名前入力ルールを維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "フォーカス中の作成・改名入力",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-group.create-input",
+              "frameId": "ja-dark-settings-group-create",
+              "elementIndex": 149,
+              "styleIndex": 116,
+              "domKey": "#group-board > div:nth-of-type(1) > div:nth-of-type(1) > form:nth-of-type(1) > label:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "create",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "38.2969px",
+                "padding-top": "8px",
+                "padding-left": "12px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            },
+            {
+              "elementId": "settings-group.rename-input",
+              "frameId": "ja-dark-settings-group-rename",
+              "elementIndex": 154,
+              "styleIndex": 121,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(1) > form:nth-of-type(1) > label:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "rename",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "38.2969px",
+                "padding-top": "8px",
+                "padding-left": "12px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "custom-view-definition",
+      "label": "カスタムビュー定義フォーム",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "同じ基礎フォームで、作成と編集の件数・条件内容に応じてフォーム高が変わる。",
+      "candidate": "保存・取消・削除の利用条件を保ち、既存フォームを維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "panel",
+          "label": "新規作成と保存済み定義の編集",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "custom-view-settings.form",
+              "frameId": "ja-light-custom-view-settings-create",
+              "elementIndex": 32,
+              "styleIndex": 25,
+              "domKey": "#custom-view-form",
+              "state": "create",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "812px",
+                "height": "1103.72px",
+                "padding-top": "16px",
+                "padding-left": "16px",
+                "row-gap": "16px",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(255, 255, 255)"
+              }
+            },
+            {
+              "elementId": "custom-view-settings.form",
+              "frameId": "ja-light-custom-view-settings-edit",
+              "elementIndex": 32,
+              "styleIndex": 26,
+              "domKey": "#custom-view-form",
+              "state": "edit",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "812px",
+                "height": "926.016px",
+                "padding-top": "16px",
+                "padding-left": "16px",
+                "row-gap": "16px",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(255, 255, 255)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "custom-view-board-rule",
+      "label": "ボードごとの条件定義",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "同じボードの有効なタグ条件とレーン条件で、selectの高さ・枠・文字が揃う。ラベルと選択肢の文字量により必要幅は別。",
+      "candidate": "同じ条件行の基礎を維持し、タグ・レーンの論理と有効化条件を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "同一ボードの有効なタグ・レーン条件",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "custom-view-settings.rule-tag-mode",
+              "frameId": "ja-dark-custom-view-settings-edit",
+              "elementIndex": 61,
+              "styleIndex": 51,
+              "domKey": "#custom-view-form > fieldset:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > label:nth-of-type(1) > select:nth-of-type(1)",
+              "state": "edit",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "35px",
+                "padding-top": "7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            },
+            {
+              "elementId": "custom-view-settings.rule-lane-mode",
+              "frameId": "ja-dark-custom-view-settings-edit",
+              "elementIndex": 72,
+              "styleIndex": 56,
+              "domKey": "#custom-view-form > fieldset:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > label:nth-of-type(1) > select:nth-of-type(1)",
+              "state": "edit",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "35px",
+                "padding-top": "7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "custom-view-options",
+      "label": "カスタムビューの表示内容",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "同じ一時表示オプションのチェック外枠が揃う。選択状態と保存・戻すは別の機能。",
+      "candidate": "既存のペアを維持し、保存中の状態や条件定義の入力との境界を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "checkbox",
+          "label": "本文と最終コメントのチェック済み表示",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "custom-view.body-check",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 41,
+              "styleIndex": 35,
+              "domKey": "#custom-view-panel > div:nth-of-type(1) > div:nth-of-type(1) > label:nth-of-type(2) > input:nth-of-type(1)",
+              "state": "saved",
+              "interaction": [
+                ":checked"
+              ],
+              "values": {
+                "appearance": "auto",
+                "width": "13px",
+                "height": "13px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "accent-color": "rgb(31, 111, 95)"
+              }
+            },
+            {
+              "elementId": "custom-view.comment-check",
+              "frameId": "ja-light-custom-view-saved",
+              "elementIndex": 43,
+              "styleIndex": 35,
+              "domKey": "#custom-view-panel > div:nth-of-type(1) > div:nth-of-type(1) > label:nth-of-type(3) > input:nth-of-type(1)",
+              "state": "saved",
+              "interaction": [
+                ":checked"
+              ],
+              "values": {
+                "appearance": "auto",
+                "width": "13px",
+                "height": "13px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "accent-color": "rgb(31, 111, 95)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "inline-entity-name",
+      "label": "ボード・レーン・タグの名前入力",
+      "assessment": "cross-screen-review",
+      "disposition": "share-candidate",
+      "reason": "短い名前の入力がフォーカス条件を揃えても、ボードとタグで行高・余白・高さが違う。タグ作成とボード改名は測定した下地が揃う。",
+      "candidate": "同じ小型テキスト入力の基礎を候補とし、レーンの配置、先頭ボード案内、保存イベントは個別に維持する。",
+      "sourceRefs": [
+        {
+          "file": "public/app-inline-text-form.js",
+          "line": 1
+        },
+        {
+          "file": "public/styles/sidebar-boards.css",
+          "line": 99
+        },
+        {
+          "file": "public/styles/sidebar-tags.css",
+          "line": 15
+        }
+      ],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "ボード／タグ作成のフォーカス中の入力",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "shell.board-create-input",
+              "frameId": "ja-dark-shell-new-board",
+              "elementIndex": 5,
+              "styleIndex": 5,
+              "domKey": "#board-list > form:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "new-board",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "39.0781px",
+                "padding-top": "8.4px",
+                "padding-left": "10.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.07)"
+              }
+            },
+            {
+              "elementId": "settings-tags.create-name",
+              "frameId": "ja-dark-settings-tags-create",
+              "elementIndex": 34,
+              "styleIndex": 27,
+              "domKey": "#sidebar-tag-create-input",
+              "state": "create",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "35.5625px",
+                "padding-top": "7.7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "line-height",
+            "height",
+            "padding-top",
+            "padding-left",
+            "background-color"
+          ]
+        },
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "タグ作成／ボード改名のフォーカス中の入力",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-tags.create-name",
+              "frameId": "ja-dark-settings-tags-create",
+              "elementIndex": 34,
+              "styleIndex": 27,
+              "domKey": "#sidebar-tag-create-input",
+              "state": "create",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "35.5625px",
+                "padding-top": "7.7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            },
+            {
+              "elementId": "settings-board.rename-input",
+              "frameId": "ja-dark-settings-board-rename",
+              "elementIndex": 61,
+              "styleIndex": 50,
+              "domKey": "#board-rename-input",
+              "state": "rename",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "35.5625px",
+                "padding-top": "7.7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "board-transfer",
+      "label": "ボードデータの入出力",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "同じ設定行で書き出しボタンとファイル選択ラベルの見た目が揃う。クリックのネイティブ挙動は異なる。",
+      "candidate": "既存の共有ルールを維持し、ネイティブファイル選択を保つ。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "同じ行の出力と取り込み",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-board.export",
+              "frameId": "ja-light-settings-board-expanded",
+              "elementIndex": 74,
+              "styleIndex": 60,
+              "domKey": "#export-board-button",
+              "state": "expanded",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "500",
+                "line-height": "15.6px",
+                "height": "31.5938px",
+                "padding-top": "7px",
+                "padding-left": "4.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(251, 252, 251)"
+              }
+            },
+            {
+              "elementId": "settings-board.import",
+              "frameId": "ja-light-settings-board-expanded",
+              "elementIndex": 78,
+              "styleIndex": 63,
+              "domKey": "#sidebar-board-actions-panel > div:nth-of-type(2) > div:nth-of-type(1) > label:nth-of-type(1)",
+              "state": "expanded",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "500",
+                "line-height": "15.6px",
+                "height": "31.5938px",
+                "padding-top": "7px",
+                "padding-left": "4.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(251, 252, 251)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "delete-entity",
+      "label": "管理対象の削除入口",
+      "assessment": "cross-screen-review",
+      "disposition": "preserve-variants",
+      "reason": "削除の入口はレーンとタグではアイコン、ボードでは見出し付き領域のラベルボタン。形状は位置と名前の示し方に対応する。",
+      "candidate": "破壊操作の色・アクセス可能な名称・確認手順を共通の契約として維持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "レーン・タグ・ボードの削除入口",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "kanban.lane-delete",
+              "frameId": "ja-dark-kanban-lane-actions",
+              "elementIndex": 149,
+              "styleIndex": 118,
+              "domKey": "#lane-board > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > span:nth-of-type(1) > button:nth-of-type(2)",
+              "state": "lane-actions",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "14px",
+                "height": "25.8906px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(239, 119, 114)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "settings-tags.delete-start",
+              "frameId": "ja-dark-settings-tags-color-edit",
+              "elementIndex": 51,
+              "styleIndex": 45,
+              "domKey": "#sidebar-tag-list > div:nth-of-type(1) > form:nth-of-type(1) > div:nth-of-type(4) > button:nth-of-type(1)",
+              "state": "color-edit",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "500",
+                "line-height": "12px",
+                "height": "32px",
+                "padding-top": "5.88px",
+                "padding-left": "8.68px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(239, 119, 114)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            },
+            {
+              "elementId": "settings-board.delete",
+              "frameId": "ja-dark-settings-board-completion-review",
+              "elementIndex": 103,
+              "styleIndex": 79,
+              "domKey": "#delete-board-button",
+              "state": "completion-review",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "38.375px",
+                "padding-top": "9.1px",
+                "padding-left": "12.6px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(239, 119, 114)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-size",
+            "line-height",
+            "height",
+            "padding-top",
+            "padding-left",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "tag-management",
+      "label": "タグの管理と設定フォーム",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "同じタグの編集入口と編集中プレビューで背景色、文字、外枠が揃う。鉛筆ボタンとプレビュー表示では幅が違う。",
+      "candidate": "既存のタグ表示と色の下地を維持し、編集入口と非操作プレビューを区別する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "badge",
+          "label": "同じタグの編集入口／非操作プレビュー",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-tags.tag-badge",
+              "frameId": "ja-dark-settings-tags-create",
+              "elementIndex": 36,
+              "styleIndex": 29,
+              "domKey": "#sidebar-tag-list > div:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "create",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "width": "77.9219px",
+                "height": "23.1562px",
+                "padding-top": "3.08px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(255, 253, 247)",
+                "background-color": "rgb(59, 128, 94)"
+              }
+            },
+            {
+              "elementId": "settings-tags.edit-preview-badge",
+              "frameId": "ja-dark-settings-tags-color-edit",
+              "elementIndex": 37,
+              "styleIndex": 30,
+              "domKey": "#sidebar-tag-list > div:nth-of-type(1) > form:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+              "state": "color-edit",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "width": "61.0312px",
+                "height": "23.1562px",
+                "padding-top": "3.08px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(255, 253, 247)",
+                "background-color": "rgb(59, 128, 94)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width"
+          ]
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "ticket-body-tabs",
+      "label": "本文の閲覧元の切替",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "編集・詳細とも同じ外部本文タブを選んでフォーカスした比較で寸法・色が揃う。差分の有無や編集中の読み取り専用は各状態の仕様。",
+      "candidate": "タブの共通ルールを維持し、タブ候補・フォーカス遷移と本文の読み取り専用を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "tab",
+          "label": "外部本文タブを選択してフォーカス",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-edit.body-remote-tab",
+              "frameId": "ja-dark-ticket-edit-markdown-specimen-remote",
+              "elementIndex": 383,
+              "styleIndex": 210,
+              "domKey": "#ticket-edit-remote-body-tab-button",
+              "state": "markdown-specimen-remote",
+              "interaction": [
+                ":focus",
+                ":focus-visible",
+                "aria-selected=true"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "width": "70px",
+                "height": "30.6719px",
+                "border-bottom-width": "2px",
+                "border-bottom-color": "rgb(84, 184, 159)",
+                "color": "rgb(84, 184, 159)"
+              }
+            },
+            {
+              "elementId": "ticket-detail.body-remote-tab",
+              "frameId": "ja-dark-ticket-detail-remote-snapshot",
+              "elementIndex": 407,
+              "styleIndex": 243,
+              "domKey": "#ticket-remote-body-tab-button",
+              "state": "remote-snapshot",
+              "interaction": [
+                ":focus",
+                ":focus-visible",
+                "aria-selected=true"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "width": "70px",
+                "height": "30.6719px",
+                "border-bottom-width": "2px",
+                "border-bottom-color": "rgb(84, 184, 159)",
+                "color": "rgb(84, 184, 159)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "excerpt",
+      "label": "本文・最新コメントの抜粋",
+      "assessment": "internal-review",
+      "disposition": "keep-shared",
+      "reason": "本文抜粋と最終コメントの見出しは、同じカード内で文字サイズ・行高・色が共通。時刻がつくのは最終コメントの仕様。",
+      "candidate": "既存の抜粋見出しを維持し、元内容のID、折り畳み、全文取得を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "text",
+          "label": "本文と最新コメントの見出し",
+          "condition": {
+            "locale": "en",
+            "viewport": [
+              1050,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "custom-view.excerpt-heading",
+              "frameId": "en-light-custom-view-narrow-sort",
+              "elementIndex": 75,
+              "styleIndex": 69,
+              "domKey": "#custom-view-panel > section:nth-of-type(1) > article:nth-of-type(1) > section:nth-of-type(1) > h4:nth-of-type(1)",
+              "state": "narrow-sort",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "line-height": "17.4px",
+                "height": "17.3906px",
+                "display": "block",
+                "color": "rgb(102, 115, 109)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "custom-view.excerpt-heading",
+              "frameId": "en-light-custom-view-narrow-sort",
+              "elementIndex": 79,
+              "styleIndex": 69,
+              "domKey": "#custom-view-panel > section:nth-of-type(1) > article:nth-of-type(1) > section:nth-of-type(2) > h4:nth-of-type(1)",
+              "state": "narrow-sort",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "line-height": "17.4px",
+                "height": "17.3906px",
+                "display": "block",
+                "color": "rgb(102, 115, 109)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "comment-editor",
+      "label": "コメントの投稿と編集",
+      "assessment": "internal-review",
+      "disposition": "share-candidate",
+      "reason": "投稿・編集のフォーカス中の本文欄は高さ・文字・枠が揃うが、横内余白が異なる。幅はコメントカードの入れ子で変わる。",
+      "candidate": "本文入力の内余白を共通の入力設定の候補にし、添付・投稿・編集のキー操作を維持する。",
+      "sourceRefs": [
+        {
+          "file": "public/styles/forms.css",
+          "line": 37
+        },
+        {
+          "file": "public/styles/comments-activity.css",
+          "line": 168
+        }
+      ],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "フォーカス中の投稿と編集の本文欄",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-comments.composer-body",
+              "frameId": "ja-dark-ticket-comments-compose",
+              "elementIndex": 418,
+              "styleIndex": 250,
+              "domKey": "#comment-body",
+              "state": "compose",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "121.672px",
+                "padding-top": "9.1px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            },
+            {
+              "elementId": "ticket-comments.edit-body",
+              "frameId": "ja-dark-ticket-comments-edit",
+              "elementIndex": 437,
+              "styleIndex": 262,
+              "domKey": "#ticket-comments > article:nth-of-type(2) > form:nth-of-type(1) > textarea:nth-of-type(1)",
+              "state": "edit",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "121.672px",
+                "padding-top": "9.1px",
+                "padding-left": "10.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "padding-left"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "comment-sync",
+      "label": "コメントの外部送信",
+      "assessment": "internal-review",
+      "disposition": "insufficient-evidence",
+      "reason": "送信済み表示と展開中の失敗通知は確認できた。送信中・通常送信ボタンと同じ状態の計測がないため、色や形状の統一は判断を保留する。",
+      "candidate": "送信状態と再試行・理由の表示を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "badge",
+          "label": "送信済みと展開された送信失敗",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-comments.sync-pushed",
+              "frameId": "ja-dark-ticket-comments-remote-sync",
+              "elementIndex": 432,
+              "styleIndex": 266,
+              "domKey": "#ticket-comments > article:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1) > span:nth-of-type(2)",
+              "state": "remote-sync",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "width": "75.25px",
+                "height": "20.7344px",
+                "padding-top": "1.68px",
+                "padding-left": "5.88px",
+                "border-top-width": "0px",
+                "border-radius": "6px",
+                "color": "rgb(84, 184, 159)",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.12)"
+              }
+            },
+            {
+              "elementId": "ticket-comments.sync-failed",
+              "frameId": "ja-dark-ticket-comments-remote-sync",
+              "elementIndex": 442,
+              "styleIndex": 276,
+              "domKey": "#ticket-comments > article:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1) > button:nth-of-type(1)",
+              "state": "remote-sync",
+              "interaction": [
+                "aria-expanded=true"
+              ],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "600",
+                "width": "135.25px",
+                "height": "18.9375px",
+                "padding-top": "1.68px",
+                "padding-left": "5.88px",
+                "border-top-width": "0px",
+                "border-radius": "6px",
+                "color": "rgb(239, 119, 114)",
+                "background-color": "color(srgb 0.937255 0.466667 0.447059 / 0.12)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width",
+            "height",
+            "color",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "insufficient-evidence"
+    },
+    {
+      "id": "activity-timeline",
+      "label": "チケットの活動履歴",
+      "assessment": "internal-review",
+      "disposition": "correction-candidate",
+      "reason": "暗色でも履歴本文が黒を継承する。履歴枠は暗色の半透明背景で、同系の不透明なダイアログ背景（23,29,25）との合成後も黒文字に対して約1.23:1。明色は同じ黒文字で白面。合成の背後は両フレームのダイアログ要素 elements[338] / styles[186] を参照した。",
+      "candidate": "チケットダイアログの文字継承をテーマ文字色に合わせ、履歴の日時・注釈の弱い色は個別に保持して暗色を再計測する。",
+      "sourceRefs": [
+        {
+          "file": "public/styles/dialog-shell.css",
+          "line": 17
+        },
+        {
+          "file": "public/styles/ticket-detail.css",
+          "line": 458
+        },
+        {
+          "file": "public/styles/comments-activity.css",
+          "line": 204
+        }
+      ],
+      "comparisons": [
+        {
+          "mode": "context",
+          "profile": "colors",
+          "label": "同一暗色フレームの履歴本文と背景",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-activity.message",
+              "frameId": "ja-dark-ticket-activity-history",
+              "elementIndex": 414,
+              "styleIndex": 246,
+              "domKey": "#ticket-activity > article:nth-of-type(1) > div:nth-of-type(2)",
+              "state": "history",
+              "interaction": [],
+              "values": {
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "ticket-activity.list",
+              "frameId": "ja-dark-ticket-activity-history",
+              "elementIndex": 411,
+              "styleIndex": 243,
+              "domKey": "#ticket-activity",
+              "state": "history",
+              "interaction": [],
+              "values": {
+                "color": "rgb(0, 0, 0)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.7)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "background-color"
+          ]
+        },
+        {
+          "mode": "contrast-theme",
+          "profile": "colors",
+          "label": "同じ履歴本文の明色と暗色",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light",
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-activity.message",
+              "frameId": "ja-light-ticket-activity-history",
+              "elementIndex": 414,
+              "styleIndex": 246,
+              "domKey": "#ticket-activity > article:nth-of-type(1) > div:nth-of-type(2)",
+              "state": "history",
+              "interaction": [],
+              "values": {
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "ticket-activity.message",
+              "frameId": "ja-dark-ticket-activity-history",
+              "elementIndex": 414,
+              "styleIndex": 246,
+              "domKey": "#ticket-activity > article:nth-of-type(1) > div:nth-of-type(2)",
+              "state": "history",
+              "interaction": [],
+              "values": {
+                "color": "rgb(0, 0, 0)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "representative-only"
+    },
+    {
+      "id": "empty-feedback",
+      "label": "表示対象がない場合の案内",
+      "assessment": "cross-screen-review",
+      "disposition": "keep-shared",
+      "reason": "ホームとListは空状態の幅と余白を共有する。案内文や復帰操作の内容で高さは変わる。",
+      "candidate": "既存の空状態の枠を使い、原因別の文言と復帰操作を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "panel",
+          "label": "構造が共通する空状態の枠",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "home.empty-panel",
+              "frameId": "ja-dark-home-no-board",
+              "elementIndex": 30,
+              "styleIndex": 29,
+              "domKey": "#lane-board > div:nth-of-type(1)",
+              "state": "no-board",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "392px",
+                "height": "176.344px",
+                "padding-top": "24px",
+                "padding-left": "24px",
+                "row-gap": "12px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(167, 179, 173)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "list.empty",
+              "frameId": "ja-dark-list-filtered-empty",
+              "elementIndex": 144,
+              "styleIndex": 115,
+              "domKey": "#list-board > div:nth-of-type(1)",
+              "state": "filtered-empty",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "392px",
+                "height": "229.516px",
+                "padding-top": "24px",
+                "padding-left": "24px",
+                "row-gap": "12px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(167, 179, 173)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height"
+          ]
+        }
+      ],
+      "coverage": "direct-sample"
+    },
+    {
+      "id": "inline-feedback",
+      "label": "領域内の状態・エラー表示",
+      "assessment": "cross-screen-review",
+      "disposition": "insufficient-evidence",
+      "reason": "条件欠損の警告と通信エラーは文字色や表示領域が異なる。同じ重大度・通知方式を持つ画面間の実測が十分でない。",
+      "candidate": "警告・エラー・進捗で既存の意味とライブ通知を保ち、表示範囲を共通化する案は保留する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "text",
+          "label": "条件欠損警告と取得エラーの実例",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "custom-view.warning",
+              "frameId": "ja-dark-custom-view-missing-and-empty",
+              "elementIndex": 45,
+              "styleIndex": 38,
+              "domKey": "#custom-view-panel > p:nth-of-type(1)",
+              "state": "missing-and-empty",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "28.2969px",
+                "display": "block",
+                "color": "rgb(213, 164, 81)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "remote-import.error",
+              "frameId": "ja-dark-remote-import-preview-error",
+              "elementIndex": 446,
+              "styleIndex": 263,
+              "domKey": "#editor-remote-import-error",
+              "state": "preview-error",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "20.2969px",
+                "display": "block",
+                "color": "rgb(239, 119, 114)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height",
+            "color"
+          ]
+        }
+      ],
+      "coverage": "insufficient-evidence"
+    },
+    {
+      "id": "move-ticket-fields",
+      "label": "移動先の指定",
+      "assessment": "internal-review",
+      "disposition": "insufficient-evidence",
+      "reason": "一括移動のボードとレーンのselectは同じ枠と余白。単体移動の同条件の実測はない。",
+      "candidate": "一括移動の既存入力を維持し、単体との共有判断は同条件測定まで保留する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "一括移動の二つの入力欄",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "dialogs.bulk-board",
+              "frameId": "ja-light-dialogs-bulk-move",
+              "elementIndex": 418,
+              "styleIndex": 219,
+              "domKey": "#ux-fields > label:nth-of-type(1) > select:nth-of-type(1)",
+              "state": "bulk-move",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "39.1875px",
+                "padding-top": "9.1px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            },
+            {
+              "elementId": "dialogs.bulk-lane",
+              "frameId": "ja-light-dialogs-bulk-move",
+              "elementIndex": 421,
+              "styleIndex": 219,
+              "domKey": "#ux-fields > label:nth-of-type(2) > select:nth-of-type(1)",
+              "state": "bulk-move",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "39.1875px",
+                "padding-top": "9.1px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "insufficient-evidence"
+    },
+    {
+      "id": "group-impact-dialog",
+      "label": "Group所属変更の影響確認",
+      "assessment": "internal-review",
+      "disposition": "insufficient-evidence",
+      "reason": "所属解除の家族一覧を確認した。所属競合で実際に候補を選ぶ表示と比較できる採取はなく、選択ボタンとの見た目の統一は判断できない。",
+      "candidate": "所属解除の現在の確認、選択肢を開く条件、チケット削除と異なる意味を保持する。",
+      "sourceRefs": [],
+      "comparisons": [
+        {
+          "mode": "context",
+          "profile": "panel",
+          "label": "所属解除の影響リストと項目",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "dialogs.group-impact",
+              "frameId": "ja-dark-dialogs-group-remove-family",
+              "elementIndex": 297,
+              "styleIndex": 203,
+              "domKey": "#ux-fields > ul:nth-of-type(1)",
+              "state": "group-remove-family",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "378px",
+                "height": "60.8906px",
+                "padding-top": "0px",
+                "padding-left": "20px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "dialogs.group-impact-item",
+              "frameId": "ja-dark-dialogs-group-remove-family",
+              "elementIndex": 298,
+              "styleIndex": 204,
+              "domKey": "#ux-fields > ul:nth-of-type(1) > li:nth-of-type(1)",
+              "state": "group-remove-family",
+              "interaction": [],
+              "values": {
+                "display": "list-item",
+                "width": "358px",
+                "height": "20.2969px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "display",
+            "width",
+            "height",
+            "padding-left"
+          ]
+        }
+      ],
+      "coverage": "insufficient-evidence"
+    }
+  ],
+  "primitives": [
+    {
+      "id": "button",
+      "label": "ボタン",
+      "disposition": "share-candidate",
+      "reason": "文字付きの中立操作は操作密度に応じて高さを変える。アイコンのみ、主操作、危険操作の違いも残す。",
+      "candidate": "既存のボタン・アイコン付き表示を基礎に、サイズ、色、フォーカスの明示的なバリアントを使う。",
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "設定の小型操作とチケットの通常操作",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-board.export",
+              "frameId": "ja-light-settings-board-expanded",
+              "elementIndex": 74,
+              "styleIndex": 60,
+              "domKey": "#export-board-button",
+              "state": "expanded",
+              "interaction": [],
+              "values": {
+                "font-size": "12px",
+                "font-weight": "500",
+                "line-height": "15.6px",
+                "height": "31.5938px",
+                "padding-top": "7px",
+                "padding-left": "4.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgb(251, 252, 251)"
+              }
+            },
+            {
+              "elementId": "ticket-edit.move",
+              "frameId": "ja-light-ticket-edit-form",
+              "elementIndex": 419,
+              "styleIndex": 249,
+              "domKey": "#move-ticket-button",
+              "state": "form",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "500",
+                "line-height": "18.2px",
+                "height": "38.375px",
+                "padding-top": "9.1px",
+                "padding-left": "12.6px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-size",
+            "line-height",
+            "height",
+            "padding-top",
+            "padding-left",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": []
+    },
+    {
+      "id": "text-input",
+      "label": "テキスト入力",
+      "disposition": "share-candidate",
+      "reason": "ボードとタグの短い名前入力の差は同フォーカスで成立する。チケットのタイトルは入力サイズと行の構成が異なる。",
+      "candidate": "小型と標準の役割を決め、文字・枠・フォーカスの下地を共有候補にする。",
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "controls",
+          "label": "同フォーカスの短い名前入力",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "shell.board-create-input",
+              "frameId": "ja-dark-shell-new-board",
+              "elementIndex": 5,
+              "styleIndex": 5,
+              "domKey": "#board-list > form:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "new-board",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "39.0781px",
+                "padding-top": "8.4px",
+                "padding-left": "10.5px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.07)"
+              }
+            },
+            {
+              "elementId": "settings-tags.create-name",
+              "frameId": "ja-dark-settings-tags-create",
+              "elementIndex": 34,
+              "styleIndex": 27,
+              "domKey": "#sidebar-tag-create-input",
+              "state": "create",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "35.5625px",
+                "padding-top": "7.7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "line-height",
+            "height",
+            "padding-top",
+            "padding-left",
+            "background-color"
+          ]
+        },
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "同フォーカスの短いタグ名とチケットタイトル",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-tags.create-name",
+              "frameId": "ja-dark-settings-tags-create",
+              "elementIndex": 34,
+              "styleIndex": 27,
+              "domKey": "#sidebar-tag-create-input",
+              "state": "create",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "35.5625px",
+                "padding-top": "7.7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            },
+            {
+              "elementId": "ticket-new.title",
+              "frameId": "ja-dark-ticket-new-blank",
+              "elementIndex": 346,
+              "styleIndex": 193,
+              "domKey": "#ticket-title",
+              "state": "blank",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "40.3438px",
+                "padding-top": "10.08px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height",
+            "padding-top",
+            "padding-left",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "direct-sample",
+      "sourceRefs": [
+        {
+          "file": "public/styles/sidebar-boards.css",
+          "line": 99
+        },
+        {
+          "file": "public/styles/sidebar-tags.css",
+          "line": 15
+        },
+        {
+          "file": "public/styles/forms.css",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "id": "select",
+      "label": "単一選択",
+      "disposition": "share-candidate",
+      "reason": "ツールバー、定義フォーム、移動ダイアログで高さと余白が異なる。ネイティブの選択肢ポップアップはこの値に含まない。",
+      "candidate": "標準と小型の選択入力を候補とし、選択肢・無効状態とフォームの意味を維持する。",
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "有効な絞り込み・定義・移動のselect",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "list.lane-filter",
+              "frameId": "ja-light-list-board",
+              "elementIndex": 113,
+              "styleIndex": 87,
+              "domKey": "#lane-filter",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "34.2969px",
+                "padding-top": "0px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(102, 115, 109)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            },
+            {
+              "elementId": "custom-view-settings.sort",
+              "frameId": "ja-light-custom-view-settings-edit",
+              "elementIndex": 96,
+              "styleIndex": 66,
+              "domKey": "#custom-view-form > label:nth-of-type(3) > select:nth-of-type(1)",
+              "state": "edit",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "normal",
+                "height": "35px",
+                "padding-top": "7px",
+                "padding-left": "9.1px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            },
+            {
+              "elementId": "dialogs.bulk-lane",
+              "frameId": "ja-light-dialogs-bulk-move",
+              "elementIndex": 421,
+              "styleIndex": 219,
+              "domKey": "#ux-fields > label:nth-of-type(2) > select:nth-of-type(1)",
+              "state": "bulk-move",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "normal",
+                "height": "39.1875px",
+                "padding-top": "9.1px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(21, 32, 28)",
+                "background-color": "color(srgb 1 1 1 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "font-weight",
+            "height",
+            "padding-top",
+            "padding-left",
+            "color"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": []
+    },
+    {
+      "id": "checkbox",
+      "label": "チェックボックス",
+      "disposition": "correction-candidate",
+      "reason": "外部課題のリンク投稿欄でチェック要素のDOMボックスが467×13px、Listの通常の未選択は14×14px。前者は操作領域の幅で、ネイティブのチェック記号の幅ではない。ラベルがgridになり説明が次行に落ちる。",
+      "candidate": "フォームの全幅input指定からチェックを外し、専用行の横並びを効かせる。小型標準チェック・色有無スイッチの役割は維持する。",
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "checkbox",
+          "label": "日本語暗色・有効・未選択の異なる用途のチェック",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "remote-import.backlink-check",
+              "frameId": "ja-dark-remote-import-drawer",
+              "elementIndex": 444,
+              "styleIndex": 261,
+              "domKey": "#editor-remote-backlink-comment",
+              "state": "drawer",
+              "interaction": [],
+              "values": {
+                "appearance": "auto",
+                "width": "467px",
+                "height": "13px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "accent-color": "auto"
+              }
+            },
+            {
+              "elementId": "list.row-select",
+              "frameId": "ja-dark-list-board",
+              "elementIndex": 163,
+              "styleIndex": 128,
+              "domKey": "#list-board > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "appearance": "auto",
+                "width": "14px",
+                "height": "14px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "border-top-width": "0px",
+                "accent-color": "auto"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width",
+            "height"
+          ]
+        },
+        {
+          "mode": "context",
+          "profile": "panel",
+          "label": "外部課題リンク投稿のラベル行とチェック",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "remote-import.backlink",
+              "frameId": "ja-dark-remote-import-drawer",
+              "elementIndex": 443,
+              "styleIndex": 260,
+              "domKey": "#editor-remote-import-form > label:nth-of-type(3)",
+              "state": "drawer",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "width": "467px",
+                "height": "34.5781px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "4.2px",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgba(0, 0, 0, 0)"
+              }
+            },
+            {
+              "elementId": "remote-import.backlink-check",
+              "frameId": "ja-dark-remote-import-drawer",
+              "elementIndex": 444,
+              "styleIndex": 261,
+              "domKey": "#editor-remote-backlink-comment",
+              "state": "drawer",
+              "interaction": [],
+              "values": {
+                "display": "block",
+                "width": "467px",
+                "height": "13px",
+                "padding-top": "0px",
+                "padding-left": "0px",
+                "row-gap": "normal",
+                "border-top-width": "0px",
+                "border-radius": "0px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "display",
+            "height",
+            "row-gap",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": [
+        {
+          "file": "public/styles/forms.css",
+          "line": 4
+        },
+        {
+          "file": "public/styles/ticket-editor.css",
+          "line": 131
+        },
+        {
+          "file": "public/styles/ticket-editor.css",
+          "line": 247
+        },
+        {
+          "file": "public/index.html",
+          "line": 457
+        }
+      ]
+    },
+    {
+      "id": "label",
+      "label": "フォームのラベル",
+      "disposition": "keep-shared",
+      "reason": "Group作成・改名の名前ラベルは文字、行高、間隔が共通。ラベルが入力を包むので幅は配置先に従う。",
+      "candidate": "ラベルと入力の関連、説明の有無を保持し、コンテナ幅を各画面に任せる。",
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "label",
+          "label": "Groupの同内容の名前ラベル",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "settings-group.create-label",
+              "frameId": "ja-dark-settings-group-create",
+              "elementIndex": 148,
+              "styleIndex": 115,
+              "domKey": "#group-board > div:nth-of-type(1) > div:nth-of-type(1) > form:nth-of-type(1) > label:nth-of-type(1)",
+              "state": "create",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "row-gap": "4px",
+                "width": "230px",
+                "height": "62.5938px",
+                "color": "rgb(238, 244, 241)"
+              }
+            },
+            {
+              "elementId": "settings-group.rename-label",
+              "frameId": "ja-dark-settings-group-rename",
+              "elementIndex": 153,
+              "styleIndex": 120,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(1) > form:nth-of-type(1) > label:nth-of-type(1)",
+              "state": "rename",
+              "interaction": [],
+              "values": {
+                "display": "grid",
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "row-gap": "4px",
+                "width": "829px",
+                "height": "62.5938px",
+                "color": "rgb(238, 244, 241)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width"
+          ]
+        }
+      ],
+      "coverage": "direct-sample",
+      "sourceRefs": []
+    },
+    {
+      "id": "status-message",
+      "label": "通知・状態表示",
+      "disposition": "preserve-variants",
+      "reason": "トーストの成功とエラーで枠と余白が共通になり、予告する状態に応じて色と文字量が変わる。画面内の永続警告と短い通知は表示条件・読み上げ方法が異なる。",
+      "candidate": "通知ごとの意味と読み上げを保ち、見た目の共通下地だけを共有範囲とする。",
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "badge",
+          "label": "処理結果とエラーのトースト",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "toast.notification",
+              "frameId": "ja-dark-toast-success",
+              "elementIndex": 141,
+              "styleIndex": 110,
+              "domKey": "#toast",
+              "state": "success",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "width": "154.594px",
+                "height": "44.6719px",
+                "padding-top": "11.2px",
+                "padding-left": "13.3px",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(7, 19, 16)",
+                "background-color": "color(srgb 0.329412 0.721569 0.623529 / 0.96)"
+              }
+            },
+            {
+              "elementId": "toast.error",
+              "frameId": "ja-dark-toast-error",
+              "elementIndex": 427,
+              "styleIndex": 308,
+              "domKey": "#toast",
+              "state": "error",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "width": "209.344px",
+                "height": "44.6719px",
+                "padding-top": "11.2px",
+                "padding-left": "13.3px",
+                "border-top-width": "1px",
+                "border-radius": "8px",
+                "color": "rgb(7, 19, 16)",
+                "background-color": "color(srgb 0.937255 0.466667 0.447059 / 0.96)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "width",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": []
+    },
+    {
+      "id": "search-input",
+      "label": "検索入力",
+      "disposition": "preserve-variants",
+      "reason": "ボード検索の枠は入力を包む要素にあり、Group結果内検索は入力自体が枠を持つ。比較するCSSの対象を外枠同士にそろえる。検索方法は絞り込みと結果移動で異なる。",
+      "candidate": "入力サーフェスの検討に絞り、候補検索・結果移動・絞り込みの実装を別に保つ。",
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "ボード検索枠とGroup結果検索の通常枠",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "shell.search-control",
+              "frameId": "ja-dark-kanban-board",
+              "elementIndex": 108,
+              "styleIndex": 82,
+              "domKey": "html > body:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > header:nth-of-type(1) > div:nth-of-type(2) > label:nth-of-type(1)",
+              "state": "board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "34.2969px",
+                "padding-top": "0px",
+                "padding-left": "12px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            },
+            {
+              "elementId": "group.window-search-input",
+              "frameId": "ja-dark-group-window",
+              "elementIndex": 150,
+              "styleIndex": 119,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > form:nth-of-type(1) > input:nth-of-type(1)",
+              "state": "window",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "18.2px",
+                "height": "32px",
+                "padding-top": "0px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "color(srgb 0.0901961 0.113725 0.0980392 / 0.92)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "line-height",
+            "height",
+            "padding-left",
+            "background-color"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": []
+    },
+    {
+      "id": "textarea",
+      "label": "複数行入力",
+      "disposition": "share-candidate",
+      "reason": "新規本文とコメントの文字・枠は同値を多く持つ。本文とコメントで編集量と初期高さが違う。投稿と編集に見られた横内余白は同じ用途として見直せる。",
+      "candidate": "複数行入力の枠と文字を共有候補とし、用途に応じる初期高さとフォーカス・添付を維持する。",
+      "comparisons": [
+        {
+          "mode": "variant",
+          "profile": "controls",
+          "label": "新規本文欄とコメント投稿欄",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-new.body",
+              "frameId": "ja-dark-ticket-new-blank",
+              "elementIndex": 347,
+              "styleIndex": 194,
+              "domKey": "#ticket-body",
+              "state": "blank",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "223.156px",
+                "padding-top": "9.1px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            },
+            {
+              "elementId": "ticket-comments.composer-body",
+              "frameId": "ja-dark-ticket-comments-compose",
+              "elementIndex": 418,
+              "styleIndex": 250,
+              "domKey": "#comment-body",
+              "state": "compose",
+              "interaction": [
+                ":focus",
+                ":focus-visible"
+              ],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "121.672px",
+                "padding-top": "9.1px",
+                "padding-left": "11.2px",
+                "border-top-width": "1px",
+                "border-radius": "6px",
+                "color": "rgb(238, 244, 241)",
+                "background-color": "rgb(16, 21, 17)"
+              }
+            }
+          ],
+          "differingProperties": [
+            "height"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": []
+    },
+    {
+      "id": "rich-text-link",
+      "label": "Markdown内のリンク",
+      "disposition": "correction-candidate",
+      "reason": "同じ試料・日本語明色・1440pxで、Group説明とプレビューはテーマの緑、ローカル本文とコメントは既定の青。Group側の色・ホバー・フォーカス規則はソースで確認した。下線のcomputed styleはこの採取に含めていない。暗色の外部本文にも青の実測があり、明色とは別の観測として扱う。",
+      "candidate": "既存のMarkdown用リンク基礎を共有候補にし、色・下線・フォーカス、訪問状態と内部・外部リンクの操作を確かめる。",
+      "comparisons": [
+        {
+          "mode": "peer",
+          "profile": "text",
+          "label": "同じ試料の外部リンク・明色",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "group.description-markdown-link",
+              "frameId": "ja-light-group-markdown-specimen-description",
+              "elementIndex": 152,
+              "styleIndex": 117,
+              "domKey": "#group-description-body > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-description",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(31, 111, 95)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "settings-group.preview-markdown-link",
+              "frameId": "ja-light-settings-group-markdown-specimen-preview",
+              "elementIndex": 155,
+              "styleIndex": 120,
+              "domKey": "#group-board > div:nth-of-type(2) > div:nth-of-type(1) > form:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-preview",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(31, 111, 95)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "ticket-detail.local-markdown-link",
+              "frameId": "ja-light-ticket-detail-markdown-specimen-local",
+              "elementIndex": 282,
+              "styleIndex": 181,
+              "domKey": "#ticket-view-body > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-local",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "20.3px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(0, 0, 238)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "ticket-comments.body-markdown-link",
+              "frameId": "ja-light-ticket-comments-markdown-specimen",
+              "elementIndex": 355,
+              "styleIndex": 239,
+              "domKey": "#ticket-comments > article:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(0, 0, 238)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": [
+            "line-height",
+            "color"
+          ]
+        },
+        {
+          "mode": "peer",
+          "profile": "text",
+          "label": "同じ外部本文試料・暗色の詳細と編集",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "ticket-detail.remote-markdown-link",
+              "frameId": "ja-dark-ticket-detail-markdown-specimen-remote",
+              "elementIndex": 441,
+              "styleIndex": 262,
+              "domKey": "#ticket-view-body > div:nth-of-type(2) > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-remote",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(0, 0, 238)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "ticket-edit.remote-markdown-link",
+              "frameId": "ja-dark-ticket-edit-markdown-specimen-remote",
+              "elementIndex": 399,
+              "styleIndex": 224,
+              "domKey": "#ticket-remote-body-panel > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+              "state": "markdown-specimen-remote",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "400",
+                "line-height": "21px",
+                "height": "auto",
+                "display": "inline",
+                "color": "rgb(0, 0, 238)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": []
+        }
+      ],
+      "coverage": "direct-sample",
+      "sourceRefs": [
+        {
+          "file": "public/styles/groups.css",
+          "line": 375
+        },
+        {
+          "file": "public/styles/groups.css",
+          "line": 381
+        },
+        {
+          "file": "public/styles/groups.css",
+          "line": 436
+        }
+      ]
+    }
+  ],
+  "otherFindings": [
+    {
+      "id": "home-copy",
+      "label": "初回作成案内の言語",
+      "disposition": "correction-candidate",
+      "reason": "日本語でボードがない場面でも、擬似要素の内容として同じ英語が明色・暗色で採取された。",
+      "candidate": "既存の翻訳経路に載せる。入力・ボタンのスタイル共有とは独立した修正候補。",
+      "comparisons": [
+        {
+          "mode": "contrast-theme",
+          "profile": "text",
+          "label": "日本語の初回案内・明色と暗色",
+          "condition": {
+            "locale": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ],
+            "themes": [
+              "light",
+              "dark"
+            ]
+          },
+          "samples": [
+            {
+              "elementId": "home.board-create-cue",
+              "frameId": "ja-light-home-no-board",
+              "elementIndex": 4,
+              "pseudo": "::after",
+              "styleIndex": 6,
+              "domKey": "#new-board-button",
+              "generatedContent": "\"Create board here\"",
+              "state": "no-board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "18.2px",
+                "height": "18.1875px",
+                "display": "block",
+                "color": "rgb(31, 111, 95)",
+                "white-space": "normal"
+              }
+            },
+            {
+              "elementId": "home.board-create-cue",
+              "frameId": "ja-dark-home-no-board",
+              "elementIndex": 4,
+              "pseudo": "::after",
+              "styleIndex": 6,
+              "domKey": "#new-board-button",
+              "generatedContent": "\"Create board here\"",
+              "state": "no-board",
+              "interaction": [],
+              "values": {
+                "font-size": "14px",
+                "font-weight": "600",
+                "line-height": "18.2px",
+                "height": "18.1875px",
+                "display": "block",
+                "color": "rgb(84, 184, 159)",
+                "white-space": "normal"
+              }
+            }
+          ],
+          "differingProperties": [
+            "color"
+          ]
+        }
+      ],
+      "coverage": "representative-only",
+      "sourceRefs": [
+        {
+          "file": "public/styles/sidebar-boards.css",
+          "line": 46
+        }
+      ]
+    }
+  ]
+}

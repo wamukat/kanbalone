@@ -1,0 +1,745 @@
+{
+  "baseline": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "kind": "source declarations, not computed style",
+  "tokens": [
+    {
+      "name": "--surface-canvas",
+      "scope": "base",
+      "value": "#f7f8f7",
+      "source": "public/styles/tokens.css",
+      "line": 2
+    },
+    {
+      "name": "--surface-1",
+      "scope": "base",
+      "value": "#ffffff",
+      "source": "public/styles/tokens.css",
+      "line": 3
+    },
+    {
+      "name": "--surface-2",
+      "scope": "base",
+      "value": "#fbfcfb",
+      "source": "public/styles/tokens.css",
+      "line": 4
+    },
+    {
+      "name": "--surface-inset",
+      "scope": "base",
+      "value": "#f1f4f2",
+      "source": "public/styles/tokens.css",
+      "line": 5
+    },
+    {
+      "name": "--text-strong",
+      "scope": "base",
+      "value": "#15201c",
+      "source": "public/styles/tokens.css",
+      "line": 6
+    },
+    {
+      "name": "--text-muted",
+      "scope": "base",
+      "value": "#66736d",
+      "source": "public/styles/tokens.css",
+      "line": 7
+    },
+    {
+      "name": "--text-subtle",
+      "scope": "base",
+      "value": "#8a9690",
+      "source": "public/styles/tokens.css",
+      "line": 8
+    },
+    {
+      "name": "--border-soft",
+      "scope": "base",
+      "value": "rgba(21, 32, 28, 0.1)",
+      "source": "public/styles/tokens.css",
+      "line": 9
+    },
+    {
+      "name": "--border-strong",
+      "scope": "base",
+      "value": "rgba(21, 32, 28, 0.18)",
+      "source": "public/styles/tokens.css",
+      "line": 10
+    },
+    {
+      "name": "--accent",
+      "scope": "base",
+      "value": "#1f6f5f",
+      "source": "public/styles/tokens.css",
+      "line": 11
+    },
+    {
+      "name": "--accent-hover",
+      "scope": "base",
+      "value": "#18594d",
+      "source": "public/styles/tokens.css",
+      "line": 12
+    },
+    {
+      "name": "--on-accent",
+      "scope": "base",
+      "value": "#ffffff",
+      "source": "public/styles/tokens.css",
+      "line": 13
+    },
+    {
+      "name": "--control-knob",
+      "scope": "base",
+      "value": "#ffffff",
+      "source": "public/styles/tokens.css",
+      "line": 14
+    },
+    {
+      "name": "--accent-soft",
+      "scope": "base",
+      "value": "#dceee9",
+      "source": "public/styles/tokens.css",
+      "line": 15
+    },
+    {
+      "name": "--danger",
+      "scope": "base",
+      "value": "#c43d3d",
+      "source": "public/styles/tokens.css",
+      "line": 16
+    },
+    {
+      "name": "--danger-soft",
+      "scope": "base",
+      "value": "#fae7e7",
+      "source": "public/styles/tokens.css",
+      "line": 17
+    },
+    {
+      "name": "--success",
+      "scope": "base",
+      "value": "#257a57",
+      "source": "public/styles/tokens.css",
+      "line": 18
+    },
+    {
+      "name": "--warning",
+      "scope": "base",
+      "value": "#a86616",
+      "source": "public/styles/tokens.css",
+      "line": 19
+    },
+    {
+      "name": "--space-1",
+      "scope": "base",
+      "value": "4px",
+      "source": "public/styles/tokens.css",
+      "line": 20
+    },
+    {
+      "name": "--space-2",
+      "scope": "base",
+      "value": "8px",
+      "source": "public/styles/tokens.css",
+      "line": 21
+    },
+    {
+      "name": "--space-3",
+      "scope": "base",
+      "value": "12px",
+      "source": "public/styles/tokens.css",
+      "line": 22
+    },
+    {
+      "name": "--space-4",
+      "scope": "base",
+      "value": "16px",
+      "source": "public/styles/tokens.css",
+      "line": 23
+    },
+    {
+      "name": "--space-5",
+      "scope": "base",
+      "value": "20px",
+      "source": "public/styles/tokens.css",
+      "line": 24
+    },
+    {
+      "name": "--space-6",
+      "scope": "base",
+      "value": "24px",
+      "source": "public/styles/tokens.css",
+      "line": 25
+    },
+    {
+      "name": "--font-family-ui",
+      "scope": "base",
+      "value": "Inter, \"SF Pro Text\", \"Noto Sans JP\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "source": "public/styles/tokens.css",
+      "line": 26
+    },
+    {
+      "name": "--font-size-app-title",
+      "scope": "base",
+      "value": "18px",
+      "source": "public/styles/tokens.css",
+      "line": 35
+    },
+    {
+      "name": "--font-size-section-title",
+      "scope": "base",
+      "value": "15px",
+      "source": "public/styles/tokens.css",
+      "line": 36
+    },
+    {
+      "name": "--font-size-body",
+      "scope": "base",
+      "value": "14px",
+      "source": "public/styles/tokens.css",
+      "line": 37
+    },
+    {
+      "name": "--font-size-card-title",
+      "scope": "base",
+      "value": "14px",
+      "source": "public/styles/tokens.css",
+      "line": 38
+    },
+    {
+      "name": "--font-size-label",
+      "scope": "base",
+      "value": "12px",
+      "source": "public/styles/tokens.css",
+      "line": 39
+    },
+    {
+      "name": "--font-size-meta",
+      "scope": "base",
+      "value": "12px",
+      "source": "public/styles/tokens.css",
+      "line": 40
+    },
+    {
+      "name": "--font-size-tiny",
+      "scope": "base",
+      "value": "11px",
+      "source": "public/styles/tokens.css",
+      "line": 41
+    },
+    {
+      "name": "--font-size-control",
+      "scope": "base",
+      "value": "14px",
+      "source": "public/styles/tokens.css",
+      "line": 42
+    },
+    {
+      "name": "--font-weight-regular",
+      "scope": "base",
+      "value": "400",
+      "source": "public/styles/tokens.css",
+      "line": 43
+    },
+    {
+      "name": "--font-weight-medium",
+      "scope": "base",
+      "value": "500",
+      "source": "public/styles/tokens.css",
+      "line": 44
+    },
+    {
+      "name": "--font-weight-semibold",
+      "scope": "base",
+      "value": "600",
+      "source": "public/styles/tokens.css",
+      "line": 45
+    },
+    {
+      "name": "--font-weight-strong",
+      "scope": "base",
+      "value": "650",
+      "source": "public/styles/tokens.css",
+      "line": 46
+    },
+    {
+      "name": "--line-height-body",
+      "scope": "base",
+      "value": "1.45",
+      "source": "public/styles/tokens.css",
+      "line": 47
+    },
+    {
+      "name": "--line-height-tight",
+      "scope": "base",
+      "value": "1.25",
+      "source": "public/styles/tokens.css",
+      "line": 48
+    },
+    {
+      "name": "--line-height-control",
+      "scope": "base",
+      "value": "1.3",
+      "source": "public/styles/tokens.css",
+      "line": 49
+    },
+    {
+      "name": "--icon-size-default",
+      "scope": "base",
+      "value": "16px",
+      "source": "public/styles/tokens.css",
+      "line": 50
+    },
+    {
+      "name": "--icon-size-button",
+      "scope": "base",
+      "value": "16px",
+      "source": "public/styles/tokens.css",
+      "line": 51
+    },
+    {
+      "name": "--icon-size-small",
+      "scope": "base",
+      "value": "12px",
+      "source": "public/styles/tokens.css",
+      "line": 52
+    },
+    {
+      "name": "--icon-size-meta",
+      "scope": "base",
+      "value": "13px",
+      "source": "public/styles/tokens.css",
+      "line": 53
+    },
+    {
+      "name": "--icon-size-empty",
+      "scope": "base",
+      "value": "19px",
+      "source": "public/styles/tokens.css",
+      "line": 54
+    },
+    {
+      "name": "--control-size-icon",
+      "scope": "base",
+      "value": "32px",
+      "source": "public/styles/tokens.css",
+      "line": 55
+    },
+    {
+      "name": "--radius-control",
+      "scope": "base",
+      "value": "6px",
+      "source": "public/styles/tokens.css",
+      "line": 56
+    },
+    {
+      "name": "--radius-surface",
+      "scope": "base",
+      "value": "8px",
+      "source": "public/styles/tokens.css",
+      "line": 57
+    },
+    {
+      "name": "--radius-pill",
+      "scope": "base",
+      "value": "999px",
+      "source": "public/styles/tokens.css",
+      "line": 58
+    },
+    {
+      "name": "--motion-fast",
+      "scope": "base",
+      "value": "140ms",
+      "source": "public/styles/tokens.css",
+      "line": 59
+    },
+    {
+      "name": "--motion-normal",
+      "scope": "base",
+      "value": "150ms",
+      "source": "public/styles/tokens.css",
+      "line": 60
+    },
+    {
+      "name": "--motion-slow",
+      "scope": "base",
+      "value": "180ms",
+      "source": "public/styles/tokens.css",
+      "line": 61
+    },
+    {
+      "name": "--motion-attention",
+      "scope": "base",
+      "value": "1800ms",
+      "source": "public/styles/tokens.css",
+      "line": 62
+    },
+    {
+      "name": "--ease-standard",
+      "scope": "base",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "source": "public/styles/tokens.css",
+      "line": 63
+    },
+    {
+      "name": "--ease-attention",
+      "scope": "base",
+      "value": "ease-in-out",
+      "source": "public/styles/tokens.css",
+      "line": 64
+    },
+    {
+      "name": "--shadow-card",
+      "scope": "base",
+      "value": "0 1px 2px rgba(21, 32, 28, 0.06)",
+      "source": "public/styles/tokens.css",
+      "line": 65
+    },
+    {
+      "name": "--shadow-card-hover",
+      "scope": "base",
+      "value": "0 6px 18px rgba(21, 32, 28, 0.08)",
+      "source": "public/styles/tokens.css",
+      "line": 66
+    },
+    {
+      "name": "--shadow-popover",
+      "scope": "base",
+      "value": "0 12px 32px rgba(21, 32, 28, 0.16)",
+      "source": "public/styles/tokens.css",
+      "line": 67
+    },
+    {
+      "name": "--shadow-dialog",
+      "scope": "base",
+      "value": "0 24px 64px rgba(21, 32, 28, 0.22)",
+      "source": "public/styles/tokens.css",
+      "line": 68
+    },
+    {
+      "name": "--overlay-bg",
+      "scope": "base",
+      "value": "rgba(28, 28, 23, 0.3)",
+      "source": "public/styles/tokens.css",
+      "line": 69
+    },
+    {
+      "name": "--bg",
+      "scope": "base",
+      "value": "var(--surface-canvas)",
+      "source": "public/styles/tokens.css",
+      "line": 70
+    },
+    {
+      "name": "--panel",
+      "scope": "base",
+      "value": "var(--surface-1)",
+      "source": "public/styles/tokens.css",
+      "line": 71
+    },
+    {
+      "name": "--panel-strong",
+      "scope": "base",
+      "value": "var(--surface-2)",
+      "source": "public/styles/tokens.css",
+      "line": 72
+    },
+    {
+      "name": "--resolved-row-bg",
+      "scope": "base",
+      "value": "color-mix(in srgb, var(--text-muted) 4%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 73
+    },
+    {
+      "name": "--line",
+      "scope": "base",
+      "value": "var(--border-soft)",
+      "source": "public/styles/tokens.css",
+      "line": 74
+    },
+    {
+      "name": "--text",
+      "scope": "base",
+      "value": "var(--text-strong)",
+      "source": "public/styles/tokens.css",
+      "line": 75
+    },
+    {
+      "name": "--muted",
+      "scope": "base",
+      "value": "var(--text-muted)",
+      "source": "public/styles/tokens.css",
+      "line": 76
+    },
+    {
+      "name": "--control-bg",
+      "scope": "base",
+      "value": "color-mix(in srgb, var(--surface-1) 92%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 77
+    },
+    {
+      "name": "--control-border",
+      "scope": "base",
+      "value": "var(--line)",
+      "source": "public/styles/tokens.css",
+      "line": 78
+    },
+    {
+      "name": "--control-hover-border",
+      "scope": "base",
+      "value": "color-mix( in srgb, var(--text-muted) 28%, transparent )",
+      "source": "public/styles/tokens.css",
+      "line": 79
+    },
+    {
+      "name": "--control-focus-border",
+      "scope": "base",
+      "value": "color-mix(in srgb, var(--accent) 42%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 84
+    },
+    {
+      "name": "--control-focus-ring",
+      "scope": "base",
+      "value": "0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 85
+    },
+    {
+      "name": "--active-filter-ring",
+      "scope": "base",
+      "value": "0 0 0 2px color-mix(in srgb, var(--accent) 8%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 87
+    },
+    {
+      "name": "--drag-ring",
+      "scope": "base",
+      "value": "0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 89
+    },
+    {
+      "name": "--attention-ring",
+      "scope": "base",
+      "value": "var(--control-focus-ring)",
+      "source": "public/styles/tokens.css",
+      "line": 90
+    },
+    {
+      "name": "--attention-ring-strong",
+      "scope": "base",
+      "value": "0 0 0 5px color-mix(in srgb, var(--accent) 16%, transparent)",
+      "source": "public/styles/tokens.css",
+      "line": 91
+    },
+    {
+      "name": "--surface-canvas",
+      "scope": "dark override",
+      "value": "#111613",
+      "source": "public/styles/tokens.css",
+      "line": 98
+    },
+    {
+      "name": "--surface-1",
+      "scope": "dark override",
+      "value": "#171d19",
+      "source": "public/styles/tokens.css",
+      "line": 99
+    },
+    {
+      "name": "--surface-2",
+      "scope": "dark override",
+      "value": "#1d2520",
+      "source": "public/styles/tokens.css",
+      "line": 100
+    },
+    {
+      "name": "--surface-inset",
+      "scope": "dark override",
+      "value": "#101511",
+      "source": "public/styles/tokens.css",
+      "line": 101
+    },
+    {
+      "name": "--text-strong",
+      "scope": "dark override",
+      "value": "#eef4f1",
+      "source": "public/styles/tokens.css",
+      "line": 102
+    },
+    {
+      "name": "--text-muted",
+      "scope": "dark override",
+      "value": "#a7b3ad",
+      "source": "public/styles/tokens.css",
+      "line": 103
+    },
+    {
+      "name": "--text-subtle",
+      "scope": "dark override",
+      "value": "#7e8a84",
+      "source": "public/styles/tokens.css",
+      "line": 104
+    },
+    {
+      "name": "--border-soft",
+      "scope": "dark override",
+      "value": "rgba(238, 244, 241, 0.1)",
+      "source": "public/styles/tokens.css",
+      "line": 105
+    },
+    {
+      "name": "--border-strong",
+      "scope": "dark override",
+      "value": "rgba(238, 244, 241, 0.2)",
+      "source": "public/styles/tokens.css",
+      "line": 106
+    },
+    {
+      "name": "--accent",
+      "scope": "dark override",
+      "value": "#54b89f",
+      "source": "public/styles/tokens.css",
+      "line": 107
+    },
+    {
+      "name": "--accent-hover",
+      "scope": "dark override",
+      "value": "#71c9b4",
+      "source": "public/styles/tokens.css",
+      "line": 108
+    },
+    {
+      "name": "--on-accent",
+      "scope": "dark override",
+      "value": "#071310",
+      "source": "public/styles/tokens.css",
+      "line": 109
+    },
+    {
+      "name": "--control-knob",
+      "scope": "dark override",
+      "value": "#ffffff",
+      "source": "public/styles/tokens.css",
+      "line": 110
+    },
+    {
+      "name": "--accent-soft",
+      "scope": "dark override",
+      "value": "rgba(84, 184, 159, 0.16)",
+      "source": "public/styles/tokens.css",
+      "line": 111
+    },
+    {
+      "name": "--danger",
+      "scope": "dark override",
+      "value": "#ef7772",
+      "source": "public/styles/tokens.css",
+      "line": 112
+    },
+    {
+      "name": "--danger-soft",
+      "scope": "dark override",
+      "value": "rgba(239, 119, 114, 0.16)",
+      "source": "public/styles/tokens.css",
+      "line": 113
+    },
+    {
+      "name": "--success",
+      "scope": "dark override",
+      "value": "#54b89f",
+      "source": "public/styles/tokens.css",
+      "line": 114
+    },
+    {
+      "name": "--warning",
+      "scope": "dark override",
+      "value": "#d5a451",
+      "source": "public/styles/tokens.css",
+      "line": 115
+    },
+    {
+      "name": "--shadow-card",
+      "scope": "dark override",
+      "value": "0 1px 2px rgba(0, 0, 0, 0.22)",
+      "source": "public/styles/tokens.css",
+      "line": 116
+    },
+    {
+      "name": "--shadow-card-hover",
+      "scope": "dark override",
+      "value": "0 10px 24px rgba(0, 0, 0, 0.28)",
+      "source": "public/styles/tokens.css",
+      "line": 117
+    },
+    {
+      "name": "--shadow-popover",
+      "scope": "dark override",
+      "value": "0 16px 36px rgba(0, 0, 0, 0.34)",
+      "source": "public/styles/tokens.css",
+      "line": 118
+    },
+    {
+      "name": "--shadow-dialog",
+      "scope": "dark override",
+      "value": "0 28px 72px rgba(0, 0, 0, 0.46)",
+      "source": "public/styles/tokens.css",
+      "line": 119
+    },
+    {
+      "name": "--overlay-bg",
+      "scope": "dark override",
+      "value": "rgba(0, 0, 0, 0.54)",
+      "source": "public/styles/tokens.css",
+      "line": 120
+    }
+  ],
+  "importOrder": [
+    "./styles/tokens.css",
+    "./styles/base.css",
+    "./styles/scrollbars.css",
+    "./styles/components.css",
+    "./styles/forms.css",
+    "./styles/toggles.css",
+    "./styles/app-shell.css",
+    "./styles/sidebar-layout.css",
+    "./styles/sidebar-boards.css",
+    "./styles/sidebar-tags.css",
+    "./styles/sidebar-board-settings.css",
+    "./styles/toolbar-filters.css",
+    "./styles/filter-menus.css",
+    "./styles/kanban-board.css",
+    "./styles/list-board.css",
+    "./styles/list-actions.css",
+    "./styles/list-table.css",
+    "./styles/lanes.css",
+    "./styles/ticket-cards.css",
+    "./styles/ticket-priority.css",
+    "./styles/ticket-status-icons.css",
+    "./styles/kanban-card-icon-masks.css",
+    "./styles/tags.css",
+    "./styles/content-markdown.css",
+    "./styles/quick-add.css",
+    "./styles/empty-state.css",
+    "./styles/dialog-shell.css",
+    "./styles/tag-color-dialog.css",
+    "./styles/tag-manager.css",
+    "./styles/editor-fields.css",
+    "./styles/ticket-tag-input.css",
+    "./styles/tag-picker-options.css",
+    "./styles/ticket-picker-meta.css",
+    "./styles/ticket-detail.css",
+    "./styles/ticket-editor.css",
+    "./styles/comments-activity.css",
+    "./styles/toast.css",
+    "./styles/ticket-refs.css",
+    "./styles/footer.css",
+    "./styles/responsive.css",
+    "./styles/dark-mode.css",
+    "./styles/groups.css",
+    "./styles/group-row-icon-masks.css",
+    "./styles/custom-views.css"
+  ]
+}

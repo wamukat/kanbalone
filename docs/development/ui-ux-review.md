@@ -12,6 +12,8 @@ Kanbalone is a small personal work board shared by a person and their AI tools. 
 - Keep icon meanings consistent and provide accessible names and tooltips. Sort controls retain direction arrows.
 - A ticket belongs to at most one Group. Related parent/child tickets share membership. Moving between Groups uses remove, then add. Do not add a one-off Undo or Group search without a separate product decision.
 
+For a new or changed control, use the [shared UI component contracts](ui-component-contracts.md) to find its shared definition, intended variants, consumers and regression checks.
+
 ## Evaluation procedure
 
 1. State the user's task, starting data, viewport, expected result, and reason the action matters.

@@ -1,0 +1,2302 @@
+{
+  "sourceCommit": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "compiledSourceFingerprint": "7622b62307090ab658b95a202d1007cc75ebc821ad7ee809c4e1da590f4a8a4a",
+  "compiledSourceFilesVerified": 234,
+  "capturedAtDateJst": "2026-11-24",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+  "fixture": {
+    "data": "synthetic",
+    "regularBoardCount": 4,
+    "ordinaryTicketCount": 14,
+    "windowingTicketCount": 1010,
+    "customViewCount": 3,
+    "groups": 5,
+    "regularCommentCount": 4,
+    "regularImageCount": 1,
+    "remote": "separate synthetic fixture with deterministic application adapter and no external requests"
+  },
+  "frameCount": 115,
+  "imageCount": 109,
+  "screens": {
+    "home": 2,
+    "shell": 8,
+    "kanban": 12,
+    "list": 7,
+    "group": 12,
+    "custom-view": 10,
+    "custom-view-settings": 6,
+    "ticket-new": 2,
+    "ticket-edit": 3,
+    "ticket-detail": 7,
+    "ticket-inline": 3,
+    "ticket-comments": 6,
+    "ticket-activity": 2,
+    "picker-tags": 2,
+    "picker-relations": 4,
+    "settings-board": 5,
+    "settings-tags": 4,
+    "settings-group": 8,
+    "remote-import": 4,
+    "dialogs": 6,
+    "toast": 2
+  },
+  "frames": [
+    {
+      "id": "ja-dark-home-no-board",
+      "screen": "home",
+      "state": "no-board",
+      "note": "Fresh database with no board.",
+      "path": "/",
+      "styles": "styles/ja-dark-home-no-board.json",
+      "elementCount": 36,
+      "image": "images/ja-dark-home-no-board.png",
+      "sha256": "c5ce31cb27cc50edde229c0720ed6ca61db9fcbf51cd888fb799c8145ac70508",
+      "styleSha256": "ab775a3f0d7f198f158ea2dac96af648e5d8f6899b569a550693aa7f5613bc84",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-home-no-board",
+      "screen": "home",
+      "state": "no-board",
+      "note": "Fresh database with no board.",
+      "path": "/",
+      "styles": "styles/ja-light-home-no-board.json",
+      "elementCount": 36,
+      "image": "images/ja-light-home-no-board.png",
+      "sha256": "d10e1259e20de7b0fb943d897842fc9ac0aae331d32d28a2a76a7370f66c70be",
+      "styleSha256": "472c6051bc9a80a64d4d096f263a0d08477badba9b7c675c6bf4c1646e9704d4",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-shell-collapsed",
+      "screen": "shell",
+      "state": "collapsed",
+      "note": "Collapsed sidebar, board title and reopen control.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-shell-collapsed.json",
+      "elementCount": 339,
+      "image": "images/ja-dark-shell-collapsed.png",
+      "sha256": "001cdd6cbdb33c6b2f30e88ae407d3d285699c0d9c8d65f648d4b4958453c1c4",
+      "styleSha256": "30d0ce7dc11f294bbc94074d2cca13d27609c8e3367890a117d6c2a87aae8d5a",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-shell-collapsed",
+      "screen": "shell",
+      "state": "collapsed",
+      "note": "Collapsed sidebar, board title and reopen control.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-shell-collapsed.json",
+      "elementCount": 339,
+      "image": "images/ja-light-shell-collapsed.png",
+      "sha256": "6e9461a0e315158a8ffaf092e710acb8ea49296161aa2db565e888cacf54a412",
+      "styleSha256": "e42c06e068f411a3f277382c25a6a8ea50f2679944a02dc44c43914042384f81",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-shell-filter-keyboard",
+      "screen": "shell",
+      "state": "filter-keyboard",
+      "note": "Tab from search into the filter controls.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-shell-filter-keyboard.json",
+      "elementCount": 337,
+      "styleSha256": "9d63ef02b364c0af75b37615c373bdfcf6ce7dced37a5aa2d650c4aefa0b95f7",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-shell-filter-keyboard",
+      "screen": "shell",
+      "state": "filter-keyboard",
+      "note": "Tab from search into the filter controls.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-shell-filter-keyboard.json",
+      "elementCount": 337,
+      "image": "images/ja-light-shell-filter-keyboard.png",
+      "sha256": "36dfc4853903a6a916c25e788c4c467399f4222d9d37e6f1f22403d8e8a6ca08",
+      "styleSha256": "58af38e98e0bb3b9f57d410519886328d19d26922e3952b3f22d2b7fe15a700c",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-shell-new-board",
+      "screen": "shell",
+      "state": "new-board",
+      "note": "Create board inline. Name field focused by keyboard.",
+      "path": "/",
+      "styles": "styles/ja-dark-shell-new-board.json",
+      "elementCount": 35,
+      "image": "images/ja-dark-shell-new-board.png",
+      "sha256": "596b57fd39956c380539a2ba7015b68151f83417954c658eebc4558ace128d5e",
+      "styleSha256": "41f09858717ca26e25d3ca5e0f330a3b97e04c55fab449d4774a27daa6e4c58f",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-shell-new-board",
+      "screen": "shell",
+      "state": "new-board",
+      "note": "Create board inline. Name field focused by keyboard.",
+      "path": "/",
+      "styles": "styles/ja-light-shell-new-board.json",
+      "elementCount": 35,
+      "image": "images/ja-light-shell-new-board.png",
+      "sha256": "4125d7cf01feb8c7843b48d36668f15408d5c8998c2864cfa2f67349427901d7",
+      "styleSha256": "9f4e8f36bf7d954a1dc051fd439e152b19e82f35c8b683d50de72c31668b4a88",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-board",
+      "screen": "kanban",
+      "state": "board",
+      "note": "Active board with lanes, ticket cards, priority and tags.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-kanban-board.json",
+      "elementCount": 337,
+      "image": "images/ja-dark-kanban-board.png",
+      "sha256": "58eca2f0e268f983af254abb439e9efaa93f597a69aaaa381cd3e5b19c9d63e6",
+      "styleSha256": "ce954bc27c46d74ca452d02f5eb2ce77f286a7c62b1c5181b81b9e27be19b424",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-kanban-board",
+      "screen": "kanban",
+      "state": "board",
+      "note": "Active board with lanes, ticket cards, priority and tags.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-kanban-board.json",
+      "elementCount": 337,
+      "image": "images/ja-light-kanban-board.png",
+      "sha256": "5bc4d9f9e23d7694453993a16cf7db7c1dc94b2618b67dcf1d7809eed1491c55",
+      "styleSha256": "fd7963d361490dcac5d7916d6d05a90942a13614f3a44503cd20d6827a183dda",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-empty-lane",
+      "screen": "kanban",
+      "state": "empty-lane",
+      "note": "An existing empty board with one lane and its create controls.",
+      "path": "/boards/3",
+      "styles": "styles/ja-dark-kanban-empty-lane.json",
+      "elementCount": 138,
+      "image": "images/ja-dark-kanban-empty-lane.png",
+      "sha256": "0474813970c29b9f3a333435470a52fce559a93d50826284ee55a16cac5b3231",
+      "styleSha256": "996e946e6009ce65cb731ac348a6aceac255c88f52de838d195f3533f0bc465f",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-hover-card",
+      "screen": "kanban",
+      "state": "hover-card",
+      "note": "First ticket title hovered with the pointer.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-kanban-hover-card.json",
+      "elementCount": 337,
+      "image": "images/ja-dark-kanban-hover-card.png",
+      "sha256": "e5cd08b276bcefd335976cfa84ef1b225ffeed07ba933dade88ab5d06cacf8e5",
+      "styleSha256": "e5277ee15006a5ed6d462a39a64c7b64a6b325e50a0ae3168c18c7331ad337a3",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-kanban-hover-card",
+      "screen": "kanban",
+      "state": "hover-card",
+      "note": "First ticket title hovered with the pointer.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-kanban-hover-card.json",
+      "elementCount": 337,
+      "styleSha256": "8e3f75d4dfcde1b650d61800ca7e8b8704bc63840c240f6a33bd64f37153e4d3",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-lane-actions",
+      "screen": "kanban",
+      "state": "lane-actions",
+      "note": "Lane action menu showing rename and delete icon buttons.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-kanban-lane-actions.json",
+      "elementCount": 345,
+      "image": "images/ja-dark-kanban-lane-actions.png",
+      "sha256": "c6f44bad63184a760b0c39e3d35d8cf3cac913b161dd9975eb266f33b74676d6",
+      "styleSha256": "90ce522b132c80ff2959dc0226dc6dccf4e4f87208780acfe36780aa531b72d2",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-lane-create",
+      "screen": "kanban",
+      "state": "lane-create",
+      "note": "Inline new-lane column.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-kanban-lane-create.json",
+      "elementCount": 338,
+      "image": "images/ja-dark-kanban-lane-create.png",
+      "sha256": "158016d185e1430270f88f004f3a8bd209328a1ba7b1cbc56f365e46462e46d8",
+      "styleSha256": "a3c370ea5db1d0c48cfbd15053cd67ea68f5f9e12f094bd8c204d932a12cccce",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-lane-rename",
+      "screen": "kanban",
+      "state": "lane-rename",
+      "note": "Lane rename inline form and focused text field.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-kanban-lane-rename.json",
+      "elementCount": 339,
+      "image": "images/ja-dark-kanban-lane-rename.png",
+      "sha256": "fb4c8d67cf76fb3f90c47e916969e9d3b7fba177546aee2a091883cea755a900",
+      "styleSha256": "1e817fa0d8e6d81308de442e4dd99e9d83beef8e3333726afd67fe2aafe692dd",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-kanban-window",
+      "screen": "kanban",
+      "state": "window",
+      "note": "Large synthetic lane uses the virtual card window, with only mounted cards measured.",
+      "path": "/boards/4",
+      "styles": "styles/ja-dark-kanban-window.json",
+      "elementCount": 372,
+      "image": "images/ja-dark-kanban-window.png",
+      "sha256": "e05b06996e5013051780daec54150eea1e207004970d9a6ec0a613902e9d9d57",
+      "styleSha256": "b2d7ba2ecc3594fa9bf101c09c34f295c507b37c19a7206741d7785bfa470922",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-list-board",
+      "screen": "list",
+      "state": "board",
+      "note": "Default List with headers, sort, hierarchy, checkboxes and badges.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-dark-list-board.json",
+      "elementCount": 383,
+      "image": "images/ja-dark-list-board.png",
+      "sha256": "86d320c1cbc2811b68b98cd68aca0a960b3b3333caa4fa834b4f0199f74e4ae6",
+      "styleSha256": "650429353568bf88e9820943dd48b03afb102049fa235b5a74dfe320a7f46b40",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-list-board",
+      "screen": "list",
+      "state": "board",
+      "note": "Default List with headers, sort, hierarchy, checkboxes and badges.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-light-list-board.json",
+      "elementCount": 383,
+      "image": "images/ja-light-list-board.png",
+      "sha256": "95ca23996ff83946455bbde245af35b27f7590539e4f9e0497ad2896ea5a758f",
+      "styleSha256": "3ad0921c2b45f32a325fde0e6db56a4a480d599f00e7d9860a2abd485efa4cca",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-list-bulk-selection",
+      "screen": "list",
+      "state": "bulk-selection",
+      "note": "One ticket checked. Bulk action controls shown.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-dark-list-bulk-selection.json",
+      "elementCount": 407,
+      "image": "images/ja-dark-list-bulk-selection.png",
+      "sha256": "ec9a6b261b616b0cffc11595db4551e15f0566eed61e043f6c8f45e5d903b9ca",
+      "styleSha256": "366b6d03a3df9fa582c188f7f4dd8d0e59e38230ffe51b74d0dbb59c93111f0d",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-list-bulk-selection",
+      "screen": "list",
+      "state": "bulk-selection",
+      "note": "One ticket checked. Bulk action controls shown.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-light-list-bulk-selection.json",
+      "elementCount": 407,
+      "image": "images/ja-light-list-bulk-selection.png",
+      "sha256": "acef3a2e8473a17191f9f6f21f4f97c1e79a56341ed151a6819e612a3b2c6c76",
+      "styleSha256": "acc47d33c0e427900b9be6a87e4d32a8fde1b08708275e6bdf9843d4f00352d8",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-list-filtered-empty",
+      "screen": "list",
+      "state": "filtered-empty",
+      "note": "List search with zero matches, clear and reset recovery.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-dark-list-filtered-empty.json",
+      "elementCount": 154,
+      "image": "images/ja-dark-list-filtered-empty.png",
+      "sha256": "d8b23dc34775eb88c2f282cb48b4c68f9ff577d0a77c901b5c14c084ce6135e0",
+      "styleSha256": "bd6893cc1d365bcd19c02eedb7919da8aa2773a5541c25a3c3f56265a8c12a6b",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "en-light-list-status-filter-expanded",
+      "screen": "list",
+      "state": "status-filter-expanded",
+      "note": "English narrower desktop check with status controls expanded.",
+      "path": "/boards/1/list",
+      "styles": "styles/en-light-list-status-filter-expanded.json",
+      "elementCount": 391,
+      "image": "images/en-light-list-status-filter-expanded.png",
+      "sha256": "909769bb64d18ef63086f54a9f8f2fcc24bd9a1dde89d5efb037f04286db97ee",
+      "styleSha256": "90443c4e7df07beaaa9bfa6502c341b070e81a5c57c56f67a6d892939d7925bc",
+      "theme": "light",
+      "locale": "en",
+      "viewport": [
+        1050,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-archive-visible",
+      "screen": "group",
+      "state": "archive-visible",
+      "note": "Archived ticket within a Group after expanding archive visibility.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-group-archive-visible.json",
+      "elementCount": 289,
+      "image": "images/ja-dark-group-archive-visible.png",
+      "sha256": "3de73aaa33fb7dde7a3c58f73b38019d85b992a629362dd8f99edefd21e93a70",
+      "styleSha256": "fb67bb3c17cc00f788eedd43c05707a15371a80f9b714390c9879ad100d28714",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-completed-empty",
+      "screen": "group",
+      "state": "completed-empty",
+      "note": "Inactive completed Group selected from All, then Open only enabled.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-group-completed-empty.json",
+      "elementCount": 183,
+      "image": "images/ja-dark-group-completed-empty.png",
+      "sha256": "6a3fad6c9034ae867564db8ffe24c6366a2c1de7e410d60c428f439c2ee465ce",
+      "styleSha256": "4bdcf8cecd0cacf19a3c900a0cefd3b531677a39adbfb12fb7c327373278f05c",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "en-light-group-narrow",
+      "screen": "group",
+      "state": "narrow",
+      "note": "English Group toolbar and sticky controls at 1050 px.",
+      "path": "/boards/1/group",
+      "styles": "styles/en-light-group-narrow.json",
+      "elementCount": 288,
+      "image": "images/en-light-group-narrow.png",
+      "sha256": "c0fb99b07c43ae7ef74e22050beda08daf9d036b71061ee34e4e437b8e83da9e",
+      "styleSha256": "12d4a94eb8e10629205d38fb7013a5d7482c683f3d79f7cc4a63e719edcb1293",
+      "theme": "light",
+      "locale": "en",
+      "viewport": [
+        1050,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-open-only",
+      "screen": "group",
+      "state": "open-only",
+      "note": "Open only enabled. Resolved and archived parents appear as non-interactive context.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-group-open-only.json",
+      "elementCount": 270,
+      "image": "images/ja-dark-group-open-only.png",
+      "sha256": "d7980b21aee9672cd13f498184f5a4cb10bf7b97d20f80cf077d630ff1e16bff",
+      "styleSha256": "a0bfe497b04f8662243c3ad60c1caaf2bb35aa7dd6bf5ad884ed5eef5e1cb473",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-group-open-only",
+      "screen": "group",
+      "state": "open-only",
+      "note": "Open only enabled. Resolved and archived parents appear as non-interactive context.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-light-group-open-only.json",
+      "elementCount": 270,
+      "image": "images/ja-light-group-open-only.png",
+      "sha256": "15ac0f92b08e13c023ed9f08cb0ffb6d5e2550eb6dd3c6bf53c619a6b2767559",
+      "styleSha256": "2e3fdb606157fa5adbe25a01b43ac6e4122bd145b96f4b6d68aa4b6b1a75ab12",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-selected",
+      "screen": "group",
+      "state": "selected",
+      "note": "A Group with Markdown description, membership, progress and archive controls.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-group-selected.json",
+      "elementCount": 288,
+      "image": "images/ja-dark-group-selected.png",
+      "sha256": "def9a8f64bcab108e4ee96b0e08485535d30607bc459819ab9351a212797782e",
+      "styleSha256": "b4c10946cb3362dba9f5399019abd937b7489e64fc71871bb4051e755dfc8108",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-group-selected",
+      "screen": "group",
+      "state": "selected",
+      "note": "A Group with Markdown description, membership, progress and archive controls.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-light-group-selected.json",
+      "elementCount": 288,
+      "image": "images/ja-light-group-selected.png",
+      "sha256": "b9cc458622037af5332718cbe7b12a734f20481f7b11a0f42d4ef91abd1ec152",
+      "styleSha256": "afafed9d92a0bb059ff86f3300a609f55c52743bb25ae4e156cc54f923c32f0b",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-ungrouped",
+      "screen": "group",
+      "state": "ungrouped",
+      "note": "Unassigned-ticket pseudo-group with its own toolbar.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-group-ungrouped.json",
+      "elementCount": 190,
+      "image": "images/ja-dark-group-ungrouped.png",
+      "sha256": "68a5bc2b06e7d56ef995e6c523c189ed9e34a496314c9e9a9028d90d115706d1",
+      "styleSha256": "e67331053ddfa3fb3ad605a21208b1018d7608d51a159c111db665f77c40c8f4",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-window",
+      "screen": "group",
+      "state": "window",
+      "note": "Large group uses the virtual ticket window and separate window search.",
+      "path": "/boards/4/group",
+      "styles": "styles/ja-dark-group-window.json",
+      "elementCount": 394,
+      "image": "images/ja-dark-group-window.png",
+      "sha256": "153b1e081ef6e4118c11d454ef66ab9e950a80e59d8051a2ba3bb08dc05e1412",
+      "styleSha256": "3b565891bc551cd9dc10ad64ed4a93981bd9e8e21427d136783758b79c49ab6c",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-window-search",
+      "screen": "group",
+      "state": "window-search",
+      "note": "Search for a row near the end of the large Group.",
+      "path": "/boards/4/group",
+      "styles": "styles/ja-dark-group-window-search.json",
+      "elementCount": 576,
+      "image": "images/ja-dark-group-window-search.png",
+      "sha256": "88d6a655d108611eae83368c72cec3944f8649e2c7e49d19a272bae4f0aeb0b4",
+      "styleSha256": "04b1f985a0f82780ac66ce43f3bd86ae401ad1920b2babfd14f87cc91f616fbc",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-expanded-excerpt",
+      "screen": "custom-view",
+      "state": "expanded-excerpt",
+      "note": "Body expanded in place; the full original text has been fetched.",
+      "path": "/views/1",
+      "styles": "styles/ja-dark-custom-view-expanded-excerpt.json",
+      "elementCount": 205,
+      "image": "images/ja-dark-custom-view-expanded-excerpt.png",
+      "sha256": "dbfed56d39199ecf3167bc2161e4eaffa9335f1d66ff6844e021063c8d1b8426",
+      "styleSha256": "f11c02f7bec70f48cfec3a5b973a24b4a341dc3ad34c2318fe593436035645cb",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-missing-and-empty",
+      "screen": "custom-view",
+      "state": "missing-and-empty",
+      "note": "Deleted selected lane shows the warning with a zero-result list.",
+      "path": "/views/2",
+      "styles": "styles/ja-dark-custom-view-missing-and-empty.json",
+      "elementCount": 53,
+      "image": "images/ja-dark-custom-view-missing-and-empty.png",
+      "sha256": "aace43477bee805038a3a126963909f8e79b3a3860b7d629bbf87eb3e116b357",
+      "styleSha256": "d6b76827b4b6043789adcca127d63b8dfc60b7c6bc9de723f50486ef8f99f152",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "en-light-custom-view-narrow-sort",
+      "screen": "custom-view",
+      "state": "narrow-sort",
+      "note": "Long English sorting label with Save and Revert at 1050 px.",
+      "path": "/views/1",
+      "styles": "styles/en-light-custom-view-narrow-sort.json",
+      "elementCount": 206,
+      "image": "images/en-light-custom-view-narrow-sort.png",
+      "sha256": "eadb768bbfd52585b258e0fd59581f32e917ade80424764a8ff91f174adaf563",
+      "styleSha256": "82d47cc763563662ba220d5dba2ac53f387d8038d6bcc4546343aefea870380d",
+      "theme": "light",
+      "locale": "en",
+      "viewport": [
+        1050,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-page-first",
+      "screen": "custom-view",
+      "state": "page-first",
+      "note": "First page of a large view with previous disabled and next enabled.",
+      "path": "/views/3",
+      "styles": "styles/ja-dark-custom-view-page-first.json",
+      "elementCount": 1105,
+      "image": "images/ja-dark-custom-view-page-first.png",
+      "sha256": "e604362c1eac5016bd441b2569533ede7f45519e892516b4b60e30bb60d7f437",
+      "styleSha256": "743d519e09450150f313d7087a9f3b47229039eb6119346d2448fb98b0f97e79",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-page-next",
+      "screen": "custom-view",
+      "state": "page-next",
+      "note": "A following page with first result keyboard-focused.",
+      "path": "/views/3",
+      "styles": "styles/ja-dark-custom-view-page-next.json",
+      "elementCount": 1105,
+      "image": "images/ja-dark-custom-view-page-next.png",
+      "sha256": "e5e069946ace7a4b5a15af5dcb66c209b0b77074c9fc6db46b287c65d129453a",
+      "styleSha256": "00c10a0ad84c4ae30668d5679cf7dae2eed9c9ea6244e8de8cf06a7ec448a48e",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-saved",
+      "screen": "custom-view",
+      "state": "saved",
+      "note": "Saved view with lane and tag conditions, text excerpts and sort control.",
+      "path": "/views/1",
+      "styles": "styles/ja-dark-custom-view-saved.json",
+      "elementCount": 204,
+      "image": "images/ja-dark-custom-view-saved.png",
+      "sha256": "80c38b270e42c0e69629c70c7f75452bc4dd7a7bf7e67fab1ebd35a5f43be5f6",
+      "styleSha256": "6c4f0348b3d2b0fff42db7b8c658aefaf227867e39595c30a4d704a8810c261d",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-custom-view-saved",
+      "screen": "custom-view",
+      "state": "saved",
+      "note": "Saved view with lane and tag conditions, text excerpts and sort control.",
+      "path": "/views/1",
+      "styles": "styles/ja-light-custom-view-saved.json",
+      "elementCount": 204,
+      "image": "images/ja-light-custom-view-saved.png",
+      "sha256": "6597bd4e5a4ca537bfeea6bf9fbb2213ab969d968869c15b44069ad6d9904c90",
+      "styleSha256": "9321c2c41df786d3e7f2d1f82cddd4560b29c2d634b0d7e5fcc12c12c1ca4ec5",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-sort-temporary",
+      "screen": "custom-view",
+      "state": "sort-temporary",
+      "note": "Temporary priority order with Save display settings and Revert.",
+      "path": "/views/1",
+      "styles": "styles/ja-dark-custom-view-sort-temporary.json",
+      "elementCount": 207,
+      "image": "images/ja-dark-custom-view-sort-temporary.png",
+      "sha256": "e95c4c443e66170c96476a2ac16c080fbf70efe4432e88a71410355c7aa4ea76",
+      "styleSha256": "13bdf858e39d14e8e22e138f85f07a7d357a71a7fbd5ca656be3a100d38fb300",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-unavailable",
+      "screen": "custom-view",
+      "state": "unavailable",
+      "note": "A synthetic missing saved-view route.",
+      "path": "/views/999999",
+      "styles": "styles/ja-dark-custom-view-unavailable.json",
+      "elementCount": 34,
+      "image": "images/ja-dark-custom-view-unavailable.png",
+      "sha256": "e8a9ab2073b9a8aa2be8fe6477dfbd01a3c9ade4fe7176fe849187f080c95b3c",
+      "styleSha256": "e6e9188b366956bd44c04a49004c5122f175a35fae927a1f958126031d48d4e3",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-settings-create",
+      "screen": "custom-view-settings",
+      "state": "create",
+      "note": "New view form. Unconfigured board lane modes are disabled.",
+      "path": "/views/new",
+      "styles": "styles/ja-dark-custom-view-settings-create.json",
+      "elementCount": 105,
+      "image": "images/ja-dark-custom-view-settings-create.png",
+      "sha256": "3690cf5db2b843fdeb42e6172a8c51433c73bc9f7437d1fab96863228065c349",
+      "styleSha256": "7a44b8c89fabec403d9e9328d81e355e33c523dd1889dfeb356e1859c4859576",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-custom-view-settings-create",
+      "screen": "custom-view-settings",
+      "state": "create",
+      "note": "New view form. Unconfigured board lane modes are disabled.",
+      "path": "/views/new",
+      "styles": "styles/ja-light-custom-view-settings-create.json",
+      "elementCount": 105,
+      "image": "images/ja-light-custom-view-settings-create.png",
+      "sha256": "a2fb12f16ee8c5ce9448b9e2a4ae3fcfd33fa89a5db74573d27f35def2eb867a",
+      "styleSha256": "05328e33a78c34c70d8df9e93e260874663fb354cd6423da2ce73735345be3c2",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-custom-view-settings-edit",
+      "screen": "custom-view-settings",
+      "state": "edit",
+      "note": "Existing view with two boards and selected-lane checkboxes.",
+      "path": "/views/1",
+      "styles": "styles/ja-dark-custom-view-settings-edit.json",
+      "elementCount": 109,
+      "image": "images/ja-dark-custom-view-settings-edit.png",
+      "sha256": "ab3226bfcf4799abd90b31bbe2f04f796b59f424866d17ba04eaaa4f07ce2498",
+      "styleSha256": "ba80163b21786ab61197daad50577ee6e7ddc8d83cea6846b14896a329fd5b65",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-custom-view-settings-edit",
+      "screen": "custom-view-settings",
+      "state": "edit",
+      "note": "Existing view with two boards and selected-lane checkboxes.",
+      "path": "/views/1",
+      "styles": "styles/ja-light-custom-view-settings-edit.json",
+      "elementCount": 109,
+      "image": "images/ja-light-custom-view-settings-edit.png",
+      "sha256": "a5b4cbf08711cbcca0a193f58363462c17a73b3c403386ae478b2c3aa24440f7",
+      "styleSha256": "c11eec467dacd253d691c7dd8c99ce547c6bee4fe397923855e6eee8c42add99",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "en-light-custom-view-settings-narrow",
+      "screen": "custom-view-settings",
+      "state": "narrow",
+      "note": "English heading and helper text wrapping at 1050 px.",
+      "path": "/views/1",
+      "styles": "styles/en-light-custom-view-settings-narrow.json",
+      "elementCount": 109,
+      "image": "images/en-light-custom-view-settings-narrow.png",
+      "sha256": "06c6755b72e35da183c4af20842e37843a33139ccf7acfa487a2b1557a79cffd",
+      "styleSha256": "b7eee9b5567d6e1b2e9dca846d0d87abc767a9f106bc48601343d27e758e47ad",
+      "theme": "light",
+      "locale": "en",
+      "viewport": [
+        1050,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-new-blank",
+      "screen": "ticket-new",
+      "state": "blank",
+      "note": "New ticket started from a lane. Local write has not been submitted.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-ticket-new-blank.json",
+      "elementCount": 417,
+      "image": "images/ja-dark-ticket-new-blank.png",
+      "sha256": "e72a359fb14d8d1278128ebb1ab83645886f1be9bbfcc52082dc2ea612e7889f",
+      "styleSha256": "9b6c95838ffd98b7f43237de7df6199a554d425f225358f4ee8c245b24acab39",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-ticket-new-blank",
+      "screen": "ticket-new",
+      "state": "blank",
+      "note": "New ticket started from a lane. Local write has not been submitted.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-ticket-new-blank.json",
+      "elementCount": 417,
+      "image": "images/ja-light-ticket-new-blank.png",
+      "sha256": "38f7fa0de8ec7a6c8bfd0c4da789823a993ba974a5b9f413053d2561f21665b2",
+      "styleSha256": "ef86df5b4d16ec0f3219579ed25d3a7f0a9586573ec0f17a170d2a1a294e844f",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-edit-form",
+      "screen": "ticket-edit",
+      "state": "form",
+      "note": "Existing ticket full edit form.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-edit-form.json",
+      "elementCount": 453,
+      "image": "images/ja-dark-ticket-edit-form.png",
+      "sha256": "6bf9c7a655312cdd4c2eff5bddd68ee46670c77e251f96da20a1ace8c31cfdd1",
+      "styleSha256": "1ccdbe3f8008d5de7551edbbcccb92163402b93f6e8511911dd40ecbc3f54cc1",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-ticket-edit-form",
+      "screen": "ticket-edit",
+      "state": "form",
+      "note": "Existing ticket full edit form.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-ticket-edit-form.json",
+      "elementCount": 453,
+      "image": "images/ja-light-ticket-edit-form.png",
+      "sha256": "a3e96117bcabfe322a3a236bc0cd2a4ceccdb2fff885e929a3613551dc8a68b2",
+      "styleSha256": "51b36946d338043db7fe522e1c0de669b458055b8f798d0c9f3d26937e642582",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-detail-body",
+      "screen": "ticket-detail",
+      "state": "body",
+      "note": "Direct ticket view with Markdown, image, status and relationships.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-detail-body.json",
+      "elementCount": 467,
+      "image": "images/ja-dark-ticket-detail-body.png",
+      "sha256": "56b8386f59d8256d3ba2eaad941202895ad90b2bc0147253c3170d88157b9ee1",
+      "styleSha256": "5d606c2855e5a89b4da66cd9f7af2c426b950aa41627815e7906491cb292e325",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-ticket-detail-body",
+      "screen": "ticket-detail",
+      "state": "body",
+      "note": "Direct ticket view with Markdown, image, status and relationships.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-ticket-detail-body.json",
+      "elementCount": 467,
+      "image": "images/ja-light-ticket-detail-body.png",
+      "sha256": "5271b528aa9159ab39424de42d9e3301bc43b330eb259339a476030e71815f20",
+      "styleSha256": "f4b08524494a171b9d15adb5dd18fd1d4c787a27a6db5f9cd508d85d1f98a154",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-detail-remote-diff",
+      "screen": "ticket-detail",
+      "state": "remote-diff",
+      "note": "Local body and simulated remote body diff.",
+      "path": "/tickets/1025",
+      "styles": "styles/ja-dark-ticket-detail-remote-diff.json",
+      "elementCount": 505,
+      "image": "images/ja-dark-ticket-detail-remote-diff.png",
+      "sha256": "5f4cc024e583b1308b34d0d34977eb07a9ebc8d949203dca06526ab5da1b1ef5",
+      "styleSha256": "8f8d8fa517fc8af64240894ff380b93374643ab21213659deb5f8bfb315c139e",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-detail-remote-local",
+      "screen": "ticket-detail",
+      "state": "remote-local",
+      "note": "Linked issue from the isolated simulated adapter; the local body is selected.",
+      "path": "/tickets/1025",
+      "styles": "styles/ja-dark-ticket-detail-remote-local.json",
+      "elementCount": 495,
+      "image": "images/ja-dark-ticket-detail-remote-local.png",
+      "sha256": "b7ec275b6af78d8b5279599c156d3f8c3a0fbfd7bc185eead7a04ff7a05dba97",
+      "styleSha256": "96acb88516da576508442135398a88db0d8f648696a4965572c0d8a94ee5fa4d",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-detail-remote-snapshot",
+      "screen": "ticket-detail",
+      "state": "remote-snapshot",
+      "note": "Read-only body from the simulated remote snapshot.",
+      "path": "/tickets/1025",
+      "styles": "styles/ja-dark-ticket-detail-remote-snapshot.json",
+      "elementCount": 492,
+      "image": "images/ja-dark-ticket-detail-remote-snapshot.png",
+      "sha256": "93942b603078284a3b903382927fb742427a9523e13ca94d28eb1bd620148044",
+      "styleSha256": "778bc9d37509f91c061b5394f0952ed6312e090a48cd4c95f154a627bfc2c245",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-inline-body",
+      "screen": "ticket-inline",
+      "state": "body",
+      "note": "Inline Markdown body editing within the ticket detail.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-inline-body.json",
+      "elementCount": 462,
+      "image": "images/ja-dark-ticket-inline-body.png",
+      "sha256": "f32fa1e6d35209ce443235c8c81cb3b60cccb131b3f843f9fe1bafd2e0974ff1",
+      "styleSha256": "2a2e4d2c95ef92d8b596830c0860b0b43a697a97ace2c6baf1aac5eba725e415",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-inline-priority",
+      "screen": "ticket-inline",
+      "state": "priority",
+      "note": "Quick priority editing alongside ticket metadata.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-inline-priority.json",
+      "elementCount": 463,
+      "image": "images/ja-dark-ticket-inline-priority.png",
+      "sha256": "a926a351eadac69e982703d4610abb4f289672e67f54b67e6ca98492a614d55e",
+      "styleSha256": "61d804d3a5a1d0561fd716f46dfe20e6861ab3f8806e7ac01dd89cf295b2cefc",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-inline-title",
+      "screen": "ticket-inline",
+      "state": "title",
+      "note": "Quick title editing inside the detail header.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-inline-title.json",
+      "elementCount": 466,
+      "image": "images/ja-dark-ticket-inline-title.png",
+      "sha256": "c45aa150c5828c4b78b8d522b7c96f1f33ab68f4b2e65d282cc8b50aaff58bbf",
+      "styleSha256": "f78ab10cd2a65d7ec156f474f8593457a197ce79e90699cbbfe85b091bb99bc3",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-comments-compose",
+      "screen": "ticket-comments",
+      "state": "compose",
+      "note": "Comment composer and chronological existing comments.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-comments-compose.json",
+      "elementCount": 477,
+      "image": "images/ja-dark-ticket-comments-compose.png",
+      "sha256": "0fc68cfbd9a57b72f294d2fe4b5c6e77a4be1d30c64ffa88719a49c17e2f5398",
+      "styleSha256": "6e2e69874686c66320ccfbb9a3004c3585321d10d962af935485870eeab8f325",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-ticket-comments-compose",
+      "screen": "ticket-comments",
+      "state": "compose",
+      "note": "Comment composer and chronological existing comments.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-ticket-comments-compose.json",
+      "elementCount": 477,
+      "image": "images/ja-light-ticket-comments-compose.png",
+      "sha256": "09db9f403f6eb20e656e26c92084710132196c037aa45c26089a77f1e66e024f",
+      "styleSha256": "32584c9eb25e88637e3aa9c67edecfabc25c0726d1c27c8e5e3a8c99ea3a5e7f",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-comments-delete-confirm",
+      "screen": "ticket-comments",
+      "state": "delete-confirm",
+      "note": "Inline comment-delete guard, then cancelled.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-comments-delete-confirm.json",
+      "elementCount": 474,
+      "image": "images/ja-dark-ticket-comments-delete-confirm.png",
+      "sha256": "1df0ae098d40c572c303647c4d7fcd628bac46cf687d2a1d9e499ad39c2cc07d",
+      "styleSha256": "61c39a95536fa331abc3adc9a724b9694cb33839cb5d96180ee7476d83e430f0",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-comments-edit",
+      "screen": "ticket-comments",
+      "state": "edit",
+      "note": "Existing local comment inline edit form.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-comments-edit.json",
+      "elementCount": 471,
+      "image": "images/ja-dark-ticket-comments-edit.png",
+      "sha256": "dab2e3049f0c8c2f9f8b7131fdc7ffdf0426918fb04155eeb30a971c24b87676",
+      "styleSha256": "cd74f3f0be0efc3229118aad22547d702a78641499a65480a473f317b8887911",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-comments-remote-sync",
+      "screen": "ticket-comments",
+      "state": "remote-sync",
+      "note": "Deterministic pushed/failed status. Expanded failure details, retry control and read-only pushed comment.",
+      "path": "/tickets/1025",
+      "styles": "styles/ja-dark-ticket-comments-remote-sync.json",
+      "elementCount": 497,
+      "image": "images/ja-dark-ticket-comments-remote-sync.png",
+      "sha256": "c741659474f6104282d7764d3be2e0266e3f639a04852e84a930b398ed9cdbd6",
+      "styleSha256": "778d4ea28882984339104b892384d039b868db67ce213e350545a39206695cb4",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-ticket-activity-history",
+      "screen": "ticket-activity",
+      "state": "history",
+      "note": "Activity selected. Local ticket history and timestamps.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-ticket-activity-history.json",
+      "elementCount": 454,
+      "image": "images/ja-dark-ticket-activity-history.png",
+      "sha256": "c5b3de83ae8328fdbd75d912ada01aaef56cb09633e35e10b4728f333ba66a0a",
+      "styleSha256": "c7b5240b5160c235db1d1fb45a2ae5778cb8ab4657f842701576bdc527a547fe",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-ticket-activity-history",
+      "screen": "ticket-activity",
+      "state": "history",
+      "note": "Activity selected. Local ticket history and timestamps.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-ticket-activity-history.json",
+      "elementCount": 454,
+      "image": "images/ja-light-ticket-activity-history.png",
+      "sha256": "745a36da9a44b45b16e2cdd3e50af96ec9cb103826b6d4ca33876733b4a84a07",
+      "styleSha256": "43d5b44b9c237492181e348ed0246677d693b4c93eea506fb7971e6f8356d884",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-picker-tags-options",
+      "screen": "picker-tags",
+      "state": "options",
+      "note": "Tag picker on an existing ticket with a typed search.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-picker-tags-options.json",
+      "elementCount": 458,
+      "image": "images/ja-dark-picker-tags-options.png",
+      "sha256": "c1f7ff3832042bf61c6337e1c6a4f4c98533ec224eb79bcc13677cf14169d8f5",
+      "styleSha256": "61ef05e1af0f016755efd9f267068fd90441cdb21efb22d859ae205350ea0cbb",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-picker-tags-options",
+      "screen": "picker-tags",
+      "state": "options",
+      "note": "Tag picker on an existing ticket with a typed search.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-picker-tags-options.json",
+      "elementCount": 458,
+      "image": "images/ja-light-picker-tags-options.png",
+      "sha256": "6bc0a60cc8e5a05beb47f3a4437042b998c4a4d9e8b532ab0aebe97918c422a0",
+      "styleSha256": "b237a7a1971778555d6b0cacf7cc879e11dea94d6c22ab1ed1a3ac9b215fc40b",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-picker-relations-ticket-options",
+      "screen": "picker-relations",
+      "state": "ticket-options",
+      "note": "Relationship search with candidate tickets.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-picker-relations-ticket-options.json",
+      "elementCount": 455,
+      "image": "images/ja-dark-picker-relations-ticket-options.png",
+      "sha256": "7a32390283fa8d185343d662c40bcd9279ffd3686b7e3d18c79ade33004e452b",
+      "styleSha256": "2bb9ccab0e7992947584a9b027ab372c3caeecd82d2f377e642c6d93beab8043",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-picker-relations-ticket-options",
+      "screen": "picker-relations",
+      "state": "ticket-options",
+      "note": "Relationship search with candidate tickets.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-picker-relations-ticket-options.json",
+      "elementCount": 455,
+      "image": "images/ja-light-picker-relations-ticket-options.png",
+      "sha256": "9919d8d939a32c09a3405e542b226ebac05c939ee81b99cb8223f239f84f93f7",
+      "styleSha256": "cbc77110ef7d78508b66d29e2718079592d834412caea41ad3605d6e6db27b3b",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-picker-relations-type-menu",
+      "screen": "picker-relations",
+      "state": "type-menu",
+      "note": "Relation type menu in the editor.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-picker-relations-type-menu.json",
+      "elementCount": 453,
+      "image": "images/ja-dark-picker-relations-type-menu.png",
+      "sha256": "2470a28e7ec47a6e2b24a1509de36d24ea70cb827cca94ba88374149401670d4",
+      "styleSha256": "d89235897c95eede8a625f0fd42401a9539c56a068efe2e88d0a6e99e3d31ba2",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-picker-relations-type-menu",
+      "screen": "picker-relations",
+      "state": "type-menu",
+      "note": "Relation type menu in the editor.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-light-picker-relations-type-menu.json",
+      "elementCount": 453,
+      "image": "images/ja-light-picker-relations-type-menu.png",
+      "sha256": "12c85e0ef80a9860e69cd803f58db806ce5bb1443bb738b0b611f91bf00550ce",
+      "styleSha256": "9a257a0bbc22a425eb7a3fc7dd327fffee059cabad41c11f298945f7c6944e05",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-board-completion-review",
+      "screen": "settings-board",
+      "state": "completion-review",
+      "note": "Review the nonzero reopening impact before applying, then cancel.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-board-completion-review.json",
+      "elementCount": 357,
+      "image": "images/ja-dark-settings-board-completion-review.png",
+      "sha256": "1131c8af972ac930aa61b9157b726f435c54165441af403d1c5bdaf5753549fa",
+      "styleSha256": "4012bd8a791c98e11d3c2f8bbf94279f8a325a1fa7d8df2b41185968907b9268",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-board-completion-selection",
+      "screen": "settings-board",
+      "state": "completion-selection",
+      "note": "Completion-lane checkboxes in the board settings. Save disabled before changes.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-board-completion-selection.json",
+      "elementCount": 351,
+      "image": "images/ja-dark-settings-board-completion-selection.png",
+      "sha256": "5960f353d21f125b5a4b4045f7898d52af528b9612c632149c1ccb5afc122327",
+      "styleSha256": "0091d860363e6b865336a602968ac20ec36b8706061fb5958514beda84184477",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-board-expanded",
+      "screen": "settings-board",
+      "state": "expanded",
+      "note": "Sidebar board settings with language, names, lanes and data operations.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-board-expanded.json",
+      "elementCount": 337,
+      "image": "images/ja-dark-settings-board-expanded.png",
+      "sha256": "5c891add20ff0a82e5f9d00d0930d49e47f0b01759fab5d907beb19434296bce",
+      "styleSha256": "943000fd9616564f3b402c3bff8c2de2bdaf10d2ae49128ee08ea1a4a3c6df7d",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-settings-board-expanded",
+      "screen": "settings-board",
+      "state": "expanded",
+      "note": "Sidebar board settings with language, names, lanes and data operations.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-settings-board-expanded.json",
+      "elementCount": 337,
+      "image": "images/ja-light-settings-board-expanded.png",
+      "sha256": "e7fd4f12d79767afe9a99e278dfc8b379e313b99414a5abfd0aeb6ab4ccce6eb",
+      "styleSha256": "60b0de73c275beadfdb319457cf72c20c58b53242e3b44a2e11b1b54d32937e9",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-board-rename",
+      "screen": "settings-board",
+      "state": "rename",
+      "note": "Inline board name edit. Keyboard focus inside the gear panel.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-board-rename.json",
+      "elementCount": 333,
+      "image": "images/ja-dark-settings-board-rename.png",
+      "sha256": "1bea97f101928b3e156b67b9ef151b2d141382f45a85ef266670e3ffec10c5fd",
+      "styleSha256": "a13f18dc32bd3803f0d51508c0c0a1706a1d532485772e2022b9120ca0c16bb1",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-tags-color-edit",
+      "screen": "settings-tags",
+      "state": "color-edit",
+      "note": "Colored tag edit form including text, enabled toggle and native color input.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-tags-color-edit.json",
+      "elementCount": 356,
+      "image": "images/ja-dark-settings-tags-color-edit.png",
+      "sha256": "f52a645f3d465019cb565a63f98850a496ea8c1600b0d56f15e4a10087ac582e",
+      "styleSha256": "883c65c3959c55b450fbd7ec7b31cc788179e8de7727bad8f433eb0a093e6c06",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-tags-create",
+      "screen": "settings-tags",
+      "state": "create",
+      "note": "New tag inline entry, with its keyboard focus.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-tags-create.json",
+      "elementCount": 339,
+      "image": "images/ja-dark-settings-tags-create.png",
+      "sha256": "b8226c48b11c71b32f65cc7d607b3123ece9df3b08a0fcfb4c3117f0603b9fa2",
+      "styleSha256": "4fe6ea4aec52bdfd99e8ab4d3dbf91423d879c717a02314b77e96c0d2bb6136c",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-settings-tags-create",
+      "screen": "settings-tags",
+      "state": "create",
+      "note": "New tag inline entry, with its keyboard focus.",
+      "path": "/boards/1",
+      "styles": "styles/ja-light-settings-tags-create.json",
+      "elementCount": 339,
+      "image": "images/ja-light-settings-tags-create.png",
+      "sha256": "3108677d1c09c5806d7089a2875fde107108ca21d5c1e5f006172ccf647f9876",
+      "styleSha256": "ff7d7ae969622f6cf15ead979c1eaf103b8f8e6f5d9566c0cb8c0919d0f7b2b2",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-tags-delete-confirm",
+      "screen": "settings-tags",
+      "state": "delete-confirm",
+      "note": "Inline tag deletion confirmation.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-settings-tags-delete-confirm.json",
+      "elementCount": 358,
+      "image": "images/ja-dark-settings-tags-delete-confirm.png",
+      "sha256": "b1fdc63f39331b55690ed6aa4309e982433c204d2c704ae547eacc0c4902f4ef",
+      "styleSha256": "e50ffe6a58f1a3b457441598d3ca696955fffe6136f82b760e41856f9cba1edb",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-group-add-disabled",
+      "screen": "settings-group",
+      "state": "add-disabled",
+      "note": "Membership search before selection. Add button is disabled.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-settings-group-add-disabled.json",
+      "elementCount": 296,
+      "image": "images/ja-dark-settings-group-add-disabled.png",
+      "sha256": "f641f44142c51ff634db68eef152ec593b0dd71b8adfcc1593fceb7c62955ecf",
+      "styleSha256": "c1cac32b53dcee3fc0a47ae2144e84e3d958bf0773a72eac6f4804c784061ddf",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-group-create",
+      "screen": "settings-group",
+      "state": "create",
+      "note": "Inline Group creation form, with the name focused.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-settings-group-create.json",
+      "elementCount": 291,
+      "image": "images/ja-dark-settings-group-create.png",
+      "sha256": "4a63e7c74756d2b3ec68ce87ac2f146150cdb797052ddfaac5834fa8ce46bbc2",
+      "styleSha256": "36c729573878f127113e2b988e4ece0d03220e33c3b7234970d2fdc34c76ed03",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-group-description",
+      "screen": "settings-group",
+      "state": "description",
+      "note": "Markdown source editor for a Group description.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-settings-group-description.json",
+      "elementCount": 288,
+      "image": "images/ja-dark-settings-group-description.png",
+      "sha256": "ae83c187b25735e6738910bd888adaf9eb2b74716af25143602ee8e94f872ff5",
+      "styleSha256": "1265cd24c0a791d7c22b69c67dfc1d881acb82fbf8211b37f8ba1139da97ce61",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-group-description-preview",
+      "screen": "settings-group",
+      "state": "description-preview",
+      "note": "Rendered Group Markdown preview.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-settings-group-description-preview.json",
+      "elementCount": 295,
+      "image": "images/ja-dark-settings-group-description-preview.png",
+      "sha256": "7b2721a70bc51d3f4827845b81e80396b1aa79843dd786f1c43cb1ca0dcfc2d8",
+      "styleSha256": "e275f533f395b840447c5bb3b15a56b3361ce1210d0f4db8001e3d2b33bdc32d",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-group-member-candidates",
+      "screen": "settings-group",
+      "state": "member-candidates",
+      "note": "Add existing tickets search with keyboard highlighted candidate.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-settings-group-member-candidates.json",
+      "elementCount": 303,
+      "image": "images/ja-dark-settings-group-member-candidates.png",
+      "sha256": "f4504b0de16c7f7f6f5762c6004fe56a1796f9dc2b311d44e72931dd838b4383",
+      "styleSha256": "7446fe2205122fa8dbac2b4975d9b44bab5d1db1177684402154b2e2fd9c635f",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-settings-group-rename",
+      "screen": "settings-group",
+      "state": "rename",
+      "note": "Group rename field and Save/Cancel actions.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-settings-group-rename.json",
+      "elementCount": 291,
+      "image": "images/ja-dark-settings-group-rename.png",
+      "sha256": "012f543dfdb63f91367fb0bd26e5b57bea6dba96a830b62b552e72d374a3546e",
+      "styleSha256": "a3dec2d85fb9359a172accffb563480dfabd91065242ca2044af62aec673b34a",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-settings-group-rename",
+      "screen": "settings-group",
+      "state": "rename",
+      "note": "Group rename field and Save/Cancel actions.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-light-settings-group-rename.json",
+      "elementCount": 291,
+      "image": "images/ja-light-settings-group-rename.png",
+      "sha256": "ab3ffee058c03f3b48f76ba6a44f38458429b7b8852dbbeaca3bd1989ab75bbc",
+      "styleSha256": "30fc6e04aed6bc5a48e3e4a71e244057089c791239a622c6600ae95e49cba46c",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-remote-import-drawer",
+      "screen": "remote-import",
+      "state": "drawer",
+      "note": "Isolated simulated external adapter. Provider switch, issue URL, lane and backlink option.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-remote-import-drawer.json",
+      "elementCount": 452,
+      "image": "images/ja-dark-remote-import-drawer.png",
+      "sha256": "575fa6bf4a10d4aac8f07b54645f44728433cdabdfb88415b51c920b8a0f6fbd",
+      "styleSha256": "9b4bc37104666e106b69728a262b7605674d34afbd0d29d645ecb13d51c8be39",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-remote-import-duplicate",
+      "screen": "remote-import",
+      "state": "duplicate",
+      "note": "The simulated issue is already linked. The Import button is disabled.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-remote-import-duplicate.json",
+      "elementCount": 459,
+      "image": "images/ja-dark-remote-import-duplicate.png",
+      "sha256": "9cb7e757e9cc70cd7e1a23cf88c855193c099fbc6e63952913bb61f266c847e0",
+      "styleSha256": "2dc2519a22e9daeaf43d6cf27fe73e5099790e172f7dbdf02ebc4c769977c8b1",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-remote-import-preview",
+      "screen": "remote-import",
+      "state": "preview",
+      "note": "Successful preview from the deterministic simulated adapter.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-remote-import-preview.json",
+      "elementCount": 458,
+      "image": "images/ja-dark-remote-import-preview.png",
+      "sha256": "d4429fa5e2f522d4ef5fb0d3f21ce3fd1cd2407fda28d598d3ae9e43be1d6a59",
+      "styleSha256": "bd3270fa3d3bd71ef425785e99b06a98908950f05fce41d6abe54acfeb0b3032",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-remote-import-preview-error",
+      "screen": "remote-import",
+      "state": "preview-error",
+      "note": "The simulated adapter returned a controlled failure.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-remote-import-preview-error.json",
+      "elementCount": 453,
+      "image": "images/ja-dark-remote-import-preview-error.png",
+      "sha256": "a8d32746f83fa9d96a536bcc3264608c096255189264b3b2d56126d91afb66d4",
+      "styleSha256": "c5dee021962f2278946f4e5086faa43c7dada8dd584d970bd35afe6029ea436f",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-dialogs-board-delete",
+      "screen": "dialogs",
+      "state": "board-delete",
+      "note": "Delete board confirmation. No deletion performed.",
+      "path": "/boards/1",
+      "styles": "styles/ja-dark-dialogs-board-delete.json",
+      "elementCount": 362,
+      "image": "images/ja-dark-dialogs-board-delete.png",
+      "sha256": "322c9e2b4d1ae46e1bf4ed7c2af3326cb7afd5ad438c56dc072c0cea81cfc29d",
+      "styleSha256": "5dc1aafbcbe26445f6c28aa5feb6e6c06e4876c5014f8f7da38b2e04f3dab138",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-dialogs-bulk-delete",
+      "screen": "dialogs",
+      "state": "bulk-delete",
+      "note": "Destructive List action confirmation, cancelled in the fixture.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-dark-dialogs-bulk-delete.json",
+      "elementCount": 431,
+      "image": "images/ja-dark-dialogs-bulk-delete.png",
+      "sha256": "50037edc93baec832f294defb9c54487d710e2bd0f76079d9b40e4e6702184c6",
+      "styleSha256": "b496e0ef561a3fb697a796de3e868fbbd67ce6b45fc0a401f1c361bfb8b4e4c0",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-dialogs-bulk-move",
+      "screen": "dialogs",
+      "state": "bulk-move",
+      "note": "Move selected List tickets. Destination selectors and actions.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-dark-dialogs-bulk-move.json",
+      "elementCount": 426,
+      "image": "images/ja-dark-dialogs-bulk-move.png",
+      "sha256": "1fdbb16807764be19439c87a0ae3fcd68e8cc9c7000977d328457f1555c8b20a",
+      "styleSha256": "eebf042f2c0e6b9cc9e4888b0a426f7b272621a05de9e53ee32660bc350f06d3",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-light-dialogs-bulk-move",
+      "screen": "dialogs",
+      "state": "bulk-move",
+      "note": "Move selected List tickets. Destination selectors and actions.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-light-dialogs-bulk-move.json",
+      "elementCount": 426,
+      "image": "images/ja-light-dialogs-bulk-move.png",
+      "sha256": "deec24888b393c9eb15f0fefe629c06044934f015cc2212a5baa2eabdcef0598",
+      "styleSha256": "098d0816e10af9332569d9d5d139cf9c15297b09bb69042c079a9c5503da97e2",
+      "theme": "light",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-dialogs-discard-draft",
+      "screen": "dialogs",
+      "state": "discard-draft",
+      "note": "Unsaved body guard from dismissing the ticket. No data saved.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-dialogs-discard-draft.json",
+      "elementCount": 479,
+      "image": "images/ja-dark-dialogs-discard-draft.png",
+      "sha256": "bdf5d34e15d8903a1f02fb13bb565f72830dfd383fe7637c64f42997aa98954e",
+      "styleSha256": "e23d107f7ec12ddd0b86f4589c6e79ba001637164c2ad914d86cbd713dde00e9",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-dialogs-group-remove-family",
+      "screen": "dialogs",
+      "state": "group-remove-family",
+      "note": "Group membership removal preview for a related family, then cancel.",
+      "path": "/boards/1/group",
+      "styles": "styles/ja-dark-dialogs-group-remove-family.json",
+      "elementCount": 305,
+      "image": "images/ja-dark-dialogs-group-remove-family.png",
+      "sha256": "cccc5718b6506fae521b9d0b17ebd1646982352d8ed3446f426b06e8a24180f0",
+      "styleSha256": "599fb3c1febc984d7bab0a71a1f3e166fdb439e130410c38adfd8e8a38bb9309",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-toast-error",
+      "screen": "toast",
+      "state": "error",
+      "note": "Blank-comment validation. No comment posted.",
+      "path": "/tickets/2",
+      "styles": "styles/ja-dark-toast-error.json",
+      "elementCount": 428,
+      "image": "images/ja-dark-toast-error.png",
+      "sha256": "d05b34ad1387a6aad4ad306ef4afd3183729370b455cc0e8a101e978c61b3a5d",
+      "styleSha256": "32573b19cfffce58b3908640b8fec66e5d8a5abef3106e62f7dab5162fff84f0",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-toast-success",
+      "screen": "toast",
+      "state": "success",
+      "note": "Successful creation of a transient tag in the synthetic fixture.",
+      "path": "/boards/3",
+      "styles": "styles/ja-dark-toast-success.json",
+      "elementCount": 142,
+      "image": "images/ja-dark-toast-success.png",
+      "sha256": "798dffa6888778406979d6402267c5115f76b02ea5c8f4d4d0ae7c851c9b1a92",
+      "styleSha256": "4c16acc1d78045d9c4c4f1992de71ef898763bb6266b291c59c4240fb2d78efb",
+      "theme": "dark",
+      "locale": "ja",
+      "viewport": [
+        1440,
+        900,
+        1
+      ]
+    },
+    {
+      "id": "ja-dark-group-selector-check-window-search",
+      "screen": "group",
+      "state": "selector-check-window-search",
+      "note": "Additional native CSS selector measurement of Group window search controls. Original visual reference: window search frame.",
+      "path": "/boards/4/group",
+      "styles": "styles/ja-dark-group-selector-check-window-search.json",
+      "elementCount": 578,
+      "styleSha256": "9b901130700bb4072039aae472c0693025ba12ff270f4dd9b885ea783f57f7f9",
+      "locale": "ja",
+      "theme": "dark",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 146
+    },
+    {
+      "id": "ja-dark-kanban-completion-and-inactive-collapsed",
+      "screen": "kanban",
+      "state": "completion-and-inactive-collapsed",
+      "note": "Six completed tickets in a completion lane and nine archived tickets in an ordinary lane exercise both summary controls.",
+      "path": "/boards/5",
+      "styles": "styles/ja-dark-kanban-completion-and-inactive-collapsed.json",
+      "elementCount": 289,
+      "image": "images/ja-dark-kanban-completion-and-inactive-collapsed.png",
+      "sha256": "f41d15921a97ae5036f58048e6ddaa226343a0fe3d0e67f8695b8d46086d3d7d",
+      "styleSha256": "a327c3e5bac03334ea84910b3d82e858a60e8abe093a3bd8bb04ec482c340443",
+      "locale": "ja",
+      "theme": "dark",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 166
+    },
+    {
+      "id": "ja-dark-kanban-completion-expanded",
+      "screen": "kanban",
+      "state": "completion-expanded",
+      "note": "All six completed tickets shown; the Show latest 5 collapse action is visible.",
+      "path": "/boards/5",
+      "styles": "styles/ja-dark-kanban-completion-expanded.json",
+      "elementCount": 303,
+      "image": "images/ja-dark-kanban-completion-expanded.png",
+      "sha256": "af86363277e7dce5a76b0e952587717cf24fb19814e85bac2d2222495e733461",
+      "styleSha256": "f330403fb0689d705c33ecac789b3f719cfad82c784cba1b4a097dcd01a7c15a",
+      "locale": "ja",
+      "theme": "dark",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 166
+    },
+    {
+      "id": "ja-dark-kanban-inactive-expanded",
+      "screen": "kanban",
+      "state": "inactive-expanded",
+      "note": "All nine archived tickets with the expanded inactive list and its collapse control.",
+      "path": "/boards/5",
+      "styles": "styles/ja-dark-kanban-inactive-expanded.json",
+      "elementCount": 374,
+      "image": "images/ja-dark-kanban-inactive-expanded.png",
+      "sha256": "fdff1775d3c847f46be21f510d8cd29921c5b4de25e43ddc3dde51dfed28cd9d",
+      "styleSha256": "700fb6f5db8f685667fe7bf595878b4f0f4cb8c2394622bf2b88d305b1fc6f4b",
+      "locale": "ja",
+      "theme": "dark",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 167
+    },
+    {
+      "id": "ja-dark-ticket-detail-markdown-specimen-remote",
+      "screen": "ticket-detail",
+      "state": "markdown-specimen-remote",
+      "note": "The same specimen in the read-only remote snapshot. Simulated adapter.",
+      "path": "/tickets/1026",
+      "styles": "styles/ja-dark-ticket-detail-markdown-specimen-remote.json",
+      "elementCount": 531,
+      "image": "images/ja-dark-ticket-detail-markdown-specimen-remote.png",
+      "sha256": "928a8eeb36d8f1668d218215c921c53f5acf9b8904b4edeb05886ba4d582cb8c",
+      "styleSha256": "52f9ef886e6b147b26c1f4897c5672927207f4efe5ab329d79ea94b0424e8338",
+      "locale": "ja",
+      "theme": "dark",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 308
+    },
+    {
+      "id": "ja-dark-ticket-edit-markdown-specimen-remote",
+      "screen": "ticket-edit",
+      "state": "markdown-specimen-remote",
+      "note": "The same specimen in the existing linked ticket's editor, including its read-only title and local/remote tabs. Simulated adapter.",
+      "path": "/tickets/1026",
+      "styles": "styles/ja-dark-ticket-edit-markdown-specimen-remote.json",
+      "elementCount": 530,
+      "image": "images/ja-dark-ticket-edit-markdown-specimen-remote.png",
+      "sha256": "3fcd1bfd0a82b5ebfefd676cc51e7cdcf75067d4464609e9bebacbfcdba8ab76",
+      "styleSha256": "e896c8e7b98462fdfae948f2eed97ae9d73cb31847d5479ebfb300fa78003bfb",
+      "locale": "ja",
+      "theme": "dark",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 318
+    },
+    {
+      "id": "ja-light-custom-view-selector-check-saved",
+      "screen": "custom-view",
+      "state": "selector-check-saved",
+      "note": "Additional native CSS selector measurement of the saved view. Original visual reference: saved view frame.",
+      "path": "/views/1",
+      "styles": "styles/ja-light-custom-view-selector-check-saved.json",
+      "elementCount": 207,
+      "styleSha256": "b3a51fa4477ecbca5a7c72d60ad432c59f4da7627589366cd795cbbe2124ed33",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 64
+    },
+    {
+      "id": "ja-light-custom-view-settings-selector-check-edit",
+      "screen": "custom-view-settings",
+      "state": "selector-check-edit",
+      "note": "Additional native CSS selector measurement of the saved settings form. Original visual reference: edit frame.",
+      "path": "/views/1",
+      "styles": "styles/ja-light-custom-view-settings-selector-check-edit.json",
+      "elementCount": 114,
+      "styleSha256": "c9a7df16b047690d8912ffc0577bee2c3e16b8e4830395b1a0f9ebdb2710ba98",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 76
+    },
+    {
+      "id": "ja-light-group-markdown-specimen-description",
+      "screen": "group",
+      "state": "markdown-specimen-description",
+      "note": "The same specimen in the expanded Group description.",
+      "path": "/boards/5/group",
+      "styles": "styles/ja-light-group-markdown-specimen-description.json",
+      "elementCount": 215,
+      "image": "images/ja-light-group-markdown-specimen-description.png",
+      "sha256": "7ca6f13476b3ab43e737d175d5e115e0a880d7915f088da4f72c93ffde7e110c",
+      "styleSha256": "7ec8278afa7ea36b8f69e892ca589be4093f2a44f745b32209514477b8cec657",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 168
+    },
+    {
+      "id": "ja-light-list-selector-check-board",
+      "screen": "list",
+      "state": "selector-check-board",
+      "note": "Additional native CSS selector measurement of headers and metadata cells. Original visual reference: List board frame.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-light-list-selector-check-board.json",
+      "elementCount": 386,
+      "styleSha256": "77aab243c869c2f400dba1d99ef8189025141d6dc0af361e1bb807c0793db8a9",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 173
+    },
+    {
+      "id": "ja-light-settings-group-markdown-specimen-preview",
+      "screen": "settings-group",
+      "state": "markdown-specimen-preview",
+      "note": "The same specimen in the Group Markdown editing preview.",
+      "path": "/boards/5/group",
+      "styles": "styles/ja-light-settings-group-markdown-specimen-preview.json",
+      "elementCount": 215,
+      "image": "images/ja-light-settings-group-markdown-specimen-preview.png",
+      "sha256": "638d65b0c837c285822ab0d74f650681328243582e87097939fb08e40270e81f",
+      "styleSha256": "065d161334e44ff8cb370731a6ccda28fac3fe010eca9141c4c44c523293db7c",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 172
+    },
+    {
+      "id": "ja-light-shell-priority-expanded-selected",
+      "screen": "shell",
+      "state": "priority-expanded-selected",
+      "note": "Priority menu open with High selected and visible active state.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-light-shell-priority-expanded-selected.json",
+      "elementCount": 236,
+      "image": "images/ja-light-shell-priority-expanded-selected.png",
+      "sha256": "21fb9fd74a479da4b7fccd3e2a999782248a6af76f0f94c1799496ee0055d03f",
+      "styleSha256": "6696bde1478f2037511f258db51c2dda663970e53150a7d6ae4fb0194da6e679",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 188
+    },
+    {
+      "id": "ja-light-shell-priority-summary-clear",
+      "screen": "shell",
+      "state": "priority-summary-clear",
+      "note": "Collapsed active priority summary and clear control.",
+      "path": "/boards/1/list",
+      "styles": "styles/ja-light-shell-priority-summary-clear.json",
+      "elementCount": 219,
+      "image": "images/ja-light-shell-priority-summary-clear.png",
+      "sha256": "5a2e1e1b598bc336a520e1eb5c265adf0697f3c3b00f60135e580c2def972c9a",
+      "styleSha256": "96df7256d1176bf5bfd9a78869a132deb69bc7cc146405f2a61f2ae8cf6ef34d",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 173
+    },
+    {
+      "id": "ja-light-ticket-comments-markdown-specimen",
+      "screen": "ticket-comments",
+      "state": "markdown-specimen",
+      "note": "The same specimen as a local comment. The dialog is scrolled to the comment.",
+      "path": "/tickets/1025",
+      "styles": "styles/ja-light-ticket-comments-markdown-specimen.json",
+      "elementCount": 420,
+      "image": "images/ja-light-ticket-comments-markdown-specimen.png",
+      "sha256": "d098c9429cee6476de310641ead53b848f81c7652e65e93eb2f7273d98f4b3ad",
+      "styleSha256": "21cdde4a23820bea964c835c1a341e0bf7b7c81e3c93f7a925a4ac373cd28fdb",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 321
+    },
+    {
+      "id": "ja-light-ticket-detail-markdown-specimen-local",
+      "screen": "ticket-detail",
+      "state": "markdown-specimen-local",
+      "note": "The same specimen in the local ticket detail body.",
+      "path": "/tickets/1025",
+      "styles": "styles/ja-light-ticket-detail-markdown-specimen-local.json",
+      "elementCount": 420,
+      "image": "images/ja-light-ticket-detail-markdown-specimen-local.png",
+      "sha256": "67edbe6e76a53f961fc5e55540c39012732b24d66f455c76a8fe8ec123d98f1c",
+      "styleSha256": "e362791eda20f716ee360bc60eb23998392d9ab9e2a11143f1695214ce455e35",
+      "locale": "ja",
+      "theme": "light",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "exactElementIds": 321
+    }
+  ],
+  "supplementalFixture": {
+    "purpose": "Same Markdown rendered in six distinct containers and seeded Kanban threshold and priority states",
+    "markdownSha256": "7dfc56ee8590ec660ec2686193f502d1f44bdf8b4b8629b954e2039cb2aedcd7",
+    "finishedLaneTickets": 6,
+    "ordinaryLaneArchivedTickets": 9,
+    "originalFramesRetained": 100,
+    "markdownObservations": [
+      {
+        "frameId": "ja-dark-ticket-detail-markdown-specimen-remote",
+        "container": "ticket-detail.remote-markdown",
+        "observed": 34,
+        "expected": 35,
+        "notObserved": [
+          "ticket-detail.remote-markdown-delete"
+        ]
+      },
+      {
+        "frameId": "ja-dark-ticket-edit-markdown-specimen-remote",
+        "container": "ticket-edit.remote-markdown",
+        "observed": 34,
+        "expected": 35,
+        "notObserved": [
+          "ticket-edit.remote-markdown-delete"
+        ]
+      },
+      {
+        "frameId": "ja-light-group-markdown-specimen-description",
+        "container": "group.description-markdown",
+        "observed": 34,
+        "expected": 35,
+        "notObserved": [
+          "group.description-markdown-delete"
+        ]
+      },
+      {
+        "frameId": "ja-light-settings-group-markdown-specimen-preview",
+        "container": "settings-group.preview-markdown",
+        "observed": 34,
+        "expected": 35,
+        "notObserved": [
+          "settings-group.preview-markdown-delete"
+        ]
+      },
+      {
+        "frameId": "ja-light-ticket-comments-markdown-specimen",
+        "container": "ticket-comments.body-markdown",
+        "observed": 34,
+        "expected": 35,
+        "notObserved": [
+          "ticket-comments.body-markdown-delete"
+        ]
+      },
+      {
+        "frameId": "ja-light-ticket-detail-markdown-specimen-local",
+        "container": "ticket-detail.local-markdown",
+        "observed": 34,
+        "expected": 35,
+        "notObserved": [
+          "ticket-detail.local-markdown-delete"
+        ]
+      }
+    ]
+  },
+  "selectorProofFrames": [
+    "ja-dark-group-selector-check-window-search",
+    "ja-light-custom-view-selector-check-saved",
+    "ja-light-custom-view-settings-selector-check-edit",
+    "ja-light-list-selector-check-board"
+  ]
+}

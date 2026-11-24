@@ -1,0 +1,7 @@
+{
+  "screenId": "toast",
+  "elements": [
+    {"id":"toast.notification","selector":"#toast.toast[data-kind=info]","selectorSupported":true,"frames":[{"frame":"ja-dark-toast-success","method":"captured-dom","image":"ja-dark-toast-success.png","items":[{"elementIndex":141,"styleIndex":110}]}]},
+    {"id":"toast.error","selector":"#toast.toast[data-kind=error]","selectorSupported":true,"frames":[{"frame":"ja-dark-toast-error","method":"captured-dom","image":"ja-dark-toast-error.png","items":[{"elementIndex":427,"styleIndex":308}]}]}
+  ]
+}
