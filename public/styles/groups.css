@@ -372,15 +372,9 @@
   color: var(--text-muted);
   margin-top: var(--space-1);
 }
-.group-description-body a[href],
-.group-description-preview a[href],
 .ticket-group-meta a {
   color: var(--accent);
   overflow-wrap: anywhere;
-}
-.group-description-body a[href]:hover,
-.group-description-preview a[href]:hover {
-  color: var(--accent-hover);
 }
 .editor-group-context {
   margin: 0;
@@ -432,9 +426,7 @@
   box-shadow: var(--control-focus-ring);
   outline: none;
 }
-.group-board button:focus-visible,
-.group-description-body a[href]:focus-visible,
-.group-description-preview a[href]:focus-visible {
+.group-board button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
