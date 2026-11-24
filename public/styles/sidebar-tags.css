@@ -135,9 +135,29 @@
   gap: 0.4rem;
 }
 
+.sidebar-tag-form .ux-color-field {
+  container: sidebar-tag-color / inline-size;
+}
+
 .sidebar-tag-form .ux-color-row {
-  /* Reserve room for seven hex characters and the input padding. */
-  grid-template-columns: minmax(3rem, 3fr) minmax(7rem, 3fr) minmax(2rem, 2fr);
+  /* Keep room around the switch track and reserve space for #RRGGBB. */
+  grid-template-columns: minmax(5rem, 3fr) minmax(7rem, 3fr) minmax(2rem, 2fr);
+}
+
+.sidebar-tag-form .ux-color-enable-switch {
+  display: flex;
+}
+
+@container sidebar-tag-color (width < 15rem) {
+  .sidebar-tag-form .ux-color-row {
+    grid-template-columns: minmax(7rem, 3fr) minmax(2rem, 2fr);
+  }
+
+  .sidebar-tag-form .ux-color-enable-switch {
+    grid-column: 1 / -1;
+    width: 5rem;
+    justify-self: start;
+  }
 }
 
 .sidebar-tag-form-error {

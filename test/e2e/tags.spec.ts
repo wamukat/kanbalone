@@ -53,6 +53,7 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     const colorToggle = page.getByRole("checkbox", { name: "Use color" });
     const hexField = page.locator(".sidebar-tag-form [data-field-id='color']");
     const colorPicker = page.locator(".sidebar-tag-form [data-color-picker-for='color']");
+    const switchKnob = page.locator(".sidebar-tag-form .toggle-switch-knob");
     await expect(colorToggle).not.toBeChecked();
     await expect(hexField).toHaveValue("#1F6F5F");
     await expect(colorPicker).toHaveValue("#1f6f5f");
@@ -73,6 +74,13 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await page.locator(".sidebar-tag-form .ux-color-enable-switch").click();
     await expect(colorToggle).toBeChecked();
     await expect(colorPicker).toHaveValue("#1f6f5f");
+    const switchInset = () => switchKnob.evaluate((knob) => {
+      const frame = knob.parentElement!.getBoundingClientRect();
+      const track = knob.getBoundingClientRect();
+      return Math.min(track.left - frame.left, frame.right - track.right);
+    });
+    expect(await switchInset()).toBeGreaterThanOrEqual(12);
+
     await page.setViewportSize({ width: 240, height: 900 });
     await hexField.fill("#DDDDDD");
     const focusRing = await hexField.evaluate(field => getComputedStyle(field).boxShadow);
@@ -80,6 +88,7 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await hexField.press("Tab");
     await expect(colorPicker).toBeFocused();
     await expect(colorPicker).toHaveCSS("box-shadow", focusRing);
+    expect(await switchInset()).toBeGreaterThanOrEqual(12);
     const { clientWidth, scrollWidth, scrollLeft } = await hexField.evaluate((input) => ({
       clientWidth: input.clientWidth,
       scrollWidth: input.scrollWidth,
