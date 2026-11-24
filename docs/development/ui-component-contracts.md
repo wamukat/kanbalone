@@ -19,7 +19,7 @@
 | ダイアログ | `public/styles/dialog-shell.css` と `app-dialogs.js`。チケットは `app-editor.js`、確認・移動は `app-ux.js`。両方の枠が、それぞれ枠線・背景・影を指定する。 | チケット編集の `show()` と、確認の `showModal()`。独自背景・ネイティブbackdrop、ドラッグ、リサイズ、閉じる操作とフォーカス復帰。 | チケット枠の前景をテーマの本文色にする（P2）。明暗の本文・補足・警告、Esc、取消、保存中、フォーカスを確認。代表は `layout-visual-system.spec.ts` と `ticket-view-styles.spec.ts`。 |
 | 文字・メタ情報・面 | `public/styles/tokens.css` の文字階層、`.muted`、チケット詳細の `ticket-detail.css` と `comments-activity.css`。利用先は本文、コメント、アクティビティ、各日時・補足。 | 主題・値・補足・状態の文字階層。面とコンテンツの前景、行高、折返し、項目間の区切り。画面ごとの領域配置を保持。 | 一致する面とメタ行の宣言を整理（P6）。明暗の本文・コメント・活動、入力と切替時の周辺位置・スクロールを比較する。 |
 | タグ・状態・優先度 | `public/app-tags.js`、`app-ticket-status.js`、`app-priority.js` が値、色、記号を描く。Kanban、List、Group、カスタムビューの一覧とチケット詳細で、役割に応じた共通描画を使用。 | 読取タグと解除チップ、一覧の状態記号と詳細で復元できる状態ピル。優先度バッジ・コンパクトなアイコン、指定色、長い名前、完了とアーカイブの区別。 | 新規利用と整備後の参照先を対象一覧で照合（P9）。代表は `ticket-view-styles.spec.ts` と `group-presentation.spec.ts`。仮想行、親子、移動の実装は各画面で保つ。 |
-| リンク・タブ・フィードバック | リッチテキストは `public/styles/content-markdown.css`、Groupのリンク色は `groups.css`。詳細タブは `.detail-tab`、保存状態は `.editor-save-state`、短い通知は `app-toast.js`。 | 本文中のリンク、チケットを開くタイトル、所属Groupへの移動を区別。タブの選択、フィールド近くのエラー、送信中、短命のトーストは各状態の作用範囲に置く。 | Groupのリンク語彙を本文・コメント・リモート本文・説明プレビューに適用する（P2）。`group-presentation.spec.ts` のリンク検査と、Group以外の代表利用先の回帰を使う。初回ボード案内の可視文言は翻訳に接続（P3）。 |
+| リンク・タブ・フィードバック | リッチテキストは `public/styles/content-markdown.css`、Groupのリンク色は `groups.css`。詳細タブは `.detail-tab`、保存状態は `.editor-save-state`、短い通知は `app-toast.js`。 | 本文中のリンク、チケットを開くタイトル、所属Groupへの移動を区別。タブの選択、フィールド近くのエラー、送信中、短命のトーストは各状態の作用範囲に置く。 | Groupのリンク語彙を本文・コメント・リモート本文・説明プレビューに適用する（P2）。`group-presentation.spec.ts` のリンク検査と、Group以外の代表利用先の回帰を使う。初回ボード案内の可視文言は `sidebar-boards.css` の `attr(aria-label)` で既存の翻訳済み操作名を使用する。 |
 
 新しい定義を足す際は、同じ役割の既存の利用先を一つ選び、必要な用途差と適用条件を説明します。既存の文字・色・角丸・間隔のトークンを使い、広い親セレクターで配下の全ボタンや全入力の型を巻き込まないようにします。共用するのは役割が一致する部位です。保存、取消、消去、ドラッグ、一覧の仮想化、候補検索の挙動はそれぞれの契約を保ちます。[視覚語彙と用途差](ui-component-catalog/semantics/design-consistency.md)
 
@@ -41,3 +41,7 @@
 3. 固定版の画像・計測・分類はその版の記録として残す。現在の規則や検証先はこの契約で更新し、変更版の結果は実際に測った版に結び付ける。トークン参照の新しい検査や既存利用先の最終照合は計画P8・P9で確認する。
 
 画像の添付、受け入れ前の確認、既存のPRルールは引き続き[UI/UXレビュー規則](ui-ux-review.md#per-ticket-image-evidence-required)に従います。
+
+## 初回ボード作成の案内
+
+可視案内とアクセシブルな操作名は、既存の翻訳を共有します。[日英・明暗の原画像と操作記録](evidence/2026-11-24-home-guidance/README.md)で、位置・寸法・色の維持、取消時の空状態、作成後の保存結果と再読込、案内の消去を確認しました。関連Chromium E2E 16件が成功しています。
