@@ -151,7 +151,8 @@ test("Group and No Group apply completion and archive filters to the same ordere
         if (!ungrouped && openOnly) assert.match(markup, /Remove 3 tickets from Group/);
       }
       assert.equal(regular.list, baseline.list);
-      assert.match(regular.header, ungrouped ? /1009 tickets/ : /998 open · 1009 total/);
+      if (ungrouped) assert.match(regular.header, openOnly ? /1009 total/ : /1009 tickets/);
+      else assert.match(regular.header, /998 open · 1009 total/);
     }
     const explicitOff = renderGroupViewSections({ ...heading, openOnly: false }, groupFilterOptions, "auto");
     assert.equal(baseline.header, explicitOff.header);
