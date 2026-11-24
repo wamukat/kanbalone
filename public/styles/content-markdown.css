@@ -8,6 +8,20 @@
   line-height: 1.5;
 }
 
+.markdown a[href] {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+.markdown a[href]:hover {
+  color: var(--accent-hover);
+}
+
+.markdown a[href]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .markdown img {
   max-inline-size: 100%;
   height: auto;

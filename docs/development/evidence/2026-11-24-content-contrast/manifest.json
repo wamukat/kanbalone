@@ -1,0 +1,1017 @@
+{
+  "beforeProductCommit": "1b2588380e764e9c31fa99c7bf6a4103826a0c9e",
+  "beforeBuiltFrom": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "afterProductFingerprint": "3eec9edea74662f23ad1cd590908fd420e2609e1936d0682451acaef8eb00196",
+  "changedProductFiles": [
+    "public/styles/dialog-shell.css",
+    "public/styles/groups.css",
+    "public/styles/content-markdown.css"
+  ],
+  "productFilesVerified": 234,
+  "comparison": {
+    "before": {
+      "phase": "before",
+      "source": "1b2588380e764e9c31fa99c7bf6a4103826a0c9e",
+      "capturedAtUtc": "2026-11-24T13:34:01.775045+00:00",
+      "fixture": {
+        "markdownBoard": 5,
+        "group": 6,
+        "localTicket": 1025,
+        "comment": 5,
+        "remoteTicket": 1041,
+        "activityTicket": 2,
+        "internalTarget": 4,
+        "markdownSha256": "7dfc56ee8590ec660ec2686193f502d1f44bdf8b4b8629b954e2039cb2aedcd7"
+      },
+      "frames": [
+        {
+          "name": "local",
+          "image": "before-local.png",
+          "sha256": "0b81a03443bf5ee82ab81b0e0fc3ea0579b0d7839f57238c57291a8b9b4555cb",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(0, 0, 238)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(0, 95, 204)",
+              "outlineOffset": "1px",
+              "outlineStyle": "auto",
+              "outlineWidth": "1px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                616.375,
+                441,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "remote-detail",
+          "image": "before-remote-detail.png",
+          "sha256": "c2a9668fb3e99786c1908fcbc698b0f447c0406ea26960acf0bad0419b4790a9",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "en",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.78125,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.78125,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(0, 0, 238)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(0, 95, 204)",
+              "outlineOffset": "1px",
+              "outlineStyle": "auto",
+              "outlineWidth": "1px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                627.875,
+                441.78125,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "remote-edit",
+          "image": "before-remote-edit.png",
+          "sha256": "dda6502eba6ac57173b7af72c7cb849245540d425973591b05785b9a979eda30",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.9375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.9375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(0, 0, 238)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(0, 95, 204)",
+              "outlineOffset": "1px",
+              "outlineStyle": "auto",
+              "outlineWidth": "1px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                627.875,
+                441.9375,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "comment",
+          "image": "before-comment.png",
+          "sha256": "32e7fead2d5af83e2a1817984990c115cdd442a3af10009a0ed20c2a2cff0345",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "language": "en",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(31, 111, 95)",
+            "accent-hover": "rgb(24, 89, 77)",
+            "text": "rgb(21, 32, 28)",
+            "text-muted": "rgb(102, 115, 109)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(0, 0, 238)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(0, 0, 238)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(0, 0, 238)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(0, 95, 204)",
+              "outlineOffset": "1px",
+              "outlineStyle": "auto",
+              "outlineWidth": "1px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                616.375,
+                441,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "group-description",
+          "image": "before-group-description.png",
+          "sha256": "e06eb561d1eba8639b299dc16e69b1291562df9e87bacfb584f86fea895c4e6d",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(31, 111, 95)",
+            "accent-hover": "rgb(24, 89, 77)",
+            "text": "rgb(21, 32, 28)",
+            "text-muted": "rgb(102, 115, 109)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(31, 111, 95)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                459.6875,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(24, 89, 77)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(24, 89, 77)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                459.6875,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(31, 111, 95)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                798.578125,
+                459.6875,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "group-preview",
+          "image": "before-group-preview.png",
+          "sha256": "1eb5a0fddb2056d503aa8d06726d25e3902ff4c2ecfcd138405d38c5508496ed",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "language": "en",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(31, 111, 95)",
+            "accent-hover": "rgb(24, 89, 77)",
+            "text": "rgb(21, 32, 28)",
+            "text-muted": "rgb(102, 115, 109)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(31, 111, 95)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                485.359375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(24, 89, 77)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(24, 89, 77)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                485.359375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(31, 111, 95)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                798.578125,
+                485.359375,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "activity",
+          "image": "before-activity.png",
+          "sha256": "c237c2e162123e521f5e338cee24c71eb21ffc567c090a626fe99ff323d50fc8",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "message": "Review before publishing",
+            "messageColor": "rgb(0, 0, 0)",
+            "metadata": [
+              {
+                "color": "rgb(167, 179, 173)",
+                "text": "2026/11/24 22:31:28 / catalog-fixture / warning / warning"
+              },
+              {
+                "color": "rgb(167, 179, 173)",
+                "text": "Check the synthetic warning and timestamp."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "after": {
+      "phase": "after",
+      "source": "3eec9edea74662f23ad1cd590908fd420e2609e1936d0682451acaef8eb00196",
+      "capturedAtUtc": "2026-11-24T13:34:01.484419+00:00",
+      "fixture": {
+        "markdownBoard": 5,
+        "group": 6,
+        "localTicket": 1025,
+        "comment": 5,
+        "remoteTicket": 1041,
+        "activityTicket": 2,
+        "internalTarget": 4,
+        "markdownSha256": "7dfc56ee8590ec660ec2686193f502d1f44bdf8b4b8629b954e2039cb2aedcd7"
+      },
+      "frames": [
+        {
+          "name": "local",
+          "image": "after-local.png",
+          "sha256": "8dee6b1d19fa34baa13279137e6a7bb250eaf3cec226ebf1470fbadba0173572",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(84, 184, 159)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(84, 184, 159)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(113, 201, 180)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(113, 201, 180)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(84, 184, 159)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(84, 184, 159)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                616.375,
+                441,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "remote-detail",
+          "image": "after-remote-detail.png",
+          "sha256": "5699cd22e558f4ded32de6bc3751fcea1be508b5c74848bfd385275824f9c350",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "en",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(84, 184, 159)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(84, 184, 159)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.78125,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(113, 201, 180)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(113, 201, 180)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.78125,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(84, 184, 159)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(84, 184, 159)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                627.875,
+                441.78125,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "remote-edit",
+          "image": "after-remote-edit.png",
+          "sha256": "670f6d285091245aacdbaf1a072301be335fdb3930e781b9461635c62e3c7fca",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(84, 184, 159)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(84, 184, 159)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.9375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(113, 201, 180)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(113, 201, 180)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                396.296875,
+                441.9375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(84, 184, 159)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(84, 184, 159)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                627.875,
+                441.9375,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "comment",
+          "image": "after-comment.png",
+          "sha256": "a58e4bd2d11b84f517fa30084c02c3115485fb2cf16891c01e85bfb43e44330f",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "language": "en",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(31, 111, 95)",
+            "accent-hover": "rgb(24, 89, 77)",
+            "text": "rgb(21, 32, 28)",
+            "text-muted": "rgb(102, 115, 109)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(31, 111, 95)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(24, 89, 77)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(24, 89, 77)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                384.796875,
+                441,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(31, 111, 95)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                616.375,
+                441,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "group-description",
+          "image": "after-group-description.png",
+          "sha256": "e06eb561d1eba8639b299dc16e69b1291562df9e87bacfb584f86fea895c4e6d",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(31, 111, 95)",
+            "accent-hover": "rgb(24, 89, 77)",
+            "text": "rgb(21, 32, 28)",
+            "text-muted": "rgb(102, 115, 109)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(31, 111, 95)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                459.6875,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(24, 89, 77)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(24, 89, 77)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                459.6875,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(31, 111, 95)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                798.578125,
+                459.6875,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "group-preview",
+          "image": "after-group-preview.png",
+          "sha256": "1eb5a0fddb2056d503aa8d06726d25e3902ff4c2ecfcd138405d38c5508496ed",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "language": "en",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(31, 111, 95)",
+            "accent-hover": "rgb(24, 89, 77)",
+            "text": "rgb(21, 32, 28)",
+            "text-muted": "rgb(102, 115, 109)"
+          },
+          "observed": {
+            "external": {
+              "color": "rgb(31, 111, 95)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                485.359375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "hover": {
+              "color": "rgb(24, 89, 77)",
+              "focused": false,
+              "href": "https://example.invalid/markdown",
+              "outlineColor": "rgb(24, 89, 77)",
+              "outlineOffset": "0px",
+              "outlineStyle": "none",
+              "outlineWidth": "3px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                567,
+                485.359375,
+                70,
+                17
+              ],
+              "underline": "underline"
+            },
+            "internalFocused": {
+              "color": "rgb(31, 111, 95)",
+              "focused": true,
+              "href": "/tickets/4",
+              "outlineColor": "rgb(31, 111, 95)",
+              "outlineOffset": "2px",
+              "outlineStyle": "solid",
+              "outlineWidth": "2px",
+              "overflowWrap": "anywhere",
+              "rect": [
+                798.578125,
+                485.359375,
+                17.328125,
+                17
+              ],
+              "underline": "underline"
+            },
+            "syntheticAttachmentDecoded": true
+          }
+        },
+        {
+          "name": "activity",
+          "image": "after-activity.png",
+          "sha256": "8e98ee2872b0e24618b373f9ad53de866b09528d619e98c7262e30231b80918a",
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "language": "ja",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "themeTokens": {
+            "accent": "rgb(84, 184, 159)",
+            "accent-hover": "rgb(113, 201, 180)",
+            "text": "rgb(238, 244, 241)",
+            "text-muted": "rgb(167, 179, 173)"
+          },
+          "observed": {
+            "message": "Review before publishing",
+            "messageColor": "rgb(238, 244, 241)",
+            "metadata": [
+              {
+                "color": "rgb(167, 179, 173)",
+                "text": "2026/11/24 22:31:28 / catalog-fixture / warning / warning"
+              },
+              {
+                "color": "rgb(167, 179, 173)",
+                "text": "Check the synthetic warning and timestamp."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
