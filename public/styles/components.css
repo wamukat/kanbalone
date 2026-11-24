@@ -1,32 +1,21 @@
 button {
   font: inherit;
-  font-size: var(--font-size-control);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-control);
-  border: 1px solid var(--line);
-  background: var(--panel-strong);
-  color: var(--text);
-  padding: 0.65rem 0.9rem;
-  border-radius: var(--radius-control);
-  cursor: pointer;
 }
 
+button,
 .import-button {
-  border: 1px solid var(--line);
-  background: var(--panel-strong);
-  color: var(--text);
   font-size: var(--font-size-control);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-control);
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  color: var(--text);
   padding: 0.65rem 0.9rem;
   border-radius: var(--radius-control);
   cursor: pointer;
 }
 
-button:hover {
-  border-color: var(--accent);
-}
-
+button:hover,
 .import-button:hover {
   border-color: var(--accent);
 }

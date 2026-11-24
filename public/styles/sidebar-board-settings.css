@@ -103,15 +103,7 @@
   gap: 0.5rem;
 }
 
-.sidebar-board-transfer button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 0;
-  width: 100%;
-  text-align: center;
-}
-
+.sidebar-board-transfer button,
 .sidebar-board-transfer .import-button {
   display: inline-flex;
   align-items: center;
