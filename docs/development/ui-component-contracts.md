@@ -16,10 +16,10 @@
 | 文字・検索・複数行入力 | `public/styles/forms.css` と `dark-mode.css` の面・枠・文字・フォーカス。対象はボードツールバー、チケット作成・編集、取り込み、移動、Group検索。ボード名変更は `sidebar-board-settings.css`、タグ作成は `sidebar-tags.css` の個別宣言。短い名前入力の確定・取消には `public/app-inline-text-form.js`。 | 単一行と複数行、ネイティブ検索、外側の枠がフォーカスを示す検索・ピッカー。行数、添付、レーンやサイドバーでの幅・密度は利用先の仕様。 | 型で適用範囲を絞り、ボード改名とタグ作成の同値宣言を整理（P5）。コメントの編集本文の左右余白は投稿側と比較（P7）。代表は `layout-visual-system.spec.ts` と `layout-toolbar.spec.ts` の入力・配置・フォーカス。 |
 | ネイティブselect | `public/styles/forms.css` と `custom-views.css` のネイティブ選択。利用先はレーン・タグの条件、チケット入力、移動先、カスタムビューの条件と並び順。 | 選択値の文字とラベルの強調、用途別の幅・候補。無効、空候補、値欠損、読み直し、一時変更と保存は利用操作に従う。 | 入力型の責務と同時に確認（P5）。並び順selectの2箇所だけ値の文字の太さを揃える（P7）。代表は `layout-toolbar.spec.ts` と `custom-view-lanes-order.spec.ts`。 |
 | チェックとラジオ | Listの行・全選択、完了レーン、カスタムビュー、取り込みにネイティブのチェック入力を使用。カスタムビューの対象範囲はネイティブのラジオ、取り込みのプロバイダー選択はボタンとARIAのラジオ。任意色の既存スイッチは `public/styles/toggles.css` と `app-ux-color-field.js`。 | チェック、部分選択、プロバイダーのボタン型ラジオ、任意色のスイッチ。操作可能な入力、読み取り専用の記号、内部のhidden入力を区別。 | 取り込みのリンク投稿欄を局所是正（P1）。入力型整理の回帰（P5）。`ticket-editor-remote-import.spec.ts` と `test/app-remote-import-api.test.ts` を利用して選択・送信値・保存と、模擬連携で投稿回数を確認。 |
-| ダイアログ | `public/styles/dialog-shell.css` と `app-dialogs.js`。チケットは `app-editor.js`、確認・移動は `app-ux.js`。両方の枠が、それぞれ枠線・背景・影を指定する。 | チケット編集の `show()` と、確認の `showModal()`。独自背景・ネイティブbackdrop、ドラッグ、リサイズ、閉じる操作とフォーカス復帰。 | チケット枠の前景をテーマの本文色にする（P2）。明暗の本文・補足・警告、Esc、取消、保存中、フォーカスを確認。代表は `layout-visual-system.spec.ts` と `ticket-view-styles.spec.ts`。 |
+| ダイアログ | `public/styles/dialog-shell.css` と `app-dialogs.js`。チケットは `app-editor.js`、確認・移動は `app-ux.js`。両方の枠が、それぞれ枠線・背景・影を指定する。チケット枠は `color: var(--text)` で本文の前景も持つ。 | チケット編集の `show()` と、確認の `showModal()`。独自背景・ネイティブbackdrop、ドラッグ、リサイズ、閉じる操作とフォーカス復帰。 | チケット枠の前景をテーマの本文色に統一済み。明暗の本文・補足・警告、Esc、取消、保存中、フォーカスを確認。代表は `layout-visual-system.spec.ts` と `ticket-view-styles.spec.ts`。 |
 | 文字・メタ情報・面 | `public/styles/tokens.css` の文字階層、`.muted`、チケット詳細の `ticket-detail.css` と `comments-activity.css`。利用先は本文、コメント、アクティビティ、各日時・補足。 | 主題・値・補足・状態の文字階層。面とコンテンツの前景、行高、折返し、項目間の区切り。画面ごとの領域配置を保持。 | 一致する面とメタ行の宣言を整理（P6）。明暗の本文・コメント・活動、入力と切替時の周辺位置・スクロールを比較する。 |
 | タグ・状態・優先度 | `public/app-tags.js`、`app-ticket-status.js`、`app-priority.js` が値、色、記号を描く。Kanban、List、Group、カスタムビューの一覧とチケット詳細で、役割に応じた共通描画を使用。 | 読取タグと解除チップ、一覧の状態記号と詳細で復元できる状態ピル。優先度バッジ・コンパクトなアイコン、指定色、長い名前、完了とアーカイブの区別。 | 新規利用と整備後の参照先を対象一覧で照合（P9）。代表は `ticket-view-styles.spec.ts` と `group-presentation.spec.ts`。仮想行、親子、移動の実装は各画面で保つ。 |
-| リンク・タブ・フィードバック | リッチテキストは `public/styles/content-markdown.css`、Groupのリンク色は `groups.css`。詳細タブは `.detail-tab`、保存状態は `.editor-save-state`、短い通知は `app-toast.js`。 | 本文中のリンク、チケットを開くタイトル、所属Groupへの移動を区別。タブの選択、フィールド近くのエラー、送信中、短命のトーストは各状態の作用範囲に置く。 | Groupのリンク語彙を本文・コメント・リモート本文・説明プレビューに適用する（P2）。`group-presentation.spec.ts` のリンク検査と、Group以外の代表利用先の回帰を使う。初回ボード案内の可視文言は翻訳に接続（P3）。 |
+| リンク・タブ・フィードバック | リッチテキストは `public/styles/content-markdown.css`、共通のMarkdownリンク色・hover・フォーカスも同ファイルが持つ。Group固有のメタリンクは `groups.css`。詳細タブは `.detail-tab`、保存状態は `.editor-save-state`、短い通知は `app-toast.js`。 | 本文中のリンク、チケットを開くタイトル、所属Groupへの移動を区別。タブの選択、フィールド近くのエラー、送信中、短命のトーストは各状態の作用範囲に置く。 | Groupと同じリンク語彙を本文・コメント・リモート本文・説明プレビューへ適用済み。`group-presentation.spec.ts` のリンク検査と、Group以外の代表利用先の回帰を使う。初回ボード案内の可視文言は翻訳に接続（P3）。 |
 
 新しい定義を足す際は、同じ役割の既存の利用先を一つ選び、必要な用途差と適用条件を説明します。既存の文字・色・角丸・間隔のトークンを使い、広い親セレクターで配下の全ボタンや全入力の型を巻き込まないようにします。共用するのは役割が一致する部位です。保存、取消、消去、ドラッグ、一覧の仮想化、候補検索の挙動はそれぞれの契約を保ちます。[視覚語彙と用途差](ui-component-catalog/semantics/design-consistency.md)
 
@@ -41,3 +41,7 @@
 3. 固定版の画像・計測・分類はその版の記録として残す。現在の規則や検証先はこの契約で更新し、変更版の結果は実際に測った版に結び付ける。トークン参照の新しい検査や既存利用先の最終照合は計画P8・P9で確認する。
 
 画像の添付、受け入れ前の確認、既存のPRルールは引き続き[UI/UXレビュー規則](ui-ux-review.md#per-ticket-image-evidence-required)に従います。
+
+## ダイアログ前景とMarkdownリンクの確認
+
+[変更前後の原画像・計測・操作記録](evidence/2026-11-24-content-contrast/README.md)で6種類のMarkdown領域とダークの履歴を確認しました。補助色とGroup固有の表示は維持し、内部参照へのTab・Enter、長文編集の破棄取消、保存済みデータの再取得を確認しています。関連Chromium E2E 28件が成功しています。
