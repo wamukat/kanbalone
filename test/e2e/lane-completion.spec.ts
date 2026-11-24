@@ -1,6 +1,37 @@
 import { test, expect, type Page } from "@playwright/test";
 import { createBoard, createTicket, startTestApp } from "./helpers.js";
 
+for (const colorScheme of ["light", "dark"] as const) {
+  test(`completion Save distinguishes disabled and enabled in ${colorScheme} mode`, async ({ page }) => {
+    const { baseUrl, close } = await startTestApp(page);
+    try {
+      await page.emulateMedia({ colorScheme });
+      const { board } = await createBoard(page.request, baseUrl, { name: "Completion", laneNames: ["Intake"] });
+      await page.goto(`${baseUrl}/boards/${board.id}`);
+      await page.getByRole("button", { name: "Board settings", exact: true }).click();
+      const settings = page.locator("#sidebar-lane-settings");
+      await settings.getByRole("button", { name: "Set up", exact: true }).click();
+      const save = settings.getByRole("button", { name: "Save", exact: true });
+      await expect(save).toBeDisabled();
+      await expect(save).toHaveCSS("cursor", "not-allowed");
+      const disabledStyle = await save.evaluate(button => {
+        const { backgroundColor, borderTopColor, color } = getComputedStyle(button);
+        return { backgroundColor, borderTopColor, color };
+      });
+      await save.hover();
+      await expect(save).toHaveCSS("background-color", disabledStyle.backgroundColor);
+      await expect(save).toHaveCSS("border-top-color", disabledStyle.borderTopColor);
+      await settings.getByRole("checkbox", { name: "Intake", exact: true }).check();
+      await expect(save).toBeEnabled();
+      await expect(save).toHaveCSS("cursor", "pointer");
+      await expect(save).not.toHaveCSS("background-color", disabledStyle.backgroundColor);
+      await expect(save).not.toHaveCSS("color", disabledStyle.color);
+      await page.keyboard.press("Tab");
+      await expect(save).toBeFocused();
+    } finally { await close(); }
+  });
+}
+
 test("completion settings preserve drafts, review impacts and leave other settings usable", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {

@@ -12,7 +12,7 @@
 
 | 部品と役割 | 現行の定義元と代表利用先 | 維持する用途差 | 実装と主な回帰確認 |
 | --- | --- | --- | --- |
-| ボタン | `public/styles/components.css` の基礎定義と `.primary-action`、`.ghost`、`.danger`、`.danger-confirm-action`、`.icon-button`。出力ボタンとJSON取り込みラベルは `components.css` と `dark-mode.css` の見た目を共用し、配置は `sidebar-board-settings.css` で共用。チケット・設定・確認・一括操作もボタン下地を使用。 | 通常、主操作、危険な操作への入口、破壊的な確定、アイコン専用。ツールバー・表のコンパクトな寸法、余白と並び方は利用先の条件。`font: inherit` はボタン専用。取り込みはファイル入力を開くラベルのまま。 | 基礎宣言を共用する変更では、出力と取り込みの見た目、ネイティブファイル選択、通常・危険・キーボード状態を確認する。代表は `test/e2e/layout-visual-system.spec.ts` と `test/e2e/board.spec.ts`。 |
+| ボタン | `public/styles/components.css` の基礎定義と `.primary-action`、`.ghost`、`.danger`、`.danger-confirm-action`、`.icon-button`。出力ボタンとJSON取り込みラベルは `components.css` と `dark-mode.css` の見た目を共用し、配置は `sidebar-board-settings.css` で共用。チケット・設定・確認・一括操作もボタン下地を使用。 | 通常、主操作、危険な操作への入口、破壊的な確定、アイコン専用。ツールバー・表のコンパクトな寸法、余白と並び方は利用先の条件。`font: inherit` はボタン専用。取り込みはファイル入力を開くラベルのまま。 | 基礎宣言を共用する変更は `layout-visual-system.spec.ts` と `board.spec.ts` で出力と取り込みの外観、ネイティブファイル選択、通常・危険・キーボード状態を確認する。主ボタンの無効状態は `lane-completion.spec.ts` と `ticket-editor-remote-import.spec.ts` で確認する。 |
 | 文字・検索・複数行入力 | `public/styles/forms.css` と `dark-mode.css` の面・枠・文字・フォーカス。ツールバーとGroup検索では検索入力、チケット編集・取り込み・共通操作欄では型なしテキスト、`text`、`search`、`url` が対象。対応する `select` と `textarea` もそれぞれの入力定義を使う。ボード改名とタグ作成は `forms.css` で小型入力の面・枠・余白とフォーカスの枠・影を共有し、確定・取消は `public/app-inline-text-form.js`。 | 単一行と複数行、外側の枠と入力の組み合わせでフォーカスを示す検索・ピッカー。タグ作成の最小高さと常時アウトラインの指定、改名のフォーカス時のアウトライン、初回ボード新規作成の強調はそれぞれの表示定義が持つ。 | 代表は `layout-visual-system.spec.ts` と `layout-toolbar.spec.ts` の入力・配置・フォーカス、ボード改名とタグ作成の既存E2E。コメントの投稿と編集は上下 `0.65rem`、左右 `0.8rem` の内側余白を使い、編集欄の面と枠は `comments-activity.css` で管理する。添付・取消・保存の代表は `image-attachments.spec.ts`。 |
 | ネイティブselect | `public/styles/forms.css` と `custom-views.css` のネイティブ選択。利用先はレーン・タグの条件、チケット入力、移動先、カスタムビューの条件と並び順。 | 選択値の文字とラベルの強調、用途別の幅・候補。無効、空候補、値欠損、読み直し、一時変更と保存は利用操作に従う。 | カスタムビュー一覧と設定の並び順selectは `custom-views.css` で値を400に揃える。設定ラベルは600で表示する。代表は `layout-toolbar.spec.ts` と `custom-view-lanes-order.spec.ts`。 |
 | チェックとラジオ | Listの行・全選択、完了レーン、カスタムビュー、取り込みにネイティブのチェック入力を使用。カスタムビューの対象範囲はネイティブのラジオ、取り込みのプロバイダー選択はボタンとARIAのラジオ。任意色の既存スイッチは `public/styles/toggles.css` と `app-ux-color-field.js`。 | チェック、部分選択、プロバイダーのボタン型ラジオ、任意色のスイッチ。操作可能な入力、読み取り専用の記号、内部のhidden入力を区別。 | 取り込みのリンク投稿欄は専用の横並びラベルと自然幅のネイティブチェックを使用する。チェック・ラジオ・色・ファイル・hiddenは文字入力の面と寸法の適用範囲から外れる。ネイティブのタグ色入力の面・枠・フォーカスは `public/styles/tag-color-dialog.css` が持つ。無効状態と列幅は `public/styles/sidebar-tags.css` が定義し、色のオン・オフにかかわらず `#RRGGBB` の7文字が入力欄を操作せず読める幅を確保する。狭い表示での文字の収まりと色の操作・保存は `test/e2e/tags.spec.ts` で確認。`ticket-editor-remote-import.spec.ts` と `test/app-remote-import-api.test.ts` を利用して選択・送信値・保存と、模擬連携で投稿回数を確認。 |
@@ -29,7 +29,7 @@
 | --- | --- |
 | 通常・hover | 意味に合う既存の面・色・枠を使う。ポインター位置の反応と押せる範囲を確認する。 |
 | フォーカス | キーボードで到達した要素を識別できる。入力の外枠を使う場合も、選択状態と見分けられる。変更が関係する強制カラーでは既存の識別手段を保つ。 |
-| 無効・読み取り専用 | 操作の可否を入力自身と表示に反映する。読み取りやコピーが可能な場面は残す。 |
+| 無効・読み取り専用 | 操作の可否を入力自身と表示に反映する。読み取りやコピーが可能な場面は残す。完了レーンの保存、外部Issueの取り込み、Groupフォームなどの `.primary-action:disabled` は `components.css` で `--surface-inset`、`--border-strong`、`--text-muted` と `not-allowed` カーソルを使う。ラベルの不透明度を保ち、主ボタンの強調色は有効時のhoverに適用する。Groupの他の無効ボタンは `groups.css` が管理する。 |
 | 読込中・保存中 | 状態ラベルと、その間に抑止する操作を合わせる。位置、入力、結果を必要な間保つ。 |
 | エラー | エラー本文・記号は既存の危険色を使う。取消・再試行は操作自体に応じた外観とし、原因の近くに説明を置く。 |
 | 選択・現在地 | 選択値、現在の画面、矢印で指す候補、DOMフォーカスを区別する。既存の `checked`、`indeterminate`、ARIA値を実際の操作に合わせる。 |

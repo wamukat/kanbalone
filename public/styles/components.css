@@ -40,9 +40,16 @@ button:hover,
   color: var(--on-accent);
 }
 
-.primary-action:hover {
+.primary-action:hover:where(:enabled) {
   border-color: var(--accent-hover);
   background: var(--accent-hover);
+}
+
+.primary-action:disabled {
+  border-color: var(--border-strong);
+  background: var(--surface-inset);
+  color: var(--text-muted);
+  cursor: not-allowed;
 }
 
 .action-with-icon {
