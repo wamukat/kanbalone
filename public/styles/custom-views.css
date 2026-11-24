@@ -55,6 +55,8 @@
 .cv-field { display: grid; gap: var(--space-1); }
 .cv-form :is(select, input[type="text"], input[name="name"]), .cv-order select { min-width: 0; max-width: 100%; padding: .5rem .65rem; border: 1px solid var(--control-border); border-radius: var(--radius-control); background: var(--control-bg); color: var(--text); }
 .cv-form select { width: fit-content; }
+.cv-order select[data-view-appearance="sort"],
+#custom-view-form select[name="sort"] { font-weight: var(--font-weight-regular); }
 .cv-form option, .cv-order option { background: var(--panel); color: var(--text); }
 .cv-choices .cv-order { flex-wrap: wrap; gap: var(--space-2); }
 .cv-actions { justify-content: start; }
