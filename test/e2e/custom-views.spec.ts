@@ -84,6 +84,8 @@ test("creates a named cross-board view and independently persists display settin
     await expect(page.locator(group(data.a))).toContainText("Editorial");
     await expect(page.locator(group(data.b))).toContainText("Publishing");
     await expect(ticketLink(page, data.first.id)).toHaveCount(1);
+    await expect(ticketLink(page, data.first.id)).toHaveAccessibleName(`#${data.first.id} ${data.first.title}`);
+    await expect(ticketLink(page, data.first.id).locator(".ticket-id")).toHaveText(`#${data.first.id}`);
     await expect(ticketLink(page, data.second.id)).toBeVisible();
     await expect(ticketLink(page, data.third.id)).toBeVisible();
     await expect(ticketLink(page, data.unrelated.id)).toHaveCount(0);

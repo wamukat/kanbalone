@@ -4,8 +4,6 @@ import { renderPriorityBadge } from "./app-priority.js";
 import { renderTag } from "./app-tags.js";
 import { completionLabel, missingBoard, missingTag, ruleLabel } from "./app-custom-view-settings.js";
 
-const dates = new Intl.DateTimeFormat(getLocale(), { dateStyle: "medium", timeStyle: "short" });
-
 export function renderCustomView({ view, display, page, catalog, pageIndex, pageSize, esc }) {
   const dirty = display.showBody !== view.showBody || display.showLatestComment !== view.showLatestComment;
   const boards = new Map(catalog.map(board => [board.id, board]));
@@ -21,19 +19,22 @@ export function renderCustomView({ view, display, page, catalog, pageIndex, page
     const comment = field === "comment";
     const part = comment ? row.latestComment : row.body;
     const title = comment ? t("Latest comment") : t("Body");
-    const posted = comment && part ? `<time datetime="${esc(part.createdAt)}">${esc(dates.format(new Date(part.createdAt)))}</time>` : "";
+    const posted = comment && part ? `<time datetime="${esc(part.createdAt)}">${esc(new Date(part.createdAt).toLocaleString(getLocale()))}</time>` : "";
+    const text = comment ? (part?.excerpt ?? t("No comments yet.")) : (part?.excerpt || t("No description"));
     return `<section class="cv-excerpt"><h4>${title} ${posted}</h4>
-      <p>${part?.excerpt ? esc(part.excerpt) : comment ? t("No comments yet.") : t("No body")}${part?.truncated ? "…" : ""}</p>
+      <p>${esc(text)}${part?.truncated ? "…" : ""}</p>
       ${part?.truncated ? `<button type="button" class="cv-text-action" data-view-expand="${field}" data-row-id="${row.id}" data-comment-id="${part.id ?? ""}" aria-expanded="false">${t("Show full text")}</button>` : ""}
       </section>`;
   }
 
   function ticket(row) {
-    return `<article class="cv-ticket${row.isResolved ? " resolved" : ""}"><h4>${renderTicketStatusIcons(row)}<a href="/tickets/${row.id}" data-view-ticket="${row.id}" data-owner="${row.boardId}">${esc(row.title)}</a></h4>
+    return `<article class="cv-ticket${row.isResolved ? " resolved" : ""}">
+      <h4><a class="list-ticket-link" href="/tickets/${row.id}" data-view-ticket="${row.id}" data-owner="${row.boardId}">
+        <span class="ticket-id">#${row.id}</span> <span>${esc(row.title)}</span>
+      </a>${renderTicketStatusIcons(row)}</h4>
       <dl class="cv-meta">
-        <div><dt>${t("Ticket ID")}</dt><dd>#${row.id}</dd></div>
         <div><dt>${t("Lane")}</dt><dd>${esc(row.laneName)}</dd></div>
-        <div><dt>${t("Tags")}</dt><dd>${row.tags.map(tag => renderTag(tag, esc)).join(" ") || t("None")}</dd></div>
+        <div><dt>${t("Tags")}</dt><dd>${row.tags.map(tag => renderTag(tag, esc)).join(" ") || `<span aria-hidden="true">-</span><span class="visually-hidden">${t("No tags")}</span>`}</dd></div>
         <div><dt>${t("Priority")}</dt><dd>${renderPriorityBadge(row.priority)}</dd></div>
       </dl>
       ${display.showBody ? excerpt(row, "body") : ""}${display.showLatestComment ? excerpt(row, "comment") : ""}
