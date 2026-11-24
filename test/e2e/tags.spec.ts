@@ -50,12 +50,35 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await expect(page.locator(".sidebar-tag-preview-badge .icon")).toHaveCount(0);
     await page.locator("[data-sidebar-tag-name]").fill("inline-tag-renamed");
     await expect(page.locator(".sidebar-tag-preview-badge")).toHaveText("inline-tag");
-    await expect(page.locator(".sidebar-tag-form [data-color-enabled-for='color']")).not.toBeChecked();
-    await expect(page.locator(".sidebar-tag-form [data-field-id='color']")).toHaveValue("#1F6F5F");
-    await expect(page.locator(".sidebar-tag-form [data-color-picker-for='color']")).toHaveValue("#1f6f5f");
+    const colorToggle = page.getByRole("checkbox", { name: "Use color" });
+    const hexField = page.locator(".sidebar-tag-form [data-field-id='color']");
+    const colorPicker = page.locator(".sidebar-tag-form [data-color-picker-for='color']");
+    await expect(colorToggle).not.toBeChecked();
+    await expect(hexField).toHaveValue("#1F6F5F");
+    await expect(colorPicker).toHaveValue("#1f6f5f");
+
+    await page.emulateMedia({ forcedColors: "active" });
+    await page.locator(".sidebar-tag-form [data-sidebar-tag-name]").press("Tab");
+    await expect(colorToggle).toBeFocused();
+    await expect(colorToggle).toHaveCSS("width", "1px");
+    await expect(page.locator(".sidebar-tag-form .toggle-switch-control")).toHaveCSS("outline-style", "solid");
+    await colorToggle.press("Space");
+    await expect(colorToggle).toBeChecked();
+    await expect(colorPicker).toBeVisible();
+    await colorToggle.press("Space");
+    await expect(colorToggle).not.toBeChecked();
+    await expect(hexField).toBeDisabled();
+    await page.emulateMedia({ forcedColors: "none" });
+
     await page.locator(".sidebar-tag-form .ux-color-enable-switch").click();
-    await expect(page.locator(".sidebar-tag-form [data-color-enabled-for='color']")).toBeChecked();
-    await expect(page.locator(".sidebar-tag-form [data-color-picker-for='color']")).toHaveValue("#1f6f5f");
+    await expect(colorToggle).toBeChecked();
+    await expect(colorPicker).toHaveValue("#1f6f5f");
+    await hexField.focus();
+    const focusRing = await hexField.evaluate(field => getComputedStyle(field).boxShadow);
+    expect(focusRing).not.toBe("none");
+    await hexField.press("Tab");
+    await expect(colorPicker).toBeFocused();
+    await expect(colorPicker).toHaveCSS("box-shadow", focusRing);
     const colorInputWidths = await page.locator(".sidebar-tag-form .ux-color-row").evaluate((row) => {
       const [switchCell, hexInput, colorCell] = [...row.children].map((child) => child.getBoundingClientRect().width);
       return { switchCell, hexInput, colorCell };
@@ -71,6 +94,9 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await page.locator("[data-sidebar-tag-edit-form] button", { hasText: "Save" }).click();
     expect((await updateResponse).status()).toBe(200);
     await expect(page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "inline-tag-renamed" })).toBeVisible();
+    const saved = await page.request.get(`${baseUrl}/api/boards/${boardPayload.board.id}/tags`);
+    expect(saved.ok()).toBe(true);
+    expect((await saved.json()).tags).toEqual([expect.objectContaining({ name: "inline-tag-renamed", color: "#336699" })]);
 
     await page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "inline-tag-renamed" }).click();
     await expect(page.locator("[data-sidebar-tag-delete]")).toHaveAttribute("aria-label", "Delete tag");

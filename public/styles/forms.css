@@ -1,9 +1,9 @@
-.toolbar input,
-.group-window-search input,
+.toolbar input:where([type="search" i]),
+.group-window-search input:where([type="search" i]),
 .toolbar select,
-.editor-form input,
+.editor-form input:where(:not([type]), [type="text" i], [type="search" i], [type="url" i]),
 .editor-form select,
-.ux-fields input,
+.ux-fields input:where(:not([type]), [type="text" i], [type="search" i], [type="url" i]),
 .ux-fields select {
   width: 100%;
   border: 1px solid var(--control-border);
@@ -48,15 +48,31 @@
   padding: 0.65rem 0.8rem;
 }
 
-.group-window-search input:focus,
-.editor-form input:not([type="checkbox"]):not([type="hidden"]):focus,
+.group-window-search input:where([type="search" i]):focus,
+.editor-form input:is(:not([type]), [type="text" i], [type="search" i], [type="url" i]):focus,
 .editor-form select:focus,
 .editor-form textarea:focus,
 .comment-form textarea:focus,
-.ux-fields input:focus,
+.ux-fields input:where(:not([type]), [type="text" i], [type="search" i], [type="url" i]):focus,
 .ux-fields select:focus,
 .ux-fields textarea:focus {
   border-color: var(--control-focus-border);
   box-shadow: var(--control-focus-ring);
   outline: none;
+}
+
+.sidebar-board-name-form input:where([type="text" i]),
+.sidebar-tag-create-row input:where([type="text" i]) {
+  width: 100%;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--text);
+  padding: 0.55rem 0.65rem;
+}
+
+.sidebar-board-name-form input:where([type="text" i]):focus,
+.sidebar-tag-create-row input:where([type="text" i]):focus {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
 }

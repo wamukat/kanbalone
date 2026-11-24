@@ -23,7 +23,7 @@
     color: var(--text-strong);
   }
 
-  .toolbar input {
+  .toolbar input:where([type="search" i]) {
     border-color: var(--border-soft);
     background: var(--surface-inset);
     color: var(--text-strong);
@@ -35,7 +35,7 @@
     color: var(--text-strong);
   }
 
-  .editor-form input {
+  .editor-form input:where(:not([type]), [type="text" i], [type="search" i], [type="url" i]) {
     border-color: var(--border-soft);
     background: var(--surface-inset);
     color: var(--text-strong);
