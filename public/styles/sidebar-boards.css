@@ -9,6 +9,7 @@
   width: var(--control-size-icon);
   min-width: var(--control-size-icon);
   height: var(--control-size-icon);
+  flex-shrink: 0;
   justify-content: center;
 }
 

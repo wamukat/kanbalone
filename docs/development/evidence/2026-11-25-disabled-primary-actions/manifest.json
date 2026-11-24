@@ -1,0 +1,818 @@
+{
+  "capturedDateJst": "2026-11-25",
+  "packageVersion": "1.4.0",
+  "nodeVersion": "26.13.1",
+  "baseline": {
+    "commit": "2735ce6534692aef3f30a0dd9862c5f9ade18c3f",
+    "runtimeSourceSha256": "6566aee4396676d8edb26fb607c76f475455051771057b8c3ddd4774b8624ace",
+    "bundles": {
+      "app-T3SHOX7W.js": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b",
+      "styles-ENQKLJYU.css": "8289a31ac04209a4d835539f446f75f4631f637b4dc3608118398ca73af6a15a"
+    }
+  },
+  "candidate": {
+    "baseCommit": "2735ce6534692aef3f30a0dd9862c5f9ade18c3f",
+    "runtimeSourceSha256": "665641120fabd10141ace7292dd580b23ab66a3b319438febb84c3a4d9f83f11",
+    "runtimeDiffSha256": {
+      "public/styles/components.css": "d7cec2b405bf0267d1029df2abf55be2f1a22a85c01193dae7e8bac4b6201880",
+      "public/styles/dark-mode.css": "b73362c9a63e62187121c8f8cc500c853af7580994236e7541f89586c1f2bf4d",
+      "public/styles/groups.css": "0115453a33d231cc68638d43718a80c5d15f10f516d973fcb8b549c8f4f5b51d"
+    },
+    "bundles": {
+      "app-T3SHOX7W.js": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b",
+      "styles-JJTF6LTE.css": "8db514ca4d1f4879b197720491caa86428d7c67757ec850d783abe7f650b592e"
+    }
+  },
+  "sourceFingerprintDefinition": "SHA-256 of sorted lines of file SHA-256, two spaces, source-relative path, newline, covering public/, src/, scripts/, package.json, pnpm-lock.yaml and tsconfig.json.",
+  "captures": {
+    "before-save-light-disabled.png": {
+      "sha256": "25a5fe1e2acedd06dc2add1306a6a1efab61de9869b3170bd1e521d939d4a5ee",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(31, 111, 95)",
+        "border": "color(srgb 0.121569 0.435294 0.372549 / 0.8)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(255, 255, 255)",
+        "label": "Save",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(255, 255, 255)",
+          "0px"
+        ]
+      }
+    },
+    "before-save-light-enabled.png": {
+      "sha256": "955931d8b93e5b6c4a1a0d9dfda945a534b3953413ff4088c794c2b1d6307d05",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(31, 111, 95)",
+        "border": "color(srgb 0.121569 0.435294 0.372549 / 0.8)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(255, 255, 255)",
+        "label": "Save",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(255, 255, 255)",
+          "0px"
+        ]
+      }
+    },
+    "before-import-light-disabled.png": {
+      "sha256": "b561cd6b04a0977b1f02948ed37b46e6b7870c4a258480f169f3718c8aacd9e0",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(31, 111, 95)",
+        "border": "color(srgb 0.121569 0.435294 0.372549 / 0.8)",
+        "button": [
+          991.078125,
+          390.90625,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(255, 255, 255)",
+        "label": "Import",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(255, 255, 255)",
+          "0px"
+        ]
+      }
+    },
+    "before-import-light-enabled.png": {
+      "sha256": "5b15e07d5e6c4243a253dac324604278f9ea428d085ef391655ed041cfc3c37f",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(31, 111, 95)",
+        "border": "color(srgb 0.121569 0.435294 0.372549 / 0.8)",
+        "button": [
+          991.078125,
+          496.578125,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(255, 255, 255)",
+        "label": "Import",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(255, 255, 255)",
+          "0px"
+        ]
+      }
+    },
+    "before-save-dark-disabled.png": {
+      "sha256": "3fc8c2c55ed0912cc5a527e28fb08c470bc3c9eea6fd29cc0a5a93692154c6cf",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Save",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(7, 19, 16)",
+          "0px"
+        ]
+      }
+    },
+    "before-save-dark-enabled.png": {
+      "sha256": "a4f76dda890b3a3fa3e3143011b19877b739707e182b686fae2c211e52ff43f2",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Save",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(7, 19, 16)",
+          "0px"
+        ]
+      }
+    },
+    "before-import-dark-disabled.png": {
+      "sha256": "390f36092ba1035865e800dd30a33a7addd854459a7982cf2d8e2ee3decee588",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          991.078125,
+          390.90625,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Import",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(7, 19, 16)",
+          "0px"
+        ]
+      }
+    },
+    "before-import-dark-enabled.png": {
+      "sha256": "be6dd53f882ae0c9d61de7dd06d2f6d3732394e5744aa64c5f33e7b8b4fd5225",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          991.078125,
+          496.578125,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Import",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(7, 19, 16)",
+          "0px"
+        ]
+      }
+    },
+    "after-save-light-disabled.png": {
+      "sha256": "72ce35dda3c34bc01889ca47b28dd651f369e35b5aab013eabccdabfb209535b",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(241, 244, 242)",
+        "border": "rgba(21, 32, 28, 0.18)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "not-allowed",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(102, 115, 109)",
+        "label": "Save",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(102, 115, 109)",
+          "0px"
+        ]
+      }
+    },
+    "after-save-light-enabled.png": {
+      "sha256": "889afc3a85399ddb640ace8781fe6c4bca04bc9c5a557f21ffe624cdc30c4c69",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(31, 111, 95)",
+        "border": "color(srgb 0.121569 0.435294 0.372549 / 0.8)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(255, 255, 255)",
+        "label": "Save",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(255, 255, 255)",
+          "0px"
+        ]
+      }
+    },
+    "after-import-light-disabled.png": {
+      "sha256": "3c00f57af3dd7193ee77022defda5f9b95e27cf6822a0c2092ae426ffa3c0caa",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(241, 244, 242)",
+        "border": "rgba(21, 32, 28, 0.18)",
+        "button": [
+          991.078125,
+          390.90625,
+          70.921875,
+          38.375
+        ],
+        "cursor": "not-allowed",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(102, 115, 109)",
+        "label": "Import",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(102, 115, 109)",
+          "0px"
+        ]
+      }
+    },
+    "after-import-light-enabled.png": {
+      "sha256": "e2e7d407bb359ab938de087c4a7c19ee203b3da87783c09f7121b0b7b7bb4c73",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(31, 111, 95)",
+        "border": "color(srgb 0.121569 0.435294 0.372549 / 0.8)",
+        "button": [
+          991.078125,
+          496.578125,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(255, 255, 255)",
+        "label": "Import",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(255, 255, 255)",
+          "0px"
+        ]
+      }
+    },
+    "after-save-dark-disabled.png": {
+      "sha256": "d885f8076684773cd8a420b98cd66da3945805183f973c9880b50cd37e866eaa",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(16, 21, 17)",
+        "border": "rgba(238, 244, 241, 0.2)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "not-allowed",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(167, 179, 173)",
+        "label": "Save",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(167, 179, 173)",
+          "0px"
+        ]
+      }
+    },
+    "after-save-dark-enabled.png": {
+      "sha256": "a4f76dda890b3a3fa3e3143011b19877b739707e182b686fae2c211e52ff43f2",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Save",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(7, 19, 16)",
+          "0px"
+        ]
+      }
+    },
+    "after-import-dark-disabled.png": {
+      "sha256": "4135cadbe968ca2b21b8b209012065f1a1c84835c781528155795235844221d8",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(16, 21, 17)",
+        "border": "rgba(238, 244, 241, 0.2)",
+        "button": [
+          991.078125,
+          390.90625,
+          70.921875,
+          38.375
+        ],
+        "cursor": "not-allowed",
+        "disabled": true,
+        "focusVisible": false,
+        "foreground": "rgb(167, 179, 173)",
+        "label": "Import",
+        "matchesDisabled": true,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(167, 179, 173)",
+          "0px"
+        ]
+      }
+    },
+    "after-import-dark-enabled.png": {
+      "sha256": "be6dd53f882ae0c9d61de7dd06d2f6d3732394e5744aa64c5f33e7b8b4fd5225",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "en",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            900
+          ]
+        },
+        "activeTag": "BODY",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          991.078125,
+          496.578125,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": false,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Import",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "none",
+          "3px",
+          "rgb(7, 19, 16)",
+          "0px"
+        ]
+      }
+    }
+  },
+  "behavior": {
+    "disabledActivationAttempts": {
+      "save-light-disabled-attempt": {
+        "centerHitTest": true,
+        "focusAfterDisabledFocusAttempt": "BODY",
+        "focusAfterEnterAndSpace": "BODY",
+        "storedStateUnchanged": true
+      },
+      "import-light-disabled-attempt": {
+        "centerHitTest": true,
+        "focusAfterDisabledFocusAttempt": "BODY",
+        "focusAfterEnterAndSpace": "BODY",
+        "storedStateUnchanged": true,
+        "enterInIssueUrlKeepsDrawerOpen": true
+      },
+      "save-dark-disabled-attempt": {
+        "centerHitTest": true,
+        "focusAfterDisabledFocusAttempt": "BODY",
+        "focusAfterEnterAndSpace": "BODY",
+        "storedStateUnchanged": true
+      },
+      "import-dark-disabled-attempt": {
+        "centerHitTest": true,
+        "focusAfterDisabledFocusAttempt": "BODY",
+        "focusAfterEnterAndSpace": "BODY",
+        "storedStateUnchanged": true,
+        "enterInIssueUrlKeepsDrawerOpen": true
+      }
+    },
+    "enabledKeyboardFocus": {
+      "save-enabled-keyboard-focus": {
+        "active": "",
+        "activeTag": "BUTTON",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          25.09375,
+          430.40625,
+          58.9375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": true,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Save",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "auto",
+          "1px",
+          "rgb(0, 95, 204)",
+          "0px"
+        ]
+      },
+      "save-review-keyboard-focus": {
+        "active": "",
+        "activeTag": "BUTTON",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          25.09375,
+          560.359375,
+          207.484375,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": true,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Resolve 4 tickets and apply",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "auto",
+          "1px",
+          "rgb(0, 95, 204)",
+          "0px"
+        ]
+      },
+      "import-enabled-keyboard-focus": {
+        "active": "editor-remote-import-submit-button",
+        "activeTag": "BUTTON",
+        "background": "rgb(84, 184, 159)",
+        "border": "color(srgb 0.329412 0.721569 0.623529 / 0.74)",
+        "button": [
+          991.078125,
+          496.578125,
+          70.921875,
+          38.375
+        ],
+        "cursor": "pointer",
+        "disabled": false,
+        "focusVisible": true,
+        "foreground": "rgb(7, 19, 16)",
+        "label": "Import",
+        "matchesDisabled": false,
+        "opacity": "1",
+        "outline": [
+          "auto",
+          "1px",
+          "rgb(0, 95, 204)",
+          "0px"
+        ]
+      }
+    },
+    "cancelKeepsCompletionLanes": [
+      {
+        "name": "Intake",
+        "completion": false
+      },
+      {
+        "name": "Production",
+        "completion": false
+      },
+      {
+        "name": "Review",
+        "completion": false
+      },
+      {
+        "name": "Done",
+        "completion": true
+      }
+    ],
+    "cancelKeepsTickets": true,
+    "completionLanesAfterSaveAndReload": "Intake, Done",
+    "importedTicket": {
+      "title": "Keyboard shortcut feedback",
+      "bodyMarkdown": "Synthetic remote issue for review."
+    },
+    "importReloadedTitle": "Keyboard shortcut feedback",
+    "importReloadedTicketMatchesApi": true
+  }
+}

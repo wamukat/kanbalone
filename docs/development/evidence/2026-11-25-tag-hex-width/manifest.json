@@ -1,0 +1,1322 @@
+{
+  "capturedDateJst": "2026-11-25",
+  "packageVersion": "1.4.0",
+  "nodeVersion": "26.13.1",
+  "baseline": {
+    "commit": "2735ce6534692aef3f30a0dd9862c5f9ade18c3f",
+    "runtimeSourceSha256": "6566aee4396676d8edb26fb607c76f475455051771057b8c3ddd4774b8624ace",
+    "bundles": {
+      "app-T3SHOX7W.js": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b",
+      "styles-ENQKLJYU.css": "8289a31ac04209a4d835539f446f75f4631f637b4dc3608118398ca73af6a15a"
+    }
+  },
+  "candidate": {
+    "baseCommit": "2735ce6534692aef3f30a0dd9862c5f9ade18c3f",
+    "runtimeSourceSha256": "6d823c388c5cc9eef392989ed5d42ed02ae992ac3d6227ef21013f7823a0866e",
+    "runtimeDiffSha256": {
+      "public/styles/sidebar-tags.css": "58639127adb604854ed69107ecc9a8e299ab3bd5b50cda0f12dcae01184155c9"
+    },
+    "bundles": {
+      "app-T3SHOX7W.js": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b",
+      "styles-4DHNA7MD.css": "f08b54592cb897a0e73031c50e1834e55ab16b46b17a044d0944f3a01cef1057"
+    }
+  },
+  "sourceFingerprintDefinition": "SHA-256 of sorted lines of file SHA-256, two spaces, source-relative path, newline, covering public/, src/, scripts/, package.json, pnpm-lock.yaml and tsconfig.json.",
+  "captures": {
+    "before-desktop-light-on.png": {
+      "sha256": "1d2ce3f001e304e79beca6707209a937ac66760e5788df0b77c195beb5819604",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": true,
+        "client": 56,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          108.515625,
+          604.515625,
+          76.4375,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          42.296875,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          191.953125,
+          604.796875,
+          50.953125,
+          35
+        ],
+        "picker": [
+          191.953125,
+          604.796875,
+          50.953125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          33.609375,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-desktop-light-off.png": {
+      "sha256": "3883f87eb379d0cacc31038656d40d405188fefc92f47b278e911f5594eb8b3e",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": false,
+        "client": 56,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          108.515625,
+          604.515625,
+          76.4375,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          42.296875,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          191.953125,
+          604.796875,
+          50.953125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          33.609375,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-desktop-dark-on.png": {
+      "sha256": "445c89f9682c344916b01b7b137223f7409c59f36db772b9fe0dfce8f704cc59",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": true,
+        "client": 56,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          108.515625,
+          604.515625,
+          76.4375,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          42.296875,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          191.953125,
+          604.796875,
+          50.953125,
+          35
+        ],
+        "picker": [
+          191.953125,
+          604.796875,
+          50.953125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          33.609375,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-desktop-dark-off.png": {
+      "sha256": "464554a90c9308faaeeb8fd9ef9d02d5f437504acd9fb273b0c0a298154ddaa3",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": false,
+        "client": 56,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          108.515625,
+          604.515625,
+          76.4375,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          42.296875,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          191.953125,
+          604.796875,
+          50.953125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          33.609375,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-narrow-light-on.png": {
+      "sha256": "a940306b796feb6bc9d92dd164e47de9a8a0941d34260743af094b4bd2d01509",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": true,
+        "client": 42,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          93.890625,
+          618.515625,
+          61.8125,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          34.984375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          162.703125,
+          618.796875,
+          41.203125,
+          35
+        ],
+        "picker": [
+          162.703125,
+          618.796875,
+          41.203125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          178.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          26.296875,
+          618.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-narrow-light-off.png": {
+      "sha256": "0d516879869ff7d78c08efb87c1dd9c71105b4183fdc08b770a7a05481d2442b",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": false,
+        "client": 42,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          93.890625,
+          618.515625,
+          61.8125,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          34.984375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          162.703125,
+          618.796875,
+          41.203125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          178.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          26.296875,
+          618.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-narrow-dark-on.png": {
+      "sha256": "80d77002eee8636c9c1deabeb45cd426f0890f0835e4a5a95f10986b792b9487",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": true,
+        "client": 42,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          93.890625,
+          618.515625,
+          61.8125,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          34.984375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          162.703125,
+          618.796875,
+          41.203125,
+          35
+        ],
+        "picker": [
+          162.703125,
+          618.796875,
+          41.203125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          178.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          26.296875,
+          618.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "before-narrow-dark-off.png": {
+      "sha256": "cfa5e5aa225d9b85f7b86d657662d14bfd2cbc6e6fc48479b4c4c48c3b8308e2",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": false,
+        "client": 42,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          93.890625,
+          618.515625,
+          61.8125,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          34.984375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          162.703125,
+          618.796875,
+          41.203125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          178.8125,
+          35.5625
+        ],
+        "scroll": 61,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          26.296875,
+          618.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-desktop-light-on.png": {
+      "sha256": "a2d149d47c72cfde3484cfe24b39b18f425c3dc9ecc66e286c7bbc383cfecad2",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": true,
+        "client": 78,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          95.578125,
+          604.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          35.828125,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          200.578125,
+          604.796875,
+          42.328125,
+          35
+        ],
+        "picker": [
+          200.578125,
+          604.796875,
+          42.328125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          27.140625,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-desktop-light-off.png": {
+      "sha256": "75a8549f5321a9f9d9f9af2a4f9bbd7ecf019d8386671a0a35b61e6048102e65",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": false,
+        "client": 78,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          95.578125,
+          604.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          35.828125,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          200.578125,
+          604.796875,
+          42.328125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          27.140625,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-desktop-dark-on.png": {
+      "sha256": "2ad12ea0b9964506c8b24d5ed3e8e6d129bcad8300b8d6181dc94b5159165c6a",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": true,
+        "client": 78,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          95.578125,
+          604.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          35.828125,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          200.578125,
+          604.796875,
+          42.328125,
+          35
+        ],
+        "picker": [
+          200.578125,
+          604.796875,
+          42.328125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          27.140625,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-desktop-dark-off.png": {
+      "sha256": "9f2624c2fcfbbc7df807e7fc42ffe4666fcd20811971ffec574be24a1ab0bc7a",
+      "pixelSize": [
+        1440,
+        1000
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            1440,
+            1000
+          ]
+        },
+        "checked": false,
+        "client": 78,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "input": [
+          95.578125,
+          604.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          35.828125,
+          613.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          200.578125,
+          604.796875,
+          42.328125,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 1440,
+        "rootScrollWidth": 1440,
+        "row": [
+          25.09375,
+          604.515625,
+          217.8125,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          280,
+          1000
+        ],
+        "switch": [
+          27.140625,
+          604.796875,
+          59.375,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-narrow-light-on.png": {
+      "sha256": "5a008e1bc8e4cfae5f99192c980e40948f5eef2f2c4b8df6651a549baf24d894",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": true,
+        "client": 78,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          74.09375,
+          618.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          25.09375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          179.09375,
+          618.796875,
+          28,
+          35
+        ],
+        "picker": [
+          179.09375,
+          618.796875,
+          28,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          182,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          25.09375,
+          618.796875,
+          42,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-narrow-light-off.png": {
+      "sha256": "7eb617080e0dc6b3a5d2b270c104556de7a4a157fe4b180279e257e5e504cc44",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": false,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": false,
+        "client": 78,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          74.09375,
+          618.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          25.09375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          179.09375,
+          618.796875,
+          28,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          182,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          25.09375,
+          618.796875,
+          42,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-narrow-dark-on.png": {
+      "sha256": "87069aaf56c237c27e85e97674f82298a90e1f5d0b8886c2309c66c84ed3773a",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": true,
+        "client": 78,
+        "disabled": [
+          false,
+          false
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          74.09375,
+          618.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          25.09375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          179.09375,
+          618.796875,
+          28,
+          35
+        ],
+        "picker": [
+          179.09375,
+          618.796875,
+          28,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          182,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          25.09375,
+          618.796875,
+          42,
+          35
+        ],
+        "value": "#336699"
+      }
+    },
+    "after-narrow-dark-off.png": {
+      "sha256": "c01cc0a725fa833a489864ff763f053b7490b02f8d54307c4b1bed89bf479d74",
+      "pixelSize": [
+        240,
+        900
+      ],
+      "observations": {
+        "environment": {
+          "dark": true,
+          "dpr": 1,
+          "lang": "ja",
+          "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+          "viewport": [
+            240,
+            900
+          ]
+        },
+        "checked": false,
+        "client": 78,
+        "disabled": [
+          true,
+          true
+        ],
+        "form": [
+          16,
+          502.4375,
+          197,
+          203.921875
+        ],
+        "input": [
+          74.09375,
+          618.515625,
+          98,
+          35.5625
+        ],
+        "inputFocused": false,
+        "knob": [
+          25.09375,
+          627.546875,
+          42,
+          17.5
+        ],
+        "left": 0,
+        "nativePicker": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "picker": [
+          179.09375,
+          618.796875,
+          28,
+          35
+        ],
+        "pickerValue": "#336699",
+        "rootClientWidth": 229,
+        "rootScrollWidth": 229,
+        "row": [
+          25.09375,
+          618.515625,
+          182,
+          35.5625
+        ],
+        "scroll": 78,
+        "sidebar": [
+          0,
+          0,
+          229,
+          1067.921875
+        ],
+        "switch": [
+          25.09375,
+          618.796875,
+          42,
+          35
+        ],
+        "value": "#336699"
+      }
+    }
+  },
+  "behavior": {
+    "tabOrder": [
+      "Tag name",
+      "Use color",
+      "Hex text input"
+    ],
+    "spaceAndLabelToggle": true,
+    "disabledHexAndPicker": true,
+    "textInputUpdatesPicker": "#dddddd",
+    "syntheticNativePickerInputUpdatesHex": "#25476B",
+    "cancelKeepsStoredValue": "#336699",
+    "saveApiValue": "#DDDDDD",
+    "reloadHex": "#DDDDDD",
+    "reloadPicker": "#dddddd"
+  }
+}

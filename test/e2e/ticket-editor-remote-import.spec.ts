@@ -190,6 +190,10 @@ test("remote import keeps the backlink control inline and submits the selected o
     await expect(backlinkUrl).toHaveValue("");
     await expect(url).toHaveValue("");
     await expect(submit).toBeDisabled();
+    await expect(submit).toHaveCSS("cursor", "not-allowed");
+    const disabledBackground = await submit.evaluate(button => getComputedStyle(button).backgroundColor);
+    await submit.hover();
+    await expect(submit).toHaveCSS("background-color", disabledBackground);
 
     await url.fill(issueUrl);
     await drawer.getByRole("combobox", { name: "Lane" }).selectOption(String(laneId));
@@ -199,6 +203,7 @@ test("remote import keeps the backlink control inline and submits the selected o
     expect(preview.status()).toBe(200);
     expect(preview.request().postDataJSON()).toEqual({ provider: "github", laneId, url: issueUrl, postBacklinkComment: false });
     await expect(submit).toBeEnabled();
+    await expect(submit).not.toHaveCSS("background-color", disabledBackground);
 
     await checkbox.press("Space");
     await expect(checkbox).toBeChecked();
