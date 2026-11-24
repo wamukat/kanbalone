@@ -522,7 +522,7 @@ curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
 
 `GET /api/custom-views/events` は更新を知らせる `views_updated`・`board_updated` を配信します。永続イベントログではないため、再接続時や詳細からの復帰時は再取得します。ビュー設定の変更・削除で課題を変更しません。DB全体のバックアップには定義が含まれますが、単一ボードのJSONでは移しません。
 
-### レーン条件と並び順（未リリース）
+### レーン条件と並び順（v1.5.0）
 
 catalog は各ボードの `lanes` もレーン順に返します。各ruleに `laneMode: "all" | "selected"` と `laneIds` を指定できます。全レーンは `all` と `[]`、レーン指定は `selected` とそのボードのIDを使います。レーン内はOR、タグ・レーン・完了条件間はANDです。選択0件は0結果です。削除済みレーンは `missing_lane` 警告となり、同名IDに置換しません。保存時には他ボードのレーンIDを拒否します。未保存queryでは対象ボードに存在しないレーンとして警告し、有効な選択レーンだけが一致対象になります。
 
