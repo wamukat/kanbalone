@@ -87,7 +87,7 @@ jobs:
 
   image:
     if: '!inputs.publish'
-    needs: [preflight, verify]
+    needs: preflight
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
@@ -147,7 +147,7 @@ jobs:
           {
             echo "### Verified release candidate"
             echo "Artifact ID: [$CANDIDATE_ARTIFACT_ID]($CANDIDATE_ARTIFACT_URL)"
-            echo "Use this ID as candidate_artifact_id after accepting the candidate."
+            echo "Use this ID as candidate_artifact_id after the entire dry-run succeeds and you accept the candidate."
           } >> "$GITHUB_STEP_SUMMARY"
 
   publish:

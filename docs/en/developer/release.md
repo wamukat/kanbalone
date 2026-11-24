@@ -26,6 +26,8 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 
 Implementation testing does not replace release-candidate verification. For the local pre-publication check, use the verified loading procedure below and run `localImageId` from `loaded-image.json`, using a dedicated port and volume. Do not overwrite an existing runtime.
 
+Use the implementation PR records for the detailed checks already reviewed. On the candidate, confirm startup, version, a basic operation that persists after restart, and representative behavior for the principal changes.
+
 For changes affecting the database, storage format or upgrade procedure, prepare test data with the previous published version, back it up, upgrade to the candidate, compare its contents and verify restoration from the backup before publishing. For UI/API-only changes, record why this does not apply. Use only consistent copies of real user data, and keep personal information out of screenshots and logs.
 
 Publication uses the exact image from the locally verified dry-run artifact. A change to the version or SHA requires a new dry-run. For any replacement artifact, repeat local verification and confirm approval before publication. After publication, check that the public tags resolve to the verified image.
@@ -74,7 +76,7 @@ Open **Actions → Release → Run workflow** on `main` and enter:
 | `publish` | `false` |
 | `candidate_artifact_id` | Leave empty |
 
-The workflow validates the target, version and release notes, then runs the shared checks and Chromium E2E tests. It builds a `linux/amd64` image and tests startup, API writes and persistence after restart using an isolated temporary volume.
+The workflow validates the target, version and release notes. The shared checks and Chromium E2E tests then run in parallel with the `linux/amd64` image build and its verification. The image checks cover startup, API writes and persistence after restart using an isolated temporary volume.
 
 After the run succeeds, download the `release-image-VERSION-attempt-N` artifact. Copy its numeric artifact ID from the run summary or the `/artifacts/ID` segment of the artifact URL. Record it alongside the dry-run URL. The artifact contains the tested image and `manifest.json` with its commit SHA, image ID and archive checksum. Dry-run creates no tag, GitHub Release or GHCR image.
 
@@ -112,6 +114,7 @@ Confirm the published release notes, version tags and public image pull. Run the
 
 ## Failure and retry
 
+- Use a candidate only after its entire dry-run attempt succeeds. If a dry-run fails after uploading an image, rerun all jobs or start a new dry-run to create a candidate from a successful attempt.
 - A failed source or integrity check stops publication. Check the recorded version, SHA and artifact ID. If the artifact has expired, was deleted or is ineligible, start a new dry-run and repeat local verification and approval only if the version has no Git tag, GitHub Release or registry tags. The publication run does not select a replacement or rebuild the image.
 - Publication records the candidate artifact ID and checksums in the annotated Git tag when it creates the tag. After a partial failure, rerun the failed jobs or dispatch with the same version, SHA and artifact ID. Keep that ID even if a dry-run retry produced another artifact.
 - Publication stops if an existing tag lacks the candidate record, as with tags created by the old workflow, or if an existing tag, Release or image conflicts with the candidate. If the original artifact becomes unavailable after a tag or draft Release was created or an image was pushed, stop and investigate. If it cannot be recovered, preserve the existing tag, Release and images and prepare a new version.
