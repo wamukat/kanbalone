@@ -1,0 +1,10 @@
+{
+  "screenId": "toast",
+  "title": "トースト通知",
+  "scope": "保存・削除等の短い処理結果とエラーを画面端に表示。操作対象の画面からも着目する。",
+  "sourceRevision": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "elements": [
+    {"id":"toast.notification","selector":"#toast.toast[data-kind=info]","source":{"file":"public/app-toast.js","line":3},"description":"通常の通知。メッセージのみで2.8秒後に消える。","styles":[{"ruleId":"base:1","matchedSelector":"*","conditional":false},{"ruleId":"scrollbars:22","matchedSelector":"*","conditional":false},{"ruleId":"toast:1","matchedSelector":".toast","conditional":false},{"ruleId":"toast:15","matchedSelector":".toast[data-kind=\"error\"]","conditional":false}],"styleBasis":"source-declarations","inheritedDefaults":["tokens:1","base:13"],"observation":{"lookup":"../observations/toast.md#toast.notification"}},
+    {"id":"toast.error","selector":"#toast.toast[data-kind=error]","source":{"file":"public/app-toast.js","line":4},"description":"エラー通知。エラーを翻訳し2.8秒後に消える。","styles":[{"ruleId":"base:1","matchedSelector":"*","conditional":false},{"ruleId":"scrollbars:22","matchedSelector":"*","conditional":false},{"ruleId":"toast:1","matchedSelector":".toast","conditional":false},{"ruleId":"toast:15","matchedSelector":".toast[data-kind=\"error\"]","conditional":false}],"styleBasis":"source-declarations","inheritedDefaults":["tokens:1","base:13"],"observation":{"lookup":"../observations/toast.md#toast.error"}}
+  ]
+}

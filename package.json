@@ -10,6 +10,7 @@
     "lint": "pnpm lint:openapi",
     "lint:openapi": "redocly lint docs/openapi.yaml",
     "docs:build": "node scripts/build-pages.mjs",
+    "docs:ui-catalog": "node scripts/build-ui-catalog.mjs",
     "check": "pnpm lint && pnpm test && pnpm build && pnpm check:public && pnpm docs:build",
     "check:public": "tsc -p tsconfig.public.json",
     "sandbox:remote-providers": "node scripts/bootstrap-remote-providers.mjs",
