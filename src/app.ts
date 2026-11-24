@@ -22,6 +22,7 @@ import {
 import { registerGroupRoutes } from "./routes/groups.js";
 import { registerAttachmentRoutes } from "./routes/attachments.js";
 import { registerBoardRoutes } from "./routes/boards.js";
+import { registerCustomViewRoutes } from "./routes/custom-views.js";
 import { registerLaneRoutes } from "./routes/lanes.js";
 import * as routeSchemas from "./routes/schemas.js";
 import {
@@ -69,8 +70,10 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     hasCredential: configuredProviders.has(id),
   }));
 
-  app.addHook("onClose", async () => {
+  app.addHook("preClose", async () => {
     boardEventHub.close();
+  });
+  app.addHook("onClose", async () => {
     db.close();
   });
 
@@ -96,6 +99,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     db,
     getIdParam,
     publishBoardEvent: boardEventHub.publish,
+    publishGlobalBoardUpdate: boardEventHub.publishGlobalBoardUpdate,
     removeBoardEventClient: boardEventHub.removeClient,
     remoteAdapters,
     sanitizeStringArray,
@@ -103,6 +107,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     serializeBoardDetail,
     serializeTicket,
   });
+  registerCustomViewRoutes(app, db.sqlite, boardEventHub);
 
   registerGroupRoutes(app, { db, publishBoardEvent: boardEventHub.publish });
 

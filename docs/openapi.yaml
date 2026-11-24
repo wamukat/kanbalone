@@ -10,6 +10,173 @@ servers:
   - url: http://127.0.0.1:3000
 security: []
 paths:
+  /api/custom-views:
+    get:
+      operationId: listCustomViews
+      summary: List named custom views
+      responses:
+        "200":
+          description: Saved view names and versions
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [views]
+                properties:
+                  views:
+                    type: array
+                    items: { $ref: '#/components/schemas/CustomViewSummary' }
+    post:
+      operationId: createCustomView
+      summary: Save a new cross-board view
+      description: Newly referenced boards and their tags must exist. An invalid board or board/tag association returns 400 with code invalid_reference.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CustomViewDefinition' }
+      responses:
+        "201": { $ref: '#/components/responses/CustomView' }
+        "400": { $ref: '#/components/responses/Error' }
+
+  /api/custom-views/{viewId}:
+    parameters:
+      - name: viewId
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    get:
+      operationId: getCustomView
+      summary: Read a saved view definition and version
+      responses:
+        "200": { $ref: '#/components/responses/CustomView' }
+        "404": { $ref: '#/components/responses/Error' }
+    put:
+      operationId: replaceCustomView
+      summary: Replace a saved view at the expected version
+      description: A missing board or tag reference may be retained from the previous version. New references must be valid. A stale expectedVersion returns 409 with code version_conflict.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CustomViewDefinition'
+                - type: object
+                  required: [expectedVersion]
+                  properties:
+                    expectedVersion: { type: integer, minimum: 1 }
+      responses:
+        "200": { $ref: '#/components/responses/CustomView' }
+        "400": { $ref: '#/components/responses/Error' }
+        "404": { $ref: '#/components/responses/Error' }
+        "409": { $ref: '#/components/responses/Error' }
+    delete:
+      operationId: deleteCustomView
+      summary: Delete a view definition at the expected version
+      parameters:
+        - name: expectedVersion
+          in: query
+          required: true
+          schema: { type: integer, minimum: 1 }
+      responses:
+        "204": { description: View deleted }
+        "400": { $ref: '#/components/responses/Error' }
+        "404": { $ref: '#/components/responses/Error' }
+        "409": { $ref: '#/components/responses/Error' }
+
+  /api/custom-views/catalog:
+    get:
+      operationId: getCustomViewCatalog
+      summary: List boards and their available tags for configuration
+      responses:
+        "200":
+          description: Current boards in board order
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [boards]
+                properties:
+                  boards:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, name, tags]
+                      properties:
+                        id: { type: integer }
+                        name: { type: string }
+                        tags:
+                          type: array
+                          items: { $ref: '#/components/schemas/CustomViewTag' }
+
+  /api/custom-views/query:
+    post:
+      operationId: queryCustomView
+      summary: Read one page of matches with exact totals and reference warnings
+      description: Accepts an unsaved or saved definition. Pass its nextCursor with the same definition for the next page. A malformed or incompatible cursor returns 400 with code invalid_cursor. A 409 with code stale_cursor requires restarting from the first page.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [definition]
+              properties:
+                definition: { $ref: '#/components/schemas/CustomViewDefinition' }
+                limit: { type: integer, minimum: 1, maximum: 100, default: 50 }
+                cursor: { type: string, minLength: 1, maxLength: 4096 }
+      responses:
+        "200":
+          description: A page and counts for the entire result, including boards with zero matches
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CustomViewPage' }
+        "400": { $ref: '#/components/responses/Error' }
+        "409": { $ref: '#/components/responses/Error' }
+
+  /api/custom-views/tickets/{ticketId}/text:
+    get:
+      operationId: getCustomViewTicketText
+      summary: Expand a ticket body or one comment to its full original Markdown
+      parameters:
+        - $ref: '#/components/parameters/TicketId'
+        - name: field
+          in: query
+          required: true
+          schema: { type: string, enum: [body, comment] }
+        - name: commentId
+          in: query
+          description: Required for the comment field and omitted for the body field. The comment must belong to this ticket.
+          schema: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: Full source text
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [bodyMarkdown]
+                properties:
+                  bodyMarkdown: { type: string }
+        "400": { $ref: '#/components/responses/Error' }
+        "404": { $ref: '#/components/responses/Error' }
+
+  /api/custom-views/events:
+    get:
+      operationId: subscribeCustomViewEvents
+      summary: Subscribe to cross-board invalidations via SSE
+      description: Requery on changes and reconnects to obtain the current state.
+      responses:
+        "200":
+          description: Invalidation stream
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                example: |
+                  data: {"event":"views_updated"}
+
   /api/attachments:
     post:
       operationId: uploadAttachment
@@ -2012,6 +2179,14 @@ components:
         type: string
         pattern: "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
   responses:
+    CustomView:
+      description: Saved definition with its ID and current version
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/CustomViewDefinition'
+              - $ref: '#/components/schemas/CustomViewSummary'
     Error:
       description: Error response
       content:
@@ -2029,6 +2204,107 @@ components:
           schema:
             $ref: '#/components/schemas/GroupErrorBody'
   schemas:
+    CustomViewSummary:
+      type: object
+      required: [id, name, version]
+      properties:
+        id: { type: integer, minimum: 1 }
+        name: { type: string }
+        version: { type: integer, minimum: 1 }
+    CustomViewDefinition:
+      type: object
+      required: [name, scope, boardIds, rules, completion, showBody, showLatestComment]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        scope: { type: string, enum: [all, selected] }
+        boardIds:
+          type: array
+          description: Candidate board IDs for selected scope. An empty selection yields zero matches.
+          uniqueItems: true
+          items: { type: integer, minimum: 1 }
+        rules:
+          type: array
+          description: One rule per configured board. An unconfigured board contributes zero matches, including newly added boards in all scope.
+          items:
+            type: object
+            required: [boardId, mode, tagIds]
+            properties:
+              boardId: { type: integer, minimum: 1 }
+              mode: { type: string, enum: [all, tags] }
+              tagIds:
+                type: array
+                description: Match any listed tag belonging to this board. An empty list in tags mode matches nothing. Use an empty list in all mode.
+                uniqueItems: true
+                items: { type: integer, minimum: 1 }
+        completion: { type: string, enum: [open, done, all] }
+        showBody: { type: boolean }
+        showLatestComment: { type: boolean }
+    CustomViewTag:
+      type: object
+      required: [id, name, color]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        color: { type: string }
+    CustomViewExcerpt:
+      type: object
+      required: [excerpt, truncated]
+      properties:
+        excerpt: { type: string, maxLength: 360 }
+        truncated: { type: boolean }
+    CustomViewPage:
+      type: object
+      required: [revision, total, boardCounts, warnings, tickets, nextCursor]
+      properties:
+        revision: { type: integer }
+        total: { type: integer, minimum: 0 }
+        nextCursor: { type: [string, 'null'] }
+        boardCounts:
+          type: array
+          items:
+            type: object
+            required: [boardId, boardName, count]
+            properties:
+              boardId: { type: integer }
+              boardName: { type: [string, 'null'] }
+              count: { type: integer, minimum: 0 }
+        warnings:
+          type: array
+          items:
+            type: object
+            required: [boardId, kind]
+            properties:
+              boardId: { type: integer }
+              kind: { type: string, enum: [missing_board, missing_tag, unset] }
+              tagId: { type: integer }
+        tickets:
+          type: array
+          items:
+            type: object
+            required: [id, boardId, title, laneId, laneName, priority, tags, isResolved]
+            properties:
+              id: { type: integer }
+              boardId: { type: integer }
+              title: { type: string }
+              laneId: { type: integer }
+              laneName: { type: string }
+              priority: { type: integer, enum: [1, 2, 3, 4] }
+              isResolved: { type: boolean }
+              tags:
+                type: array
+                items: { $ref: '#/components/schemas/CustomViewTag' }
+              body: { $ref: '#/components/schemas/CustomViewExcerpt' }
+              latestComment:
+                description: Omitted when hidden. Null indicates the ticket has no comments.
+                oneOf:
+                  - type: 'null'
+                  - allOf:
+                      - $ref: '#/components/schemas/CustomViewExcerpt'
+                      - type: object
+                        required: [id, createdAt]
+                        properties:
+                          id: { type: integer }
+                          createdAt: { type: string, format: date-time }
     GroupSummary:
       type: object
       properties:

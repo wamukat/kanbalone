@@ -19,7 +19,7 @@ export function createSidebarBoardsModule(ctx, options) {
     elements.boardList.innerHTML = "";
     for (const board of state.boards) {
       const button = document.createElement("button");
-      button.className = `board-button ${board.id === state.activeBoardId ? "active" : ""}`;
+      button.className = `board-button ${!elements.shell.classList.contains("custom-view-active") && board.id === state.activeBoardId ? "active" : ""}`;
       button.draggable = true;
       button.dataset.boardId = String(board.id);
       button.textContent = board.name;

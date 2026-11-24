@@ -2,11 +2,12 @@
 import errors from "./locales/ja-errors.js";
 import common from "./locales/ja-common.js";
 import board from "./locales/ja-board.js";
+import customViews from "./locales/ja-custom-views.js";
 import editor from "./locales/ja-editor.js";
 
 export const LANGUAGE_STORAGE_KEY = "kanbalone:language";
 /** @type {Record<string, string>} */
-const japanese = { ...board, ...editor, ...common, ...errors };
+const japanese = { ...customViews, ...board, ...editor, ...common, ...errors };
 /** @typedef {"en" | "ja"} Locale */
 
 /** @returns {Locale} */

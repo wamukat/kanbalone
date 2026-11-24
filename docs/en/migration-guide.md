@@ -399,3 +399,7 @@ Startup adds ticket-list revision and cursor-signing tables, triggers and indexe
 An export uses format 3 when a ticket body, comment or Group description embeds or links to a locally uploaded image. It includes the referenced files in the JSON. Boards without these references continue to use format 2. Import format 3 into v1.1.0-rc.1 or later. If a referenced file is missing or the portable JSON exceeds 64 MiB, export fails.
 
 For full instance recovery or data larger than the portable JSON limit, use the [database and image backup](#database-and-image-backup). To return to v1.0.0, restore the pre-upgrade backup with the v1.0.0 image.
+
+## Saved cross-board view definitions (unreleased)
+
+Custom views add their own definition and query-revision tables without changing ticket membership or completion state. The database initializes them automatically; it does not migrate browser-local board filters into saved views. Back up the database and attachments together before upgrading. A full database restore retains saved definitions and their board/tag IDs. Single-board JSON exports contain board data only and do not transfer these definitions; an imported board receives new IDs and is not silently attached to an existing view. Deleted references remain explicit rather than widening the filter.

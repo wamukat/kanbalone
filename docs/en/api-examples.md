@@ -490,3 +490,34 @@ curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
 ```
 
 A nonempty Group or a stale revision is rejected; deleting a Group never deletes its tickets. The bundled API helper does not supply `If-Match`, so use `curl` for this operation.
+
+## Saved cross-board views (unreleased)
+
+This API is not part of v1.3.0. Check your installed version before using the source-tree endpoints. Discover board and tag IDs with `GET /api/custom-views/catalog`; example IDs below are synthetic.
+
+Create a definition with `POST /api/custom-views`:
+
+```json
+{
+  "name": "Review queue",
+  "scope": "selected",
+  "boardIds": [1, 2],
+  "rules": [
+    {"boardId": 1, "mode": "tags", "tagIds": [3, 4]},
+    {"boardId": 2, "mode": "all", "tagIds": []}
+  ],
+  "completion": "open",
+  "showBody": true,
+  "showLatestComment": true
+}
+```
+
+`GET /api/custom-views` returns `{views:[{id,name,version}]}`; `GET /api/custom-views/:id` returns the full definition with its `id` and `version`. Replace it using `PUT /api/custom-views/:id` with the full definition and `expectedVersion`. Delete only the definition with `DELETE /api/custom-views/:id?expectedVersion=N`. A stale version returns 409: reload the saved definition, retain the local draft, and resolve the conflict instead of blindly retrying a write.
+
+`scope: "all"` considers every current board and future additions. Each board still needs its own rule. Missing rules are unset (zero matches), `mode: "tags"` with an empty `tagIds` array also matches nothing, and only explicit `mode: "all"` disables tag filtering. Tags are OR within their own board. Deleted references are reported in `warnings` and never broaden a query. Same-name new boards or tags have different IDs. `completion` is `open`, `done` or `all`; archived tickets are excluded.
+
+Read without saving by posting `{definition, limit: 50}` to `POST /api/custom-views/query`. The result contains `total`, `boardCounts`, `warnings`, `tickets`, `nextCursor` and `revision`. Counts cover all matching tickets, not only the current page. Default limit is 50 and maximum is 100. Follow `nextCursor` with the same definition; discard accumulated pages and restart on a stale-cursor 409. A malformed cursor or a cursor for different conditions returns 400. Never treat one page as a complete set for a bulk operation.
+
+Rows follow board order, lane order and ticket position, with IDs breaking ties. Body and latest-comment excerpts are returned only when enabled, bounded to 360 Unicode code points. The latest comment is the newest by creation time, then ID. It has a timestamp but no author field. Use `GET /api/custom-views/tickets/:ticketId/text?field=body`, or `field=comment&commentId=N`, to expand exact original Markdown. A comment ID must belong to the ticket.
+
+`GET /api/custom-views/events` emits invalidation events (`views_updated` or `board_updated`); it is not a durable event log. Re-query on reconnect and after returning from ticket details. Changing or deleting a view never changes its matching tickets. Full DB backups retain view definitions; single-board JSON exports do not transfer them.

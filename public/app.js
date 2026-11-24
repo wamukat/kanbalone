@@ -4,6 +4,7 @@ import { readTicketPage, ticketPageUrl } from "./app-ticket-pages.js";
 import { api, createSendJson } from "./app-api.js";
 import { createBoardEventsModule } from "./app-board-events.js";
 import { createBoardModule } from "./app-board.js";
+import { createCustomViews } from "./app-custom-views.js";
 import { createDialogModule } from "./app-dialogs.js";
 import { getAppElements } from "./app-elements.js";
 import { createEditorModule } from "./app-editor.js";
@@ -51,6 +52,7 @@ async function main() {
   // Resolve the requested route before loading its board, rather than loading
   // the remembered/default board and immediately fetching again in the router.
   await refreshBoards({ refreshDetail: false });
+  void customViews.loadLinks().catch(error => showToast(error.message, "error"));
   await applyRouteFromLocation({ replace: true });
 }
 
@@ -96,7 +98,13 @@ function bindEvents() {
   });
   elements.sidebarToggleButton.addEventListener("click", toggleSidebar);
   elements.sidebarReopenButton.addEventListener("click", toggleSidebar);
-  elements.newBoardButton.addEventListener("click", createBoard);
+  elements.newBoardButton.addEventListener("click", async () => {
+    if (customViews.active) {
+      if (!await customViews.mayLeave()) return;
+      await returnToBoard();
+    }
+    createBoard();
+  });
   elements.newSidebarTagButton.addEventListener("click", createTag);
   elements.boardSettingsToggleButton.addEventListener("click", toggleBoardSettings);
   elements.deleteBoardButton.addEventListener("click", deleteBoard);
@@ -178,10 +186,10 @@ function bindEvents() {
   elements.importBoardInput.addEventListener("change", importBoard);
   elements.laneBoard.addEventListener("dragover", handleLaneDragOver);
   window.addEventListener("beforeunload", (event) => {
-    if (hasUnsavedChanges() || state.editorSaving) { event.preventDefault(); event.returnValue = ""; }
+    if (hasUnsavedChanges() || state.editorSaving || customViews.isDirty()) { event.preventDefault(); event.returnValue = ""; }
   });
   window.addEventListener("popstate", async () => {
-    if (!await confirmDiscardChanges()) {
+    if (!await confirmDiscardChanges() || !await customViews.mayLeave()) {
       if (state.editingTicketId) syncTicketUrl(state.editingTicketId, { replace: true });
       else syncBoardUrl(true);
       return;
@@ -262,6 +270,11 @@ async function refreshBoards({ refreshDetail = true } = {}) {
 }
 
 async function selectBoard(boardId) {
+  if (customViews.active) {
+    if (!await customViews.mayLeave()) return;
+    customViews.leave();
+  }
+  ++routeGeneration;
   saveBoardFilters();
   saveBoardFilterExpansion();
   saveBoardViewMode();
@@ -276,8 +289,10 @@ async function selectBoard(boardId) {
   restoreBoardFilters(boardId);
   restoreBoardFilterExpansion(boardId);
   await refreshBoardDetail();
-  syncBoardUrl();
-  persistUiPreferences();
+  if (state.activeBoardId === boardId && !customViews.active) {
+    syncBoardUrl();
+    persistUiPreferences();
+  }
 }
 
 let boardRefreshGeneration = 0;
@@ -326,6 +341,17 @@ function collapseCompletionTickets(laneId, count = 5) {
 }
 
 async function refreshBoardDetail({ awaitGroupLoad = false, reuseReadyKanbanLanes = false } = {}) {
+  if (customViews.active) {
+    const owner = state.activeBoardId;
+    if (elements.editorDialog.open && owner) {
+      const marker = customViews.origin;
+      const board = await api(`/api/boards/${owner}`);
+      if (customViews.active && customViews.origin === marker && owner === state.activeBoardId && elements.editorDialog.open) {
+        state.boardDetail = { ...board, tickets: [] };
+      }
+    }
+    return;
+  }
   const generation = ++boardRefreshGeneration;
   boardRefreshAbort?.abort();
   boardRefreshAbort = new AbortController();
@@ -415,15 +441,84 @@ const { confirmAndRun, finishUxDialog, handleUxSubmit, openFormDialog, showToast
 
 let routerModule;
 
-function applyRouteFromLocation(options) {
-  return routerModule.applyRouteFromLocation(options);
+let routeGeneration = 0;
+let boardBeforeView;
+let returningInHistory = false;
+
+function beginBoardOverride() {
+  editorModule.invalidateOpening();
+  ++routeGeneration;
+  ++boardRefreshGeneration;
+  boardRefreshAbort?.abort();
+  closeBoardEvents();
+  state.boardRefreshPendingAfterDialog = false;
+  boardBeforeView = { activeBoardId: state.activeBoardId, boardDetail: state.boardDetail, boardTickets: state.boardTickets };
+  state.boardDetail = null;
+  state.boardTickets = [];
+  elements.shell.classList.add("custom-view-active");
+  renderBoards();
+}
+
+function endBoardOverride() {
+  editorModule.invalidateOpening();
+  ++routeGeneration;
+  Object.assign(state, boardBeforeView);
+  boardBeforeView = null;
+  elements.shell.classList.remove("custom-view-active");
+  renderBoards();
+}
+
+async function returnToBoard() {
+  customViews.leave();
+  await refreshBoards();
+  syncBoardUrl(true);
+  document.querySelector(".board-button.active, #new-board-button")?.focus();
+}
+
+async function applyRouteFromLocation(options) {
+  returningInHistory = false;
+  const path = location.pathname;
+  const viewRoute = /^\/views\/(new|[1-9]\d*)\/?$/.exec(path);
+  const ticketRoute = /^\/tickets\/([1-9]\d*)\/?$/.exec(path);
+  const historyView = ticketRoute && history.state?.customViewId;
+  if (viewRoute || historyView) {
+    const viewId = viewRoute ? (viewRoute[1] === "new" ? null : Number(viewRoute[1])) : Number(historyView);
+    if (elements.editorDialog.open) {
+      state.skipDialogCloseSync = true;
+      elements.editorDialog.close();
+    }
+    if (!customViews.active || customViews.id !== viewId) await customViews.enter(viewId, { writeUrl: false });
+    if (location.pathname !== path || !customViews.active || customViews.id !== viewId) return;
+    if (historyView) {
+      const ticket = await api(`/api/tickets/${Number(ticketRoute[1])}`);
+      if (location.pathname === path && customViews.active && customViews.id === viewId) await customViews.openTicket(ticket.id, ticket.boardId);
+    }
+    return;
+  }
+  customViews.leave();
+  const generation = ++routeGeneration;
+  return routerModule.applyRouteFromLocation({ ...options, isCurrent: () => generation === routeGeneration });
 }
 
 function syncBoardUrl(replace = false) {
+  if (customViews.active) {
+    if (!replace && !returningInHistory && history.state?.returnToCustomView && location.pathname.startsWith("/tickets/")) {
+      returningInHistory = true;
+      history.back();
+    } else if (!returningInHistory) customViews.setPath(customViews.currentPath(), true);
+    return;
+  }
   return routerModule.syncBoardUrl(replace);
 }
 
 function syncTicketUrl(ticketId, options) {
+  if (customViews.active) {
+    const linked = location.pathname.startsWith("/tickets/") && history.state?.customViewId === customViews.id;
+    return customViews.setPath(`/tickets/${ticketId}`, options?.replace || linked, {
+      customViewId: customViews.id,
+      returnToCustomView: !options?.replace && (location.pathname === customViews.currentPath() || linked && history.state?.returnToCustomView),
+    });
+  }
   return routerModule.syncTicketUrl(ticketId, options);
 }
 
@@ -465,10 +560,24 @@ const {
 
 const editorModule = createEditorModule({
   isActiveGroup: (groupId) => boardModule.isActiveGroup(groupId),
-  captureEditorOrigin: () => boardModule.captureEditorOrigin(),
-  restoreEditorOrigin: (version) => boardModule.restoreEditorOrigin(version),
+  isCustomView: () => customViews.active,
+  captureEditorOrigin: () => customViews.active ? customViews.origin : boardModule.captureEditorOrigin(),
+  restoreEditorOrigin: (version) => customViews.active ? Boolean(version?.viewId) : boardModule.restoreEditorOrigin(version),
   onTicketCreated: (boardId) => boardModule.onTicketCreated(boardId),
-  openGroup: (groupId) => boardModule.openGroup(groupId),
+  openGroup: async (groupId) => {
+    if (customViews.active) {
+      if (!await confirmDiscardChanges()) return;
+      const owner = state.activeBoardId;
+      // Group navigation owns the next URL. Closing the view ticket must not
+      // enqueue history.back() after the Group route has been selected.
+      state.skipDialogCloseSync = true;
+      elements.editorDialog.close();
+      customViews.leave();
+      restoreBoardFilters(owner);
+      restoreBoardFilterExpansion(owner);
+    }
+    await boardModule.openGroup(groupId);
+  },
   state,
   elements,
   api,
@@ -478,7 +587,7 @@ const editorModule = createEditorModule({
   openFormDialog,
   prepareEditorDialogPosition,
   refreshBoardDetail,
-  flushPendingBoardRefreshAfterDialogClose,
+  flushPendingBoardRefreshAfterDialogClose: () => customViews.active ? customViews.returned() : flushPendingBoardRefreshAfterDialogClose(),
   sendJson,
   showToast,
   syncBoardUrl,
@@ -602,6 +711,12 @@ const {
   toggleBoardSettings,
   syncSidebar,
 } = boardModule;
+
+const customViews = createCustomViews({
+  api, sendJson, escapeHtml, elements, state, showToast, confirmAndRun,
+  beginBoardOverride, endBoardOverride, returnToBoard, requestCloseEditor, confirmDiscardChanges,
+  openEditor: (ticketId, isCurrent) => openEditor(ticketId, "view", null, null, isCurrent),
+});
 
 main().catch((error) => {
   console.error(error);

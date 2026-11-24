@@ -1,4 +1,5 @@
 import { migrateTicketPagination } from "./ticket-pagination-revision.js";
+import { migrateCustomViews } from "./custom-views.js";
 import { migrateGroups } from "./groups.js";
 import type Database from "better-sqlite3";
 
@@ -300,6 +301,7 @@ export function migrate(sqlite: Database.Database): void {
   migrateCompletionTime(sqlite);
   migrateGroups(sqlite);
   migrateTicketPagination(sqlite);
+  migrateCustomViews(sqlite);
 }
 
 function ensureTicketRemoteLinksShape(sqlite: Database.Database): void {

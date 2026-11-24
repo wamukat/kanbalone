@@ -15,12 +15,13 @@ export function createRouterModule(ctx, options) {
     return { kind: "home" };
   }
 
-  async function applyRouteFromLocation({ replace = false } = {}) {
+  async function applyRouteFromLocation({ replace = false, isCurrent = () => true } = {}) {
     const route = readRouteFromLocation();
 
     if (route.kind === "ticket") {
       try {
         const ticket = await api(`/api/tickets/${route.id}`);
+        if (!isCurrent()) return;
         options.saveBoardFilters();
         options.saveBoardFilterExpansion();
         options.saveBoardViewMode();
@@ -29,13 +30,16 @@ export function createRouterModule(ctx, options) {
         options.restoreBoardFilters(ticket.boardId);
         options.restoreBoardFilterExpansion(ticket.boardId);
         await options.refreshBoardDetail();
-        await options.openEditor(ticket.id, "view");
+        if (!isCurrent()) return;
+        await options.openEditor(ticket.id, "view", null, null, isCurrent);
+        if (!isCurrent()) return;
         options.persistUiPreferences();
         if (replace) {
           syncTicketUrl(ticket.id, { replace: true });
         }
         return;
       } catch {
+        if (!isCurrent()) return;
         options.showToast(t("Ticket not found"), "error");
       }
     }
@@ -51,6 +55,7 @@ export function createRouterModule(ctx, options) {
         options.restoreBoardFilters(route.id);
         options.restoreBoardFilterExpansion(route.id);
         await options.refreshBoardDetail();
+        if (!isCurrent()) return;
         options.persistUiPreferences();
         if (elements.editorDialog.open) {
           state.skipDialogCloseSync = true;
@@ -76,6 +81,7 @@ export function createRouterModule(ctx, options) {
       options.restoreBoardFilters(state.activeBoardId);
       options.restoreBoardFilterExpansion(state.activeBoardId);
       await options.refreshBoardDetail();
+      if (!isCurrent()) return;
       options.persistUiPreferences();
       if (elements.editorDialog.open) {
         state.skipDialogCloseSync = true;

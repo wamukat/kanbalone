@@ -121,7 +121,7 @@ export function createTicketActionsModule(ctx, options) {
       saved = true;
       archived = !current.isArchived;
       await ctx.refreshBoardDetail();
-      if (!current.isArchived && !state.filters.includeArchived) {
+      if (!current.isArchived && (ctx.isCustomView?.() || !state.filters.includeArchived)) {
         options.closeEditor();
         ctx.showToast(t("Archived"));
         return;
