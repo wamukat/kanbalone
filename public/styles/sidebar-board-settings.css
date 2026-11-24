@@ -74,21 +74,9 @@
   white-space: nowrap;
 }
 
-.sidebar-board-name-form input {
-  width: 100%;
-  border: 1px solid var(--control-border);
-  border-radius: var(--radius-control);
-  background: var(--control-bg);
-  color: var(--text);
-  padding: 0.55rem 0.65rem;
-}
-
-.sidebar-board-name-form input:focus {
-  border-color: var(--control-focus-border);
-  box-shadow: var(--control-focus-ring);
+.sidebar-board-name-form input:where([type="text" i]):focus {
   outline: none;
 }
-
 
 .sidebar-board-actions button,
 .sidebar-board-actions .import-button {

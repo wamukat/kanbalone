@@ -12,20 +12,9 @@
   min-width: 0;
 }
 
-.sidebar-tag-create-row input {
-  width: 100%;
+.sidebar-tag-create-row input:where([type="text" i]) {
   min-height: 2.2rem;
-  border: 1px solid var(--control-border);
-  border-radius: var(--radius-control);
-  background: var(--control-bg);
-  color: var(--text);
-  padding: 0.55rem 0.65rem;
   outline: none;
-}
-
-.sidebar-tag-create-row input:focus {
-  border-color: var(--control-focus-border);
-  box-shadow: var(--control-focus-ring);
 }
 
 .sidebar-tag-badge {

@@ -9,8 +9,21 @@
 }
 
 .ux-fields input[type="color"] {
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--text);
+  font-size: var(--font-size-control);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-control);
   padding: 0.2rem;
   min-height: 2.5rem;
+}
+
+.ux-fields input:where([type="color"]):focus {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
+  outline: none;
 }
 
 .ux-color-row {
