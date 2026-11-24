@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "localOnlySyntheticFixture": true,
+  "locales": {
+    "ja": {
+      "initialAriaLabel": "最初のボードを作成",
+      "animationName": "none",
+      "cancelledBoardCount": 0,
+      "savedBoard": {
+        "id": 1,
+        "name": "初回確認ボード",
+        "position": 0,
+        "createdAt": "2026-11-24T13:39:58.305Z",
+        "updatedAt": "2026-11-24T13:39:58.305Z"
+      },
+      "laneCount": 4,
+      "reloaded": true,
+      "hintAfterSave": "none",
+      "buttonAriaLabelAfterSave": "新しいボード"
+    },
+    "en": {
+      "initialAriaLabel": "Create your first board",
+      "animationName": "board-create-nudge",
+      "cancelledBoardCount": 0,
+      "savedBoard": {
+        "id": 2,
+        "name": "First board check",
+        "position": 0,
+        "createdAt": "2026-11-24T13:40:24.886Z",
+        "updatedAt": "2026-11-24T13:40:24.886Z"
+      },
+      "laneCount": 4,
+      "reloaded": true,
+      "hintAfterSave": "none",
+      "buttonAriaLabelAfterSave": "New board"
+    }
+  },
+  "checkedAtUtc": "2026-11-24T13:40:32.435386+00:00"
+}
