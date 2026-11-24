@@ -24,7 +24,9 @@ export function createBoardModule(ctx) {
     restoreKanbanAnchor: (list, anchor) => kanbanModule.restoreWindowAnchor(list, anchor),
     captureGroupAnchor: () => groupModule.captureTicketAnchor(),
     restoreGroupAnchor: (anchor) => groupModule.restoreTicketAnchor(anchor),
-    focusGroupEditorTicket: (id, anchor) => groupModule.focusEditorTicket(id, anchor),
+    groupScope: () => groupModule.renderedScope(),
+    captureGroupTicketFocus: () => groupModule.captureEditorTicketFocus(),
+    focusGroupEditorTicket: (origin) => groupModule.focusEditorTicket(origin),
   });
   const boardSettingsModule = createBoardSettingsModule(ctx);
   const kanbanModule = createKanbanBoardModule(ctx, { renderBoardDetail, afterRender: keyboard.afterRender });

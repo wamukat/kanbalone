@@ -4,7 +4,7 @@ import { t } from "./app-i18n.js";
 export function createBoardKeyboardModule(ctx, listModule, {
   onKanbanKeyboardScroll, findKanbanTitle, firstKanbanTitle, kanbanNeighbor,
   captureKanbanAnchor, restoreKanbanAnchor,
-  captureGroupAnchor, restoreGroupAnchor, focusGroupEditorTicket,
+  captureGroupAnchor, restoreGroupAnchor, groupScope, captureGroupTicketFocus, focusGroupEditorTicket,
 } = {}) {
   const { state, elements } = ctx;
   let creationOpening = false;
@@ -20,9 +20,9 @@ export function createBoardKeyboardModule(ctx, listModule, {
   const identity = (element) => Number(element.dataset.openTicketId || element.closest(".ticket-card")?.dataset.ticketId);
   const selectedGroup = () => elements.groupBoard.querySelector('[data-select-group][aria-current="true"]');
   const context = () => ({ boardId: state.activeBoardId, view: state.viewMode,
-    groupId: state.viewMode === "group" ? selectedGroup()?.dataset.selectGroup : null });
+    groupId: state.viewMode === "group" ? groupScope?.() : null });
   const sameContext = (target) => target?.boardId === state.activeBoardId && target.view === state.viewMode
-    && (target.view !== "group" || target.groupId === selectedGroup()?.dataset.selectGroup);
+    && (target.view !== "group" || target.groupId === groupScope?.());
 
   function describeOrigin(element) {
     if (!(element instanceof HTMLElement) || !visible(element)) return null;
@@ -40,7 +40,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
   }
 
   function focusOrigin(target) {
-    if (target.view === "group" && target.groupTicketId != null && focusGroupEditorTicket?.(target.groupTicketId, target.scroll.groupAnchor)) return true;
+    if (target.view === "group" && target.groupTicketId != null && focusGroupEditorTicket?.(target.scroll.groupFocus)) return true;
     if (target.id != null) return focusTitle(target.id, false);
     const host = target.view === 'group' ? elements.groupBoard : target.view === 'list' ? elements.listBoard : elements.laneBoard;
     const element = host.querySelector(target.query);
@@ -77,6 +77,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
       windowX: window.scrollX, windowY: window.scrollY,
       groupLeft: elements.groupBoard.scrollLeft, groupTop: elements.groupBoard.scrollTop,
       groupAnchor: state.viewMode === "group" ? captureGroupAnchor?.() : null,
+      groupFocus: state.viewMode === "group" ? captureGroupTicketFocus?.() : null,
       boardLeft: elements.laneBoard.scrollLeft,
       boardTop: elements.laneBoard.scrollTop,
       listLeft: elements.listBoard.scrollLeft,

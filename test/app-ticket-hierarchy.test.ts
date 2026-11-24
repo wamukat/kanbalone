@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { indexTicketHierarchy } from "../public/app-ticket-hierarchy.js";
 import { getListTickets } from "../public/app-board-list.js";
-import { searchGroupCandidates, renderGroupView, renderGroupOptions } from "../public/app-group-view.js";
+import { searchGroupCandidates, renderGroupView, renderGroupOptions, renderGroupViewSections } from "../public/app-group-view.js";
 import type { GroupTicket, GroupViewState } from "../public/app-group-types.js";
 
 const ticket = (id:number, parentTicketId:number|null = null, extra:Partial<GroupTicket> = {}):GroupTicket => ({
@@ -80,4 +80,95 @@ test("Group display is unchanged when member pages use ID order instead of lane-
     assert.match(after,/Remove 3 tickets from Group/);
     assert.deepEqual([...after.matchAll(/data-group-remove="(\d+)"/g)].map(m=>Number(m[1])),[8,6,20,10]);
   }
+});
+
+function groupFilterView(tickets: GroupTicket[]): GroupViewState {
+  const selected = {
+    id: 1, boardId: 1, name: "Review", isActive: true, totalTicketCount: tickets.length,
+    openTicketCount: tickets.filter(ticket => !ticket.isArchived && !ticket.isResolved).length,
+    resolvedTicketCount: tickets.filter(ticket => !ticket.isArchived && ticket.isResolved).length,
+    archivedTicketCount: tickets.filter(ticket => ticket.isArchived).length,
+    revision: 1, createdAt: "", updatedAt: "", descriptionMarkdown: "", descriptionHtml: "",
+  };
+  return {
+    groups: [selected], selectedId: 1, selected, ungroupedTicketCount: 0, tickets,
+    all: false, sort: "createdAt:asc", showArchived: false, creating: false,
+    createName: "", renaming: false, renameName: "", descriptionEditing: false,
+    descriptionDraft: "", descriptionPreview: null, expanded: false, adding: false,
+    busy: false, error: "", candidates: [], chosen: [], query: "", activeOption: 0,
+  };
+}
+
+const groupFilterOptions = { escapeHtml: (value: string) => value, lanes: [{ id: 1, name: "Todo" }], rowIcon: () => "" };
+
+test("Group and No Group apply completion and archive filters to the same ordered rows in both display modes", () => {
+  const sample = [
+    ticket(41, 40, { isArchived: true }), ticket(52, 50, { isArchived: true, isResolved: true, priority: 3 }),
+    ticket(10, null, { isResolved: true, hasChildren: true, priority: 4 }),
+    ticket(12, 10, { isResolved: true, priority: 4 }), ticket(11, 10), ticket(13, 10, { isArchived: true, priority: 3 }),
+    ticket(20, null, { isArchived: true, isResolved: true, hasChildren: true, priority: 3 }), ticket(21, 20),
+    ticket(30, null, { isResolved: true, hasChildren: true }), ticket(31, 30, { isResolved: true }),
+    ticket(40, null, { isResolved: true, hasChildren: true }),
+    ticket(50, null, { hasChildren: true }), ticket(51, 50, { priority: 4 }),
+    ticket(60, null, { isArchived: true }), ticket(61, null, { isArchived: true, isResolved: true }),
+  ];
+  const parentsByChild = new Map(sample.flatMap(({ id, parentTicketId }) => parentTicketId === null ? [] : [[id, parentTicketId]]));
+  // The narrowest result reaches the window threshold with two context rows.
+  const tickets = [...sample, ...Array.from({ length: 994 }, (_, i) => ticket(1000 + i, null, { priority: 1 }))];
+  const before = structuredClone(tickets);
+  const view = groupFilterView(tickets);
+  const cases = [
+    { openOnly: false, showArchived: false, visible: [10, 12, 11, 20, 21, 30, 31, 40, 50, 51], context: [20], remove: [10, 20, 30, 40, 50] },
+    { openOnly: false, showArchived: true, visible: [10, 12, 13, 11, 20, 21, 30, 31, 40, 41, 50, 51, 52, 60, 61], context: [], remove: [10, 20, 30, 40, 50, 60, 61] },
+    { openOnly: true, showArchived: false, visible: [10, 11, 20, 21, 50, 51], context: [10, 20], remove: [50] },
+    { openOnly: true, showArchived: true, visible: [10, 13, 11, 20, 21, 40, 41, 50, 51, 60], context: [10, 20, 40], remove: [50, 60] },
+  ];
+
+  for (const heading of [view, { ...view, selectedId: "ungrouped" as const, selected: null, ungroupedTicketCount: tickets.length }]) {
+    const ungrouped = heading.selectedId === "ungrouped";
+    const baseline = renderGroupViewSections(heading, groupFilterOptions, "auto");
+    for (const { openOnly, showArchived, visible, context, remove } of cases) {
+      const current = { ...heading, openOnly, showArchived };
+      const regular = renderGroupViewSections(current, groupFilterOptions);
+      const model = renderGroupViewSections(current, groupFilterOptions, "auto").ticketWindow;
+      assert.ok(model);
+      assert.equal(model.rows.length, 994 + visible.length);
+      const rows = model.rows.filter(row => row.ticket.id < 1000);
+      assert.deepEqual(rows.map(row => row.ticket.id), visible);
+      assert.deepEqual(rows.filter(row => row.context).map(row => row.ticket.id), context);
+      assert.deepEqual(rows.filter(row => !row.searchable).map(row => row.ticket.id), openOnly ? context : []);
+      assert.deepEqual(rows.filter(row => row.canRemove).map(row => row.ticket.id), ungrouped ? [] : remove);
+      assert.deepEqual(rows.filter(row => row.child).map(row => [row.ticket.id, row.familyId]),
+        visible.filter(id => parentsByChild.has(id)).map(id => [id, parentsByChild.get(id)]));
+
+      for (const markup of [regular.tickets!, rows.map(model.renderRow).join("")]) {
+        const ids = (attribute: string) => [...markup.matchAll(new RegExp(`${attribute}="(\\d+)"`, "g"))]
+          .map(match => Number(match[1])).filter(id => id < 1000);
+        assert.deepEqual(ids("data-group-row-id"), visible);
+        assert.deepEqual(ids("data-group-ticket"), visible.filter(id => !context.includes(id)));
+        assert.deepEqual(ids("data-group-remove"), ungrouped ? [] : remove);
+        if (openOnly) assert.match(markup, /Resolved parent · shown for context/);
+        if (!ungrouped && openOnly) assert.match(markup, /Remove 3 tickets from Group/);
+      }
+      assert.equal(regular.list, baseline.list);
+      if (ungrouped) assert.match(regular.header, openOnly ? /1009 total/ : /1009 tickets/);
+      else assert.match(regular.header, /998 open · 1009 total/);
+    }
+    const explicitOff = renderGroupViewSections({ ...heading, openOnly: false }, groupFilterOptions, "auto");
+    assert.equal(baseline.header, explicitOff.header);
+    assert.deepEqual(baseline.ticketWindow?.rows, explicitOff.ticketWindow?.rows);
+  }
+  assert.deepEqual(tickets, before);
+});
+
+test("Group filter empty states distinguish absent members, resolved members and hidden archives", () => {
+  const empty = (tickets: GroupTicket[], showArchived = false) => renderGroupViewSections({
+    ...groupFilterView(tickets), showArchived, openOnly: true,
+  }, groupFilterOptions).tickets!;
+
+  assert.match(empty([]), /Add or create tickets to get started/);
+  assert.match(empty([ticket(1, null, { isResolved: true })]), /All tickets are resolved/);
+  assert.match(empty([ticket(1, null, { isArchived: true })]), /All tickets are archived/);
+  assert.match(empty([ticket(1, null, { isArchived: true, isResolved: true })], true), /All tickets are resolved/);
+  assert.match(empty([ticket(1, null, { isResolved: true }), ticket(2, null, { isArchived: true })]), /All open tickets are archived/);
 });

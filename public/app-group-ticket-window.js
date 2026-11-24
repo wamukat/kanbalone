@@ -53,6 +53,23 @@ export function restoreGroupTicketAnchor(root, section, anchor) {
   }
 }
 
+// A parent and its last matching child may disappear together. The previous
+// row index in the new list would skip the child's surviving neighbor.
+/** @param {TicketFocus} origin @param {Map<number, number>} indices @param {(index: number) => boolean} canFocus */
+export function findGroupFocusNeighbor(origin, indices, canFocus) {
+  for (const step of [1, -1]) {
+    for (let i = origin.index + step; i >= 0 && i < origin.order.length; i += step) {
+      const index = indices.get(origin.order[i]);
+      if (index !== undefined && canFocus(index)) return index;
+    }
+  }
+  // If every old ticket disappeared, newly arrived rows can still receive focus.
+  const start = Math.min(origin.index, indices.size - 1);
+  for (let i = start; i >= 0 && i < indices.size; i++) if (canFocus(i)) return i;
+  for (let i = start - 1; i >= 0; i--) if (canFocus(i)) return i;
+  return -1;
+}
+
 /** @param {HTMLElement} root @param {HTMLElement} section @param {Model} initial */
 export function createGroupTicketWindow(root, section, initial) {
   const canvas = document.createElement("div");
@@ -63,6 +80,7 @@ export function createGroupTicketWindow(root, section, initial) {
   let model = initial;
   /** @type {Map<number, number>} */
   let indices = new Map();
+  /** @type {number[]} */ let order = [];
   /** @type {Map<number, {node: HTMLElement, html: string}>} */
   const mounted = new Map();
   /** @type {Map<number, number>} */
@@ -89,7 +107,8 @@ export function createGroupTicketWindow(root, section, initial) {
   /** @param {Model} next */
   function indexModel(next) {
     model = next;
-    indices = new Map(model.rows.map(({ ticket }, index) => [ticket.id, index]));
+    order = model.rows.map(row => row.ticket.id);
+    indices = new Map(order.map((id, index) => [id, index]));
     for (const id of measured.keys()) if (!indices.has(id)) measured.delete(id);
     writeOffsets();
   }
@@ -216,11 +235,16 @@ export function createGroupTicketWindow(root, section, initial) {
     }
   }
 
+  /** @param {number} index */
+  function canFocus(index) {
+    const row = model.rows[index];
+    return !row.context || (row.canRemove && !busy);
+  }
+
   /** @param {number} start @param {number} step */
   function findFocusableRow(start, step) {
     for (let index = start; index >= 0 && index < model.rows.length; index += step) {
-      const row = model.rows[index];
-      if (!row.context || (row.canRemove && !busy)) return index;
+      if (canFocus(index)) return index;
     }
     return -1;
   }
@@ -296,7 +320,7 @@ export function createGroupTicketWindow(root, section, initial) {
     if (!current) return null;
     const id = Number(current.dataset.groupWindowId);
     const index = indices.get(id);
-    return index === undefined ? null : { id, index, remove: !!active?.hasAttribute("data-group-remove") };
+    return index === undefined ? null : { id, index, order, remove: !!active?.hasAttribute("data-group-remove") };
   }
 
   /** @param {TicketFocus} origin @param {boolean} [revealTarget] */
@@ -314,9 +338,7 @@ export function createGroupTicketWindow(root, section, initial) {
         return true;
       }
     }
-    const start = index ?? Math.min(origin.index, model.rows.length - 1);
-    const next = findFocusableRow(start, 1);
-    const fallback = next >= 0 ? next : findFocusableRow(start - 1, -1);
+    const fallback = findGroupFocusNeighbor(origin, indices, canFocus);
     if (fallback < 0) return false;
     const button = reveal(model.rows[fallback].ticket.id)?.querySelector("button:not(:disabled)");
     if (!(button instanceof HTMLButtonElement)) return false;

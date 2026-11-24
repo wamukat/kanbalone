@@ -210,9 +210,13 @@ Click the Group name to rename it, or **Add description** to write a Markdown de
 - **Remove membership**: use the trash icon on a ticket row. This does not delete the ticket. To move a ticket to another Group, remove it first, then add it there.
 - **View archived tickets**: choose **Show archived tickets**. An archived parent remains visible when it has unarchived children, so their relationship stays clear.
 
-Completed tickets stay in the list with a check mark and subdued text. Unfinished children remain emphasized even when their parent is completed.
+By default, completed tickets stay in the list with a check mark and subdued text. Unfinished children remain emphasized even when their parent is completed.
 
 **Active** shows Groups with unresolved, unarchived tickets, plus empty Groups. Find Groups whose work is finished under **All**.
+
+**Open only** (unreleased): use the control above the ticket list to hide completed tickets in the selected Group or **No Group**. It starts off, and this browser remembers the choice separately for each board. **Show archived tickets** remains an independent condition. A completed parent with an open child stays as a labelled, non-interactive reference row so the relationship remains visible. To open that parent’s details, turn the filter off and enable **Show archived tickets** if the parent is archived.
+
+This filter changes the ticket list; Group-wide progress and membership counts still describe the whole Group. The Group’s open count continues to exclude archived tickets. It does not change ticket completion or Group membership, and it does not change the completion filters in other views.
 
 A ticket can belong to one Group. Parent and child tickets are added or removed together. When connecting tickets from different Groups, choose which Group they should share.
 
