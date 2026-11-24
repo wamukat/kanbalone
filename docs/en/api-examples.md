@@ -493,7 +493,7 @@ A nonempty Group or a stale revision is rejected; deleting a Group never deletes
 
 ## Saved cross-board views
 
-This API is not part of v1.3.0. Check your installed version before using the source-tree endpoints. Discover board and tag IDs with `GET /api/custom-views/catalog`; example IDs below are synthetic.
+This API is available starting in v1.4.0. Discover board and tag IDs with `GET /api/custom-views/catalog`. The examples use synthetic IDs.
 
 Create a definition with `POST /api/custom-views`:
 
