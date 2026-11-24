@@ -266,11 +266,6 @@ a.ticket-external-reference-ref:hover {
 .ticket-body-diff-row {
   display: grid;
   grid-template-columns: 2.25rem minmax(0, 1fr);
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 68%, transparent);
-}
-
-.ticket-body-diff-row:last-child {
-  border-bottom: 0;
 }
 
 .ticket-body-diff-marker,
@@ -281,7 +276,6 @@ a.ticket-external-reference-ref:hover {
 .ticket-body-diff-marker {
   text-align: center;
   user-select: none;
-  border-right: 1px solid color-mix(in srgb, var(--border) 68%, transparent);
 }
 
 .ticket-body-diff-line {
@@ -448,14 +442,9 @@ a.ticket-external-reference-ref:hover {
   color: var(--accent);
 }
 
-.comments-list {
-  padding: 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-surface);
-  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
-}
-
-.activity-list {
+.comments-list,
+.activity-list,
+.ticket-view-body {
   padding: 0.7rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-surface);
@@ -463,10 +452,6 @@ a.ticket-external-reference-ref:hover {
 }
 
 .ticket-view-body {
-  padding: 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-surface);
-  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
   line-height: var(--line-height-body);
 }
 

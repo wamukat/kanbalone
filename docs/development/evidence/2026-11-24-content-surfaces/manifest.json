@@ -1,0 +1,250 @@
+{
+  "capturedOn": "2026-11-24",
+  "baselineRevision": "5585cbb",
+  "cssFiles": [
+    {
+      "path": "public/styles/comments-activity.css",
+      "beforeSha256": "dc622e5ee1864ec2f7b08ab5334218c3cd071cf7315a39bc5570a2dbd7234f9e",
+      "afterSha256": "94f7dea781c4d7e633bd30d04dacf707b1d82bed706698ad7fc4d3205b838fb6"
+    },
+    {
+      "path": "public/styles/ticket-detail.css",
+      "beforeSha256": "34675b8c7738576f5cf59d718bfb887420461b2ddd36ee04529fa3c13c50df8e",
+      "afterSha256": "109fa5b26b3af939a74db836bb29fc6a06e48ce6b079c2f0589bc5e9f02b7dca"
+    }
+  ],
+  "imageEnvironment": {
+    "browser": "Headless Chrome 158",
+    "locale": "ja",
+    "viewport": [
+      1440,
+      900
+    ],
+    "deviceScaleFactor": 1,
+    "reducedMotion": true
+  },
+  "imagePairs": [
+    {
+      "caseName": "light-comments",
+      "before": {
+        "file": "light-comments-before.png",
+        "bytes": 118635,
+        "sha256": "eeaa6c38216e3d4ff02ad007659be9645b23b17c8732f88047967f78aa983f24"
+      },
+      "after": {
+        "file": "light-comments-after.png",
+        "bytes": 118635,
+        "sha256": "eeaa6c38216e3d4ff02ad007659be9645b23b17c8732f88047967f78aa983f24"
+      },
+      "differingPixels": 0
+    },
+    {
+      "caseName": "dark-comments",
+      "before": {
+        "file": "dark-comments-before.png",
+        "bytes": 107878,
+        "sha256": "26e554c191d17f6de10c97209ecf50984dff5878f0fd039669a6cd6403956d63"
+      },
+      "after": {
+        "file": "dark-comments-after.png",
+        "bytes": 107878,
+        "sha256": "26e554c191d17f6de10c97209ecf50984dff5878f0fd039669a6cd6403956d63"
+      },
+      "differingPixels": 0
+    },
+    {
+      "caseName": "light-activity",
+      "before": {
+        "file": "light-activity-before.png",
+        "bytes": 133213,
+        "sha256": "66971923b9ed27c8a144f3f2f393077a88b9c5f58e4a7c4e7d44adbe123120bc"
+      },
+      "after": {
+        "file": "light-activity-after.png",
+        "bytes": 133213,
+        "sha256": "66971923b9ed27c8a144f3f2f393077a88b9c5f58e4a7c4e7d44adbe123120bc"
+      },
+      "differingPixels": 0
+    },
+    {
+      "caseName": "dark-activity",
+      "before": {
+        "file": "dark-activity-before.png",
+        "bytes": 122133,
+        "sha256": "3413ae1100dd1ab240fd109f657a8e6d7ea0ce0287a95a4883d2a68ecffc3e26"
+      },
+      "after": {
+        "file": "dark-activity-after.png",
+        "bytes": 122133,
+        "sha256": "3413ae1100dd1ab240fd109f657a8e6d7ea0ce0287a95a4883d2a68ecffc3e26"
+      },
+      "differingPixels": 0
+    }
+  ],
+  "computedConditions": [
+    {
+      "name": "en-dark-820-activity",
+      "renderedSamples": 29,
+      "propertiesCompared": 16298,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "en-dark-820-comments",
+      "renderedSamples": 24,
+      "propertiesCompared": 13488,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "en-dark-820-compose",
+      "renderedSamples": 27,
+      "propertiesCompared": 15174,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "en-dark-820-edit-body",
+      "renderedSamples": 23,
+      "propertiesCompared": 12926,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "en-dark-820-edit-comment",
+      "renderedSamples": 23,
+      "propertiesCompared": 12926,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-dark-1440-activity",
+      "renderedSamples": 29,
+      "propertiesCompared": 16298,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-dark-1440-comments",
+      "renderedSamples": 24,
+      "propertiesCompared": 13488,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-dark-1440-compose",
+      "renderedSamples": 27,
+      "propertiesCompared": 15174,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-dark-1440-edit-body",
+      "renderedSamples": 23,
+      "propertiesCompared": 12926,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-dark-1440-edit-comment",
+      "renderedSamples": 23,
+      "propertiesCompared": 12926,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-light-1440-activity",
+      "renderedSamples": 29,
+      "propertiesCompared": 16298,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-light-1440-comments",
+      "renderedSamples": 24,
+      "propertiesCompared": 13488,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-light-1440-compose",
+      "renderedSamples": 27,
+      "propertiesCompared": 15174,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-light-1440-edit-body",
+      "renderedSamples": 23,
+      "propertiesCompared": 12926,
+      "computedAndGeometryEqual": true
+    },
+    {
+      "name": "ja-light-1440-edit-comment",
+      "renderedSamples": 23,
+      "propertiesCompared": 12926,
+      "computedAndGeometryEqual": true
+    }
+  ],
+  "interaction": {
+    "browser": "Chromium",
+    "locale": "en",
+    "theme": "dark",
+    "viewport": [
+      820,
+      720
+    ],
+    "runsPerVersion": 2,
+    "states": {
+      "composeScrolled": {
+        "scrollY": 217,
+        "scrollHeight": 937,
+        "active": "comment-body",
+        "activity": "false"
+      },
+      "inlineEditFocused": {
+        "scrollY": 0,
+        "scrollHeight": 958,
+        "active": "comment-editor",
+        "activity": "false"
+      },
+      "activityTab": {
+        "scrollY": 0,
+        "scrollHeight": 902,
+        "active": "activity-tab-button",
+        "activity": "true"
+      },
+      "commentsTab": {
+        "scrollY": 0,
+        "scrollHeight": 790,
+        "active": "comments-tab-button",
+        "activity": "false"
+      }
+    },
+    "writes": [
+      {
+        "method": "POST",
+        "route": "/api/tickets/:id/comments"
+      },
+      {
+        "method": "PATCH",
+        "route": "/api/comments/:id"
+      }
+    ],
+    "originalCount": 2,
+    "persistedCount": 3,
+    "postReadback": true,
+    "cancelReadbackUnchanged": true,
+    "editReadbackAfterReload": true,
+    "originalCommentsAndTicketBodyUnchanged": true,
+    "composerOpenRepeat": {
+      "startScrollY": 322,
+      "inlineEditFocusedScrollY": {
+        "before": [
+          323,
+          326
+        ],
+        "after": [
+          323,
+          325
+        ]
+      },
+      "otherCheckpointsAndStoredResultsEqual": true
+    }
+  },
+  "verification": {
+    "e2eCases": 20,
+    "firstRunPassed": 19,
+    "isolatedRerunPassed": 1,
+    "firstRunException": "browser context teardown timed out",
+    "webBuildPassed": true,
+    "publicTypeCheckPassed": true
+  }
+}

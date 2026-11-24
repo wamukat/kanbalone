@@ -1,0 +1,305 @@
+{
+  "sourceBase": "1b2588380e764e9c31fa99c7bf6a4103826a0c9e",
+  "beforeBuiltFrom": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "sourceCandidateFingerprint": "3b9c5da46e5dcced0188a3f2efbcd2730ce8a564073d97f7758e056c13a7ffca",
+  "productFilesVerified": 234,
+  "changedProductFiles": [
+    "public/styles/sidebar-boards.css"
+  ],
+  "comparison": {
+    "before": {
+      "phase": "before",
+      "source": "1b2588380e764e9c31fa99c7bf6a4103826a0c9e",
+      "frames": [
+        {
+          "name": "ja-light",
+          "image": "before-ja-light.png",
+          "sha256": "fa475528cdae9e9e626e731385dcfec6aa95f95fca9e4bcb599c034c350c09cf",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": false,
+            "hint": "\"Create board here\"",
+            "hintBackground": "rgb(251, 252, 251)",
+            "hintColor": "rgb(31, 111, 95)",
+            "hintWidth": "192.5px",
+            "label": "最初のボードを作成",
+            "language": "ja",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "最初のボードを作成",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        },
+        {
+          "name": "ja-dark",
+          "image": "before-ja-dark.png",
+          "sha256": "f756e1c422aa2024da6deb629f6bae4f97390042e424551a4991092671593a94",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": true,
+            "hint": "\"Create board here\"",
+            "hintBackground": "rgb(29, 37, 32)",
+            "hintColor": "rgb(84, 184, 159)",
+            "hintWidth": "192.5px",
+            "label": "最初のボードを作成",
+            "language": "ja",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "最初のボードを作成",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        },
+        {
+          "name": "en-light",
+          "image": "before-en-light.png",
+          "sha256": "5b2afa5400eb70ea28a1b89fc1c1fe5ba7bf17b26d5dfb3e78ec25e67cca37e9",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": false,
+            "hint": "\"Create board here\"",
+            "hintBackground": "rgb(251, 252, 251)",
+            "hintColor": "rgb(31, 111, 95)",
+            "hintWidth": "192.5px",
+            "label": "Create your first board",
+            "language": "en",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "Create your first board",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        },
+        {
+          "name": "en-dark",
+          "image": "before-en-dark.png",
+          "sha256": "95d1def5081e5359688ae5974a1f7a481a630501d9c3b0c1e9ff144fe85547a8",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": true,
+            "hint": "\"Create board here\"",
+            "hintBackground": "rgb(29, 37, 32)",
+            "hintColor": "rgb(84, 184, 159)",
+            "hintWidth": "192.5px",
+            "label": "Create your first board",
+            "language": "en",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "Create your first board",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        }
+      ],
+      "capturedAtUtc": "2026-11-24T13:39:28.944751+00:00"
+    },
+    "after": {
+      "phase": "after",
+      "source": "3b9c5da46e5dcced0188a3f2efbcd2730ce8a564073d97f7758e056c13a7ffca",
+      "frames": [
+        {
+          "name": "ja-light",
+          "image": "after-ja-light.png",
+          "sha256": "c4238ef37a48e2e9cec96e9cab214d23553059e876623d531f395da7cbfec852",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": false,
+            "hint": "\"最初のボードを作成\"",
+            "hintBackground": "rgb(251, 252, 251)",
+            "hintColor": "rgb(31, 111, 95)",
+            "hintWidth": "192.5px",
+            "label": "最初のボードを作成",
+            "language": "ja",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "最初のボードを作成",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        },
+        {
+          "name": "ja-dark",
+          "image": "after-ja-dark.png",
+          "sha256": "d3f3a1a243123387200c49281581c5f4db8238a8eb08d6d60f50d45af61a941b",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": true,
+            "hint": "\"最初のボードを作成\"",
+            "hintBackground": "rgb(29, 37, 32)",
+            "hintColor": "rgb(84, 184, 159)",
+            "hintWidth": "192.5px",
+            "label": "最初のボードを作成",
+            "language": "ja",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "最初のボードを作成",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        },
+        {
+          "name": "en-light",
+          "image": "after-en-light.png",
+          "sha256": "d8862d81293d6060a1180d97d44107d633b6dfac5f4df61b5608b71b6cefa450",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": false,
+            "hint": "\"Create your first board\"",
+            "hintBackground": "rgb(251, 252, 251)",
+            "hintColor": "rgb(31, 111, 95)",
+            "hintWidth": "192.5px",
+            "label": "Create your first board",
+            "language": "en",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "Create your first board",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        },
+        {
+          "name": "en-dark",
+          "image": "after-en-dark.png",
+          "sha256": "2a980fbe91024ef9134197401f442a18573d25ca01fbd4cc4ed183268203dda9",
+          "state": {
+            "animation": "none",
+            "boardRows": 0,
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "classes": [
+              "board-add-button",
+              "icon-button",
+              "is-empty-target"
+            ],
+            "dark": true,
+            "hint": "\"Create your first board\"",
+            "hintBackground": "rgb(29, 37, 32)",
+            "hintColor": "rgb(84, 184, 159)",
+            "hintWidth": "192.5px",
+            "label": "Create your first board",
+            "language": "en",
+            "rect": [
+              16,
+              24.390625,
+              32,
+              32
+            ],
+            "reduce": true,
+            "title": "Create your first board",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          }
+        }
+      ],
+      "capturedAtUtc": "2026-11-24T13:39:30.334281+00:00"
+    }
+  }
+}

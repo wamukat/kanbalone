@@ -74,21 +74,9 @@
   white-space: nowrap;
 }
 
-.sidebar-board-name-form input {
-  width: 100%;
-  border: 1px solid var(--control-border);
-  border-radius: var(--radius-control);
-  background: var(--control-bg);
-  color: var(--text);
-  padding: 0.55rem 0.65rem;
-}
-
-.sidebar-board-name-form input:focus {
-  border-color: var(--control-focus-border);
-  box-shadow: var(--control-focus-ring);
+.sidebar-board-name-form input:where([type="text" i]):focus {
   outline: none;
 }
-
 
 .sidebar-board-actions button,
 .sidebar-board-actions .import-button {
@@ -103,15 +91,7 @@
   gap: 0.5rem;
 }
 
-.sidebar-board-transfer button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 0;
-  width: 100%;
-  text-align: center;
-}
-
+.sidebar-board-transfer button,
 .sidebar-board-transfer .import-button {
   display: inline-flex;
   align-items: center;

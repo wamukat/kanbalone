@@ -29,6 +29,55 @@ for (const locale of ["ja-JP", "en-US", "fr-FR"]) {
   });
 }
 
+for (const locale of ["ja-JP", "en-US"]) {
+  test(`${locale}: localizes the first-board guidance until a board exists`, async ({ browser }) => {
+    const japanese = locale === "ja-JP";
+    const context = await browser.newContext({
+      locale,
+      reducedMotion: japanese ? "reduce" : "no-preference",
+    });
+    const page = await context.newPage();
+    const { baseUrl, close } = await startTestApp(page);
+    const newBoard = page.locator("#new-board-button");
+    const name = page.locator("[data-board-create-input]");
+    const guidance = japanese ? "最初のボードを作成" : "Create your first board";
+    const guidanceContent = () => newBoard.evaluate((button) => getComputedStyle(button, "::after").content);
+    try {
+      await page.goto(baseUrl);
+      await expect(page.locator("html")).toHaveAttribute("lang", japanese ? "ja" : "en");
+      await expect(newBoard).toHaveClass(/is-empty-target/);
+      await expect(newBoard).toHaveAccessibleName(guidance);
+      await expect.poll(guidanceContent).toBe(JSON.stringify(guidance));
+      await expect(newBoard).toHaveCSS("animation-name", japanese ? "none" : "board-create-nudge");
+
+      await newBoard.click();
+      await expect(name).toBeFocused();
+      await expect(newBoard).toBeHidden();
+      await name.press("Escape");
+      await expect(name).toHaveCount(0);
+      await expect.poll(guidanceContent).toBe(JSON.stringify(guidance));
+
+      await newBoard.click();
+      const boardName = "First board / 最初のボード";
+      await name.fill(boardName);
+      await name.press("Enter");
+      await expect(page.locator(".board-button")).toHaveText(boardName);
+      await expect(page).toHaveURL(/\/boards\/\d+$/);
+      await expect(newBoard).not.toHaveClass(/is-empty-target/);
+      await expect.poll(guidanceContent).toBe("none");
+      await expect(newBoard).toHaveAccessibleName(japanese ? "新しいボード" : "New board");
+
+      const response = await page.request.get(`${baseUrl}/api/boards`);
+      expect(response.ok()).toBe(true);
+      const { boards } = await response.json();
+      expect(boards).toEqual([expect.objectContaining({ name: boardName })]);
+      await page.reload();
+      await expect(page.locator(".board-button")).toHaveText(boardName);
+      await expect.poll(guidanceContent).toBe("none");
+    } finally { await close(); await context.close(); }
+  });
+}
+
 for (const locale of ["en-US", "ja-JP"]) {
   test(`${locale}: all views, ticket detail, and confirmation preserve user content`, async ({ browser }) => {
     const context = await browser.newContext({ locale });

@@ -320,3 +320,77 @@ test("dark mode keeps key controls legible", async ({ browser }) => {
     await close();
   }
 });
+
+test("ticket activity uses the dark theme foreground and keeps timestamps muted", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    await page.emulateMedia({ colorScheme: "dark" });
+    const { board, lanes } = await createBoard(page.request, baseUrl, {
+      name: "Activity contrast board",
+      laneNames: ["Todo"],
+    });
+    const ticket = await createTicket(page.request, baseUrl, board.id, {
+      laneId: lanes[0].id,
+      title: "Activity contrast ticket",
+    });
+
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await page.getByRole("tab", { name: "Activity" }).click();
+    const activity = page.locator("#ticket-activity .activity-item").first();
+    await expect(activity.locator(".activity-message")).toBeVisible();
+    const foreground = await page.locator("body").evaluate(body => getComputedStyle(body).color);
+    await expect(activity.locator(".activity-message")).toHaveCSS("color", foreground);
+    await expect(activity.locator(".activity-meta")).not.toHaveCSS("color", foreground);
+  } finally {
+    await close();
+  }
+});
+
+test("ticket Markdown links use theme colors and expose keyboard focus", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, {
+      name: "Ticket Markdown links",
+      laneNames: ["Todo"],
+    });
+    const target = await createTicket(page.request, baseUrl, board.id, {
+      laneId: lanes[0].id,
+      title: "Linked ticket",
+    });
+    const href = "https://example.com/reference";
+    const ticket = await createTicket(page.request, baseUrl, board.id, {
+      laneId: lanes[0].id,
+      title: "Ticket with Markdown links",
+      bodyMarkdown: `[External reference](${href}) and #${target.id}`,
+    });
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    const body = page.locator("#ticket-view-body");
+    const external = body.getByRole("link", { name: "External reference" });
+    const internal = body.getByRole("link", { name: `#${target.id}`, exact: true });
+    await expect(external).toHaveAttribute("href", href);
+    await expect(internal).toHaveAttribute("href", `/tickets/${target.id}`);
+
+    for (const [colorScheme, accent, hover] of [
+      ["light", "rgb(31, 111, 95)", "rgb(24, 89, 77)"],
+      ["dark", "rgb(84, 184, 159)", "rgb(113, 201, 180)"],
+    ] as const) {
+      await page.emulateMedia({ colorScheme });
+      await page.locator("#editor-header-title").hover();
+      await expect(external).toHaveCSS("color", accent);
+      await expect(external).toHaveCSS("text-decoration-line", "underline");
+      await expect(internal).toHaveCSS("color", accent);
+      await external.hover();
+      await expect(external).toHaveCSS("color", hover);
+      await external.press("Tab");
+      await expect(internal).toBeFocused();
+      await expect(internal).toHaveCSS("outline-style", "solid");
+      await expect(internal).toHaveCSS("outline-color", accent);
+    }
+
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(`${baseUrl}/tickets/${target.id}`);
+    await expect(page.locator("#editor-header-title")).toContainText("Linked ticket");
+  } finally {
+    await close();
+  }
+});

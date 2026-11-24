@@ -141,6 +141,7 @@ test("sorts before pagination, keeps board order and stable ties, and persists o
     await expectOrder(page, [ids[50], ship.id]);
     await expect(row(page, ids[50])).toBeFocused();
     const orderPicker = page.locator(sort);
+    await expect(orderPicker).toHaveCSS("font-weight", "400");
     await orderPicker.focus();
     await orderPicker.selectOption("priority_desc");
     const priorityPage = [ids[49], ids[50], ...ids.slice(0, 48)];
@@ -166,6 +167,9 @@ test("sorts before pagination, keeps board order and stable ties, and persists o
     await page.locator(edit).press("Enter");
     const settingsOrder = page.locator('#custom-view-form select[name="sort"]');
     await expect(settingsOrder).toHaveValue("priority_desc");
+    await expect(settingsOrder).toHaveCSS("font-weight", "400");
+    await expect(page.locator('#custom-view-form label:has(select[name="sort"])')).toHaveCSS("font-weight", "600");
+    await expect(page.locator('#custom-view-form select[name="completion"]')).toHaveCSS("font-weight", "600");
     await settingsOrder.selectOption("position_asc");
     await page.locator(save).press("Enter");
     await expectOrder(page, ids.slice(0, 50));

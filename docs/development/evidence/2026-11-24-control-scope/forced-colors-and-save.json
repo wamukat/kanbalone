@@ -1,0 +1,100 @@
+{
+  "case": "Chromium forced-colors media emulation, actual compiled baseline and candidate",
+  "browserVersion": "159.0.8154.6",
+  "checkedAtUtc": "2026-11-24T13:52:31.403Z",
+  "passed": true,
+  "records": {
+    "before": {
+      "on": {
+        "active": true,
+        "focused": true,
+        "width": 80.546875,
+        "opacity": "0",
+        "checked": true,
+        "textDisabled": false,
+        "pickerDisabled": false,
+        "visibleSwitch": {
+          "width": 59.375,
+          "height": 35,
+          "outline": "solid",
+          "outlineColor": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "background": "rgba(0, 0, 0, 0.08)"
+        }
+      },
+      "off": {
+        "active": true,
+        "focused": true,
+        "width": 80.546875,
+        "opacity": "0",
+        "checked": false,
+        "textDisabled": true,
+        "pickerDisabled": true,
+        "visibleSwitch": {
+          "width": 59.375,
+          "height": 35,
+          "outline": "solid",
+          "outlineColor": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "background": "rgba(0, 0, 0, 0.08)"
+        }
+      },
+      "swatchSynchronized": true,
+      "saved": {
+        "id": 1,
+        "boardId": 1,
+        "name": "Design",
+        "color": "#137B64"
+      },
+      "reloaded": true,
+      "image": "before-forced-switch.png",
+      "sha256": "64d52a0a38cf05b35ae07f918631b0128b4fd3bb5d450f4c9533513b0f87f545"
+    },
+    "after": {
+      "on": {
+        "active": true,
+        "focused": true,
+        "width": 1,
+        "opacity": "0",
+        "checked": true,
+        "textDisabled": false,
+        "pickerDisabled": false,
+        "visibleSwitch": {
+          "width": 59.375,
+          "height": 35,
+          "outline": "solid",
+          "outlineColor": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "background": "rgba(0, 0, 0, 0.08)"
+        }
+      },
+      "off": {
+        "active": true,
+        "focused": true,
+        "width": 1,
+        "opacity": "0",
+        "checked": false,
+        "textDisabled": true,
+        "pickerDisabled": true,
+        "visibleSwitch": {
+          "width": 59.375,
+          "height": 35,
+          "outline": "solid",
+          "outlineColor": "rgb(255, 255, 255)",
+          "border": "rgb(255, 255, 255)",
+          "background": "rgba(0, 0, 0, 0.08)"
+        }
+      },
+      "swatchSynchronized": true,
+      "saved": {
+        "id": 1,
+        "boardId": 1,
+        "name": "Design",
+        "color": "#137B64"
+      },
+      "reloaded": true,
+      "image": "after-forced-switch.png",
+      "sha256": "a24a63d549a2c76025f77e8c9992d13125cec1025824c80ef3e772acf36e2a0a"
+    }
+  }
+}

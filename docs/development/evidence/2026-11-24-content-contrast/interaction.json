@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": {
+    "internalNavigation": {
+      "linkedTicketId": 4,
+      "keyboardFocused": true,
+      "openedExpectedDetail": true,
+      "closed": true
+    },
+    "scrolledDraftGuard": {
+      "detailScrollY": 485,
+      "caret": 1,
+      "keptDraftAndFocusAfterCancelling": true,
+      "discardedAndClosed": true,
+      "storedRecordUnchanged": true,
+      "storedBodySha256": "7dfc56ee8590ec660ec2686193f502d1f44bdf8b4b8629b954e2039cb2aedcd7"
+    }
+  },
+  "checkedAtUtc": "2026-11-24T13:35:09.414829+00:00"
+}

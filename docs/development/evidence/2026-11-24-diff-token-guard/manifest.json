@@ -1,0 +1,143 @@
+{
+  "baselineCommit": "3364c263f088ca93bd21db45f226a7f6c9f25709",
+  "stylesheets": {
+    "before": {
+      "ticketDetailSourceSha256": "34675b8c7738576f5cf59d718bfb887420461b2ddd36ee04529fa3c13c50df8e",
+      "compiledCssFile": "styles-Z3AEZKH5.css",
+      "compiledCssSha256": "34152e8392de522b748299c2b807ec6985a87d4c1bdb8402e74bfd1dd100f6ef"
+    },
+    "after": {
+      "ticketDetailSourceSha256": "aa14b8aab206dc33e3b30d52a9da056e8fb913ee987b761ee442f8049fe001ea",
+      "compiledCssFile": "styles-JXTJELN5.css",
+      "compiledCssSha256": "de708269fc7847bd54d4f930752d5c8086564c87b719b93e55097a4570c4d94c"
+    }
+  },
+  "appBundle": {
+    "before": {
+      "file": "app-T3SHOX7W.js",
+      "sha256": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b"
+    },
+    "after": {
+      "file": "app-T3SHOX7W.js",
+      "sha256": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b"
+    }
+  },
+  "frames": [
+    {
+      "image": "before-light.png",
+      "sha256": "4ef1f5e6cc7ddba6d71d041452750201c19c756fcc527238b9dbb471f2e1a092",
+      "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "language": "ja",
+      "theme": "light",
+      "viewportAndPixelRatio": [
+        1440,
+        900,
+        1
+      ],
+      "selected": "true",
+      "rowKinds": [
+        "same",
+        "remote",
+        "local",
+        "same",
+        "remote",
+        "local",
+        "same"
+      ],
+      "rowBottomBorderWidths": [
+        "0px"
+      ],
+      "markerRightBorderWidths": [
+        "0px"
+      ],
+      "outerBorderTopWidth": "1px"
+    },
+    {
+      "image": "before-dark.png",
+      "sha256": "91cc9fc6f0302f4f6232e9a9777dd14a6e663ca4f8d35e6f38a640be6cf7c733",
+      "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "language": "ja",
+      "theme": "dark",
+      "viewportAndPixelRatio": [
+        1440,
+        900,
+        1
+      ],
+      "selected": "true",
+      "rowKinds": [
+        "same",
+        "remote",
+        "local",
+        "same",
+        "remote",
+        "local",
+        "same"
+      ],
+      "rowBottomBorderWidths": [
+        "0px"
+      ],
+      "markerRightBorderWidths": [
+        "0px"
+      ],
+      "outerBorderTopWidth": "1px"
+    },
+    {
+      "image": "after-light.png",
+      "sha256": "4ef1f5e6cc7ddba6d71d041452750201c19c756fcc527238b9dbb471f2e1a092",
+      "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "language": "ja",
+      "theme": "light",
+      "viewportAndPixelRatio": [
+        1440,
+        900,
+        1
+      ],
+      "selected": "true",
+      "rowKinds": [
+        "same",
+        "remote",
+        "local",
+        "same",
+        "remote",
+        "local",
+        "same"
+      ],
+      "rowBottomBorderWidths": [
+        "0px"
+      ],
+      "markerRightBorderWidths": [
+        "0px"
+      ],
+      "outerBorderTopWidth": "1px"
+    },
+    {
+      "image": "after-dark.png",
+      "sha256": "91cc9fc6f0302f4f6232e9a9777dd14a6e663ca4f8d35e6f38a640be6cf7c733",
+      "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "language": "ja",
+      "theme": "dark",
+      "viewportAndPixelRatio": [
+        1440,
+        900,
+        1
+      ],
+      "selected": "true",
+      "rowKinds": [
+        "same",
+        "remote",
+        "local",
+        "same",
+        "remote",
+        "local",
+        "same"
+      ],
+      "rowBottomBorderWidths": [
+        "0px"
+      ],
+      "markerRightBorderWidths": [
+        "0px"
+      ],
+      "outerBorderTopWidth": "1px"
+    }
+  ]
+}
