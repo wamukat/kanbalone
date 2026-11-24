@@ -1,0 +1,896 @@
+{
+  "capturedDateJst": "2026-11-25",
+  "packageVersion": "1.4.0",
+  "browser": "Headless Chromium 158 on macOS",
+  "baseline": {
+    "commit": "9d591a5ce1a4f99b83e237335a4cad85d3a9b640",
+    "bundlesSha256": {
+      "app-T3SHOX7W.js": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b",
+      "styles-22VUOLCU.css": "bee1dec3213c5d8ce0f2c301f3db719ff0fbb01b67f3bbc5c003eff15d85dd47"
+    }
+  },
+  "candidate": {
+    "baseCommit": "9d591a5ce1a4f99b83e237335a4cad85d3a9b640",
+    "runtimeChangesSha256": {
+      "public/styles/app-shell.css": "2e1e91f15bdb71d7746b7a252e9ffb26fd124fc68b6d613db6a071eb06f2ed89",
+      "public/styles/sidebar-boards.css": "1382217c4abcfc1f9f6be9380ed99c011054a980d27ea1943405e16bb978cfa3"
+    },
+    "bundlesSha256": {
+      "app-T3SHOX7W.js": "3dbc6eca723b38549b1678deceb5f6e4d6483cf1a5efc15ebc012d30a147b79b",
+      "styles-KT473EXX.css": "f26a9a7db070a5ab485cb3e128a59ba0a75a4c840d32c712eec52293d88c0846"
+    }
+  },
+  "fixture": "Identical SQLite backups of an isolated synthetic board, List view, one existing sidebar tag.",
+  "captures": {
+    "before-light-closed.png": {
+      "sha256": "5eef7e5577205bfa02ac7a4e7ebab9a1f96b4545ffe87ec7d5a90eb6ecc0775c",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 279,
+        "gutter": 0,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 279
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          247,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          247,
+          34.296875
+        ],
+        "addTagButton": [
+          231,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          247,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          231,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          247,
+          177.3125
+        ],
+        "customViewButton": [
+          231,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "before-light-editing.png": {
+      "sha256": "f143b84b94aef4dfb849e26ddb00bc3e6b77fd893897ad0977006a2864a0db0e",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 1053,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          18
+        ],
+        "viewModeSwitch": [
+          16,
+          383.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          446.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "boardSettingsButton": [
+          220,
+          721.34375,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          824.125,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          782.328125,
+          32,
+          32
+        ]
+      }
+    },
+    "before-light-cancelled.png": {
+      "sha256": "28e0f744ef9f96d2a45c01b59c12945f02357802a210cdc8ff361e338da37c8a",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 279,
+        "gutter": 0,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 279
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          247,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          247,
+          34.296875
+        ],
+        "addTagButton": [
+          231,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          247,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          231,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          247,
+          177.3125
+        ],
+        "customViewButton": [
+          231,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "before-dark-closed.png": {
+      "sha256": "ab32162fe2ac5dfc9849626a43e734152dbac9caa54407cefb9de741982c876a",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 279,
+        "gutter": 0,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 279
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          247,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          247,
+          34.296875
+        ],
+        "addTagButton": [
+          231,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          247,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          231,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          247,
+          177.3125
+        ],
+        "customViewButton": [
+          231,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "before-dark-editing.png": {
+      "sha256": "46f51efa47e3db7bdbae960fa3254ab971dd3b9310754804d076b8e362df0841",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 1053,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          18
+        ],
+        "viewModeSwitch": [
+          16,
+          383.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          446.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          488.4375,
+          236,
+          203.921875
+        ],
+        "boardSettingsButton": [
+          220,
+          721.34375,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          824.125,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          782.328125,
+          32,
+          32
+        ]
+      }
+    },
+    "before-dark-cancelled.png": {
+      "sha256": "d92214ea2c79b34fc49cb4d6fea3f5af1af984c1fbc4946b4500ac5e489f9684",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 279,
+        "gutter": 0,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 279
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          247,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          247,
+          34.296875
+        ],
+        "addTagButton": [
+          231,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          247,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          231,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          247,
+          177.3125
+        ],
+        "customViewButton": [
+          231,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "after-light-closed.png": {
+      "sha256": "e96f0e48ee5ec079b322dd52a4bdbc31ecb8fb7fd9338bcf035e8e3d5691d038",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          236,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          220,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "after-light-editing.png": {
+      "sha256": "d76ca9cdbd75c0624f6f6e86a5b05aab47681fafb04602f62f760cf66138da8e",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 1067,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          236,
+          203.921875
+        ],
+        "boardSettingsButton": [
+          220,
+          735.34375,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          838.125,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          796.328125,
+          32,
+          32
+        ]
+      }
+    },
+    "after-light-cancelled.png": {
+      "sha256": "88b89967299010a1bcb8c5358956f331bfef94b0d07344070270219062de196f",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          236,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          220,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "after-dark-closed.png": {
+      "sha256": "70e98d275a792d30a05a25a48e7e4de19f6904ccbc2713d3f5d9a38bbe23bb9f",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          236,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          220,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    },
+    "after-dark-editing.png": {
+      "sha256": "ac5e2e8f40cd93a7141bd6bd3cf56f963f70df08736e2ae5e736e1584d105518",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 1067,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          236,
+          203.921875
+        ],
+        "boardSettingsButton": [
+          220,
+          735.34375,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          838.125,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          796.328125,
+          32,
+          32
+        ]
+      }
+    },
+    "after-dark-cancelled.png": {
+      "sha256": "bf11bf51331028b8f8624be1f97c28aee96a0938c748359dd1614af0fe532ff7",
+      "pixelSize": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 1,
+      "sidebar": {
+        "clientHeight": 900,
+        "clientWidth": 268,
+        "gutter": 11,
+        "offsetWidth": 280,
+        "scrollHeight": 900,
+        "scrollTop": 0,
+        "scrollWidth": 268
+      },
+      "controlRects": {
+        "boardList": [
+          16,
+          16,
+          236,
+          283.4375
+        ],
+        "newBoardButton": [
+          16,
+          307.828125,
+          32,
+          32
+        ],
+        "viewModeSwitch": [
+          16,
+          397.359375,
+          236,
+          34.296875
+        ],
+        "addTagButton": [
+          220,
+          460.640625,
+          32,
+          32
+        ],
+        "tagList": [
+          16,
+          502.4375,
+          236,
+          23.15625
+        ],
+        "boardSettingsButton": [
+          220,
+          554.578125,
+          32,
+          32
+        ],
+        "customViewList": [
+          16,
+          657.359375,
+          236,
+          177.3125
+        ],
+        "customViewButton": [
+          220,
+          615.5625,
+          32,
+          32
+        ]
+      }
+    }
+  },
+  "operationVerification": {
+    "before-light": {
+      "cancelDiscardedTypedName": true,
+      "tagApiUnchangedAfterCancel": true,
+      "unchangedControlsReturnedToInitialGeometry": true,
+      "computedPropertyChangesAmongPersistentElements": [
+        "height",
+        "margin-top",
+        "width"
+      ]
+    },
+    "before-dark": {
+      "cancelDiscardedTypedName": true,
+      "tagApiUnchangedAfterCancel": true,
+      "unchangedControlsReturnedToInitialGeometry": true,
+      "computedPropertyChangesAmongPersistentElements": [
+        "height",
+        "margin-top",
+        "width"
+      ]
+    },
+    "after-light": {
+      "cancelDiscardedTypedName": true,
+      "tagApiUnchangedAfterCancel": true,
+      "unchangedControlsReturnedToInitialGeometry": true,
+      "computedPropertyChangesAmongPersistentElements": [
+        "height",
+        "margin-top"
+      ],
+      "editor": {
+        "flanks": [
+          14,
+          14
+        ],
+        "hexFocused": false,
+        "hexRender": [
+          78,
+          78
+        ],
+        "hexValue": "#336699"
+      },
+      "scrollable": 167
+    },
+    "after-dark": {
+      "cancelDiscardedTypedName": true,
+      "tagApiUnchangedAfterCancel": true,
+      "unchangedControlsReturnedToInitialGeometry": true,
+      "computedPropertyChangesAmongPersistentElements": [
+        "height",
+        "margin-top"
+      ],
+      "editor": {
+        "flanks": [
+          14,
+          14
+        ],
+        "hexFocused": false,
+        "hexRender": [
+          78,
+          78
+        ],
+        "hexValue": "#336699"
+      },
+      "scrollable": 167
+    }
+  }
+}
