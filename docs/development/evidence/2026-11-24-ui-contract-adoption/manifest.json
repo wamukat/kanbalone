@@ -1,0 +1,116 @@
+{
+  "capturedAtUtc": "2026-11-24T14:09:26.472612+00:00",
+  "sourceAndGeneratedSHA256": {
+    "scripts/build-ui-catalog.mjs": "eb707d76111b302418f61f647156d9ebb97183614d43c84ab27676684c1f6565",
+    "docs/development/ui-component-contracts.md": "5fde92e36f532ac33f403756658bafe30c1dc725f92d01bd79c2cc31dd7ed923",
+    "docs/development/ui-component-adoption.md": "11a1d5c8502231a2fcdf4996570fd017133981ec4a8d9b88bab4627259f6f38b",
+    "docs/development/ui-component-catalog/README.md": "280628597f07a4a1e985f69ed0517b7f7da39924c17d80d226f134545e83466a",
+    "dist/ui-catalog/index.html": "27cb3cb37917ca7c3e1fc7b41087f523a7f3c9a2abda3e8d1ffe92cefce66590",
+    "dist/ui-catalog/current-contracts.html": "026fd9b8495746465da60250774c2c1591bff0df588b08d263ec5c95bb75fdb0",
+    "dist/ui-catalog/current-adoption.html": "67982d3737772b728d0a128a8af8cc65949706bd019c4ce9adb857dd30515f48",
+    "dist/ui-catalog/catalog.css": "04479f3d1a48c11c33b8720246f8d88c2fbb381fd32d769ec9bec69783b72e17"
+  },
+  "contractBaseline": {
+    "file": "../2026-11-24-ui-catalog-entry/after-contract.png",
+    "sha256": "1a08babbaf277aa72c4328d4c9378de475ae6c60c05efcc905770fd33ae159bc",
+    "dimensions": [
+      1440,
+      900
+    ],
+    "evidenceRevision": "0ee89c5163ba26abef48fbb5d235f6a07d4b5e83",
+    "priorArtifact": {
+      "file": "after-contract.png",
+      "sha256": "1a08babbaf277aa72c4328d4c9378de475ae6c60c05efcc905770fd33ae159bc",
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    "route": "/current-contracts.html",
+    "lang": "ja",
+    "theme": "light",
+    "viewport": [
+      1440,
+      900,
+      1
+    ],
+    "scroll": [
+      0,
+      0
+    ]
+  },
+  "adoptionBaseline": "The adoption page did not exist in the prior catalog.",
+  "after": [
+    {
+      "background": "rgb(247, 248, 247)",
+      "lang": "ja",
+      "path": "/current-contracts.html",
+      "scroll": [
+        0,
+        0
+      ],
+      "theme": "light",
+      "title": "共通UI部品の利用契約",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "file": "after-contract.png",
+      "sha256": "714dcc60009484145cdcdaebe5f32e4d24948e92c54a9c8e808914fcc118de62",
+      "dimensions": [
+        1440,
+        900
+      ]
+    },
+    {
+      "background": "rgb(247, 248, 247)",
+      "lang": "ja",
+      "path": "/current-adoption.html",
+      "scroll": [
+        0,
+        0
+      ],
+      "theme": "light",
+      "title": "共通UI部品の利用先と回帰確認",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+      "viewport": [
+        1440,
+        900,
+        1
+      ],
+      "file": "after-adoption.png",
+      "sha256": "ed6bd119d62534c3599f9220f9bfe3a437122a51ca7a8a673b0296d1ac5c6be7",
+      "dimensions": [
+        1440,
+        900
+      ]
+    }
+  ],
+  "navigation": [
+    {
+      "from": "index",
+      "to": "/current-contracts.html",
+      "label": "現行の部品契約",
+      "key": "Enter"
+    },
+    {
+      "from": "current-contracts",
+      "to": "/current-adoption.html",
+      "label": "利用先と回帰確認",
+      "key": "Enter"
+    }
+  ],
+  "browserErrors": [],
+  "generatedPageCount": 58,
+  "productBase": "33b995856b350c5b17a6150d932cd193308fccc7",
+  "staticRequests": {
+    "pagesHTTP200": [
+      "/index.html",
+      "/current-contracts.html",
+      "/current-adoption.html"
+    ],
+    "missingFaviconHTTP404": true
+  }
+}

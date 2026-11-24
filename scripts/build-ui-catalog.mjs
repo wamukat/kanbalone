@@ -21,6 +21,7 @@ async function filesIn(directory, prefix = "") {
 const files = await filesIn(source);
 const extraPages = new Map([
   ["current-contracts.md", path.join(root, "docs/development/ui-component-contracts.md")],
+  ["current-adoption.md", path.join(root, "docs/development/ui-component-adoption.md")],
 ]);
 const pageFiles = [...files.filter(file => file.endsWith(".md")), ...extraPages.keys()];
 const targetBySource = new Map(pageFiles.map(file => [extraPages.get(file) ?? path.join(source, file), htmlPath(file)]));
