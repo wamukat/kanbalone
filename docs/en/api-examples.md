@@ -522,7 +522,7 @@ By default, rows follow board order, lane order and ticket position, with IDs br
 
 `GET /api/custom-views/events` emits invalidation events (`views_updated` or `board_updated`); it is not a durable event log. Re-query on reconnect and after returning from ticket details. Changing or deleting a view never changes its matching tickets. Full DB backups retain view definitions; single-board JSON exports do not transfer them.
 
-### Lane filters and ordering (unreleased)
+### Lane filters and ordering (v1.5.0)
 
 The catalog also returns each board's `lanes` in lane order. Each rule accepts `laneMode: "all" | "selected"` and `laneIds`. Use `all` with `[]` for unrestricted lanes, or `selected` with IDs from that board. Selected lanes match with OR, together with the tag and completion predicates using AND. An empty selected set matches nothing. Deleted lane references produce `missing_lane` warnings; IDs are not rebound by name. Creating or updating a saved view rejects a lane belonging to another board. An unsaved query reports it as a missing lane in that board; only valid selected lanes can match.
 

@@ -271,7 +271,7 @@ Open **Custom views** in the sidebar to save a named list across boards. Choose 
 
 Choose open, completed or all completion states. Archived tickets are excluded. The list keeps board sections and uses the existing board, lane and ticket order by default. Total and board counts describe all matching tickets, including those on later pages.
 
-**Lane conditions and sorting (unreleased):** each board can use all lanes or selected lanes. Selected lanes match with OR; the lane, tag and completion conditions must all match. Selecting no lanes matches nothing. All lanes includes lanes created later; selecting every current lane only includes those selected IDs. Existing views continue to include all lanes.
+**Lane conditions and sorting (v1.5.0):** each board can use all lanes or selected lanes. Selected lanes match with OR; the lane, tag and completion conditions must all match. Selecting no lanes matches nothing. All lanes includes lanes created later; selecting every current lane only includes those selected IDs. Existing views continue to include all lanes.
 
 **Order within boards** lets you keep lane and ticket order, show the most recent body/comment updates first, or put higher priorities first. The board sections keep their order. Equal values use lane and ticket order to break ties. Sorting applies to all matching tickets before pagination, and changing it returns to the first page.
 

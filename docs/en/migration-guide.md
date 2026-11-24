@@ -406,7 +406,7 @@ On startup, v1.4.0 automatically creates the saved-view definition and query-rev
 
 A full database restore retains saved definitions and their board and tag IDs. A single-board JSON export transfers board data. Imported boards receive new IDs. Saved views keep their original references, and deleted references appear as warnings.
 
-## Custom-view lane conditions and content ordering (unreleased)
+## Custom-view lane conditions and content ordering (v1.5.0)
 
 Startup adds content-activity storage and update tracking without changing ticket contents or existing view results. Existing definitions use all lanes and the original order. Previously configured lane restrictions and sorting are kept when older clients omit the new fields on update.
 
