@@ -269,12 +269,18 @@ Open **Custom views** in the sidebar to save a named list across boards. Choose 
 - **Do not filter by tags**: include tickets regardless of their tags. Select this explicitly.
 - **All boards** includes newly created boards as configuration choices. They contribute no tickets until their tag rule is set.
 
-Choose open, completed or all completion states. Archived tickets are excluded. The list keeps board sections and the existing board, lane and ticket order. Total and board counts describe all matching tickets, including those on later pages.
+Choose open, completed or all completion states. Archived tickets are excluded. The list keeps board sections and uses the existing board, lane and ticket order by default. Total and board counts describe all matching tickets, including those on later pages.
 
-Show or hide the body and latest comment independently. These display changes are temporary until saved; **Revert** restores the saved settings. Reloading restores the saved view. Expand an excerpt to read the original text. The latest comment includes its posting time, without an author field; tickets without comments say so.
+**Lane conditions and sorting (unreleased):** each board can use all lanes or selected lanes. Selected lanes match with OR; the lane, tag and completion conditions must all match. Selecting no lanes matches nothing. All lanes includes lanes created later; selecting every current lane only includes those selected IDs. Existing views continue to include all lanes.
+
+**Order within boards** lets you keep lane and ticket order, show the most recent body/comment updates first, or put higher priorities first. The board sections keep their order. Equal values use lane and ticket order to break ties. Sorting applies to all matching tickets before pagination, and changing it returns to the first page.
+
+The combined update order records actual body changes and comment posts or content edits. Changing a title, lane, tag or priority does not move a ticket ahead in this order. Deleting a comment does not create a newer update time. Earlier body-edit times were not recorded; existing tickets start from known creation, comment-posting and reliably recorded comment-edit times. A full database backup preserves this history; a board JSON import creates new tickets and comments, so their activity starts at import time.
+
+Show or hide the body and latest comment independently. Display and ordering changes are temporary until saved; **Revert** restores the saved settings. Reloading restores the saved view. Expand an excerpt to read the original text. The latest comment includes its posting time, without an author field; tickets without comments say so.
 
 Open a title to use the usual ticket details, comments and lane controls. Posting a comment does not change its lane or tags. A ticket stays in the view as long as it matches the conditions. When it stops matching, closing the details returns focus to a nearby ticket or the view heading.
 
-Renaming a board or tag preserves the selection. Deleted references are shown for repair and never turn into an unrestricted filter; recreating the same name does not reconnect it. Deleting a custom view only deletes its settings.
+Renaming a board, tag or lane preserves the selection. Deleted references are shown for repair and never turn into an unrestricted filter; recreating the same name does not reconnect it. Deleting a custom view only deletes its settings.
 
 Saved views belong to the database and are included in a full database backup. A single-board JSON export or import does not transfer cross-board view settings.

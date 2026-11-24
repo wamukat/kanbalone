@@ -405,3 +405,11 @@ For full instance recovery or data larger than the portable JSON limit, use the 
 On startup, v1.4.0 automatically creates the saved-view definition and query-revision tables and installs the associated change-tracking triggers. Ticket membership, completion state and browser-local board filters are preserved. [Back up the database and attachments together](#database-and-image-backup) before upgrading. For rollback, use the previous image with the pre-upgrade backup. The restore recovers data saved as of the backup.
 
 A full database restore retains saved definitions and their board and tag IDs. A single-board JSON export transfers board data. Imported boards receive new IDs. Saved views keep their original references, and deleted references appear as warnings.
+
+## Custom-view lane conditions and content ordering (unreleased)
+
+Startup adds content-activity storage and update tracking without changing ticket contents or existing view results. Existing definitions use all lanes and the original order. Previously configured lane restrictions and sorting are kept when older clients omit the new fields on update.
+
+Past body-edit times cannot be reconstructed. Initial content activity uses ticket creation, comment creation and reliably recorded comment-content edit times. It does not use the current migration time or unrelated ticket edits. Future actual body changes and comment posts/edits update this record atomically. Deleted comments do not erase the last recorded activity. Full database backups retain these timestamps; single-board JSON export/import does not transfer the added history. Import creates new tickets and comments, so their activity starts at import time; use a full database restore to retain the original activity times.
+
+Back up the database and attachments before upgrading and retain that backup with the previous image. For rollback, restore it rather than opening new lane-filter definitions with an old binary that does not understand them. Discard stored custom-view cursors after upgrade or restore and query from the first page.

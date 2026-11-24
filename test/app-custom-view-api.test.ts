@@ -5,6 +5,7 @@ import test, { type TestContext } from "node:test";
 
 import { buildApp } from "../src/app.js";
 import type { CustomViewDefinition } from "../src/db-modules/custom-views.js";
+import { encodePaginationToken } from "../src/db-modules/pagination-token.js";
 import { KanbanDb } from "../src/db.js";
 import { createDbFile } from "./app-test-helpers.js";
 
@@ -134,7 +135,7 @@ test("saved views retain deleted references by ID, and all-off and unconfigured 
   assert.deepEqual(scopedAll.boardCounts.map((row: { boardId: number }) => row.boardId), [first.board.id, replacementBoard.board.id]);
   const persisted = await app.inject({ method: "PUT", url: `${base}/${saved.id}`, payload: { ...selected, name: "Renamed view", expectedVersion: 1 } });
   assert.equal(persisted.statusCode, 200, persisted.body);
-  assert.deepEqual(persisted.json().rules, selected.rules);
+  assert.deepEqual(persisted.json().rules, selected.rules.map(rule => ({ ...rule, laneMode: "all", laneIds: [] })));
 
   const off = { ...selected, boardIds: [first.board.id], rules: [{ boardId: first.board.id, mode: "tags" as const, tagIds: [] }] };
   const noTags = (await query(off)).json();
@@ -278,4 +279,220 @@ test("one custom view event stream receives view edits, board reorders and norma
     controller.abort();
     await reader.cancel().catch(() => {});
   }
+});
+
+test("custom view lane selections combine with tags and completion and legacy saves keep new restrictions", async t => {
+  const { db, app, board, query, save } = fixture(t);
+  const a = board("Project A");
+  const b = board("Project B");
+  const tag = db.createTag({ boardId: a.board.id, name: "Review" });
+  const make = (laneId: number, title: string, tagged: boolean) => db.createTicket({
+    boardId: a.board.id, laneId, title, tagIds: tagged ? [tag.id] : [],
+  });
+  const inTodo = make(a.lanes[0].id, "First match", true);
+  const inDoing = make(a.lanes[1].id, "Second match", true);
+  make(a.lanes[1].id, "Wrong tag", false);
+  const done = make(a.lanes[3].id, "Completed match", true);
+  const archived = make(a.lanes[0].id, "Archived match", true);
+  db.updateTicket(archived.id, { isArchived: true });
+  const selected = definition({ sort: "priority_desc", rules: [{ boardId: a.board.id, mode: "tags", tagIds: [tag.id],
+    laneMode: "selected", laneIds: a.lanes.map(lane => lane.id) }] });
+  const createdResponse = await save(selected);
+  assert.equal(createdResponse.statusCode, 201, createdResponse.body);
+  const created = createdResponse.json();
+  const url = `${base}/${created.id}`;
+  const ids = (page: { tickets: Array<{ id: number }> }) => page.tickets.map(ticket => ticket.id);
+  const open = (await query(selected)).json();
+  assert.deepEqual(ids(open), [inTodo.id, inDoing.id]);
+  assert.equal(open.total, 2);
+  assert.deepEqual(ids((await query({ ...selected, completion: "done" })).json()), [done.id]);
+  assert.equal((await query({ ...selected, rules: selected.rules.map(rule => ({ ...rule, laneIds: [] })) })).json().total, 0);
+
+  const originalLane = a.lanes[2];
+  db.deleteLane(originalLane.id);
+  const replacement = db.createLane({ boardId: a.board.id, name: originalLane.name });
+  make(replacement.id, "Replacement ID must not match", true);
+  const current = (await query(selected)).json();
+  assert.deepEqual(ids(current), [inTodo.id, inDoing.id]);
+  assert.deepEqual(current.warnings, [{ boardId: a.board.id, laneId: originalLane.id, kind: "missing_lane" }, { boardId: b.board.id, kind: "unset" }]);
+  const missingOnly = { ...selected, rules: selected.rules.map(rule => ({ ...rule, laneIds: [originalLane.id] })) };
+  assert.equal((await query(missingOnly)).json().total, 0);
+  assert.equal((await save(missingOnly)).json().code, "invalid_reference");
+  const foreignLane = { ...selected, rules: selected.rules.map(rule => ({ ...rule, laneIds: [b.lanes[0].id] })) };
+  assert.equal((await query(foreignLane)).json().total, 0);
+  assert.equal((await save(foreignLane)).json().code, "invalid_reference");
+
+  const legacy = definition({ rules: [{ boardId: a.board.id, mode: "tags", tagIds: [tag.id] }, { boardId: b.board.id, mode: "all", tagIds: [] }] });
+  const malformed = await app.inject({ method: "PUT", url, payload: {
+    ...legacy, rules: [ { ...legacy.rules[0], laneMode: "all" } ], expectedVersion: created.version,
+  } });
+  assert.equal(malformed.statusCode, 400);
+  const compatible = await app.inject({ method: "PUT", url, payload: { ...legacy, expectedVersion: created.version } });
+  assert.equal(compatible.statusCode, 200, compatible.body);
+  const updated = compatible.json();
+  assert.equal(updated.sort, "priority_desc");
+  assert.deepEqual(updated.rules, [selected.rules[0], { ...legacy.rules[1], laneMode: "all", laneIds: [] }]);
+  const unfiltered = await app.inject({ method: "PUT", url, payload: { ...legacy, sort: "position_asc",
+    rules: [{ ...legacy.rules[0], laneMode: "all", laneIds: [] }], expectedVersion: updated.version } });
+  assert.equal(unfiltered.statusCode, 200, unfiltered.body);
+  assert.equal((await query(unfiltered.json())).json().total, 3);
+  assert.equal(unfiltered.json().sort, "position_asc");
+
+  db.updateLane(replacement.id, "Renamed lane");
+  db.reorderLanes(a.board.id, [replacement.id, a.lanes[3].id, a.lanes[0].id, a.lanes[1].id]);
+  const catalog = (await app.inject(`${base}/catalog`)).json();
+  assert.deepEqual(catalog.boards[0].lanes, [{ id: replacement.id, name: "Renamed lane" }, ...[a.lanes[3], a.lanes[0], a.lanes[1]].map(({ id, name }) => ({ id, name }))]);
+});
+
+test("priority and activity sorting use board-first keysets and stable ties across pages", async t => {
+  const { db, board, query } = fixture(t);
+  const a = board("First project");
+  const b = board("Second project");
+  db.now = () => "2026-01-01T00:00:00.000Z";
+  const one = db.createTicket({ boardId: a.board.id, laneId: a.lanes[0].id, title: "A low", priority: 1 });
+  const two = db.createTicket({ boardId: a.board.id, laneId: a.lanes[1].id, title: "A high", priority: 4 });
+  const three = db.createTicket({ boardId: a.board.id, laneId: a.lanes[0].id, title: "A high tie", priority: 4 });
+  const four = db.createTicket({ boardId: b.board.id, laneId: b.lanes[0].id, title: "B high", priority: 4 });
+  const five = db.createTicket({ boardId: b.board.id, laneId: b.lanes[1].id, title: "B newer low", priority: 1 });
+  db.now = () => "2026-01-02T00:00:00.000Z";
+  db.addComment({ ticketId: five.id, bodyMarkdown: "Very recent, later board" });
+  db.addComment({ ticketId: two.id, bodyMarkdown: "Newest on first board" });
+  db.sqlite.prepare("UPDATE tickets SET position = 2 WHERE id IN (?, ?)").run(one.id, three.id);
+  const baseView = definition({ rules: [a, b].map(({ board }) => ({ boardId: board.id, mode: "all", tagIds: [] })) });
+  for (const [sort, expected] of [
+    ["position_asc", [one.id, three.id, two.id, four.id, five.id]],
+    ["priority_desc", [three.id, two.id, one.id, four.id, five.id]],
+    ["content_activity_desc", [two.id, one.id, three.id, five.id, four.id]],
+  ] as const) {
+    const view = { ...baseView, sort };
+    const ids: number[] = [];
+    let cursor: string | null = null;
+    do {
+      const response = await query(view, { limit: 1, ...(cursor ? { cursor } : {}) });
+      assert.equal(response.statusCode, 200, response.body);
+      const page = response.json();
+      assert.equal(page.total, 5);
+      assert.deepEqual(page.boardCounts.map((count: { count: number }) => count.count), [3, 2]);
+      ids.push(page.tickets[0].id);
+      cursor = page.nextCursor;
+    } while (cursor);
+    assert.deepEqual(ids, expected);
+  }
+  const first = (await query({ ...baseView, sort: "priority_desc" }, { limit: 2 })).json();
+  assert.equal((await query(baseView, { cursor: first.nextCursor })).statusCode, 400);
+  assert.equal((await query({ ...baseView, sort: "priority_desc", rules: baseView.rules.map(rule => ({ ...rule, laneMode: "selected", laneIds: [a.lanes[0].id] })) }, { cursor: first.nextCursor })).statusCode, 400);
+  const secret = db.sqlite.prepare("SELECT secret FROM ticket_cursor_secret WHERE id = 1").pluck().get() as string;
+  const oldCursor = encodePaginationToken(secret, { v: 1, keys: [0, a.board.id, 0, a.lanes[0].id, 0, one.id], query: "legacy-fingerprint", revision: first.revision });
+  const stale = await query(baseView, { cursor: oldCursor });
+  assert.equal(stale.statusCode, 409);
+  assert.equal(stale.json().code, "stale_cursor");
+});
+
+const timeAt = (day: number) => new Date(Date.UTC(2026, 0, day)).toISOString();
+
+test("sort activity advances for actual body or comment changes and survives deletes and rolled-back writes", async t => {
+  const { db, board, query } = fixture(t);
+  const a = board("Review");
+  const setTime = (day: number) => { db.now = () => timeAt(day); };
+  setTime(1);
+  const first = db.createTicket({ boardId: a.board.id, laneId: a.lanes[0].id, title: "First", bodyMarkdown: "Original" });
+  setTime(2);
+  const second = db.createTicket({ boardId: a.board.id, laneId: a.lanes[0].id, title: "Second" });
+  const view = definition({ sort: "content_activity_desc", rules: [{ boardId: a.board.id, mode: "all", tagIds: [] }] });
+  const order = async () => (await query(view)).json().tickets.map((ticket: { id: number }) => ticket.id);
+  const knownTime = (ticketId: number) => db.sqlite.prepare("SELECT activity_at_ms FROM ticket_content_activity WHERE ticket_id = ?").pluck().get(ticketId);
+  assert.deepEqual(await order(), [second.id, first.id]);
+  setTime(3);
+  const tag = db.createTag({ boardId: a.board.id, name: "Priority" });
+  db.updateTicket(first.id, { title: "Renamed", priority: 4, tagIds: [tag.id], laneId: a.lanes[1].id, bodyMarkdown: "Original" });
+  assert.deepEqual(await order(), [second.id, first.id]);
+  assert.equal(knownTime(first.id), Date.parse(timeAt(1)));
+  setTime(4);
+  db.updateTicket(first.id, { bodyMarkdown: "" });
+  assert.deepEqual(await order(), [first.id, second.id]);
+  setTime(5);
+  db.updateTicket(second.id, { appendMarkdown: "Added" });
+  assert.deepEqual(await order(), [second.id, first.id]);
+  setTime(6);
+  const earlier = db.addComment({ ticketId: first.id, bodyMarkdown: "Earlier comment" });
+  setTime(7);
+  const latest = db.addComment({ ticketId: second.id, bodyMarkdown: "Latest post" });
+  assert.deepEqual(await order(), [second.id, first.id]);
+  setTime(8);
+  db.updateComment({ commentId: earlier.id, bodyMarkdown: earlier.bodyMarkdown });
+  assert.equal(knownTime(first.id), Date.parse(timeAt(6)));
+  setTime(9);
+  const previousPage = (await query(view, { limit: 1 })).json();
+  db.updateComment({ commentId: earlier.id, bodyMarkdown: "Edited older post" });
+  assert.equal((await query(view, { cursor: previousPage.nextCursor })).statusCode, 409);
+  assert.deepEqual(await order(), [first.id, second.id]);
+  setTime(10);
+  db.deleteComment(latest.id);
+  db.deleteComment(earlier.id);
+  assert.equal(knownTime(first.id), Date.parse(timeAt(9)));
+  assert.equal(knownTime(second.id), Date.parse(timeAt(7)));
+  assert.deepEqual(await order(), [first.id, second.id]);
+
+  setTime(1);
+  db.updateTicket(first.id, { bodyMarkdown: "Clock moved backwards" });
+  assert.equal(knownTime(first.id), Date.parse(timeAt(9)));
+  db.sqlite.exec("CREATE TRIGGER reject_activity BEFORE INSERT ON activity_logs BEGIN SELECT raise(ABORT, 'record failed'); END");
+  setTime(11);
+  assert.throws(() => db.addComment({ ticketId: second.id, bodyMarkdown: "Rolled back" }), /record failed/);
+  assert.deepEqual(db.listComments(second.id), []);
+  assert.equal(knownTime(second.id), Date.parse(timeAt(7)));
+});
+
+test("content activity backfills from known legacy events and keeps new updates and old views through backup", async t => {
+  const file = createDbFile();
+  const backup = createDbFile();
+  t.after(() => {
+    fs.rmSync(path.dirname(file), { recursive: true, force: true });
+    fs.rmSync(path.dirname(backup), { recursive: true, force: true });
+  });
+  const old = new KanbanDb(file);
+  const a = old.createBoard({ name: "Existing" });
+  const create = (date: number, title: string) => {
+    old.now = () => timeAt(date);
+    return old.createTicket({ boardId: a.board.id, laneId: a.lanes[0].id, bodyMarkdown: "Body", title });
+  };
+  const bodyOnly = create(1, "Prior body edit is not tracked");
+  const updatedComment = create(2, "Prior comment edit");
+  const noopComment = create(3, "Prior unchanged comment");
+  old.now = () => timeAt(4);
+  const edited = old.addComment({ ticketId: updatedComment.id, bodyMarkdown: "First" });
+  const noop = old.addComment({ ticketId: noopComment.id, bodyMarkdown: "Same" });
+  old.now = () => timeAt(5);
+  old.updateComment({ commentId: edited.id, bodyMarkdown: "Changed" });
+  old.now = () => timeAt(6);
+  old.deleteComment(edited.id);
+  old.updateComment({ commentId: noop.id, bodyMarkdown: noop.bodyMarkdown });
+  old.now = () => timeAt(7);
+  old.updateTicket(bodyOnly.id, { bodyMarkdown: "Unknown past edit" });
+  const view = definition({ rules: [{ boardId: a.board.id, mode: "all", tagIds: [] }] });
+  old.sqlite.prepare("INSERT INTO custom_views(version, definition) VALUES (7, ?)").run(JSON.stringify(view));
+  old.sqlite.exec("DROP TABLE ticket_content_activity");
+  old.close();
+
+  const migrated = new KanbanDb(file);
+  const knownTime = (id: number) => migrated.sqlite.prepare("SELECT activity_at_ms FROM ticket_content_activity WHERE ticket_id = ?").pluck().get(id);
+  try {
+    assert.equal(knownTime(bodyOnly.id), Date.parse(timeAt(1)));
+    assert.equal(knownTime(updatedComment.id), Date.parse(timeAt(5)));
+    assert.equal(knownTime(noopComment.id), Date.parse(timeAt(4)));
+    migrated.now = () => timeAt(8);
+    migrated.updateTicket(bodyOnly.id, { bodyMarkdown: "Known new edit" });
+    await migrated.sqlite.backup(backup);
+  } finally { migrated.close(); }
+
+  const restored = buildApp({ dbFile: backup });
+  try {
+    const saved = (await restored.inject(`${base}/1`)).json();
+    assert.equal(saved.version, 7);
+    assert.equal(saved.sort, "position_asc");
+    assert.deepEqual(saved.rules, [{ ...view.rules[0], laneMode: "all", laneIds: [] }]);
+    const query = await restored.inject({ method: "POST", url: `${base}/query`, payload: { definition: { ...view, sort: "content_activity_desc" } } });
+    assert.equal(query.statusCode, 200, query.body);
+    assert.deepEqual(query.json().tickets.map((ticket: { id: number }) => ticket.id), [bodyOnly.id, updatedComment.id, noopComment.id]);
+  } finally { await restored.close(); }
 });

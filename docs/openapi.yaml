@@ -29,7 +29,7 @@ paths:
     post:
       operationId: createCustomView
       summary: Save a new cross-board view
-      description: Newly referenced boards and their tags must exist. An invalid board or board/tag association returns 400 with code invalid_reference.
+      description: Newly referenced boards must exist. New tag and lane IDs must belong to their rule's board. An invalid reference returns 400 with code invalid_reference.
       requestBody:
         required: true
         content:
@@ -54,7 +54,7 @@ paths:
     put:
       operationId: replaceCustomView
       summary: Replace a saved view at the expected version
-      description: A missing board or tag reference may be retained from the previous version. New references must be valid. A stale expectedVersion returns 409 with code version_conflict.
+      description: A missing board, tag or lane reference may be retained from the previous version. New references must be valid. Omitted sort retains its previous value. Omitting both lane fields in a rule retains that board's stored lane selection. Use laneMode all with an empty laneIds list to clear the selection. A stale expectedVersion returns 409 with code version_conflict.
       requestBody:
         required: true
         content:
@@ -88,7 +88,7 @@ paths:
   /api/custom-views/catalog:
     get:
       operationId: getCustomViewCatalog
-      summary: List boards and their available tags for configuration
+      summary: List boards and their available tags and lanes for configuration
       responses:
         "200":
           description: Current boards in board order
@@ -102,13 +102,22 @@ paths:
                     type: array
                     items:
                       type: object
-                      required: [id, name, tags]
+                      required: [id, name, tags, lanes]
                       properties:
                         id: { type: integer }
                         name: { type: string }
                         tags:
                           type: array
                           items: { $ref: '#/components/schemas/CustomViewTag' }
+                        lanes:
+                          type: array
+                          description: Lanes in their current order within the board.
+                          items:
+                            type: object
+                            required: [id, name]
+                            properties:
+                              id: { type: integer }
+                              name: { type: string }
 
   /api/custom-views/query:
     post:
@@ -2180,7 +2189,7 @@ components:
         pattern: "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
   responses:
     CustomView:
-      description: Saved definition with its ID and current version
+      description: Saved definition with its ID, current version, sort and each rule's lane fields
       content:
         application/json:
           schema:
@@ -2228,6 +2237,9 @@ components:
           items:
             type: object
             required: [boardId, mode, tagIds]
+            dependentRequired:
+              laneMode: [laneIds]
+              laneIds: [laneMode]
             properties:
               boardId: { type: integer, minimum: 1 }
               mode: { type: string, enum: [all, tags] }
@@ -2236,7 +2248,20 @@ components:
                 description: Match any listed tag belonging to this board. An empty list in tags mode matches nothing. Use an empty list in all mode.
                 uniqueItems: true
                 items: { type: integer, minimum: 1 }
+              laneMode:
+                type: string
+                enum: [all, selected]
+                description: Defaults to all lanes for a new definition or query. A lane condition combines with the tag and completion conditions.
+              laneIds:
+                type: array
+                description: Match any of the selected lane IDs on this board. An empty selection matches nothing. Supply an empty list in all mode.
+                uniqueItems: true
+                items: { type: integer, minimum: 1 }
         completion: { type: string, enum: [open, done, all] }
+        sort:
+          type: string
+          enum: [position_asc, priority_desc, content_activity_desc]
+          description: Applied within each board. A new definition or query defaults to lane and ticket position. The other options use descending priority or the latest known activity from ticket creation, a body edit, a comment post, or a comment edit. Ties use the default order. Deleting a comment preserves the last recorded activity time.
         showBody: { type: boolean }
         showLatestComment: { type: boolean }
     CustomViewTag:
@@ -2275,8 +2300,9 @@ components:
             required: [boardId, kind]
             properties:
               boardId: { type: integer }
-              kind: { type: string, enum: [missing_board, missing_tag, unset] }
+              kind: { type: string, enum: [missing_board, missing_tag, missing_lane, unset] }
               tagId: { type: integer }
+              laneId: { type: integer }
         tickets:
           type: array
           items:

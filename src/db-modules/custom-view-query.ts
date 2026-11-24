@@ -2,66 +2,84 @@ import { createHash } from "node:crypto";
 import type Database from "better-sqlite3";
 
 import { listBoards } from "./board.js";
-import type { CustomViewDefinition, CustomViewRule } from "./custom-views.js";
+import { withCustomViewDefaults, type CustomViewDefinition, type CustomViewRule, type CustomViewSort } from "./custom-views.js";
 import { decodePaginationToken, encodePaginationToken } from "./pagination-token.js";
 import { getTagsForTicketIds } from "./ticket-loaders.js";
 
 type ViewTag = { id: number; name: string; color: string };
-type CatalogBoard = { id: number; name: string; tags: ViewTag[] };
-type Warning = { boardId: number; kind: "missing_board" | "unset" } | { boardId: number; tagId: number; kind: "missing_tag" };
+type ViewLane = { id: number; name: string };
+type CatalogBoard = { id: number; name: string; tags: ViewTag[]; lanes: ViewLane[] };
+type Warning = { boardId: number; kind: "missing_board" | "unset" }
+  | { boardId: number; tagId: number; kind: "missing_tag" }
+  | { boardId: number; laneId: number; kind: "missing_lane" };
 type BoardCount = { boardId: number; boardName: string | null; count: number };
 type Excerpt = { excerpt: string; truncated: boolean };
 type CommentExcerpt = Excerpt & { id: number; createdAt: string };
 type QueryOptions = { limit: number; cursor?: string };
-type Cursor = { v: 1; revision: number; query: string; keys: number[] };
+type Cursor = { v: number; revision: number; query: string; keys: number[] };
 type PageRow = {
-  boardPosition: number;
   boardId: number;
-  lanePosition: number;
   laneId: number;
-  position: number;
   id: number;
   title: string;
   laneName: string;
   priority: number;
   resolved: number;
-};
+} & Record<`sortKey${number}`, number>;
 
-const order = "b.position, b.id, l.position, l.id, t.position, t.id";
 const excerptLength = 360;
+
+function sortKeys(sort: CustomViewSort): string[] {
+  // Keep boards contiguous. Negating descending keys allows a single ascending tuple seek.
+  const selected = sort === "priority_desc" ? ["-t.priority"]
+    : sort === "content_activity_desc" ? ["a.activity_at_ms IS NULL", "-COALESCE(a.activity_at_ms, 0)"]
+    : [];
+  return ["b.position", "b.id", ...selected, "l.position", "l.id", "t.position", "t.id"];
+}
 
 export function getCustomViewCatalog(sqlite: Database.Database): { boards: CatalogBoard[] } {
   return sqlite.transaction(() => {
-    const boards = listBoards(sqlite).map(({ id, name }) => ({ id, name, tags: [] as ViewTag[] }));
+    const boards: CatalogBoard[] = listBoards(sqlite).map(({ id, name }) => ({ id, name, tags: [], lanes: [] }));
     const byId = new Map(boards.map(board => [board.id, board]));
     const tags = sqlite.prepare("SELECT board_id, id, name, color FROM tags ORDER BY name, id")
       .all() as Array<ViewTag & { board_id: number }>;
     for (const { board_id, ...tag } of tags) byId.get(board_id)?.tags.push(tag);
+    const lanes = sqlite.prepare("SELECT board_id, id, name FROM lanes ORDER BY board_id, position, id")
+      .all() as Array<ViewLane & { board_id: number }>;
+    for (const { board_id, ...lane } of lanes) byId.get(board_id)?.lanes.push(lane);
     return { boards };
   })();
 }
 
-function resolveDefinition(boards: CatalogBoard[], definition: CustomViewDefinition) {
+function resolveDefinition(boards: CatalogBoard[], definition: ReturnType<typeof withCustomViewDefaults>) {
   const existing = new Set(boards.map(board => board.id));
   const selected = new Set(definition.boardIds);
   const rules = new Map(definition.rules.map(rule => [rule.boardId, rule]));
-  const activeRules: CustomViewRule[] = [];
+  const activeRules: Required<CustomViewRule>[] = [];
   const warnings: Warning[] = [];
   const boardCounts: BoardCount[] = [];
-  for (const { id, name, tags } of boards) {
+  for (const { id, name, tags, lanes } of boards) {
     if (definition.scope === "selected" && !selected.has(id)) continue;
     boardCounts.push({ boardId: id, boardName: name, count: 0 });
     const rule = rules.get(id);
-    if (!rule) warnings.push({ boardId: id, kind: "unset" });
-    else if (rule.mode === "all") activeRules.push(rule);
-    else {
-      const existingTags = new Set(tags.map(tag => tag.id));
-      const tagIds = rule.tagIds.filter(tagId => {
-        if (existingTags.has(tagId)) return true;
-        warnings.push({ boardId: id, tagId, kind: "missing_tag" });
-        return false;
-      });
-      if (tagIds.length) activeRules.push({ ...rule, tagIds });
+    if (!rule) {
+      warnings.push({ boardId: id, kind: "unset" });
+      continue;
+    }
+    const existingTags = new Set(tags.map(tag => tag.id));
+    const tagIds = rule.tagIds.filter(tagId => {
+      if (existingTags.has(tagId)) return true;
+      warnings.push({ boardId: id, tagId, kind: "missing_tag" });
+      return false;
+    });
+    const existingLanes = new Set(lanes.map(lane => lane.id));
+    const laneIds = rule.laneIds.filter(laneId => {
+      if (existingLanes.has(laneId)) return true;
+      warnings.push({ boardId: id, laneId, kind: "missing_lane" });
+      return false;
+    });
+    if ((rule.mode === "all" || tagIds.length) && (rule.laneMode === "all" || laneIds.length)) {
+      activeRules.push({ ...rule, tagIds, laneIds });
     }
   }
   const configured = definition.scope === "selected" ? new Set([...selected, ...rules.keys()]) : rules.keys();
@@ -73,54 +91,67 @@ function resolveDefinition(boards: CatalogBoard[], definition: CustomViewDefinit
   return { activeRules, warnings, boardCounts };
 }
 
-function getCursor(secret: string, value: string, query: string, revision: number): Cursor | "invalid_cursor" | "stale_cursor" {
-  const cursor = decodePaginationToken(secret, value) as Cursor | undefined;
-  if (!cursor || cursor.v !== 1 || cursor.query !== query || !Number.isSafeInteger(cursor.revision)
-    || !Array.isArray(cursor.keys) || cursor.keys.length !== 6 || !cursor.keys.every(Number.isSafeInteger)) return "invalid_cursor";
+function getCursor(secret: string, value: string, query: string, revision: number, keyCount: number): Cursor | "invalid_cursor" | "stale_cursor" {
+  const cursor = decodePaginationToken(secret, value) as (Cursor & { board?: number }) | undefined;
+  if (!cursor || typeof cursor.query !== "string" || !Number.isSafeInteger(cursor.revision)
+    || !Array.isArray(cursor.keys) || !cursor.keys.every(Number.isSafeInteger)) return "invalid_cursor";
+  // The previous release signed six-key view cursors without a board marker.
+  if (cursor.v === 1 && cursor.board === undefined && cursor.keys.length === 6) return "stale_cursor";
+  if (cursor.v !== 2 || cursor.query !== query || cursor.keys.length !== keyCount) return "invalid_cursor";
   return cursor.revision === revision ? cursor : "stale_cursor";
 }
 
 export function queryCustomView(sqlite: Database.Database, definition: CustomViewDefinition, { limit, cursor }: QueryOptions) {
   return sqlite.transaction(() => {
+    const configured = withCustomViewDefaults(definition);
+    const keys = sortKeys(configured.sort);
     const { revision } = sqlite.prepare("SELECT revision FROM custom_view_revision WHERE id = 1").get() as { revision: number };
     const { secret } = sqlite.prepare("SELECT secret FROM ticket_cursor_secret WHERE id = 1").get() as { secret: string };
-    const query = createHash("sha256").update(JSON.stringify(["custom-view", definition])).digest("hex");
-    const start = cursor === undefined ? null : getCursor(secret, cursor, query, revision);
+    const query = createHash("sha256").update(JSON.stringify(["custom-view", configured])).digest("hex");
+    const start = cursor === undefined ? null : getCursor(secret, cursor, query, revision, keys.length);
     if (typeof start === "string") return start;
     const { boards } = getCustomViewCatalog(sqlite);
-    const { activeRules, warnings, boardCounts } = resolveDefinition(boards, definition);
+    const { activeRules, warnings, boardCounts } = resolveDefinition(boards, configured);
     if (!activeRules.length) return { revision, total: 0, boardCounts, warnings, tickets: [], nextCursor: null };
 
     // Match the count and page against the same predicates and database snapshot. Each board has a
     // single rule, and EXISTS keeps a ticket with multiple matching tags in the result once.
-    const matchingTickets = `
+    const ticketSource = `
       FROM json_each(@rules) AS rule
       CROSS JOIN boards b ON b.id = json_extract(rule.value, '$.boardId')
       CROSS JOIN lanes l ON l.board_id = b.id
-      CROSS JOIN tickets t ON t.board_id = b.id AND t.lane_id = l.id
+      CROSS JOIN tickets t ON t.board_id = b.id AND t.lane_id = l.id`;
+    const matchingTickets = `
       WHERE t.is_archived = 0
-        ${definition.completion === "all" ? "" : "AND t.is_resolved = @resolved"}
+        ${configured.completion === "all" ? "" : "AND t.is_resolved = @resolved"}
+        AND (json_extract(rule.value, '$.laneMode') = 'all' OR l.id IN (
+          SELECT value FROM json_each(rule.value, '$.laneIds')
+        ))
         AND (json_extract(rule.value, '$.mode') = 'all' OR EXISTS (
           SELECT 1 FROM ticket_tags tt WHERE tt.ticket_id = t.id
             AND tt.tag_id IN (SELECT value FROM json_each(rule.value, '$.tagIds'))
         ))`;
-    const parameters = { rules: JSON.stringify(activeRules), resolved: Number(definition.completion === "done") };
-    const counts = sqlite.prepare(`SELECT b.id, count(*) AS count ${matchingTickets} GROUP BY b.id`)
+    const parameters = { rules: JSON.stringify(activeRules), resolved: Number(configured.completion === "done") };
+    const counts = sqlite.prepare(`SELECT b.id, count(*) AS count ${ticketSource} ${matchingTickets} GROUP BY b.id`)
       .all(parameters) as { id: number; count: number }[];
     const countByBoard = new Map(counts.map(({ id, count }) => [id, count]));
     for (const board of boardCounts) board.count = countByBoard.get(board.boardId) ?? 0;
     const total = counts.reduce((sum, board) => sum + board.count, 0);
+    const order = keys.join(", ");
+    const placeholders = keys.map((_, index) => `@k${index}`).join(", ");
     const rows = sqlite.prepare(`
-      SELECT b.position AS boardPosition, b.id AS boardId, l.position AS lanePosition,
-             l.id AS laneId, t.position, t.id, t.title, l.name AS laneName, t.priority, t.is_resolved AS resolved
+      SELECT b.id AS boardId, l.id AS laneId, t.id, t.title, l.name AS laneName, t.priority, t.is_resolved AS resolved,
+             ${keys.map((key, index) => `${key} AS sortKey${index}`).join(", ")}
+      ${ticketSource}
+      ${configured.sort === "content_activity_desc" ? "LEFT JOIN ticket_content_activity a ON a.ticket_id = t.id" : ""}
       ${matchingTickets}
-      ${start ? `AND (${order}) > (@k0, @k1, @k2, @k3, @k4, @k5)` : ""}
+      ${start ? `AND (${order}) > (${placeholders})` : ""}
       ORDER BY ${order} LIMIT @limit
     `).all({ ...parameters, limit: limit + 1, ...Object.fromEntries((start?.keys ?? []).map((key, i) => [`k${i}`, key])) }) as PageRow[];
     const page = rows.slice(0, limit);
     const last = page.at(-1);
     const nextCursor = rows.length > limit && last ? encodePaginationToken(secret, {
-      v: 1, revision, query, keys: [last.boardPosition, last.boardId, last.lanePosition, last.laneId, last.position, last.id],
+      v: 2, revision, query, keys: keys.map((_, index) => last[`sortKey${index}`]),
     }) : null;
     return { revision, total, boardCounts, warnings, tickets: mapPage(sqlite, page, definition), nextCursor };
   })();

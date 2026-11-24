@@ -290,6 +290,18 @@ Create a definition with `POST /api/custom-views`:
 
 Read without saving by posting `{definition, limit: 50}` to `POST /api/custom-views/query`. The result contains `total`, `boardCounts`, `warnings`, `tickets`, `nextCursor` and `revision`. Counts cover all matching tickets, not only the current page. Default limit is 50 and maximum is 100. Follow `nextCursor` with the same definition; discard accumulated pages and restart on a stale-cursor 409. A malformed cursor or a cursor for different conditions returns 400. Never treat one page as a complete set for a bulk operation.
 
-Rows follow board order, lane order and ticket position, with IDs breaking ties. Body and latest-comment excerpts are returned only when enabled, bounded to 360 Unicode code points. The latest comment is the newest by creation time, then ID. It has a timestamp but no author field. Use `GET /api/custom-views/tickets/:ticketId/text?field=body`, or `field=comment&commentId=N`, to expand exact original Markdown. A comment ID must belong to the ticket.
+By default, rows follow board order, lane order and ticket position, with IDs breaking ties. Body and latest-comment excerpts are returned only when enabled, bounded to 360 Unicode code points. The latest comment is the newest by creation time, then ID. It has a timestamp but no author field. Use `GET /api/custom-views/tickets/:ticketId/text?field=body`, or `field=comment&commentId=N`, to expand exact original Markdown. A comment ID must belong to the ticket.
 
 `GET /api/custom-views/events` emits invalidation events (`views_updated` or `board_updated`); it is not a durable event log. Re-query on reconnect and after returning from ticket details. Changing or deleting a view never changes its matching tickets. Full DB backups retain view definitions; single-board JSON exports do not transfer them.
+
+### Lane filters and ordering (unreleased)
+
+The catalog also returns each board's `lanes` in lane order. Each rule accepts `laneMode: "all" | "selected"` and `laneIds`. Use `all` with `[]` for unrestricted lanes, or `selected` with IDs from that board. Selected lanes match with OR, together with the tag and completion predicates using AND. An empty selected set matches nothing. Deleted lane references produce `missing_lane` warnings; IDs are not rebound by name. Creating or updating a saved view rejects a lane belonging to another board. An unsaved query reports it as a missing lane in that board; only valid selected lanes can match.
+
+The definition accepts `sort: "position_asc" | "content_activity_desc" | "priority_desc"`. Board order is unchanged. Within each board, the latter two sort by recorded body/comment activity or priority descending, then use existing lane/ticket order for ties. Sorting precedes pagination. Reset the cursor when changing the definition.
+
+For example, a rule can be `{"boardId":1,"mode":"all","tagIds":[],"laneMode":"selected","laneIds":[11,12]}`, with `"sort":"priority_desc"` on the definition. These are synthetic IDs; discover your own with the catalog.
+
+Old definitions and create/query requests without these fields default to all lanes and `position_asc`. On update, omitting `sort` retains its saved value; omitting both lane fields retains the saved lane condition for the same board. To remove a restriction, explicitly send `laneMode: "all", laneIds: []`. Send both lane fields together.
+
+Content activity advances for an actual body change or comment post/content edit, not title, tag, lane or priority changes or comment deletion. It is independent of excerpt visibility and of which comment is displayed as the latest. Historical body-edit times are unknown; migration uses recorded creation/comment times rather than the upgrade time or general ticket update time. Full DB backup restores the history; board JSON import creates new tickets/comments and starts their activity at import time.
