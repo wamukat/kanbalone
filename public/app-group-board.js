@@ -1,7 +1,7 @@
 // @ts-check
 import { t as tr, getLocale } from "./app-i18n.js";
 import { collectTicketPages, readTicketPage } from "./app-ticket-pages.js";
-import { captureGroupTicketAnchor, createGroupTicketWindow, restoreGroupTicketAnchor } from "./app-group-ticket-window.js";
+import { captureGroupTicketAnchor, createGroupTicketWindow, findGroupFocusNeighbor, restoreGroupTicketAnchor } from "./app-group-ticket-window.js";
 import { createGroupWindowSearch } from "./app-group-window-search.js";
 import { createGroupRowIconRenderer } from "./app-group-row-icons.js";
 /**
@@ -35,6 +35,7 @@ export function createGroupBoardModule(ctx) {
   let all = false,
     sort = "createdAt:asc",
     showArchived = false;
+  let openOnly = false;
   let createName = "",
     renameName = "";
   /** @type {import("./app-group-types.js").GroupTarget | null} */ let renameTarget =
@@ -116,6 +117,7 @@ export function createGroupBoardModule(ctx) {
   }
 
   const sortKey = () => `kanbalone:group-sort:${state.activeBoardId}`;
+  const openOnlyKey = () => `kanbalone:group-open-only:${boardId}`;
   /** @param {number | null} nextBoardId */
   function reset(nextBoardId) {
     boardId = nextBoardId;
@@ -135,7 +137,9 @@ export function createGroupBoardModule(ctx) {
     error = "";
     try {
       sort = localStorage.getItem(sortKey()) || "createdAt:asc";
+      openOnly = localStorage.getItem(openOnlyKey()) === "true";
     } catch {
+      openOnly = false;
       sort = "createdAt:asc";
     }
     if (
@@ -288,8 +292,9 @@ export function createGroupBoardModule(ctx) {
     if (!sections || !(active instanceof HTMLButtonElement) || !sections.tickets.contains(active)) return null;
     const row = active.closest("[data-group-row-id]");
     if (!row) return null;
-    const index = Array.from(sections.tickets.querySelectorAll("[data-group-row-id]")).indexOf(row);
-    return { id: Number(row.getAttribute("data-group-row-id")), index, remove: active.hasAttribute("data-group-remove") };
+    const id = Number(row.getAttribute("data-group-row-id"));
+    const order = Array.from(sections.tickets.querySelectorAll("[data-group-row-id]"), element => Number(element.getAttribute("data-group-row-id")));
+    return { id, index: order.indexOf(id), order, remove: active.hasAttribute("data-group-remove") };
   }
 
   /** @param {import("./app-group-types.js").GroupTicketFocus} origin @param {boolean} [reveal] */
@@ -304,20 +309,27 @@ export function createGroupBoardModule(ctx) {
       return true;
     }
     const rows = Array.from(section.querySelectorAll("[data-group-row-id]"));
-    const index = Math.max(0, Math.min(origin.index, rows.length - 1));
-    for (const row of [...rows.slice(index), ...rows.slice(0, index).reverse()]) {
-      const candidate = row.querySelector("button:not(:disabled)");
-      if (!(candidate instanceof HTMLButtonElement)) continue;
-      candidate.focus();
-      return true;
-    }
-    return false;
+    const indices = new Map(rows.map((row, index) => [Number(row.getAttribute("data-group-row-id")), index]));
+    const index = findGroupFocusNeighbor(origin, indices, i => !!rows[i].querySelector("button:not(:disabled)"));
+    const candidate = rows[index]?.querySelector("button:not(:disabled)");
+    if (!(candidate instanceof HTMLButtonElement)) return false;
+    candidate.focus();
+    return true;
   }
 
-  /** @param {number} id @param {import("./app-group-types.js").GroupTicketAnchor | null} anchor */
-  function focusEditorTicket(id, anchor) {
-    if (!ticketWindow && !anchor) return false;
-    return restoreTicketFocus({ id, index: anchor?.index ?? 0, remove: false }, true);
+  // The scroll anchor can be many rows above the selected title. Keep its
+  // logical row index separately for restoration when the title is filtered.
+  function captureEditorTicketFocus() {
+    return openOnly || ticketWindow ? captureTicketFocus(document.activeElement) : null;
+  }
+  /** @param {import("./app-group-types.js").GroupTicketFocus | null} origin */
+  function focusEditorTicket(origin) {
+    if (!origin) return false;
+    if (restoreTicketFocus(origin, true)) return true;
+    const toggle = openOnly && toolbar()?.querySelector('[data-group-action="open-only"]');
+    if (!(toggle instanceof HTMLButtonElement)) return false;
+    toggle.focus();
+    return true;
   }
 
   function render() {
@@ -400,7 +412,7 @@ export function createGroupBoardModule(ctx) {
     }
     const lanes = state.boardDetail?.lanes ?? [];
     const ticketKey = JSON.stringify([
-      boardId, loadedSelection, ticketRevision, showArchived, getLocale(), !!groups.length,
+      boardId, loadedSelection, ticketRevision, showArchived, openOnly, getLocale(), !!groups.length,
       lanes.map((lane) => [lane.id, lane.name]),
     ]);
     const updateTickets = ticketKey !== renderedTicketKey;
@@ -418,6 +430,7 @@ export function createGroupBoardModule(ctx) {
         all,
         sort,
         showArchived,
+        openOnly,
         creating,
         createName,
         renaming,
@@ -437,7 +450,7 @@ export function createGroupBoardModule(ctx) {
       { escapeHtml: esc, lanes, rowIcon: (name) => getRowIcon()(name) },
       updateTickets ? "auto" : false,
     );
-    const handoffFocus = updateTickets && sameView && (ticketWindow || html.ticketWindow)
+    const handoffFocus = updateTickets && sameView && (openOnly || ticketWindow || html.ticketWindow)
       ? captureTicketFocus(active) : null;
     const anchor = updateTickets && sameView && (ticketWindow || html.ticketWindow)
       ? ticketWindow?.capture() ?? captureGroupTicketAnchor(host, sections.tickets)
@@ -501,7 +514,9 @@ export function createGroupBoardModule(ctx) {
       const create = host.querySelector('[data-group-action="new-ticket"]');
       if (create instanceof HTMLButtonElement) create.focus({ preventScroll: true });
     }
-    if (handoffFocus && document.activeElement === document.body) restoreTicketFocus(handoffFocus);
+    if (handoffFocus && document.activeElement === document.body && !restoreTicketFocus(handoffFocus) && openOnly) {
+      focus('[data-group-action="open-only"]');
+    }
     if (focusSelector || focusedRemovedUngrouped) {
       const next = focusedRemovedUngrouped
         ? host.querySelector('[data-select-group][aria-current="true"]') || host.querySelector('[data-group-action="create"]')
@@ -662,6 +677,11 @@ export function createGroupBoardModule(ctx) {
       }
       case "expand-description":
         expanded = !expanded;
+        break;
+      case "open-only":
+        openOnly = !openOnly;
+        try { localStorage.setItem(openOnlyKey(), String(openOnly)); }
+        catch { /* The filter still works for this session without storage. */ }
         break;
       case "archive":
         showArchived = !showArchived;
@@ -873,5 +893,6 @@ export function createGroupBoardModule(ctx) {
   });
   /** @param {number} id */
   const isActiveGroup = (id) => state.viewMode === "group" && boardId === state.activeBoardId && selectedId === id;
-  return { renderGroupBoard, openGroup, isActiveGroup, captureTicketAnchor, restoreTicketAnchor, focusEditorTicket };
+  return { renderGroupBoard, openGroup, isActiveGroup, captureTicketAnchor, restoreTicketAnchor,
+    renderedScope: () => renderedViewScope, captureEditorTicketFocus, focusEditorTicket };
 }

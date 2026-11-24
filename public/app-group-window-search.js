@@ -77,9 +77,9 @@ export function createGroupWindowSearch(options) {
     const before = matches[activeIndex]?.ticket.id;
     const query = normalized(input.value.trim());
     const id = /^#(\d+)$/.exec(query);
-    matches = !query ? [] : rows.filter(row => id
+    matches = !query ? [] : rows.filter(row => row.searchable !== false && (id
       ? row.ticket.id === Number(id[1])
-      : normalized(row.ticket.title).includes(query));
+      : normalized(row.ticket.title).includes(query)));
     activeIndex = before === undefined ? -1 : matches.findIndex(({ ticket }) => ticket.id === before);
     options.highlight(viewingResults ? matches[activeIndex]?.ticket.id ?? null : null);
     sync();
@@ -132,7 +132,7 @@ export function createGroupWindowSearch(options) {
     if (!(previous instanceof HTMLButtonElement)) return;
     const id = Number(previous.dataset.groupTicket ?? previous.dataset.groupRemove);
     const index = rows.findIndex(({ ticket }) => ticket.id === id);
-    if (index >= 0) returnFocus = { id, index, remove: previous.hasAttribute("data-group-remove") };
+    if (index >= 0) returnFocus = { id, index, order: rows.map(row => row.ticket.id), remove: previous.hasAttribute("data-group-remove") };
   });
   form.addEventListener("click", event => event.stopPropagation());
   input.addEventListener("compositionstart", () => { composing = true; });

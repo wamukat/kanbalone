@@ -10,6 +10,7 @@ import { renderTicketHierarchyIcon, indexTicketHierarchy } from "./app-ticket-hi
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
  * @typedef {import("./app-group-types.js").GroupTicket} GroupTicket
+ * @typedef {{parent: GroupTicket, children: GroupTicket[], context: boolean, canRemove: boolean}} TicketFamily
  */
 /** @param {number} id @param {GroupTicket[]} source */
 export function relatedTickets(id, source) {
@@ -68,6 +69,7 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
     all,
     sort,
     showArchived,
+    openOnly = false,
     creating,
     createName,
     renaming,
@@ -111,35 +113,47 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
       <span class="visually-hidden">${esc(progressLabel)}</span>
     </button>`;
   }
-  /** @param {GroupTicket} t @param {boolean} [parent] @param {boolean} [context] */
-  const row = (
-    t,
-    parent = false,
-    context = false,
-  ) => `<div data-group-row-id="${t.id}" class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
-    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: rowIcon })}${context ? `<span class="list-ticket-link group-ticket-title" title="${tr("Archived parent · shown for context")}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></span>` : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: rowIcon })}</span></div>
+  /** @param {GroupTicket} ticket */
+  function parentContextReason(ticket) {
+    if (!openOnly || !ticket.isResolved) return tr("Archived parent · shown for context");
+    if (ticket.isArchived && !showArchived) return tr("Resolved and archived parent · shown for context");
+    return tr("Resolved parent · shown for context");
+  }
+  /** @param {GroupTicket} t @param {boolean} [canRemove] @param {boolean} [context] */
+  function row(t, canRemove = false, context = false) {
+    const reason = context ? parentContextReason(t) : "";
+    const visibilityNote = context && openOnly ? `<small class="group-context-reason">${esc(reason)}</small>` : "";
+    const title = context
+      ? `<span class="list-ticket-link group-ticket-title" title="${esc(reason)}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}${visibilityNote}</span></span>`
+      : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`;
+    return `<div data-group-row-id="${t.id}" class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
+    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: rowIcon })}${title}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: rowIcon })}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
-    ${parent && !showUngrouped ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${rowIcon("trash-2")}</button>` : ""}
+    ${canRemove ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${rowIcon("trash-2")}</button>` : ""}
     ${t.tags.length ? `<div class="tag-list group-ticket-tags">${t.tags.map((tag) => renderTag(tag, esc)).join("")}</div>` : ""}
   </div>`;
+  }
+  /** @param {GroupTicket} ticket */
+  const matchesFilters = ticket => (showArchived || !ticket.isArchived) && (!openOnly || !ticket.isResolved);
   function ticketFamilies() {
     const comparator = getListTicketComparator(null);
     return tickets
       .filter((t) => t.parentTicketId == null || !hierarchy().byId.has(t.parentTicketId))
       .sort(comparator)
       .flatMap((parent) => {
-        const children = (hierarchy().childrenByParent.get(parent.id) ?? []).sort(comparator)
-          .filter((t) => showArchived || !t.isArchived);
-        return !showArchived && parent.isArchived && !children.length ? [] : [{ parent, children }];
+        const children = (hierarchy().childrenByParent.get(parent.id) ?? []).filter(matchesFilters).sort(comparator);
+        const context = !matchesFilters(parent);
+        if (context && !children.length) return [];
+        return [{ parent, children, context, canRemove: !showUngrouped && !(openOnly && context) }];
       });
   }
-  /** @param {{parent: GroupTicket, children: GroupTicket[]}} family */
-  function renderFamily({ parent, children }) {
-    return `<div class="group-ticket-family">${row(parent, true, parent.isArchived && !showArchived)}${children.map(t => `<div class="group-ticket-child">${row(t)}</div>`).join("")}</div>`;
+  /** @param {TicketFamily} family */
+  function renderFamily({ parent, children, context, canRemove }) {
+    return `<div class="group-ticket-family">${row(parent, canRemove, context)}${children.map(t => `<div class="group-ticket-child">${row(t)}</div>`).join("")}</div>`;
   }
   /** @param {import("./app-group-types.js").GroupTicketRow} item */
   function renderWindowRow(item) {
-    const html = row(item.ticket, !item.child, item.context);
+    const html = row(item.ticket, item.canRemove, item.context);
     return item.child ? `<div class="group-ticket-child">${html}</div>` : html;
   }
   function description() {
@@ -256,33 +270,42 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
   }
 
   const createTicket = `<button class="ghost group-text-action" data-group-action="new-ticket">${tr("Create ticket")}</button>`;
+  const filter = `<button type="button" class="ghost group-text-action${openOnly ? " active" : ""}" data-group-action="open-only" aria-pressed="${openOnly}">${icon("circle")}${tr("Open only")}</button>`;
   const header = selected ? [
     groupHeading(selected),
     description(),
     '<div class="group-ticket-toolbar">',
     `<button class="ghost group-text-action" data-group-action="add">${tr("Add existing tickets")}</button>`,
-    `${createTicket}</div>`,
+    `${createTicket}${filter}</div>`,
     !selected.isActive
       ? `<p class="muted">${tr("This Group is inactive because it has no open, unarchived tickets.")}</p>`
       : "",
     adding ? addForm() : "",
   ].join("") : showUngrouped ? [
-    `<div class="group-detail-heading"><h3>${tr("No Group")}</h3><span class="muted group-ticket-count">${ungroupedCount}</span></div>`,
-    `<div class="group-ticket-toolbar">${createTicket}</div>`,
+    `<div class="group-detail-heading"><h3>${tr("No Group")}</h3><span class="muted group-ticket-count">${openOnly ? tr("{count} total", { count: ungroupedTicketCount }) : ungroupedCount}</span></div>`,
+    `<div class="group-ticket-toolbar">${createTicket}${filter}</div>`,
   ].join("") : "";
   const families = includeTickets && (selected || showUngrouped) ? ticketFamilies() : null;
   /** @type {import("./app-group-types.js").GroupTicketWindowModel | null} */ let ticketWindow = null;
   if (includeTickets === "auto" && families && families.reduce((count, family) => count + family.children.length + 1, 0) >= 1000) {
-    const rows = families.flatMap(({ parent, children }) => [
-      { ticket: parent, familyId: parent.id, child: false, context: parent.isArchived && !showArchived, canRemove: !showUngrouped, lastInFamily: !children.length },
+    const rows = families.flatMap(({ parent, children, context, canRemove }) => [
+      { ticket: parent, familyId: parent.id, child: false, context, canRemove, searchable: !openOnly || !context, lastInFamily: !children.length },
       ...children.map((ticket, index) => ({
-        ticket, familyId: parent.id, child: true, context: false, canRemove: false, lastInFamily: index === children.length - 1,
+        ticket, familyId: parent.id, child: true, context: false, canRemove: false, searchable: true, lastInFamily: index === children.length - 1,
       })),
     ]);
     ticketWindow = { rows, renderRow: renderWindowRow };
   }
+  function emptyTicketMessage() {
+    if (!tickets.length) return tr("Add or create tickets to get started.");
+    if (!showArchived && tickets.every(ticket => ticket.isArchived)) return tr("All tickets are archived.");
+    if (openOnly) return tickets.every(ticket => ticket.isResolved)
+      ? tr("All tickets are resolved. Turn off Open only to see them.")
+      : tr("All open tickets are archived. Show archived tickets to see them.");
+    return tr("No matching tickets");
+  }
   const rows = !includeTickets || ticketWindow ? null : families
-    ? families.map(renderFamily).join("") || `<p class="group-empty muted">${tickets.length ? tr("All tickets are archived.") : tr("Add or create tickets to get started.")}</p>`
+    ? families.map(renderFamily).join("") || `<p class="group-empty muted">${emptyTicketMessage()}</p>`
     : `<p class="group-empty muted">${groups.length ? tr("Select All to see your inactive Groups.") : tr("Create a Group to organize tickets.")}</p>`;
   const footer = [
     selected || showUngrouped ? archiveToggle() : "",

@@ -9,10 +9,11 @@ export type GroupTicketRow = {
   familyId: number;
   child: boolean;
   context: boolean;
+  searchable?: boolean;
   canRemove: boolean;
   lastInFamily: boolean;
 };
-export type GroupTicketFocus = { id: number; index: number; remove: boolean };
+export type GroupTicketFocus = { id: number; index: number; order: readonly number[]; remove: boolean };
 export type GroupTicketAnchor = { id: number; index: number; offset: number; bottom: boolean };
 export type GroupTicketWindowModel = {
   rows: GroupTicketRow[];
@@ -94,6 +95,7 @@ export type GroupViewState = GroupSearchState & {
   all: boolean;
   sort: string;
   showArchived: boolean;
+  openOnly?: boolean;
   creating: boolean;
   createName: string;
   renaming: boolean;

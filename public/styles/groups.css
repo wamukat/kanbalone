@@ -272,6 +272,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.group-context-reason {
+  display: block;
+  margin-block-start: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-regular);
+}
 .group-ticket-context {
   color: var(--text-muted);
 }
