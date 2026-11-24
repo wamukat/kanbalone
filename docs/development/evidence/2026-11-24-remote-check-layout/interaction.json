@@ -1,0 +1,138 @@
+{
+  "source": "98960edd476fb09bdb20b0aaaea2c1a3dad35ba596c79d04c4633d241471d926",
+  "syntheticOnly": true,
+  "recorded": {
+    "interaction": {
+      "textHitCoordinates": [
+        640,
+        316
+      ],
+      "events": [
+        {
+          "checked": false,
+          "target": "SPAN",
+          "trusted": true,
+          "type": "pointerdown"
+        },
+        {
+          "checked": false,
+          "target": "SPAN",
+          "trusted": true,
+          "type": "click"
+        },
+        {
+          "checked": true,
+          "target": "editor-remote-backlink-comment",
+          "trusted": true,
+          "type": "click"
+        },
+        {
+          "checked": true,
+          "target": "editor-remote-backlink-comment",
+          "trusted": true,
+          "type": "change"
+        },
+        {
+          "checked": false,
+          "target": "editor-remote-backlink-comment",
+          "trusted": true,
+          "type": "click"
+        },
+        {
+          "checked": false,
+          "target": "editor-remote-backlink-comment",
+          "trusted": true,
+          "type": "change"
+        },
+        {
+          "checked": true,
+          "target": "editor-remote-backlink-comment",
+          "trusted": true,
+          "type": "click"
+        },
+        {
+          "checked": true,
+          "target": "editor-remote-backlink-comment",
+          "trusted": true,
+          "type": "change"
+        }
+      ],
+      "off": {
+        "checked": false,
+        "draft": "Keep the local draft",
+        "hidden": true,
+        "issue": "",
+        "panelHidden": false,
+        "previewHidden": true,
+        "url": "",
+        "urlDisabled": true
+      },
+      "reopened": {
+        "checked": false,
+        "draft": "Keep the local draft",
+        "hidden": true,
+        "issue": "",
+        "panelHidden": false,
+        "previewHidden": true,
+        "url": "",
+        "urlDisabled": true
+      },
+      "cancelledTickets": 0
+    },
+    "checkedSave": {
+      "ticketId": 1,
+      "boardId": 1,
+      "laneId": 1,
+      "issueKey": "21",
+      "clicked": [
+        934,
+        531
+      ],
+      "stored": true
+    },
+    "uncheckedSave": {
+      "ticketId": 2,
+      "boardId": 1,
+      "laneId": 1,
+      "issueKey": "22",
+      "clicked": [
+        934,
+        456
+      ],
+      "stored": true
+    },
+    "requestPayloads": [
+      {
+        "kind": "save",
+        "status": 201,
+        "body": {
+          "provider": "github",
+          "laneId": 1,
+          "url": "https://github.com/example/catalog-sample/issues/21",
+          "postBacklinkComment": true,
+          "backlinkUrl": "https://example.invalid/kanbalone/review"
+        }
+      },
+      {
+        "kind": "save",
+        "status": 201,
+        "body": {
+          "provider": "github",
+          "laneId": 1,
+          "url": "https://github.com/example/catalog-sample/issues/22",
+          "postBacklinkComment": false
+        }
+      }
+    ],
+    "simulatedBacklinks": [
+      {
+        "kind": "simulated-backlink",
+        "issueKey": "21",
+        "bodyMarkdown": "Imported into Kanbalone as Design Studio#1: https://example.invalid/kanbalone/review"
+      }
+    ],
+    "unhandledPageErrors": 0
+  },
+  "passed": true,
+  "checkedAtUtc": "2026-11-24T13:27:16.874817+00:00"
+}

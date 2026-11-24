@@ -128,7 +128,7 @@
   font-size: var(--font-size-label);
 }
 
-.editor-remote-backlink-toggle {
+.editor-remote-import-form .editor-remote-backlink-toggle {
   display: flex;
   align-items: center;
   gap: 0.55rem;
@@ -136,8 +136,11 @@
   font-size: var(--font-size-label);
 }
 
-.editor-remote-backlink-toggle input {
+.editor-remote-backlink-toggle > input[type="checkbox"] {
+  flex: none;
+  width: auto;
   margin: 0;
+  padding: 0;
 }
 
 .editor-remote-import-preview {
