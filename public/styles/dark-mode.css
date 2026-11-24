@@ -1,10 +1,5 @@
 @media (prefers-color-scheme: dark) {
-  button {
-    border-color: var(--border-soft);
-    background: var(--surface-inset);
-    color: var(--text-strong);
-  }
-
+  button,
   .import-button {
     border-color: var(--border-soft);
     background: var(--surface-inset);
@@ -95,11 +90,7 @@
     color: var(--text-strong);
   }
 
-  button:hover {
-    border-color: var(--border-strong);
-    background: var(--surface-2);
-  }
-
+  button:hover,
   .import-button:hover {
     border-color: var(--border-strong);
     background: var(--surface-2);
