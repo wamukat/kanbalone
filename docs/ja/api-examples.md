@@ -491,7 +491,7 @@ curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
 
 非空のGroupや古いrevisionは拒否します。Groupの削除でチケットを連鎖削除しません。配布APIヘルパーは `If-Match` を指定できないため、この操作には `curl` を使います。
 
-## 保存した横断ビュー（未リリース）
+## 保存した横断ビュー
 
 このAPIはv1.3.0には含まれません。実行環境のバージョンを確認してから利用してください。`GET /api/custom-views/catalog` でボード・タグIDを取得します。以下のIDは合成例です。
 

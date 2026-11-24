@@ -214,7 +214,7 @@ By default, completed tickets stay in the list with a check mark and subdued tex
 
 **Active** shows Groups with unresolved, unarchived tickets, plus empty Groups. Find Groups whose work is finished under **All**.
 
-**Open only** (unreleased): use the control above the ticket list to hide completed tickets in the selected Group or **No Group**. It starts off, and this browser remembers the choice separately for each board. **Show archived tickets** remains an independent condition. A completed parent with an open child stays as a labelled, non-interactive reference row so the relationship remains visible. To open that parent’s details, turn the filter off and enable **Show archived tickets** if the parent is archived.
+Starting in v1.4.0, use **Open only** above the ticket list to hide completed tickets in the selected Group or **No Group**. It starts off, and this browser remembers the choice separately for each board. **Show archived tickets** remains an independent condition. A completed parent with an open child stays as a labelled, non-interactive reference row so the relationship remains visible. To open that parent’s details, turn the filter off and enable **Show archived tickets** if the parent is archived.
 
 This filter changes the ticket list; Group-wide progress and membership counts still describe the whole Group. The Group’s open count continues to exclude archived tickets. It does not change ticket completion or Group membership, and it does not change the completion filters in other views.
 
@@ -261,7 +261,7 @@ Kanbalone does not include authentication. Do not expose it directly to untruste
 
 ## Custom views across boards
 
-This section describes the unreleased custom-view feature in the source tree. Use the guide from your installed release tag when running a published image.
+Custom views are available starting in v1.4.0.
 
 Open **Custom views** in the sidebar to save a named list across boards. Choose all boards or specific boards, then configure tags separately for each board. Tags on one board match with OR; a ticket appears once even if several tags match.
 

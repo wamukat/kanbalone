@@ -491,7 +491,7 @@ curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
 
 A nonempty Group or a stale revision is rejected; deleting a Group never deletes its tickets. The bundled API helper does not supply `If-Match`, so use `curl` for this operation.
 
-## Saved cross-board views (unreleased)
+## Saved cross-board views
 
 This API is not part of v1.3.0. Check your installed version before using the source-tree endpoints. Discover board and tag IDs with `GET /api/custom-views/catalog`; example IDs below are synthetic.
 
