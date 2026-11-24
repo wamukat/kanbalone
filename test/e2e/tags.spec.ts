@@ -73,19 +73,21 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await page.locator(".sidebar-tag-form .ux-color-enable-switch").click();
     await expect(colorToggle).toBeChecked();
     await expect(colorPicker).toHaveValue("#1f6f5f");
-    await hexField.focus();
+    await page.setViewportSize({ width: 240, height: 900 });
+    await hexField.fill("#DDDDDD");
     const focusRing = await hexField.evaluate(field => getComputedStyle(field).boxShadow);
     expect(focusRing).not.toBe("none");
     await hexField.press("Tab");
     await expect(colorPicker).toBeFocused();
     await expect(colorPicker).toHaveCSS("box-shadow", focusRing);
-    const colorInputWidths = await page.locator(".sidebar-tag-form .ux-color-row").evaluate((row) => {
-      const [switchCell, hexInput, colorCell] = [...row.children].map((child) => child.getBoundingClientRect().width);
-      return { switchCell, hexInput, colorCell };
-    });
-    expect(Math.abs(colorInputWidths.switchCell - colorInputWidths.hexInput)).toBeLessThan(2);
-    expect(Math.abs(colorInputWidths.colorCell - colorInputWidths.switchCell * 2 / 3)).toBeLessThan(2);
-    await page.locator(".sidebar-tag-form [data-field-id='color']").fill("#336699");
+    const { clientWidth, scrollWidth, scrollLeft } = await hexField.evaluate((input) => ({
+      clientWidth: input.clientWidth,
+      scrollWidth: input.scrollWidth,
+      scrollLeft: input.scrollLeft,
+    }));
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
+    expect(scrollLeft).toBe(0);
+    await hexField.fill("#336699");
     const updateResponse = page.waitForResponse(
       (response) =>
         response.url().includes("/api/tags/") &&

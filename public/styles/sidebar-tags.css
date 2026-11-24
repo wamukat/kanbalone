@@ -136,7 +136,8 @@
 }
 
 .sidebar-tag-form .ux-color-row {
-  grid-template-columns: minmax(3rem, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+  /* Reserve room for seven hex characters and the input padding. */
+  grid-template-columns: minmax(3rem, 3fr) minmax(7rem, 3fr) minmax(2rem, 2fr);
 }
 
 .sidebar-tag-form-error {
