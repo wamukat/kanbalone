@@ -360,12 +360,14 @@ export async function verifyUpgradeRestore(
           if (storage === "volume")
             await maintain("require('fs').chownSync('/app/data',1000,1000)");
           const snapshot = async () => JSON.parse(await maintain(dumpCode));
+          // Forward Docker's stop signal to Node instead of waiting for the PID 1 kill timeout.
           const start = async (image, dbFile = "/app/data/kanbalone.sqlite") => {
             const name = `${prefix}-${containers.size}`;
             containers.add(name);
             await runCommand("docker", [
               "run",
               "-d",
+              "--init",
               "--name",
               name,
               "--platform",

@@ -299,6 +299,7 @@ test("publication rejects untrusted or unavailable candidate IDs before contacti
     ["attempt from a PR", { source: { event: "pull_request" } }, /Release workflow dispatched on main/],
     ["in-progress attempt", { source: { status: "in_progress" } }, /completed successfully/],
     ["failed attempt", { source: { conclusion: "failure" } }, /completed successfully/],
+    ["cancelled attempt", { source: { conclusion: "cancelled" } }, /completed successfully/],
     ["workflow checkout outside main", { fail: (file: string, args: string[]) => file === "git" && args.includes(workflowSha) }, /outside main history/],
     ["download fails", { downloadFailed: true }, /Could not download candidate artifact/],
     ["download checksum mismatch", { badZip: true }, /ZIP digest mismatch/],
@@ -376,11 +377,11 @@ test("stable publication rejects conflicting public digests and advances latest 
   assert.ok(pulls.every(i => i < latestPush));
 });
 
-test("the workflow keeps candidate verification out of the publication job graph", () => {
+test("the workflow runs dry-run verification and image checks in parallel and publishes separately", () => {
   const workflow = readFileSync(new URL("../.github/workflows/release.yml", import.meta.url), "utf8");
   assert.match(workflow, /^  preflight:\n    if: github\.ref == 'refs\/heads\/main'/m);
   assert.match(workflow, /^  verify:\n    if: '!inputs\.publish'\n    needs: preflight$/m);
-  assert.match(workflow, /^  image:\n    if: '!inputs\.publish'\n    needs: \[preflight, verify\]$/m);
+  assert.match(workflow, /^  image:\n    if: '!inputs\.publish'\n    needs: preflight$/m);
   assert.match(workflow, /^  publish:\n    if: inputs\.publish\n    needs: preflight$/m);
   const [dryRun, publish] = workflow.split(/^  publish:\n/m);
   assert.match(dryRun, /name: release-image-\$\{\{ inputs\.version \}\}-attempt-\$\{\{ github\.run_attempt \}\}/);
