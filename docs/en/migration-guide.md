@@ -400,6 +400,8 @@ An export uses format 3 when a ticket body, comment or Group description embeds 
 
 For full instance recovery or data larger than the portable JSON limit, use the [database and image backup](#database-and-image-backup). To return to v1.0.0, restore the pre-upgrade backup with the v1.0.0 image.
 
-## Saved cross-board view definitions (unreleased)
+## Saved cross-board view definitions (v1.4.0)
 
-Custom views add their own definition and query-revision tables without changing ticket membership or completion state. The database initializes them automatically; it does not migrate browser-local board filters into saved views. Back up the database and attachments together before upgrading. A full database restore retains saved definitions and their board/tag IDs. Single-board JSON exports contain board data only and do not transfer these definitions; an imported board receives new IDs and is not silently attached to an existing view. Deleted references remain explicit rather than widening the filter.
+On startup, v1.4.0 automatically creates the saved-view definition and query-revision tables and installs the associated change-tracking triggers. Ticket membership, completion state and browser-local board filters are preserved. [Back up the database and attachments together](#database-and-image-backup) before upgrading. For rollback, use the previous image with the pre-upgrade backup. The restore recovers data saved as of the backup.
+
+A full database restore retains saved definitions and their board and tag IDs. A single-board JSON export transfers board data. Imported boards receive new IDs. Saved views keep their original references, and deleted references appear as warnings.

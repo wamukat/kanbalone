@@ -263,9 +263,9 @@ Creation previews use `id: 0, clientRef: "new"` for the proposed ticket, includi
 
 Machine-readable conflict codes: `GROUP_CONFLICT` requires choosing a preview candidate; `GROUP_ALREADY_ASSIGNED` requires remove then add; `GROUP_NOT_EMPTY` forbids deletion; `GROUP_NAME_EXISTS` requires a distinct name. `STALE_GROUP`, `STALE_GROUP_CONTEXT`, `STALE_TICKET_EDIT`, and `STALE_RELATIONS` require re-reading and reviewing changed state. `PRECONDITION_REQUIRED` identifies a missing runtime precondition. Invalid Group, ticket, or relation inputs return 400 (including `GROUP_WRITE_ENDPOINT` when membership is sent through ticket PATCH).
 
-## Saved cross-board views (unreleased)
+## Saved cross-board views
 
-This API is not part of v1.3.0. Check your installed version before using the source-tree endpoints. Discover board and tag IDs with `GET /api/custom-views/catalog`; example IDs below are synthetic.
+This API is available starting in v1.4.0. Discover board and tag IDs with `GET /api/custom-views/catalog`. The examples use synthetic IDs.
 
 Create a definition with `POST /api/custom-views`:
 

@@ -322,4 +322,4 @@ Group error codes (schema validation and generic errors may omit `code`):
 | 409 | `STALE_GROUP / STALE_GROUP_CONTEXT / STALE_TICKET_EDIT / STALE_RELATIONS` | Reload and review the changed state before retrying. |
 | 428 | `PRECONDITION_REQUIRED` | Supply the required runtime edit/preview token or If-Match. |
 
-Saved cross-board views have separate definition and query APIs. They do not change ticket membership or workflow. See [the unreleased custom-view contract](./api-examples.md#saved-cross-board-views-unreleased) for explicit empty filters, stale-page handling and optimistic saves.
+Saved cross-board views have separate definition and query APIs. They do not change ticket membership or workflow. See [the custom-view contract](./api-examples.md#saved-cross-board-views) for explicit empty filters, stale-page handling and optimistic saves.
