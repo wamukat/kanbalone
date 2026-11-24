@@ -15,7 +15,7 @@
 | ボタン | `public/styles/components.css` の基礎定義と `.primary-action`、`.ghost`、`.danger`、`.danger-confirm-action`、`.icon-button`。ボード入出力、チケット・設定・確認・一括操作で使用。 | 通常、主操作、危険な操作への入口、破壊的な確定、アイコン専用。ツールバー・表のコンパクトな寸法、ファイル選択ラベル、余白と並び方は利用先の条件。 | ボード出力ボタンと取り込みラベルの共通宣言を整理する（P4）。同じ見た目、ネイティブファイル選択、通常・危険・キーボード状態を確認。代表は `test/e2e/layout-visual-system.spec.ts` と `test/e2e/board.spec.ts`。 |
 | 文字・検索・複数行入力 | `public/styles/forms.css` と `dark-mode.css` の面・枠・文字・フォーカス。対象はボードツールバー、チケット作成・編集、取り込み、移動、Group検索。ボード名変更は `sidebar-board-settings.css`、タグ作成は `sidebar-tags.css` の個別宣言。短い名前入力の確定・取消には `public/app-inline-text-form.js`。 | 単一行と複数行、ネイティブ検索、外側の枠がフォーカスを示す検索・ピッカー。行数、添付、レーンやサイドバーでの幅・密度は利用先の仕様。 | 型で適用範囲を絞り、ボード改名とタグ作成の同値宣言を整理（P5）。コメントの編集本文の左右余白は投稿側と比較（P7）。代表は `layout-visual-system.spec.ts` と `layout-toolbar.spec.ts` の入力・配置・フォーカス。 |
 | ネイティブselect | `public/styles/forms.css` と `custom-views.css` のネイティブ選択。利用先はレーン・タグの条件、チケット入力、移動先、カスタムビューの条件と並び順。 | 選択値の文字とラベルの強調、用途別の幅・候補。無効、空候補、値欠損、読み直し、一時変更と保存は利用操作に従う。 | 入力型の責務と同時に確認（P5）。並び順selectの2箇所だけ値の文字の太さを揃える（P7）。代表は `layout-toolbar.spec.ts` と `custom-view-lanes-order.spec.ts`。 |
-| チェックとラジオ | Listの行・全選択、完了レーン、カスタムビュー、取り込みにネイティブのチェック入力を使用。カスタムビューの対象範囲はネイティブのラジオ、取り込みのプロバイダー選択はボタンとARIAのラジオ。任意色の既存スイッチは `public/styles/toggles.css` と `app-ux-color-field.js`。 | チェック、部分選択、プロバイダーのボタン型ラジオ、任意色のスイッチ。操作可能な入力、読み取り専用の記号、内部のhidden入力を区別。 | 取り込みのリンク投稿欄を局所是正（P1）。入力型整理の回帰（P5）。`ticket-editor-remote-import.spec.ts` と `test/app-remote-import-api.test.ts` を利用して選択・送信値・保存と、模擬連携で投稿回数を確認。 |
+| チェックとラジオ | Listの行・全選択、完了レーン、カスタムビュー、取り込みにネイティブのチェック入力を使用。カスタムビューの対象範囲はネイティブのラジオ、取り込みのプロバイダー選択はボタンとARIAのラジオ。任意色の既存スイッチは `public/styles/toggles.css` と `app-ux-color-field.js`。 | チェック、部分選択、プロバイダーのボタン型ラジオ、任意色のスイッチ。操作可能な入力、読み取り専用の記号、内部のhidden入力を区別。 | 取り込みのリンク投稿欄は専用の横並びラベルと自然幅のネイティブチェックを使用する。広域の入力型整理は整備予定（P5）。`ticket-editor-remote-import.spec.ts` と `test/app-remote-import-api.test.ts` を利用して選択・送信値・保存と、模擬連携で投稿回数を確認。 |
 | ダイアログ | `public/styles/dialog-shell.css` と `app-dialogs.js`。チケットは `app-editor.js`、確認・移動は `app-ux.js`。両方の枠が、それぞれ枠線・背景・影を指定する。 | チケット編集の `show()` と、確認の `showModal()`。独自背景・ネイティブbackdrop、ドラッグ、リサイズ、閉じる操作とフォーカス復帰。 | チケット枠の前景をテーマの本文色にする（P2）。明暗の本文・補足・警告、Esc、取消、保存中、フォーカスを確認。代表は `layout-visual-system.spec.ts` と `ticket-view-styles.spec.ts`。 |
 | 文字・メタ情報・面 | `public/styles/tokens.css` の文字階層、`.muted`、チケット詳細の `ticket-detail.css` と `comments-activity.css`。利用先は本文、コメント、アクティビティ、各日時・補足。 | 主題・値・補足・状態の文字階層。面とコンテンツの前景、行高、折返し、項目間の区切り。画面ごとの領域配置を保持。 | 一致する面とメタ行の宣言を整理（P6）。明暗の本文・コメント・活動、入力と切替時の周辺位置・スクロールを比較する。 |
 | タグ・状態・優先度 | `public/app-tags.js`、`app-ticket-status.js`、`app-priority.js` が値、色、記号を描く。Kanban、List、Group、カスタムビューの一覧とチケット詳細で、役割に応じた共通描画を使用。 | 読取タグと解除チップ、一覧の状態記号と詳細で復元できる状態ピル。優先度バッジ・コンパクトなアイコン、指定色、長い名前、完了とアーカイブの区別。 | 新規利用と整備後の参照先を対象一覧で照合（P9）。代表は `ticket-view-styles.spec.ts` と `group-presentation.spec.ts`。仮想行、親子、移動の実装は各画面で保つ。 |
@@ -41,3 +41,9 @@
 3. 固定版の画像・計測・分類はその版の記録として残す。現在の規則や検証先はこの契約で更新し、変更版の結果は実際に測った版に結び付ける。トークン参照の新しい検査や既存利用先の最終照合は計画P8・P9で確認する。
 
 画像の添付、受け入れ前の確認、既存のPRルールは引き続き[UI/UXレビュー規則](ui-ux-review.md#per-ticket-image-evidence-required)に従います。
+
+## リモート取り込みのチェック欄
+
+`public/styles/ticket-editor.css` の `.editor-remote-import-form .editor-remote-backlink-toggle` がラベルを横並びにし、その直下のcheckboxのみ幅・余白を指定します。他のテキスト、URL、プロバイダー選択の表示は共通化の対象に含めません。ラベルクリックとSpace、チェック解除時の任意URLの消去・無効化、取消後の再開、送信値と保存を既存の操作契約として維持します。
+
+[同条件の変更前後と操作・保存結果](evidence/2026-11-24-remote-check-layout/README.md)。回帰検証は `test/e2e/ticket-editor-remote-import.spec.ts` と `test/app-remote-import-api.test.ts` です。
