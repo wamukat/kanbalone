@@ -4,7 +4,7 @@ import type { FastifyInstance, FastifyReply } from "fastify";
 import type { BoardEventHub } from "../board-event-hub.js";
 import { getCustomViewCatalog, getCustomViewText, queryCustomView } from "../db-modules/custom-view-query.js";
 import {
-  createCustomView, deleteCustomView, getCustomView, listCustomViews, updateCustomView, type CustomViewDefinition,
+  createCustomView, customViewSorts, deleteCustomView, getCustomView, listCustomViews, updateCustomView, type CustomViewDefinition,
 } from "../db-modules/custom-views.js";
 
 const base = "/api/custom-views";
@@ -18,16 +18,21 @@ const definitionProperties = {
     type: "array",
     items: {
       type: "object", additionalProperties: false, required: ["boardId", "mode", "tagIds"],
-      properties: { boardId: id, mode: { type: "string", enum: ["all", "tags"] }, tagIds: ids },
+      properties: {
+        boardId: id, mode: { type: "string", enum: ["all", "tags"] }, tagIds: ids,
+        laneMode: { type: "string", enum: ["all", "selected"] }, laneIds: ids,
+      },
     },
   },
   completion: { type: "string", enum: ["open", "done", "all"] },
+  sort: { type: "string", enum: customViewSorts },
   showBody: { type: "boolean" },
   showLatestComment: { type: "boolean" },
 };
 
 const definitionSchema = {
-  type: "object", additionalProperties: false, required: Object.keys(definitionProperties), properties: definitionProperties,
+  type: "object", additionalProperties: false,
+  required: Object.keys(definitionProperties).filter(key => key !== "sort"), properties: definitionProperties,
 };
 
 const params = {
@@ -35,23 +40,25 @@ const params = {
 };
 
 function normalizeDefinition(definition: CustomViewDefinition): CustomViewDefinition | null {
-  const { scope, boardIds, rules, completion, showBody, showLatestComment } = definition;
+  const { scope, boardIds, rules, completion, sort, showBody, showLatestComment } = definition;
   const name = definition.name.trim();
-  if (!name || rules.some(rule => rule.mode === "all" && rule.tagIds.length > 0)
+  if (!name || rules.some(({ mode, tagIds, laneMode, laneIds }) =>
+    (mode === "all" && tagIds.length > 0) || ((laneMode === undefined) !== (laneIds === undefined))
+    || (laneMode === "all" && laneIds?.length))
     || new Set(rules.map(rule => rule.boardId)).size !== rules.length) return null;
-  return { name, scope, boardIds, rules: rules.map(({ boardId, mode, tagIds }) => ({ boardId, mode, tagIds })), completion, showBody, showLatestComment };
+  return { name, scope, boardIds, rules, completion, sort, showBody, showLatestComment };
 }
 
 function writeError(reply: FastifyReply, problem: "missing" | "conflict" | "invalid_reference") {
   switch (problem) {
     case "missing": return reply.code(404).send({ error: "custom view not found" });
     case "conflict": return reply.code(409).send({ code: "version_conflict", error: "custom view changed; reload before saving or deleting" });
-    case "invalid_reference": return reply.code(400).send({ code: "invalid_reference", error: "new board and tag references must exist on the configured board" });
+    case "invalid_reference": return reply.code(400).send({ code: "invalid_reference", error: "new board references must exist, and new tag and lane references must belong to their configured board" });
   }
 }
 
 function invalidDefinition(reply: FastifyReply) {
-  return reply.code(400).send({ error: "a name and a single valid rule per configured board are required" });
+  return reply.code(400).send({ error: "provide a name and one valid rule per configured board. Supply both laneMode and laneIds when setting a lane rule" });
 }
 
 export function registerCustomViewRoutes(app: FastifyInstance, sqlite: Database.Database, events: BoardEventHub): void {

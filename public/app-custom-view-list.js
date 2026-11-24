@@ -2,10 +2,14 @@ import { getLocale, t } from "./app-i18n.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
 import { renderPriorityBadge } from "./app-priority.js";
 import { renderTag } from "./app-tags.js";
-import { completionLabel, missingBoard, missingTag, ruleLabel } from "./app-custom-view-settings.js";
+import { completionLabel, missingBoard, missingLane, missingTag, ruleLabel, sortOptions } from "./app-custom-view-settings.js";
+
+export function displayChanged(display, view) {
+  return display.showBody !== view.showBody || display.showLatestComment !== view.showLatestComment || display.sort !== (view.sort ?? "position_asc");
+}
 
 export function renderCustomView({ view, display, page, catalog, pageIndex, pageSize, esc }) {
-  const dirty = display.showBody !== view.showBody || display.showLatestComment !== view.showLatestComment;
+  const dirty = displayChanged(display, view);
   const boards = new Map(catalog.map(board => [board.id, board]));
   const rules = new Map(view.rules.map(rule => [rule.boardId, rule]));
   const rows = new Map();
@@ -43,11 +47,20 @@ export function renderCustomView({ view, display, page, catalog, pageIndex, page
 
   function condition(boardId) {
     const rule = rules.get(boardId);
-    if (rule?.mode !== "tags") return ruleLabel(rule?.mode);
-    const tags = new Map(boards.get(boardId)?.tags.map(tag => [tag.id, tag.name]));
-    return rule.tagIds.length
-      ? t("Any tag: {tags}", { tags: rule.tagIds.map(id => tags.get(id) ?? missingTag(id)).join(" / ") })
-      : t("All tags off (0 matches)");
+    const board = boards.get(boardId);
+    let tags = ruleLabel(rule?.mode);
+    if (rule?.mode === "tags") {
+      const names = new Map(board?.tags.map(tag => [tag.id, tag.name]));
+      tags = rule.tagIds.length
+        ? t("Any tag: {tags}", { tags: rule.tagIds.map(id => names.get(id) ?? missingTag(id)).join(" / ") })
+        : t("All tags off (0 matches)");
+    }
+    if (rule?.laneMode !== "selected") return tags;
+    const names = new Map(board?.lanes?.map(lane => [lane.id, lane.name]));
+    const lanes = rule.laneIds.length
+      ? t("Lanes: {lanes}", { lanes: rule.laneIds.map(id => names.get(id) ?? missingLane(id)).join(" / ") })
+      : t("No lanes selected (0 matches)");
+    return `${tags} · ${lanes}`;
   }
 
   function group({ boardId, boardName, count }) {
@@ -64,12 +77,15 @@ export function renderCustomView({ view, display, page, catalog, pageIndex, page
     </p></div><button type="button" data-view-action="edit">${t("Edit view")}</button></header>
     <div class="cv-toolbar"><strong id="custom-view-total">${esc(countLabel(page.total))}</strong>
       <div class="cv-choices">
+        <label class="cv-order">${t("Order within boards")}<select data-view-appearance="sort">${sortOptions(display.sort, esc)}</select></label>
         ${[["showBody", t("Body")], ["showLatestComment", t("Latest comment")]].map(([key, label]) => `<label><input type="checkbox" data-view-appearance="${key}" ${display[key] ? "checked" : ""}> ${label}</label>`).join("")}
         ${dirty ? `<button type="button" data-view-action="save-display">${t("Save display settings")}</button><button type="button" data-view-action="revert-display">${t("Revert")}</button>` : ""}
       </div></div>
-    ${page.warnings.filter(warning => warning.kind === "missing_board" || warning.kind === "missing_tag").map(warning => {
+    ${page.warnings.filter(warning => ["missing_board", "missing_tag", "missing_lane"].includes(warning.kind)).map(warning => {
       const board = boards.get(warning.boardId)?.name ?? missingBoard(warning.boardId);
-      const message = warning.kind === "missing_tag" ? t("{board}: {tag} is unavailable.", { board, tag: missingTag(warning.tagId) }) : t("{board} is unavailable.", { board });
+      let message = t("{board} is unavailable.", { board });
+      if (warning.kind === "missing_tag") message = t("{board}: {tag} is unavailable.", { board, tag: missingTag(warning.tagId) });
+      if (warning.kind === "missing_lane") message = t("{board}: {lane} is unavailable.", { board, lane: missingLane(warning.laneId) });
       return `<p class="cv-warning">${esc(message)}</p>`;
     }).join("")}
     ${page.total === 0 ? `<p class="cv-empty">${t("No tickets match. Edit the view to change its filters.")}</p>` : ""}

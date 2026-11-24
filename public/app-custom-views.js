@@ -1,6 +1,6 @@
 import { t } from "./app-i18n.js";
 import { createViewSettings, definitionOf, emptyDefinition } from "./app-custom-view-settings.js";
-import { renderCustomView } from "./app-custom-view-list.js";
+import { displayChanged, renderCustomView } from "./app-custom-view-list.js";
 import { PAGE_SIZE, readViewPage } from "./app-custom-view-pages.js";
 
 export function createCustomViews(ctx) {
@@ -31,6 +31,7 @@ export function createCustomViews(ctx) {
   let index = 0;
   let cursors = [null];
   let cursorDefinition;
+  let pageSort;
   let opening = 0;
   let session = 0;
   let request = 0;
@@ -47,7 +48,7 @@ export function createCustomViews(ctx) {
   let summaries = [];
   let lastLinks;
 
-  const appearanceOf = v => ({ showBody: v.showBody, showLatestComment: v.showLatestComment });
+  const appearanceOf = v => ({ showBody: v.showBody, showLatestComment: v.showLatestComment, sort: v.sort ?? "position_asc" });
   const currentPath = () => id ? `/views/${id}` : "/views/new";
   const isDirty = () => Boolean(settings && JSON.stringify(settings.readDefinition()) !== initialForm);
 
@@ -115,7 +116,8 @@ export function createCustomViews(ctx) {
     const nextDisplay = displayVersion == null ? appearanceOf(nextSaved) : display;
     const def = { ...definitionOf(nextSaved), ...nextDisplay };
     const key = JSON.stringify(def);
-    const result = await readViewPage(query, def, key === cursorDefinition ? cursors : [null], targetIndex, valid);
+    const orderChanged = page && pageSort !== nextDisplay.sort;
+    const result = await readViewPage(query, def, key === cursorDefinition ? cursors : [null], orderChanged ? 0 : targetIndex, valid);
     if (!valid() || !result) return;
     const changed = !page || !saved || nextSaved.version !== saved.version
       || (nextCatalog !== catalog && JSON.stringify(nextCatalog) !== JSON.stringify(catalog))
@@ -128,6 +130,8 @@ export function createCustomViews(ctx) {
     index = result.index;
     cursors = result.cursors;
     cursorDefinition = key;
+    pageSort = nextDisplay.sort;
+    if (orderChanged) panel.scrollTop = 0;
     if (changed || force) paint();
   }
 
@@ -419,8 +423,8 @@ export function createCustomViews(ctx) {
     const property = event.target.dataset.viewAppearance;
     if (!property) return;
     displayVersion ??= saved.version;
-    display = { ...display, [property]: event.target.checked };
-    if (display.showBody === saved.showBody && display.showLatestComment === saved.showLatestComment) displayVersion = null;
+    display = { ...display, [property]: property === "sort" ? event.target.value : event.target.checked };
+    if (!displayChanged(display, saved)) displayVersion = null;
     try { await refresh({ force: true }); } catch (error) { report(error); }
   });
   panel.addEventListener("click", async event => {

@@ -17,6 +17,7 @@ import {
   validateParentTicket,
 } from "./ticket-writes.js";
 import { getTicketRemoteLink } from "./remote-tracking.js";
+import { recordTicketContentActivity } from "./ticket-content-activity.js";
 import {
   addBoardMoveActivity,
   addTicketActivity,
@@ -123,6 +124,7 @@ export function createTicket(
         createdAt,
       );
     const ticketId = Number(result.lastInsertRowid);
+    recordTicketContentActivity(sqlite, ticketId, createdAt);
     applyTicketGroupPlan(sqlite, groupPlan, ticketId, now());
     replaceTicketTags(sqlite, ticketId, input.tagIds ?? []);
     replaceTicketBlockers(sqlite, ticketId, input.blockerIds ?? [], input.boardId);
@@ -170,11 +172,14 @@ export function updateTicket(
     applyTicketGroupPlan(sqlite, groupPlan, undefined, now());
     const boardChanged = nextBoardId !== current.boardId;
     if (boardChanged) { clearGroupForBoardMove(sqlite, ticketId, current.boardId, now()); cleanupTicketForBoardMove(sqlite, ticketId, nextBoardId); }
+    const updatedAt = now();
+    const bodyChanged = input.bodyMarkdown != null && sqlite.prepare("SELECT body_markdown IS NOT ? FROM tickets WHERE id = ?")
+      .pluck().get(input.bodyMarkdown, ticketId) === 1;
     sqlite
       .prepare(
         `
         UPDATE tickets
-        SET group_id = CASE WHEN board_id <> ? THEN NULL ELSE group_id END, board_id = ?, lane_id = ?, parent_ticket_id = ?, title = ?, body_markdown = ?, is_resolved = ?, is_archived = ?, priority = ?, updated_at = ?
+        SET group_id = CASE WHEN board_id <> ? THEN NULL ELSE group_id END, board_id = ?, lane_id = ?, parent_ticket_id = ?, title = ?, body_markdown = COALESCE(?, body_markdown), is_resolved = ?, is_archived = ?, priority = ?, updated_at = ?
         WHERE id = ?
         `,
       )
@@ -189,13 +194,14 @@ export function updateTicket(
           nextBoardId,
         ),
         input.title ?? current.title,
-        input.bodyMarkdown ?? current.bodyMarkdown,
+        input.bodyMarkdown ?? null,
         Number(laneCompletion(sqlite, nextLaneId, input.isResolved, nextBoardId)),
         typeof input.isArchived === "boolean" ? Number(input.isArchived) : Number(current.isArchived),
         input.priority == null ? current.priority : sanitizePriority(input.priority),
-        now(),
+        updatedAt,
         ticketId,
       );
+    if (bodyChanged) recordTicketContentActivity(sqlite, ticketId, updatedAt);
     if (input.tagIds) {
       replaceTicketTags(sqlite, ticketId, input.tagIds);
     }

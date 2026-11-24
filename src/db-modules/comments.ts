@@ -4,6 +4,7 @@ import { mapActivityLog, mapComment } from "./mappers.js";
 import { defaultCommentRemoteSync, getCommentRemoteSync, upsertCommentRemoteSync } from "./remote-tracking.js";
 import { addActivity as insertActivity } from "./ticket-writes.js";
 import { getCommentsForTicketIds } from "./ticket-loaders.js";
+import { recordTicketContentActivity } from "./ticket-content-activity.js";
 import type {
   ActivityLogRow,
   ActivityLogView,
@@ -34,6 +35,7 @@ export function addComment(
   const result = sqlite
     .prepare("INSERT INTO comments (ticket_id, body_markdown, created_at) VALUES (?, ?, ?)")
     .run(input.ticketId, input.bodyMarkdown, now);
+  recordTicketContentActivity(sqlite, input.ticketId, now);
   insertActivity(sqlite, {
     boardId,
     ticketId: input.ticketId,
@@ -112,6 +114,7 @@ export function updateComment(
   sqlite
     .prepare("UPDATE comments SET body_markdown = ? WHERE id = ?")
     .run(input.bodyMarkdown, input.commentId);
+  if (input.bodyMarkdown !== current.body_markdown) recordTicketContentActivity(sqlite, current.ticket_id, now);
   insertActivity(sqlite, {
     boardId: current.board_id,
     ticketId: current.ticket_id,

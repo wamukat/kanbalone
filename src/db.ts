@@ -333,7 +333,7 @@ export class KanbanDb {
   }
 
   addComment(input: CreateCommentInput): CommentView {
-    return addComment(this.sqlite, input, this.now());
+    return this.sqlite.transaction(() => addComment(this.sqlite, input, this.now())).immediate();
   }
 
   listComments(ticketId: Id, options: { limit?: number; order?: "asc" | "desc" } = {}): CommentView[] {
@@ -345,7 +345,7 @@ export class KanbanDb {
   }
 
   updateComment(input: UpdateCommentInput): CommentView {
-    return updateComment(this.sqlite, input, this.now());
+    return this.sqlite.transaction(() => updateComment(this.sqlite, input, this.now())).immediate();
   }
 
   getTicketRemoteLink(ticketId: Id): TicketRemoteLinkView | null {

@@ -188,7 +188,9 @@ test("keeps empty, unfiltered, missing, and new board rules distinct in the view
     await expect(page.locator(group(data.a)).getByText("0 tickets", { exact: true })).toBeVisible();
     await expect(ticketLink(page, data.first.id)).toHaveCount(0);
     const persisted = await (await page.request.get(`${baseUrl}${viewApi}/${saved.id}`)).json();
-    expect(persisted.rules).toContainEqual({ boardId: data.a, mode: "tags", tagIds: [data.copy.id] });
+    expect(persisted.rules).toContainEqual({
+      boardId: data.a, mode: "tags", tagIds: [data.copy.id], laneMode: "all", laneIds: [],
+    });
     await expect(page.locator(group(data.a))).toContainText(`Deleted tag #${data.copy.id}`);
     const { id: _id, version: _version, ...definition } = persisted;
     const result = await (await page.request.post(baseUrl + viewApi + "/query", { data: { definition } })).json();
