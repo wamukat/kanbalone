@@ -448,14 +448,9 @@ a.ticket-external-reference-ref:hover {
   color: var(--accent);
 }
 
-.comments-list {
-  padding: 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-surface);
-  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
-}
-
-.activity-list {
+.comments-list,
+.activity-list,
+.ticket-view-body {
   padding: 0.7rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-surface);
@@ -463,10 +458,6 @@ a.ticket-external-reference-ref:hover {
 }
 
 .ticket-view-body {
-  padding: 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-surface);
-  background: color-mix(in srgb, var(--surface-1) 70%, transparent);
   line-height: var(--line-height-body);
 }
 
