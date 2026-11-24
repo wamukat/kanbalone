@@ -1,0 +1,747 @@
+{
+  "beforeProduct": "1b2588380e764e9c31fa99c7bf6a4103826a0c9e",
+  "beforeBuiltFrom": "2ff8489d889706a6dc6392fd28aeff073e0b515c",
+  "afterProductFingerprint": "98960edd476fb09bdb20b0aaaea2c1a3dad35ba596c79d04c4633d241471d926",
+  "productFilesVerified": 234,
+  "changedProductFiles": [
+    "public/styles/ticket-editor.css"
+  ],
+  "measurement": {
+    "before": {
+      "phase": "before",
+      "source": "1b2588380e764e9c31fa99c7bf6a4103826a0c9e",
+      "capturedAtUtc": "2026-11-24T13:23:12.921305+00:00",
+      "syntheticProvidersOnly": true,
+      "frames": [
+        {
+          "variant": "ja-light",
+          "sha256": "2931be8da396ab18551ba3e452d5fee7c062f3ed2ef78a4f06216cb71f28c75f",
+          "image": "before-ja-light.png",
+          "pngBytes": 127313,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "ja",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "grid",
+              "gap": "4.2px",
+              "height": 34.578125,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": true,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 376.609375
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": false,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 430.484375
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        },
+        {
+          "variant": "ja-dark",
+          "sha256": "18c9e3de83b22b3a5b4a6a719e7174da00f64ef6d96312c71653c5fff062ec9e",
+          "image": "before-ja-dark.png",
+          "pngBytes": 117653,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "ja",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "grid",
+              "gap": "4.2px",
+              "height": 34.578125,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": true,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 376.609375
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": false,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 430.484375
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "rgb(16, 21, 17)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        },
+        {
+          "variant": "en-light",
+          "sha256": "dfa90c9db68c7d881e5afa617d0e372927e994bfc4e75b41197946616554807d",
+          "image": "before-en-light.png",
+          "pngBytes": 119938,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "en",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "grid",
+              "gap": "4.2px",
+              "height": 34.578125,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": true,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 376.609375
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": false,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 430.484375
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        },
+        {
+          "variant": "en-dark",
+          "sha256": "d42c95a8d35aba52412813b31d1aedb638d9050a9ea10c6605ecfdc9a0188dac",
+          "image": "before-en-dark.png",
+          "pngBytes": 110649,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "en",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "grid",
+              "gap": "4.2px",
+              "height": 34.578125,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": true,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 376.609375
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": false,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 430.484375
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "rgb(16, 21, 17)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        }
+      ]
+    },
+    "after": {
+      "phase": "after",
+      "source": "98960edd476fb09bdb20b0aaaea2c1a3dad35ba596c79d04c4633d241471d926",
+      "capturedAtUtc": "2026-11-24T13:24:18.720620+00:00",
+      "syntheticProvidersOnly": true,
+      "frames": [
+        {
+          "variant": "ja-light",
+          "sha256": "121dc8a4de007fe534fcc4d827f2f9be1a8f7618be6e7d3cf4c02925a507fa6d",
+          "image": "after-ja-light.png",
+          "pngBytes": 126896,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "ja",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "flex",
+              "gap": "7.7px",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": true,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 13,
+              "x": 595,
+              "y": 361.609375
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 209.515625,
+              "x": 615.6875,
+              "y": 359.421875
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": false,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 413.296875
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        },
+        {
+          "variant": "ja-dark",
+          "sha256": "c4e7d742eca9f9be26edc4bc16cb09367893770d92f58aaf18d1e63557d2069d",
+          "image": "after-ja-dark.png",
+          "pngBytes": 117720,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "ja",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "flex",
+              "gap": "7.7px",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": true,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 13,
+              "x": 595,
+              "y": 361.609375
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 209.515625,
+              "x": 615.6875,
+              "y": 359.421875
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": false,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 413.296875
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "rgb(16, 21, 17)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        },
+        {
+          "variant": "en-light",
+          "sha256": "c1076c012adc76ce0a32b8a781408654a90f40ac0ecc24572771dcbf6747f7d6",
+          "image": "after-en-light.png",
+          "pngBytes": 120025,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": false,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "en",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "flex",
+              "gap": "7.7px",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": true,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 13,
+              "x": 595,
+              "y": 361.609375
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 189.546875,
+              "x": 615.6875,
+              "y": 359.421875
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": false,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 413.296875
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "color(srgb 1 1 1 / 0.92)",
+              "checked": null,
+              "color": "rgb(21, 32, 28)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        },
+        {
+          "variant": "en-dark",
+          "sha256": "a0c070db42f36354df9c3bfafb10ad9529f3f61d70dbd24a7b9ccec53789b9d5",
+          "image": "after-en-dark.png",
+          "pngBytes": 110217,
+          "meta": {
+            "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+            "dark": true,
+            "focused": true,
+            "footer": "Kanbalone (v1.4.0)",
+            "issue": "https://github.com/example/catalog-sample/issues/9",
+            "lane": "1",
+            "locale": "en",
+            "preview": "Prepare the release notes",
+            "url": "https://example.invalid/kanbalone/review",
+            "viewport": [
+              1440,
+              900,
+              1
+            ]
+          },
+          "geometry": {
+            "row": {
+              "alignItems": "center",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "flex",
+              "gap": "7.7px",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 359.421875
+            },
+            "checkbox": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": true,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 13,
+              "outline": "auto",
+              "width": 13,
+              "x": 595,
+              "y": 361.609375
+            },
+            "label": {
+              "alignItems": "normal",
+              "background": "rgba(0, 0, 0, 0)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 17.390625,
+              "outline": "none",
+              "width": 189.546875,
+              "x": 615.6875,
+              "y": 359.421875
+            },
+            "urlInput": {
+              "alignItems": "normal",
+              "background": "rgb(16, 21, 17)",
+              "checked": false,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 38.375,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 413.296875
+            },
+            "lane": {
+              "alignItems": "center",
+              "background": "rgb(16, 21, 17)",
+              "checked": null,
+              "color": "rgb(238, 244, 241)",
+              "display": "block",
+              "gap": "normal",
+              "height": 39.1875,
+              "outline": "none",
+              "width": 467,
+              "x": 595,
+              "y": 308.234375
+            }
+          },
+          "pageErrors": []
+        }
+      ]
+    }
+  }
+}
