@@ -5,6 +5,7 @@ import {
   createTag,
   createTicket,
   startTestApp,
+  selectBoardFilter,
 } from "./helpers.js";
 
 test("toolbar search aligns with active content edge in kanban and list views", async ({
@@ -192,7 +193,7 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
   }
 });
 
-test("native select filters use the shared toolbar color states", async ({
+test("board filter buttons use the shared toolbar color states", async ({
   page,
 }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -228,8 +229,8 @@ test("native select filters use the shared toolbar color states", async ({
         }
 
         const search = document.querySelector(".toolbar-search");
-        const tagFilter = document.querySelector("#tag-filter");
-        const laneFilter = document.querySelector("#lane-filter");
+        const tagFilter = document.querySelector("#tag-filter-button");
+        const laneFilter = document.querySelector("#lane-filter-button");
         if (!search || !tagFilter || !laneFilter) {
           throw new Error("Filter controls are missing");
         }
@@ -255,12 +256,10 @@ test("native select filters use the shared toolbar color states", async ({
     expect(listColors.lane).toBe(listColors.muted);
     expect(listColors.lane).not.toBe("rgb(0, 0, 0)");
 
-    await page.locator("#tag-filter").selectOption("focus");
-    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
-    await page
-      .locator("#lane-filter")
-      .selectOption(String(boardPayload.lanes[0].id));
-    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
+    await selectBoardFilter(page, "tag", "focus");
+    await expect(page.locator("#tag-filter-button")).toHaveClass(/is-filter-active/);
+    await selectBoardFilter(page, "lane", boardPayload.lanes[0].name);
+    await expect(page.locator("#lane-filter-button")).toHaveClass(/is-filter-active/);
 
     const activeColors = await readFilterColors();
     expect(activeColors.tag).toBe(activeColors.accent);

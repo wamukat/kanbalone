@@ -39,6 +39,7 @@ type ListBoardLane = {
 type ListBoardDetail = {
   tickets: ListBoardTicket[];
   lanes: ListBoardLane[];
+  tags: Array<{ id: number; name: string }>;
 };
 
 type ListBoardState = {

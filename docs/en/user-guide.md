@@ -168,19 +168,19 @@ Your filters stay in place, so you can continue to the next ticket. If the origi
 
 ## 11. Classify Work With Tags
 
-Add tags to classify tickets by type or purpose. Use the tag filter to show tickets with a particular tag.
+Add tags to classify tickets by type or purpose. Open the **Tag** filter in Kanban or List and select the tags you want. A ticket appears if it has any selected tag.
 
 - **Create a tag**: click **＋** under **Tags** in the sidebar.
 - **Change its color**: click the tag.
 - **Add it to a ticket**: choose it under **Tags** when editing. To create a new tag there, enter its name and click **＋**.
 
-![Filtering by tag](../assets/user-guide/10-tag-filter.png)
-
 ## 12. Review In List View
 
 Open **List** in the sidebar to see ticket priorities and resolved or archived states in a table.
 
-Choose a lane to narrow the list, or choose **All lanes** to clear the lane selection.
+Open **Lane** and select one or more lanes. A ticket must be in a selected lane and have any selected tag when both filters are active.
+
+An empty selection includes all lanes or tags. Use **Clear selection** inside a filter to clear that selection, or **Reset filters** in the toolbar to clear all conditions. Selections are saved per board in this browser. If a selected lane or tag is deleted, its choice is removed and any other choices stay selected.
 
 Check tickets to reveal bulk actions.
 

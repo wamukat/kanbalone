@@ -156,7 +156,9 @@ Add query parameters to `GET /api/boards/:boardId/tickets`.
 - Use it first for large-board rendering, filtering, search, and automation scans.
 - It does not include `bodyHtml`, `comments`, `parent`, `children`, or expanded `blockers`.
 - Use `GET /api/tickets/:ticketId` when you need details.
-- Supported filters: `lane_id`, `tag`, `resolved`, `archived`, and `q`.
+- Filter one lane with `lane_id` or its exact name in `lane`. Filter one tag by its exact name in `tag`.
+- `lane_ids=11,12&tag_ids=3,4` matches tickets in one of the selected lanes that have at least one of the selected tags. Omit either comma-separated list to include all values for that field. Use at most one lane parameter and one tag parameter.
+- Use `resolved` for completion and `archived` for archive status.
 - `q` searches title, body Markdown, numeric ticket ID, `#ticketId`, tracked remote refs, and external references.
 - Provider-prefixed shorthand such as `gh#123`, `github#123`, `gl#123`, `gitlab#123`, `rm#123`, and `redmine#123` matches tracked remote links and external references for that provider.
 - `ext#123` / `external#123` searches external references only. `remote#123` searches tracked remote links only.
@@ -256,7 +258,7 @@ Common cases:
 
 ### Filter By Lane Name Or Parent
 
-`GET /api/boards/:boardId/tickets?lane=Doing&resolved=false&parent=101` combines an exact lane name with a direct parent filter. `parent=none` selects root tickets. Unknown lane names or unmatched parent IDs return an empty list. `lane` and the existing `lane_id` are mutually exclusive. Multiple lane names and recursive descendants are not supported.
+`GET /api/boards/:boardId/tickets?lane=Doing&resolved=false&parent=101` combines an exact lane name with a direct parent filter. `parent=none` selects root tickets. Unknown lane names or unmatched parent IDs return an empty list. Choose one of `lane`, `lane_id`, and `lane_ids`.
 
 ### Read Recent Comments
 

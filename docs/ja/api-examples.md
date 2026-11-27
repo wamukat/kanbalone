@@ -322,7 +322,9 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6/transition \
 
 ### レーン名・親で絞り込む
 
-`GET /api/boards/:boardId/tickets?lane=進行中&resolved=false&parent=101` はレーン名の完全一致と直接の親で絞ります。`parent=none` は親なしです。未知のレーン名や該当しない親IDは空一覧になります。既存の `lane_id` と `lane` は同時指定できません。複数レーンや子孫全体の検索はこのAPIには含みません。
+`GET /api/boards/:boardId/tickets?lane=進行中&resolved=false&parent=101` はレーン名の完全一致と直接の親で絞ります。`parent=none` は親なしです。未知のレーン名や該当しない親IDは空一覧になります。`lane`、`lane_id`、`lane_ids` のうち1つを指定できます。
+
+`GET /api/boards/:boardId/tickets?lane_ids=11,12&tag_ids=3,4` は、いずれかの対象レーンにあり、いずれかの対象タグが付いたチケットに一致します。すべてのレーンやタグを対象にするには、対応するリストを省略します。タグ1件を名前の完全一致で指定するには `tag` を使います。
 
 ### コメントを必要な件数だけ読む
 

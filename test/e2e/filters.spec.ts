@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { closeTestApp, createCompletionLane, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, createCompletionLane, buildApp, createDbFile, getFreePort, path, selectBoardFilter } from "./helpers.js";
 
 test("ticket filters combine results and active styling", async ({ page }) => {
   const app = buildApp({
@@ -146,10 +146,10 @@ test("ticket filters combine results and active styling", async ({ page }) => {
       /is-filter-active/,
     );
 
-    const tagResponseForFilter = waitForTicketQuery({ tag: "focus" });
-    await page.locator("#tag-filter").selectOption("focus");
+    const tagResponseForFilter = waitForTicketQuery({ tag_ids: String(tag.id) });
+    await selectBoardFilter(page, "tag", "focus");
     await tagResponseForFilter;
-    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#tag-filter-button")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(2);
     await expect(page.locator(".ticket-card")).toContainText([
       "Focus open",
@@ -157,7 +157,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     ]);
 
     const archivedResponse = waitForTicketQuery({
-      tag: "focus",
+      tag_ids: String(tag.id),
       archived: "all",
     });
     await page
@@ -176,22 +176,22 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     );
     await expect(page.locator("#lane-filter")).toBeVisible();
     const laneResponse = waitForTicketQuery({
-      tag: "focus",
+      tag_ids: String(tag.id),
       archived: "all",
-      lane_id: String(todoLane.id),
+      lane_ids: String(todoLane.id),
     });
-    await page.locator("#lane-filter").selectOption(String(todoLane.id));
+    await selectBoardFilter(page, "lane", todoLane.name);
     await laneResponse;
-    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#lane-filter-button")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".list-row")).toHaveCount(2);
     await expect(page.locator("#list-board")).toContainText("Focus open");
     await expect(page.locator("#list-board")).toContainText("Archived focus");
 
     const listSearchResponse = waitForTicketQuery({
       q: "Focus",
-      tag: "focus",
+      tag_ids: String(tag.id),
       archived: "all",
-      lane_id: String(todoLane.id),
+      lane_ids: String(todoLane.id),
     });
     await page.locator("#search-input").fill("Focus");
     await listSearchResponse;
@@ -199,8 +199,8 @@ test("ticket filters combine results and active styling", async ({ page }) => {
       [
         ".toolbar-search",
         "#priority-filter",
-        "#tag-filter",
-        "#lane-filter",
+        "#tag-filter-button",
+        "#lane-filter-button",
       ].map((selector) => {
         const element = document.querySelector(selector);
         if (!element) {
@@ -226,7 +226,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     await page.getByRole("button", { name: "Kanban", exact: true }).click();
     await expect(page).toHaveURL(`${baseUrl}/boards/${boardPayload.board.id}`);
     await expect(page.locator("#lane-filter")).toBeHidden();
-    await expect(page.locator("#lane-filter")).not.toHaveClass(
+    await expect(page.locator("#lane-filter-button")).not.toHaveClass(
       /is-filter-active/,
     );
     await expect(page.locator(".ticket-card")).toHaveCount(3);
@@ -284,18 +284,18 @@ test("ticket filters are preserved per board during the session", async ({ page 
     await page.locator("#search-input").fill("Alpha");
     await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page.locator("#priority-filter [data-priority-filter='high']").click();
-    await page.locator("#tag-filter").selectOption("focus");
+    await selectBoardFilter(page, "tag", "focus");
     await expect(page.locator(".ticket-card")).toHaveCount(2);
     await expect(page.locator("#lane-board")).toContainText("Alpha focus todo");
     await expect(page.locator("#lane-board")).toContainText("Alpha focus review");
     await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
     await expect(page.locator("#priority-filter")).toHaveClass(/is-filter-active/);
-    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#tag-filter-button")).toHaveClass(/is-filter-active/);
 
     await page.getByRole("button", { name: "List", exact: true }).click();
     await expect(page.locator("#lane-filter")).toBeVisible();
-    await page.locator("#lane-filter").selectOption(String(firstLane.id));
-    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
+    await selectBoardFilter(page, "lane", firstLane.name);
+    await expect(page.locator("#lane-filter-button")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator("#list-board")).toContainText("Alpha focus todo");
 
@@ -309,15 +309,15 @@ test("ticket filters are preserved per board during the session", async ({ page 
     await expect(page).toHaveURL(`${baseUrl}/boards/${secondBoard.board.id}`);
     await expect(page.locator("#search-input")).toHaveValue("");
     await expect(page.locator("#priority-filter")).not.toHaveClass(/is-filter-active/);
-    await expect(page.locator("#tag-filter")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#tag-filter-button")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator(".ticket-card")).toContainText("Second board ticket");
     await page.locator("#search-input").fill("Second");
     await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await page.getByRole("button", { name: "List", exact: true }).click();
-    await page.locator("#lane-filter").selectOption(String(secondLane.id));
-    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
+    await selectBoardFilter(page, "lane", secondLane.name);
+    await expect(page.locator("#lane-filter-button")).toHaveClass(/is-filter-active/);
     await expect(page.getByRole("button", { name: "Reset filters" })).toBeVisible();
     await page.getByRole("button", { name: "Kanban", exact: true }).click();
 
@@ -325,15 +325,15 @@ test("ticket filters are preserved per board during the session", async ({ page 
     await expect(page).toHaveURL(`${baseUrl}/boards/${firstBoard.board.id}`);
     await expect(page.locator("#search-input")).toHaveValue("Alpha");
     await expect(page.locator("#priority-filter")).toHaveClass(/is-filter-active/);
-    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
-    await expect(page.locator("#tag-filter")).toHaveValue("focus");
+    await expect(page.locator("#tag-filter-button")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#tag-filter .board-filter-names")).toHaveText("focus");
     await expect(page.locator("#lane-filter")).toBeHidden();
-    await expect(page.locator("#lane-filter")).toHaveValue(String(firstLane.id));
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText(firstLane.name);
     await expect(page.locator(".ticket-card")).toHaveCount(2);
 
     await page.getByRole("button", { name: "List", exact: true }).click();
     await expect(page.locator("#lane-filter")).toBeVisible();
-    await expect(page.locator("#lane-filter")).toHaveValue(String(firstLane.id));
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText(firstLane.name);
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator("#list-board")).toContainText("Alpha focus todo");
     await expect(page.getByRole("button", { name: "Reset filters" })).toBeVisible();
@@ -342,10 +342,10 @@ test("ticket filters are preserved per board during the session", async ({ page 
     await expect(page.getByRole("button", { name: "Reset filters" })).toBeHidden();
     await expect(page.locator("#search-input")).toHaveValue("");
     await expect(page.locator("#priority-filter")).not.toHaveClass(/is-filter-active/);
-    await expect(page.locator("#tag-filter")).not.toHaveClass(/is-filter-active/);
-    await expect(page.locator("#tag-filter")).toHaveValue("");
-    await expect(page.locator("#lane-filter")).toHaveValue("");
-    await expect(page.locator("#lane-filter")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#tag-filter-button")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#tag-filter .board-filter-names")).toHaveText("All");
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText("All");
+    await expect(page.locator("#lane-filter-button")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".list-row")).toHaveCount(3);
 
     await page.locator("#board-list").getByRole("button", { name: "Saved Filter B" }).click();
@@ -353,8 +353,8 @@ test("ticket filters are preserved per board during the session", async ({ page 
     await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
     await expect(page).toHaveURL(`${baseUrl}/boards/${secondBoard.board.id}`);
     await expect(page.locator("#lane-filter")).toBeHidden();
-    await expect(page.locator("#lane-filter")).toHaveValue(String(secondLane.id));
-    await expect(page.locator("#lane-filter")).not.toHaveClass(/is-filter-active/);
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText(secondLane.name);
+    await expect(page.locator("#lane-filter-button")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(1);
     await expect(page.locator("#lane-board")).toContainText("Second board ticket");
   } finally {

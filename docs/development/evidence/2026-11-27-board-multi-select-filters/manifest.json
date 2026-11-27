@@ -1,0 +1,288 @@
+{
+  "capturedOn": "2026-11-27 Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 158.0.8127.37",
+    "automation": "agent-browser 0.26.0",
+    "operatingSystem": "macOS",
+    "viewport": [
+      1440,
+      900
+    ],
+    "deviceScaleFactor": 1,
+    "languages": [
+      "en",
+      "ja"
+    ],
+    "runtime": "Node.js 26.13.1"
+  },
+  "sourceFingerprintMethod": "SHA-256 of the UTF-8 concatenation of source file SHA-256, two spaces, repository-relative POSIX path, and LF, sorted by path. Files are package.json, tsconfig.json, and all files in public, scripts, and src.",
+  "builds": {
+    "before": {
+      "sourceCommit": "3d8f7afbd71d1842d1d4869456c7316eaab4f091",
+      "displayVersion": "1.5.0",
+      "source": {
+        "fileCount": 253,
+        "manifestSha256": "46027ba6156a2a2287f807e9f90a21bf4c96a4bcdf5a037e327ffaad499ad493"
+      },
+      "servedAssets": [
+        "app-WCDKQHLL.js",
+        "styles-JPHC23SS.css"
+      ]
+    },
+    "after": {
+      "baseCommit": "3d8f7afbd71d1842d1d4869456c7316eaab4f091",
+      "displayVersion": "1.5.0",
+      "source": {
+        "fileCount": 254,
+        "manifestSha256": "f38ca84dd72d6b8a73f1a1fa79c0629141cf89bec72843553ac5fa9266af110c"
+      },
+      "servedAssets": [
+        "app-ZKJFEAFK.js",
+        "styles-QTXME7NL.css"
+      ]
+    }
+  },
+  "verification": {
+    "matchingSingleSelection": {
+      "before": {
+        "list": {
+          "filterExpansion": {
+            "priority": false
+          },
+          "filters": {
+            "includeArchived": false,
+            "lane": "1",
+            "priority": [],
+            "q": "",
+            "tag": "Docs"
+          },
+          "viewMode": "list"
+        },
+        "kanban": {
+          "filterExpansion": {
+            "priority": false
+          },
+          "filters": {
+            "includeArchived": false,
+            "lane": "",
+            "priority": [],
+            "q": "",
+            "tag": "Release"
+          },
+          "viewMode": "kanban"
+        }
+      },
+      "after": {
+        "list": {
+          "filterExpansion": {
+            "priority": false
+          },
+          "filters": {
+            "includeArchived": false,
+            "laneIds": [
+              1
+            ],
+            "priority": [],
+            "q": "",
+            "tagIds": [
+              1
+            ]
+          },
+          "viewMode": "list"
+        },
+        "kanban": {
+          "filterExpansion": {
+            "priority": false
+          },
+          "filters": {
+            "includeArchived": false,
+            "laneIds": [],
+            "priority": [],
+            "q": "",
+            "tagIds": [
+              2
+            ]
+          },
+          "viewMode": "kanban"
+        }
+      }
+    },
+    "interactive": {
+      "legacyPrefs": {
+        "baselineSingleLane": "To do",
+        "baselineSingleTag": "Docs",
+        "sameTicketAfterMigration": true
+      },
+      "checkboxesAndFocus": {
+        "openMovesToFirstOption": true,
+        "spacePreservedFocusAndPopup": true,
+        "escapeReturnedFocus": true,
+        "outsideClickKeptSearchFocus": true,
+        "fullTitleAndAccessibleLabel": true
+      },
+      "intersection": {
+        "matchingWithoutArchived": [
+          1,
+          3,
+          4
+        ],
+        "matchingWithArchived": [
+          1,
+          3,
+          4,
+          10
+        ],
+        "priorityAndSearchCombined": true,
+        "savedAndReloaded": {
+          "includeArchived": true,
+          "laneIds": [
+            1,
+            2
+          ],
+          "priority": [],
+          "q": "",
+          "tagIds": [
+            1,
+            2,
+            4
+          ]
+        },
+        "listUsesPluralParameters": true
+      },
+      "viewIsolation": {
+        "listLaneOnly": true,
+        "kanbanTagsAndArchivesRetained": true,
+        "groupIndependent": true,
+        "customViewIndependent": true,
+        "clearSelectionWithinPopup": true,
+        "resetRestoredDefault": true
+      },
+      "unchangedFixtureTicketRows": 460
+    },
+    "fullInteractionAndPagingBuild": {
+      "fileCount": 254,
+      "manifestSha256": "5cbc63fed93a93369229541839c30d1154f266ab037df16ffb120e45dbc56216"
+    },
+    "finalSummary": {
+      "lane": {
+        "accessibleName": "Lane: To do, In progress",
+        "names": "To do, In progress",
+        "namesFit": true,
+        "remaining": ""
+      },
+      "tag": {
+        "accessibleName": "Tag: Docs, QA, Release",
+        "names": "Docs, QA",
+        "namesFit": true,
+        "remaining": "+1"
+      }
+    },
+    "paging": {
+      "virtualList": {
+        "withoutArchivedRows": 446,
+        "withArchivedRows": 448,
+        "top": {
+          "renderedRows": 36,
+          "scrollTop": 0,
+          "virtualHeight": 28544
+        },
+        "bottom": {
+          "renderedRows": 24,
+          "scrollTop": 27832,
+          "virtualHeight": 28544
+        },
+        "includingArchivedAtBottom": {
+          "renderedRows": 26,
+          "scrollTop": 27832,
+          "virtualHeight": 28672
+        },
+        "matchingPageQueriesPerState": {
+          "active": 3,
+          "archivesIncluded": 3
+        },
+        "filterParametersPreservedAcrossCursorPages": true
+      }
+    },
+    "narrow": {
+      "narrowViewport": [
+        390,
+        844
+      ],
+      "tagPopoverFitsViewport": true
+    },
+    "finalJapaneseSummary": {
+      "accessibleName": "タグ：Docs、QA、Release",
+      "names": "Docs、QA",
+      "namesFit": true,
+      "remaining": "ほか1件"
+    }
+  },
+  "screenshots": [
+    {
+      "file": "after-en-light-list-default.png",
+      "sha256": "98d615fd923fa8578b14eec25b68cd2ff36c42340f7f474f19cd9507fedd886a",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-en-light-list-lane-popup.png",
+      "sha256": "5552572d0a7022e81dec6b6d1c739d33102177e6b83278f5297705788b3c54f9",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-en-light-list-multi-summary.png",
+      "sha256": "42d087cbfcde711fc653ac38dd5881f0f155b94e54dca40075997e59d4451942",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-en-light-list-single.png",
+      "sha256": "413ca0179c102ed3208c0b34d5d840045a5e6d481c31fbf653fb44cf6d03d53d",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-en-light-list-tag-popup.png",
+      "sha256": "6c1605dd6b90bc5798d85546231e27063162f568d6085796950ade7b400dc101",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-ja-dark-kanban-default.png",
+      "sha256": "592b45cb88074cdfe243f4e92e8ccccbb88ffc38b378aadef0ee7e86c3fac576",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-ja-dark-kanban-single.png",
+      "sha256": "1bb24813b3a01574d343a419c1ff6cc05432c56b4441f2a3028b085232efcf32",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-en-light-list-default.png",
+      "sha256": "2c0acbc38e2d7250cfdbb4ea47eac0197c3a3863dfd33a363d9027afe0641164",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-en-light-list-single.png",
+      "sha256": "4b39f8290271afbb45de08cc952f16a6adbce15ff3025e1e35d38c2fd772f1ab",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-ja-dark-kanban-default.png",
+      "sha256": "c00c16e89dc55e9ff98ef556d2524751de5e6d683092ec42b6f570303723478b",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-ja-dark-kanban-single.png",
+      "sha256": "02621267a9a73e9c9981ad5bf0d5c488ec686e2a9c5a3dea998d57a51140812a",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

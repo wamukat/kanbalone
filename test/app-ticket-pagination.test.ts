@@ -229,6 +229,112 @@ test("List references keep position order and the priority-independent filter in
   } finally { await f.app.close(); f.db.close(); }
 });
 
+test("lane and tag selections filter summaries and List references before counting and paging", async () => {
+  const f = setup();
+  try {
+    const boardId = f.board.board.id;
+    const [todo, done] = f.board.lanes;
+    const excluded = f.db.createLane({ boardId, name: "Excluded" });
+    const namedTag = f.db.createTag({ boardId, name: "Release, weekly & urgent", color: "" });
+    const secondTag = f.db.createTag({ boardId, name: "Build", color: "" });
+    const otherTag = f.db.createTag({ boardId, name: "Unrelated", color: "" });
+    const foreignTag = f.db.createTag({ boardId: f.other.board.id, name: namedTag.name, color: "" });
+    const create = (laneId: number, title: string, tagIds: number[], priority: 2 | 4 = 2, isArchived = false) =>
+      f.db.createTicket({ boardId, laneId, title, tagIds, priority, isArchived }).id;
+    const first = create(todo!.id, "Selection first", [namedTag.id], 4);
+    const both = create(todo!.id, "Selection both tags", [namedTag.id, secondTag.id]);
+    const secondLane = create(done!.id, "Selection second lane", [secondTag.id], 4);
+    const otherLane = create(excluded.id, "Selection other lane", [namedTag.id]);
+    const unrelated = create(todo!.id, "Selection unrelated tag", [otherTag.id]);
+    const untagged = create(todo!.id, "Selection untagged", []);
+    const archived = create(todo!.id, "Selection archived", [secondTag.id], 2, true);
+    create(done!.id, "Different search", [namedTag.id]);
+
+    const baseQuery = { order: "position_asc", q: "Selection" };
+    const lane_ids = `${todo!.id},${done!.id}`;
+    const tag_ids = `${namedTag.id},${secondTag.id}`;
+    const ids = (rows: Array<{ id: number }>) => rows.map(({ id }) => id);
+    const references = `/api/boards/${boardId}/list-ticket-references`;
+    const summary = async (filters: Record<string, string>) => {
+      const result = await f.app.inject(`${f.url}?${new URLSearchParams({ ...baseQuery, ...filters })}`);
+      assert.equal(result.statusCode, 200, result.body);
+      return ids(result.json().tickets);
+    };
+
+    assert.deepEqual(await summary({}), [first, both, unrelated, untagged, secondLane, otherLane]);
+    assert.deepEqual(await summary({ lane_ids }), [first, both, unrelated, untagged, secondLane]);
+    assert.deepEqual(await summary({ tag_ids }), [first, both, secondLane, otherLane]);
+    assert.deepEqual(await summary({ lane_ids, tag_ids }), [first, both, secondLane]);
+    assert.deepEqual(await summary({ lane_ids, tag_ids, archived: "all", priority: "4" }), [first, secondLane]);
+    assert.deepEqual(await summary({ lane_id: String(todo!.id), tag_ids }), [first, both]);
+    assert.deepEqual(await summary({ lane: todo!.name, tag: namedTag.name }), [first, both]);
+    assert.deepEqual(await summary({ lane_id: String(todo!.id), tag: namedTag.name }), [first, both]);
+    assert.deepEqual(await summary({ tag_ids: `${tag_ids},${foreignTag.id},${Number.MAX_SAFE_INTEGER}` }), [first, both, secondLane, otherLane]);
+    assert.deepEqual(await summary({ lane_ids: `${f.other.lanes[0]!.id},${Number.MAX_SAFE_INTEGER}` }), []);
+    assert.deepEqual(await summary({ tag_ids: `${foreignTag.id},${Number.MAX_SAFE_INTEGER}` }), []);
+
+    const expected = [first, both, archived, secondLane];
+    const continuations: string[] = [];
+    for (const endpoint of [f.url, references]) {
+      const query = new URLSearchParams({ ...baseQuery, lane_ids, tag_ids, archived: "all", limit: "1" });
+      const found: number[] = [];
+      for (let index = 0; index < expected.length; index++) {
+        const response = await f.app.inject(`${endpoint}?${query}`);
+        assert.equal(response.statusCode, 200, response.body);
+        const { tickets, page } = response.json();
+        assert.equal(page.total, expected.length);
+        assert.equal(tickets.length, 1);
+        found.push(tickets[0].id);
+        if (index === expected.length - 1) {
+          assert.equal(page.nextCursor, null);
+          break;
+        }
+        assert.ok(page.nextCursor);
+        query.set("cursor", page.nextCursor);
+        if (index === 0) {
+          const changed = new URLSearchParams(query);
+          changed.set("tag_ids", String(namedTag.id));
+          assert.equal((await f.app.inject(`${endpoint}?${changed}`)).statusCode, 400);
+          query.set("lane_ids", `${done!.id},${todo!.id},${done!.id}`);
+          query.set("tag_ids", `${secondTag.id},${namedTag.id},${secondTag.id}`);
+          continuations.push(`${endpoint}?${query}`);
+        }
+      }
+      assert.deepEqual(found, expected);
+    }
+    const legacyReferences = await f.app.inject(`${references}?${new URLSearchParams({ ...baseQuery,
+      lane_id: String(todo!.id), tag: namedTag.name, limit: "10" })}`);
+    assert.equal(legacyReferences.statusCode, 200, legacyReferences.body);
+    assert.deepEqual(ids(legacyReferences.json().tickets), [first, both]);
+
+    f.db.updateTicket(both, { tagIds: [] });
+    for (const continuation of continuations) assert.equal((await f.app.inject(continuation)).statusCode, 409);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
+test("ticket ID selection parameters reject malformed lists and same-field scalar combinations", async () => {
+  const f = setup();
+  try {
+    const references = `/api/boards/${f.board.board.id}/list-ticket-references`;
+    for (const endpoint of [f.url, references]) {
+      for (const field of ["lane_ids", "tag_ids"]) {
+        for (const value of ["", "0", "1,-2", "1.5", "01", "1,", "1,,2", "1, 2", "1e2", "9007199254740992"]) {
+          const query = new URLSearchParams({ limit: "1", [field]: value });
+          const response = await f.app.inject(`${endpoint}?${query}`);
+          assert.equal(response.statusCode, 400, `${endpoint} ${field}=${value}`);
+        }
+        const repeated = await f.app.inject(`${endpoint}?limit=1&${field}=1&${field}=2`);
+        assert.equal(repeated.statusCode, 400);
+      }
+      for (const query of ["lane_id=1&lane_ids=2", "tag=Build&tag_ids=1"]) {
+        assert.equal((await f.app.inject(`${endpoint}?limit=1&${query}`)).statusCode, 400, query);
+      }
+    }
+    assert.equal((await f.app.inject(`${f.url}?lane=Todo&lane_ids=1`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${f.url}?lane=Todo&lane_id=1`)).json().error, "lane and lane_id cannot be combined");
+  } finally { await f.app.close(); f.db.close(); }
+});
+
 test("only Group and List-reference endpoints advertise and accept a larger page limit", async () => {
   const f = setup();
   try {

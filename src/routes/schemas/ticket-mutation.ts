@@ -134,6 +134,8 @@ export const ticketRemoteImportPreviewResponseSchema = {
   },
 } as const;
 
+const ticketIdSelectionSchema = { type: "string", pattern: "^[1-9][0-9]*(,[1-9][0-9]*)*$" } as const;
+
 export const ticketListQuerySchema = {
   type: "object",
   additionalProperties: false,
@@ -146,9 +148,11 @@ export const ticketListQuerySchema = {
     ungrouped: { type: "string", enum: ["true", "false"] },
     includeArchived: { type: "string", enum: ["true", "false"] },
     lane_id: positiveIntegerSchema,
+    lane_ids: ticketIdSelectionSchema,
     lane: { type: "string", minLength: 1 },
     parent: { type: "string", pattern: "^(none|[1-9][0-9]*)$" },
     tag: { type: "string" },
+    tag_ids: ticketIdSelectionSchema,
     resolved: { type: "string", enum: ["true", "false"] },
     archived: { type: "string", enum: ["true", "false", "all"] },
     q: { type: "string" },

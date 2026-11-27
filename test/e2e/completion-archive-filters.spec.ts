@@ -46,12 +46,12 @@ for (const locale of ["en-US", "ja-JP"]) {
       await page.reload();
 
       const archived = page.locator("#include-archived-filter");
-      await expect(page.locator("#lane-filter")).toHaveValue(String(f.done.id));
+      await expect(page.locator("#lane-filter-button")).toHaveAttribute("aria-label", `${locale === "ja-JP" ? "レーン：" : "Lane: "}${f.done.name}`);
       await expect(page.locator(".list-row")).toContainText(["Focus done visible", "Focus done archived"]);
       await expect(page.locator(".list-row")).toHaveCount(2);
       await expect(page.locator("#status-filter")).toHaveCount(0);
       await expect(page.locator("#search-input")).toHaveValue("Focus");
-      await expect(page.locator("#tag-filter")).toHaveValue("focus");
+      await expect(page.locator("#tag-filter .board-filter-names")).toHaveText("focus");
       await expect(page.locator('[data-priority-filter="high"]')).toHaveClass(/active/);
       await expect(archived).toHaveAccessibleName(locale === "ja-JP" ? "アーカイブを含める" : "Include archived tickets");
       await expect(archived).toHaveAttribute("aria-pressed", "true");
@@ -83,7 +83,7 @@ for (const locale of ["en-US", "ja-JP"]) {
       await expect(page.locator(".list-row")).toHaveCount(2);
       await expect(archived).toHaveAttribute("aria-pressed", "true");
       await page.locator("#reset-filters-button").click();
-      await expect(page.locator("#lane-filter")).toHaveValue("");
+      await expect(page.locator("#lane-filter .board-filter-names")).toHaveText(locale === "ja-JP" ? "すべて" : "All");
       await expect(archived).toHaveAttribute("aria-pressed", "false");
       await expect(page.locator(".list-row")).toContainText(["Focus open visible", "Focus done visible"]);
       await page.reload();
@@ -150,7 +150,7 @@ test("the archive action works with Enter and Space and restores both states on 
     const archive = page.locator("#include-archived-filter");
     const label = "Include archived tickets";
 
-    await page.locator("#tag-filter").focus();
+    await page.locator("#tag-filter-button").focus();
     await page.keyboard.press("Tab");
     await expect(archive).toBeFocused();
     await page.keyboard.press("Enter");
@@ -163,7 +163,7 @@ test("the archive action works with Enter and Space and restores both states on 
     await page.reload();
     await expect(page.locator(".list-row")).toHaveCount(4);
     await expect(archive).toHaveAttribute("aria-pressed", "true");
-    await page.locator("#tag-filter").focus();
+    await page.locator("#tag-filter-button").focus();
     await page.keyboard.press("Tab");
     await expect(archive).toBeFocused();
     await page.keyboard.press("Space");

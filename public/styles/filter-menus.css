@@ -205,10 +205,6 @@
 }
 
 @container toolbar-filters (max-width: 620px) {
-  #tag-filter {
-    width: 88px;
-  }
-
   .toolbar-reset-filters {
     width: 2.45rem;
     min-width: 2.45rem;

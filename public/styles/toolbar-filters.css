@@ -69,6 +69,7 @@
 
 .toolbar-search.is-filter-active,
 .toolbar select.is-filter-active,
+.board-filter-trigger.is-filter-active,
 .filter-menu.is-filter-active,
 .filter-toggle.is-filter-active,
 .toolbar-utility-button.is-filter-active {
@@ -125,16 +126,115 @@
   display: none;
 }
 
-#lane-filter {
-  width: 126px;
-  height: 2.45rem;
-  padding: 0 0.65rem;
+/* The options use the top layer so the compact toolbar can scroll underneath. */
+.board-filter-picker {
+  flex: 0 0 180px;
+  min-width: 0;
 }
 
-#tag-filter {
-  width: 126px;
-  height: 2.45rem;
-  padding: 0 0.65rem;
+.board-filter-trigger {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: 2.45rem;
+  padding: 0 var(--space-2);
+  border-color: var(--control-border);
+  background: var(--control-bg);
+  color: var(--muted);
+  text-align: start;
 }
 
-:lang(ja) #lane-filter { width: 144px; }
+.board-filter-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  white-space: nowrap;
+  font-size: var(--font-size-label);
+}
+
+.board-filter-names {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.board-filter-more {
+  flex: none;
+}
+
+.board-filter-trigger .icon {
+  width: var(--icon-size-meta);
+  height: var(--icon-size-meta);
+  transform: rotate(90deg);
+}
+
+.board-filter-trigger[aria-expanded="true"] .icon {
+  transform: rotate(-90deg);
+}
+
+.board-filter-options {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  overflow: auto;
+  margin: 0;
+  padding: var(--space-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-surface);
+  background: var(--surface-2);
+  color: var(--text);
+  box-shadow: var(--shadow-popover);
+}
+
+.board-filter-choices label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-size-icon);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+
+.board-filter-choices label:is(:hover, :focus-within) {
+  background: var(--surface-inset);
+}
+
+.toolbar .board-filter-choices input {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--accent);
+}
+
+.board-filter-choices span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.board-filter-clear {
+  width: 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  min-height: var(--control-size-icon);
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--accent);
+  text-align: start;
+}
+
+.board-filter-clear:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+@container toolbar-filters (max-width: 620px) {
+  .board-filter-picker {
+    flex-basis: 138px;
+  }
+}

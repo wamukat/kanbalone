@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path, selectBoardFilter } from "./helpers.js";
 
 test.setTimeout(60_000);
 
@@ -477,10 +477,15 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-relations")).toContainText("Blocker candidate");
     await expect(page.locator("#ticket-relations")).toContainText("Children");
     await expect(page.locator("#ticket-relations")).toContainText("Child candidate");
-    await page.locator("#tag-filter").selectOption("smoke-tag");
-    await expect(page.locator("#tag-filter")).toHaveClass(/is-filter-active/);
-    await page.locator("#tag-filter").selectOption("");
-    await expect(page.locator("#tag-filter")).not.toHaveClass(/is-filter-active/);
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#editor-dialog")).toBeHidden();
+    await selectBoardFilter(page, "tag", "smoke-tag");
+    await expect(page.locator("#tag-filter-button")).toHaveClass(/is-filter-active/);
+    await expect(page.locator(".list-row")).toHaveCount(1);
+    await selectBoardFilter(page, "tag", null);
+    await expect(page.locator("#tag-filter-button")).not.toHaveClass(/is-filter-active/);
+    await page.locator("#list-board").getByRole("button", { name: `#${smokeTicket.id} Smoke ticket`, exact: true }).click();
+    await expect(page.locator("#editor-dialog")).toBeVisible();
 
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#editor-form")).toBeVisible();

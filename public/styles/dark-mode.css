@@ -135,6 +135,7 @@
 
   .toolbar-search.is-filter-active,
   .toolbar select.is-filter-active,
+  .board-filter-trigger.is-filter-active,
   .filter-menu.is-filter-active,
   .filter-toggle.is-filter-active,
   .toolbar-utility-button.is-filter-active {

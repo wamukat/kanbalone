@@ -3,6 +3,7 @@ import { ticketProjectionPageLimit, type PageOptions } from "../db-modules/ticke
 import { tagViewSchema } from "./schemas/tag.js";
 import { ticketSummarySchema, ticketsResponseSchema } from "./schemas/ticket.js";
 import { ticketListQuerySchema } from "./schemas/ticket-mutation.js";
+import { ticketSelectionFilters, type TicketSelectionQuery } from "./ticket-input.js";
 import type { RegisterTicketRoutesContext } from "./ticket-route-context.js";
 
 const ticketQuery = ticketListQuerySchema.properties;
@@ -19,9 +20,11 @@ const referenceQuery = {
   ...pagingQuery,
   order: { type: "string", enum: ["position_asc"] },
   lane_id: ticketQuery.lane_id,
+  lane_ids: ticketQuery.lane_ids,
   resolved: ticketQuery.resolved,
   archived: ticketQuery.archived,
   tag: ticketQuery.tag,
+  tag_ids: ticketQuery.tag_ids,
   q: ticketQuery.q,
 };
 const summary = ticketSummarySchema.properties;
@@ -62,11 +65,9 @@ function validateQuery(properties: Record<string, unknown>) {
   };
 }
 
-type ReferenceQuery = PageOptions & {
-  lane_id?: number;
+type ReferenceQuery = PageOptions & Omit<TicketSelectionQuery, "lane"> & {
   resolved?: string;
   archived?: "true" | "false" | "all";
-  tag?: string;
   q?: string;
 };
 
@@ -104,11 +105,10 @@ export function registerTicketCollectionProjectionRoutes(app: FastifyInstance, {
 
     const query = request.query;
     const filters = {
-      laneId: query.lane_id,
+      ...ticketSelectionFilters(query),
       resolved: parseBooleanQuery(query.resolved),
       archived: parseBooleanQuery(query.archived),
       includeArchived: query.archived === "all",
-      tag: query.tag?.trim() || undefined,
       q: query.q?.trim() || undefined,
     };
     const { tickets, page, revision } = db.listTicketReferencePage(boardId, filters, query);

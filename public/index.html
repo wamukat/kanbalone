@@ -119,9 +119,20 @@
               </button>
             </label>
             <div class="toolbar-filters">
-              <select id="lane-filter" hidden>
-                <option value="" data-i18n="All lanes">All lanes</option>
-              </select>
+              <div id="lane-filter" class="board-filter-picker" hidden>
+                <button id="lane-filter-button" class="board-filter-trigger" type="button" aria-expanded="false" aria-controls="lane-filter-options">
+                  <span id="lane-filter-label" data-i18n="Lane">Lane</span>
+                  <span class="board-filter-summary">
+                    <span class="board-filter-names" data-i18n="All">All</span>
+                    <span class="board-filter-more" hidden></span>
+                  </span>
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
+                </button>
+                <div id="lane-filter-options" class="board-filter-options" role="group" aria-labelledby="lane-filter-label" popover="manual" tabindex="-1" hidden>
+                  <div class="board-filter-choices"></div>
+                  <button type="button" class="ghost board-filter-clear" data-i18n="Clear selection" disabled>Clear selection</button>
+                </div>
+              </div>
               <div id="priority-filter" class="filter-menu priority-filter">
                 <button type="button" class="filter-menu-toggle" data-filter-expand="priority" aria-expanded="false">
                   <span data-i18n="Priority">Priority</span>
@@ -152,9 +163,20 @@
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
                 </button>
               </div>
-              <select id="tag-filter">
-                <option value="" data-i18n="All tags">All tags</option>
-              </select>
+              <div id="tag-filter" class="board-filter-picker">
+                <button id="tag-filter-button" class="board-filter-trigger" type="button" aria-expanded="false" aria-controls="tag-filter-options">
+                  <span id="tag-filter-label" data-i18n="Tag">Tag</span>
+                  <span class="board-filter-summary">
+                    <span class="board-filter-names" data-i18n="All">All</span>
+                    <span class="board-filter-more" hidden></span>
+                  </span>
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#chevron-right"></use></svg>
+                </button>
+                <div id="tag-filter-options" class="board-filter-options" role="group" aria-labelledby="tag-filter-label" popover="manual" tabindex="-1" hidden>
+                  <div class="board-filter-choices"></div>
+                  <button type="button" class="ghost board-filter-clear" data-i18n="Clear selection" disabled>Clear selection</button>
+                </div>
+              </div>
               <button type="button" id="include-archived-filter" class="ghost filter-text-action" aria-pressed="false">
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#archive"></use></svg>
                 <span data-i18n="Include archived tickets">Include archived tickets</span>
