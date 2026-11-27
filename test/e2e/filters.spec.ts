@@ -164,7 +164,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
       .locator("#include-archived-filter")
       .click();
     await archivedResponse;
-    await expect(page.locator("#include-archived-filter")).toBeChecked();
+    await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".ticket-card")).toHaveCount(3);
     await expect(page.locator("#lane-board")).toContainText("Focus open");
     await expect(page.locator("#lane-board")).toContainText("Focus resolved");

@@ -54,11 +54,13 @@ for (const locale of ["en-US", "ja-JP"]) {
       await expect(page.locator("#tag-filter")).toHaveValue("focus");
       await expect(page.locator('[data-priority-filter="high"]')).toHaveClass(/active/);
       await expect(archived).toHaveAccessibleName(locale === "ja-JP" ? "アーカイブを含める" : "Include archived tickets");
-      await expect(archived).toBeChecked();
-      await archived.uncheck();
+      await expect(archived).toHaveAttribute("aria-pressed", "true");
+      await archived.click();
+      await expect(archived).toHaveAttribute("aria-pressed", "false");
       await expect(page.locator(".list-row")).toHaveCount(1);
       await expect(page.locator(".list-row")).toContainText("Focus done visible");
-      await archived.check();
+      await archived.click();
+      await expect(archived).toHaveAttribute("aria-pressed", "true");
 
       await page.locator('[data-view-mode="kanban"]').click();
       await expect(page.locator(".ticket-card")).toHaveCount(4);
@@ -66,6 +68,7 @@ for (const locale of ["en-US", "ja-JP"]) {
       await expect(page.locator("#lane-board")).toContainText("Focus open visible");
       await expect(page.locator("#lane-board")).toContainText("Focus done archived");
       await page.locator('[data-view-mode="group"]').click();
+      await expect(archived).toBeHidden();
       await expect(page.locator(".group-ticket-row")).toHaveCount(2);
       await expect(page.locator("#group-board")).toContainText("Focus done visible");
       await page.locator('[data-group-action="open-only"]').click();
@@ -78,10 +81,10 @@ for (const locale of ["en-US", "ja-JP"]) {
 
       await page.locator('[data-view-mode="list"]').click();
       await expect(page.locator(".list-row")).toHaveCount(2);
-      await expect(archived).toBeChecked();
+      await expect(archived).toHaveAttribute("aria-pressed", "true");
       await page.locator("#reset-filters-button").click();
       await expect(page.locator("#lane-filter")).toHaveValue("");
-      await expect(archived).not.toBeChecked();
+      await expect(archived).toHaveAttribute("aria-pressed", "false");
       await expect(page.locator(".list-row")).toContainText(["Focus open visible", "Focus done visible"]);
       await page.reload();
       await expect(page.locator(".list-row")).toHaveCount(2);
@@ -97,6 +100,7 @@ for (const locale of ["en-US", "ja-JP"]) {
       expect(response.status()).toBe(201);
       const view = await response.json();
       await page.goto(`${f.baseUrl}/views/${view.id}`);
+      await expect(archived).toBeHidden();
       await expect(page.locator("[data-view-ticket]")).toHaveCount(1);
       await expect(page.locator("[data-view-ticket]")).toContainText("Focus done visible");
       const savedView = await page.request.get(`${f.baseUrl}/api/custom-views/${view.id}`);
@@ -127,7 +131,7 @@ test("old completion selections are ignored while legacy archive inclusion still
       await expect(page.locator(".list-row")).toHaveCount(archived ? 4 : 2);
       await expect(page.locator("#list-board")).toContainText("Focus open visible");
       await expect(page.locator("#list-board")).toContainText("Focus done visible");
-      await expect(page.locator("#include-archived-filter")).toBeChecked({ checked: archived });
+      await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", String(archived));
       await expect(page.locator("#priority-filter")).toHaveClass(/is-expanded/);
       const saved = await page.evaluate(boardId =>
         JSON.parse(localStorage.getItem("kanbalone:ui-preferences")!).boards[String(boardId)], f.board.id);
@@ -135,6 +139,42 @@ test("old completion selections are ignored while legacy archive inclusion still
       expect(saved.filterExpansion).toEqual({ priority: true });
       expect(saved.filters.includeArchived).toBe(archived);
     }
+  } finally { await f.close(); }
+});
+
+test("the archive action works with Enter and Space and restores both states on reload", async ({ page }) => {
+  const f = await fixture(page);
+  try {
+    await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    const archive = page.locator("#include-archived-filter");
+    const label = "Include archived tickets";
+
+    await page.locator("#tag-filter").focus();
+    await page.keyboard.press("Tab");
+    await expect(archive).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".list-row")).toHaveCount(4);
+    await expect(archive).toHaveRole("button");
+    await expect(archive).toHaveAccessibleName(label);
+    await expect(archive).toHaveAttribute("aria-pressed", "true");
+    await expect(archive).toBeFocused();
+
+    await page.reload();
+    await expect(page.locator(".list-row")).toHaveCount(4);
+    await expect(archive).toHaveAttribute("aria-pressed", "true");
+    await page.locator("#tag-filter").focus();
+    await page.keyboard.press("Tab");
+    await expect(archive).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    await expect(archive).toHaveAccessibleName(label);
+    await expect(archive).toHaveAttribute("aria-pressed", "false");
+    await expect(archive).toBeFocused();
+
+    await page.reload();
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    await expect(archive).toHaveAttribute("aria-pressed", "false");
   } finally { await f.close(); }
 });
 
@@ -148,39 +188,37 @@ for (const width of [1280, 980, 390]) for (const locale of ["en-US", "ja-JP"]) {
       await page.locator("#search-input").fill("Focus"); // Keep reset visible for both measurements.
       await expect(page.locator(".list-row")).toHaveCount(2);
       if (width <= 900) await page.locator(".toolbar-filters").evaluate(el => { el.scrollLeft = el.scrollWidth; });
-      const geometry = () => page.evaluate(() => ["#priority-filter", ".archive-filter", "#reset-filters-button"].map(selector => {
+      const geometry = () => page.evaluate(() => ["#priority-filter", "#include-archived-filter", "#reset-filters-button"].map(selector => {
         const r = document.querySelector(selector)!.getBoundingClientRect(); const scroll = document.querySelector(".toolbar-filters")!.scrollLeft; return { x: r.x + scroll, y: r.y, width: r.width, height: r.height };
       }));
       const before = await geometry();
-      await page.locator("#include-archived-filter").check();
+      await page.locator("#include-archived-filter").click();
       await expect(page.locator(".list-row")).toHaveCount(4);
       expect(await geometry()).toEqual(before);
       const overflow = await page.locator(".toolbar").evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth }));
       expect(overflow.scroll).toBeLessThanOrEqual(overflow.width + 1);
-      // Checking the input can scroll its focus target independently of the label.
-      // Scroll to the end, like a horizontal swipe, to verify full reachability.
+      // Scroll the compact toolbar to the end to verify the entire action is reachable.
       if (width <= 900) await page.locator(".toolbar-filters").evaluate(el => { el.scrollLeft = el.scrollWidth; });
-      // Compact toolbar intentionally scrolls horizontally; verify the interacted label is reachable.
-      for (const selector of width <= 900 ? [".archive-filter"] : ["#priority-filter", ".archive-filter"]) {
+      for (const selector of width <= 900 ? ["#include-archived-filter"] : ["#priority-filter", "#include-archived-filter"]) {
         const r = await page.locator(selector).boundingBox();
         expect(r!.x).toBeGreaterThanOrEqual(0);
         expect(r!.x + r!.width).toBeLessThanOrEqual(width);
       }
-      const label = await page.locator(".archive-filter").boundingBox();
-      for (const selector of ["#include-archived-filter", ".archive-filter > span"]) {
+      const button = await page.locator("#include-archived-filter").boundingBox();
+      for (const selector of ["#include-archived-filter > .icon", "#include-archived-filter > span"]) {
         const r = await page.locator(selector).boundingBox();
-        expect(r!.x).toBeGreaterThanOrEqual(label!.x);
-        expect(r!.x + r!.width).toBeLessThanOrEqual(label!.x + label!.width + 1);
+        expect(r!.x).toBeGreaterThanOrEqual(button!.x);
+        expect(r!.x + r!.width).toBeLessThanOrEqual(button!.x + button!.width + 1);
       }
       const reset = await page.locator("#reset-filters-button").boundingBox();
-      const overlapX = Math.min(label!.x + label!.width, reset!.x + reset!.width) - Math.max(label!.x, reset!.x);
-      const overlapY = Math.min(label!.y + label!.height, reset!.y + reset!.height) - Math.max(label!.y, reset!.y);
+      const overlapX = Math.min(button!.x + button!.width, reset!.x + reset!.width) - Math.max(button!.x, reset!.x);
+      const overlapY = Math.min(button!.y + button!.height, reset!.y + reset!.height) - Math.max(button!.y, reset!.y);
       expect(overlapX <= 0 || overlapY <= 0).toBe(true);
     } finally { await f.close(); await context.close(); }
   });
 }
 
-test("archive checkbox controls whether archiving keeps ticket details open, and default empty board offers creation", async ({ page }) => {
+test("the archive action controls whether archiving keeps ticket details open, and default empty board offers creation", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Archive details", laneNames: ["Todo"] });
@@ -191,7 +229,10 @@ test("archive checkbox controls whether archiving keeps ticket details open, and
     for (const includeArchived of [false, true]) {
       const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: `Archive with ${includeArchived}` });
       await page.reload();
-      await page.locator("#include-archived-filter").setChecked(includeArchived);
+      const archive = page.locator("#include-archived-filter");
+      await expect(archive).toHaveAttribute("aria-pressed", "false");
+      if (includeArchived) await archive.click();
+      await expect(archive).toHaveAttribute("aria-pressed", String(includeArchived));
       await page.getByRole("button", { name: `#${ticket.id} ${ticket.title}`, exact: true }).click();
       await page.locator("#header-edit-button").click();
       await page.locator("#archive-ticket-button").click();
@@ -227,7 +268,7 @@ for (const locale of ["en-US", "ja-JP"]) {
         await page.setViewportSize({ width, height: 900 });
         await page.locator('[data-view-mode="list"]').click();
         await expect(page.locator(".list-row")).toHaveCount(2);
-        // Expansion is kept constant through the three views; archived checkbox stays separate.
+        // Keep priority expansion constant through the three views.
         const edge = page.locator("#priority-filter .filter-menu-edge-toggle");
         if (await edge.getAttribute("aria-expanded") !== "true") await edge.click();
         await expect(page.locator("#priority-filter .filter-menu-options")).toBeVisible();

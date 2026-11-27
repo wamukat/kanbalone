@@ -471,7 +471,7 @@ test("archive expansion and filtered drops keep the logical Kanban order", async
       expect(created.status(), await created.text()).toBe(201);
       archivedIds.push((await created.json()).id);
     }
-    await page.locator("#include-archived-filter").check();
+    await page.locator("#include-archived-filter").click();
     const source = lane(page, f.source);
     await expect(source).toHaveAttribute("data-kanban-window", "209");
     const expand = source.locator(".inactive-ticket-summary-button");

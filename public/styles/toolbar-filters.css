@@ -88,6 +88,11 @@
   min-width: 0;
 }
 
+.toolbar-filters > .filter-text-action {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
 #search-input {
   width: 100%;
 }

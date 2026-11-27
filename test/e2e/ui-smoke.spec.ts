@@ -71,7 +71,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#status-filter")).toHaveCount(0);
     await expect(page.locator(".ticket-card")).toHaveCount(4);
     await expect(page.locator("#search-input")).toHaveAttribute("placeholder", "Search keywords or #123");
-    await expect(page.locator("#include-archived-filter")).not.toBeChecked();
+    await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", "false");
     const smokeTicket = await ticketResponse.json();
     await page.locator("#search-input").fill(String(smokeTicket.id));
     await expect(page.locator(".toolbar-search")).toHaveClass(/is-filter-active/);
@@ -116,7 +116,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#board-title")).toHaveText("Inline Board");
     await page.getByRole("button", { name: "UI Smoke" }).click();
     await expect(page.locator("#board-title")).toHaveText("UI Smoke");
-    await expect(page.locator("#include-archived-filter")).not.toBeChecked();
+    await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator("#board-list .board-button").first()).toHaveText("UI Smoke");
     await Promise.all([
@@ -253,8 +253,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#board-rename-inline-host")).toContainText("UI Smoke");
     await expect(page.locator("[data-board-rename-start] use[href='/icons.svg#pencil']")).toHaveCount(1);
     await expect(page.locator("#delete-board-button use[href='/icons.svg#trash-2']")).toHaveCount(1);
-    await page.locator("#include-archived-filter").check();
-    await expect(page.locator("#include-archived-filter")).toBeChecked();
+    await page.locator("#include-archived-filter").click();
+    await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".ticket-card")).toHaveCount(5);
     await expect(page.locator("#lane-board")).not.toContainText("No matching tickets");
     const archivedCardStatus = page.getByRole("button", { name: "Archived candidate" }).locator("..").locator(".ticket-status-icon-archived");
@@ -266,7 +266,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-bulk-archive='false'] use[href='/icons.svg#rotate-ccw']").first()).toHaveCount(1);
     await page.locator("#sidebar #view-mode-toggle [data-view-mode='kanban']").click();
     await page.locator("#include-archived-filter").click();
-    await expect(page.locator("#include-archived-filter")).not.toBeChecked();
+    await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator(".ticket-card")).toHaveCount(4);
 
     const bulkDeleteTicketResponse = await page.request.post(`${baseUrl}/api/boards/${boardPayload.board.id}/tickets`, {

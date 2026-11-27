@@ -121,7 +121,6 @@ export function createFiltersModule(ctx, options) {
     elements.searchInput.value = state.filters.q;
     syncSearchClearButton();
     elements.laneFilter.value = state.filters.lane;
-    elements.includeArchivedInput.checked = state.filters.includeArchived;
     syncPriorityFilter();
     elements.tagFilter.value = state.filters.tag;
     syncActiveFilterStyles();
@@ -200,8 +199,8 @@ export function createFiltersModule(ctx, options) {
       syncActiveFilterStyles();
       await options.refreshBoardDetail();
     });
-    elements.includeArchivedInput.addEventListener("change", async () => {
-      state.filters.includeArchived = elements.includeArchivedInput.checked;
+    elements.includeArchivedButton.addEventListener("click", async () => {
+      state.filters.includeArchived = !state.filters.includeArchived;
       saveBoardFilters();
       syncActiveFilterStyles();
       await options.refreshBoardDetail();
@@ -291,7 +290,8 @@ export function createFiltersModule(ctx, options) {
   function syncActiveFilterStyles() {
     elements.searchInput.closest(".toolbar-search")?.classList.toggle("is-filter-active", state.filters.q !== "");
     elements.laneFilter.classList.toggle("is-filter-active", state.viewMode === "list" && state.filters.lane !== "");
-    elements.includeArchivedInput.closest(".archive-filter")?.classList.toggle("is-filter-active", state.filters.includeArchived);
+    elements.includeArchivedButton.classList.toggle("active", state.filters.includeArchived);
+    elements.includeArchivedButton.setAttribute("aria-pressed", String(state.filters.includeArchived));
     elements.priorityFilter.classList.toggle("is-filter-active", state.filters.priority.length > 0);
     elements.tagFilter.classList.toggle("is-filter-active", state.filters.tag !== "");
     elements.resetFiltersButton.hidden = !hasActiveTicketFilters();

@@ -130,7 +130,7 @@ Set completion lanes under the sidebar gear → **Completion lanes**. Naming a l
 
 Use **Archive** in ticket details to hide a ticket from your everyday view.
 
-Kanban and List show open and resolved tickets. In List, choose a completion lane to focus on finished work. Check **Include archived tickets** to also show archived tickets in either view.
+Kanban and List show open and resolved tickets. In List, choose a completion lane to focus on finished work. Turn on **Include archived tickets** to show archived tickets in either view. Press the same button again to hide them.
 
 On upgrade, your archive setting is kept and any old Kanban or List completion selection is cleared.
 

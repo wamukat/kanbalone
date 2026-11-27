@@ -175,7 +175,8 @@
   justify-content: space-between;
   margin-top: var(--space-1);
 }
-.group-text-action {
+.group-text-action,
+.filter-text-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -187,7 +188,8 @@
   font-size: var(--font-size-meta);
   font-weight: var(--font-weight-medium);
 }
-.group-text-action:hover {
+.group-text-action:hover,
+.filter-text-action:hover {
   border-color: transparent;
   background: var(--surface-inset);
   color: var(--accent);
@@ -513,10 +515,12 @@
   color: var(--text-muted);
 }
 
-.group-ticket-toolbar > .group-text-action {
+.group-ticket-toolbar > .group-text-action,
+.toolbar-filters > .filter-text-action {
   border-color: var(--line);
 }
-.group-ticket-toolbar > .group-text-action:hover {
+.group-ticket-toolbar > .group-text-action:hover,
+.toolbar-filters > .filter-text-action:hover {
   border-color: var(--accent);
 }
 

@@ -169,9 +169,10 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
       }
       return {
         rowCount: new Set(
-          visibleControls.map((control) =>
-            Math.round(control.getBoundingClientRect().top),
-          ),
+          visibleControls.map((control) => {
+            const rect = control.getBoundingClientRect();
+            return Math.round(rect.top + rect.height / 2);
+          }),
         ).size,
         resetWidth: resetButton.getBoundingClientRect().width,
         resetLabelPosition: getComputedStyle(resetLabel).position,

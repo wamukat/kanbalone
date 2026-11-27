@@ -24,7 +24,7 @@ export function getAppElements() {
     searchClearButton: document.querySelector("#search-clear-button"),
     laneFilter: document.querySelector("#lane-filter"),
     viewModeButtons: [...document.querySelectorAll("#view-mode-toggle button")],
-    includeArchivedInput: document.querySelector("#include-archived-filter"),
+    includeArchivedButton: document.querySelector("#include-archived-filter"),
     priorityFilter: document.querySelector("#priority-filter"),
     priorityFilterToggles: [...document.querySelectorAll("#priority-filter [data-filter-expand='priority']")],
     priorityFilterButtons: [...document.querySelectorAll("#priority-filter [data-priority-filter]")],
