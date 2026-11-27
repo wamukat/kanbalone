@@ -65,7 +65,7 @@ export function createListBoardModule(ctx, options) {
         ? renderEmptyState({
           iconName: "search",
           title: tr("No matching tickets"),
-          body: describeTicketFilters(state.filters, detail.lanes),
+          body: describeTicketFilters(state.filters, detail.lanes, detail.tags),
           actionLabel: tr("Reset filters"),
           actionAttr: "data-empty-reset-filters",
           actionIcon: "rotate-ccw",

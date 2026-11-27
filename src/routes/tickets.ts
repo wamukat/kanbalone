@@ -1,4 +1,4 @@
-import { ticketCreateInput, ticketUpdateInput, rejectCompletionFlags, rejectCompletedQuery } from "./ticket-input.js";
+import { ticketCreateInput, ticketUpdateInput, ticketSelectionFilters, rejectCompletionFlags, rejectCompletedQuery, type TicketSelectionQuery } from "./ticket-input.js";
 import { groupErrorSchema, groupPreviewSchema } from "./schemas/group.js";
 import { sendGroupError } from "./groups.js";
 import type { FastifyInstance } from "fastify";
@@ -52,15 +52,12 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     if (!db.getBoard(boardId)) {
       return reply.code(404).send({ error: "board not found" });
     }
-    const query = request.query as {
+    const query = request.query as TicketSelectionQuery & {
       limit?: number;
       cursor?: string;
       order?: "id_asc" | "position_asc" | "completed_desc";
       priority?: string;
-      lane_id?: string;
-      lane?: string;
       parent?: string;
-      tag?: string;
       resolved?: string;
       archived?: string;
       q?: string;
@@ -68,9 +65,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       ungrouped?: string;
       includeArchived?: string;
     };
-    if (query.lane !== undefined && query.lane_id !== undefined) {
-      return reply.code(400).send({ error: "lane and lane_id cannot be combined" });
-    }
+    const selectionFilters = ticketSelectionFilters(query);
     if (query.parent !== undefined && query.parent !== "none" && !Number.isSafeInteger(Number(query.parent))) {
       return reply.code(400).send({ error: "parent must be a safe positive integer or none" });
     }
@@ -86,10 +81,8 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     const filters = {
       priorities: priorities?.length === 4 ? undefined : priorities,
       groupId: query.ungrouped === "true" ? null : query.groupId === undefined ? undefined : Number(query.groupId),
-      laneId: query.lane_id ? Number(query.lane_id) : undefined,
-      laneName: query.lane,
+      ...selectionFilters,
       parentTicketId: query.parent === "none" ? null : query.parent === undefined ? undefined : Number(query.parent),
-      tag: query.tag?.trim() || undefined,
       resolved: resolvedFilter,
       archived:
         query.archived === "true" ? true : query.archived === "false" ? false : undefined,

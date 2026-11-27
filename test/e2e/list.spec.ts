@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { closeTestApp, buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket } from "./helpers.js";
+import { closeTestApp, buildApp, createBoard, createCompletionLane, createDbFile, createTicket, getFreePort, path, startTestApp, updateTicket, selectBoardFilter } from "./helpers.js";
 
 async function gotoListAndWaitForBoardEvents(page: Page, baseUrl: string, boardId: number) {
   const eventsResponse = page.waitForResponse((response) =>
@@ -39,10 +39,10 @@ test("lane filter does not leak from List view into Kanban view", async ({ page 
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
     await expect(page.locator(".list-row")).toHaveCount(2);
-    await page.locator("#lane-filter").selectOption(String(reviewLane.id));
+    await selectBoardFilter(page, "lane", reviewLane.name);
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Review ticket");
-    await expect(page.locator("#lane-filter")).toHaveClass(/is-filter-active/);
+    await expect(page.locator("#lane-filter-button")).toHaveClass(/is-filter-active/);
 
     await page.getByRole("button", { name: "Kanban" }).click();
     await expect(page.locator("#lane-filter")).toBeHidden();
@@ -51,7 +51,7 @@ test("lane filter does not leak from List view into Kanban view", async ({ page 
 
     await page.getByRole("button", { name: "List" }).click();
     await expect(page.locator("#lane-filter")).toBeVisible();
-    await expect(page.locator("#lane-filter")).toHaveValue(String(reviewLane.id));
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText(reviewLane.name);
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Review ticket");
   } finally {

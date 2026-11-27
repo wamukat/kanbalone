@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createCompletionLane, createTicket, startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createCompletionLane, createTicket, startTestApp, updateTicket, selectBoardFilter } from "./helpers.js";
 
 test("dark ticket details identify the lane with the theme text color", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
@@ -45,7 +45,7 @@ test("the empty List describes active filters and resets to unarchived tickets",
     await createTicket(page.request, baseUrl, board.board.id, { laneId: todo.id, title: "Open task" });
     await createTicket(page.request, baseUrl, board.board.id, { laneId: todo.id, title: "Archived task", isArchived: true });
     await page.goto(`${baseUrl}/boards/${board.board.id}/list`);
-    await page.locator("#lane-filter").selectOption(String(todo.id));
+    await selectBoardFilter(page, "lane", todo.name);
     await page.locator("#include-archived-filter").click();
     await expect(page.locator(".list-row")).toHaveCount(2);
     await page.locator("#search-input").fill("does not exist <text>");
@@ -56,7 +56,7 @@ test("the empty List describes active filters and resets to unarchived tickets",
     await expect(empty).not.toContainText("Completion");
     await empty.getByRole("button", { name: "Reset filters", exact: true }).click();
     await expect(page.locator("#search-input")).toHaveValue("");
-    await expect(page.locator("#lane-filter")).toHaveValue("");
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText("All");
     await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator(".list-row")).toContainText("Open task");

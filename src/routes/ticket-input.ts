@@ -27,6 +27,43 @@ export function ticketUpdateInput(body: TicketMutationBody): UpdateTicketInput {
   };
 }
 
+export type TicketSelectionQuery = {
+  lane_id?: number;
+  lane_ids?: string;
+  lane?: string;
+  tag?: string;
+  tag_ids?: string;
+};
+
+function invalidSelection(message: string): never {
+  throw Object.assign(new Error(message), { statusCode: 400 });
+}
+
+function parseIdSelection(value: string | undefined, field: string): number[] | undefined {
+  if (value === undefined) return undefined;
+  const ids = value.split(",").map(Number);
+  if (!ids.every(Number.isSafeInteger)) invalidSelection(`${field} must contain safe positive integers`);
+  return [...new Set(ids)].sort((a, b) => a - b);
+}
+
+export function ticketSelectionFilters(query: TicketSelectionQuery) {
+  const { lane_id, lane_ids, lane, tag, tag_ids } = query;
+  if (lane !== undefined && lane_id !== undefined) invalidSelection("lane and lane_id cannot be combined");
+  if (lane_ids !== undefined && (lane !== undefined || lane_id !== undefined)) {
+    invalidSelection("lane_ids cannot be combined with lane or lane_id");
+  }
+  if (tag_ids !== undefined && tag !== undefined) invalidSelection("tag and tag_ids cannot be combined");
+  const laneIds = parseIdSelection(lane_ids, "lane_ids");
+  // Keep the indexed single-lane paging path for a one-lane selection.
+  return {
+    laneId: laneIds?.length === 1 ? laneIds[0] : lane_id,
+    laneIds: laneIds?.length === 1 ? undefined : laneIds,
+    laneName: lane,
+    tag: tag?.trim() || undefined,
+    tagIds: parseIdSelection(tag_ids, "tag_ids"),
+  };
+}
+
 // Fastify's default validator removes unknown fields. Reject retired completion
 // inputs before validation so an obsolete client never appears to succeed.
 export async function rejectCompletionFlags(request: FastifyRequest, reply: FastifyReply): Promise<void> {

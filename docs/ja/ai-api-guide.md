@@ -157,10 +157,9 @@ Codex は Kanbalone container の外側で動くため、skill はホスト側�
 - 大きい board の描画、filter、検索、automation scan ではまずこの endpoint を使います。
 - `bodyHtml`, `comments`, `parent`, `children`, 展開済み `blockers` は含みません。
 - 詳細が必要なら `GET /api/tickets/:ticketId` を使います。
-- `lane_id`
-- `tag`
-- `resolved`
-- `archived`
+- レーン1件を指定するには `lane_id` または完全一致のレーン名を指定する `lane` を使います。タグ1件を完全一致の名前で指定するには `tag` を使います。
+- `lane_ids=11,12&tag_ids=3,4` は、いずれかの対象レーンにあり、いずれかの対象タグが付いたチケットに一致します。すべてのレーンやタグを対象にするには、対応するリストを省略します。レーンとタグのパラメータは、それぞれ1種類を指定できます。
+- `resolved` は完了状態、`archived` はアーカイブ状態で絞り込みます。
 - `q`
   - title / body Markdown / ticket ID / `#ticketId` / tracked remote ref / external reference を検索します。
   - `gh#123`, `github#123`, `gl#123`, `gitlab#123`, `rm#123`, `redmine#123` のような provider prefix 付き短縮形では、その provider の tracked remote link と external reference を検索できます。
@@ -261,7 +260,7 @@ Content-Type: application/json
 
 ### レーン名・親で絞り込む
 
-`GET /api/boards/:boardId/tickets?lane=進行中&resolved=false&parent=101` はレーン名の完全一致と直接の親で絞ります。`parent=none` は親なしです。未知のレーン名や該当しない親IDは空一覧になります。既存の `lane_id` と `lane` は同時指定できません。複数レーンや子孫全体の検索はこのAPIには含みません。
+`GET /api/boards/:boardId/tickets?lane=進行中&resolved=false&parent=101` はレーン名の完全一致と直接の親で絞ります。`parent=none` は親なしです。未知のレーン名や該当しない親IDは空一覧になります。`lane`、`lane_id`、`lane_ids` のうち1つを指定できます。
 
 ### コメントを必要な件数だけ読む
 

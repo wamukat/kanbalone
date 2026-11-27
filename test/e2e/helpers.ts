@@ -93,3 +93,14 @@ export async function createCompletionLane(request: APIRequestContext, baseUrl: 
   if (response.status() !== 201) throw new Error(`Failed to create completion lane: ${response.status()}`);
   return response.json();
 }
+
+export async function selectBoardFilter(page: Page, kind: "lane" | "tag", name: string | null) {
+  await page.locator(`#${kind}-filter-button`).click();
+  const panel = page.locator(`#${kind}-filter-options`);
+  if (name === null) {
+    await panel.getByRole("button", { name: "Clear selection" }).click();
+  } else {
+    await panel.getByRole("checkbox", { name, exact: true }).check();
+  }
+  await page.keyboard.press("Escape");
+}

@@ -363,6 +363,7 @@ async function refreshBoardDetail({ awaitGroupLoad = false, reuseReadyKanbanLane
       closeBoardEvents();
       state.boardDetail = null;
       state.boardTickets = [];
+      clearBoardFilterChoices();
       syncActiveFilterStyles();
       renderBoardDetail();
       return;
@@ -444,6 +445,7 @@ let boardBeforeView;
 let returningInHistory = false;
 
 function beginBoardOverride() {
+  closeBoardFilterPickers();
   editorModule.invalidateOpening();
   ++routeGeneration;
   ++boardRefreshGeneration;
@@ -474,6 +476,7 @@ async function returnToBoard() {
 }
 
 async function applyRouteFromLocation(options) {
+  closeBoardFilterPickers();
   returningInHistory = false;
   const path = location.pathname;
   const viewRoute = /^\/views\/(new|[1-9]\d*)\/?$/.exec(path);
@@ -533,6 +536,8 @@ const filtersModule = createFiltersModule(
 const {
   bindFilterEvents,
   buildTicketListUrl,
+  clearBoardFilterChoices,
+  closeBoardFilterPickers,
   filterTicketsForDisplay,
   hasActiveTicketFilters,
   normalizeBoardFiltersForDetail,

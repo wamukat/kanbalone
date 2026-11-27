@@ -7,9 +7,11 @@ export type ListTicketsFilters = {
   groupId?: number | null;
   ungrouped?: boolean;
   laneId?: number;
+  laneIds?: number[];
   laneName?: string;
   parentTicketId?: number | null;
   tag?: string;
+  tagIds?: number[];
   resolved?: boolean;
   q?: string;
   archived?: boolean;
@@ -56,6 +58,10 @@ export function ticketFilterQuery(boardId: Id, filters: ListTicketsFilters = {})
   if (typeof filters.laneId === "number") {
     sql += " AND t.lane_id = ?";
     params.push(filters.laneId);
+  }
+  if (filters.laneIds?.length) {
+    sql += " AND t.lane_id IN (SELECT value FROM json_each(?))";
+    params.push(JSON.stringify(filters.laneIds));
   }
   if (filters.laneName !== undefined) {
     sql += " AND t.lane_id IN (SELECT id FROM lanes WHERE board_id = ? AND name = ?)";
@@ -149,6 +155,19 @@ export function ticketFilterQuery(boardId: Id, filters: ListTicketsFilters = {})
       )
     `;
     params.push(filters.tag);
+  }
+  if (filters.tagIds?.length) {
+    sql += `
+      AND EXISTS (
+        SELECT 1
+        FROM ticket_tags tt
+        WHERE tt.ticket_id = t.id
+          AND tt.tag_id IN (
+            SELECT id FROM tags WHERE board_id = ? AND id IN (SELECT value FROM json_each(?))
+          )
+      )
+    `;
+    params.push(boardId, JSON.stringify(filters.tagIds));
   }
   if (filters.priorities?.length) {
     sql += ` AND t.priority IN (${filters.priorities.map(() => "?").join(",")})`;

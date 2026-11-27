@@ -42,6 +42,20 @@ test("List selection spans pages and virtual rows, then drops filtered and moved
     const selectedCount = page.locator(".list-selection-count").first();
     await expect(selectAll).toBeVisible();
     expect(requestedNextPage).toBe(true);
+
+    const laneTrigger = page.locator("#lane-filter-button");
+    const lanePanel = page.locator("#lane-filter-options");
+    await laneTrigger.click();
+    await lanePanel.getByRole("checkbox", { name: todo.name }).check();
+    const multipleLanePage = page.waitForResponse(response => {
+      const url = new URL(response.url());
+      return url.pathname === `/api/boards/${boardId}/tickets`
+        && url.searchParams.get("lane_ids") === [todo.id, review.id].sort((a, b) => a - b).join(",")
+        && url.searchParams.has("cursor") && response.ok();
+    });
+    await lanePanel.getByRole("checkbox", { name: review.name }).check();
+    await multipleLanePage;
+    await page.keyboard.press("Escape");
     expect(await page.locator(".list-row").count()).toBeLessThan(240);
     await selectAll.check();
     await expect(selectedCount).toHaveText("240 selected");
@@ -55,7 +69,9 @@ test("List selection spans pages and virtual rows, then drops filtered and moved
     await expect(selectedCount).toHaveText("240 selected");
     await expect(selectAll).toHaveJSProperty("indeterminate", false);
 
-    await page.locator("#lane-filter").selectOption(String(todo.id));
+    await laneTrigger.click();
+    await lanePanel.getByRole("checkbox", { name: review.name }).uncheck();
+    await page.keyboard.press("Escape");
     await expect(selectedCount).toHaveText("120 selected");
     await expect(selectAll).toBeChecked();
     const movedId = todoIds[0];

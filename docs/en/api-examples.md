@@ -322,7 +322,9 @@ Send `Content-Type: application/json` when sending a JSON body. Omit it for body
 
 ### Filter By Lane Name Or Parent
 
-`GET /api/boards/:boardId/tickets?lane=Doing&resolved=false&parent=101` combines an exact lane name with a direct parent filter. `parent=none` selects root tickets. Unknown lane names or unmatched parent IDs return an empty list. `lane` and the existing `lane_id` are mutually exclusive. Multiple lane names and recursive descendants are not supported.
+`GET /api/boards/:boardId/tickets?lane=Doing&resolved=false&parent=101` combines an exact lane name with a direct parent filter. `parent=none` selects root tickets. Unknown lane names or unmatched parent IDs return an empty list. Choose one of `lane`, `lane_id`, and `lane_ids`.
+
+`GET /api/boards/:boardId/tickets?lane_ids=11,12&tag_ids=3,4` matches tickets in one of the selected lanes that have at least one of the selected tags. Omit either list to include all values for that field. Use `tag` to filter by one exact tag name.
 
 ### Read Recent Comments
 

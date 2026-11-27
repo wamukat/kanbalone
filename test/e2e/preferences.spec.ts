@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path, selectBoardFilter } from "./helpers.js";
 
 test("last board, view, and filters restore from localStorage", async ({ page }) => {
   const app = buildApp({
@@ -37,7 +37,7 @@ test("last board, view, and filters restore from localStorage", async ({ page })
     await page.locator("#board-list").getByRole("button", { name: "LocalStorage B" }).click();
     await page.getByRole("button", { name: "List", exact: true }).click();
     await page.locator("#search-input").fill("Persisted");
-    await page.locator("#lane-filter").selectOption(String(reviewLane.id));
+    await selectBoardFilter(page, "lane", reviewLane.name);
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator("#list-board")).toContainText("Persisted review");
 
@@ -48,7 +48,7 @@ test("last board, view, and filters restore from localStorage", async ({ page })
       boards: {
         [String(secondBoard.board.id)]: {
           viewMode: "list",
-          filters: { q: "Persisted", lane: String(reviewLane.id) },
+          filters: { q: "Persisted", laneIds: [reviewLane.id] },
         },
       },
     });
@@ -60,7 +60,7 @@ test("last board, view, and filters restore from localStorage", async ({ page })
     await expect(page.locator("#board-title")).toHaveText("LocalStorage B");
     await expect(page.locator("#search-input")).toHaveValue("Persisted");
     await expect(page.locator("#lane-filter")).toBeVisible();
-    await expect(page.locator("#lane-filter")).toHaveValue(String(reviewLane.id));
+    await expect(page.locator("#lane-filter .board-filter-names")).toHaveText(reviewLane.name);
     await expect(page.locator(".list-row")).toHaveCount(1);
     await expect(page.locator("#list-board")).toContainText("Persisted review");
   } finally {

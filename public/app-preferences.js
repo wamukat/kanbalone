@@ -6,7 +6,7 @@ const EDITOR_DIALOG_SIZE_KEY = "kanbalone:editor-dialog-size";
 
 /**
  * @typedef {"kanban" | "list" | "group"} BoardViewMode
- * @typedef {{ q: string; lane: string; includeArchived: boolean; priority: string[]; tag: string }} BoardFilters
+ * @typedef {{ q: string; laneIds: number[]; includeArchived: boolean; priority: string[]; tagIds: number[]; legacyTagName?: string }} BoardFilters
  * @typedef {{ priority: boolean }} FilterExpansion
  * @typedef {{
  *   activeBoardId: number | null;
@@ -238,20 +238,30 @@ function normalizeStoredFiltersByBoard(value) {
   );
 }
 
+/** @param {unknown} value @returns {number[]} */
+function normalizeFilterIds(value) {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.filter(id => Number.isSafeInteger(id) && id > 0))].sort((a, b) => a - b);
+}
+
 /** @param {any} filters @returns {BoardFilters} */
 export function normalizeStoredFilters(filters) {
   const priority = Array.isArray(filters?.priority)
     ? filters.priority.filter(/** @param {unknown} item */ (item) => typeof item === "string" && ["low", "medium", "high", "urgent"].includes(item))
     : [];
+  const legacyLaneId = typeof filters?.lane === "string" && /^\d+$/.test(filters.lane) ? Number(filters.lane) : null;
+  const legacyTagName = filters?.legacyTagName ?? (Array.isArray(filters?.tagIds) ? null : filters?.tag);
   return {
     q: typeof filters?.q === "string" ? filters.q : "",
-    lane: typeof filters?.lane === "string" ? filters.lane : "",
+    laneIds: normalizeFilterIds(Array.isArray(filters?.laneIds) ? filters.laneIds : [legacyLaneId]),
     // Older preferences stored archive inclusion alongside completion states.
     includeArchived: typeof filters?.includeArchived === "boolean"
       ? filters.includeArchived
       : Array.isArray(filters?.status) && filters.status.includes("archived"),
     priority: [...new Set(priority)],
-    tag: typeof filters?.tag === "string" ? filters.tag : "",
+    tagIds: normalizeFilterIds(filters?.tagIds),
+    // A board's old tag name can be resolved once its tags are loaded.
+    ...(typeof legacyTagName === "string" && legacyTagName ? { legacyTagName } : {}),
   };
 }
 

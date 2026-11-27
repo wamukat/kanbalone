@@ -777,7 +777,7 @@ paths:
     get:
       summary: List ticket summaries
       description: Lightweight summary endpoint for board rendering, filtering, search, and automation on large boards. Fetch individual ticket
-        detail separately when body, comments, or expanded relations are needed. Use resolved for completion filtering; the removed completed query alias returns 400.
+        detail separately when body, comments, or expanded relations are needed. Lane and tag selections are combined with AND. Use resolved for completion filtering. The removed completed query alias returns 400.
       operationId: listTickets
       parameters:
       - $ref: '#/components/parameters/BoardId'
@@ -785,9 +785,10 @@ paths:
         in: query
         schema:
           type: integer
+      - $ref: '#/components/parameters/TicketLaneIds'
       - name: lane
         in: query
-        description: Exact lane name. Cannot be combined with lane_id. Unknown names return an empty list.
+        description: Exact lane name. Cannot be combined with lane_id or lane_ids. Unknown names return an empty list.
         schema:
           type: string
           minLength: 1
@@ -799,8 +800,10 @@ paths:
           pattern: ^(none|[1-9][0-9]*)$
       - name: tag
         in: query
+        description: Exact tag name. Cannot be combined with tag_ids.
         schema:
           type: string
+      - $ref: '#/components/parameters/TicketTagIds'
       - name: resolved
         in: query
         schema:
@@ -976,7 +979,7 @@ paths:
   /api/boards/{boardId}/list-ticket-references:
     get:
       summary: List ticket references for List
-      description: Returns priority-independent references in lane, archive, position and ID order. Apply the same List filters as the displayed collection apart from priority. Unlisted query parameters return 400.
+      description: Returns priority-independent references in lane, archive, position and ID order. Lane and tag selections are combined with AND. Apply the same List filters as the displayed collection apart from priority. Unlisted query parameters return 400.
       operationId: listTicketReferences
       parameters:
         - $ref: '#/components/parameters/BoardId'
@@ -989,6 +992,7 @@ paths:
         - name: lane_id
           in: query
           schema: { type: integer, minimum: 1 }
+        - $ref: '#/components/parameters/TicketLaneIds'
         - name: resolved
           in: query
           schema: { type: boolean }
@@ -998,7 +1002,9 @@ paths:
           schema: { type: string, enum: ['true', 'false', all] }
         - name: tag
           in: query
+          description: Exact tag name. Cannot be combined with tag_ids.
           schema: { type: string }
+        - $ref: '#/components/parameters/TicketTagIds'
         - name: q
           in: query
           description: Same text and reference matching as the ticket summaries endpoint.
@@ -2149,6 +2155,18 @@ components:
       in: query
       description: Opaque nextCursor for the same projection, board and filters. A changed revision returns 409 and requires restarting.
       schema: { type: string, minLength: 1, maxLength: 4096 }
+    TicketLaneIds:
+      name: lane_ids
+      in: query
+      description: Comma-separated positive safe integer lane IDs. Matches any selected lane. Omit for all lanes. Unknown IDs match no tickets. Duplicate IDs and list order are normalized. Cannot be combined with lane_id or lane.
+      schema: { type: string, pattern: '^[1-9][0-9]*(,[1-9][0-9]*)*$' }
+      example: '1,2'
+    TicketTagIds:
+      name: tag_ids
+      in: query
+      description: Comma-separated positive safe integer tag IDs on the board. Matches any selected tag once per ticket. Omit for all tags. Unknown IDs match no tickets. Duplicate IDs and list order are normalized. Cannot be combined with tag.
+      schema: { type: string, pattern: '^[1-9][0-9]*(,[1-9][0-9]*)*$' }
+      example: '3,4'
     GroupId:
       name: groupId
       in: path

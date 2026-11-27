@@ -1,3 +1,4 @@
+import { createBoardFilterPickers } from "./app-board-filter-pickers.js";
 import { t as tr } from "./app-i18n.js";
 import { normalizeStoredFilters } from "./app-preferences.js";
 export function createFiltersModule(ctx, options) {
@@ -8,6 +9,38 @@ export function createFiltersModule(ctx, options) {
     high: tr("High"),
     urgent: tr("Urgent"),
   };
+
+  let filterBoardId = null;
+  let lanes = [];
+  let tags = [];
+  const { pickers: [lanePicker, tagPicker], close: closeBoardFilterPickers, position: positionFilterPicker } = createBoardFilterPickers([
+    {
+      root: elements.laneFilter,
+      label: "Lane: {value}",
+      emptyLabel: tr("No lanes"),
+      onChange: (ids) => updateSelection("laneIds", ids),
+    },
+    {
+      root: elements.tagFilter,
+      label: "Tag: {value}",
+      emptyLabel: tr("No tags yet."),
+      onChange: (ids) => updateSelection("tagIds", ids),
+    },
+  ]);
+
+  function updateSelection(key, ids) {
+    state.filters[key] = ids.sort((left, right) => left - right);
+    saveBoardFilters();
+    syncActiveFilterStyles();
+    options.refreshBoardDetail().catch(error => options.showToast(error.message, "error"));
+  }
+
+  function clearBoardFilterChoices() {
+    closeBoardFilterPickers();
+    filterBoardId = null;
+    lanes = [];
+    tags = [];
+  }
 
   const toolbar = elements.shell.querySelector(".toolbar");
   const main = elements.shell.querySelector(".main");
@@ -50,6 +83,7 @@ export function createFiltersModule(ctx, options) {
       filters.scrollLeft = scrollLeft;
     }
     toolbar.style.setProperty("--shared-toolbar-height", `${height}px`);
+    positionFilterPicker();
   }
 
   function syncViewMode() {
@@ -79,6 +113,8 @@ export function createFiltersModule(ctx, options) {
   }
 
   function restoreBoardFilters(boardId = state.activeBoardId) {
+    closeBoardFilterPickers();
+    if (boardId !== filterBoardId) clearBoardFilterChoices();
     const savedFilters = boardId ? state.filtersByBoardId[String(boardId)] : null;
     applyBoardFilters(savedFilters);
   }
@@ -99,17 +135,23 @@ export function createFiltersModule(ctx, options) {
   }
 
   function normalizeBoardFiltersForDetail(detail) {
-    let nextFilters = state.filters;
-    if (state.filters.lane && !detail.lanes.some((lane) => String(lane.id) === String(state.filters.lane))) {
-      nextFilters = { ...nextFilters, lane: "" };
-    }
-    if (state.filters.tag && !detail.tags.some((tag) => tag.name === state.filters.tag)) {
-      nextFilters = { ...nextFilters, tag: "" };
-    }
-    if (nextFilters !== state.filters) {
-      applyBoardFilters(nextFilters);
+    filterBoardId = detail.board.id;
+    lanes = detail.lanes;
+    tags = detail.tags;
+    const { laneIds, tagIds, legacyTagName } = state.filters;
+    const laneChoices = new Set(lanes.map(lane => lane.id));
+    const tagChoices = new Set(tags.map(tag => tag.id));
+    const migratedTag = legacyTagName && tags.find(tag => tag.name === legacyTagName);
+    const nextLanes = laneIds.filter(id => laneChoices.has(id));
+    const nextTags = tagIds.filter(id => tagChoices.has(id));
+    if (migratedTag && !nextTags.includes(migratedTag.id)) nextTags.push(migratedTag.id);
+    if (legacyTagName || nextLanes.length !== laneIds.length || nextTags.length !== tagIds.length) {
+      const nextFilters = { ...state.filters, laneIds: nextLanes, tagIds: nextTags };
+      delete nextFilters.legacyTagName;
+      state.filters = normalizeStoredFilters(nextFilters);
       saveBoardFilters();
     }
+    syncActiveFilterStyles();
   }
 
   function applyBoardFilters(filters) {
@@ -120,23 +162,21 @@ export function createFiltersModule(ctx, options) {
   function syncFilterControls() {
     elements.searchInput.value = state.filters.q;
     syncSearchClearButton();
-    elements.laneFilter.value = state.filters.lane;
     syncPriorityFilter();
-    elements.tagFilter.value = state.filters.tag;
     syncActiveFilterStyles();
   }
 
   function buildTicketListUrl() {
-    const { includeArchived, lane, tag, q, priority } = state.filters;
+    const { includeArchived, laneIds, tagIds, q, priority } = state.filters;
     const params = new URLSearchParams();
     if (includeArchived) {
       params.set("archived", "all");
     }
-    if (state.viewMode === "list" && lane) {
-      params.set("lane_id", lane);
+    if (state.viewMode === "list" && laneIds.length) {
+      params.set("lane_ids", laneIds.join(","));
     }
-    if (tag) {
-      params.set("tag", tag);
+    if (tagIds.length) {
+      params.set("tag_ids", tagIds.join(","));
     }
     if (q) {
       params.set("q", q);
@@ -151,10 +191,10 @@ export function createFiltersModule(ctx, options) {
 
   function hasActiveTicketFilters() {
     return state.filters.q !== ""
-      || (state.viewMode === "list" && state.filters.lane !== "")
+      || (state.viewMode === "list" && state.filters.laneIds.length > 0)
       || state.filters.includeArchived
       || state.filters.priority.length > 0
-      || state.filters.tag !== "";
+      || state.filters.tagIds.length > 0;
   }
 
   function filterTicketsForDisplay(tickets) {
@@ -165,6 +205,7 @@ export function createFiltersModule(ctx, options) {
   function bindFilterEvents() {
     elements.viewModeButtons.forEach((button) => {
       button.addEventListener("click", () => {
+        closeBoardFilterPickers();
         state.viewMode = button.dataset.viewMode || "kanban";
         syncViewMode();
         syncActiveFilterStyles();
@@ -192,12 +233,6 @@ export function createFiltersModule(ctx, options) {
       elements.searchInput.focus();
       try { await options.refreshBoardDetail(); }
       catch (error) { options.showToast(error.message, "error"); }
-    });
-    elements.laneFilter.addEventListener("change", async (event) => {
-      state.filters.lane = event.target.value;
-      saveBoardFilters();
-      syncActiveFilterStyles();
-      await options.refreshBoardDetail();
     });
     elements.includeArchivedButton.addEventListener("click", async () => {
       state.filters.includeArchived = !state.filters.includeArchived;
@@ -236,13 +271,8 @@ export function createFiltersModule(ctx, options) {
       saveBoardFilterExpansion();
       await options.refreshBoardDetail();
     });
-    elements.tagFilter.addEventListener("change", async (event) => {
-      state.filters.tag = event.target.value;
-      saveBoardFilters();
-      syncActiveFilterStyles();
-      await options.refreshBoardDetail();
-    });
     elements.resetFiltersButton.addEventListener("click", async () => {
+      closeBoardFilterPickers();
       resetBoardFilters();
       saveBoardFilters();
       syncPriorityExpansion(false);
@@ -289,11 +319,11 @@ export function createFiltersModule(ctx, options) {
 
   function syncActiveFilterStyles() {
     elements.searchInput.closest(".toolbar-search")?.classList.toggle("is-filter-active", state.filters.q !== "");
-    elements.laneFilter.classList.toggle("is-filter-active", state.viewMode === "list" && state.filters.lane !== "");
+    lanePicker.update(lanes, state.filters.laneIds);
     elements.includeArchivedButton.classList.toggle("active", state.filters.includeArchived);
     elements.includeArchivedButton.setAttribute("aria-pressed", String(state.filters.includeArchived));
     elements.priorityFilter.classList.toggle("is-filter-active", state.filters.priority.length > 0);
-    elements.tagFilter.classList.toggle("is-filter-active", state.filters.tag !== "");
+    tagPicker.update(tags, state.filters.tagIds);
     elements.resetFiltersButton.hidden = !hasActiveTicketFilters();
     syncSharedToolbarHeight();
   }
@@ -329,6 +359,8 @@ export function createFiltersModule(ctx, options) {
   return {
     bindFilterEvents,
     buildTicketListUrl,
+    clearBoardFilterChoices,
+    closeBoardFilterPickers,
     filterTicketsForDisplay,
     hasActiveTicketFilters,
     normalizeBoardFiltersForDetail,

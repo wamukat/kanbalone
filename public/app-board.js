@@ -66,8 +66,6 @@ export function createBoardModule(ctx) {
       state.confirmingSidebarTagDeleteId = null;
       state.sidebarTagError = "";
       boardSettingsModule.syncBoardSettingsPanel();
-      elements.tagFilter.innerHTML = `<option value="">${tr("All tags")}</option>`;
-      elements.laneFilter.innerHTML = `<option value="">${tr("All lanes")}</option>`;
       elements.laneBoard.className = "lane-board empty";
       elements.laneBoard.innerHTML = renderEmptyState({
         iconName: "columns-3",
@@ -93,23 +91,6 @@ export function createBoardModule(ctx) {
     elements.sidebarBoardSection.hidden = false;
     boardSettingsModule.syncBoardSettingsPanel();
     sidebarTagsModule.renderSidebarTags();
-    elements.tagFilter.innerHTML =
-      `<option value="">${tr("All tags")}</option>` +
-      detail.tags
-        .map(
-          (tag) =>
-            `<option value="${ctx.escapeHtml(tag.name)}" ${state.filters.tag === tag.name ? "selected" : ""}>${ctx.escapeHtml(tag.name)}</option>`,
-        )
-        .join("");
-    elements.laneFilter.innerHTML =
-      `<option value="">${tr("All lanes")}</option>` +
-      detail.lanes
-        .map(
-          (lane) =>
-            `<option value="${lane.id}" ${state.filters.lane === String(lane.id) ? "selected" : ""}>${ctx.escapeHtml(lane.name)}</option>`,
-        )
-        .join("");
-
     let groupLoad;
     if (state.viewMode === "kanban") {
       kanbanModule.renderKanbanBoard(detail, { reuseReadyLanes: reuseReadyKanbanLanes });
