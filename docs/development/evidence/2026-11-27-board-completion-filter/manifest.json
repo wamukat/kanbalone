@@ -1,0 +1,228 @@
+{
+  "capturedOn": "2026-11-27 Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 158.0.8127.37",
+    "automation": "agent-browser 0.26.0",
+    "operatingSystem": "macOS",
+    "deviceScaleFactor": 1,
+    "runtime": "Node.js 26.13.1"
+  },
+  "sourceFingerprintMethod": "SHA-256 of the UTF-8 concatenation of source file SHA-256, two spaces, repository-relative POSIX path, and LF, sorted by path. Files are package.json, tsconfig.json, and all files in public, scripts, and src.",
+  "builds": {
+    "before": {
+      "sourceCommit": "c9f1bf61d9ab25d4bdef3f1f11868545835da85a",
+      "displayVersion": "1.5.0",
+      "source": {
+        "fileCount": 253,
+        "manifestSha256": "7b1ccedbb3a68087781a41529401179308d1358b4f51de2cb12f407a48e4a926"
+      },
+      "servedAssets": [
+        "app-T3SHOX7W.js",
+        "styles-KT473EXX.css"
+      ]
+    },
+    "after": {
+      "baseCommit": "c9f1bf61d9ab25d4bdef3f1f11868545835da85a",
+      "displayVersion": "1.5.0",
+      "source": {
+        "fileCount": 253,
+        "manifestSha256": "dc07c4a6bc7a13dc8e27a01c068044dace992af1731cc85997975d61d013e896"
+      },
+      "servedAssets": [
+        "app-FG2F7HTG.js",
+        "styles-AI5LBVOE.css"
+      ]
+    }
+  },
+  "verification": {
+    "defaultViewports": [
+      1440,
+      900,
+      1
+    ],
+    "storedOpen": {
+      "before": {
+        "kanban": {
+          "archive": false,
+          "contentWidth": 1440,
+          "dark": true,
+          "lang": "en",
+          "statusCount": 1,
+          "title": "Kanbalone",
+          "viewport": [
+            1440,
+            900,
+            1
+          ],
+          "completedTicketVisible": false
+        },
+        "list": {
+          "archive": false,
+          "contentWidth": 1440,
+          "dark": true,
+          "lang": "en",
+          "statusCount": 1,
+          "title": "Kanbalone",
+          "viewport": [
+            1440,
+            900,
+            1
+          ],
+          "completedTicketVisible": false
+        }
+      },
+      "after": {
+        "kanban": {
+          "archive": false,
+          "contentWidth": 1440,
+          "dark": true,
+          "lang": "en",
+          "statusCount": 0,
+          "title": "Kanbalone",
+          "viewport": [
+            1440,
+            900,
+            1
+          ],
+          "completedTicketVisible": true
+        },
+        "list": {
+          "archive": false,
+          "contentWidth": 1440,
+          "dark": true,
+          "lang": "en",
+          "statusCount": 0,
+          "title": "Kanbalone",
+          "viewport": [
+            1440,
+            900,
+            1
+          ],
+          "completedTicketVisible": true
+        }
+      }
+    },
+    "virtualList": {
+      "archiveOffAtStart": {
+        "height": 27136,
+        "rows": 36,
+        "top": 0
+      },
+      "archiveOffAtEnd": {
+        "height": 27136,
+        "rows": 24,
+        "top": 26424
+      },
+      "archiveOnAtEnd": {
+        "height": 27264,
+        "rows": 26,
+        "top": 26424
+      }
+    },
+    "narrowAndJapanese": {
+      "narrow-kanban": {
+        "viewport": [
+          390,
+          844,
+          1
+        ],
+        "pageWidth": 390,
+        "archiveCheckboxRect": [
+          178.53125,
+          62.59375,
+          195.53125,
+          34.296875
+        ]
+      },
+      "narrow-list": {
+        "viewport": [
+          390,
+          844,
+          1
+        ],
+        "pageWidth": 390,
+        "archiveCheckboxRect": [
+          178.828125,
+          62.59375,
+          195.53125,
+          34.296875
+        ]
+      },
+      "japaneseList": {
+        "locale": "ja",
+        "archiveAndLaneLabels": true,
+        "completionAbsentFromToolbar": true
+      },
+      "browserErrors": "",
+      "browserLogs": ""
+    }
+  },
+  "screenshots": [
+    {
+      "file": "after-custom-view-completion.png",
+      "sha256": "e6ec24d03b49851343f3d20455088a87f894eb1fc6e559827552562ad90c4ab9",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-dark-stored-open-kanban.png",
+      "sha256": "e67120bd8ea6d98871deebeb8e4c380214d77b9b8d4dbfccd292e488ef54068c",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-dark-stored-open-list.png",
+      "sha256": "a6a6d0cb4176da26e384a0d52e74713698932a3cfc465131a4897aef1adc6142",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-group-open-only.png",
+      "sha256": "fa9e1235dee81d5e6113c7c19c136b4041eaea835f28045cd6774e13a98b49aa",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-ja-light-list.png",
+      "sha256": "cf5f6386862d30c636b21799b73b771715243f0f7ac0cbb4c763ee32be18ea90",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-light-kanban.png",
+      "sha256": "6adbeaacf3134fae6c7b84577c40c39910c6040dda19c5174a344d33be2d35f5",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-light-list.png",
+      "sha256": "155a3395207967558b0d8053471b07fc32ab98840a46abe765e8998d14164d06",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-dark-stored-open-kanban.png",
+      "sha256": "33a6dae9f28c30df4fe9a50abd3650f331913211a7b52fea870b8dd04fb41eec",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-dark-stored-open-list.png",
+      "sha256": "75e6138fc247b2f26d743e3f11b2c0961661f1c4c6a314b3b57ccf547cce1b25",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-light-kanban.png",
+      "sha256": "fe1f8acf454ae432ecbbecd58670fa0c4a79cb602c6dd39c8cd695e366a0c167",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-light-list.png",
+      "sha256": "dd6000ed2e6fe643789742b3855acce26209317d98e6101ee9842aab0f34ee20",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

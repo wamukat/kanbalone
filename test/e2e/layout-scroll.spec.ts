@@ -247,10 +247,6 @@ test("kanban status expansion collapses large completed groups", async ({ page }
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
     await expect(page.locator("#lane-board")).toBeVisible();
-    await page
-      .locator("#status-filter [data-filter-expand=\"status\"]")
-      .last()
-      .click();
     await page.locator("#include-archived-filter").click();
     await expect(page.locator(".ticket-card")).toHaveCount(5);
     await expect(page.locator(".completion-ticket-summary")).toContainText("Show 31 more (31 remaining)");

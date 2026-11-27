@@ -1,0 +1,264 @@
+{
+  "capturedOn": "2026-11-27 Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 158.0.8127.37",
+    "automation": "agent-browser 0.26.0",
+    "operatingSystem": "macOS",
+    "viewport": [
+      1440,
+      900
+    ],
+    "deviceScaleFactor": 1,
+    "language": "ja",
+    "runtime": "Node.js 26.13.1"
+  },
+  "sourceFingerprintMethod": "SHA-256 of the UTF-8 concatenation of source file SHA-256, two spaces, repository-relative POSIX path, and LF, sorted by path. Files are package.json, tsconfig.json, and all files in public, scripts, and src.",
+  "builds": {
+    "before": {
+      "sourceCommit": "dd6116ad198c24fa7b83dc1e8e6583d86cb84763",
+      "displayVersion": "1.5.0",
+      "source": {
+        "fileCount": 253,
+        "manifestSha256": "dc07c4a6bc7a13dc8e27a01c068044dace992af1731cc85997975d61d013e896"
+      },
+      "servedAssets": [
+        "app-FG2F7HTG.js",
+        "styles-AI5LBVOE.css"
+      ]
+    },
+    "after": {
+      "baseCommit": "dd6116ad198c24fa7b83dc1e8e6583d86cb84763",
+      "displayVersion": "1.5.0",
+      "source": {
+        "fileCount": 253,
+        "manifestSha256": "46027ba6156a2a2287f807e9f90a21bf4c96a4bcdf5a037e327ffaad499ad493"
+      },
+      "servedAssets": [
+        "app-WCDKQHLL.js",
+        "styles-JPHC23SS.css"
+      ]
+    }
+  },
+  "verification": {
+    "before": {
+      "kanban": {
+        "theme": "light",
+        "offRect": [
+          830.734375,
+          16.296875,
+          167.890625,
+          34.296875
+        ],
+        "onRect": [
+          830.734375,
+          16.296875,
+          167.890625,
+          34.296875
+        ],
+        "visibleMatchingTitlesWhenOff": [
+          "Draft rollout checklist",
+          "Publish setup notes"
+        ],
+        "additionallyVisibleWhenOn": [
+          "Retire old work item",
+          "Store previous checklist"
+        ],
+        "reloadTestedForBothStates": true,
+        "storage": "filters.includeArchived",
+        "activation": "click"
+      },
+      "list": {
+        "theme": "dark",
+        "offRect": [
+          981.03125,
+          16.296875,
+          167.890625,
+          34.296875
+        ],
+        "onRect": [
+          981.03125,
+          16.296875,
+          167.890625,
+          34.296875
+        ],
+        "visibleMatchingTitlesWhenOff": [
+          "Draft rollout checklist",
+          "Publish setup notes"
+        ],
+        "additionallyVisibleWhenOn": [
+          "Retire old work item",
+          "Store previous checklist"
+        ],
+        "reloadTestedForBothStates": true,
+        "storage": "filters.includeArchived",
+        "activation": "click"
+      }
+    },
+    "after": {
+      "kanban": {
+        "theme": "light",
+        "offRect": [
+          830.734375,
+          17.4375,
+          145.046875,
+          32
+        ],
+        "onRect": [
+          830.734375,
+          17.4375,
+          145.046875,
+          32
+        ],
+        "visibleMatchingTitlesWhenOff": [
+          "Draft rollout checklist",
+          "Publish setup notes"
+        ],
+        "additionallyVisibleWhenOn": [
+          "Retire old work item",
+          "Store previous checklist"
+        ],
+        "reloadTestedForBothStates": true,
+        "storage": "filters.includeArchived",
+        "activation": "Space"
+      },
+      "list": {
+        "theme": "dark",
+        "offRect": [
+          981.03125,
+          17.4375,
+          145.046875,
+          32
+        ],
+        "onRect": [
+          981.03125,
+          17.4375,
+          145.046875,
+          32
+        ],
+        "visibleMatchingTitlesWhenOff": [
+          "Draft rollout checklist",
+          "Publish setup notes"
+        ],
+        "additionallyVisibleWhenOn": [
+          "Retire old work item",
+          "Store previous checklist"
+        ],
+        "reloadTestedForBothStates": true,
+        "storage": "filters.includeArchived",
+        "activation": "Enter"
+      }
+    },
+    "independence": {
+      "hasCommonColorsAndRadius": {
+        "backgroundColor": true,
+        "borderRadius": true,
+        "borderTopColor": true,
+        "borderTopWidth": true,
+        "color": true,
+        "fontSize": true
+      },
+      "archiveButtonStyle": {
+        "off": {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "borderTopColor": "rgba(21, 32, 28, 0.1)",
+          "borderTopWidth": "1px",
+          "color": "rgb(102, 115, 109)",
+          "fontSize": "12px"
+        },
+        "on": {
+          "backgroundColor": "color(srgb 0.121569 0.435294 0.372549 / 0.08)",
+          "borderRadius": "6px",
+          "borderTopColor": "rgba(21, 32, 28, 0.1)",
+          "borderTopWidth": "1px",
+          "color": "rgb(31, 111, 95)",
+          "fontSize": "12px"
+        }
+      },
+      "groupOpenOnlyStyle": {
+        "off": {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "borderTopColor": "rgba(21, 32, 28, 0.1)",
+          "borderTopWidth": "1px",
+          "color": "rgb(102, 115, 109)",
+          "fontSize": "12px"
+        },
+        "on": {
+          "backgroundColor": "color(srgb 0.121569 0.435294 0.372549 / 0.08)",
+          "borderRadius": "6px",
+          "borderTopColor": "rgba(21, 32, 28, 0.1)",
+          "borderTopWidth": "1px",
+          "color": "rgb(31, 111, 95)",
+          "fontSize": "12px"
+        }
+      },
+      "ticketsDatabaseRowsEqual": 434,
+      "boardViewSwitchPreservedArchiveOn": true,
+      "groupOpenOnlyReloadedAndIndependent": true,
+      "narrowArchiveButtonAfterHorizontalToolbarScroll": [
+        229.15625,
+        63.734375,
+        145.046875,
+        32
+      ],
+      "browserErrors": 0
+    }
+  },
+  "screenshots": [
+    {
+      "file": "after-dark-list-off.png",
+      "sha256": "df9fbbee850ec69577c2064557f6a213da77ad806d45fa03564da752b1b9b39c",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-dark-list-on.png",
+      "sha256": "056d01c5d76754fc5b1b1a69c868becc1f75a1e05abfdc2c4357a876ee5fc640",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-light-group-open-only.png",
+      "sha256": "ce4b1a0389c33cd2421889f6609f69052cbf2e30785e5ffeff42ca427ebcfcc7",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-light-kanban-off.png",
+      "sha256": "08d40faf47d9413fc01ee07c2a253aea315742a00c8bc71e0b2891074ce6362d",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "after-light-kanban-on.png",
+      "sha256": "b1d6de60c75f9356f0b12a452150ff492b34f8f3cc2fce811443e514c082c92f",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-dark-list-off.png",
+      "sha256": "4d919a852e6b70494f25d1bba20cdaf298c7b91f9e3cf7e29560aa7c56b7003c",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-dark-list-on.png",
+      "sha256": "e0820238b7126368f13e44a9bd6fb0b9d81814423677ad06c87f3027edd5de98",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-light-kanban-off.png",
+      "sha256": "dd4aefa6e5ab864f02e8dfdb0ff72b13e576adce037907f72a61a893c498b1e9",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "before-light-kanban-on.png",
+      "sha256": "d212466125864b0d8d22dbb286e4f976ccf65e4f6a1dc7c6e41b4a43d2eaa819",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

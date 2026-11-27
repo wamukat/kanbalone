@@ -1,4 +1,4 @@
-import { readEditorDialogSize, readUiPreferences, readSidebarCollapsed } from "./app-preferences.js";
+import { normalizeStoredFilters, readEditorDialogSize, readUiPreferences, readSidebarCollapsed } from "./app-preferences.js";
 
 export function createAppState() {
   const storedPreferences = readUiPreferences();
@@ -25,14 +25,7 @@ export function createAppState() {
     selectedListTicketIds: [],
     sidebarCollapsed: readSidebarCollapsed(),
     boardSettingsExpanded: false,
-    filters: {
-      q: "",
-      lane: "",
-      status: ["open", "resolved"],
-      includeArchived: false,
-      priority: [],
-      tag: "",
-    },
+    filters: normalizeStoredFilters(null),
     filtersByBoardId: storedPreferences.filtersByBoardId,
     viewModeByBoardId: storedPreferences.viewModeByBoardId,
     filterExpansionByBoardId: storedPreferences.filterExpansionByBoardId,

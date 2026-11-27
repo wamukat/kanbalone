@@ -46,7 +46,6 @@ async function main() {
   bindEvents();
   await loadAppMeta();
   syncSidebar();
-  syncStatusFilter();
   syncViewMode();
   syncActiveFilterStyles();
   // Resolve the requested route before loading its board, rather than loading
@@ -376,14 +375,13 @@ async function refreshBoardDetail({ awaitGroupLoad = false, reuseReadyKanbanLane
     normalizeBoardFiltersForDetail(detail);
     const url = buildTicketListUrl();
     // Keep cache cleanup tied to the request that produced this board detail.
-    const hasDefaultKanbanTickets = viewMode === "kanban" && state.filters.status.length === 2 && !url.includes("?");
-    const key = `${boardId}:${url}:${state.filters.status.join(",")}`;
-    if (key !== completionQueryKey) {
+    const hasDefaultKanbanTickets = viewMode === "kanban" && !url.includes("?");
+    if (url !== completionQueryKey) {
       completionRequested.clear();
-      completionQueryKey = key;
+      completionQueryKey = url;
     }
     const isCurrent = () => generation === boardRefreshGeneration && boardId === state.activeBoardId && viewMode === state.viewMode;
-    const allTickets = viewMode === "group" || state.filters.status.length === 0
+    const allTickets = viewMode === "group"
       ? { tickets: [], completionPages: {} }
       : viewMode === "kanban"
         ? await loadKanbanTicketCollections(api, detail.lanes, url, { limits: completionRequested, isCurrent, signal })
@@ -543,7 +541,6 @@ const {
   saveBoardFilterExpansion,
   saveBoardFilters,
   syncActiveFilterStyles,
-  syncStatusFilter,
   syncViewMode,
 } = filtersModule;
 
@@ -668,6 +665,7 @@ routerModule = createRouterModule(
 );
 
 const boardModule = createBoardModule({
+  hasActiveTicketFilters,
   loadMoreCompletionTickets,
   collapseCompletionTickets,
   state,

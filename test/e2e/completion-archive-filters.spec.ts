@@ -1,15 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { createBoard, createCompletionLane, createTag, createTicket, startTestApp } from "./helpers.js";
 
-async function chooseCompletion(page: Page, mode: "both" | "open" | "resolved") {
-  const clear = page.locator("[data-status-clear]");
-  if (await clear.isVisible()) await clear.click();
-  if (mode === "both") return;
-  const toggle = page.locator("#status-filter .filter-menu-edge-toggle");
-  if (await toggle.getAttribute("aria-expanded") !== "true") await toggle.click();
-  await page.locator(`[data-status-filter="${mode === "open" ? "resolved" : "open"}"]`).click();
-}
-
 async function fixture(page: Page) {
   const app = await startTestApp(page);
   const { board, lanes } = await createBoard(page.request, app.baseUrl, { name: "Completion filter", laneNames: ["Todo"] });
@@ -28,109 +19,162 @@ async function fixture(page: Page) {
   return { ...app, board, todo: lanes[0], done, tickets, read };
 }
 
+async function setOldBoardFilters(page: Page, boardId: number, filters: Record<string, unknown>, versioned = true) {
+  await page.evaluate(({ boardId, filters, versioned }) => {
+    const filterExpansion = { status: true, priority: true };
+    const boards = { [boardId]: { viewMode: "list", filters, filterExpansion } };
+    localStorage.setItem("kanbalone:ui-preferences", JSON.stringify(versioned
+      ? { version: 1, activeBoardId: boardId, boards }
+      : { activeBoardId: boardId, viewMode: "list", filtersByBoardId: { [boardId]: filters },
+          filterExpansionByBoardId: { [boardId]: filterExpansion } }));
+  }, { boardId, filters, versioned });
+}
+
 for (const locale of ["en-US", "ja-JP"]) {
-  test(`${locale}: completion and archive filters intersect, preserve selections and leave Group independent`, async ({ browser }) => {
+  test(`${locale}: a saved completion lane works after upgrade and archives remain independent of Group`, async ({ browser }) => {
     const context = await browser.newContext({ locale, viewport: { width: 1280, height: 844 } });
     const page = await context.newPage();
     const f = await fixture(page);
     try {
       const before = await f.read();
       await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
-      const japanese = locale === "ja-JP";
-      await expect(page.locator("#include-archived-filter")).toHaveAccessibleName(japanese ? "アーカイブを含める" : "Include archived tickets");
-      await expect(page.locator('#status-filter [data-status-filter="archived"]')).toHaveCount(0);
-      for (const mode of ["both", "open", "resolved"] as const) {
-        await chooseCompletion(page, mode);
-        for (const archived of [false, true]) {
-          await page.locator("#include-archived-filter").setChecked(archived);
-          const expected = f.tickets.filter(t => (mode === "both" || t.isResolved === (mode === "resolved")) && (archived || !t.isArchived));
-          await expect(page.locator(".list-row")).toHaveCount(expected.length);
-          const ids = await page.locator(".list-row [data-list-ticket-id]").evaluateAll(inputs => inputs.map(e => Number(e.getAttribute("data-list-ticket-id"))).sort((a,b) => a-b));
-          expect(ids).toEqual(expected.map(t => t.id).sort((a,b) => a-b));
-        }
-      }
-      // Checkbox and completion selection survive reload and remain shared with Kanban.
+      await expect(page.locator(".list-row")).toHaveCount(2);
+      await setOldBoardFilters(page, f.board.id, {
+        q: "Focus", lane: String(f.done.id), tag: "focus", priority: ["high"],
+        status: ["open"], includeArchived: true,
+      });
       await page.reload();
-      await expect(page.locator("#include-archived-filter")).toBeChecked();
-      await expect(page.locator("#status-filter-summary")).toHaveText(japanese ? "完了" : "Resolved");
-      await expect(page.locator(".list-row")).toHaveCount(2);
-      await page.locator('[data-view-mode="kanban"]').click();
-      await expect(page.locator(".ticket-card")).toHaveCount(2);
-      await page.locator('[data-view-mode="group"]').click();
-      await expect(page.locator(".group-ticket-row")).toHaveCount(2);
-      await expect(page.locator("#group-board")).toContainText("Focus open visible");
-      await expect(page.locator("#group-board")).toContainText("Focus done visible");
-      await page.locator('[data-group-action="archive"]').click();
-      await expect(page.locator(".group-ticket-row")).toHaveCount(4);
-      await page.locator('[data-view-mode="list"]').click();
-      await expect(page.locator(".list-row")).toHaveCount(2);
-      await page.locator("#reset-filters-button").click();
-      await expect(page.locator("#include-archived-filter")).not.toBeChecked();
-      await expect(page.locator(".list-row")).toHaveCount(2);
-      expect(await f.read()).toEqual(before);
-    } finally { await f.close(); await context.close(); }
-  });
 
-  test(`${locale}: conflicting lane and completion explain the empty state and clear only the chosen condition`, async ({ browser }) => {
-    const context = await browser.newContext({ locale });
-    const page = await context.newPage();
-    const f = await fixture(page);
-    try {
-      await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
-      await page.locator("#search-input").fill("Focus");
-      await page.locator("#tag-filter").selectOption("focus");
-      await page.locator("#priority-filter .filter-menu-edge-toggle").click();
-      await page.locator('[data-priority-filter="high"]').click();
-      await page.locator("#include-archived-filter").check();
-      await chooseCompletion(page, "open");
-      await page.locator("#lane-filter").selectOption(String(f.done.id));
-      await expect(page.locator("#list-board .empty-state")).toContainText("Accepted");
-      await expect(page.locator('[data-empty-include-status="resolved"]')).toBeVisible();
-      // Including archives must not bypass the incompatible completion condition.
-      await expect(page.locator(".list-row")).toHaveCount(0);
-      await page.locator('[data-empty-include-status="resolved"]').click();
-      await expect(page.locator(".list-row")).toHaveCount(2);
+      const archived = page.locator("#include-archived-filter");
       await expect(page.locator("#lane-filter")).toHaveValue(String(f.done.id));
-      await chooseCompletion(page, "open");
-      await page.locator("[data-empty-clear-lane]").click();
+      await expect(page.locator(".list-row")).toContainText(["Focus done visible", "Focus done archived"]);
       await expect(page.locator(".list-row")).toHaveCount(2);
-      await expect(page.locator("#lane-filter")).toHaveValue("");
-      await expect(page.locator("#status-filter-summary")).toHaveText(locale === "ja-JP" ? "未完了" : "Open");
-      await chooseCompletion(page, "resolved");
-      await page.locator("#lane-filter").selectOption(String(f.todo.id));
-      await expect(page.locator('[data-empty-include-status="open"]')).toBeVisible();
-      await page.locator('[data-empty-include-status="open"]').click();
-      await expect(page.locator(".list-row")).toHaveCount(2);
+      await expect(page.locator("#status-filter")).toHaveCount(0);
       await expect(page.locator("#search-input")).toHaveValue("Focus");
       await expect(page.locator("#tag-filter")).toHaveValue("focus");
       await expect(page.locator('[data-priority-filter="high"]')).toHaveClass(/active/);
-      await expect(page.locator("#include-archived-filter")).toBeChecked();
+      await expect(archived).toHaveAccessibleName(locale === "ja-JP" ? "アーカイブを含める" : "Include archived tickets");
+      await expect(archived).toHaveAttribute("aria-pressed", "true");
+      await archived.click();
+      await expect(archived).toHaveAttribute("aria-pressed", "false");
+      await expect(page.locator(".list-row")).toHaveCount(1);
+      await expect(page.locator(".list-row")).toContainText("Focus done visible");
+      await archived.click();
+      await expect(archived).toHaveAttribute("aria-pressed", "true");
+
+      await page.locator('[data-view-mode="kanban"]').click();
+      await expect(page.locator(".ticket-card")).toHaveCount(4);
+      await expect(page.locator("#lane-board")).toContainText("Focus open archived");
+      await expect(page.locator("#lane-board")).toContainText("Focus open visible");
+      await expect(page.locator("#lane-board")).toContainText("Focus done archived");
+      await page.locator('[data-view-mode="group"]').click();
+      await expect(archived).toBeHidden();
+      await expect(page.locator(".group-ticket-row")).toHaveCount(2);
+      await expect(page.locator("#group-board")).toContainText("Focus done visible");
+      await page.locator('[data-group-action="open-only"]').click();
+      await expect(page.locator(".group-ticket-row")).toHaveCount(1);
+      await expect(page.locator(".group-ticket-row")).toContainText("Focus open visible");
+      await page.locator('[data-group-action="archive"]').click();
+      await expect(page.locator(".group-ticket-row")).toHaveCount(2);
+      await expect(page.locator("#group-board")).toContainText("Focus open archived");
+      await expect(page.locator("#group-board")).not.toContainText("Focus done visible");
+
+      await page.locator('[data-view-mode="list"]').click();
+      await expect(page.locator(".list-row")).toHaveCount(2);
+      await expect(archived).toHaveAttribute("aria-pressed", "true");
+      await page.locator("#reset-filters-button").click();
+      await expect(page.locator("#lane-filter")).toHaveValue("");
+      await expect(archived).toHaveAttribute("aria-pressed", "false");
+      await expect(page.locator(".list-row")).toContainText(["Focus open visible", "Focus done visible"]);
       await page.reload();
       await expect(page.locator(".list-row")).toHaveCount(2);
+      await page.locator('[data-view-mode="group"]').click();
+      await expect(page.locator('[data-group-action="open-only"]')).toHaveAttribute("aria-pressed", "true");
+      await expect(page.locator(".group-ticket-row")).toHaveCount(1);
+      await expect(page.locator(".group-ticket-row")).toContainText("Focus open visible");
+      const response = await page.request.post(`${f.baseUrl}/api/custom-views`, { data: {
+        name: "Finished work", scope: "selected", boardIds: [f.board.id],
+        rules: [{ boardId: f.board.id, mode: "all", tagIds: [] }],
+        completion: "done", showBody: false, showLatestComment: false,
+      } });
+      expect(response.status()).toBe(201);
+      const view = await response.json();
+      await page.goto(`${f.baseUrl}/views/${view.id}`);
+      await expect(archived).toBeHidden();
+      await expect(page.locator("[data-view-ticket]")).toHaveCount(1);
+      await expect(page.locator("[data-view-ticket]")).toContainText("Focus done visible");
+      const savedView = await page.request.get(`${f.baseUrl}/api/custom-views/${view.id}`);
+      expect(await savedView.json()).toMatchObject({ completion: "done" });
+      expect(await f.read()).toEqual(before);
     } finally { await f.close(); await context.close(); }
   });
 }
 
-test("legacy archive selections migrate without losing completion choice and explicit new false takes precedence", async ({ page }) => {
+test("old completion selections are ignored while legacy archive inclusion still migrates", async ({ page }) => {
   const f = await fixture(page);
   try {
     await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
     await expect(page.locator(".list-row")).toHaveCount(2);
-    for (const entry of [
-      { status: ["open", "archived"], expected: "Open", count: 2, archived: true },
-      { status: ["resolved", "archived"], expected: "Resolved", count: 2, archived: true },
-      { status: ["archived"], expected: "Open + Resolved", count: 4, archived: true },
-      { status: ["open"], expected: "Open", count: 1, archived: false },
-      { status: ["open", "archived"], includeArchived: false, expected: "Open", count: 1, archived: false },
+    for (const { status, includeArchived, archived, versioned } of [
+      { status: ["open", "archived"], archived: true, versioned: false },
+      { status: ["resolved", "archived"], archived: true, versioned: true },
+      { status: ["archived"], archived: true, versioned: true },
+      { status: ["resolved"], archived: false, versioned: true },
+      { status: [], archived: false, versioned: true },
+      { status: ["invalid"], archived: false, versioned: true },
+      { status: ["open", "archived"], includeArchived: false, archived: false, versioned: true },
     ]) {
-      await page.evaluate(({ boardId, entry }) => {
-        localStorage.setItem("kanbalone:ui-preferences", JSON.stringify({ version: 1, activeBoardId: boardId, boards: { [boardId]: { viewMode: "list", filters: { q: "", lane: "", tag: "", priority: [], status: entry.status, ...(entry.includeArchived === undefined ? {} : { includeArchived: entry.includeArchived }) } } } }));
-      }, { boardId: f.board.id, entry });
+      await setOldBoardFilters(page, f.board.id, {
+        status, ...(includeArchived === undefined ? {} : { includeArchived }),
+      }, versioned);
       await page.reload();
-      await expect(page.locator(".list-row")).toHaveCount(entry.count);
-      await expect(page.locator("#status-filter-summary")).toHaveText(entry.expected);
-      await expect(page.locator("#include-archived-filter")).toBeChecked({ checked: entry.archived });
+      await expect(page.locator(".list-row")).toHaveCount(archived ? 4 : 2);
+      await expect(page.locator("#list-board")).toContainText("Focus open visible");
+      await expect(page.locator("#list-board")).toContainText("Focus done visible");
+      await expect(page.locator("#include-archived-filter")).toHaveAttribute("aria-pressed", String(archived));
+      await expect(page.locator("#priority-filter")).toHaveClass(/is-expanded/);
+      const saved = await page.evaluate(boardId =>
+        JSON.parse(localStorage.getItem("kanbalone:ui-preferences")!).boards[String(boardId)], f.board.id);
+      expect(saved.filters).not.toHaveProperty("status");
+      expect(saved.filterExpansion).toEqual({ priority: true });
+      expect(saved.filters.includeArchived).toBe(archived);
     }
+  } finally { await f.close(); }
+});
+
+test("the archive action works with Enter and Space and restores both states on reload", async ({ page }) => {
+  const f = await fixture(page);
+  try {
+    await page.goto(`${f.baseUrl}/boards/${f.board.id}/list`);
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    const archive = page.locator("#include-archived-filter");
+    const label = "Include archived tickets";
+
+    await page.locator("#tag-filter").focus();
+    await page.keyboard.press("Tab");
+    await expect(archive).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".list-row")).toHaveCount(4);
+    await expect(archive).toHaveRole("button");
+    await expect(archive).toHaveAccessibleName(label);
+    await expect(archive).toHaveAttribute("aria-pressed", "true");
+    await expect(archive).toBeFocused();
+
+    await page.reload();
+    await expect(page.locator(".list-row")).toHaveCount(4);
+    await expect(archive).toHaveAttribute("aria-pressed", "true");
+    await page.locator("#tag-filter").focus();
+    await page.keyboard.press("Tab");
+    await expect(archive).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    await expect(archive).toHaveAccessibleName(label);
+    await expect(archive).toHaveAttribute("aria-pressed", "false");
+    await expect(archive).toBeFocused();
+
+    await page.reload();
+    await expect(page.locator(".list-row")).toHaveCount(2);
+    await expect(archive).toHaveAttribute("aria-pressed", "false");
   } finally { await f.close(); }
 });
 
@@ -144,39 +188,37 @@ for (const width of [1280, 980, 390]) for (const locale of ["en-US", "ja-JP"]) {
       await page.locator("#search-input").fill("Focus"); // Keep reset visible for both measurements.
       await expect(page.locator(".list-row")).toHaveCount(2);
       if (width <= 900) await page.locator(".toolbar-filters").evaluate(el => { el.scrollLeft = el.scrollWidth; });
-      const geometry = () => page.evaluate(() => ["#status-filter", ".archive-filter", "#reset-filters-button"].map(selector => {
+      const geometry = () => page.evaluate(() => ["#priority-filter", "#include-archived-filter", "#reset-filters-button"].map(selector => {
         const r = document.querySelector(selector)!.getBoundingClientRect(); const scroll = document.querySelector(".toolbar-filters")!.scrollLeft; return { x: r.x + scroll, y: r.y, width: r.width, height: r.height };
       }));
       const before = await geometry();
-      await page.locator("#include-archived-filter").check();
+      await page.locator("#include-archived-filter").click();
       await expect(page.locator(".list-row")).toHaveCount(4);
       expect(await geometry()).toEqual(before);
       const overflow = await page.locator(".toolbar").evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth }));
       expect(overflow.scroll).toBeLessThanOrEqual(overflow.width + 1);
-      // Checking the input can scroll its focus target independently of the label.
-      // Scroll to the end, like a horizontal swipe, to verify full reachability.
+      // Scroll the compact toolbar to the end to verify the entire action is reachable.
       if (width <= 900) await page.locator(".toolbar-filters").evaluate(el => { el.scrollLeft = el.scrollWidth; });
-      // Compact toolbar intentionally scrolls horizontally; verify the interacted label is reachable.
-      for (const selector of width <= 900 ? [".archive-filter"] : ["#status-filter", ".archive-filter"]) {
+      for (const selector of width <= 900 ? ["#include-archived-filter"] : ["#priority-filter", "#include-archived-filter"]) {
         const r = await page.locator(selector).boundingBox();
         expect(r!.x).toBeGreaterThanOrEqual(0);
         expect(r!.x + r!.width).toBeLessThanOrEqual(width);
       }
-      const label = await page.locator(".archive-filter").boundingBox();
-      for (const selector of ["#include-archived-filter", ".archive-filter > span"]) {
+      const button = await page.locator("#include-archived-filter").boundingBox();
+      for (const selector of ["#include-archived-filter > .icon", "#include-archived-filter > span"]) {
         const r = await page.locator(selector).boundingBox();
-        expect(r!.x).toBeGreaterThanOrEqual(label!.x);
-        expect(r!.x + r!.width).toBeLessThanOrEqual(label!.x + label!.width + 1);
+        expect(r!.x).toBeGreaterThanOrEqual(button!.x);
+        expect(r!.x + r!.width).toBeLessThanOrEqual(button!.x + button!.width + 1);
       }
       const reset = await page.locator("#reset-filters-button").boundingBox();
-      const overlapX = Math.min(label!.x + label!.width, reset!.x + reset!.width) - Math.max(label!.x, reset!.x);
-      const overlapY = Math.min(label!.y + label!.height, reset!.y + reset!.height) - Math.max(label!.y, reset!.y);
+      const overlapX = Math.min(button!.x + button!.width, reset!.x + reset!.width) - Math.max(button!.x, reset!.x);
+      const overlapY = Math.min(button!.y + button!.height, reset!.y + reset!.height) - Math.max(button!.y, reset!.y);
       expect(overlapX <= 0 || overlapY <= 0).toBe(true);
     } finally { await f.close(); await context.close(); }
   });
 }
 
-test("archive checkbox controls whether archiving keeps ticket details open, and default empty board offers creation", async ({ page }) => {
+test("the archive action controls whether archiving keeps ticket details open, and default empty board offers creation", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Archive details", laneNames: ["Todo"] });
@@ -187,7 +229,10 @@ test("archive checkbox controls whether archiving keeps ticket details open, and
     for (const includeArchived of [false, true]) {
       const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: `Archive with ${includeArchived}` });
       await page.reload();
-      await page.locator("#include-archived-filter").setChecked(includeArchived);
+      const archive = page.locator("#include-archived-filter");
+      await expect(archive).toHaveAttribute("aria-pressed", "false");
+      if (includeArchived) await archive.click();
+      await expect(archive).toHaveAttribute("aria-pressed", String(includeArchived));
       await page.getByRole("button", { name: `#${ticket.id} ${ticket.title}`, exact: true }).click();
       await page.locator("#header-edit-button").click();
       await page.locator("#archive-ticket-button").click();
@@ -223,10 +268,10 @@ for (const locale of ["en-US", "ja-JP"]) {
         await page.setViewportSize({ width, height: 900 });
         await page.locator('[data-view-mode="list"]').click();
         await expect(page.locator(".list-row")).toHaveCount(2);
-        // Expansion is kept constant through the three views; archived checkbox stays separate.
-        const edge = page.locator("#status-filter .filter-menu-edge-toggle");
+        // Keep priority expansion constant through the three views.
+        const edge = page.locator("#priority-filter .filter-menu-edge-toggle");
         if (await edge.getAttribute("aria-expanded") !== "true") await edge.click();
-        await expect(page.locator("#status-filter .filter-menu-options")).toBeVisible();
+        await expect(page.locator("#priority-filter .filter-menu-options")).toBeVisible();
         await settled();
         const listTop = await top("#list-board");
         await page.locator('[data-view-mode="group"]').click();

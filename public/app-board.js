@@ -13,7 +13,7 @@ export function createBoardModule(ctx) {
   const { state, elements } = ctx;
   const listModule = createListBoardModule(
     { ...ctx, renderBoardDetail },
-    { hasUserTicketFilters, renderEmptyState, renderTicketStatusIcons },
+    { hasActiveTicketFilters: ctx.hasActiveTicketFilters, renderEmptyState, renderTicketStatusIcons },
   );
   const keyboard = createBoardKeyboardModule(ctx, listModule, {
     onKanbanKeyboardScroll: (list) => kanbanModule.stopKeyboardScrollRestore(list),
@@ -37,19 +37,16 @@ export function createBoardModule(ctx) {
   const sidebarTagsModule = createSidebarTagsModule(ctx);
   const groupModule = createGroupBoardModule({ ...ctx, beforeGroupRender: keyboard.beforeRender, afterGroupRender: keyboard.afterRender });
 
-  function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "", actionIcon = "plus", secondaryActionLabel = "", secondaryActionAttr = "" }) {
+  function renderEmptyState({ iconName, title, body, actionLabel = "", actionAttr = "", actionIcon = "plus" }) {
     const action = actionLabel && actionAttr
       ? `<button type="button" class="empty-state-action action-with-icon" ${actionAttr}>${icon(actionIcon)}<span>${actionLabel}</span></button>`
-      : "";
-    const secondaryAction = secondaryActionLabel && secondaryActionAttr
-      ? `<button type="button" class="empty-state-action" ${secondaryActionAttr}>${ctx.escapeHtml(secondaryActionLabel)}</button>`
       : "";
     return `
       <div class="empty-state">
         <span class="empty-state-icon">${icon(iconName)}</span>
         <strong>${ctx.escapeHtml(title)}</strong>
         <p>${ctx.escapeHtml(body)}</p>
-        ${secondaryAction ? `<div class="empty-state-actions">${action}${secondaryAction}</div>` : action}
+        ${action}
       </div>
     `;
   }
@@ -126,15 +123,6 @@ export function createBoardModule(ctx) {
     ctx.syncViewMode();
     keyboard.afterRender();
     return groupLoad;
-  }
-
-  function hasUserTicketFilters() {
-    return state.filters.q !== ""
-      || (state.viewMode === "list" && state.filters.lane !== "")
-      || state.filters.priority.length > 0
-      || state.filters.tag !== ""
-      || state.filters.includeArchived
-      || !(state.filters.status.length === 2 && state.filters.status.includes("open") && state.filters.status.includes("resolved"));
   }
 
   elements.boardList.addEventListener("dragover", sidebarBoardsModule.handleBoardListDragOver);

@@ -169,9 +169,10 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
       }
       return {
         rowCount: new Set(
-          visibleControls.map((control) =>
-            Math.round(control.getBoundingClientRect().top),
-          ),
+          visibleControls.map((control) => {
+            const rect = control.getBoundingClientRect();
+            return Math.round(rect.top + rect.height / 2);
+          }),
         ).size,
         resetWidth: resetButton.getBoundingClientRect().width,
         resetLabelPosition: getComputedStyle(resetLabel).position,
@@ -180,9 +181,8 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
       };
     });
 
-    // The independent archive control adds a second row at this constrained width.
-    // Reset must remain compact rather than squeezing or overlapping the full label.
-    expect(toolbarMetrics.rowCount).toBe(2);
+    // The remaining controls fit on one row while Reset keeps its compact form.
+    expect(toolbarMetrics.rowCount).toBe(1);
     expect(toolbarMetrics.resetWidth).toBeLessThan(42);
     expect(toolbarMetrics.resetLabelPosition).toBe("absolute");
     expect(toolbarMetrics.resetLabelWidth).toBeLessThanOrEqual(1);

@@ -1,13 +1,14 @@
 import { expect, test, type Page } from "@playwright/test";
 import { createBoard, createTicket, startTestApp, updateTicket } from "./helpers.js";
 
-async function seed(page: Page, baseUrl: string) {
-  const tickets = Array.from({ length: 260 }, (_, index) => {
-    const id = index + 1, done = id > 140;
+async function seed(page: Page, baseUrl: string, openCount = 140) {
+  const boundaryChildId = openCount + 65;
+  const tickets = Array.from({ length: openCount + 120 }, (_, index) => {
+    const id = index + 1, done = id > openCount;
     return { id, laneId: done ? 2 : 1, position: id,
-      title: id === 1 ? "Boundary parent" : id === 205 ? "Boundary child" : `Ticket ${String(id).padStart(3, "0")}`,
+      title: id === 1 ? "Boundary parent" : id === boundaryChildId ? "Boundary child" : `Ticket ${String(id).padStart(3, "0")}`,
       bodyMarkdown: "Synthetic paging test", priority: id % 7 === 0 ? 4 : 2,
-      isResolved: done, isArchived: false, parentTicketId: id === 205 ? 1 : null,
+      isResolved: done, isArchived: false, parentTicketId: id === boundaryChildId ? 1 : null,
       groupId: 1, tags: [], comments: [], blockerIds: [] };
   });
   const response = await page.request.post(`${baseUrl}/api/boards/import`, { data: {
@@ -129,25 +130,42 @@ test("collection restarts once on stale cursor without losing or duplicating Gro
   } finally { await close(); }
 });
 
-test("deselecting the last completion state restores the existing all-state filter with bounded requests", async ({ page }) => {
+test("legacy completion criteria do not restrict paged Kanban or List collections", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
-    const fixture = await seed(page, baseUrl);
-    await page.goto(`${baseUrl}/boards/${fixture.board.id}/list`);
-    await expect(page.locator(".list-row").first()).toBeVisible();
-    await page.locator('[data-filter-expand="status"]').first().click();
-    await Promise.all([
-      page.waitForResponse(r => ticketCollection(r.url()) && new URL(r.url()).searchParams.get("resolved") === "true"),
-      page.locator('[data-status-filter="open"]').click(),
-    ]);
-    await expect(page.locator(".list-row").first()).toContainText("Ticket 147");
-    const requests: string[] = [];
-    page.on("request", req => { if (ticketCollection(req.url())) requests.push(req.url()); });
-    await page.locator('[data-status-filter="resolved"]').click();
+    const fixture = await seed(page, baseUrl, 210), boardId = fixture.board.id;
+    const [todo, done] = fixture.lanes;
+    await page.addInitScript(id => {
+      localStorage.setItem("kanbalone:ui-preferences", JSON.stringify({
+        version: 1, activeBoardId: id, boards: { [id]: { filters: { status: ["open"] } } },
+      }));
+    }, boardId);
+    const requests: URL[] = [];
+    page.on("request", req => { if (ticketCollection(req.url())) requests.push(new URL(req.url())); });
+    await page.goto(`${baseUrl}/boards/${boardId}`);
+    await expect(lane(page, done.id).locator(".ticket-card")).toHaveCount(5);
+    await expect(lane(page, todo.id)).toHaveAttribute("data-kanban-window", "210");
+    await expect(lane(page, todo.id).locator(".ticket-card").first()).toContainText("Boundary parent");
+    await page.locator(".completion-show-more").click();
+    await expect(lane(page, done.id).locator(".ticket-card")).toHaveCount(55);
+    await page.locator("#search-input").fill("Boundary");
+    await expect(page.locator(".ticket-card")).toHaveCount(2);
+    await expect(lane(page, done.id).locator(".ticket-card")).toContainText("Boundary child");
+    await page.locator("#search-clear-button").click();
+    await expect(lane(page, done.id).locator(".ticket-card")).toHaveCount(5);
+
+    await page.locator('[data-view-mode="list"]').click();
     await expect(page.locator(".list-row").first()).toContainText("Ticket 007");
-    await expect(page.locator("[data-status-filter].active")).toHaveCount(2);
-    expect(requests.length).toBeGreaterThan(0);
-    expect(requests.every(url => Number(new URL(url).searchParams.get("limit")) <= 200 && Number(new URL(url).searchParams.get("limit")) > 0)).toBe(true);
+    await page.locator(".list-viewport").evaluate(el => { el.scrollTop = el.scrollHeight; });
+    await expect(page.locator(".list-row").last()).toContainText("Ticket 330");
+    expect(requests.some(url => url.searchParams.get("order") === "completed_desc" && url.searchParams.has("cursor"))).toBe(true);
+    expect(requests.some(url => !url.searchParams.has("lane_id") && url.searchParams.has("cursor"))).toBe(true);
+    for (const url of requests) {
+      expect(url.searchParams.has("resolved"), url.href).toBe(false);
+      const limit = Number(url.searchParams.get("limit"));
+      expect(limit, url.href).toBeGreaterThan(0);
+      expect(limit, url.href).toBeLessThanOrEqual(200);
+    }
   } finally { await close(); }
 });
 
