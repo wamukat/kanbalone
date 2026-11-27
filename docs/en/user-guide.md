@@ -242,7 +242,7 @@ Set your OS or browser appearance to dark mode, and Kanbalone switches automatic
 docker run --rm \
   -p 3000:3000 \
   -v kanbalone-data:/app/data \
-  ghcr.io/wamukat/kanbalone:v1.5.0
+  ghcr.io/wamukat/kanbalone:v1.6.0
 ```
 
 Open:
