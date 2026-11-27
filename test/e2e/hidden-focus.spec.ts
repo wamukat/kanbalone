@@ -27,8 +27,8 @@ for (const locale of ["en-US", "ja-JP"]) {
       await page.keyboard.press("Escape");
       await expect(page.locator(`[data-open-ticket-id="${ticket.id}"]`).first()).toBeFocused();
       await page.setViewportSize({ width: 640, height: 422 });
-      for (const id of ["priority-filter", "status-filter"]) {
-        const control = page.locator(`#${id}`);
+      for (const selector of ["#priority-filter", ".archive-filter"]) {
+        const control = page.locator(selector);
         await expect(control).toBeVisible();
         const height = await control.evaluate(el => el.getBoundingClientRect().height);
         expect(height).toBeLessThan(60);

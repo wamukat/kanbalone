@@ -2,11 +2,6 @@ import { t as tr } from "./app-i18n.js";
 import { normalizeStoredFilters } from "./app-preferences.js";
 export function createFiltersModule(ctx, options) {
   const { state, elements } = ctx;
-  const DEFAULT_BOARD_FILTERS = { q: "", lane: "", status: ["open", "resolved"], includeArchived: false, priority: [], tag: "" };
-  const STATUS_LABELS = {
-    open: tr("Open"),
-    resolved: tr("Resolved"),
-  };
   const PRIORITY_LABELS = {
     low: tr("Low"),
     medium: tr("Medium"),
@@ -72,20 +67,20 @@ export function createFiltersModule(ctx, options) {
   }
 
   function resetBoardFilters() {
-    applyBoardFilters(DEFAULT_BOARD_FILTERS);
+    applyBoardFilters();
   }
 
   function saveBoardFilters(boardId = state.activeBoardId) {
     if (!boardId) {
       return;
     }
-    state.filtersByBoardId[String(boardId)] = cloneFilters(state.filters);
+    state.filtersByBoardId[String(boardId)] = normalizeStoredFilters(state.filters);
     options.persistUiPreferences?.();
   }
 
   function restoreBoardFilters(boardId = state.activeBoardId) {
     const savedFilters = boardId ? state.filtersByBoardId[String(boardId)] : null;
-    applyBoardFilters(savedFilters ?? DEFAULT_BOARD_FILTERS);
+    applyBoardFilters(savedFilters);
   }
 
   function saveBoardFilterExpansion(boardId = state.activeBoardId) {
@@ -93,16 +88,14 @@ export function createFiltersModule(ctx, options) {
       return;
     }
     state.filterExpansionByBoardId[String(boardId)] = {
-      status: isFilterExpanded(elements.statusFilterToggles),
-      priority: isFilterExpanded(elements.priorityFilterToggles),
+      priority: isPriorityExpanded(),
     };
     options.persistUiPreferences?.();
   }
 
   function restoreBoardFilterExpansion(boardId = state.activeBoardId) {
     const expansion = boardId ? state.filterExpansionByBoardId[String(boardId)] : null;
-    syncFilterExpansion(elements.statusFilter, elements.statusFilterToggles, elements.statusFilterOptions, expansion?.status === true);
-    syncFilterExpansion(elements.priorityFilter, elements.priorityFilterToggles, elements.priorityFilterOptions, expansion?.priority === true);
+    syncPriorityExpansion(expansion?.priority === true);
   }
 
   function normalizeBoardFiltersForDetail(detail) {
@@ -120,7 +113,7 @@ export function createFiltersModule(ctx, options) {
   }
 
   function applyBoardFilters(filters) {
-    state.filters = cloneFilters(filters);
+    state.filters = normalizeStoredFilters(filters);
     syncFilterControls();
   }
 
@@ -128,42 +121,30 @@ export function createFiltersModule(ctx, options) {
     elements.searchInput.value = state.filters.q;
     syncSearchClearButton();
     elements.laneFilter.value = state.filters.lane;
-    syncStatusFilter();
     elements.includeArchivedInput.checked = state.filters.includeArchived;
     syncPriorityFilter();
     elements.tagFilter.value = state.filters.tag;
     syncActiveFilterStyles();
   }
 
-  function cloneFilters(filters) {
-    return normalizeStoredFilters(filters);
-  }
-
-  function buildTicketListUrl(filters = {}) {
+  function buildTicketListUrl() {
+    const { includeArchived, lane, tag, q, priority } = state.filters;
     const params = new URLSearchParams();
-    const status = filters.status ?? state.filters.status;
-    if (filters.includeArchived ?? state.filters.includeArchived) {
+    if (includeArchived) {
       params.set("archived", "all");
     }
-    if (status.length === 1 && status[0] === "open") {
-      params.set("resolved", "false");
-    } else if (status.length === 1 && status[0] === "resolved") {
-      params.set("resolved", "true");
+    if (state.viewMode === "list" && lane) {
+      params.set("lane_id", lane);
     }
-    const lane = filters.lane ?? (state.viewMode === "list" ? state.filters.lane : "");
-    if (lane) {
-      params.set("lane_id", String(lane));
+    if (tag) {
+      params.set("tag", tag);
     }
-    if (filters.tag ?? state.filters.tag) {
-      params.set("tag", String(filters.tag ?? state.filters.tag));
+    if (q) {
+      params.set("q", q);
     }
-    if (filters.q ?? state.filters.q) {
-      params.set("q", String(filters.q ?? state.filters.q));
-    }
-    const priorities = filters.priority ?? state.filters.priority;
-    if (priorities.length) {
+    if (priority.length) {
       const values = { low: 1, medium: 2, high: 3, urgent: 4 };
-      params.set("priority", priorities.map((value) => values[value]).sort().join(","));
+      params.set("priority", priority.map((value) => values[value]).sort().join(","));
     }
     const query = params.toString();
     return `/api/boards/${state.activeBoardId}/tickets${query ? `?${query}` : ""}`;
@@ -172,7 +153,6 @@ export function createFiltersModule(ctx, options) {
   function hasActiveTicketFilters() {
     return state.filters.q !== ""
       || (state.viewMode === "list" && state.filters.lane !== "")
-      || !isDefaultStatusFilter()
       || state.filters.includeArchived
       || state.filters.priority.length > 0
       || state.filters.tag !== "";
@@ -180,8 +160,7 @@ export function createFiltersModule(ctx, options) {
 
   function filterTicketsForDisplay(tickets) {
     return tickets
-      .filter((ticket) => matchesStatusFilter(ticket))
-      .filter((ticket) => matchesPriorityFilter(ticket));
+      .filter((ticket) => (state.filters.includeArchived || !ticket.isArchived) && matchesPriorityFilter(ticket));
   }
 
   function bindFilterEvents() {
@@ -227,45 +206,11 @@ export function createFiltersModule(ctx, options) {
       syncActiveFilterStyles();
       await options.refreshBoardDetail();
     });
-    elements.statusFilterToggles.forEach((toggle) => {
-      toggle.addEventListener("click", () => {
-        toggleFilterExpansion(elements.statusFilter, elements.statusFilterToggles, elements.statusFilterOptions);
-        saveBoardFilterExpansion();
-      });
-    });
     elements.priorityFilterToggles.forEach((toggle) => {
       toggle.addEventListener("click", () => {
-        toggleFilterExpansion(elements.priorityFilter, elements.priorityFilterToggles, elements.priorityFilterOptions);
+        syncPriorityExpansion(!isPriorityExpanded());
         saveBoardFilterExpansion();
       });
-    });
-    elements.statusFilterButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const value = button.dataset.statusFilter;
-        if (!value) {
-          return;
-        }
-        state.filters.status = state.filters.status.includes(value)
-          ? state.filters.status.filter((item) => item !== value)
-          : [...state.filters.status, value];
-        if (state.filters.status.length === 0) {
-          state.filters.status = [...DEFAULT_BOARD_FILTERS.status];
-        }
-        saveBoardFilters();
-        syncStatusFilter();
-        syncActiveFilterStyles();
-        collapseFilterWhenToolbarIsTight(elements.statusFilter, elements.statusFilterToggles, elements.statusFilterOptions);
-        await options.refreshBoardDetail();
-      });
-    });
-    elements.statusFilterClearButton.addEventListener("click", async () => {
-      state.filters.status = [...DEFAULT_BOARD_FILTERS.status];
-      saveBoardFilters();
-      syncStatusFilter();
-      syncActiveFilterStyles();
-      collapseFilter(elements.statusFilter, elements.statusFilterToggles, elements.statusFilterOptions);
-      saveBoardFilterExpansion();
-      await options.refreshBoardDetail();
     });
     elements.priorityFilterButtons.forEach((button) => {
       button.addEventListener("click", async () => {
@@ -279,7 +224,7 @@ export function createFiltersModule(ctx, options) {
         saveBoardFilters();
         syncPriorityFilter();
         syncActiveFilterStyles();
-        collapseFilterWhenToolbarIsTight(elements.priorityFilter, elements.priorityFilterToggles, elements.priorityFilterOptions);
+        collapsePriorityWhenToolbarIsTight();
         await options.refreshBoardDetail();
       });
     });
@@ -288,7 +233,7 @@ export function createFiltersModule(ctx, options) {
       saveBoardFilters();
       syncPriorityFilter();
       syncActiveFilterStyles();
-      collapseFilter(elements.priorityFilter, elements.priorityFilterToggles, elements.priorityFilterOptions);
+      syncPriorityExpansion(false);
       saveBoardFilterExpansion();
       await options.refreshBoardDetail();
     });
@@ -301,8 +246,7 @@ export function createFiltersModule(ctx, options) {
     elements.resetFiltersButton.addEventListener("click", async () => {
       resetBoardFilters();
       saveBoardFilters();
-      collapseFilter(elements.statusFilter, elements.statusFilterToggles, elements.statusFilterOptions);
-      collapseFilter(elements.priorityFilter, elements.priorityFilterToggles, elements.priorityFilterOptions);
+      syncPriorityExpansion(false);
       saveBoardFilterExpansion();
       await options.refreshBoardDetail();
     });
@@ -316,48 +260,27 @@ export function createFiltersModule(ctx, options) {
     elements.priorityFilterClearButton.hidden = state.filters.priority.length === 0;
   }
 
-  function syncStatusFilter() {
-    elements.statusFilterButtons.forEach((button) => {
-      button.classList.toggle("active", state.filters.status.includes(button.dataset.statusFilter ?? ""));
-      button.setAttribute("aria-pressed", String(state.filters.status.includes(button.dataset.statusFilter ?? "")));
-    });
-    const selectedLabels = Object.keys(STATUS_LABELS).filter((key) => state.filters.status.includes(key)).map((key) => STATUS_LABELS[key]).join(" + ") || DEFAULT_BOARD_FILTERS.status.map((key) => STATUS_LABELS[key]).join(" + ");
-    elements.statusFilterSummary.textContent = selectedLabels;
-    elements.statusFilterSummary.title = selectedLabels;
-    elements.statusFilterToggles.forEach((toggle) => {
-      toggle.setAttribute("aria-label", tr("Completion: {labels}", { labels: selectedLabels }));
-    });
-    elements.statusFilterClearButton.hidden = isDefaultStatusFilter();
-  }
-
-  function toggleFilterExpansion(filter, toggles, optionsElement) {
-    syncFilterExpansion(filter, toggles, optionsElement, !isFilterExpanded(toggles));
-  }
-
-  function collapseFilter(filter, toggles, optionsElement) {
-    syncFilterExpansion(filter, toggles, optionsElement, false);
-  }
-
-  function collapseFilterWhenToolbarIsTight(filter, toggles, optionsElement) {
-    const toolbarFilters = filter.closest(".toolbar-filters");
+  function collapsePriorityWhenToolbarIsTight() {
+    const toolbarFilters = elements.priorityFilter.closest(".toolbar-filters");
     if (!toolbarFilters || toolbarFilters.getBoundingClientRect().width > 620) {
       return;
     }
-    collapseFilter(filter, toggles, optionsElement);
+    syncPriorityExpansion(false);
     saveBoardFilterExpansion();
   }
 
-  function isFilterExpanded(toggles) {
-    return toggles[0]?.getAttribute("aria-expanded") === "true";
+  function isPriorityExpanded() {
+    return elements.priorityFilterToggles[0]?.getAttribute("aria-expanded") === "true";
   }
 
-  function syncFilterExpansion(filter, toggles, optionsElement, expanded) {
-    toggles.forEach((toggle) => {
+  function syncPriorityExpansion(expanded) {
+    const { priorityFilter, priorityFilterToggles, priorityFilterOptions } = elements;
+    priorityFilterToggles.forEach((toggle) => {
       toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
     });
-    filter.classList.toggle("is-expanded", expanded);
-    optionsElement.hidden = !expanded;
-    filter.querySelector(".filter-menu-edge-toggle use")?.setAttribute("href", expanded ? "/icons.svg#chevron-left" : "/icons.svg#chevron-right");
+    priorityFilter.classList.toggle("is-expanded", expanded);
+    priorityFilterOptions.hidden = !expanded;
+    priorityFilter.querySelector(".filter-menu-edge-toggle use")?.setAttribute("href", expanded ? "/icons.svg#chevron-left" : "/icons.svg#chevron-right");
     syncSharedToolbarHeight();
   }
 
@@ -368,16 +291,11 @@ export function createFiltersModule(ctx, options) {
   function syncActiveFilterStyles() {
     elements.searchInput.closest(".toolbar-search")?.classList.toggle("is-filter-active", state.filters.q !== "");
     elements.laneFilter.classList.toggle("is-filter-active", state.viewMode === "list" && state.filters.lane !== "");
-    elements.statusFilter.classList.toggle("is-filter-active", !isDefaultStatusFilter());
     elements.includeArchivedInput.closest(".archive-filter")?.classList.toggle("is-filter-active", state.filters.includeArchived);
     elements.priorityFilter.classList.toggle("is-filter-active", state.filters.priority.length > 0);
     elements.tagFilter.classList.toggle("is-filter-active", state.filters.tag !== "");
     elements.resetFiltersButton.hidden = !hasActiveTicketFilters();
     syncSharedToolbarHeight();
-  }
-
-  function isDefaultStatusFilter() {
-    return state.filters.status.length === 2 && state.filters.status.includes("open") && state.filters.status.includes("resolved");
   }
 
   function summarizeFilter(values, labels, fallback) {
@@ -388,11 +306,6 @@ export function createFiltersModule(ctx, options) {
       return labels[values[0]] ?? values[0];
     }
     return tr("{count} selected", { count: values.length });
-  }
-
-  function matchesStatusFilter(ticket) {
-    return (state.filters.includeArchived || !ticket.isArchived)
-      && state.filters.status.includes(ticket.isResolved ? "resolved" : "open");
   }
 
   function matchesPriorityFilter(ticket) {
@@ -425,7 +338,6 @@ export function createFiltersModule(ctx, options) {
     saveBoardFilterExpansion,
     saveBoardFilters,
     syncActiveFilterStyles,
-    syncStatusFilter,
     syncViewMode,
   };
 }

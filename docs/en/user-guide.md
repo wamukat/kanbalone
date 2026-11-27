@@ -130,13 +130,11 @@ Set completion lanes under the sidebar gear → **Completion lanes**. Naming a l
 
 Use **Archive** in ticket details to hide a ticket from your everyday view.
 
-Kanban and List initially show both open and resolved tickets. Click **Completion >**, then toggle **Open** and **Resolved**. Select both to show both, or use **×** to reset the selection.
+Kanban and List show open and resolved tickets. In List, choose a completion lane to focus on finished work. Check **Include archived tickets** to also show archived tickets in either view.
 
-Check **Include archived tickets** to also show archived tickets that match the selected completion state.
+On upgrade, your archive setting is kept and any old Kanban or List completion selection is cleared.
 
 Completion lanes in Kanban show the five most recently completed tickets. Use **Show 50 more** to reveal the next batch, or **Show latest 5** to collapse it. Newly completed tickets appear first. Completion lanes use completion order rather than manual drag ordering. This limit does not apply to List.
-
-![Showing archived tickets](../assets/user-guide/11-archived-filter-en.png)
 
 ## 10. Find Tickets
 
@@ -182,9 +180,7 @@ Add tags to classify tickets by type or purpose. Use the tag filter to show tick
 
 Open **List** in the sidebar to see ticket priorities and resolved or archived states in a table.
 
-Choose a lane to narrow the list. If the lane and completion state do not match, such as a completion lane with Open selected, the empty list explains why. Choose **Include resolved tickets** or **Clear lane filter** to adjust the selection. Your search and tag filters stay in place.
-
-![List view](../assets/user-guide/08-list-view.png)
+Choose a lane to narrow the list, or choose **All lanes** to clear the lane selection.
 
 Check tickets to reveal bulk actions.
 
@@ -216,7 +212,7 @@ By default, completed tickets stay in the list with a check mark and subdued tex
 
 Starting in v1.4.0, use **Open only** above the ticket list to hide completed tickets in the selected Group or **No Group**. It starts off, and this browser remembers the choice separately for each board. **Show archived tickets** remains an independent condition. A completed parent with an open child stays as a labelled, non-interactive reference row so the relationship remains visible. To open that parent’s details, turn the filter off and enable **Show archived tickets** if the parent is archived.
 
-This filter changes the ticket list; Group-wide progress and membership counts still describe the whole Group. The Group’s open count continues to exclude archived tickets. It does not change ticket completion or Group membership, and it does not change the completion filters in other views.
+The progress and membership counts describe the whole Group, and the open count excludes archived tickets. The filter changes only which tickets appear in the list.
 
 A ticket can belong to one Group. Parent and child tickets are added or removed together. When connecting tickets from different Groups, choose which Group they should share.
 

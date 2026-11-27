@@ -46,7 +46,7 @@ type ListBoardState = {
   boardDetail: { lanes: ListBoardLane[] } | null;
   boards: Array<{ id: number; name: string }>;
   boardTickets: import("../src/types.js").ListTicketReferenceView[];
-  filters: { resolved: string };
+  filters: import("./app-preferences.js").BoardFilters;
   selectedListTicketIds: number[];
 };
 
@@ -70,7 +70,7 @@ type ListBoardContext = {
 };
 
 type ListBoardOptions = {
-  hasUserTicketFilters(): boolean;
+  hasActiveTicketFilters(): boolean;
   renderEmptyState(options: {
     iconName: string;
     title: string;

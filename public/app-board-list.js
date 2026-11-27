@@ -45,7 +45,7 @@ export function getListTickets(tickets, sort = null) {
 
 export function createListBoardModule(ctx, options) {
   const { state, elements } = ctx;
-  const { hasUserTicketFilters, renderEmptyState, renderTicketStatusIcons } = options;
+  const { hasActiveTicketFilters, renderEmptyState, renderTicketStatusIcons } = options;
   const listSelection = createListSelectionModule(ctx);
   let listModel = null;
   let listSort = null;
@@ -61,25 +61,7 @@ export function createListBoardModule(ctx, options) {
     if (detail.tickets.length === 0) {
       elements.listBoard.className = "list-board empty";
       const firstLaneId = state.boardDetail?.lanes?.[0]?.id;
-      const selectedLane = detail.lanes.find((lane) => String(lane.id) === String(state.filters.lane));
-      const excludedStatus = selectedLane?.isCompletionLane ? "resolved" : "open";
-      if (selectedLane && !state.filters.status.includes(excludedStatus)) {
-        elements.listBoard.innerHTML = renderEmptyState({
-          iconName: "search",
-          title: tr("No matching tickets"),
-          body: tr(selectedLane.isCompletionLane
-            ? "{lane} is a completion lane, so it has no open tickets."
-            : "{lane} is not a completion lane, so it has no resolved tickets.", { lane: selectedLane.name }),
-          actionLabel: tr(selectedLane.isCompletionLane ? "Include resolved tickets" : "Include open tickets"),
-          actionAttr: `data-empty-include-status="${excludedStatus}"`,
-          actionIcon: selectedLane.isCompletionLane ? "check" : "circle",
-          secondaryActionLabel: tr("Clear lane filter"),
-          secondaryActionAttr: "data-empty-clear-lane",
-        });
-        listModel = null;
-        return;
-      }
-      elements.listBoard.innerHTML = hasUserTicketFilters()
+      elements.listBoard.innerHTML = hasActiveTicketFilters()
         ? renderEmptyState({
           iconName: "search",
           title: tr("No matching tickets"),
@@ -90,10 +72,8 @@ export function createListBoardModule(ctx, options) {
         })
         : renderEmptyState({
           iconName: "list",
-          title: state.filters.status.length === 1 && state.filters.status[0] === "open" ? tr("No open tickets") : tr("No tickets yet"),
-          body: state.filters.status.length === 1 && state.filters.status[0] === "open"
-            ? tr("Create a ticket or switch the status filter.")
-            : tr("Create the first ticket, then switch between Kanban and List as it grows."),
+          title: tr("No tickets yet"),
+          body: tr("Create the first ticket, then switch between Kanban and List as it grows."),
           actionLabel: firstLaneId ? tr("Create ticket") : "",
           actionAttr: firstLaneId ? `data-empty-create-ticket="${firstLaneId}"` : "",
         });
@@ -225,17 +205,6 @@ export function createListBoardModule(ctx, options) {
     }
     if (event.target.closest("[data-empty-reset-filters]")) {
       document.querySelector("#reset-filters-button")?.click();
-      return;
-    }
-    const includeStatusButton = event.target.closest("[data-empty-include-status]");
-    if (includeStatusButton && elements.listBoard.contains(includeStatusButton)) {
-      const status = includeStatusButton.dataset.emptyIncludeStatus;
-      elements.statusFilterButtons.find((button) => button.dataset.statusFilter === status)?.click();
-      return;
-    }
-    if (event.target.closest("[data-empty-clear-lane]")) {
-      elements.laneFilter.value = "";
-      elements.laneFilter.dispatchEvent(new Event("change", { bubbles: true }));
       return;
     }
     const createTicketButton = event.target.closest("[data-empty-create-ticket]");
