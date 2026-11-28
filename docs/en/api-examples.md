@@ -481,6 +481,8 @@ curl -sS --fail-with-body -X POST "$BASE/api/boards/$BOARD_ID/tickets" \
 
 When also setting `parentTicketId`, use `POST /api/boards/:boardId/tickets/preview` with the same creation body. If `requiresResolution` is true, choose a returned candidate Group and add `groupResolution:{groupId}` and `expectedToken` to the creation request. The existing parent/children and the new ticket are updated together. With one non-null Group, the ungrouped side joins it automatically. Preview does not create a ticket.
 
+Include `"newTagNames":["Review notes"]` in a ticket create or update body to resolve the names and assign the tags in the same write. Names are trimmed and matched against tags on that board, with exact names preferred. An update that omits `tagIds` keeps the current selection and adds the resolved tags. When `tagIds` is supplied, the new selection contains those IDs plus the resolved tags. A failed write rolls back tag creation and assignment together.
+
 ### Save Parent/Child Changes Atomically
 
 Keep the original edit token from when editing starts. This example assumes 102 is already a child of 101 and 303 is newly selected. It replaces ticket 101's child set with 102 and 303; it must not be used as an append request when additional children already exist. Supply an `expectedSelectedParents` entry for every newly selected child.

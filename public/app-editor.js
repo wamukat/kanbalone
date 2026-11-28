@@ -40,6 +40,7 @@ export function createEditorModule(ctx) {
       elements.ticketLane.value, elements.ticketParent.value,
       ...[state.editorTagIds, state.editorBlockerIds, state.editorRelatedIds, state.editorChildIds]
         .map((ids) => [...ids].sort((a, b) => a - b)),
+      [...state.editorTagDraftNames].sort(),
     ]);
   }
 
@@ -223,6 +224,7 @@ export function createEditorModule(ctx) {
     elements.commentsTabButton.hidden = mode !== "view";
     elements.activityTabButton.hidden = mode !== "view";
     if (mode !== "edit") {
+      state.editorTagDraftNames = [];
       imageAttachments.reset(elements.ticketBody);
       tagPicker.closeOptions();
       relationsModule.closeOptions();
@@ -255,6 +257,7 @@ export function createEditorModule(ctx) {
     state.editingTicketId = null;
     state.dialogMode = "view";
     state.editorTagIds = [];
+    state.editorTagDraftNames = [];
     state.editorBlockerIds = [];
     state.editorRelatedIds = [];
     state.editorChildIds = [];
@@ -329,6 +332,7 @@ export function createEditorModule(ctx) {
     elements.ticketLane.value = String(ticket.laneId);
     elements.ticketParent.value = ticket.parentTicketId == null ? "" : String(ticket.parentTicketId);
     state.editorTagIds = ticket.tags.map((tag) => tag.id);
+    state.editorTagDraftNames = [];
     state.editorBlockerIds = [...ticket.blockerIds];
     state.editorRelatedIds = [...ticket.relatedIds];
     state.editorChildIds = ticket.children.map((child) => child.id);
@@ -394,19 +398,27 @@ export function createEditorModule(ctx) {
       && boardId === state.activeBoardId && ticketId === state.editingTicketId;
   }
 
-  async function refreshDialogTicket(ticketId = state.editingTicketId) {
+  async function refreshDialogTicket(ticketId = state.editingTicketId, savedTicket = null) {
     if (!ticketId || ticketId !== state.editingTicketId) {
       return null;
     }
     const isCurrent = captureDialogScope();
     const request = ++activityRequest;
     const [ticket, activityPayload, eventsPayload] = await Promise.all([
-      ctx.api(`/api/tickets/${ticketId}`),
+      savedTicket ?? ctx.api(`/api/tickets/${ticketId}`),
       ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
       ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
     ]);
     if (!isCurrent()) return null;
     if (ticket.boardId !== state.activeBoardId) throw new Error(t("Ticket moved to a different board. Reopen it from the updated list."));
+    if (savedTicket && state.boardDetail?.board.id === ticket.boardId) {
+      // The committed payload may have tags that the board refresh has not loaded yet.
+      const tagsById = new Map(state.boardDetail.tags.map((tag) => [tag.id, tag]));
+      for (const tag of ticket.tags) {
+        if (tag.boardId === ticket.boardId) tagsById.set(tag.id, tag);
+      }
+      state.boardDetail.tags = [...tagsById.values()];
+    }
     dialogBoardId = ticket.boardId;
     const activity = request === activityRequest ? activityPayload.activity ?? [] : state.dialogActivity;
     hydrateDialogTicket(ticket, activity, eventsPayload.events ?? []);
@@ -499,6 +511,7 @@ export function createEditorModule(ctx) {
       elements.ticketLane.value = String(defaultLaneId);
     }
     state.editorTagIds = ticket?.tags.map((entry) => entry.id) ?? [];
+    state.editorTagDraftNames = [];
     state.editorBlockerIds = ticket?.blockerIds ?? [];
     state.editorRelatedIds = ticket?.relatedIds ?? [];
     state.editorChildIds = ticket?.children.map((entry) => entry.id) ?? [];

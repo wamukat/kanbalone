@@ -184,7 +184,7 @@ Add tags to classify tickets by type or purpose. Open the **Tag** filter in Kanb
 
 - **Create a tag**: click **＋** under **Tags** in the sidebar.
 - **Change its color**: click the tag.
-- **Add it to a ticket**: choose it under **Tags** when editing. To create a new tag there, enter its name and click **＋**.
+- **Add it to a ticket**: choose it under **Tags** when creating or editing a ticket. To add a new name, type it and press **Enter** or choose **Create**. It appears as **Unsaved** until you save the ticket. Saving adds it to the board and to the ticket. Discarding the edit drops the draft. If saving fails, the draft stays available to retry.
 
 ## 12. Review In List View
 

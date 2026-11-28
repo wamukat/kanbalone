@@ -94,6 +94,7 @@ export function parseTicketMutationBody(body: unknown): TicketMutationBody {
     isArchived: input.isArchived,
     priority: typeof input.priority === "number" ? input.priority : undefined,
     tagIds: Array.isArray(input.tagIds) ? input.tagIds : undefined,
+    newTagNames: input.newTagNames,
     blockerIds: hasBlockerIds ? (Array.isArray(input.blockerIds) ? input.blockerIds : []) : undefined,
     relatedIds: hasRelatedIds ? (Array.isArray(input.relatedIds) ? input.relatedIds : []) : undefined,
   };

@@ -1,0 +1,143 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "runtime": {
+    "browser": "Chrome 158.0.8127.89",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "appVersion": "1.6.0",
+    "devicePixelRatio": 1,
+    "reducedMotion": true
+  },
+  "sources": {
+    "baseline": {
+      "commit": "78dce9fb4964bed2d7b1cccd663484c6f3dc6e49"
+    },
+    "candidate": {
+      "baseCommit": "78dce9fb4964bed2d7b1cccd663484c6f3dc6e49",
+      "srcAndPublicGitBinaryDiffSha256": "c8168edfe799613fa42b57afad42e5a9428ae5d63451b4512dfd66e73e854ba3"
+    }
+  },
+  "fixture": {
+    "board": "Operations desk",
+    "ticketNumber": 1,
+    "title": "復元手順と引き継ぎ資料を更新する",
+    "databaseBackupSha256": "9815a00b8caf7a72a97308c173f8f642b8e3cace03be1c5f6cf630995aa7ff59"
+  },
+  "readbacks": {
+    "initial": {
+      "boardTags": [
+        "リリース",
+        "資料"
+      ],
+      "ticketTags": [
+        "資料"
+      ]
+    },
+    "baselineAfterDiscard": {
+      "boardTags": [
+        "リリース",
+        "手順確認",
+        "資料"
+      ],
+      "ticketTags": [
+        "資料"
+      ]
+    },
+    "candidateAfterDiscardMatchesInitial": true,
+    "candidateAfterInjectedSaveFailureMatchesInitial": true,
+    "candidateAfterRetryAndReload": {
+      "boardTags": [
+        "リリース",
+        "手順確認",
+        "資料"
+      ],
+      "ticketTags": [
+        "手順確認",
+        "資料"
+      ],
+      "matchingBoardAndTicketTagId": 3,
+      "activity": "ticket_updated",
+      "updater": "画面"
+    }
+  },
+  "images": {
+    "before-ja-light-tag-enter.png": {
+      "sha256": "94fd288633c341a54946a36a0824663ef0091175d3ca16eca066db680a924332",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "source": "baseline",
+      "state": "Immediately after Enter, the editor and sidebar display the created tag"
+    },
+    "before-ja-light-tag-discard.png": {
+      "sha256": "43712495d00d8a90452ac5234474844154190efbe44d2ac92c497c5aeb7f3050",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "source": "baseline",
+      "state": "After discard, the board still displays the unassigned tag"
+    },
+    "after-ja-light-tag-enter.png": {
+      "sha256": "3523f8c2058e5ea063f0fd9ccca389688ceee26a90f072da6542e6893e03d437",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "source": "candidate",
+      "state": "Immediately after Enter, the editor displays the unsaved tag"
+    },
+    "after-ja-light-tag-discard.png": {
+      "sha256": "ff6ea819d61a47b74340e28ea555cb202d92d7e998999ee82add93d91e088d1d",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "source": "candidate",
+      "state": "After discard, the editor draft is gone and the board still has the original tags"
+    },
+    "after-ja-light-save-failed.png": {
+      "sha256": "fa163f86e047f001074113cdd8b6704770018cfedaea027dbc0c6d85b39d7b5b",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "source": "candidate",
+      "state": "After the simulated 503, the edit remains open with the unsaved tag"
+    },
+    "after-ja-light-tag-saved-reload.png": {
+      "sha256": "a2f5376784b51d96fe2564183e515f9e9f39751876e631369e27a3936495bde1",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "source": "candidate",
+      "state": "After retry and reload, the tag appears in the ticket and sidebar"
+    },
+    "after-en-dark-narrow-tag-enter.png": {
+      "sha256": "ec6ba5e73dba397fbce66882da19b8f96eb096ce1cc376de83114e6a38a5d202",
+      "dimensions": [
+        390,
+        844
+      ],
+      "language": "en",
+      "theme": "dark",
+      "source": "candidate",
+      "state": "A different unsaved name in the narrow editor after the first tag was saved"
+    }
+  }
+}

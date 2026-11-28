@@ -1,5 +1,6 @@
 import { groupMutationProperties, nullableGroupIdSchema } from "./group.js";
 import { optionalPositiveIntegerArraySchema, positiveIntegerSchema, ticketPrioritySchema } from "./common.js";
+import { tagCreateBodySchema } from "./tag.js";
 
 export const ticketMutationBodySchema = {
   type: "object",
@@ -14,6 +15,7 @@ export const ticketMutationBodySchema = {
     isArchived: { type: "boolean" },
     priority: ticketPrioritySchema,
     tagIds: optionalPositiveIntegerArraySchema,
+    newTagNames: { type: "array", items: tagCreateBodySchema.properties.name },
     blockerIds: {
       anyOf: [optionalPositiveIntegerArraySchema, { type: "null" }],
     },

@@ -18,6 +18,7 @@ export type TicketMutationBody = {
   isArchived?: boolean;
   priority?: number;
   tagIds?: number[];
+  newTagNames?: string[];
   blockerIds?: number[] | null;
   relatedIds?: number[] | null;
 };

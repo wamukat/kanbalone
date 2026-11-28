@@ -1,4 +1,4 @@
-import { ticketCreateInput, ticketUpdateInput, ticketSelectionFilters, rejectCompletionFlags, rejectCompletedQuery, type TicketSelectionQuery } from "./ticket-input.js";
+import { ticketCreateInput, ticketUpdateInput, ticketSelectionFilters, rejectCompletionFlags, rejectCompletedQuery, rejectInvalidNewTagNames, type TicketSelectionQuery } from "./ticket-input.js";
 import { groupErrorSchema, groupPreviewSchema } from "./schemas/group.js";
 import { sendGroupError } from "./groups.js";
 import type { FastifyInstance } from "fastify";
@@ -96,7 +96,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
   });
 
   app.post("/api/boards/:boardId/tickets", {
-    preValidation: rejectCompletionFlags,
+    preValidation: [rejectCompletionFlags, rejectInvalidNewTagNames],
     schema: {
       params: schemas.idParamsSchema("boardId"),
       body: schemas.ticketCreateBodySchema,
@@ -129,7 +129,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     }
   });
 
-  app.post("/api/boards/:boardId/tickets/preview", { preValidation: rejectCompletionFlags, schema: {
+  app.post("/api/boards/:boardId/tickets/preview", { preValidation: [rejectCompletionFlags, rejectInvalidNewTagNames], schema: {
     params: schemas.idParamsSchema("boardId"), body: schemas.ticketCreateBodySchema,
     response: { 200: groupPreviewSchema, 400: groupErrorSchema, 404: groupErrorSchema, 409: groupErrorSchema, 428: groupErrorSchema },
   } }, async (request, reply) => {
@@ -141,7 +141,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       return db.previewTicketCreate(ticketCreateInput(boardId, body));
     } catch (error) { return sendGroupError(reply, error); }
   });
-  app.post("/api/tickets/:ticketId/change-preview", { preValidation: rejectCompletionFlags, schema: {
+  app.post("/api/tickets/:ticketId/change-preview", { preValidation: [rejectCompletionFlags, rejectInvalidNewTagNames], schema: {
     params: schemas.idParamsSchema("ticketId"), body: schemas.ticketUpdateBodySchema,
     response: { 200: groupPreviewSchema, 400: groupErrorSchema, 404: groupErrorSchema, 409: groupErrorSchema, 428: groupErrorSchema },
   } }, async (request, reply) => {
@@ -256,7 +256,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
   });
 
   app.patch("/api/tickets/:ticketId", {
-    preValidation: rejectCompletionFlags,
+    preValidation: [rejectCompletionFlags, rejectInvalidNewTagNames],
     schema: {
       params: schemas.idParamsSchema("ticketId"),
       body: schemas.ticketUpdateBodySchema,

@@ -1,6 +1,7 @@
 import type Database from "better-sqlite3";
 
 import { currentOperationUpdater } from "../operation-updater.js";
+import { createTag } from "./board.js";
 import type { Id } from "../types.js";
 
 export function validateParentTicket(
@@ -77,6 +78,29 @@ export function replaceTicketTags(sqlite: Database.Database, ticketId: Id, tagId
   }
   const insert = sqlite.prepare("INSERT OR IGNORE INTO ticket_tags (ticket_id, tag_id) VALUES (?, ?)");
   nextTagIds.forEach((tagId) => insert.run(ticketId, tagId));
+}
+
+// Resolve within the ticket's write transaction so another writer cannot
+// create the same name between the lookup and insert.
+export function resolveTicketTagNames(sqlite: Database.Database, boardId: Id, names: string[] = []): Id[] {
+  if (names.length === 0) return [];
+  const tags = sqlite.prepare("SELECT id, name FROM tags WHERE board_id = ? ORDER BY id").all(boardId) as { id: Id; name: string }[];
+  const exact = new Map(tags.map((tag) => [tag.name, tag.id]));
+  const byCaseFoldedName = new Map<string, Id>();
+  for (const tag of tags) {
+    const key = tag.name.toLowerCase();
+    if (!byCaseFoldedName.has(key)) byCaseFoldedName.set(key, tag.id);
+  }
+  const resolved = new Map<string, Id>();
+  for (const value of names) {
+    const name = value.trim();
+    if (!name) throw new Error("Tag name is required");
+    const key = name.toLowerCase();
+    if (resolved.has(key)) continue;
+    const id = exact.get(name) ?? byCaseFoldedName.get(key) ?? createTag(sqlite, { boardId, name, color: "" }).id;
+    resolved.set(key, id);
+  }
+  return [...resolved.values()];
 }
 
 export function replaceTicketBlockers(

@@ -48,6 +48,7 @@ export function createTicketActionsModule(ctx, options) {
       priority: Number(elements.ticketPriority.value || 0),
       bodyMarkdown: elements.ticketBody.value,
       tagIds,
+      ...(state.editorTagDraftNames.length ? { newTagNames: [...state.editorTagDraftNames] } : {}),
       blockerIds,
       relatedIds,
     };
@@ -67,6 +68,7 @@ export function createTicketActionsModule(ctx, options) {
     state.editorSaving = true;
     const wasInert = elements.editorForm.inert;
     elements.editorForm.inert = true;
+    let savedTicket = null;
     try {
       setSaveState("saving", t("Saving..."));
       if (editingTicketId || nextParentTicketId != null || creationGroup) {
@@ -76,9 +78,9 @@ export function createTicketActionsModule(ctx, options) {
         if (resolution) payload.groupResolution = resolution;
         payload.expectedToken = preview.expectedToken;
       }
-      const savedTicket = await ctx.api(endpoint, { method, body: JSON.stringify(payload) });
+      savedTicket = await ctx.api(endpoint, { method, body: JSON.stringify(payload) });
       if (editingTicketId) {
-        await options.refreshDialogTicket(editingTicketId);
+        await options.refreshDialogTicket(editingTicketId, savedTicket);
         options.setDialogMode("view");
         setSaveState("saved", t("Saved"));
       } else {
@@ -90,6 +92,11 @@ export function createTicketActionsModule(ctx, options) {
       if (!editingTicketId && creationGroup && savedTicket.groupId != null && savedTicket.groupId !== creationGroup.id) await ctx.openGroup?.(savedTicket.groupId);
       return savedTicket;
     } catch (error) {
+      if (savedTicket) {
+        if (elements.editorDialog.open && state.dialogMode === "edit") options.closeEditor();
+        ctx.showToast(t("Ticket saved, but the view could not refresh. Reload to continue."), "error");
+        return savedTicket;
+      }
       setSaveState("error", t("Save failed"));
       ctx.showToast(error.message, "error");
       return null;

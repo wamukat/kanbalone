@@ -3892,6 +3892,19 @@ components:
           type: array
           items:
             type: integer
+          description: Existing tag IDs to assign. On update, supplying this array replaces the previous selection. Omission keeps it.
+        newTagNames:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            pattern: '\S'
+          description: >
+            Add these tags in the same transaction as the ticket write. Names are trimmed.
+            A same-board exact name is reused first, followed by a case-insensitive match.
+            Unmatched names are created without a color. Resolved tags are added to the
+            tagIds selection, or to the current selection when tagIds is omitted on update.
+            An empty array adds no tags. Ticket previews never create or assign tags.
         blockerIds:
           type: [array, "null"]
           items:
