@@ -176,7 +176,7 @@ test("No Group is a conditional view of unassigned tickets with ordinary ticket 
     await expect(view).toHaveAttribute("aria-current", "true");
     await ticketTitle(child.id).press("n");
     await expect(page.locator("#ticket-title")).toBeFocused();
-    await expect(page.locator(".editor-group-context")).toHaveText(board.name);
+    await expect(page.locator(".editor-group-context")).toHaveText(`New ticket · ${board.name}`);
     await page.keyboard.press("Escape");
     await expect(ticketTitle(child.id)).toBeFocused();
     await page.getByRole("button", { name: "Create ticket", exact: true }).click();

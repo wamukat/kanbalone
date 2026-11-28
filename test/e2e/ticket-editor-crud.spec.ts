@@ -77,10 +77,10 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await page.locator("#archive-ticket-button").click();
     expect((await archiveResponse).status()).toBe(200);
     await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
-    await expect(page.getByRole("button", { name: "Updated from editor" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Updated from editor", exact: true })).toHaveCount(0);
 
     await page.locator("#include-archived-filter").click();
-    await page.getByRole("button", { name: "Updated from editor" }).click();
+    await page.getByRole("button", { name: "Updated from editor", exact: true }).click();
     await expect(page.locator("#editor-header-state .ticket-state-pill > span")).toHaveText(["Resolved", "Archived"]);
     await expect(page.locator("#editor-header-state .ticket-state-pill-resolved use[href='/icons.svg#check']")).toHaveCount(1);
     await expect(page.locator("#editor-header-state .ticket-state-pill-archived use[href='/icons.svg#archive']")).toHaveCount(1);
