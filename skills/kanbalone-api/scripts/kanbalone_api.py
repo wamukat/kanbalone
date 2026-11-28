@@ -12,10 +12,20 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+
+
+def parse_header(arg: str) -> tuple[str, str]:
+    name, separator, value = arg.partition(":")
+    if not separator or not re.fullmatch(r"[!#$%&'*+.^_`|~0-9A-Za-z-]+", name):
+        raise argparse.ArgumentTypeError("expected an HTTP header in Name: Value format")
+    if re.search(r"[^\x20-\x7e\xa0-\xff]", value):
+        raise argparse.ArgumentTypeError("header values must be Latin-1 text without control characters")
+    return name.lower(), value.strip(" ")
 
 
 def parse_args() -> argparse.Namespace:
@@ -29,7 +39,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("path", help="API path, for example /api/boards.")
     parser.add_argument("json_body", nargs="?", help="JSON body. If omitted, stdin is used when piped.")
     parser.add_argument("--body-file", help="UTF-8 Markdown file to send as bodyMarkdown. Optional JSON argument supplies other fields; stdin is not read.")
-    return parser.parse_args()
+    parser.add_argument(
+        "--header", metavar="NAME: VALUE", action="append", type=parse_header, default=[],
+        help="Send a request header. Repeat to set more headers. The last value wins for each case-insensitive name.",
+    )
+    return parser.parse_intermixed_args()
 
 
 def read_body(arg: str | None, body_file: str | None = None) -> bytes | None:
@@ -86,6 +100,9 @@ def main() -> int:
         method=method,
         headers=headers,
     )
+    for name, value in dict(args.header).items():
+        # Custom headers take precedence on the initial request and stay off redirects.
+        request.add_unredirected_header(name, value)
 
     try:
         with urllib.request.urlopen(request, timeout=30) as response:

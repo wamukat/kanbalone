@@ -39,6 +39,8 @@ rm -rf "$tmpdir"
 
 Codex は Kanbalone container の外側で動くため、skill はホスト側にインストールします。そのうえで、起動中の Kanbalone API に HTTP で接続します。
 
+同梱のAPIヘルパーでは `--header 'Name: Value'` を繰り返し指定でき、JSON引数、標準入力のJSON、Markdownの `--body-file` と併用できます。ヘッダ名では大文字と小文字を区別せず、最後の指定がそれ以前の値や既定値を上書きします。既定値は `Accept: application/json` と、本文がある場合の `Content-Type: application/json` です。指定したヘッダは最初のリクエストで送信します。`If-Match` の使い方は [Group削除の例](./api-examples.md#groupの編集削除) を参照してください。
+
 ## 推奨ワークフロー
 
 1. まずボード一覧を取得する。

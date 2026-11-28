@@ -522,6 +522,7 @@ curl -sS --fail-with-body -X PATCH "$BASE/api/tickets/101" \
 
 Without a conflict, omit `groupResolution` and add only `expectedToken`. Keep the edit body unchanged between preview and commit. On a stale response, re-read and reconcile the user's changes rather than refreshing tokens and replaying an obsolete child set.
 
+<a id="edit-or-delete-a-group"></a>
 ### Edit Or Delete A Group
 
 ```bash
@@ -535,13 +536,19 @@ curl -sS --fail-with-body -X PATCH "$BASE/api/groups/$GROUP_ID" \
 Delete only after verifying that the Group has zero tickets, including archived tickets, and that deletion is intended. Re-read after edits because the revision changes.
 
 ```bash
-curl -sS --fail-with-body "$BASE/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
-REVISION=$(jq -r '.revision' "$WORK_DIR/group.json")
-curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
-  -H "If-Match: \"$REVISION\""
+HELPER="${CODEX_HOME:-$HOME/.codex}/skills/kanbalone-api/scripts/kanbalone_api.py"
+python3 "$HELPER" --base "$BASE" GET "/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
 ```
 
-A nonempty Group or a stale revision is rejected; deleting a Group never deletes its tickets. The bundled API helper does not supply `If-Match`, so use `curl` for this operation.
+After reviewing the fetched Group, send the revision in double quotes to match its `ETag`.
+
+```bash
+REVISION=$(jq -r '.revision' "$WORK_DIR/group.json")
+python3 "$HELPER" --base "$BASE" DELETE "/api/groups/$GROUP_ID" \
+  --header "If-Match: \"$REVISION\""
+```
+
+The server rejects deletion of a nonempty Group or deletion with a stale revision. Group deletion never deletes tickets. After a 409, re-read the Group and review it before retrying.
 
 ## Saved cross-board views
 
