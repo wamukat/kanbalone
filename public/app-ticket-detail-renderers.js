@@ -117,15 +117,17 @@ export function createTicketDetailRenderers(ctx) {
 
   function renderActivity(activity, events = [], comments = []) {
     const currentComments = new Set(comments.map((comment) => comment.id));
+    const failure = activity === null
+      ? `<p class="muted" role="status">${t("Could not load activity. Reopen the ticket to retry.")}</p>` : "";
     const timeline = [
-      ...activity.map((entry) => ({ type: "activity", createdAt: entry.createdAt, entry })),
+      ...(activity ?? []).map((entry) => ({ type: "activity", createdAt: entry.createdAt, entry })),
       ...events.map((entry) => ({ type: "event", createdAt: entry.createdAt, entry })),
     ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       || (a.type === b.type ? (b.entry.id ?? 0) - (a.entry.id ?? 0) : a.type === "activity" ? -1 : 1));
     if (!timeline.length) {
-      return `<p class="muted">${t("No activity yet.")}</p>`;
+      return failure || `<p class="muted">${t("No activity yet.")}</p>`;
     }
-    return timeline
+    return failure + timeline
       .map((item) => {
         if (item.type === "event") {
           return `

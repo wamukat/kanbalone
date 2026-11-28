@@ -197,6 +197,8 @@ export default {
   "Not recorded": "記録なし",
   "Name not recorded": "名前の記録なし",
   "Change details not recorded": "変更内容の記録なし",
+  "Not archived": "未アーカイブ",
+  "Could not load activity. Reopen the ticket to retry.": "履歴を取得できませんでした。チケットを開き直すと再試行できます。",
   "Added": "追加",
   "Removed": "解除",
   "Before": "変更前",

@@ -11,8 +11,7 @@ test("activity shows recorded changes, opens the current comment and preserves U
     });
     const ticketApi = `${baseUrl}/api/tickets/${ticket.id}`;
     await updateTicket(page.request, baseUrl, ticket.id, { bodyMarkdown: "Verified 😁", laneId: lanes[1].id, updater: "Operator" });
-    const posted = (await page.request.post(`${ticketApi}/comments`, { data: { bodyMarkdown: "Original comment" } })).json();
-    const active = await posted;
+    const active = await (await page.request.post(`${ticketApi}/comments`, { data: { bodyMarkdown: "Original comment" } })).json();
     await page.request.patch(`${baseUrl}/api/comments/${active.id}`, { data: { bodyMarkdown: "Current comment" } });
     const deleted = await (await page.request.post(`${ticketApi}/comments`, { data: { bodyMarkdown: "Removed comment text" } })).json();
     await page.request.delete(`${baseUrl}/api/comments/${deleted.id}`);
@@ -44,6 +43,24 @@ test("activity shows recorded changes, opens the current comment and preserves U
     const target = page.locator(`[data-comment-id="${active.id}"]`);
     await expect(target).toBeFocused();
     await expect(target).toContainText("Current comment");
+  } finally { await close(); }
+});
+
+test("a failed activity list is distinct from an empty history", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "History availability", laneNames: ["Todo"] });
+    const ticket = await createTicket(page.request, baseUrl, board.id, { title: "Shows activity errors", laneId: lanes[0].id });
+    const ticketApi = `${baseUrl}/api/tickets/${ticket.id}`;
+    await page.request.post(`${ticketApi}/events`, { data: { source: "ci", kind: "check", title: "Check passed" } });
+    await page.route(`${ticketApi}/activity?compact=true`, (route) =>
+      route.fulfill({ status: 503, json: { error: "Simulated activity failure" } }));
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await page.locator("#activity-tab-button").click();
+    const activity = page.locator("#ticket-activity");
+    await expect(activity.getByRole("status")).toContainText("Could not load activity");
+    await expect(activity).not.toContainText("No activity yet.");
+    await expect(activity).toContainText("Check passed");
   } finally { await close(); }
 });
 

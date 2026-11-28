@@ -233,7 +233,7 @@ export function createTicketDetailModule(ctx) {
 
   function startInlineEdit(field) {
     activeInlineEdit = field;
-    syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
+    syncTicketDetail(state.dialogTicket, state.dialogActivity, state.dialogEvents ?? []);
   }
 
   function hasUnsavedBody() {
@@ -248,7 +248,7 @@ export function createTicketDetailModule(ctx) {
     }
     if (hasUnsavedBody() && !await ctx.confirmDiscardChanges()) return;
     resetInlineEdit();
-    syncTicketDetail(state.dialogTicket, state.dialogActivity ?? [], state.dialogEvents ?? []);
+    syncTicketDetail(state.dialogTicket, state.dialogActivity, state.dialogEvents ?? []);
   }
 
   async function updateInlineTicket(patch, savedMessage = t("Saved")) {

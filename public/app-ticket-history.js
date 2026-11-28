@@ -92,7 +92,7 @@ export function renderHistoryDetails(entry, currentComments, escape) {
 function describeValue(field, value, empty = t("Not recorded")) {
   if (isReference(value)) return field === "parent" ? `#${value.id} ${value.label}` : value.label;
   if (field === "parent" && value === null) return t("No parent");
-  if (field === "isArchived" && typeof value === "boolean") return t(value ? "Archived" : "Open");
+  if (field === "isArchived" && typeof value === "boolean") return t(value ? "Archived" : "Not archived");
   if (field === "priority" && [1, 2, 3, 4].includes(value)) return t(["Low", "Medium", "High", "Urgent"][value - 1]);
   if (isText(value)) return value;
   return empty;
