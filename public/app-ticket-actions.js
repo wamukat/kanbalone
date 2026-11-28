@@ -1,3 +1,4 @@
+import { createArchiveRecovery } from "./app-archive-recovery.js";
 import { t } from "./app-i18n.js";
 import { chooseGroupResolution } from "./app-group-conflict.js";
 import { icon } from "./icons.js";
@@ -5,6 +6,7 @@ import { icon } from "./icons.js";
 export function createTicketActionsModule(ctx, options) {
   const { state, elements } = ctx;
   let saveStateTimer = null;
+  let archiveRecovery;
 
   function clearSaveState() {
     if (saveStateTimer) {
@@ -112,38 +114,47 @@ export function createTicketActionsModule(ctx, options) {
   }
 
   async function toggleTicketArchive() {
-    if (!state.editingTicketId || state.editorSaving) {
-      return;
-    }
+    if (!state.editingTicketId || state.editorSaving || !state.dialogTicket) return;
     const ticketId = state.editingTicketId;
-    if (!await options.confirmDiscardChanges() || state.editingTicketId !== ticketId || state.editorSaving) return;
+    const scope = options.captureDialogScope();
+    const intendedArchive = !state.dialogTicket.isArchived;
+    const expectedArchiveVersion = state.dialogTicket.archiveVersion;
+    const boardId = state.dialogTicket.boardId;
+    if (!await options.confirmDiscardChanges() || !scope() || state.editorSaving) return;
     state.editorSaving = true;
     const wasInert = elements.editorForm.inert;
     elements.editorForm.inert = true;
+    const release = ctx.deferBoardUpdatesDuringCreationRefresh?.(boardId);
     let saved = false;
-    let archived = false;
+    let savedTicket;
     try {
-      const current = await ctx.api(`/api/tickets/${ticketId}`);
-      setSaveState("saving", current.isArchived ? t("Restoring...") : t("Archiving..."));
-      await ctx.sendJson(`/api/tickets/${ticketId}`, {
-        method: "PATCH",
-        body: { isArchived: !current.isArchived },
+      setSaveState("saving", intendedArchive ? t("Archiving...") : t("Restoring..."));
+      savedTicket = await ctx.sendJson(`/api/tickets/${ticketId}/archive`, {
+        method: "PATCH", body: { isArchived: intendedArchive, expectedArchiveVersion, expectedBoardId: boardId },
       });
       saved = true;
-      archived = !current.isArchived;
+      if (intendedArchive) {
+        archiveRecovery ??= (options.createArchiveRecovery ?? createArchiveRecovery)(ctx, {
+          review: options.reviewTicket, refresh: options.refreshRecoveredTicket, reconcile: options.reconcileRecoveredTicket,
+        });
+        archiveRecovery.offer(savedTicket);
+      }
+      if (!scope()) return;
       await ctx.refreshBoardDetail();
-      if (!current.isArchived && (ctx.isCustomView?.() || !state.filters.includeArchived)) {
+      if (!scope()) return;
+      if (intendedArchive && (ctx.isCustomView?.() || !state.filters.includeArchived)) {
         options.closeEditor();
-        ctx.showToast(t("Archived"));
         return;
       }
       await options.refreshDialogTicket(ticketId);
+      if (!scope()) return;
       options.setDialogMode("view");
-      setSaveState("saved", current.isArchived ? t("Restored") : t("Archived"));
+      setSaveState("saved", intendedArchive ? t("Archived") : t("Restored"));
     } catch (error) {
+      if (!scope()) return;
       if (saved) {
         options.closeEditor();
-        ctx.showToast(t(archived
+        ctx.showToast(t(intendedArchive
           ? "Ticket archived, but the view could not refresh. Reload to continue."
           : "Ticket restored, but the view could not refresh. Reload to continue."), "error");
       } else {
@@ -154,6 +165,7 @@ export function createTicketActionsModule(ctx, options) {
       elements.editorForm.inert = wasInert;
       state.editorSaving = false;
       options.restoreActionFocus?.(elements.archiveTicketButton);
+      release?.();
     }
   }
 

@@ -111,6 +111,7 @@ export function createBoardModule(ctx) {
   return {
     captureEditorOrigin: keyboard.captureEditorOrigin,
     restoreEditorOrigin: keyboard.restoreEditorOrigin,
+    focusRecoveredTicket: keyboard.focusRecoveredTicket,
     afterKeyboardRender: keyboard.afterRender,
     openGroup: groupModule.openGroup,
     isActiveGroup: groupModule.isActiveGroup,

@@ -1,0 +1,66 @@
+[
+  {
+    "file": "main-before-archive.png",
+    "sha256": "be1b51a75a33930c2a0011d8738f4a3c0d2765ae8442d01e5e44a5f0699f16cd",
+    "revision": "92571d1e2fcef1a37d630fa02733e7f2c2ce0b83",
+    "viewport": "1440x900",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "main-archived.png",
+    "sha256": "4df678c292ce9b0a8b270c87d3471b24c8cb7e7d2a3fdd64167f72a4db190dd6",
+    "revision": "92571d1e2fcef1a37d630fa02733e7f2c2ce0b83",
+    "viewport": "1440x900",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "main-restored.png",
+    "sha256": "1f1c7478f12ce09e339271ca32a62b5285eadad7b3dc14935d5fdc7a0c87c856",
+    "revision": "92571d1e2fcef1a37d630fa02733e7f2c2ce0b83",
+    "viewport": "1440x900",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "after-before-archive-light-ja.png",
+    "sha256": "8ba4b6f4afd5021778fcbc5fda97d6b50ffcf794092e471effaff1c088d5db39",
+    "revision": "f725bad6395ea00a166816dae0c9f819b8034bd9",
+    "viewport": "1440x900",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "after-archived-light-ja.png",
+    "sha256": "eb36e794abe09f53a2c296a3d1cb3b0442a95e0562b48409e0cfc314da40e43a",
+    "revision": "f725bad6395ea00a166816dae0c9f819b8034bd9",
+    "viewport": "1440x900",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "after-restored-reloaded-light-ja.png",
+    "sha256": "61f6b693ca7f9c40256388930d4924d9357cabe2443fcbe703d200316620ba38",
+    "revision": "f725bad6395ea00a166816dae0c9f819b8034bd9",
+    "viewport": "1440x900",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "after-draft-undo-narrow-ja.png",
+    "sha256": "43a0a69977704a43b7fd339d37b5d26f8dc58e9f5a1215143d1f579f81145780",
+    "revision": "f725bad6395ea00a166816dae0c9f819b8034bd9",
+    "viewport": "390x844",
+    "language": "ja",
+    "theme": "light"
+  },
+  {
+    "file": "after-save-error-notice-narrow-dark-en.png",
+    "sha256": "7f9a0e9316df9b323a9931f5eb58c090253584c298cd5ba69b7e08e58f6067b5",
+    "revision": "f725bad6395ea00a166816dae0c9f819b8034bd9",
+    "viewport": "390x844",
+    "language": "en",
+    "theme": "dark"
+  }
+]

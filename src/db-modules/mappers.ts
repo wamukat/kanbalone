@@ -84,6 +84,7 @@ export function mapTicket(
     isResolved: Boolean(row.is_resolved),
     resolvedAt: row.resolved_at ?? null,
     isArchived: Boolean(row.is_archived),
+    archiveVersion: row.archive_version,
     priority: row.priority,
     position: row.position,
     createdAt: row.created_at,

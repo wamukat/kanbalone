@@ -224,7 +224,7 @@ export function planTicketGroupChange(db:Sqlite,ticketId:number|null,input:EditI
   }
   if(created)validateGroup(db,input.groupId,boardId);
   const finalRows=all.map(t=>({...t}));
-  if(created)finalRows.push({id:0,board_id:boardId,lane_id:Number(input.laneId??0),parent_ticket_id:null,group_id:input.groupId??null,title:input.title??"",body_markdown:"",is_archived:input.isArchived?1:0,is_resolved:0,resolved_at:null,priority:2,position:0,created_at:"",updated_at:""});
+  if(created)finalRows.push({id:0,board_id:boardId,lane_id:Number(input.laneId??0),parent_ticket_id:null,group_id:input.groupId??null,title:input.title??"",body_markdown:"",archive_version:0,is_archived:input.isArchived?1:0,is_resolved:0,resolved_at:null,priority:2,position:0,created_at:"",updated_at:""});
   const finalById = new Map(finalRows.map(t=>[t.id,t]));
   const originalById = new Map(all.map(t=>[t.id,t]));
   const edited=finalById.get(id)!;

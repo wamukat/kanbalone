@@ -7,6 +7,7 @@
     "/api/tags/:tagId": ["DELETE"],
     "/api/boards/:boardId/tickets": ["POST"],
     "/api/tickets/:ticketId": ["PATCH", "DELETE"],
+    "/api/tickets/:ticketId/archive": ["PATCH"],
     "/api/tickets/:ticketId/transition": ["PATCH"],
     "/api/tickets/:ticketId/position": ["PATCH"],
     "/api/tickets/:ticketId/move": ["POST"],

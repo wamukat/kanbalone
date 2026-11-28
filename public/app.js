@@ -566,6 +566,7 @@ const {
 );
 
 const editorModule = createEditorModule({
+  focusRecoveredTicket: (id) => customViews.active ? elements.searchInput.focus() : boardModule.focusRecoveredTicket(id),
   isActiveGroup: (groupId) => boardModule.isActiveGroup(groupId),
   isCustomView: () => customViews.active,
   captureEditorOrigin: () => customViews.active ? customViews.origin : boardModule.captureEditorOrigin(),

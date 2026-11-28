@@ -148,6 +148,10 @@ Set completion lanes under the sidebar gear → **Completion lanes**. Naming a l
 
 Use **Archive** in ticket details to hide a ticket from your everyday view.
 
+After archiving one ticket from its details, a notification shows its number and title with **Undo**. Undo restores that ticket without rolling back its notes, lane, or other edits. The shortcut stays available for 20 seconds while the page is visible; hovering over or focusing the notification pauses the timer. Up to three notifications are shown. Closing a notification or letting it expire does not delete the ticket.
+
+If restoration fails, use **Retry** on the same notification. If another archive operation or board move has changed the ticket, use **Review** to check its current state before restoring it. You can also restore later: turn on **Include archived tickets**, open the ticket, and choose **Archived** → **Restore ticket**. Bulk archiving does not show an Undo notification.
+
 Kanban and List show open and resolved tickets. In List, choose a completion lane to focus on finished work. Turn on **Include archived tickets** to show archived tickets in either view. Press the same button again to hide them.
 
 On upgrade, your archive setting is kept and any old Kanban or List completion selection is cleared.

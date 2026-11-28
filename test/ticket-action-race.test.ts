@@ -4,50 +4,42 @@ import assert from "node:assert/strict";
 const actionModulePath = "../public/app-ticket-actions.js";
 const { createTicketActionsModule } = await import(actionModulePath);
 
-test("archive captures its ticket before the async read and releases the saving lock", async () => {
-  let releaseRead!: (ticket: { isArchived: boolean }) => void;
-  let markStarted!: () => void;
-  const started = new Promise<void>((resolve) => { markStarted = resolve; });
-  const reading = new Promise<{ isArchived: boolean }>((resolve) => { releaseRead = resolve; });
-  const state = { editingTicketId: 1, editorSaving: false, filters: { status: ["open"] } };
-  const writes: string[] = [];
-  const ctx = {
-    state,
-    elements: { editorForm: { inert: false }, editorSaveState: { hidden: true, textContent: "", dataset: { kind: "" } } },
-    api: async (url: string) => { assert.equal(url, "/api/tickets/1"); markStarted(); return reading; },
-    sendJson: async (url: string) => { writes.push(url); },
-    refreshBoardDetail: async () => {},
-    showToast: () => {},
-  };
-  const actions = createTicketActionsModule(ctx, {
+test("archive keeps the initiating ticket and intended state across a pending conditional write", async () => {
+  let finish!: (ticket: object) => void;
+  let started!: () => void;
+  const writing = new Promise<object>(resolve => { finish = resolve; });
+  const began = new Promise<void>(resolve => { started = resolve; });
+  const state = { editingTicketId: 1, editorSaving: false, dialogTicket: { id: 1, boardId: 10, archiveVersion: 3, isArchived: false } };
+  const elements = { editorForm: { inert: false }, editorSaveState: { hidden: true, textContent: "", dataset: { kind: "" } } };
+  const writes: unknown[] = []; const offers: unknown[] = [];
+  const actions = createTicketActionsModule({ state, elements,
+    sendJson: async (url: string, input: object) => { writes.push({ url, input }); started(); return writing; },
+  }, {
+    captureDialogScope: () => () => state.editingTicketId === 1,
     confirmDiscardChanges: async () => true,
-    closeEditor: () => {},
+    createArchiveRecovery: () => ({ offer: (ticket: object) => offers.push(ticket) }),
   });
-  const pending = actions.toggleTicketArchive();
-  await started;
-  assert.equal(state.editorSaving, true);
-  assert.equal(ctx.elements.editorForm.inert, true);
+  const pending = actions.toggleTicketArchive(); await began;
+  assert.equal(state.editorSaving, true); assert.equal(elements.editorForm.inert, true);
   state.editingTicketId = 2;
-  releaseRead({ isArchived: false });
-  await pending;
-  assert.deepEqual(writes, ["/api/tickets/1"]);
-  assert.equal(state.editorSaving, false);
-  assert.equal(ctx.elements.editorForm.inert, false);
+  finish({ id: 1, boardId: 10, isArchived: true, archiveVersion: 4 }); await pending;
+  assert.deepEqual(writes, [{ url: "/api/tickets/1/archive", input: { method: "PATCH", body: { isArchived: true, expectedArchiveVersion: 3, expectedBoardId: 10 } } }]);
+  assert.deepEqual(offers, [{ id: 1, boardId: 10, isArchived: true, archiveVersion: 4 }]);
+  assert.equal(state.editorSaving, false); assert.equal(elements.editorForm.inert, false);
 });
 
-test("archive releases the saving lock after a failed read without writing", async () => {
-  const state = { editingTicketId: 1, editorSaving: false, filters: { status: ["open"] } };
-  let writes = 0;
-  const actions = createTicketActionsModule({
-    state,
-    elements: { editorForm: { inert: false }, editorSaveState: { hidden: true, textContent: "", dataset: { kind: "" } } },
-    api: async () => { throw new Error("offline"); },
-    sendJson: async () => { writes++; },
-    showToast: () => {},
-  }, { confirmDiscardChanges: async () => true });
+test("archive releases the saving lock after a rejected conditional write without offering recovery", async () => {
+  const state = { editingTicketId: 1, editorSaving: false, dialogTicket: { id: 1, boardId: 10, archiveVersion: 3, isArchived: false } };
+  const elements = { editorForm: { inert: false }, editorSaveState: { hidden: true, textContent: "", dataset: { kind: "" } } };
+  let writes = 0; let offers = 0;
+  const actions = createTicketActionsModule({ state, elements,
+    sendJson: async () => { writes++; throw new Error("stale archive state"); }, showToast: () => {},
+  }, { confirmDiscardChanges: async () => true, captureDialogScope: () => () => true,
+    createArchiveRecovery: () => ({ offer: () => offers++ }),
+  });
   await actions.toggleTicketArchive();
-  assert.equal(writes, 0);
-  assert.equal(state.editorSaving, false);
+  assert.equal(writes, 1); assert.equal(offers, 0);
+  assert.equal(state.editorSaving, false); assert.equal(elements.editorForm.inert, false);
 });
 
 for (const change of ["ticket", "close"] as const) {

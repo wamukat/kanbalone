@@ -1,3 +1,4 @@
+import { registerTicketArchiveRoutes } from "./ticket-archive.js";
 import { ticketCreateInput, ticketUpdateInput, ticketSelectionFilters, rejectCompletionFlags, rejectCompletedQuery, rejectInvalidNewTagNames, type TicketSelectionQuery } from "./ticket-input.js";
 import { groupErrorSchema, groupPreviewSchema } from "./schemas/group.js";
 import { sendGroupError } from "./groups.js";
@@ -35,6 +36,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
   } = ctx;
 
   registerTicketCollectionProjectionRoutes(app, ctx);
+  registerTicketArchiveRoutes(app, ctx);
 
   app.get("/api/boards/:boardId/tickets", {
     preValidation: rejectCompletedQuery,

@@ -1,5 +1,13 @@
 // UI strings only; user-authored content and API values remain unchanged.
 export default {
+  "Retry": "再試行",
+  "Archive notifications": "アーカイブ通知",
+  "Dismiss notification": "通知を閉じる",
+  "Undo": "元に戻す",
+  "Could not restore this ticket.": "復元できませんでした。",
+  "This ticket changed. Review it before restoring.": "別の操作で状態が変わりました。確認してから復元してください。",
+  "This ticket no longer exists.": "このチケットは削除されています。",
+  "Review": "確認する",
   "Ticket display": "チケットの表示方法",
   "Current ticket": "通常表示",
   "Changes since last view": "前回表示からの変更",

@@ -142,6 +142,42 @@ export function createEditorModule(ctx) {
 
   const actionsModule = createTicketActionsModule(ctx, {
     captureDialogScope,
+    reviewTicket: async (id) => {
+      const current = captureDialogScope();
+      const hadDialog = elements.editorDialog.open;
+      const session = dialogSession;
+      const boardId = state.activeBoardId;
+      const view = state.viewMode;
+      const stillReviewing = () => session === dialogSession && boardId === state.activeBoardId
+        && view === state.viewMode && (hadDialog ? current() : !elements.editorDialog.open);
+      if (!await confirmDiscardChanges()) return;
+      if (!stillReviewing()) return;
+      const wasInert = elements.editorForm.inert;
+      elements.editorForm.inert = true;
+      try {
+        const ticket = await ctx.api(`/api/tickets/${id}`);
+        if (!stillReviewing()) return;
+        if (ticket.boardId !== state.activeBoardId) {
+          window.location.assign(`/tickets/${id}`);
+          return;
+        }
+        await openEditor(id, "view", null, null, stillReviewing);
+      } finally {
+        elements.editorForm.inert = wasInert;
+      }
+    },
+    reconcileRecoveredTicket: (ticket) => {
+      if (!elements.editorDialog.open || state.editingTicketId !== ticket.id || state.dialogTicket?.boardId !== ticket.boardId) return;
+      if (state.dialogTicket.archiveVersion > ticket.archiveVersion) return;
+      // Rebase only when the exact pre-mutation editor fields still match.
+      // Concurrent changes retain the old token and normal conflict protection.
+      if (ticket.previousEditToken && state.editorEditToken === ticket.previousEditToken) state.editorEditToken = ticket.editToken;
+      state.dialogTicket = { ...state.dialogTicket, isArchived: ticket.isArchived, archiveVersion: ticket.archiveVersion,
+        ...(ticket.previousEditToken && state.dialogTicket.editToken === ticket.previousEditToken ? { editToken: ticket.editToken } : {}),
+      };
+      detailModule.syncArchiveState(state.dialogTicket);
+    },
+    refreshRecoveredTicket: (id) => refreshDialogTicket(id, null, { onlyIfPristine: true }),
     confirmDiscardChanges,
     closeEditor,
     getSelectedTagIds,
