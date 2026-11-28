@@ -16,7 +16,7 @@ test('scroll buttons animate between positions and respect reduced motion at act
       const samples:Array<{ms:number;left:number}>=[];
       (document.querySelector('.kanban-scroll-controls button:last-child') as HTMLButtonElement).click();
       samples.push({ms:0,left:el.scrollLeft});
-      while(Math.abs(el.scrollLeft-end)>1 && performance.now()-started<3000){
+      while(Math.abs(el.scrollLeft-end)>0.5 && performance.now()-started<3000){
         await new Promise(requestAnimationFrame);samples.push({ms:Math.round(performance.now()-started),left:el.scrollLeft});
       }
       return {end,samples};
