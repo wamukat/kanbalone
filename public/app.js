@@ -192,6 +192,10 @@ function bindEvents() {
     if (hasUnsavedChanges() || state.editorSaving || customViews.isDirty()) { event.preventDefault(); event.returnValue = ""; }
   });
   window.addEventListener("popstate", async () => {
+    // A Markdown fragment within the displayed ticket only moves its scroll
+    // position. It does not leave that visit or reset its selected view.
+    if (elements.editorDialog.open && state.editingTicketId &&
+        location.pathname.replace(/\/$/, "") === `/tickets/${state.editingTicketId}`) return;
     if (!await confirmDiscardChanges() || !await customViews.mayLeave()) {
       if (state.editingTicketId) syncTicketUrl(state.editingTicketId, { replace: true });
       else syncBoardUrl(true);
