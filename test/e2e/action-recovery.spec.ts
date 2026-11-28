@@ -70,6 +70,8 @@ for (const locale of ["en-US", "ja-JP"]) {
       await page.locator("#move-ticket-button").click();
       await page.locator("[data-move-board]").selectOption(String(target.board.id));
       await expect(page.locator("[data-move-lane]")).toContainText("Review");
+      await expect(page.locator("#ux-submit-button")).toBeDisabled();
+      await page.locator("[data-move-lane]").selectOption(String(target.lanes[0].id));
       await page.locator("#ux-submit-button").click();
       await expect(page.locator("#move-ticket-button")).toBeFocused();
       const saved = await (await page.request.get(`${baseUrl}/api/tickets/${tickets[0].id}`)).json();
