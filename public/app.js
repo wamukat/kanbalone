@@ -194,7 +194,7 @@ function bindEvents() {
   window.addEventListener("popstate", async () => {
     // A Markdown fragment within the displayed ticket only moves its scroll
     // position. It does not leave that visit or reset its selected view.
-    if (elements.editorDialog.open && state.editingTicketId &&
+    if (elements.editorDialog.open && state.editingTicketId && state.dialogTicket?.boardId === state.activeBoardId &&
         location.pathname.replace(/\/$/, "") === `/tickets/${state.editingTicketId}`) return;
     if (!await confirmDiscardChanges() || !await customViews.mayLeave()) {
       if (state.editingTicketId) syncTicketUrl(state.editingTicketId, { replace: true });
@@ -498,7 +498,7 @@ async function applyRouteFromLocation(options) {
   }
   customViews.leave();
   const generation = ++routeGeneration;
-  return routerModule.applyRouteFromLocation({ ...options, isCurrent: () => generation === routeGeneration });
+  return routerModule.applyRouteFromLocation({ ...options, isCurrent: () => generation === routeGeneration && location.pathname === path });
 }
 
 function syncBoardUrl(replace = false) {
