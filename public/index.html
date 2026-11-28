@@ -299,7 +299,7 @@
 
         <form id="editor-form" method="dialog" class="editor-mode" hidden>
           <div class="editor-title-field">
-            <p class="editor-group-context" hidden></p>
+            <h2 id="editor-form-purpose" class="editor-group-context" hidden></h2>
             <input id="ticket-title" name="title" required placeholder="Title" data-i18n-placeholder="Title" />
             <button id="remote-import-create-button" type="button" class="ghost icon-button remote-import-create-button" title="Import remote issue" data-i18n-title="Import remote issue" aria-label="Import remote issue" data-i18n-aria-label="Import remote issue" hidden>
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#link-plus"></use></svg>
@@ -416,7 +416,7 @@
               </div>
               <div id="ticket-child-toggle" class="ticket-tag-input" role="combobox" aria-haspopup="listbox" aria-expanded="false">
                 <div id="ticket-child-summary" class="ticket-tag-summary"></div>
-                <input id="ticket-child-search" type="text" class="ticket-tag-search" placeholder="Add children by ID or title" data-i18n-placeholder="Add children by ID or title" autocomplete="off" />
+                <input id="ticket-child-search" type="text" class="ticket-tag-search" aria-label="Add children by ID or title" data-i18n-aria-label="Add children by ID or title" title="Add children by ID or title" data-i18n-title="Add children by ID or title" placeholder="Title or #123" data-i18n-placeholder="Title or #123" autocomplete="off" />
               </div>
               <div id="ticket-child-options" class="ticket-tag-options" hidden></div>
             </div>

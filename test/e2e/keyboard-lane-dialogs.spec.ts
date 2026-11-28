@@ -33,6 +33,7 @@ for (const view of ["kanban", "list"]) {
       await destination(page).selectOption(String(lanes[1].id));
       await page.keyboard.press("Control+Enter");
       await expect(ux(page)).toHaveJSProperty("open", false);
+      await expect(page.getByText("Ticket moved", { exact: true })).toBeVisible();
       await expect(target).toBeFocused();
       expect((await (await page.request.get(`${baseUrl}/api/tickets/${item.id}`)).json()).laneId).toBe(lanes[1].id);
       if (view === "list") await expect(page.locator(`[data-list-ticket-id="${other.id}"]`)).toBeChecked();

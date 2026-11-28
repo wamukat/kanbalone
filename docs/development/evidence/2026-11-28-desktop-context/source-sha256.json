@@ -1,0 +1,12 @@
+{
+  "public/app-custom-view-list.js": "943a0cfee329451b8b0ca2d18c77591c175922953d970fbc088f0829cacf49d5",
+  "public/app-custom-view-settings.js": "19506a5183435e854b80035bc1771a8e94caf666f90f79e384b69ecf241e0226",
+  "public/app-editor.js": "b4857db1bddcc09090387dfea05d1b29bd8322f534ae6d9dae99408df977703a",
+  "public/app-kanban-board.js": "36812f701ff694c5342054a5b3595cf6cec00719d9a58895070f964cbef6517d",
+  "public/index.html": "9399a5e08b1eab5f8ceba41d53ce6bd38579dd5f206d7d197f4094ad4f408a53",
+  "public/locales/ja-board.js": "0e4d41bd91f60bd22be8baf3c051c9dc7133df93a54a8d033b2f020195a27996",
+  "public/locales/ja-custom-views.js": "832d3dd710879e4933141c7847cf8cccd8e5edeae1894dc2de78a8f29f9c10cd",
+  "public/styles/kanban-board.css": "cd063d639ffe2f449d52dc770f6a0b5acd75eb2e600891c634031edfd5fee478",
+  "public/styles/ticket-editor.css": "f0fe366f154791e6d545698730aac6e4fd2dd075080130fe866e1378b074b41e",
+  "test/e2e/desktop-context.spec.ts": "b65b0bca5390be7abd4e56937b4d7a2dec38bb3dac203cdcc538f4d804fe53f0"
+}

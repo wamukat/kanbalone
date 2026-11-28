@@ -1,4 +1,6 @@
 export default {
+  "All boards; only configured boards match": "すべてのボード（条件を設定したボードのみ対象）",
+  "Excluded until filters are configured": "条件を設定するまで対象外",
   "Custom views": "カスタムビュー",
   "New custom view": "カスタムビューを作成",
   "Edit custom view": "カスタムビューを編集",

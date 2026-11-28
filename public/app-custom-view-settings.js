@@ -18,7 +18,7 @@ export function completionLabel(value) {
 export function ruleLabel(mode) {
   if (mode === "all") return t("Do not filter by tag");
   if (mode === "tags") return t("Match any selected tag");
-  return t("Not configured (0 matches)");
+  return t("Excluded until filters are configured");
 }
 
 export const missingBoard = id => t("Deleted board #{id}", { id });

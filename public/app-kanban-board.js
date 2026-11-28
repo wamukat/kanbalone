@@ -19,6 +19,32 @@ const DRAG_SCROLL_MAX = 26;
 
 export function createKanbanBoardModule(ctx, options) {
   const { state, elements } = ctx;
+  const scrollControls = document.createElement("div");
+  scrollControls.className = "kanban-scroll-controls";
+  scrollControls.hidden = true;
+  const scrollButtons = [-1, 1].map(direction => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "ghost icon-button";
+    button.title = tr(direction < 0 ? "Scroll lanes left" : "Scroll lanes right");
+    button.setAttribute("aria-label", button.title);
+    button.innerHTML = icon(direction < 0 ? "chevron-left" : "chevron-right");
+    button.addEventListener("click", () => elements.laneBoard.scrollBy({ left: direction * elements.laneBoard.clientWidth * 0.8 }));
+    scrollControls.append(button);
+    return button;
+  });
+  document.querySelector(".toolbar-filters")?.append(scrollControls);
+  function syncScrollControls() {
+    const board = elements.laneBoard;
+    const maximum = board.scrollWidth - board.clientWidth;
+    scrollControls.hidden = board.clientWidth === 0 || maximum <= 1;
+    scrollButtons[0].disabled = board.scrollLeft <= 1;
+    scrollButtons[1].disabled = board.scrollLeft >= maximum - 1;
+  }
+  elements.laneBoard.addEventListener("scroll", syncScrollControls, { passive: true });
+  new ResizeObserver(syncScrollControls).observe(elements.laneBoard);
+  new MutationObserver(syncScrollControls).observe(elements.laneBoard, { childList: true });
+
   const getCardIcon = createTicketMaskRenderer(elements.laneBoard, {
     names: kanbanCardIconNames,
     scope: ".ticket-card",

@@ -1,4 +1,6 @@
 export default {
+  "Scroll lanes left": "レーンを左へスクロール",
+  "Scroll lanes right": "レーンを右へスクロール",
   "Add tickets": "チケットを追加",
   "Add ticket": "チケットを1件追加",
   "Change lane": "レーンを変更",
