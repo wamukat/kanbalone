@@ -141,15 +141,19 @@
   font-size: var(--font-size-meta);
 }
 
-.list-ticket-title-stack {
+.ticket-title-stack {
   display: grid;
   justify-items: start;
   gap: var(--space-1);
   min-width: 0;
 }
 
-.list-ticket-title-stack .list-ticket-link {
+.ticket-title-stack .list-ticket-link {
   max-width: 100%;
+}
+
+.group-ticket-title-cell > .ticket-title-stack {
+  flex: 1;
 }
 
 @media (max-width: 500px) {

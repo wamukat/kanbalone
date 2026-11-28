@@ -14,3 +14,9 @@ The history image shows individual add, update, complete, reopen and delete oper
 - A separate database-and-attachments backup after deletion preserved the Task's previous and new Markdown, its complete deleted text, updater names and the bytes of its linked PNG. Restoring it preserved the numbering counter. The edit and delete used long text with an identical prefix so the full history check covered changes outside the displayed excerpt.
 - The code and tests cover stale revisions, missing preconditions, matching no-op writes, literal search, request-scoped attribution and safe refresh of an open draft. Count changes refresh the board while preserving ticket completion, update time and content-activity sorting.
 - I checked the OpenAPI contract, both language guides and the distributed API skill against the implemented routes. The migration guides explain which data travels in portable JSON and how to retain complete activity and attachments in a backup.
+
+## Group view follow-up
+
+I compared the five Group captures with the original files and verified their SHA-256 values. In both themes, the first and third tickets show 1/2 and 0/1 beneath their titles. The middle ticket has no Tasks and shows no count. After completing the remaining Task on the first ticket, its row shows 2/2 and focus returns to the title. The Group header still shows three open tickets. The reviewed runtime SHA-256 is `98e37c3bc5439ff108ed3cbfe4ef57b5489d0394b218fd6e84d11599ce60883a`. [Group captures and stored results](group-counts.md)
+
+I checked the Group API projection, shared row renderer, per-ticket count comparisons on refresh and the virtual row height cache. An independent two-page API check confirmed that creating a Task invalidates a previously issued cursor, a matching no-op update preserves it, and deleting the last Task returns zero counts for the ticket. The neighboring ticket retained its place and counts throughout.

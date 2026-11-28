@@ -29,3 +29,5 @@ The candidate shows two active Task records, with Task #1 completed and Task #3 
 - The new SQLite and attachments backup restored Tasks #1 and #3, their revisions and all 12 Activity entries, including two from before the migration. Both images matched the original SHA-256. Creating another Task in the separate restored instance used #5.
 
 The screenshots identify their runtime fingerprints in the manifest. The paired and editor captures include the Japanese **追加** label. The final History capture uses the final runtime but shows the individual operations from the lifecycle above. A separate focused Chromium test verified both completion-and-body and reopening-and-body updates through the real API and checked their Japanese Activity labels. The stored lifecycle checks used the same backend source throughout.
+
+[Group completion counts](group-counts.md) documents the follow-up Group view comparison and saved results.

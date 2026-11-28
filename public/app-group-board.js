@@ -75,6 +75,7 @@ export function createGroupBoardModule(ctx) {
         && previous.laneId === current.laneId && previous.parentTicketId === current.parentTicketId
         && previous.hasChildren === current.hasChildren && previous.priority === current.priority
         && previous.isResolved === current.isResolved && previous.isArchived === current.isArchived
+        && previous.taskCount === current.taskCount && previous.doneTaskCount === current.doneTaskCount
         && previous.tags.length === current.tags.length && previous.tags.every((tag, tagIndex) => {
           const currentTag = current.tags[tagIndex];
           return tag.id === currentTag.id && tag.name === currentTag.name && tag.color === currentTag.color;
@@ -450,7 +451,7 @@ export function createGroupBoardModule(ctx) {
       { escapeHtml: esc, lanes, rowIcon: (name) => getRowIcon()(name) },
       updateTickets ? "auto" : false,
     );
-    const handoffFocus = updateTickets && sameView && (openOnly || ticketWindow || html.ticketWindow)
+    const handoffFocus = updateTickets && sameView
       ? captureTicketFocus(active) : null;
     const anchor = updateTickets && sameView && (ticketWindow || html.ticketWindow)
       ? ticketWindow?.capture() ?? captureGroupTicketAnchor(host, sections.tickets)

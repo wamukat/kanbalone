@@ -31,7 +31,7 @@ export function renderListRow(entry, options) {
       <input type="checkbox" data-list-ticket-id="${ticket.id}" ${options.selectedTicketIds.includes(ticket.id) ? "checked" : ""} />
       <div class="list-ticket-title-cell indent-${indent}">
         ${options.showHierarchy === false ? "" : renderTicketHierarchyIcon(ticket, options.boardTickets, { selectableParent: true })}
-        ${taskCount ? `<div class="list-ticket-title-stack">${title}${taskCount}</div>` : title}
+        ${taskCount ? `<div class="ticket-title-stack">${title}${taskCount}</div>` : title}
       </div>
       <div class="list-cell muted">${blockers || "-"}</div>
       <div class="list-tag-cell">

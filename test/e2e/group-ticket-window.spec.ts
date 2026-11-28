@@ -65,7 +65,10 @@ test("large Group preserves parent-child geometry and native keyboard order acro
     await expect(remove(page, 1)).toBeFocused();
     await page.keyboard.press(tab);
     await expect(title(page, 2)).toBeFocused();
+    const task = await page.request.post(`${baseUrl}/api/tickets/1201/tasks`, { data: { bodyMarkdown: "Verify the final ticket" } });
+    expect(task.status()).toBe(201);
     await scrollToEnd(page);
+    await expect(page.locator('[data-group-row-id="1201"] .ticket-task-count')).toHaveText("0/1 done");
     await expect(title(page, 2)).toBeFocused();
     await assertSmallWindow(page);
     await expect(title(page, 3)).toHaveCount(0);

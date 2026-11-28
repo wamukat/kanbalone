@@ -1,6 +1,6 @@
 import { expect, test, type APIResponse, type Page } from "@playwright/test";
 
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createCompletionLane, createTicket, startTestApp } from "./helpers.js";
 
 const png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aUa8AAAAASUVORK5CYII=";
 const taskBody = (page: Page) => page.locator("#ticket-task-body");
@@ -74,7 +74,7 @@ test("Task Markdown, filters, counts, attribution and independent completion per
     await expect(taskRow(page, 3)).toContainText("Verify delivery");
 
     await boardPage.locator('[data-view-mode="list"]').click();
-    const stack = boardPage.locator(".list-ticket-title-stack").filter({ hasText: ticket.title });
+    const stack = boardPage.locator("#list-board .ticket-title-stack").filter({ hasText: ticket.title });
     await expect(stack.locator(".list-ticket-link + .ticket-task-count")).toHaveText("0/2 done");
     await page.reload();
     await expect(taskRow(page, 3)).toContainText("Verify delivery");
@@ -222,6 +222,52 @@ test("Task activity identifies text edits made with completion or reopening", as
     const activity = page.locator("#ticket-activity");
     await expect(activity.getByText("Task #1 を完了し、本文を更新", { exact: true })).toBeVisible();
     await expect(activity.getByText("Task #1 を再開し、本文を更新", { exact: true })).toBeVisible();
+  } finally {
+    await close();
+  }
+});
+
+test("Group rows show per-ticket Task counts and refresh them while retaining hierarchy and focus", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Task groups", laneNames: ["Todo"] });
+    const done = await createCompletionLane(page.request, baseUrl, board.id);
+    const groupResponse = await page.request.post(`${baseUrl}/api/boards/${board.id}/groups`, { data: { name: "Delivery" } });
+    expect(groupResponse.status()).toBe(201);
+    const group = await groupResponse.json();
+    const parent = await createTicket(page.request, baseUrl, board.id, { laneId: done.id, groupId: group.id, title: "Completed parent" });
+    const child = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, parentTicketId: parent.id, title: "Open child" });
+    const empty = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, groupId: group.id, title: "Without Tasks" });
+    const ungrouped = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Ungrouped ticket" });
+    const taskUrl = (id: number) => `${baseUrl}/api/tickets/${id}/tasks`;
+    for (const [id, completed] of [[parent.id, true], [child.id, false], [ungrouped.id, true]]) {
+      expect((await page.request.post(taskUrl(id), { data: { bodyMarkdown: "Check the delivery", done: completed } })).status()).toBe(201);
+    }
+
+    const events = page.waitForResponse(response => response.url().endsWith(`/api/boards/${board.id}/events`));
+    await page.goto(`${baseUrl}/boards/${board.id}/group`);
+    await events;
+    const row = (id: number) => page.locator(`[data-group-row-id="${id}"]`);
+    const counter = (id: number) => row(id).locator(".group-ticket-title + .ticket-task-count");
+    await expect(counter(parent.id)).toHaveText("1/1 done");
+    await expect(counter(child.id)).toHaveText("0/1 done");
+    await expect(row(empty.id)).toBeVisible();
+    await expect(counter(empty.id)).toHaveCount(0);
+    const childTitle = row(child.id).locator("[data-group-ticket]");
+    await childTitle.focus();
+    const task = await (await page.request.get(`${taskUrl(child.id)}/1`)).json();
+    expect((await page.request.patch(`${taskUrl(child.id)}/1`, { data: { expectedRevision: task.revision, done: true } })).status()).toBe(200);
+    await expect(counter(child.id)).toHaveText("1/1 done");
+    await expect(childTitle).toBeFocused();
+
+    await page.locator('[data-group-action="open-only"]').click();
+    await expect(row(parent.id)).toHaveClass(/group-ticket-context/);
+    await expect(row(parent.id).locator("button, a[href]")).toHaveCount(0);
+    await expect(counter(parent.id)).toHaveText("1/1 done");
+    await expect(counter(child.id)).toHaveText("1/1 done");
+
+    await page.locator('[data-select-group="ungrouped"]').click();
+    await expect(counter(ungrouped.id)).toHaveText("1/1 done");
   } finally {
     await close();
   }

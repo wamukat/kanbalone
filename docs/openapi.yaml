@@ -3728,7 +3728,7 @@ components:
     GroupTicketRow:
       type: object
       additionalProperties: false
-      required: [id, title, laneId, parentTicketId, isResolved, priority, isArchived, hasChildren, tags]
+      required: [id, title, laneId, parentTicketId, isResolved, priority, isArchived, hasChildren, taskCount, doneTaskCount, tags]
       properties:
         id: { type: integer, minimum: 1 }
         title: { type: string }
@@ -3740,6 +3740,14 @@ components:
         hasChildren:
           type: boolean
           description: True if this ticket has a child, including an archived child.
+        taskCount:
+          type: integer
+          minimum: 0
+          description: Total Tasks on this ticket.
+        doneTaskCount:
+          type: integer
+          minimum: 0
+          description: Completed Tasks on this ticket.
         tags:
           type: array
           description: Tags ordered by name, then ID.

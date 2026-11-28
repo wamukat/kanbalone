@@ -275,7 +275,7 @@ export type ListTicketReferenceView = Pick<TicketSummaryView,
 >;
 
 export type GroupTicketView = ListTicketReferenceView & Pick<TicketSummaryView,
-  "priority" | "isArchived" | "hasChildren"
+  "priority" | "isArchived" | "hasChildren" | "taskCount" | "doneTaskCount"
 > & { tags: Array<Pick<TagView, "id" | "name" | "color">> };
 
 export type CommentView = {
