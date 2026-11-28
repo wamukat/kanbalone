@@ -1,3 +1,26 @@
+.sidebar-tag-heading-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+#manage-sidebar-tags-button[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sidebar-tag-manage-hint {
+  margin: 0 0 0.55rem;
+  font-size: var(--font-size-label);
+}
+
+.sidebar-tag-badge [data-tag-selected] {
+  display: none;
+}
+
+.sidebar-tag-badge[aria-pressed="true"] [data-tag-selected] {
+  display: inline-flex;
+}
+
 .sidebar-tag-list {
   display: grid;
   gap: 0.55rem;

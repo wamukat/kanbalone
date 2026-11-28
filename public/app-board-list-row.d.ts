@@ -36,8 +36,7 @@ export function renderListRow(
     escapeHtml(value: string): string;
     lanes: Array<{ id: number; name: string }>;
     renderTicketStatusIcons(ticket: ListRowTicket): string;
-    rowHeight: number;
-    selectedTicketIds: number[];
+    selectedTicketIds: number[] | Set<number>;
     showHierarchy?: boolean;
   },
 ): string;

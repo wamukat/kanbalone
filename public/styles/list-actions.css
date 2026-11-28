@@ -31,6 +31,12 @@
   font-weight: var(--font-weight-semibold);
 }
 
+.list-result-count {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: var(--font-size-label);
+}
+
 .list-actions .list-action-button {
   flex: 0 0 auto;
   width: auto;

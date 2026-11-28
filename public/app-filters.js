@@ -1,6 +1,7 @@
 import { createBoardFilterPickers } from "./app-board-filter-pickers.js";
 import { t as tr } from "./app-i18n.js";
 import { normalizeStoredFilters } from "./app-preferences.js";
+import { renderTag } from "./app-tags.js";
 export function createFiltersModule(ctx, options) {
   const { state, elements } = ctx;
   const PRIORITY_LABELS = {
@@ -24,6 +25,7 @@ export function createFiltersModule(ctx, options) {
       root: elements.tagFilter,
       label: "Tag: {value}",
       emptyLabel: tr("No tags yet."),
+      renderName: (tag) => renderTag(tag, ctx.escapeHtml),
       onChange: (ids) => updateSelection("tagIds", ids),
     },
   ]);
@@ -33,6 +35,14 @@ export function createFiltersModule(ctx, options) {
     saveBoardFilters();
     syncActiveFilterStyles();
     options.refreshBoardDetail().catch(error => options.showToast(error.message, "error"));
+  }
+
+  function toggleTagFilter(tagId) {
+    if (state.viewMode === "group") return;
+    const selected = state.filters.tagIds;
+    updateSelection("tagIds", selected.includes(tagId)
+      ? selected.filter(id => id !== tagId)
+      : [...selected, tagId]);
   }
 
   function clearBoardFilterChoices() {
@@ -324,6 +334,7 @@ export function createFiltersModule(ctx, options) {
     elements.includeArchivedButton.setAttribute("aria-pressed", String(state.filters.includeArchived));
     elements.priorityFilter.classList.toggle("is-filter-active", state.filters.priority.length > 0);
     tagPicker.update(tags, state.filters.tagIds);
+    options.syncSidebarTagControls();
     elements.resetFiltersButton.hidden = !hasActiveTicketFilters();
     syncSharedToolbarHeight();
   }
@@ -371,5 +382,6 @@ export function createFiltersModule(ctx, options) {
     saveBoardFilters,
     syncActiveFilterStyles,
     syncViewMode,
+    toggleTagFilter,
   };
 }

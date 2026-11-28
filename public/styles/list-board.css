@@ -1,16 +1,14 @@
 .list-board {
   flex: 1 1 auto;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 0;
   align-content: start;
   border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
   background: var(--panel);
   box-shadow: var(--shadow-card);
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
   min-height: 0;
-  scrollbar-gutter: stable;
 }
 
 .list-board.empty {
@@ -24,6 +22,15 @@
   overflow-x: hidden;
   min-height: 0;
   scrollbar-gutter: stable;
+  overflow-anchor: none;
+}
+
+.list-grid {
+  container-type: inline-size;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  min-width: 0;
 }
 
 .list-spacer {
@@ -32,6 +39,10 @@
 
 .list-window {
   position: absolute;
-  inset: 0 0 auto 0;
-  will-change: transform;
+  inset: 0;
+}
+
+.list-window > .list-row {
+  position: absolute;
+  inset-inline: 0;
 }

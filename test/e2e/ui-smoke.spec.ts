@@ -200,8 +200,12 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".list-header")).toContainText("Status");
     await expect(page.locator(".list-actions").first()).toContainText("Select tickets to edit in bulk");
     await expect(page.locator(".list-action-button")).toHaveCount(0);
-    const smokeTicketPriorityCell = page.locator(".list-row", { hasText: "Smoke ticket" }).locator(".list-cell").nth(1);
-    await expect(smokeTicketPriorityCell).toHaveText("High");
+    const smokeTicketPriorityCell = page.locator(".list-row", { hasText: "Smoke ticket" }).locator(".list-priority-cell");
+    await expect(smokeTicketPriorityCell.locator(".list-compact-label[aria-hidden='true']")).toHaveText("Priority");
+    const smokeTicketPriority = smokeTicketPriorityCell.locator(".ticket-priority-badge.ticket-priority-high");
+    await expect(smokeTicketPriority).toHaveText("High");
+    await expect(smokeTicketPriority).toHaveAttribute("aria-label", "High priority");
+    await expect(smokeTicketPriority.locator("use")).toHaveAttribute("href", "/icons.svg#priority-high");
     const listCheckboxAlignment = await page.evaluate(() => {
       const headerCheckbox = document.querySelector("#list-select-all");
       const rowCheckbox = document.querySelector("[data-list-ticket-id]");
@@ -481,8 +485,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-relations")).toContainText("Child candidate");
     await expect(sidebarTagBadge).toBeVisible();
     await expect(sidebarTagBadge).toHaveClass(/tag-no-color/);
-    await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Edit tag: smoke-tag");
-    await expect(sidebarTagBadge.locator("use[href='/icons.svg#pencil']")).toHaveCount(1);
+    await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Filter by tag: smoke-tag");
+    await expect(sidebarTagBadge.locator("[data-group-tag-edit]")).toBeHidden();
     await expect(page.locator("#sidebar-tag-list .icon-button")).toHaveCount(0);
     const savedBoardTags = await page.request.get(boardTagsUrl);
     expect(savedBoardTags.ok()).toBe(true);

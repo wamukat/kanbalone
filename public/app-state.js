@@ -18,8 +18,6 @@ export function createAppState() {
     isCreatingLane: false,
     isCreatingSidebarTag: false,
     editingSidebarTagId: null,
-    confirmingSidebarTagDeleteId: null,
-    sidebarTagError: "",
     confirmingCommentDeleteId: null,
     viewMode: "kanban",
     selectedListTicketIds: [],

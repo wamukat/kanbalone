@@ -6,7 +6,7 @@ import { createBoard, createTag, startTestApp } from "./helpers.js";
 test.use({ launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"] } });
 
 test("opening the tag editor preserves the surrounding sidebar layout", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 470 });
+  await page.setViewportSize({ width: 1280, height: 510 });
   const { baseUrl, close } = await startTestApp(page);
 
   try {
@@ -14,6 +14,7 @@ test("opening the tag editor preserves the surrounding sidebar layout", async ({
     await createTag(page.request, baseUrl, board.id, { name: "Edited tag", color: "#336699" });
     await page.goto(`${baseUrl}/boards/${board.id}`);
     const badge = page.getByRole("button", { name: "Edit tag: Edited tag" });
+    await page.getByRole("button", { name: "Manage tags" }).click();
     await expect(badge).toBeVisible();
 
     const sidebar = page.locator("#sidebar");

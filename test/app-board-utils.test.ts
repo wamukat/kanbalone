@@ -170,7 +170,6 @@ test("renderListRow places remote references after normal tags in the Tags colum
       escapeHtml,
       lanes: [{ id: 2, name: "Todo" }],
       renderTicketStatusIcons: () => "",
-      rowHeight: 64,
       selectedTicketIds: [],
     },
   );
@@ -200,7 +199,7 @@ test("renderListRow gives unresolved references an accessible, non-interactive p
     },
   }, {
     boardTickets: [], escapeHtml, lanes: [{ id: 2, name: "Todo" }],
-    renderTicketStatusIcons: () => "", rowHeight: 64, selectedTicketIds: [],
+    renderTicketStatusIcons: () => "", selectedTicketIds: [],
   });
 
   assert.match(html, /ticket-ref-resolved" data-open-ticket-id="7" title="&lt;Batch &quot;seven&quot;&gt; \(Resolved, Archived\)"/);
@@ -237,7 +236,6 @@ test("renderListRow can hide hierarchy affordances for sorted list rows", () => 
       escapeHtml,
       lanes: [{ id: 2, name: "Todo" }],
       renderTicketStatusIcons: () => "",
-      rowHeight: 64,
       selectedTicketIds: [],
       showHierarchy: false,
     },

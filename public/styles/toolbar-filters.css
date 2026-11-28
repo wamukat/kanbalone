@@ -94,6 +94,11 @@
   white-space: nowrap;
 }
 
+/* The toolbar supplies a single localized, keyboard-accessible clear button. */
+#search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
 #search-input {
   width: 100%;
 }

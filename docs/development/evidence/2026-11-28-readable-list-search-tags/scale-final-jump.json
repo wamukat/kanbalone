@@ -1,0 +1,144 @@
+{
+  "viewport": "1024×768",
+  "board": "Existing historical 10,005-ticket synthetic board plus rich tags on 113 rows",
+  "archiveView": "10,005 total; 9,995 unarchived",
+  "browser": "159.0.8154.6",
+  "samples": [
+    {
+      "round": 0,
+      "phase": "after",
+      "initial": {
+        "milliseconds": 1341,
+        "mountedRows": 15,
+        "requests": 50,
+        "bytes": 6125413
+      },
+      "jumps": [
+        {
+          "target": 0,
+          "milliseconds": 17,
+          "frames": 3,
+          "renderedRows": 15,
+          "visible": [
+            1002,
+            1003,
+            1004
+          ],
+          "emptyFrames": 0,
+          "firstClippedBy": 0,
+          "uncoveredEnd": -134,
+          "heightRange": [
+            175.65625,
+            268.59375
+          ],
+          "scrollTop": 0,
+          "scrollHeight": 641979,
+          "clientHeight": 540
+        },
+        {
+          "target": 0.17,
+          "milliseconds": 76,
+          "frames": 4,
+          "renderedRows": 34,
+          "visible": [
+            2678,
+            2679,
+            2680,
+            2681,
+            2682,
+            2683,
+            2684,
+            2685,
+            2686
+          ],
+          "emptyFrames": 0,
+          "firstClippedBy": 58,
+          "uncoveredEnd": -28,
+          "heightRange": [
+            69.5625,
+            69.5625
+          ],
+          "scrollTop": 109112,
+          "scrollHeight": 642168,
+          "clientHeight": 540
+        },
+        {
+          "target": 0.52,
+          "milliseconds": 60,
+          "frames": 4,
+          "renderedRows": 33,
+          "visible": [
+            6185,
+            6186,
+            6187,
+            6188,
+            6189,
+            6190,
+            6191,
+            6192,
+            6193
+          ],
+          "emptyFrames": 0,
+          "firstClippedBy": 23,
+          "uncoveredEnd": -63,
+          "heightRange": [
+            69.5625,
+            69.5625
+          ],
+          "scrollTop": 333714,
+          "scrollHeight": 642352,
+          "clientHeight": 540
+        },
+        {
+          "target": 0.89,
+          "milliseconds": 59,
+          "frames": 4,
+          "renderedRows": 33,
+          "visible": [
+            9894,
+            9895,
+            9896,
+            9897,
+            9898,
+            9899,
+            9900,
+            9901,
+            9902
+          ],
+          "emptyFrames": 0,
+          "firstClippedBy": 30,
+          "uncoveredEnd": -57,
+          "heightRange": [
+            69.5625,
+            69.5625
+          ],
+          "scrollTop": 571280,
+          "scrollHeight": 642535,
+          "clientHeight": 540
+        },
+        {
+          "target": 1,
+          "milliseconds": 60,
+          "frames": 4,
+          "renderedRows": 21,
+          "visible": [
+            11008,
+            11009,
+            11010
+          ],
+          "emptyFrames": 0,
+          "firstClippedBy": 62,
+          "uncoveredEnd": 0,
+          "heightRange": [
+            151.6875,
+            244.625
+          ],
+          "scrollTop": 644439,
+          "scrollHeight": 644979,
+          "clientHeight": 540
+        }
+      ],
+      "keyboardId": 11010
+    }
+  ]
+}

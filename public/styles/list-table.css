@@ -1,11 +1,16 @@
+.list-grid {
+  --list-columns:
+    1.5rem minmax(0, 1.38fr) minmax(0, 0.6fr) minmax(0, 1.25fr)
+    minmax(3.2rem, 0.6fr) minmax(3.75rem, 0.65fr) minmax(2.8rem, 0.5fr);
+}
+
 .list-header {
   display: grid;
-  grid-template-columns:
-    2rem minmax(180px, 1.35fr) minmax(150px, 1fr) minmax(130px, 0.85fr)
-    70px 90px 72px;
+  grid-template-columns: var(--list-columns);
   gap: 0.55rem;
   align-items: center;
   padding: 0.5rem 0.7rem;
+  padding-inline-end: calc(0.7rem + var(--list-viewport-gutter, 0px));
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   color: var(--muted);
   font-size: var(--font-size-label);
@@ -14,15 +19,12 @@
 
 .list-row {
   display: grid;
-  grid-template-columns:
-    2rem minmax(180px, 1.35fr) minmax(150px, 1fr) minmax(130px, 0.85fr)
-    70px 90px 72px;
+  grid-template-columns: var(--list-columns);
   gap: 0.55rem;
   align-items: center;
   padding: 0.5rem 0.7rem;
   border-top: 1px solid color-mix(in srgb, var(--text-muted) 12%, transparent);
   min-height: 64px;
-  overflow: hidden;
 }
 
 .list-row.resolved {
@@ -32,6 +34,10 @@
 .list-header > :first-child {
   display: flex;
   align-items: center;
+}
+
+.list-header > * {
+  min-width: 0;
 }
 
 .list-header input[type="checkbox"] {
@@ -95,7 +101,6 @@
   align-items: center;
   gap: 0.4rem;
   min-width: 0;
-  overflow: hidden;
 }
 
 .list-ticket-link {
@@ -115,8 +120,17 @@
 }
 
 .list-ticket-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.list-row .list-ticket-link {
+  align-items: baseline;
+  overflow: visible;
+}
+
+.list-row .ticket-id {
+  flex: none;
   white-space: nowrap;
 }
 
@@ -155,15 +169,14 @@
 }
 
 .list-cell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
   min-width: 0;
   font-size: var(--font-size-body);
 }
 
 .list-priority-cell {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   min-width: 0;
 }
@@ -174,6 +187,7 @@
 
 .list-status-cell {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
   align-items: center;
 }
@@ -182,7 +196,6 @@
   display: grid;
   gap: 0.24rem;
   min-width: 0;
-  overflow: hidden;
 }
 
 .list-row .tag-list,
@@ -212,10 +225,76 @@
 .list-row .tag {
   padding: 0.1rem 0.45rem;
   font-size: var(--font-size-label);
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Focus is distinct from the checkboxes used for bulk selection. */
 .list-row:has(.list-ticket-link:focus-visible) {
   background: var(--accent-soft);
   box-shadow: inset 3px 0 var(--accent);
+}
+
+.list-compact-label {
+  display: none;
+}
+
+@container (max-width: 37.5rem) {
+  .list-header,
+  .list-row {
+    grid-template-columns: 1.5rem minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .list-header > :nth-child(2),
+  .list-ticket-title-cell,
+  .list-tag-cell {
+    grid-column: 2 / -1;
+  }
+
+  .list-header > :is(:nth-child(3), :nth-child(6), :nth-child(7)) {
+    /* Keep the real column headings available to assistive technology. */
+    position: absolute;
+    clip-path: inset(50%);
+  }
+
+  .list-header > :nth-child(4) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .list-header > :nth-child(5) {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .list-tag-cell {
+    grid-row: 2;
+  }
+
+  .list-blocker-cell,
+  .list-lane-cell {
+    grid-column: 2;
+  }
+
+  .list-priority-cell,
+  .list-status-cell {
+    grid-column: 3;
+  }
+
+  .list-blocker-cell,
+  .list-priority-cell {
+    grid-row: 3;
+  }
+
+  .list-lane-cell,
+  .list-status-cell {
+    grid-row: 4;
+  }
+
+  .list-compact-label {
+    display: inline;
+    margin-inline-end: var(--space-1);
+    color: var(--muted);
+    font-size: var(--font-size-label);
+  }
 }

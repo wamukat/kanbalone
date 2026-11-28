@@ -3,7 +3,7 @@ import { t } from "./app-i18n.js";
 export function createBoardFilterPickers(configurations) {
   let openPicker = null;
   const pickers = configurations.map((config) => {
-    const { root, label, emptyLabel, onChange } = config;
+    const { root, label, emptyLabel, onChange, renderName } = config;
     const trigger = root.querySelector("button");
     const summary = root.querySelector(".board-filter-names");
     const more = root.querySelector(".board-filter-more");
@@ -36,19 +36,20 @@ export function createBoardFilterPickers(configurations) {
     });
 
     function update(items, selectedIds) {
-      const nextSignature = JSON.stringify(items.map(({ id, name }) => [id, name]));
+      const nextSignature = JSON.stringify(items.map(({ id, name, color }) => [id, name, color]));
       if (nextSignature !== signature) {
         signature = nextSignature;
         const focusedIndex = inputs.indexOf(document.activeElement);
         const focusedId = inputs[focusedIndex]?.value;
         inputs = [];
-        choices.replaceChildren(...items.map(({ id, name }) => {
+        choices.replaceChildren(...items.map((item) => {
           const row = document.createElement("label");
           const control = document.createElement("input");
           control.type = "checkbox";
-          control.value = String(id);
+          control.value = String(item.id);
           const text = document.createElement("span");
-          text.textContent = name;
+          if (renderName) text.innerHTML = renderName(item);
+          else text.textContent = item.name;
           row.append(control, text);
           inputs.push(control);
           return row;

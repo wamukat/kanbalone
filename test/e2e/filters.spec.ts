@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { closeTestApp, createCompletionLane, buildApp, createDbFile, getFreePort, path, selectBoardFilter } from "./helpers.js";
+import { closeTestApp, createBoard, createCompletionLane, createTag, createTicket, buildApp, createDbFile, getFreePort, path, selectBoardFilter, startTestApp } from "./helpers.js";
 
 test("ticket filters combine results and active styling", async ({ page }) => {
   const app = buildApp({
@@ -360,5 +360,86 @@ test("ticket filters are preserved per board during the session", async ({ page 
   } finally {
     await page.close();
     await closeTestApp(app);
+  }
+});
+
+test("sidebar tags share toolbar filters while the tag editor preserves its draft", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Shared tag filters", laneNames: ["Todo", "Review"] });
+    const firstTag = await createTag(page.request, baseUrl, board.id, { name: "Alpha", color: "#BEEADE" });
+    const secondTag = await createTag(page.request, baseUrl, board.id, { name: "Beta", color: "" });
+    await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Alpha ticket", tagIds: [firstTag.id] });
+    await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Beta ticket", tagIds: [secondTag.id] });
+    await createTicket(page.request, baseUrl, board.id, { laneId: lanes[1].id, title: "Review ticket", tagIds: [firstTag.id] });
+
+    await page.goto(`${baseUrl}/boards/${board.id}/list`);
+    const firstBadge = page.locator(`button[data-sidebar-tag-id="${firstTag.id}"]`);
+    const secondBadge = page.locator(`button[data-sidebar-tag-id="${secondTag.id}"]`);
+    const rows = page.locator(".list-row");
+    await expect(rows).toHaveCount(3);
+    await selectBoardFilter(page, "lane", "Todo");
+    await firstBadge.click();
+    await expect(firstBadge).toHaveAttribute("aria-pressed", "true");
+    await expect(firstBadge).toBeFocused();
+    await expect(rows).toHaveCount(1);
+    await expect(rows).toContainText("Alpha ticket");
+
+    const picker = page.locator("#tag-filter-options");
+    const trigger = page.locator("#tag-filter-button");
+    await trigger.click();
+    await expect(picker.getByRole("checkbox", { name: "Alpha" })).toBeChecked();
+    await expect(picker.locator(".tag", { hasText: "Alpha" })).toHaveCSS("background-color", "rgb(190, 234, 222)");
+    await expect(picker.locator(".tag-no-color", { hasText: "Beta" })).toBeVisible();
+    await picker.getByRole("checkbox", { name: "Beta" }).check();
+    await page.keyboard.press("Escape");
+    await expect(trigger).toBeFocused();
+    await expect(picker).toBeHidden();
+    await expect(secondBadge).toHaveAttribute("aria-pressed", "true");
+    await expect(rows).toHaveCount(2);
+
+    const search = page.locator("#search-input");
+    await search.fill("missing phrase");
+    await expect(rows).toHaveCount(0);
+    await page.getByRole("button", { name: "Clear search", exact: true }).click();
+    await expect(search).toHaveValue("");
+    await expect(search).toBeFocused();
+    await expect(rows).toHaveCount(2);
+
+    const manage = page.getByRole("button", { name: "Manage tags" });
+    await manage.click();
+    await expect(manage).toHaveAttribute("aria-pressed", "true");
+    await firstBadge.click();
+    const name = page.locator("[data-sidebar-tag-edit-form] [data-sidebar-tag-name]");
+    await expect(name).toBeFocused();
+    await name.fill("Unsaved rename");
+    await name.evaluate((input: HTMLInputElement) => input.setSelectionRange(3, 9));
+    await createTag(page.request, baseUrl, board.id, { name: "0 incoming" });
+    await expect(page.locator("#sidebar-tag-list")).toContainText("0 incoming");
+    await expect(name).toHaveValue("Unsaved rename");
+    await expect(name).toBeFocused();
+    expect(await name.evaluate((input: HTMLInputElement) => [input.selectionStart, input.selectionEnd])).toEqual([3, 9]);
+    await name.press("Escape");
+    await expect(firstBadge).toBeFocused();
+    await expect(manage).toHaveAttribute("aria-pressed", "true");
+    await firstBadge.press("Escape");
+    await expect(manage).toBeFocused();
+    await expect(manage).toHaveAttribute("aria-pressed", "false");
+    await expect(firstBadge).toHaveText("Alpha");
+    await expect(firstBadge).toHaveAttribute("aria-pressed", "true");
+    await expect(secondBadge).toHaveAttribute("aria-pressed", "true");
+
+    await page.locator('[data-view-mode="group"]').click();
+    await expect(manage).toBeHidden();
+    await expect(firstBadge).toHaveAccessibleName("Edit tag: Alpha");
+    await page.locator('[data-view-mode="list"]').click();
+    await expect(firstBadge).toHaveAttribute("aria-pressed", "true");
+    await expect(rows).toHaveCount(2);
+    await page.locator("#reset-filters-button").click();
+    await expect(rows).toHaveCount(3);
+    await expect(firstBadge).toHaveAttribute("aria-pressed", "false");
+    await expect(secondBadge).toHaveAttribute("aria-pressed", "false");
+  } finally {
+    await close();
   }
 });

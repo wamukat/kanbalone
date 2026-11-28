@@ -1,6 +1,30 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 import { closeTestApp, buildApp, createDbFile, getFreePort, path, showCurrentTicket } from "./helpers.js";
+
+async function expectWrappedListTag(row: Locator, name: string) {
+  const tag = row.locator(".tag");
+  await expect(tag.locator("[aria-hidden='true']")).toHaveText(name);
+  await expect(tag.locator(".visually-hidden")).toHaveText(name);
+  await expect(tag).toHaveAttribute("title", name);
+  await expect.poll(() =>
+    row.evaluate((element) => {
+      const chip = element.querySelector(".tag");
+      const label = chip?.querySelector("[aria-hidden='true']");
+      const tagList = element.querySelector(".tag-list");
+      if (!chip || !label || !tagList) return false;
+      const range = document.createRange();
+      range.selectNodeContents(label);
+      const lines = Array.from(range.getClientRects());
+      const chipBounds = chip.getBoundingClientRect();
+      return lines.length > 1
+        && lines.every((line) => line.right <= chipBounds.right + 1 && line.bottom <= chipBounds.bottom + 1)
+        && chipBounds.right <= tagList.getBoundingClientRect().right + 1
+        && chipBounds.bottom <= element.getBoundingClientRect().bottom + 1
+        && element.scrollWidth <= element.clientWidth + 1;
+    }),
+  ).toBe(true);
+}
 
 test("sidebar tag create and edit stay inline", async ({ page }) => {
   const app = buildApp({
@@ -44,6 +68,7 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await expect(badge).toBeVisible();
     await expect(badge).toHaveClass(/tag-no-color/);
 
+    await page.getByRole("button", { name: "Manage tags" }).click();
     await badge.click();
     await expect(page.locator("[data-sidebar-tag-edit-form]")).toBeVisible();
     await expect(page.locator(".sidebar-tag-preview-badge")).toHaveText("inline-tag");
@@ -203,21 +228,7 @@ test("long tag labels are constrained across ticket surfaces", async ({ page }) 
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
     const listRow = page.locator(".list-row", { hasText: "Long tag ticket" });
-    await expect(listRow.locator(".tag [aria-hidden='true']")).toHaveText("very-long-tag-name-withou...");
-    await expect(listRow.locator(".tag")).toHaveAttribute("title", longTagName);
-    await expect
-      .poll(async () =>
-        listRow.evaluate((row) => {
-          const tagElement = row.querySelector(".tag");
-          const tagCell = row.querySelector(".tag-list");
-          if (!tagElement || !tagCell) {
-            return true;
-          }
-          return tagElement.getBoundingClientRect().right <= tagCell.getBoundingClientRect().right + 1
-            && row.scrollWidth <= row.clientWidth + 1;
-        }),
-      )
-      .toBe(true);
+    await expectWrappedListTag(listRow, longTagName);
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
@@ -314,21 +325,7 @@ test("long tag labels remain safe without Intl.Segmenter", async ({ page }) => {
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}/list`);
     const listRow = page.locator(".list-row", { hasText: "Fallback long tag ticket" });
-    await expect(listRow.locator(".tag [aria-hidden='true']")).toHaveText("🇯🇵🇺🇸very-long-tag-name-with...");
-    await expect(listRow.locator(".tag")).toHaveAttribute("title", longTagName);
-    await expect
-      .poll(async () =>
-        listRow.evaluate((row) => {
-          const tagElement = row.querySelector(".tag");
-          const tagCell = row.querySelector(".tag-list");
-          if (!tagElement || !tagCell) {
-            return true;
-          }
-          return tagElement.getBoundingClientRect().right <= tagCell.getBoundingClientRect().right + 1
-            && row.scrollWidth <= row.clientWidth + 1;
-        }),
-      )
-      .toBe(true);
+    await expectWrappedListTag(listRow, longTagName);
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);

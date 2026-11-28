@@ -2,9 +2,9 @@ import { t as tr } from "./app-i18n.js";
 import { describeTicketFilters } from "./app-filter-summary.js";
 import { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
 export { getListTicketComparator, LIST_SORT_KEYS } from "./app-ticket-sort.js";
-import { calculateVisibleWindow } from "./app-board-utils.js";
 import { renderListActions } from "./app-board-list-actions.js";
 import { renderListRow } from "./app-board-list-row.js";
+import { createListRowWindow } from "./app-board-list-window.js";
 import { createListSelectionModule } from "./app-board-list-selection.js";
 import { indexTicketHierarchy } from "./app-ticket-hierarchy.js";
 import { icon } from "./icons.js";
@@ -49,12 +49,25 @@ export function createListBoardModule(ctx, options) {
   const listSelection = createListSelectionModule(ctx);
   let listModel = null;
   let listSort = null;
+  let listWindow = null;
+  let boardId = null;
+  const measurements = new Map();
 
   function reset() {
+    listWindow?.dispose();
+    listWindow = null;
     listModel = null;
+    measurements.clear();
+    boardId = null;
   }
 
   function renderListBoard(detail) {
+    const sameBoard = boardId === state.activeBoardId;
+    const anchor = sameBoard ? listWindow?.capture() : null;
+    if (!sameBoard) measurements.clear();
+    boardId = state.activeBoardId;
+    listWindow?.dispose();
+    listWindow = null;
     const availableTicketIds = new Set(detail.tickets.map((ticket) => ticket.id));
     state.selectedListTicketIds = state.selectedListTicketIds.filter((ticketId) => availableTicketIds.has(ticketId));
     const selectedTicketIds = new Set(state.selectedListTicketIds);
@@ -84,41 +97,70 @@ export function createListBoardModule(ctx, options) {
     const orderedTickets = getListTickets(detail.tickets, listSort);
     const visibleTicketIds = orderedTickets.map(({ ticket }) => ticket.id);
     const allSelected = visibleTicketIds.length > 0 && visibleTicketIds.every((ticketId) => selectedTicketIds.has(ticketId));
-    const previousScrollTop = elements.listBoard.querySelector(".list-viewport")?.scrollTop ?? 0;
+    const escape = ctx.escapeHtml;
+    const move = state.boards.length > 1 || detail.lanes.length > 1;
     const actions = renderListActions(
       detail.tickets,
       state.selectedListTicketIds,
-      state.boards.length > 1 || detail.lanes.length > 1,
+      move,
     );
     elements.listBoard.innerHTML = `
-      ${actions}
-      <div class="list-header">
-        <div><input type="checkbox" id="list-select-all" ${allSelected ? "checked" : ""} /></div>
-        ${renderSortableListHeader("id", tr("ID / Title"))}
-        <div>${tr("Blockers")}</div>
-        ${renderSortableListHeader("tags", tr("Tags"))}
-        ${renderSortableListHeader("priority", tr("Priority"))}
-        <div>${tr("Lane")}</div>
-        <div>${tr("Status")}</div>
-      </div>
-      <div class="list-viewport">
-        <div class="list-spacer" style="height:${orderedTickets.length * LIST_ROW_HEIGHT}px">
-          <div class="list-window"></div>
+      ${renderListActions(detail.tickets, state.selectedListTicketIds, move, true)}
+      <div class="list-grid" role="table" aria-label="${escape(tr("Ticket list"))}" aria-rowcount="${visibleTicketIds.length + 1}">
+        <div class="list-header" role="row" aria-rowindex="1">
+          <div role="columnheader"><input type="checkbox" id="list-select-all" aria-label="${escape(tr("Select all matching tickets"))}" ${allSelected ? "checked" : ""} /></div>
+          ${renderSortableListHeader("id", tr("ID / Title"))}
+          <div role="columnheader">${tr("Blockers")}</div>
+          ${renderSortableListHeader("tags", tr("Tags"))}
+          ${renderSortableListHeader("priority", tr("Priority"))}
+          <div role="columnheader">${tr("Lane")}</div>
+          <div role="columnheader">${tr("Status")}</div>
+        </div>
+        <div class="list-viewport" role="presentation">
+          <div class="list-spacer" role="presentation">
+            <div class="list-window" role="rowgroup"></div>
+          </div>
         </div>
       </div>
       ${actions}
     `;
-    listModel = { orderedTickets, visibleTicketIds, rowHeight: LIST_ROW_HEIGHT, overscan: LIST_OVERSCAN };
+    listModel = { visibleTicketIds };
     const viewport = elements.listBoard.querySelector(".list-viewport");
-    if (viewport) {
-      viewport.scrollTop = previousScrollTop;
-    }
     const selectAll = elements.listBoard.querySelector("#list-select-all");
     if (selectAll) {
       const selectedCount = visibleTicketIds.filter((ticketId) => selectedTicketIds.has(ticketId)).length;
       selectAll.indeterminate = selectedCount > 0 && selectedCount < visibleTicketIds.length;
     }
-    paintVisibleListRows();
+    const laneNames = new Map(detail.lanes.map(lane => [lane.id, lane.name]));
+    const rowOptions = {
+      boardTickets: state.boardTickets,
+      escapeHtml: escape,
+      lanes: detail.lanes,
+      renderTicketStatusIcons,
+      showHierarchy: !listSort,
+      selectedTicketIds,
+    };
+    const template = document.createElement("template");
+    listWindow = createListRowWindow({
+      viewport,
+      canvas: viewport.querySelector(".list-window"),
+      spacer: viewport.querySelector(".list-spacer"),
+      entries: orderedTickets,
+      estimate: LIST_ROW_HEIGHT,
+      overscan: LIST_OVERSCAN,
+      measurements,
+      layoutKey: ({ ticket, indent }) => JSON.stringify([
+        rowOptions.showHierarchy, indent, ticket.parentTicketId, ticket.hasChildren, ticket.title,
+        ticket.tags.map(tag => tag.name), ticket.taskCount, ticket.doneTaskCount, laneNames.get(ticket.laneId),
+        ticket.priority, ticket.isResolved, ticket.isArchived, ticket.blockerIds, ticket.blockerReferences?.map(ref => ref.id),
+        ticket.remote?.displayRef, ticket.externalReferences?.map(ref => ref.displayRef),
+      ]),
+      createRow(entry) {
+        template.innerHTML = renderListRow(entry, rowOptions);
+        return template.content.firstElementChild;
+      },
+      initialAnchor: anchor,
+    });
   }
 
   function renderSortableListHeader(key, label) {
@@ -128,7 +170,8 @@ export function createListBoardModule(ctx, options) {
     const sortLabel = isActive
       ? tr("{label}, sorted {direction}", { label, direction: listSort.direction === "asc" ? tr("ascending") : tr("descending") })
       : tr("{label}, not sorted", { label });
-    return `
+    const ariaSort = isActive ? ` aria-sort="${listSort.direction === "asc" ? "ascending" : "descending"}"` : "";
+    return `<div role="columnheader"${ariaSort}>
       <button
         type="button"
         class="list-sort-button ${isActive ? "active" : ""}"
@@ -138,42 +181,12 @@ export function createListBoardModule(ctx, options) {
       >
         <span>${label}</span>
         <span class="list-sort-indicator" aria-hidden="true">${icon(iconName)}</span>
-      </button>
+      </button></div>
     `;
   }
 
   function paintVisibleListRows() {
-    if (!listModel) {
-      return;
-    }
-    const viewport = elements.listBoard.querySelector(".list-viewport");
-    const windowEl = elements.listBoard.querySelector(".list-window");
-    if (!viewport || !windowEl) {
-      return;
-    }
-    const { startIndex, endIndex } = calculateVisibleWindow(
-      listModel.orderedTickets.length,
-      listModel.rowHeight,
-      listModel.overscan,
-      viewport.scrollTop,
-      viewport.clientHeight,
-    );
-    const visibleEntries = listModel.orderedTickets.slice(startIndex, endIndex);
-    windowEl.style.transform = `translateY(${startIndex * listModel.rowHeight}px)`;
-    const focused = document.activeElement;
-    const focusedId = focused?.matches?.(".list-ticket-link") ? Number(focused.dataset.openTicketId) : null;
-    windowEl.innerHTML = visibleEntries.map((entry) => renderListRow(entry, {
-      boardTickets: state.boardTickets,
-      escapeHtml: ctx.escapeHtml,
-      lanes: state.boardDetail.lanes,
-      renderTicketStatusIcons,
-      showHierarchy: !listSort,
-      rowHeight: LIST_ROW_HEIGHT,
-      selectedTicketIds: state.selectedListTicketIds,
-    })).join("");
-    if (focusedId != null) {
-      windowEl.querySelector(`.list-ticket-link[data-open-ticket-id="${focusedId}"]`)?.focus({ preventScroll: true });
-    }
+    listWindow?.paint();
   }
 
   function getOrderedTicketIds() {
@@ -181,20 +194,13 @@ export function createListBoardModule(ctx, options) {
   }
 
   function focusTicket(ticketId, { scroll = true } = {}) {
-    const index = getOrderedTicketIds().indexOf(ticketId);
-    const viewport = elements.listBoard.querySelector(".list-viewport");
-    if (index < 0 || !viewport) return false;
-    if (scroll) {
-      const top = index * LIST_ROW_HEIGHT;
-      if (top < viewport.scrollTop) viewport.scrollTop = top;
-      else if (top + LIST_ROW_HEIGHT > viewport.scrollTop + viewport.clientHeight) {
-        viewport.scrollTop = top + LIST_ROW_HEIGHT - viewport.clientHeight;
-      }
-    }
-    paintVisibleListRows();
-    const button = elements.listBoard.querySelector(`.list-ticket-link[data-open-ticket-id="${ticketId}"]`);
+    const button = revealTicket(ticketId, scroll)?.querySelector(".list-ticket-link");
     button?.focus({ preventScroll: true });
     return Boolean(button);
+  }
+
+  function revealTicket(ticketId, scroll = false) {
+    return listWindow?.reveal(ticketId, scroll) ?? null;
   }
 
   function handleListBoardClick(event) {
@@ -267,13 +273,16 @@ export function createListBoardModule(ctx, options) {
 
   function handleListBoardScroll(event) {
     if (event.target?.classList?.contains("list-viewport")) {
-      paintVisibleListRows();
+      listWindow?.onScroll();
     }
   }
 
   return {
     getOrderedTicketIds,
     focusTicket,
+    revealTicket,
+    captureAnchor: () => listWindow?.capture() ?? null,
+    restoreAnchor: (anchor) => listWindow?.restore(anchor),
     handleListBoardChange,
     handleListBoardClick,
     handleListBoardScroll,
