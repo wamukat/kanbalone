@@ -1,0 +1,238 @@
+{
+  "remove": {
+    "changedTickets": [
+      {
+        "id": 2,
+        "boardId": 1,
+        "laneId": 1,
+        "parentTicketId": 1,
+        "hasChildren": false,
+        "title": "Retry failed deliveries",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T03:19:42.058Z",
+        "updatedAt": "2026-11-22T03:23:15.429Z",
+        "tags": [],
+        "blockerIds": [],
+        "unresolvedBlockerCount": 0,
+        "relatedIds": [],
+        "ref": "Collaboration lab#2",
+        "shortRef": "#2",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null
+      },
+      {
+        "id": 1,
+        "boardId": 1,
+        "laneId": 4,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Notification delivery",
+        "isResolved": true,
+        "resolvedAt": "2026-11-22T03:22:11.962Z",
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T03:19:42.005Z",
+        "updatedAt": "2026-11-22T03:23:15.429Z",
+        "tags": [],
+        "blockerIds": [],
+        "unresolvedBlockerCount": 0,
+        "relatedIds": [],
+        "ref": "Collaboration lab#1",
+        "shortRef": "#1",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": null,
+        "group": null
+      }
+    ],
+    "affectedGroups": [
+      {
+        "id": 1,
+        "boardId": 1,
+        "name": "Notification improvements",
+        "descriptionMarkdown": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+        "descriptionHtml": "<p>Goal: reliable delivery. Acceptance: retries and visible delivery status.</p>\n",
+        "revision": 1,
+        "createdAt": "2026-11-22T03:19:31.195Z",
+        "updatedAt": "2026-11-22T03:19:31.195Z",
+        "isActive": false,
+        "totalTicketCount": 1,
+        "openTicketCount": 0,
+        "archivedTicketCount": 0
+      }
+    ]
+  },
+  "removed_readback": [
+    null,
+    null
+  ],
+  "add": {
+    "changedTickets": [
+      {
+        "id": 2,
+        "boardId": 1,
+        "laneId": 1,
+        "parentTicketId": 1,
+        "hasChildren": false,
+        "title": "Retry failed deliveries",
+        "isResolved": false,
+        "resolvedAt": null,
+        "isArchived": false,
+        "priority": 2,
+        "position": 0,
+        "createdAt": "2026-11-22T03:19:42.058Z",
+        "updatedAt": "2026-11-22T03:23:15.467Z",
+        "tags": [],
+        "blockerIds": [],
+        "unresolvedBlockerCount": 0,
+        "relatedIds": [],
+        "ref": "Collaboration lab#2",
+        "shortRef": "#2",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": 1,
+        "group": {
+          "id": 1,
+          "name": "Notification improvements"
+        }
+      },
+      {
+        "id": 1,
+        "boardId": 1,
+        "laneId": 4,
+        "parentTicketId": null,
+        "hasChildren": true,
+        "title": "Notification delivery",
+        "isResolved": true,
+        "resolvedAt": "2026-11-22T03:22:11.962Z",
+        "isArchived": false,
+        "priority": 2,
+        "position": 1,
+        "createdAt": "2026-11-22T03:19:42.005Z",
+        "updatedAt": "2026-11-22T03:23:15.467Z",
+        "tags": [],
+        "blockerIds": [],
+        "unresolvedBlockerCount": 0,
+        "relatedIds": [],
+        "ref": "Collaboration lab#1",
+        "shortRef": "#1",
+        "remote": null,
+        "externalReferences": [],
+        "groupId": 1,
+        "group": {
+          "id": 1,
+          "name": "Notification improvements"
+        }
+      }
+    ],
+    "affectedGroups": [
+      {
+        "id": 1,
+        "boardId": 1,
+        "name": "Notification improvements",
+        "descriptionMarkdown": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+        "descriptionHtml": "<p>Goal: reliable delivery. Acceptance: retries and visible delivery status.</p>\n",
+        "revision": 1,
+        "createdAt": "2026-11-22T03:19:31.195Z",
+        "updatedAt": "2026-11-22T03:19:31.195Z",
+        "isActive": true,
+        "totalTicketCount": 3,
+        "openTicketCount": 1,
+        "archivedTicketCount": 0
+      }
+    ]
+  },
+  "archived": {
+    "id": 1,
+    "boardId": 1,
+    "name": "Notification improvements",
+    "isActive": true,
+    "totalTicketCount": 3,
+    "openTicketCount": 1,
+    "archivedTicketCount": 1,
+    "revision": 1,
+    "createdAt": "2026-11-22T03:19:31.195Z",
+    "updatedAt": "2026-11-22T03:19:31.195Z",
+    "descriptionMarkdown": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+    "descriptionHtml": "<p>Goal: reliable delivery. Acceptance: retries and visible delivery status.</p>\n"
+  },
+  "all_completed_active": {
+    "groups": [
+      {
+        "id": 2,
+        "boardId": 1,
+        "name": "Reporting improvements",
+        "isActive": true,
+        "totalTicketCount": 0,
+        "openTicketCount": 0,
+        "archivedTicketCount": 0,
+        "revision": 1,
+        "createdAt": "2026-11-22T03:21:54.036Z",
+        "updatedAt": "2026-11-22T03:21:54.036Z"
+      }
+    ]
+  },
+  "all_completed_all": {
+    "groups": [
+      {
+        "id": 1,
+        "boardId": 1,
+        "name": "Notification improvements",
+        "isActive": false,
+        "totalTicketCount": 3,
+        "openTicketCount": 0,
+        "archivedTicketCount": 1,
+        "revision": 1,
+        "createdAt": "2026-11-22T03:19:31.195Z",
+        "updatedAt": "2026-11-22T03:19:31.195Z"
+      },
+      {
+        "id": 2,
+        "boardId": 1,
+        "name": "Reporting improvements",
+        "isActive": true,
+        "totalTicketCount": 0,
+        "openTicketCount": 0,
+        "archivedTicketCount": 0,
+        "revision": 1,
+        "createdAt": "2026-11-22T03:21:54.036Z",
+        "updatedAt": "2026-11-22T03:21:54.036Z"
+      }
+    ]
+  },
+  "reopened": {
+    "groups": [
+      {
+        "id": 1,
+        "boardId": 1,
+        "name": "Notification improvements",
+        "isActive": true,
+        "totalTicketCount": 3,
+        "openTicketCount": 1,
+        "archivedTicketCount": 1,
+        "revision": 1,
+        "createdAt": "2026-11-22T03:19:31.195Z",
+        "updatedAt": "2026-11-22T03:19:31.195Z"
+      },
+      {
+        "id": 2,
+        "boardId": 1,
+        "name": "Reporting improvements",
+        "isActive": true,
+        "totalTicketCount": 0,
+        "openTicketCount": 0,
+        "archivedTicketCount": 0,
+        "revision": 1,
+        "createdAt": "2026-11-22T03:21:54.036Z",
+        "updatedAt": "2026-11-22T03:21:54.036Z"
+      }
+    ]
+  }
+}

@@ -6,13 +6,13 @@
   <img src="public/app-icon.svg" alt="Kanbalone app icon" width="120" height="120" />
 </p>
 
-Kanbalone is a small local kanban app optimized for individuals who develop together with AI.
+Kanbalone is a local workspace for individuals who develop with AI.
 
-Turn remote issues into a local execution workspace for implementation with AI.
+Turn an external request into actionable work, keeping research, implementation notes, and progress together. People use the interface; AI tools use the API to continue the same work.
 
-You can start it quickly with Docker and use it right away. In addition to a browser-based web UI for humans, it also provides a JSON API that is easy for scripts and AI agents to use.
+Refer to the original GitHub, GitLab, or Redmine issue while developing your own implementation notes, then send back the comments you choose. You can also start with personal tasks, without an external issue.
 
-Import issues from systems such as GitHub Issues, GitLab, and Redmine into Kanbalone, build out a local implementation body, and keep progress in comments. The remote tracker stays the source of truth while Kanbalone becomes the execution workspace for an individual developer and their AI agents.
+[Who Kanbalone helps, and how](docs/en/product-positioning.md)
 
 ![Concept diagram showing remote issues flowing into Kanbalone as a local execution workspace](docs/assets/remote-issue-workspace.svg)
 
@@ -24,18 +24,11 @@ Import issues from systems such as GitHub Issues, GitLab, and Redmine into Kanba
 
 ![Kanbalone demo showing ticket creation, tags, drag and drop, search, filters, comments, and list view](docs/assets/kanbalone-demo.webp)
 
-## Why Kanbalone
+## What Kanbalone makes easier
 
-- Optimized for one person and one machine working with AI, without user or permission management.
-- All data is stored locally.
-- Import remote issues from GitHub, GitLab, or Redmine and work on them as local execution tickets.
-- Multiple boards for different work categories.
-- Tags, comments, and ticket dependencies: blockers and parent/child tickets.
-- Keep remote title and body as reference while building a richer local implementation body.
-- Push only selected comments back to the remote issue to keep work logs simple.
-- Lightweight JSON API designed for automation and AI agents.
-- Create the first board and start managing tasks immediately without extra setup.
-
+- **Explain the work less often.** Keep the context people and AI need on the same ticket.
+- **Develop your approach locally.** Separate the shared request from implementation notes and choose what to report back.
+- **See what needs your attention.** Review stages and remaining work by purpose, then complete work you have checked.
 
 ## Organize work with Groups
 

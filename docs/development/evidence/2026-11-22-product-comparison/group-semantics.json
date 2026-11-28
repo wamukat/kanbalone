@@ -1,0 +1,596 @@
+{
+  "redmine_split": [
+    {
+      "id": 1,
+      "project": {
+        "id": 1,
+        "name": "Collaboration lab"
+      },
+      "tracker": {
+        "id": 2,
+        "name": "Feature"
+      },
+      "status": {
+        "id": 3,
+        "name": "Resolved",
+        "is_closed": false
+      },
+      "priority": {
+        "id": 2,
+        "name": "Normal"
+      },
+      "author": {
+        "id": 1,
+        "name": "Redmine Admin"
+      },
+      "fixed_version": {
+        "id": 1,
+        "name": "Notification improvements"
+      },
+      "subject": "Notification delivery",
+      "description": "Implement retries. Human verifies delivery history.",
+      "start_date": null,
+      "due_date": null,
+      "done_ratio": 0,
+      "is_private": false,
+      "estimated_hours": null,
+      "total_estimated_hours": 0.0,
+      "created_on": "2026-11-22T03:20:04Z",
+      "updated_on": "2026-11-22T03:21:13Z",
+      "closed_on": null
+    },
+    {
+      "id": 2,
+      "project": {
+        "id": 1,
+        "name": "Collaboration lab"
+      },
+      "tracker": {
+        "id": 2,
+        "name": "Feature"
+      },
+      "status": {
+        "id": 1,
+        "name": "New",
+        "is_closed": false
+      },
+      "priority": {
+        "id": 2,
+        "name": "Normal"
+      },
+      "author": {
+        "id": 1,
+        "name": "Redmine Admin"
+      },
+      "fixed_version": {
+        "id": 2,
+        "name": "Reporting improvements"
+      },
+      "parent": {
+        "id": 1
+      },
+      "subject": "Retry failed deliveries",
+      "description": null,
+      "start_date": null,
+      "due_date": null,
+      "done_ratio": 0,
+      "is_private": false,
+      "estimated_hours": null,
+      "total_estimated_hours": null,
+      "created_on": "2026-11-22T03:20:04Z",
+      "updated_on": "2026-11-22T03:21:53Z",
+      "closed_on": null
+    }
+  ],
+  "vikunja_split": [
+    {
+      "id": 1,
+      "title": "Notification delivery",
+      "description": "Implement retries. Human verifies delivery history.",
+      "project_id": 2,
+      "done": false,
+      "done_at": "0001-01-01T00:00:00Z",
+      "due_date": "0001-01-01T00:00:00Z",
+      "reminders": null,
+      "repeat_after": 0,
+      "repeat_mode": 0,
+      "priority": 0,
+      "start_date": "0001-01-01T00:00:00Z",
+      "end_date": "0001-01-01T00:00:00Z",
+      "assignees": null,
+      "labels": null,
+      "hex_color": "",
+      "percent_done": 0,
+      "identifier": "#1",
+      "index": 1,
+      "related_tasks": {
+        "subtask": [
+          {
+            "id": 2,
+            "title": "Retry failed deliveries",
+            "description": "",
+            "project_id": 3,
+            "done": false,
+            "done_at": "0001-01-01T00:00:00Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "",
+            "index": 1,
+            "related_tasks": null,
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:21:53Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": null
+          }
+        ]
+      },
+      "attachments": null,
+      "cover_image_attachment_id": 0,
+      "is_favorite": false,
+      "subscription": {
+        "id": 1,
+        "entity": "task",
+        "entity_id": 1,
+        "created": "2026-11-22T03:19:31Z"
+      },
+      "created": "2026-11-22T03:19:31Z",
+      "updated": "2026-11-22T03:21:38Z",
+      "bucket_id": 0,
+      "position": 0,
+      "reactions": null,
+      "created_by": {
+        "id": 1,
+        "name": "",
+        "username": "evaluator",
+        "created": "2026-11-22T03:17:59Z",
+        "updated": "2026-11-22T03:17:59Z"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Retry failed deliveries",
+      "description": "",
+      "project_id": 3,
+      "done": false,
+      "done_at": "0001-01-01T00:00:00Z",
+      "due_date": "0001-01-01T00:00:00Z",
+      "reminders": null,
+      "repeat_after": 0,
+      "repeat_mode": 0,
+      "priority": 0,
+      "start_date": "0001-01-01T00:00:00Z",
+      "end_date": "0001-01-01T00:00:00Z",
+      "assignees": null,
+      "labels": null,
+      "hex_color": "",
+      "percent_done": 0,
+      "identifier": "#1",
+      "index": 1,
+      "related_tasks": {
+        "parenttask": [
+          {
+            "id": 1,
+            "title": "Notification delivery",
+            "description": "Implement retries. Human verifies delivery history.",
+            "project_id": 2,
+            "done": false,
+            "done_at": "0001-01-01T00:00:00Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "",
+            "index": 1,
+            "related_tasks": null,
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:21:38Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": null
+          }
+        ]
+      },
+      "attachments": null,
+      "cover_image_attachment_id": 0,
+      "is_favorite": false,
+      "subscription": {
+        "id": 2,
+        "entity": "task",
+        "entity_id": 2,
+        "created": "2026-11-22T03:19:31Z"
+      },
+      "created": "2026-11-22T03:19:31Z",
+      "updated": "2026-11-22T03:21:53Z",
+      "bucket_id": 0,
+      "position": 0,
+      "reactions": null,
+      "created_by": {
+        "id": 1,
+        "name": "",
+        "username": "evaluator",
+        "created": "2026-11-22T03:17:59Z",
+        "updated": "2026-11-22T03:17:59Z"
+      }
+    }
+  ],
+  "kanboard_subtasks": [
+    {
+      "id": 1,
+      "title": "Retry failed deliveries",
+      "status": 0,
+      "time_estimated": 0,
+      "time_spent": 0,
+      "task_id": 1,
+      "user_id": 0,
+      "position": 1,
+      "username": null,
+      "name": null,
+      "timer_start_date": 0,
+      "status_name": "Todo",
+      "is_timer_started": false
+    }
+  ],
+  "kanbalone_direct_assignment": {
+    "http": 409,
+    "code": "GROUP_ALREADY_ASSIGNED"
+  },
+  "kanbalone_remove_preview": {
+    "requiresResolution": false,
+    "candidates": [],
+    "tickets": [
+      {
+        "id": 1,
+        "title": "Notification delivery",
+        "boardId": 1,
+        "parentTicketId": null,
+        "groupId": 1,
+        "isArchived": false
+      },
+      {
+        "id": 2,
+        "title": "Retry failed deliveries",
+        "boardId": 1,
+        "parentTicketId": 1,
+        "groupId": 1,
+        "isArchived": false
+      }
+    ],
+    "parentChanges": [],
+    "targetGroupId": null,
+    "changedTicketIds": [
+      1,
+      2
+    ]
+  },
+  "redmine_close_parent": null,
+  "kanboard_close_parent": true,
+  "after_close": {
+    "redmine": {
+      "issue": {
+        "id": 1,
+        "project": {
+          "id": 1,
+          "name": "Collaboration lab"
+        },
+        "tracker": {
+          "id": 2,
+          "name": "Feature"
+        },
+        "status": {
+          "id": 3,
+          "name": "Resolved",
+          "is_closed": false
+        },
+        "priority": {
+          "id": 2,
+          "name": "Normal"
+        },
+        "author": {
+          "id": 1,
+          "name": "Redmine Admin"
+        },
+        "fixed_version": {
+          "id": 1,
+          "name": "Notification improvements"
+        },
+        "subject": "Notification delivery",
+        "description": "Implement retries. Human verifies delivery history.",
+        "start_date": null,
+        "due_date": null,
+        "done_ratio": 0,
+        "is_private": false,
+        "estimated_hours": null,
+        "total_estimated_hours": 0.0,
+        "created_on": "2026-11-22T03:20:04Z",
+        "updated_on": "2026-11-22T03:21:13Z",
+        "closed_on": null
+      }
+    },
+    "kanboard": [
+      {
+        "id": 1,
+        "title": "Retry failed deliveries",
+        "status": 2,
+        "time_estimated": 0,
+        "time_spent": 0,
+        "task_id": 1,
+        "user_id": 0,
+        "position": 1,
+        "username": null,
+        "name": null,
+        "timer_start_date": 0,
+        "status_name": "Done",
+        "is_timer_started": false
+      }
+    ],
+    "vikunja": [
+      {
+        "id": 1,
+        "title": "Notification delivery",
+        "description": "",
+        "project_id": 2,
+        "done": true,
+        "done_at": "2026-11-22T03:22:11Z",
+        "due_date": "0001-01-01T00:00:00Z",
+        "reminders": null,
+        "repeat_after": 0,
+        "repeat_mode": 0,
+        "priority": 0,
+        "start_date": "0001-01-01T00:00:00Z",
+        "end_date": "0001-01-01T00:00:00Z",
+        "assignees": null,
+        "labels": null,
+        "hex_color": "",
+        "percent_done": 0,
+        "identifier": "#1",
+        "index": 1,
+        "related_tasks": {
+          "subtask": [
+            {
+              "id": 2,
+              "title": "Retry failed deliveries",
+              "description": "",
+              "project_id": 2,
+              "done": false,
+              "done_at": "0001-01-01T00:00:00Z",
+              "due_date": "0001-01-01T00:00:00Z",
+              "reminders": null,
+              "repeat_after": 0,
+              "repeat_mode": 0,
+              "priority": 0,
+              "start_date": "0001-01-01T00:00:00Z",
+              "end_date": "0001-01-01T00:00:00Z",
+              "assignees": null,
+              "labels": null,
+              "hex_color": "",
+              "percent_done": 0,
+              "identifier": "",
+              "index": 4,
+              "related_tasks": null,
+              "attachments": null,
+              "cover_image_attachment_id": 0,
+              "is_favorite": false,
+              "created": "2026-11-22T03:19:31Z",
+              "updated": "2026-11-22T03:22:11Z",
+              "bucket_id": 0,
+              "position": 0,
+              "reactions": null,
+              "created_by": null
+            }
+          ]
+        },
+        "attachments": null,
+        "cover_image_attachment_id": 0,
+        "is_favorite": false,
+        "subscription": {
+          "id": 1,
+          "entity": "task",
+          "entity_id": 1,
+          "created": "2026-11-22T03:19:31Z"
+        },
+        "created": "2026-11-22T03:19:31Z",
+        "updated": "2026-11-22T03:22:11Z",
+        "bucket_id": 0,
+        "position": 0,
+        "reactions": null,
+        "created_by": {
+          "id": 1,
+          "name": "",
+          "username": "evaluator",
+          "created": "2026-11-22T03:17:59Z",
+          "updated": "2026-11-22T03:17:59Z"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Retry failed deliveries",
+        "description": "",
+        "project_id": 2,
+        "done": false,
+        "done_at": "0001-01-01T00:00:00Z",
+        "due_date": "0001-01-01T00:00:00Z",
+        "reminders": null,
+        "repeat_after": 0,
+        "repeat_mode": 0,
+        "priority": 0,
+        "start_date": "0001-01-01T00:00:00Z",
+        "end_date": "0001-01-01T00:00:00Z",
+        "assignees": null,
+        "labels": null,
+        "hex_color": "",
+        "percent_done": 0,
+        "identifier": "#4",
+        "index": 4,
+        "related_tasks": {
+          "parenttask": [
+            {
+              "id": 1,
+              "title": "Notification delivery",
+              "description": "",
+              "project_id": 2,
+              "done": true,
+              "done_at": "2026-11-22T03:22:11Z",
+              "due_date": "0001-01-01T00:00:00Z",
+              "reminders": null,
+              "repeat_after": 0,
+              "repeat_mode": 0,
+              "priority": 0,
+              "start_date": "0001-01-01T00:00:00Z",
+              "end_date": "0001-01-01T00:00:00Z",
+              "assignees": null,
+              "labels": null,
+              "hex_color": "",
+              "percent_done": 0,
+              "identifier": "",
+              "index": 1,
+              "related_tasks": null,
+              "attachments": null,
+              "cover_image_attachment_id": 0,
+              "is_favorite": false,
+              "created": "2026-11-22T03:19:31Z",
+              "updated": "2026-11-22T03:22:11Z",
+              "bucket_id": 0,
+              "position": 0,
+              "reactions": null,
+              "created_by": null
+            }
+          ]
+        },
+        "attachments": null,
+        "cover_image_attachment_id": 0,
+        "is_favorite": false,
+        "subscription": {
+          "id": 2,
+          "entity": "task",
+          "entity_id": 2,
+          "created": "2026-11-22T03:19:31Z"
+        },
+        "created": "2026-11-22T03:19:31Z",
+        "updated": "2026-11-22T03:22:11Z",
+        "bucket_id": 0,
+        "position": 0,
+        "reactions": null,
+        "created_by": {
+          "id": 1,
+          "name": "",
+          "username": "evaluator",
+          "created": "2026-11-22T03:17:59Z",
+          "updated": "2026-11-22T03:17:59Z"
+        }
+      }
+    ],
+    "kanbalone": {
+      "tickets": [
+        {
+          "id": 2,
+          "boardId": 1,
+          "laneId": 1,
+          "parentTicketId": 1,
+          "hasChildren": false,
+          "title": "Retry failed deliveries",
+          "isResolved": false,
+          "resolvedAt": null,
+          "isArchived": false,
+          "priority": 2,
+          "position": 0,
+          "createdAt": "2026-11-22T03:19:42.058Z",
+          "updatedAt": "2026-11-22T03:19:42.062Z",
+          "tags": [],
+          "unresolvedBlockerCount": 0,
+          "blockerIds": [],
+          "relatedIds": [],
+          "ref": "Collaboration lab#2",
+          "shortRef": "#2",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": 1,
+          "group": {
+            "id": 1,
+            "name": "Notification improvements"
+          }
+        },
+        {
+          "id": 3,
+          "boardId": 1,
+          "laneId": 4,
+          "parentTicketId": null,
+          "hasChildren": false,
+          "title": "Document delivery behavior",
+          "isResolved": true,
+          "resolvedAt": "2026-11-22T03:19:42.086Z",
+          "isArchived": false,
+          "priority": 2,
+          "position": 0,
+          "createdAt": "2026-11-22T03:19:42.077Z",
+          "updatedAt": "2026-11-22T03:19:42.086Z",
+          "tags": [],
+          "unresolvedBlockerCount": 0,
+          "blockerIds": [],
+          "relatedIds": [],
+          "ref": "Collaboration lab#3",
+          "shortRef": "#3",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": 1,
+          "group": {
+            "id": 1,
+            "name": "Notification improvements"
+          }
+        },
+        {
+          "id": 1,
+          "boardId": 1,
+          "laneId": 4,
+          "parentTicketId": null,
+          "hasChildren": true,
+          "title": "Notification delivery",
+          "isResolved": true,
+          "resolvedAt": "2026-11-22T03:22:11.962Z",
+          "isArchived": false,
+          "priority": 2,
+          "position": 1,
+          "createdAt": "2026-11-22T03:19:42.005Z",
+          "updatedAt": "2026-11-22T03:22:11.962Z",
+          "tags": [],
+          "unresolvedBlockerCount": 0,
+          "blockerIds": [],
+          "relatedIds": [],
+          "ref": "Collaboration lab#1",
+          "shortRef": "#1",
+          "remote": null,
+          "externalReferences": [],
+          "groupId": 1,
+          "group": {
+            "id": 1,
+            "name": "Notification improvements"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "samples": 1,
+  "not_comparable_endpoints": true,
+  "observations": [
+    {
+      "product": "kanboard",
+      "ms": 100,
+      "endpoint": "pointerdown to destination DOMContentLoaded; full navigation; not paint"
+    },
+    {
+      "product": "vikunja",
+      "ms": 547.7,
+      "endpoint": "pointerdown to matching detail heading observed plus two requestAnimationFrame callbacks"
+    },
+    {
+      "product": "kanbalone",
+      "ms": 373.3,
+      "endpoint": "pointerdown to matching detail heading observed plus two requestAnimationFrame callbacks"
+    }
+  ],
+  "limitations": "Single exploratory sample each; not INP; background-tab/animation/scheduling effects not controlled. Not a product speed ranking."
+}

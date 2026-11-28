@@ -1,0 +1,189 @@
+{
+  "kanboard": [
+    {
+      "id": 1,
+      "date_creation": 1795317634,
+      "date_modification": 1795317634,
+      "task_id": 1,
+      "user_id": 1,
+      "comment": "AI handoff: retries implemented. Please verify delivery history.",
+      "visibility": "app-user",
+      "username": "admin",
+      "name": null,
+      "email": null,
+      "avatar_path": null
+    },
+    {
+      "id": 2,
+      "date_creation": 1795317697,
+      "date_modification": 1795317697,
+      "task_id": 1,
+      "user_id": 1,
+      "comment": "Human review: delivery history checked; retry remains open.",
+      "visibility": "app-user",
+      "username": "admin",
+      "name": null,
+      "email": null,
+      "avatar_path": null
+    }
+  ],
+  "vikunja": [
+    {
+      "id": 1,
+      "comment": "AI handoff: retries implemented. Please verify delivery history.",
+      "author": {
+        "id": 1,
+        "name": "",
+        "username": "evaluator",
+        "created": "2026-11-22T03:17:59Z",
+        "updated": "2026-11-22T03:17:59Z"
+      },
+      "reactions": null,
+      "created": "2026-11-22T03:20:34Z",
+      "updated": "2026-11-22T03:20:34Z"
+    },
+    {
+      "id": 2,
+      "comment": "<p>Human review: delivery history checked; retry remains open.</p>",
+      "author": {
+        "id": 1,
+        "name": "",
+        "username": "evaluator",
+        "created": "2026-11-22T03:17:59Z",
+        "updated": "2026-11-22T03:17:59Z"
+      },
+      "reactions": null,
+      "created": "2026-11-22T03:21:38Z",
+      "updated": "2026-11-22T03:21:38Z"
+    }
+  ],
+  "redmine": {
+    "issue": {
+      "id": 1,
+      "project": {
+        "id": 1,
+        "name": "Collaboration lab"
+      },
+      "tracker": {
+        "id": 2,
+        "name": "Feature"
+      },
+      "status": {
+        "id": 3,
+        "name": "Resolved",
+        "is_closed": false
+      },
+      "priority": {
+        "id": 2,
+        "name": "Normal"
+      },
+      "author": {
+        "id": 1,
+        "name": "Redmine Admin"
+      },
+      "fixed_version": {
+        "id": 1,
+        "name": "Notification improvements"
+      },
+      "subject": "Notification delivery",
+      "description": "Implement retries. Human verifies delivery history.",
+      "start_date": null,
+      "due_date": null,
+      "done_ratio": 0,
+      "is_private": false,
+      "estimated_hours": null,
+      "total_estimated_hours": 0.0,
+      "created_on": "2026-11-22T03:20:04Z",
+      "updated_on": "2026-11-22T03:21:13Z",
+      "closed_on": null,
+      "journals": [
+        {
+          "id": 1,
+          "user": {
+            "id": 1,
+            "name": "Redmine Admin"
+          },
+          "notes": "",
+          "created_on": "2026-11-22T03:20:04Z",
+          "updated_on": "2026-11-22T03:20:04Z",
+          "private_notes": false,
+          "details": [
+            {
+              "property": "attr",
+              "name": "child_id",
+              "old_value": null,
+              "new_value": "2"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "user": {
+            "id": 1,
+            "name": "Redmine Admin"
+          },
+          "notes": "AI handoff: retries implemented. Please verify delivery history.",
+          "created_on": "2026-11-22T03:20:34Z",
+          "updated_on": "2026-11-22T03:20:34Z",
+          "private_notes": false,
+          "details": [
+            {
+              "property": "attr",
+              "name": "status_id",
+              "old_value": "1",
+              "new_value": "3"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "user": {
+            "id": 1,
+            "name": "Redmine Admin"
+          },
+          "notes": "Human review: delivery history checked; retry remains open.",
+          "created_on": "2026-11-22T03:21:13Z",
+          "updated_on": "2026-11-22T03:21:13Z",
+          "private_notes": false,
+          "details": []
+        }
+      ]
+    }
+  },
+  "kanbalone": {
+    "comments": [
+      {
+        "id": 2,
+        "ticketId": 1,
+        "bodyMarkdown": "Human review: delivery history checked; retry remains open.",
+        "bodyHtml": "<p>Human review: delivery history checked; retry remains open.</p>\n",
+        "createdAt": "2026-11-22T03:21:00.844Z",
+        "sync": {
+          "commentId": 2,
+          "status": "local_only",
+          "remoteCommentId": null,
+          "pushedAt": null,
+          "lastError": null,
+          "createdAt": "2026-11-22T03:21:00.844Z",
+          "updatedAt": "2026-11-22T03:21:00.844Z"
+        }
+      },
+      {
+        "id": 1,
+        "ticketId": 1,
+        "bodyMarkdown": "AI handoff: retries implemented. Please verify delivery history.",
+        "bodyHtml": "<p>AI handoff: retries implemented. Please verify delivery history.</p>\n",
+        "createdAt": "2026-11-22T03:20:34.676Z",
+        "sync": {
+          "commentId": 1,
+          "status": "local_only",
+          "remoteCommentId": null,
+          "pushedAt": null,
+          "lastError": null,
+          "createdAt": "2026-11-22T03:20:34.676Z",
+          "updatedAt": "2026-11-22T03:20:34.676Z"
+        }
+      }
+    ]
+  }
+}

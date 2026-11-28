@@ -6,14 +6,13 @@
   <img src="public/app-icon.svg" alt="Kanbalone アプリアイコン" width="120" height="120" />
 </p>
 
-Kanbalone は、個人が AI とともに開発するために最適化した小さなローカル Kanban アプリです。
+Kanbaloneは、AIと開発する個人のためのローカル作業スペースです。
 
-Remote issue を、AI と実装するためのローカル作業面に変えます。
+外部の依頼を手元の作業に落とし込み、調べたこと、実装方針、進捗を同じ場所に残します。人は画面から、AIはAPIから、その続きを進められます。
 
-Dockerでサクッと起動してすぐ使えます。
-ブラウザで人間が使える Web UI に加えて、スクリプトや AI エージェントから利用しやすい JSON API も備えています。
+GitHub Issues・GitLab・Redmineの原文を参照しながら、自分の実装メモを育て、共有したいコメントだけを外へ返せます。外部Issueを使わず、自分の作業から始めることもできます。
 
-GitHub Issues、GitLab、Redmine などの remote issue をローカルに取り込み、Kanbalone 上で local body と comment を育てながら実装を進められます。remote は正本のまま、Kanbalone は個人開発者と AI のための execution workspace として使えます。
+[誰の、何を楽にするのか](docs/ja/product-positioning.md)
 
 ![Remote issue を Kanbalone のローカル execution workspace に取り込む概念図](docs/assets/remote-issue-workspace.svg)
 
@@ -25,21 +24,15 @@ GitHub Issues、GitLab、Redmine などの remote issue をローカルに取り
 
 ![チケット作成、タグ、ドラッグアンドドロップ、検索、フィルタ、コメント、リスト表示を操作する Kanbalone デモ](docs/assets/kanbalone-demo.webp)
 
-## Kanbalone の特徴
+## Kanbaloneで楽になること
 
-- AI と共に 1 人で 1台のマシンで使うことに最適化し、ユーザ管理や権限管理は排除
-- データは全てローカルで保存
-- GitHub Issues、GitLab、Redmine などの remote issue を取り込み、ローカルの実装ワークスペースとして扱える
-- 作業カテゴリごとの複数ボード管理
-- タグ、コメント、チケット間の依存関係（ブロッカー、親子チケット）管理
-- remote の title / body を参照しつつ、Kanbalone 側で実装本文を厚く育てられる
-- comment だけを remote に返すシンプルな連携で、作業ログを扱いやすい
-- 自動化や AI エージェントからも扱いやすい軽量 JSON API
-- 起動して最初のボードを作成したら、面倒な設定なしですぐタスク管理開始
+- **説明し直す負担を減らす。** 人とAIが使う作業の経緯を、同じチケットに残せます。
+- **手元で自由に深める。** 共有された依頼と自分の実装メモを分け、必要な報告を選んで返せます。
+- **今、見るべき仕事をつかむ。** 作業段階や目的ごとの残件を見渡し、確認した仕事を完了へ進められます。
 
 ## Groupで作業をまとめる
 
-v0.11.0から、同じ目的のチケットをGroupにまとめられます。[ユーザーガイド](docs/ja/user-guide.md#13-groupで作業をまとめる)と[Group移行手順](docs/ja/migration-guide.md#group-migration)を参照してください。
+v0.11.0から、同じ目的のチケットをGroupにまとめられます。[ユーザーガイド](docs/ja/user-guide.md#13-グループで作業をまとめる)と[Group移行手順](docs/ja/migration-guide.md#group-migration)を参照してください。
 
 
 ## Quick Start
