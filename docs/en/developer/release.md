@@ -9,8 +9,8 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 - Keep `main` releasable. Do not maintain a long-lived `develop` branch or permanent release branches.
 - Start a short-lived `codex/<topic>` branch from current `main` and open a PR with one purpose. Documentation and CI changes follow the same process.
 - Use descriptive branch names, commit messages and PR titles. Keep local Kanbalone tracking numbers, ticket URLs and local-only references in the local tracker or handoff. In public PR descriptions and documentation, link verified GitHub PRs or issues where relevant. When a link cannot be verified, describe the change directly. Synthetic IDs and local API examples are part of the documentation and remain valid.
-- Merging requires passing **Required checks** and user acceptance in chat. GitHub approval counts are not required; the agent checks review findings, CI results and the accepted diff, then performs the merge. If the content changes after acceptance, explain the changes and obtain acceptance again. AI review alone does not constitute user acceptance. Update against current main, normally squash merge, and delete the work branch after merging.
-- Do not use administrator bypass for routine work. For an incident requiring an exception, the repository owner records the reason, verification results and follow-up PR. Do not skip acceptance in chat or routinely push directly to main.
+- Merging requires passing **Required checks** and an independent sub-agent PR review with no unresolved actionable findings. The agent verifies the reviewed diff and CI results, then merges without waiting for user acceptance in chat. GitHub approval counts are not required. If the reviewed content changes, review the affected diff again. Update against current main, normally squash merge, and delete the work branch after merging.
+- Do not use administrator bypass for routine work. For an incident requiring an exception, the repository owner records the reason, verification results and follow-up PR. Do not skip independent review or routinely push directly to main.
 - Use the Actions-created `codex/release-VERSION` branch for release preparation. Hold unrelated main merges from preparation until the target SHA is fixed, then resume normal development.
 - Hotfixes also use a short-lived branch from main, a PR and a patch release. Resolve unreleasable changes on main first. Supporting an older release independently requires a separate decision; the current workflow only publishes SHAs contained in main.
 
@@ -19,7 +19,7 @@ Prepare and publish releases from GitHub Actions. Run both workflows from `main`
 | When | Owner | Required work and record |
 | --- | --- | --- |
 | Before opening an implementation PR | Author | Run relevant local tests and exercise the changed behavior. Record steps, results and limitations. For UI changes, check affected Japanese and English screens, consistency with existing screens, and before/after images. |
-| Before merging an implementation PR | User accepts; agent verifies and operates | Review the diff, CI results and manual verification record. E2E success alone does not establish visual or interaction quality. |
+| Before merging an implementation PR | Independent sub-agent reviews; primary agent verifies and merges | Review the diff, CI results and manual verification record. E2E success alone does not establish visual or interaction quality. User acceptance in chat is not a merge prerequisite. |
 | Release preparation PR | Release owner and reviewer | Review changes since the previous published version; complete the version, bilingual notes and migration guide. Record the full merged SHA. |
 | After dry-run, before publication | Release owner | Run the candidate image artifact locally in isolation and verify principal changes and basic operations. Record the SHA, dry-run URL, candidate artifact ID, image IDs and results in the preparation PR, then decide whether to publish that artifact. |
 | After publication | Release owner | Check tags, bilingual notes and published image. Run the published version in isolation and check its version and basic operations. Add the Release URL to the preparation PR. |
@@ -47,7 +47,7 @@ Publication uses the exact image from the locally verified dry-run artifact. A c
 
 Before the first release, a repository administrator must verify:
 
-- The `main` branch rules require a PR and the **Required checks** status check, with zero required GitHub approvals. User acceptance in chat is an operating rule.
+- The `main` branch rules require a PR and the **Required checks** status check, with zero required GitHub approvals. Independent sub-agent review is an operating rule; the primary agent merges when that review and the checks pass.
 - Actions can create pull requests and the repository permits the workflow permissions used below.
 - GHCR permits this repository to publish its package, and consumers can pull it without authentication.
 - Optionally, configure repository variable `RELEASE_APP_ID` and secret `RELEASE_APP_PRIVATE_KEY` for an installed GitHub App with repository contents and pull request write permissions.
