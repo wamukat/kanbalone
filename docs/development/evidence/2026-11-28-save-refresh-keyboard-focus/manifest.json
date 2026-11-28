@@ -1,0 +1,263 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Headless Chromium 158",
+    "automation": "agent-browser 0.26.0",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "displayedVersion": "1.6.0",
+    "locale": "en",
+    "appearance": "light",
+    "devicePixelRatio": 1,
+    "viewport": {
+      "width": 1360,
+      "height": 860
+    }
+  },
+  "sources": {
+    "before": {
+      "commit": "878467a0a7b3ddf15b15dee9da5a91dd3c54eefe"
+    },
+    "after": {
+      "commit": "ec8827996402e7a25f4a091cb383e4115677f651",
+      "publicAndSrcGitBinaryDiffSha256": "f3f9203f0c026f851e1609a16a4f188ab849f1c65bcc0bac6fe405e6d312eedd"
+    }
+  },
+  "fixture": {
+    "board": "Release desk",
+    "initialSQLiteSha256": "ecf816d5723595998b6c9f48d2279ef4c09cc4181181077283fcfe96039c20b9",
+    "originTicket": "Prepare the release digest",
+    "firstPostSaveBoardReadDelayMilliseconds": 240
+  },
+  "results": {
+    "before": {
+      "normalSave": {
+        "postStatus": 201,
+        "postCount": 1,
+        "boardReadStatus": 200,
+        "ticketId": 4,
+        "laneId": 2,
+        "bodyMarkdown": "Recorded with the keyboard."
+      },
+      "focusFromDialogClose": [
+        {
+          "msFromDialogClose": 0,
+          "event": "close",
+          "active": {
+            "card": "2",
+            "id": null,
+            "instance": 1,
+            "node": "BUTTON"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 1,
+            "node": "BUTTON"
+          },
+          "originalConnected": true,
+          "focusVisible": true,
+          "outlineStyle": "solid"
+        },
+        {
+          "msFromDialogClose": 248,
+          "event": "focusout",
+          "active": {
+            "card": null,
+            "id": null,
+            "instance": 2,
+            "node": "BODY"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 1,
+            "node": "BUTTON"
+          },
+          "originalConnected": true,
+          "focusVisible": false,
+          "outlineStyle": "none"
+        },
+        {
+          "msFromDialogClose": 253,
+          "event": "focusin",
+          "active": {
+            "card": null,
+            "id": "search-input",
+            "instance": 6,
+            "node": "INPUT"
+          },
+          "originRendered": null,
+          "originalConnected": false,
+          "focusVisible": true,
+          "outlineStyle": "none"
+        },
+        {
+          "msFromDialogClose": 268,
+          "event": "frame",
+          "active": {
+            "card": null,
+            "id": "search-input",
+            "instance": 6,
+            "node": "INPUT"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 7,
+            "node": "BUTTON"
+          },
+          "originalConnected": false,
+          "focusVisible": true,
+          "outlineStyle": "none"
+        },
+        {
+          "msFromDialogClose": 1457,
+          "event": "finish",
+          "active": {
+            "card": null,
+            "id": "search-input",
+            "instance": 6,
+            "node": "INPUT"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 7,
+            "node": "BUTTON"
+          },
+          "originalConnected": false,
+          "focusVisible": true,
+          "outlineStyle": "none"
+        }
+      ]
+    },
+    "after": {
+      "normalSave": {
+        "postStatus": 201,
+        "postCount": 1,
+        "boardReadStatus": 200,
+        "ticketId": 4,
+        "laneId": 2,
+        "bodyMarkdown": "Recorded with the keyboard."
+      },
+      "focusFromDialogClose": [
+        {
+          "msFromDialogClose": 0,
+          "event": "close",
+          "active": {
+            "card": "2",
+            "id": null,
+            "instance": 1,
+            "node": "BUTTON"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 1,
+            "node": "BUTTON"
+          },
+          "originalConnected": true,
+          "focusVisible": true,
+          "outlineStyle": "solid"
+        },
+        {
+          "msFromDialogClose": 242,
+          "event": "focusout",
+          "active": {
+            "card": null,
+            "id": null,
+            "instance": 2,
+            "node": "BODY"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 1,
+            "node": "BUTTON"
+          },
+          "originalConnected": true,
+          "focusVisible": false,
+          "outlineStyle": "none"
+        },
+        {
+          "msFromDialogClose": 249,
+          "event": "frame",
+          "active": {
+            "card": null,
+            "id": null,
+            "instance": 2,
+            "node": "BODY"
+          },
+          "originRendered": null,
+          "originalConnected": false,
+          "focusVisible": false,
+          "outlineStyle": "none"
+        },
+        {
+          "msFromDialogClose": 250,
+          "event": "focusin",
+          "active": {
+            "card": "2",
+            "id": null,
+            "instance": 6,
+            "node": "BUTTON"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 6,
+            "node": "BUTTON"
+          },
+          "originalConnected": false,
+          "focusVisible": true,
+          "outlineStyle": "solid"
+        },
+        {
+          "msFromDialogClose": 1347,
+          "event": "finish",
+          "active": {
+            "card": "2",
+            "id": null,
+            "instance": 6,
+            "node": "BUTTON"
+          },
+          "originRendered": {
+            "card": "2",
+            "id": null,
+            "instance": 6,
+            "node": "BUTTON"
+          },
+          "originalConnected": false,
+          "focusVisible": true,
+          "outlineStyle": "solid"
+        }
+      ],
+      "failedRefresh": {
+        "postStatus": 201,
+        "postCount": 1,
+        "boardReadStatus": 503,
+        "ticketId": 5,
+        "tag": "Release QA",
+        "reloadedTicketAndTag": true,
+        "focus": "Original card",
+        "toast": "Ticket saved, but the view could not refresh. Reload to continue."
+      }
+    }
+  },
+  "files": {
+    "before-en-light-after-save.png": {
+      "source": "before",
+      "sha256": "49101aa0bf70063cf85fb63903d844d5d77f7ee2d1739dc9e663500972ba0208"
+    },
+    "after-en-light-after-save.png": {
+      "source": "after",
+      "sha256": "e629fe5f4e07dd0c83c7a35ffad81d047a8b6983291e1a93fda4d48703e2bcc7"
+    },
+    "after-en-light-refresh-failure.png": {
+      "source": "after",
+      "sha256": "a67ac62ab3e7f8581f2902f09f21e57d1cbddd7b4c2740e990e1996e3fadb32c"
+    }
+  }
+}
