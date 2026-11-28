@@ -1,0 +1,123 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Headless Chromium 158",
+    "automation": "agent-browser 0.26.0",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "devicePixelRatio": 1,
+    "displayedFooterVersion": "1.0.0",
+    "footerVersionSource": "The launcher working directory package metadata, shared by both runs."
+  },
+  "sources": {
+    "before": {
+      "commit": "a37c459a1ef0b0427f4f0442e2b85c5f47a887b6",
+      "packageVersion": "1.6.0"
+    },
+    "after": {
+      "commit": "6848cb9bbe4390aa7ac063cd7284700aa9f29f91",
+      "publicAndSrcGitBinaryDiffSha256": "ba4d951aadc9fa75c19299098c7b0f0cfd2b5ccd07dafd9483271c3db59da45c",
+      "packageVersion": "1.6.0"
+    }
+  },
+  "fixture": {
+    "board": "Release desk",
+    "initialTicketCount": 3,
+    "initialSQLiteSha256": "ecf816d5723595998b6c9f48d2279ef4c09cc4181181077283fcfe96039c20b9",
+    "injection": "Board detail GET returns 503 after successful ticket POST; first post-save read is held for 240 ms."
+  },
+  "results": {
+    "before": {
+      "post": 201,
+      "postCount": 1,
+      "abortedReads": 1,
+      "failedRefresh": 503,
+      "toast": "Ticket created"
+    },
+    "after": {
+      "post": 201,
+      "postCount": 1,
+      "abortedReads": 0,
+      "failedRefresh": 503,
+      "toast": "Ticket saved, but the view could not refresh. Reload to continue."
+    },
+    "persistence": {
+      "newTicketsPerRun": 1,
+      "matchingBoardTagsPerRun": 1,
+      "ticketTag": "Release verification",
+      "candidateReloadConfirmed": true
+    },
+    "nextBoardEvent": {
+      "recoveredBeforeReload": true
+    },
+    "normalSave": {
+      "post": 201,
+      "postCount": 1,
+      "boardRead": 200,
+      "toast": "Ticket created"
+    }
+  },
+  "files": {
+    "before-ja-light-draft.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1360,
+        "height": 860
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "3bae13b8be91075ee7b0a509990930e3cb051acf1343840fbde1454dc263948d"
+    },
+    "after-ja-light-draft.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1360,
+        "height": 860
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "2b3f91932bdc32571e8b3f74211dc42716b144441c484b702663d7ead180f926"
+    },
+    "before-ja-light-refresh-failure.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1360,
+        "height": 860
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "8e7bdac2d18eb3b2ec51965effaa37a812b174414d11d49c2f334ee84312b883"
+    },
+    "after-ja-light-refresh-failure.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1360,
+        "height": 860
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "8bb93addb825a7a1d52a1ae229a5e805eff6ed6af820736015610d97753e6e0b"
+    },
+    "after-ja-light-sse-recovery.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1360,
+        "height": 860
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "32a357e116d7ad57c95b239a6f50c2f64340cb50f1c5c2877c004eb558aec095"
+    },
+    "after-ja-light-normal-save.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1360,
+        "height": 860
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "9f46f41c587682e9b27233cbc36ee89cd479f073961e761d65609122c590cba5"
+    }
+  }
+}
