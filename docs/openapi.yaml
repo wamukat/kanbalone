@@ -682,6 +682,32 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
         "409":
+          description: The lane still contains tickets. Counts reflect the rejected delete attempt.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error, details]
+                properties:
+                  error:
+                    type: string
+                  details:
+                    $ref: "#/components/schemas/LaneTicketCounts"
+
+  /api/lanes/{laneId}/ticket-counts:
+    get:
+      summary: Count tickets in a lane, including archived tickets
+      operationId: getLaneTicketCounts
+      parameters:
+        - $ref: "#/components/parameters/LaneId"
+      responses:
+        "200":
+          description: Current counts across all tickets in the lane
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LaneTicketCounts"
+        "404":
           $ref: "#/components/responses/Error"
 
   /api/boards/{boardId}/tags:
@@ -3072,6 +3098,18 @@ components:
         position: { type: integer }
         isCompletionLane: { type: boolean }
       required: [id, boardId, name, position, isCompletionLane]
+    LaneTicketCounts:
+      type: object
+      required: [ticketCount, archivedTicketCount]
+      properties:
+        ticketCount:
+          type: integer
+          minimum: 0
+          description: Total tickets in the lane, including archived tickets.
+        archivedTicketCount:
+          type: integer
+          minimum: 0
+          description: Archived tickets within the total.
     Tag:
       type: object
       properties:

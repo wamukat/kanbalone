@@ -121,19 +121,40 @@ export function updateLane(sqlite: Database.Database, laneId: Id, input: string 
   }).immediate();
 }
 
-export function deleteLane(sqlite: Database.Database, laneId: Id): void {
-  const lane = getLane(sqlite, laneId);
-  if (!lane) {
-    throw new Error("Lane not found");
+export type LaneTicketCounts = {
+  ticketCount: number;
+  archivedTicketCount: number;
+};
+
+export class LaneNotEmptyError extends Error {
+  constructor(readonly counts: LaneTicketCounts) {
+    super("Lane is not empty");
   }
-  const ticketCount = sqlite
-    .prepare("SELECT COUNT(*) AS count FROM tickets WHERE lane_id = ?")
-    .get(laneId) as { count: number };
-  if (ticketCount.count > 0) {
-    throw new Error("Lane is not empty");
-  }
-  sqlite.prepare("DELETE FROM lanes WHERE id = ?").run(laneId);
-  normalizeLanePositions(sqlite, lane.boardId);
+}
+
+export function getLaneTicketCounts(sqlite: Database.Database, laneId: Id): LaneTicketCounts | null {
+  const counts = sqlite.prepare(`
+    SELECT COUNT(tickets.id) AS ticketCount,
+           SUM(CASE WHEN tickets.is_archived = 1 THEN 1 ELSE 0 END) AS archivedTicketCount
+    FROM lanes
+    LEFT JOIN tickets ON tickets.lane_id = lanes.id
+    WHERE lanes.id = ?
+    GROUP BY lanes.id
+  `).get(laneId) as LaneTicketCounts | undefined;
+  return counts ?? null;
+}
+
+export function deleteLane(sqlite: Database.Database, laneId: Id): Id {
+  return sqlite.transaction(() => {
+    const lane = getLane(sqlite, laneId);
+    const counts = getLaneTicketCounts(sqlite, laneId);
+    if (!lane || !counts) throw new Error("Lane not found");
+    if (counts.ticketCount > 0) throw new LaneNotEmptyError(counts);
+
+    sqlite.prepare("DELETE FROM lanes WHERE id = ?").run(laneId);
+    normalizeLanePositions(sqlite, lane.boardId);
+    return lane.boardId;
+  }).immediate();
 }
 
 export function reorderLanes(sqlite: Database.Database, boardId: Id, laneIds: Id[]): LaneView[] {

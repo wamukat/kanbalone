@@ -1,9 +1,20 @@
 import type { FastifyInstance } from "fastify";
 
+import { LaneNotEmptyError } from "../db-modules/board.js";
 import type { KanbanDb } from "../db.js";
 import { getBodyBoolean, getBodyNumberArray, getBodyString } from "../route-helpers.js";
 import type { Id } from "../types.js";
 import type { RouteJsonSchema } from "./route-schema.js";
+
+const laneTicketCountsSchema = {
+  type: "object",
+  required: ["ticketCount", "archivedTicketCount"],
+  additionalProperties: false,
+  properties: {
+    ticketCount: { type: "integer", minimum: 0 },
+    archivedTicketCount: { type: "integer", minimum: 0 },
+  },
+} as const;
 
 type LaneRoutesSchemas = {
   errorSchema: RouteJsonSchema;
@@ -115,29 +126,42 @@ export function registerLaneRoutes(app: FastifyInstance, ctx: RegisterLaneRoutes
     }
   });
 
+  app.get("/api/lanes/:laneId/ticket-counts", {
+    schema: {
+      params: schemas.idParamsSchema("laneId"),
+      response: { 200: laneTicketCountsSchema, 404: schemas.errorSchema },
+    },
+  }, async (request, reply) => {
+    const counts = db.getLaneTicketCounts(getIdParam(request.params, "laneId"));
+    if (!counts) return reply.code(404).send({ error: "lane not found" });
+    return counts;
+  });
+
   app.delete("/api/lanes/:laneId", {
     schema: {
       params: schemas.idParamsSchema("laneId"),
       response: {
         204: { type: "null" },
         404: schemas.errorSchema,
-        409: schemas.errorSchema,
+        409: {
+          type: "object", required: ["error", "details"], additionalProperties: false,
+          properties: { error: { type: "string" }, details: laneTicketCountsSchema },
+        },
       },
     },
   }, async (request, reply) => {
-    const laneId = getIdParam(request.params, "laneId");
-    const lane = db.getLane(laneId);
-    if (!lane) {
-      return reply.code(404).send({ error: "lane not found" });
-    }
     try {
-      db.deleteLane(laneId);
-      publishBoardEvent(lane.boardId);
+      const boardId = db.deleteLane(getIdParam(request.params, "laneId"));
+      publishBoardEvent(boardId);
       return reply.code(204).send();
     } catch (error) {
-      const message = error instanceof Error ? error.message : "lane delete failed";
-      const code = message === "Lane is not empty" ? 409 : 404;
-      return reply.code(code).send({ error: message.toLowerCase() });
+      if (error instanceof LaneNotEmptyError) {
+        return reply.code(409).send({ error: "lane is not empty", details: error.counts });
+      }
+      if (error instanceof Error && error.message === "Lane not found") {
+        return reply.code(404).send({ error: "lane not found" });
+      }
+      throw error;
     }
   });
 

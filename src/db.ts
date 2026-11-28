@@ -14,6 +14,7 @@ import {
   deleteTag as deleteTagRecord,
   getBoard as getBoardRecord,
   getLane as getLaneRecord,
+  getLaneTicketCounts,
   getTag as getTagRecord,
   listBoards as listBoardRecords,
   listLanes as listLaneRecords,
@@ -25,6 +26,7 @@ import {
   updateTag as updateTagRecord,
   type CreateBoardInput,
   type CreateLaneInput,
+  type LaneTicketCounts,
   type CreateTagInput,
 } from "./db-modules/board.js";
 import {
@@ -208,8 +210,12 @@ export class KanbanDb {
     return updateLaneRecord(this.sqlite, laneId, input);
   }
 
-  deleteLane(laneId: Id): void {
-    deleteLaneRecord(this.sqlite, laneId);
+  getLaneTicketCounts(laneId: Id): LaneTicketCounts | null {
+    return getLaneTicketCounts(this.sqlite, laneId);
+  }
+
+  deleteLane(laneId: Id): Id {
+    return deleteLaneRecord(this.sqlite, laneId);
   }
 
   reorderLanes(boardId: Id, laneIds: Id[]): LaneView[] {
