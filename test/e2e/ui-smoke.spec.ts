@@ -99,7 +99,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator(".toolbar-search")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator("#priority-filter")).not.toHaveClass(/is-filter-active/);
     await expect(page.locator(".ticket-card")).toHaveCount(4);
-    await expect(page.locator(".board-title-row")).toBeHidden();
+    await expect(page.locator(".board-title-row")).toBeVisible();
     await page.locator("#new-board-button").click();
     await expect(page.locator("[data-board-create-input]")).toBeFocused();
     await expect(page.locator("#new-board-button")).toBeHidden();
