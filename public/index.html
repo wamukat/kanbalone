@@ -39,10 +39,16 @@
         <section id="sidebar-tag-section" class="sidebar-section" hidden>
           <div class="sidebar-section-head">
             <h3 data-i18n="Tags">Tags</h3>
-            <button id="new-sidebar-tag-button" type="button" class="icon-button" title="New tag" data-i18n-title="New tag" aria-label="New tag" data-i18n-aria-label="New tag">
-              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
-            </button>
+            <div class="sidebar-tag-heading-actions">
+              <button id="manage-sidebar-tags-button" type="button" class="icon-button" title="Manage tags" data-i18n-title="Manage tags" aria-label="Manage tags" data-i18n-aria-label="Manage tags" aria-pressed="false" aria-controls="sidebar-tag-list">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#pencil"></use></svg>
+              </button>
+              <button id="new-sidebar-tag-button" type="button" class="icon-button" title="New tag" data-i18n-title="New tag" aria-label="New tag" data-i18n-aria-label="New tag">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#plus"></use></svg>
+              </button>
+            </div>
           </div>
+          <p id="sidebar-tag-manage-hint" class="sidebar-tag-manage-hint muted" data-i18n="Choose a tag to edit." role="status" hidden>Choose a tag to edit.</p>
           <div id="sidebar-tag-list" class="sidebar-tag-list"></div>
         </section>
 
@@ -123,7 +129,7 @@
           <div class="toolbar-actions">
             <label class="toolbar-search" for="search-input">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#search"></use></svg>
-              <input id="search-input" type="search" aria-keyshortcuts="/" placeholder="Search keywords or #123" data-i18n-placeholder="Search keywords or #123" />
+              <input id="search-input" type="search" aria-keyshortcuts="/" aria-label="Search keywords or #123" data-i18n-aria-label="Search keywords or #123" placeholder="Search keywords or #123" data-i18n-placeholder="Search keywords or #123" />
               <button id="search-clear-button" type="button" class="search-clear-button" aria-label="Clear search" data-i18n-aria-label="Clear search" hidden>
                 <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#x"></use></svg>
               </button>

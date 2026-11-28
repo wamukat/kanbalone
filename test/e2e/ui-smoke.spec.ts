@@ -481,8 +481,8 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-relations")).toContainText("Child candidate");
     await expect(sidebarTagBadge).toBeVisible();
     await expect(sidebarTagBadge).toHaveClass(/tag-no-color/);
-    await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Edit tag: smoke-tag");
-    await expect(sidebarTagBadge.locator("use[href='/icons.svg#pencil']")).toHaveCount(1);
+    await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Filter by tag: smoke-tag");
+    await expect(sidebarTagBadge.locator("[data-group-tag-edit]")).toBeHidden();
     await expect(page.locator("#sidebar-tag-list .icon-button")).toHaveCount(0);
     const savedBoardTags = await page.request.get(boardTagsUrl);
     expect(savedBoardTags.ok()).toBe(true);

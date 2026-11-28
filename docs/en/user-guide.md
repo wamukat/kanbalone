@@ -164,7 +164,7 @@ Type in the search field above Kanban or List to narrow down tickets.
 
 Use **Priority >** to select Low, Medium, High, or Urgent. You can choose more than one.
 
-Click **×** at the right of the search field to clear your search.
+Click **×** at the right of the search field to clear your search and return focus to the field. Your other filters stay selected.
 
 ![Clearing a search](../assets/user-guide/14-search-clear.png)
 
@@ -186,10 +186,10 @@ Your filters stay in place, so you can continue to the next ticket. If the origi
 
 ## 11. Classify Work With Tags
 
-Add tags to classify tickets by type or purpose. Open the **Tag** filter in Kanban or List and select the tags you want. A ticket appears if it has any selected tag.
+Add tags to classify tickets by type or purpose. In Kanban or List, click tags in the sidebar or select them from the toolbar's **Tag** filter. Both controls share the same selection. A ticket must have any selected tag and match your other filters.
 
-- **Create a tag**: click **＋** under **Tags** in the sidebar.
-- **Change its color**: click the tag.
+- **Create a tag**: click **＋** beside **Tags** in the sidebar.
+- **Rename, recolor, or delete a tag**: click the **Manage tags** pencil beside **Tags**, then choose a tag. **Esc** cancels the edit. Press **Esc** again to exit tag management. In Group view, click a tag to edit it directly.
 - **Add it to a ticket**: choose it under **Tags** when creating or editing a ticket. To add a new name, type it and press **Enter** or choose **Create**. It appears as **Unsaved** until you save the ticket. Saving adds it to the board and to the ticket. Discarding the edit drops the draft. If saving fails, the draft stays available to retry.
 
 ## 12. Review In List View

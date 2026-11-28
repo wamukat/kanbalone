@@ -5,6 +5,8 @@ export function getAppElements() {
     boardList: document.querySelector("#board-list"),
     sidebarTagSection: document.querySelector("#sidebar-tag-section"),
     sidebarTagList: document.querySelector("#sidebar-tag-list"),
+    manageSidebarTagsButton: document.querySelector("#manage-sidebar-tags-button"),
+    sidebarTagManageHint: document.querySelector("#sidebar-tag-manage-hint"),
     newSidebarTagButton: document.querySelector("#new-sidebar-tag-button"),
     sidebarBoardSection: document.querySelector("#sidebar-board-section"),
     boardSettingsToggleButton: document.querySelector("#board-settings-toggle-button"),

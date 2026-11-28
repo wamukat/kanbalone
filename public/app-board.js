@@ -61,10 +61,7 @@ export function createBoardModule(ctx) {
       state.isRenamingBoard = false;
       state.boardRenameError = "";
       state.isCreatingLane = false;
-      state.isCreatingSidebarTag = false;
-      state.editingSidebarTagId = null;
-      state.confirmingSidebarTagDeleteId = null;
-      state.sidebarTagError = "";
+      sidebarTagsModule.renderSidebarTags();
       boardSettingsModule.syncBoardSettingsPanel();
       elements.laneBoard.className = "lane-board empty";
       elements.laneBoard.innerHTML = renderEmptyState({
@@ -119,7 +116,7 @@ export function createBoardModule(ctx) {
     isActiveGroup: groupModule.isActiveGroup,
     renderBoards: sidebarBoardsModule.renderBoards,
     renderBoardDetail,
-    renderSidebarTags: sidebarTagsModule.renderSidebarTags,
+    syncSidebarTagControls: sidebarTagsModule.syncControls,
     handleLaneDragOver: kanbanModule.handleLaneDragOver,
     createBoard: sidebarBoardsModule.createBoard,
     createLane: kanbanModule.createLane,

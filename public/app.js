@@ -282,8 +282,6 @@ async function selectBoard(boardId) {
   state.boardRenameError = "";
   state.isCreatingSidebarTag = false;
   state.editingSidebarTagId = null;
-  state.confirmingSidebarTagDeleteId = null;
-  state.sidebarTagError = "";
   restoreBoardViewMode(boardId);
   restoreBoardFilters(boardId);
   restoreBoardFilterExpansion(boardId);
@@ -524,12 +522,13 @@ function syncTicketUrl(ticketId, options) {
 }
 
 const filtersModule = createFiltersModule(
-  { state, elements },
+  { state, elements, escapeHtml },
   {
     persistUiPreferences,
     refreshBoardDetail,
     showToast,
     syncBoardUrl,
+    syncSidebarTagControls: () => boardModule.syncSidebarTagControls(),
   },
 );
 
@@ -700,12 +699,12 @@ const boardModule = createBoardModule({
   syncBoardUrl,
   syncTicketTagOptions,
   syncViewMode,
+  toggleTagFilter: filtersModule.toggleTagFilter,
 });
 
 const {
   renderBoards,
   renderBoardDetail,
-  renderSidebarTags,
   handleLaneDragOver,
   createBoard,
   createLane,

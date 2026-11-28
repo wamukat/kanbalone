@@ -44,6 +44,7 @@ test("sidebar tag create and edit stay inline", async ({ page }) => {
     await expect(badge).toBeVisible();
     await expect(badge).toHaveClass(/tag-no-color/);
 
+    await page.getByRole("button", { name: "Manage tags" }).click();
     await badge.click();
     await expect(page.locator("[data-sidebar-tag-edit-form]")).toBeVisible();
     await expect(page.locator(".sidebar-tag-preview-badge")).toHaveText("inline-tag");
