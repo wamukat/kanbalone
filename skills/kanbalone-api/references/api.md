@@ -261,12 +261,21 @@ Group support is available starting with v0.11.0; v0.10.0 does not expose these 
 - `POST /api/boards/:boardId/groups` with `{name,descriptionMarkdown?}` -> Group. Names are board-local and unique, including inactive Groups.
 - `GET /api/groups/:groupId` -> Group detail, including `revision`, counts, `descriptionMarkdown`, sanitized `descriptionHtml`; returns an `ETag`.
 - `PATCH /api/groups/:groupId` with `{name?,descriptionMarkdown?,expectedRevision}`. Omitted fields remain unchanged; an empty description clears it.
-- `DELETE /api/groups/:groupId` with `If-Match` set to the GET `ETag`. Only zero-member Groups can be deleted; archived members count. Use `curl -H 'If-Match: "REVISION"'` because the helper has no custom-header option.
+- `DELETE /api/groups/:groupId` with `If-Match` set to the GET `ETag`. Only zero-member Groups can be deleted, and archived members count.
 - `GET /api/boards/:boardId/tickets?groupId=7&archived=all` reads all members. `ungrouped=true` finds ungrouped tickets; it cannot be combined with `groupId`.
 - `POST /api/boards/:boardId/group-memberships/preview` with `{ticketIds:[101],groupId:7}` previews addition; use `groupId:null` for removal. The response identifies all affected parent/child tickets and supplies `expectedToken`.
 - `PUT /api/boards/:boardId/group-memberships` with the same body plus `expectedToken` applies atomically. Different non-null Group membership is rejected; remove then add instead. Existing membership in the same Group is a no-op.
 - `POST /api/boards/:boardId/tickets` also accepts `groupId`. With a parent, Group rules apply to the connected set. `POST /api/boards/:boardId/tickets/preview` previews this creation without inserting a ticket.
 - `POST /api/tickets/:ticketId/change-preview` accepts the intended PATCH body. Use its result when adding or changing parent/child relations.
+
+For an intended deletion of an empty Group, keep its reviewed `revision` as `REVISION`. Send it in double quotes to match the GET `ETag`.
+
+```bash
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" \
+  DELETE "/api/groups/$GROUP_ID" --header "If-Match: \"$REVISION\""
+```
+
+If deletion returns 409, re-read the Group and review its state before retrying.
 
 For atomic child editing, fetch ticket detail and retain `.editToken`. PATCH with `childTicketIds` as the complete desired set, `expectedEditToken` from that original read, and `expectedSelectedParents:[{ticketId,parentTicketId}]` for every newly added child, using the parent value observed when the child was selected. Include the body/title edits in this same request. Preview the exact body first. Do not refresh the original token immediately before saving an old child set.
 

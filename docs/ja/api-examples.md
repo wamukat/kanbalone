@@ -522,6 +522,7 @@ curl -sS --fail-with-body -X PATCH "$BASE/api/tickets/101" \
 
 競合がなければ `groupResolution` を省略し、`expectedToken` だけを追加します。previewと確定の間で編集bodyは変えません。古い状態のエラーでは、tokenだけ更新して過去の子集合を再送せず、読み直して編集内容を照合します。
 
+<a id="groupの編集削除"></a>
 ### Groupの編集・削除
 
 ```bash
@@ -535,13 +536,19 @@ curl -sS --fail-with-body -X PATCH "$BASE/api/groups/$GROUP_ID" \
 アーカイブ済みを含む所属が0件で、削除が意図した操作であることを確認してから削除します。編集するとrevisionが変わるため再取得します。
 
 ```bash
-curl -sS --fail-with-body "$BASE/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
-REVISION=$(jq -r '.revision' "$WORK_DIR/group.json")
-curl -sS --fail-with-body -X DELETE "$BASE/api/groups/$GROUP_ID" \
-  -H "If-Match: \"$REVISION\""
+HELPER="${CODEX_HOME:-$HOME/.codex}/skills/kanbalone-api/scripts/kanbalone_api.py"
+python3 "$HELPER" --base "$BASE" GET "/api/groups/$GROUP_ID" > "$WORK_DIR/group.json"
 ```
 
-非空のGroupや古いrevisionは拒否します。Groupの削除でチケットを連鎖削除しません。配布APIヘルパーは `If-Match` を指定できないため、この操作には `curl` を使います。
+取得したGroupを確認してから、revisionを二重引用符で囲んで `ETag` と同じ値を送ります。
+
+```bash
+REVISION=$(jq -r '.revision' "$WORK_DIR/group.json")
+python3 "$HELPER" --base "$BASE" DELETE "/api/groups/$GROUP_ID" \
+  --header "If-Match: \"$REVISION\""
+```
+
+サーバーは、所属チケットがあるGroupや古いrevisionでの削除を拒否します。Groupの削除でチケットを連鎖削除しません。409の場合はGroupを再取得し、内容を確認してから再試行します。
 
 ## 保存した横断ビュー
 

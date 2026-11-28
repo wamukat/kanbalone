@@ -36,6 +36,8 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PA
 python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/boards/"$BOARD_ID"/tickets '{"laneId":12,"title":"Task"}' --body-file body.md
 ```
 
+Use repeatable `--header 'Name: Value'` with a JSON argument, piped JSON, or `--body-file`. The last value for a case-insensitive name wins. This lets you override the default `Accept: application/json` and the `Content-Type: application/json` set for requests with a body. The helper trims spaces around the value and accepts empty values. It rejects invalid names, control characters, and characters outside Latin-1. Custom headers are sent only on the initial request.
+
 ## Quick Recipes
 
 ### Attribute an operation

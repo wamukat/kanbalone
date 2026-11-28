@@ -38,6 +38,8 @@ rm -rf "$tmpdir"
 
 The skill is installed on the host because Codex runs outside the Kanbalone container. It then talks to the running Kanbalone API over HTTP.
 
+The bundled API helper accepts repeatable `--header 'Name: Value'` options alongside a JSON argument, piped JSON, or a Markdown `--body-file`. Names are case-insensitive, and the last value replaces earlier values and any helper default for that name. The defaults are `Accept: application/json` and, when there is a body, `Content-Type: application/json`. Custom headers are sent only on the initial request. See the [Group deletion example](./api-examples.md#edit-or-delete-a-group) for `If-Match`.
+
 ## Recommended Workflow
 
 1. List boards first.
