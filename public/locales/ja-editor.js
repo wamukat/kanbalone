@@ -43,7 +43,6 @@ export default {
   "Child tickets": "子チケット",
   "Related tickets": "関連チケット",
   "Excerpt": "抜粋",
-  "Show full text": "全文を見る",
   "Tasks": "Task",
   "Add": "追加",
   "Add Task": "Taskを追加",
