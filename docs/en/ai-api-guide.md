@@ -340,3 +340,7 @@ Group error codes (schema validation and generic errors may omit `code`):
 | 428 | `PRECONDITION_REQUIRED` | Supply the required runtime edit/preview token or If-Match. |
 
 Saved cross-board views have separate definition and query APIs. They do not change ticket membership or workflow. See [the custom-view contract](./api-examples.md#saved-cross-board-views) for explicit empty filters, stale-page handling and optimistic saves.
+
+### Add and safely unlink MR/PR URLs
+
+For additive URL linking use `POST /api/tickets/:ticketId/change-request-links` with `{ "url": "https://github.com/owner/repo/pull/42" }`. The server generates a kind, rejects normalized duplicates with 409, and makes no external request. To unlink, send `DELETE /api/tickets/:ticketId/change-request-links/:referenceId` with `{ "expectedRevision": 0 }`, using the reference revision from your latest GET. Changed, deleted or re-added references return 409; the external MR/PR is unchanged. Legacy kind-based PUT/DELETE remain compatible; every PUT increments revision, including identical replacements.

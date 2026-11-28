@@ -333,3 +333,7 @@ For example, a rule can be `{"boardId":1,"mode":"all","tagIds":[],"laneMode":"se
 Old definitions and create/query requests without these fields default to all lanes and `position_asc`. On update, omitting `sort` retains its saved value; omitting both lane fields retains the saved lane condition for the same board. To remove a restriction, explicitly send `laneMode: "all", laneIds: []`. Send both lane fields together.
 
 Content activity advances for an actual body change or comment post/content edit, not title, tag, lane or priority changes or comment deletion. It is independent of excerpt visibility and of which comment is displayed as the latest. Historical body-edit times are unknown; migration uses recorded creation/comment times rather than the upgrade time or general ticket update time. Full DB backup restores the history; board JSON import creates new tickets/comments and starts their activity at import time.
+
+### Additive MR/PR URL linking
+
+For additive URL linking use `POST /api/tickets/:ticketId/change-request-links` with `{ "url": "https://github.com/owner/repo/pull/42" }`. The server generates a kind, rejects normalized duplicates with 409, and makes no external request. To unlink, send `DELETE /api/tickets/:ticketId/change-request-links/:referenceId` with `{ "expectedRevision": 0 }`, using the reference revision from your latest GET. Changed, deleted or re-added references return 409; the external MR/PR is unchanged. Legacy kind-based PUT/DELETE remain compatible; every PUT increments revision, including identical replacements.

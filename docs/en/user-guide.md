@@ -82,6 +82,10 @@ You can toggle Markdown checklists in the local ticket body with the mouse or **
 
 GitHub PR and GitLab MR references show compact state icons in ticket lists and details. Hover the state icon to read its state and last successful fetch time; the same details are included in its accessible name. In details, use the refresh icon beside each reference to fetch its current state. Unknown, failed and potentially stale snapshots are distinct; a failed fetch preserves the last successful state. A snapshot older than 15 minutes is marked potentially stale when the UI renders. Multiple references remain separate. Fetches are explicit, not periodic, and use the existing provider credentials.
 
+Use the link icon in the ticket detail header to add an HTTPS GitHub PR or GitLab MR URL. This is separate from importing an Issue; multiple code changes can be linked to the same local or imported ticket. Adding does not contact the provider and starts with an unfetched status. Each reference has an unlink icon and confirmation; unlinking affects only the local relationship, never the external MR/PR. Duplicate URLs are rejected, and a link changed during confirmation requires reopening. Cancel precedes Link; Ctrl/Cmd+Enter submits.
+
+Query strings, fragments, trailing slashes and GitHub project-name case are normalized. Enterprise/self-managed hosts using the same URL patterns and root-hosted APIs can be linked; status fetching uses existing host-scoped credentials. API subpaths, URL aliases, existence checks and automatic title fetching are not resolved.
+
 ### Work with Tasks
 
 Open a ticket and find **Tasks** between its description and the **Comments** and **Activity** tabs. Use the ticket body for goals, decisions and specifications. Use comments for discussion and reports. Use a Task for a specific correction, review finding or check. Use a child ticket for work that needs a separate lane or priority.

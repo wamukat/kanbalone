@@ -1,5 +1,20 @@
 // UI strings only; user-authored content and API values remain unchanged.
 export default {
+  "Link to unlink:": "解除する紐づけ:",
+  "Link MR/PR": "MR/PRを紐づけ",
+  "Unlink MR/PR": "MR/PRの紐づけを解除",
+  "Link": "紐づけ",
+  "Unlink": "解除",
+  "MR/PR URL": "MR/PRのURL",
+  "Unlink {ref}": "{ref}の紐づけを解除",
+  "Remove only the link from this ticket. The external MR/PR will not be deleted.": "このチケットとの紐づけだけを解除します。外部のMR/PRは削除されません。",
+  "Link a GitHub PR or GitLab MR. This does not import an Issue or fetch its status.": "GitHub PRまたはGitLab MRを紐づけます。Issueの取り込みや状態取得は行いません。",
+  "Enter a GitHub PR or GitLab MR URL using HTTPS.": "HTTPSのGitHub PRまたはGitLab MRのURLを入力してください。",
+  "This MR/PR is already linked to this ticket.": "このMR/PRは既にこのチケットに紐づいています。",
+  "This link changed. Cancel and reopen the confirmation.": "紐づけが変更されました。キャンセルして確認画面を開き直してください。",
+  "This ticket changed. Close and reopen the dialog.": "対象チケットが変わりました。ダイアログを開き直してください。",
+  "Link saved, but the view could not refresh. Reload to continue.": "紐づけの変更は保存されましたが、表示を更新できませんでした。再読み込みしてください。",
+
   "Retry": "再試行",
   "Archive notifications": "アーカイブ通知",
   "Dismiss notification": "通知を閉じる",

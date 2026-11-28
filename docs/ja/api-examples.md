@@ -592,3 +592,7 @@ catalog は各ボードの `lanes` もレーン順に返します。各ruleに `
 旧定義と新規作成/queryで項目を省略した場合は、全レーン・`position_asc` が既定です。更新で `sort` を省略すると保存値を保ち、両レーン項目を省略すると同じボードの保存済み条件を保ちます。解除は `laneMode: "all", laneIds: []` を明示し、レーン項目は2つをセットで指定してください。
 
 内容の更新時刻を進めるのは本文の実変更とコメント投稿・内容編集です。タイトル・タグ・レーン・優先度の変更やコメント削除では進めません。抜粋の表示状態や「最終コメント」として表示するコメントの選択とも独立です。過去の本文編集時刻は不明なので、移行時は記録済みの作成/コメント時刻を使い、移行日時や一般的な課題更新日時で代用しません。DB全体の復元では履歴を保ち、ボードJSONのインポートでは課題/コメントを新規作成し、取り込み時刻から開始します。
+
+### MR/PR URLの追加と安全な解除
+
+URLから既存参照を上書きせず追加するには `POST /api/tickets/:ticketId/change-request-links` に `{ "url": "https://github.com/owner/repo/pull/42" }` を送ります。正規化重複は409、外部通信なし、kindは内部生成です。解除は `DELETE /api/tickets/:ticketId/change-request-links/:referenceId` と `{ "expectedRevision": 0 }`。直前GETで得た参照の `revision` を使います。参照の変更・削除・再追加は409で拒否し、外部MR/PR自体は変更しません。従来のkind指定PUT/DELETEは互換のままで、PUTは同値でもrevisionを増やします。

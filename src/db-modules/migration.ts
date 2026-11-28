@@ -210,6 +210,10 @@ export function migrate(sqlite: Database.Database): void {
     ON activity_logs(ticket_id, created_at, id);
   `);
 
+  const referenceColumns = sqlite.prepare("PRAGMA table_info(ticket_external_references)").all() as Array<{name:string}>;
+  if (!referenceColumns.some(column => column.name === "revision")) {
+    sqlite.exec("ALTER TABLE ticket_external_references ADD COLUMN revision INTEGER NOT NULL DEFAULT 0");
+  }
   let ticketColumns = sqlite.prepare("PRAGMA table_info(tickets)").all() as Array<{ name: string }>;
   if (ticketColumns.some((column) => column.name === "is_completed")
     && !ticketColumns.some((column) => column.name === "is_resolved")) {

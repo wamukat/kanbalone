@@ -69,6 +69,7 @@ export function upsertTicketExternalReference(
       updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(ticket_id, kind) DO UPDATE SET
+      revision = ticket_external_references.revision + 1,
       provider = excluded.provider,
       instance_url = excluded.instance_url,
       resource_type = excluded.resource_type,
@@ -116,6 +117,7 @@ export function deleteTicketExternalReference(
 function mapTicketExternalReference(row: TicketExternalReferenceRow): TicketExternalReferenceView {
   return {
     id: row.id,
+    revision: row.revision,
     ticketId: row.ticket_id,
     kind: row.kind,
     provider: row.provider,
