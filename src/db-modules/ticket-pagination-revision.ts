@@ -59,7 +59,7 @@ export function migrateTicketPagination(sqlite: Database.Database): void {
   const boardChanged = "OLD.name IS NOT NEW.name";
   sqlite.exec(`CREATE TRIGGER IF NOT EXISTS ticket_list_board_update BEFORE UPDATE ON boards WHEN ${boardChanged}
     BEGIN UPDATE ticket_list_revisions SET revision = revision + 1 WHERE board_id = OLD.id; END;`);
-  for (const table of ["ticket_tags", "ticket_remote_links", "ticket_external_references", "ticket_tag_reasons"])
+  for (const table of ["ticket_tags", "ticket_remote_links", "ticket_external_references", "ticket_external_reference_status", "ticket_tag_reasons"])
     install(table, p => affectedTickets(`${p}.ticket_id`), true);
   install("ticket_blockers", p => affectedTickets(`${p}.ticket_id, ${p}.blocker_ticket_id`), true);
   install("ticket_related_links", p => affectedTickets(`${p}.ticket_id, ${p}.related_ticket_id`), true);

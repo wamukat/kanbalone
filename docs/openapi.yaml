@@ -1641,6 +1641,43 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/external-references/{kind}/refresh:
+    post:
+      summary: Fetch a linked GitHub PR or GitLab MR status
+      operationId: refreshTicketChangeRequestStatus
+      description: Explicit server-side fetch using configured provider credentials. No polling or issue import. Replacing the reference or starting a newer refresh invalidates a pending result. Failed fetches retain the previous successful state and record a sanitized error.
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - name: kind
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Updated ticket with cached changeRequestStatus
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Ticket" }
+        "400":
+          description: Unsupported change request reference
+          content:
+            application/json:
+              schema: { type: object, required: [error], properties: { error: { type: string } } }
+        "404":
+          description: Reference not found
+          content:
+            application/json:
+              schema: { type: object, required: [error], properties: { error: { type: string } } }
+        "409":
+          description: Reference changed or a newer refresh superseded this request
+          content:
+            application/json:
+              schema: { type: object, required: [error], properties: { error: { type: string } } }
+        "502":
+          description: Provider fetch failed; inspect the reference status for its retained snapshot and error
+          content:
+            application/json:
+              schema: { type: object, required: [error], properties: { error: { type: string } } }
   /api/tickets/{ticketId}/external-references/{kind}:
     put:
       summary: Set external ticket reference
@@ -3666,6 +3703,16 @@ components:
         url: { type: string }
         title:
           type: [string, "null"]
+        changeRequestStatus:
+          type: [object, "null"]
+          description: Last explicit fetch. Null means no attempt since the reference was set. Never supplied by PUT.
+          properties:
+            state: { type: [string, "null"], enum: [open, closed, merged, null] }
+            isDraft: { type: boolean }
+            fetchedAt: { type: [string, "null"], format: date-time }
+            attemptedAt: { type: string, format: date-time }
+            error: { type: [string, "null"] }
+          required: [state, isDraft, fetchedAt, attemptedAt, error]
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
       required: [id, ticketId, kind, provider, instanceUrl, resourceType, projectKey, issueKey, displayRef, url, title, createdAt, updatedAt]

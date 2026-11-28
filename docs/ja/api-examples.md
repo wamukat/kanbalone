@@ -388,7 +388,7 @@ curl -s -X PATCH http://127.0.0.1:3000/api/tickets/6/transition \
 
 ### MR/PRを外部参照として登録する
 
-`PUT /api/tickets/:ticketId/external-references/:kind` を使います。PRは `resourceType: "pull_request"`、MRは `resourceType: "merge_request"` とし、`provider`・`instanceUrl`・`projectKey`・`issueKey`・`displayRef`・`url` を指定します。同じチケットの同じ `kind` は置換されるため、複数登録する場合は `pr-main` / `mr-followup` など別のkindを使います。取得はチケットの `externalReferences` を参照します。現時点ではリンク登録・表示のみで、open/mergedの取得や自動更新は行いません。
+`PUT /api/tickets/:ticketId/external-references/:kind` を使います。PRは `resourceType: "pull_request"`、MRは `resourceType: "merge_request"` とし、`provider`・`instanceUrl`・`projectKey`・`issueKey`・`displayRef`・`url` を指定します。同じチケットの同じ `kind` は置換されるため、複数登録する場合は `pr-main` / `mr-followup` など別のkindを使います。取得はチケットの `externalReferences` を参照します。GitHubのPRとGitLabのMRは `POST /api/tickets/:ticketId/external-references/:kind/refresh` でKanbaloneが既存の認証設定を使って状態を取得します。呼出側から状態値を送る方式ではなく、定期取得も行いません。`changeRequestStatus` は `state`（`open` / `closed` / `merged` / null）、`isDraft`、`fetchedAt`、`attemptedAt`、秘匿化した `error` を返します。snapshotがnullならリンク設定後の取得試行がありません。取得失敗は502を返し前回成功状態を保持するため、GETで確認してください。後続の取得や参照変更で古くなった応答は409です。同じURLでもPUTすると取得状態をリセットします。追跡Issueインポートへ変換することはありません。
 
 ```bash
 curl -sG http://127.0.0.1:3000/api/boards/3/tickets \

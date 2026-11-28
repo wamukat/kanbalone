@@ -1,4 +1,4 @@
-import type { TicketRemoteLinkView } from "../types.js";
+import type { TicketRemoteLinkView, TicketExternalReferenceView } from "../types.js";
 
 export type RemoteIssueSnapshot = {
   provider: string;
@@ -27,7 +27,10 @@ export type RemoteCommentPushResult = {
   pushedAt: string;
 };
 
+export type ChangeRequestSnapshot = { state: "open" | "closed" | "merged"; isDraft: boolean };
+
 export interface RemoteIssueAdapter {
+  fetchChangeRequest?(reference: TicketExternalReferenceView): Promise<ChangeRequestSnapshot>;
   readonly provider: string;
   fetchIssue(input: RemoteIssueLookup): Promise<RemoteIssueSnapshot>;
   refreshIssue(link: TicketRemoteLinkView): Promise<RemoteIssueSnapshot>;

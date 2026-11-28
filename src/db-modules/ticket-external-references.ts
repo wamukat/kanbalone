@@ -25,10 +25,11 @@ export function getExternalReferencesForTicketIds(
   }
   const placeholders = ticketIds.map(() => "?").join(", ");
   const rows = sqlite.prepare(`
-    SELECT *
-    FROM ticket_external_references
-    WHERE ticket_id IN (${placeholders})
-    ORDER BY ticket_id ASC, kind ASC, id ASC
+    SELECT r.*, s.state AS change_state, s.is_draft AS change_draft,
+      s.fetched_at AS change_fetched, s.attempted_at AS change_attempted, s.last_error AS change_error
+    FROM ticket_external_references r LEFT JOIN ticket_external_reference_status s ON s.reference_id=r.id
+    WHERE r.ticket_id IN (${placeholders})
+    ORDER BY r.ticket_id ASC, r.kind ASC, r.id ASC
   `).all(...ticketIds) as TicketExternalReferenceRow[];
   for (const row of rows) {
     const current = referencesByTicket.get(row.ticket_id) ?? [];
@@ -96,6 +97,7 @@ export function upsertTicketExternalReference(
     FROM ticket_external_references
     WHERE ticket_id = ? AND kind = ?
   `).get(input.ticketId, kind) as TicketExternalReferenceRow;
+  sqlite.prepare("DELETE FROM ticket_external_reference_status WHERE reference_id=?").run(row.id);
   return mapTicketExternalReference(row);
 }
 
@@ -126,6 +128,11 @@ function mapTicketExternalReference(row: TicketExternalReferenceRow): TicketExte
     title: row.remote_title,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    changeRequestStatus: row.change_attempted ? {
+      state: row.change_state ?? null, isDraft: Boolean(row.change_draft),
+      fetchedAt: row.change_fetched ?? null, attemptedAt: row.change_attempted,
+      error: row.change_error ?? null,
+    } : null,
   };
 }
 

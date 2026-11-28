@@ -96,6 +96,14 @@ export type TicketRemoteLinkRow = {
   updated_at: string;
 };
 
+export type ChangeRequestStatus = {
+  state: "open" | "closed" | "merged" | null;
+  isDraft: boolean;
+  fetchedAt: string | null;
+  attemptedAt: string;
+  error: string | null;
+};
+
 export type TicketExternalReferenceRow = {
   id: Id;
   ticket_id: Id;
@@ -110,6 +118,11 @@ export type TicketExternalReferenceRow = {
   remote_title: string | null;
   created_at: string;
   updated_at: string;
+  change_state?: "open" | "closed" | "merged" | null;
+  change_draft?: number;
+  change_fetched?: string | null;
+  change_attempted?: string | null;
+  change_error?: string | null;
 };
 
 export type CommentRemoteSyncRow = {
@@ -331,6 +344,7 @@ export type TicketExternalReferenceView = {
   title: string | null;
   createdAt: string;
   updatedAt: string;
+  changeRequestStatus?: ChangeRequestStatus | null;
 };
 
 export type CommentRemoteSyncView = {

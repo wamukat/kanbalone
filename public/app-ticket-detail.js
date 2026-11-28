@@ -9,7 +9,10 @@ export function createTicketDetailModule(ctx) {
   const { state, elements } = ctx;
   let activeInlineEdit = null;
   let expandedStateAction = null;
-  const renderers = createTicketDetailRenderers(ctx);
+  const pendingExternalReferences = new Set();
+  const renderers = createTicketDetailRenderers({ ...ctx,
+    isExternalReferenceRefreshing: kind => pendingExternalReferences.has(`${state.dialogTicket?.id}:${kind}`),
+  });
   const bodyInput = () => elements.ticketViewBody.querySelector("[data-detail-body-input]");
 
   function resetInlineEdit() {
@@ -412,6 +415,43 @@ export function createTicketDetailModule(ctx) {
     }
   }
 
+  function syncExternalReferenceButtons() {
+    for (const button of elements.ticketRemoteSummary.querySelectorAll("[data-refresh-external-reference]")) {
+      const pending = pendingExternalReferences.has(`${state.dialogTicket?.id}:${button.dataset.refreshExternalReference}`);
+      button.disabled = pending;
+      button.setAttribute("aria-busy", String(pending));
+    }
+  }
+
+  async function refreshExternalReference(kind) {
+    const ticket = state.dialogTicket;
+    if (!ticket) return;
+    const key = `${ticket.id}:${kind}`;
+    if (pendingExternalReferences.has(key)) return;
+    const isCurrent = ctx.captureDialogScope();
+    const restoreFocus = document.activeElement?.matches("[data-refresh-external-reference]");
+    if (restoreFocus) document.activeElement.blur();
+    pendingExternalReferences.add(key);
+    syncExternalReferenceButtons();
+    try {
+      const updated = await ctx.api(`/api/tickets/${ticket.id}/external-references/${encodeURIComponent(kind)}/refresh`, { method: "POST" });
+      if (isCurrent()) await ctx.refreshDialogTicket(ticket.id, updated, { onlyIfPristine: true });
+      await ctx.refreshBoardDetail();
+    } catch (error) {
+      if (isCurrent()) {
+        ctx.showToast(error.message, "error");
+        await ctx.refreshDialogTicket(ticket.id, null, { onlyIfPristine: true }).catch(() => {});
+      }
+    } finally {
+      pendingExternalReferences.delete(key);
+      syncExternalReferenceButtons();
+      if (restoreFocus && isCurrent() && document.activeElement === document.body) {
+        [...elements.ticketRemoteSummary.querySelectorAll("[data-refresh-external-reference]")]
+          .find(button => button.dataset.refreshExternalReference === kind)?.focus();
+      }
+    }
+  }
+
   async function refreshRemoteTicket() {
     if (!state.dialogTicket?.id) {
       return;
@@ -438,6 +478,8 @@ export function createTicketDetailModule(ctx) {
     }
     const groupLink = target.closest("[data-ticket-group]");
     if (groupLink) { event.preventDefault(); ctx.openGroup?.(Number(groupLink.getAttribute("data-ticket-group"))).catch(error => ctx.showToast(error.message, "error")); return; }
+    const externalRefresh = target.closest("[data-refresh-external-reference]");
+    if (externalRefresh) { await refreshExternalReference(externalRefresh.dataset.refreshExternalReference); return; }
     const bodyTab = target.closest("[data-ticket-body-tab]");
     if (bodyTab) {
       setBodyTab(bodyTab.getAttribute("data-ticket-body-tab") ?? "local");

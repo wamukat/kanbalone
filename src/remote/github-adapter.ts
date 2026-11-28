@@ -1,7 +1,7 @@
-import type { RemoteCommentPushResult, RemoteIssueAdapter, RemoteIssueLookup, RemoteIssueSnapshot } from "./adapters.js";
+import type { ChangeRequestSnapshot, RemoteCommentPushResult, RemoteIssueAdapter, RemoteIssueLookup, RemoteIssueSnapshot } from "./adapters.js";
 import { EnvRemoteCredentialResolver, type RemoteCredentialResolver } from "./credentials.js";
 import { fetchRemoteJson } from "./http.js";
-import type { TicketRemoteLinkView } from "../types.js";
+import type { TicketRemoteLinkView, TicketExternalReferenceView } from "../types.js";
 
 type GithubIssueResponse = {
   number: number;
@@ -41,6 +41,16 @@ export class GithubIssueAdapter implements RemoteIssueAdapter {
       state: issue.state,
       updatedAt: issue.updated_at,
     };
+  }
+
+  async fetchChangeRequest(reference: TicketExternalReferenceView): Promise<ChangeRequestSnapshot> {
+    if (!/^[^/]+\/[^/]+$/.test(reference.projectKey) || !/^[1-9]\d*$/.test(reference.issueKey)) throw new Error("Invalid pull request reference");
+    const project = reference.projectKey.split("/").map(encodeURIComponent).join("/");
+    const result = await this.fetchJson<{ state: string; merged: boolean; draft?: boolean }>(
+      `${normalizeGithubApiBase(reference.instanceUrl)}/repos/${project}/pulls/${reference.issueKey}`,
+      reference.instanceUrl, { redirect: "error" }, { maxRetries: 0 });
+    if (!["open", "closed"].includes(result.state) || typeof result.merged !== "boolean") throw new Error("Invalid pull request response");
+    return { state: result.merged ? "merged" : result.state as "open" | "closed", isDraft: result.draft === true };
   }
 
   refreshIssue(link: TicketRemoteLinkView): Promise<RemoteIssueSnapshot> {

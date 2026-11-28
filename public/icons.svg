@@ -174,4 +174,10 @@
   <symbol id="list-checks" viewBox="0 0 24 24">
     <path d="m3 6 2 2 4-4M13 6h8M3 16l2 2 4-4M13 16h8" />
   </symbol>
+  <symbol id="git-pull-request" viewBox="0 0 24 24">
+    <circle cx="6" cy="5" r="3"/><circle cx="18" cy="19" r="3"/><path d="M6 8v13M18 16V9a4 4 0 0 0-4-4h-2m3-3-3 3 3 3"/>
+  </symbol>
+  <symbol id="git-merge" viewBox="0 0 24 24">
+    <circle cx="6" cy="5" r="3"/><circle cx="6" cy="19" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 8v8m12-7a10 10 0 0 1-12 7"/>
+  </symbol>
 </svg>

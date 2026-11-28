@@ -103,6 +103,17 @@ export function migrate(sqlite: Database.Database): void {
       updated_at TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS ticket_external_reference_status (
+      reference_id INTEGER PRIMARY KEY REFERENCES ticket_external_references(id) ON DELETE CASCADE,
+      ticket_id INTEGER NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+      request_token TEXT NOT NULL,
+      state TEXT CHECK (state IN ('open','closed','merged')),
+      is_draft INTEGER NOT NULL DEFAULT 0,
+      fetched_at TEXT,
+      attempted_at TEXT NOT NULL,
+      last_error TEXT
+    );
+
     CREATE TABLE IF NOT EXISTS comment_remote_sync (
       comment_id INTEGER PRIMARY KEY REFERENCES comments(id) ON DELETE CASCADE,
       status TEXT NOT NULL,
