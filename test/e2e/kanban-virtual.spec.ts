@@ -227,10 +227,12 @@ test("virtual Kanban saves logical same-lane, cross-lane and completion drops", 
     await beginCardDrag(page, sourceId, small.id);
     await page.mouse.up();
     await expect.poll(async () => (await f.ordered(f.small))[0]?.id).toBe(sourceId);
+    await expect(lane(page, f.small).locator(".ticket-card").first()).toHaveAttribute("data-ticket-id", String(sourceId));
     const [target] = await f.ordered(f.target);
     await beginCardDrag(page, sourceId, target.id);
     await page.mouse.up();
     await expect.poll(async () => (await f.ordered(f.target))[0]?.id).toBe(sourceId);
+    await expect(lane(page, f.target).locator(".ticket-card").first()).toHaveAttribute("data-ticket-id", String(sourceId));
     const doneId = Number(await lane(page, f.done).locator(".ticket-card").first().getAttribute("data-ticket-id"));
     await beginCardDrag(page, sourceId, doneId);
     await page.mouse.up();
