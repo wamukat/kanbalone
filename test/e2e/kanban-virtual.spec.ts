@@ -401,6 +401,7 @@ test("drag scroll keeps the native source mounted and uses logical neighbors acr
     expect((await request).postDataJSON()).toEqual({
       laneId: f.target, position: storedOrder.indexOf(before), afterTicketId: previous, beforeTicketId: before,
       expectedSourceLaneId: f.source, expectedSourcePosition: sourcePosition, expectedAnchorOrder: "after-before",
+      updater: "画面",
     });
     await expect.poll(async () => {
       const ids = (await f.ordered(f.target)).map(ticket => ticket.id);
