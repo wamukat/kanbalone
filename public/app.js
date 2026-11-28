@@ -554,6 +554,7 @@ const {
   {
     refreshBoardDetail,
     refreshTicketTasks: () => editorModule.refreshTicketTasks(),
+    checkTicketVisitUpdate: () => editorModule.checkTicketVisitUpdate(),
   },
 );
 
@@ -714,6 +715,7 @@ const {
 } = boardModule;
 
 const customViews = createCustomViews({
+  checkTicketVisitUpdate: () => editorModule.checkTicketVisitUpdate(),
   api, sendJson, escapeHtml, elements, state, showToast, confirmAndRun,
   beginBoardOverride, endBoardOverride, returnToBoard, requestCloseEditor, confirmDiscardChanges,
   openEditor: (ticketId, isCurrent) => openEditor(ticketId, "view", null, null, isCurrent),

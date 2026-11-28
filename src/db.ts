@@ -4,6 +4,7 @@ import { setCompletionLanes, type CompletionLaneExpectation } from "./db-modules
 import { reorderLaneTickets as reorderLaneTicketRecords } from "./db-modules/ticket-positioning.js";
 import { AttachmentStore } from "./attachments.js";
 import Database from "better-sqlite3";
+import { getTicketChangeSnapshot, hasRemovedActivity, ticketChangeSeries, type ActivityInterval } from "./db-modules/ticket-change-snapshot.js";
 
 import {
   createBoard as createBoardRecord,
@@ -126,6 +127,7 @@ import {
 export class KanbanDb {
   readonly sqlite: Database.Database;
   readonly attachments: AttachmentStore;
+  readonly visitSeries: string;
 
   constructor(filename: string) {
     this.sqlite = new Database(filename);
@@ -133,7 +135,10 @@ export class KanbanDb {
     this.sqlite.pragma("journal_mode = WAL");
     this.sqlite.pragma("foreign_keys = ON");
     try {
-      this.sqlite.transaction(() => migrate(this.sqlite)).immediate();
+      this.visitSeries = this.sqlite.transaction(() => {
+        migrate(this.sqlite);
+        return ticketChangeSeries(this.sqlite);
+      }).immediate();
     } catch (error) {
       this.sqlite.close();
       throw error;
@@ -324,6 +329,10 @@ export class KanbanDb {
     return getTicketRecord(this.sqlite, ticketId);
   }
 
+  getTicketChangeSnapshot(ticketId: Id) {
+    return getTicketChangeSnapshot(this.sqlite, ticketId, this.visitSeries);
+  }
+
   createTicket(input: CreateTicketInput): TicketView {
     return createTicketRecord(this.sqlite, input, this.now.bind(this));
   }
@@ -475,6 +484,14 @@ export class KanbanDb {
 
   listActivity(ticketId: Id, compact = false): ActivityLogView[] {
     return listActivity(this.sqlite, ticketId, compact);
+  }
+
+  listActivityInterval(ticketId: Id, compact: boolean, interval: ActivityInterval) {
+    return this.sqlite.transaction(() => ({
+      activity: listActivity(this.sqlite, ticketId, compact, interval),
+      series: this.visitSeries,
+      historyPossiblyIncomplete: interval.after < interval.through && hasRemovedActivity(this.sqlite, ticketId, interval.after),
+    }))();
   }
 
   getActivity(ticketId: Id, activityId: Id): ActivityLogView | null {

@@ -65,13 +65,68 @@ export function createTicketDetailModule(ctx) {
     syncActivity(activity, events);
   }
 
+  let activityInterval;
+
+  function renderActivityView() {
+    const comments = state.dialogTicket?.comments ?? [];
+    if (!activityInterval) {
+      elements.ticketActivity.innerHTML = renderers.renderActivity(state.dialogActivity, state.dialogEvents, comments);
+      return;
+    }
+    const { loading, activity, historyPossiblyIncomplete } = activityInterval;
+    const context = `<div class="ticket-visit-activity-heading"><strong>${t("Activity between these views")}</strong>
+      <button type="button" class="ghost ticket-visit-link" data-ticket-show-all-activity>${t("Show all activity")}</button></div>`;
+    const status = loading ? t("Loading activity…") : activity === null ? t("Could not load activity for this comparison.") :
+      historyPossiblyIncomplete ? t("Some activity in this interval may no longer be available.") :
+      activity.length === 0 ? t("No recorded activity between these views.") : "";
+    elements.ticketActivity.innerHTML = context +
+      (status ? `<p class="muted" role="status">${status}</p>` : "") +
+      (activity?.length ? renderers.renderActivity(activity, [], comments, true) : "");
+  }
+
   function syncActivity(activity, events = state.dialogEvents) {
     state.dialogActivity = activity;
     state.dialogEvents = events;
-    elements.ticketActivity.innerHTML = renderers.renderActivity(activity, events, state.dialogTicket?.comments ?? []);
+    renderActivityView();
+  }
+
+  function clearActivityInterval() {
+    if (!activityInterval) return;
+    activityInterval = undefined;
+    renderActivityView();
+  }
+
+  async function openVisitActivity(result) {
+    setDetailTab("activity");
+    if (!result?.before || !result.current) {
+      clearActivityInterval();
+      return;
+    }
+    const { before, current } = result;
+    const scope = { loading: true, series: current.series };
+    activityInterval = scope;
+    renderActivityView();
+    const isCurrent = () => scope === activityInterval && current.ticketId === state.dialogTicket?.id && ctx.isDialogCurrent();
+    try {
+      const query = new URLSearchParams({ compact: "true", after: before.activityThrough, through: current.activityThrough });
+      const payload = await ctx.api(`/api/tickets/${current.ticketId}/activity?${query}`);
+      if (!isCurrent()) return;
+      scope.activity = payload.series === scope.series ? payload.activity : null;
+      scope.historyPossiblyIncomplete = payload.historyPossiblyIncomplete;
+    } catch {
+      if (!isCurrent()) return;
+      scope.activity = null;
+    }
+    scope.loading = false;
+    renderActivityView();
   }
 
   elements.ticketActivity.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("[data-ticket-show-all-activity]")) {
+      clearActivityInterval();
+      elements.activityTabButton.focus({ preventScroll: true });
+      return;
+    }
     const link = event.target instanceof Element ? event.target.closest("[data-activity-comment-id]") : null;
     if (!link || !ctx.isDialogCurrent()) return;
     const id = Number(link.getAttribute("data-activity-comment-id"));
@@ -94,7 +149,9 @@ export function createTicketDetailModule(ctx) {
     disclosure.dataset.activityDetailState = "loading";
     panel.textContent = t("Loading recorded text...");
     try {
-      const entry = await ctx.api(`/api/tickets/${ticketId}/activity/${activityId}`);
+      const series = activityInterval?.series;
+      const query = series ? "?" + new URLSearchParams({ series }) : "";
+      const entry = await ctx.api(`/api/tickets/${ticketId}/activity/${activityId}${query}`);
       if (!isCurrent()) return;
       if (entry.id !== activityId || entry.subjectTicketId !== ticketId) throw new Error("Unexpected activity");
       panel.innerHTML = renderRecordedText(readRecordedText(entry), ctx.escapeHtml);
@@ -444,6 +501,8 @@ export function createTicketDetailModule(ctx) {
     hasUnsavedBody,
     setBodyTab,
     setDetailTab,
+    clearActivityInterval,
+    openVisitActivity,
     handleDetailChange,
     handleDetailClick,
     handleDetailFocusout,

@@ -161,7 +161,10 @@ export function createCustomViews(ctx) {
   function connect() {
     if (source || !globalThis.EventSource) return;
     source = new EventSource(`${base}/events`);
-    source.onmessage = schedule;
+    source.onmessage = () => {
+      if (active && elements.editorDialog.open) ctx.checkTicketVisitUpdate?.();
+      schedule();
+    };
     source.onopen = schedule;
   }
 

@@ -26,5 +26,7 @@ export const activityLogsResponseSchema = {
       type: "array",
       items: activityLogViewSchema,
     },
+    historyPossiblyIncomplete: { type: "boolean" },
+    series: { type: "string" },
   },
 } as const;

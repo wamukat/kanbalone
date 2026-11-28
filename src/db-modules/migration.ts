@@ -2,6 +2,7 @@ import { migrateTicketPagination } from "./ticket-pagination-revision.js";
 import { migrateTicketTasks } from "./ticket-tasks.js";
 import { migrateCustomViews } from "./custom-views.js";
 import { migrateTicketContentActivity } from "./ticket-content-activity.js";
+import { migrateTicketChangeSnapshots } from "./ticket-change-snapshot.js";
 import { migrateGroups } from "./groups.js";
 import type Database from "better-sqlite3";
 
@@ -312,6 +313,7 @@ export function migrate(sqlite: Database.Database): void {
   migrateTicketPagination(sqlite);
   migrateCustomViews(sqlite);
   migrateTicketContentActivity(sqlite);
+  migrateTicketChangeSnapshots(sqlite);
 }
 
 function ensureTicketRemoteLinksShape(sqlite: Database.Database): void {
