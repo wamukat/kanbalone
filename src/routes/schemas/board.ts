@@ -50,6 +50,7 @@ export const boardCreateBodySchema = {
   additionalProperties: false,
   properties: {
     name: { type: "string", minLength: 1 },
+    defaultLaneLanguage: { type: "string", enum: ["en", "ja"] },
     laneNames: {
       type: "array",
       items: { type: "string", minLength: 1 },

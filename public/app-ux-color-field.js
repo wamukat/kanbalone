@@ -8,11 +8,12 @@ export function renderUxColorField(field, escapeHtml) {
   const noColorClass = colorEnabled ? "" : " is-color-none";
   return `
     <div class="ux-field ux-color-field">
-      <label for="${inputId}">${escapeHtml(field.label)}</label>
+      <label for="${field.allowNone ? `${inputId}-enabled` : inputId}">${escapeHtml(field.allowNone ? t("Use color") : field.label)}</label>
       <span class="ux-color-row">
         ${field.allowNone ? `
           <label class="ux-color-enable-switch" title="${t("Use color")}">
             <input
+              id="${inputId}-enabled"
               class="toggle-switch-input"
               data-color-enabled-for="${fieldId}"
               type="checkbox"
@@ -28,6 +29,7 @@ export function renderUxColorField(field, escapeHtml) {
           id="${inputId}"
           data-field-id="${fieldId}"
           data-field-label="${escapeHtml(field.label)}"
+          aria-label="${escapeHtml(t("{label} (HEX)", { label: field.label }))}"
           data-field-type="color"
           type="text"
           value="${escapeHtml(hexValue)}"

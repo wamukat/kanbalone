@@ -131,7 +131,7 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
     return `<div data-group-row-id="${t.id}" class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
     <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: rowIcon })}${taskCount ? `<div class="ticket-title-stack">${title}${taskCount}</div>` : title}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: rowIcon })}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
-    ${canRemove ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${rowIcon("trash-2")}</button>` : ""}
+    ${canRemove ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${rowIcon("folder-minus")}</button>` : ""}
     ${t.tags.length ? `<div class="tag-list group-ticket-tags">${t.tags.map((tag) => renderTag(tag, esc)).join("")}</div>` : ""}
   </div>`;
   }
@@ -195,7 +195,7 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
       })
       .join(
         "",
-      )}</div><input id="group-ticket-search" role="combobox" aria-autocomplete="list" aria-controls="group-ticket-options" aria-expanded="${!!query.trim()}" autocomplete="off" placeholder="${tr("Title or #123")}" value="${esc(query)}"><div id="group-ticket-options" class="group-ticket-options" role="listbox" aria-label="${tr("Unassigned tickets")}">${optionsHtml()}</div><div class="group-actions"><button type="submit" class="primary-action" ${!count || busy ? "disabled" : ""}>${tr("Add {count} tickets", { count: count || "" })}</button><button type="button" class="ghost" data-group-action="cancel-add">${tr("Cancel")}</button></div></form>`;
+      )}</div><input id="group-ticket-search" role="combobox" aria-autocomplete="list" aria-controls="group-ticket-options" aria-expanded="${!!query.trim()}" autocomplete="off" placeholder="${tr("Title or #123")}" value="${esc(query)}"><div id="group-ticket-options" class="group-ticket-options" role="listbox" aria-label="${tr("Unassigned tickets")}">${optionsHtml()}</div><div class="group-actions"><button type="submit" class="primary-action" ${!count || busy ? "disabled" : ""}>${count === 0 ? tr("Add tickets") : count === 1 ? tr("Add ticket") : tr("Add {count} tickets", { count })}</button><button type="button" class="ghost" data-group-action="cancel-add">${tr("Cancel")}</button></div></form>`;
   }
   /** @param {string} value */
   function sortButtons(value) {
@@ -256,7 +256,7 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
     }
     return [
       '<div class="group-detail-heading"><h3>',
-      `<button class="ghost group-name" data-group-action="rename" title="${tr("Rename Group")}">${esc(group.name)}</button></h3>`,
+      `<button class="ghost group-name" data-group-action="rename" title="${tr("Rename Group")}" aria-label="${esc(tr("Rename Group"))}: ${esc(group.name)}">${esc(group.name)}${icon("pencil")}</button></h3>`,
       `<span class="muted group-ticket-count">${counts(group)}</span></div>`,
     ].join("");
   }

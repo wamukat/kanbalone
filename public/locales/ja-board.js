@@ -1,4 +1,6 @@
 export default {
+  "Add tickets": "チケットを追加",
+  "Add ticket": "チケットを1件追加",
   "Change lane": "レーンを変更",
   "Current": "現在",
   "The board changed. Close this dialog and try again.": "ボードが変わりました。この画面を閉じてやり直してください。",

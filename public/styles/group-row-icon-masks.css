@@ -25,3 +25,6 @@
 .group-row-icon[data-group-row-icon="trash-2"] {
   mask-image: url("../group-row-icons/trash-2.svg");
 }
+.group-row-icon[data-group-row-icon="folder-minus"] {
+  mask-image: url("../group-row-icons/folder-minus.svg");
+}

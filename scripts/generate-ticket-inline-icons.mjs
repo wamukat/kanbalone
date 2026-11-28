@@ -4,9 +4,9 @@ import path from "node:path";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(root, "public/icons.svg"), "utf8");
-const groupRowNames = ["folder-up", "folder-tree", "ticket", "check", "archive", "trash-2"];
+const groupRowNames = ["folder-up", "folder-tree", "ticket", "check", "archive", "trash-2", "folder-minus"];
 const kanbanOnlyNames = ["priority-low", "priority-medium", "priority-high", "circle-alert", "octagon-alert", "lock", "list-checks"];
-const kanbanCardNames = [...groupRowNames.filter(name => name !== "trash-2"), ...kanbanOnlyNames];
+const kanbanCardNames = [...groupRowNames.filter(name => name !== "trash-2" && name !== "folder-minus"), ...kanbanOnlyNames];
 const names = [...groupRowNames, ...kanbanOnlyNames];
 const symbols = new Map(names.map(name => {
   const match = source.match(new RegExp(`<symbol id="${name}" viewBox="([^"]+)">([\\s\\S]*?)<\\/symbol>`));
