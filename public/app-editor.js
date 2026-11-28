@@ -142,6 +142,31 @@ export function createEditorModule(ctx) {
 
   const actionsModule = createTicketActionsModule(ctx, {
     captureDialogScope,
+    reviewTicket: async (id) => {
+      const current = captureDialogScope();
+      const hadDialog = elements.editorDialog.open;
+      const session = dialogSession;
+      const boardId = state.activeBoardId;
+      const view = state.viewMode;
+      const stillReviewing = () => session === dialogSession && boardId === state.activeBoardId
+        && view === state.viewMode && (hadDialog ? current() : !elements.editorDialog.open);
+      if (!await confirmDiscardChanges()) return;
+      if (!stillReviewing()) return;
+      const wasInert = elements.editorForm.inert;
+      elements.editorForm.inert = true;
+      try {
+        const ticket = await ctx.api(`/api/tickets/${id}`);
+        if (!stillReviewing()) return;
+        if (ticket.boardId !== state.activeBoardId) {
+          window.location.assign(`/tickets/${id}`);
+          return;
+        }
+        await openEditor(id, "view", null, null, stillReviewing);
+      } finally {
+        elements.editorForm.inert = wasInert;
+      }
+    },
+    refreshRecoveredTicket: (id) => refreshDialogTicket(id, null, { onlyIfPristine: true }),
     confirmDiscardChanges,
     closeEditor,
     getSelectedTagIds,

@@ -1,4 +1,5 @@
 export default {
+  "ticket archive state changed": "アーカイブ状態が変わりました。チケットを開き直して確認してください。",
   "Enter an updater of 1 to 80 valid Unicode characters, with at least one non-whitespace character and no control characters.": "更新者は1〜80文字で入力してください。空白のみの値や制御文字は使えません。",
   "ticket list changed; restart pagination": "一覧が更新されました。もう一度操作してください。",
   "Invalid ticket page response": "一覧を取得できませんでした。もう一度操作してください。",

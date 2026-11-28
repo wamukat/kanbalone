@@ -43,6 +43,7 @@ export function toBoardExport(detail: BoardDetailView, taskStates: Map<Id, Ticke
     tickets: detail.tickets.map(({
       group: _group,
       editToken: _editToken,
+      archiveVersion: _archiveVersion,
       bodyHtml: _bodyHtml,
       blockers: _blockers,
       blockedBy: _blockedBy,

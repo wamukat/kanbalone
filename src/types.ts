@@ -38,6 +38,7 @@ export type TicketRow = {
   is_resolved: number;
   resolved_at: string | null;
   is_archived: number;
+  archive_version: number;
   priority: number;
   position: number;
   created_at: string;
@@ -221,6 +222,7 @@ export type TicketView = TicketTaskCounts & {
   isResolved: boolean;
   resolvedAt: string | null;
   isArchived: boolean;
+  archiveVersion: number;
   priority: number;
   position: number;
   createdAt: string;
@@ -404,7 +406,7 @@ export type BoardExport = {
   lanes: LaneView[];
   tags: TagView[];
   tickets: Array<
-    Omit<TicketView, keyof TicketTaskCounts | "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken" | "resolvedAt"> & {
+    Omit<TicketView, keyof TicketTaskCounts | "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken" | "archiveVersion" | "resolvedAt"> & {
       resolvedAt?: string | null;
       taskState?: TicketTaskState;
       comments: Array<Omit<CommentView, "sync" | "updater"> & { updater?: string | null }>;

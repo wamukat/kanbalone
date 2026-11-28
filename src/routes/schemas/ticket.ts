@@ -146,6 +146,7 @@ export const ticketSchema = {
     groupId: nullableGroupIdSchema,
     group: groupReferenceSchema,
     editToken: { type: "string" },
+    archiveVersion: { type: "integer", minimum: 0 },
     id: positiveIntegerSchema,
     boardId: positiveIntegerSchema,
     laneId: positiveIntegerSchema,

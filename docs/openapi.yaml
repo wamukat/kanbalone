@@ -1466,6 +1466,54 @@ paths:
         '404':
           $ref: '#/components/responses/Error'
 
+  /api/tickets/{ticketId}/archive:
+    patch:
+      operationId: setTicketArchiveState
+      summary: Conditionally archive or restore one ticket
+      description: >-
+        Requires the detail response's archiveVersion and boardId. The generation
+        changes when archive state or board changes, including bulk changes and
+        restore-archive or board round trips. Unrelated edits do not invalidate
+        it. A same-state request, stale generation or different board returns 409.
+        Restoring follows normal archive ordering; it never restores an old ticket
+        snapshot. This generation is local concurrency metadata, not export data.
+      tags: [Tickets]
+      parameters:
+        - $ref: '#/components/parameters/TicketId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [isArchived, expectedArchiveVersion, expectedBoardId]
+              properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
+                isArchived:
+                  type: boolean
+                expectedArchiveVersion:
+                  type: integer
+                  minimum: 0
+                  maximum: 9007199254740991
+                expectedBoardId:
+                  type: integer
+                  minimum: 1
+                  maximum: 9007199254740991
+      responses:
+        '200':
+          description: Updated ticket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
   /api/tickets/{ticketId}/transition:
     patch:
       summary: Transition ticket by lane name
@@ -3725,6 +3773,10 @@ components:
     Ticket:
       type: object
       properties:
+        archiveVersion:
+          type: integer
+          minimum: 0
+          description: Local archive/board operation generation; read from detail for conditional archive changes. Not exported.
         taskCount:
           $ref: '#/components/schemas/TaskTotalCount'
         doneTaskCount:

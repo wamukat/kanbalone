@@ -417,5 +417,15 @@ export function createBoardKeyboardModule(ctx, listModule, {
     describeCreationShortcut(event.target instanceof Element ? event.target.closest('button') : null);
   });
   document.addEventListener("keydown", handleKeydown);
-  return { beforeRender, afterRender, captureEditorOrigin, restoreEditorOrigin };
+  function focusRecoveredTicket(id) {
+    if (state.viewMode === "group") {
+      if (!focusGroupEditorTicket?.({ id, index: 0, order: [id], remove: false })) focusFallback();
+      return;
+    }
+    // Use the same virtual-window-aware reveal and deferred render path as M.
+    document.activeElement?.blur?.();
+    laneMoveFocus = { ...context(), id };
+    restoreLaneMoveFocus();
+  }
+  return { beforeRender, afterRender, captureEditorOrigin, restoreEditorOrigin, focusRecoveredTicket };
 }
