@@ -14,6 +14,21 @@ export function createTicketCommentsModule(ctx) {
   const isCurrent = () => ctx.isDialogCurrent() && state.dialogMode === "view";
   ctx.imageAttachments.bind(elements.commentBody, isCurrent);
 
+  elements.ticketComments.addEventListener("keydown", event => {
+    const confirmation = event.target.closest?.("[data-comment-delete-confirm]");
+    if (confirmation && !confirmation.hidden && isCurrent() && ctx.isSaveShortcut(event)) {
+      event.preventDefault();
+      const button = confirmation.querySelector("[data-confirm-comment-delete-id]");
+      if (!event.repeat && button && !button.disabled) button.click();
+      return;
+    }
+    const form = event.target.closest?.("[data-comment-edit-form]");
+    if (!form || form.hidden || !isCurrent() || !ctx.isSaveShortcut(event)) return;
+    event.preventDefault();
+    const button = form.querySelector("[data-save-comment-id]");
+    if (!event.repeat && button && !button.disabled) void saveCommentInline(button);
+  });
+
   function inlineInputs() {
     return [...elements.ticketComments.querySelectorAll("[data-comment-edit-body]")];
   }
@@ -346,6 +361,7 @@ export function createTicketCommentsModule(ctx) {
       menu.hidden = true;
     }
     syncCommentDeleteConfirms();
+    item.querySelector("[data-cancel-comment-delete]")?.focus();
   }
 
   function cancelCommentDeleteConfirm() {

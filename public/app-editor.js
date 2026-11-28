@@ -167,6 +167,7 @@ export function createEditorModule(ctx) {
     imageAttachments,
     isDialogCurrent,
     captureDialogScope,
+    isSaveShortcut,
   });
 
   const tasksModule = createTicketTasks(elements.ticketTasks, {
@@ -643,6 +644,12 @@ export function createEditorModule(ctx) {
       // Enter confirms text; creating a ticket uses the explicit save action.
       event.preventDefault();
     }
+  });
+
+  elements.editorRemoteImportForm.addEventListener("keydown", event => {
+    if (!state.editorRemoteImportOpen || !isDialogCurrent() || !isSaveShortcut(event)) return;
+    event.preventDefault();
+    if (!event.repeat && !elements.editorRemoteImportSubmitButton.disabled) elements.editorRemoteImportForm.requestSubmit(elements.editorRemoteImportSubmitButton);
   });
 
   elements.commentBody.addEventListener("keydown", (event) => {

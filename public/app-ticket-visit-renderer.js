@@ -96,7 +96,7 @@ function renderChanges(before, after, e, label, registerText) {
     if (!sameRef(before[key], after[key])) prop(title, change(ref(before[key], key === "parent"), ref(after[key], key === "parent")));
   }
   for (const [key, title, showId] of [["tags", "Tags", false], ["children", "Child tickets", true],
-    ["blockers", "Blockers", true], ["blockedBy", "Blocks", true], ["related", "Related tickets", true]]) {
+    ["blockers", "Blocked By", true], ["blockedBy", "Blocks", true], ["related", "Related tickets", true]]) {
     const renderRef = record => key === "tags" ? renderTag({ name: record.label,
       color: /^#[a-f0-9]{6}$/i.test(record.color) ? record.color : null }, e) : ref(record, showId);
     const describeColor = record => renderRef(record) + ' <span class="muted">' +

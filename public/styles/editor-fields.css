@@ -89,9 +89,8 @@
 
 .editor-relation-row-label span {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .editor-relation-row .ticket-tag-options {
@@ -102,4 +101,10 @@
 
 .editor-mode > .ticket-tag-field {
   margin-top: -0.1rem;
+}
+
+:lang(ja) .editor-relation-row { grid-template-columns: minmax(6rem, 12.8rem) minmax(0, 1fr); }
+@media (max-width: 600px) {
+  :lang(ja) .editor-relation-row { grid-template-columns: minmax(0, 1fr); }
+  :lang(ja) .editor-relation-row .ticket-tag-options { grid-column: 1; }
 }

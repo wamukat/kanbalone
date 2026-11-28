@@ -1,3 +1,4 @@
+import { changeFocusedTicketLane } from "./app-board-lane-move.js";
 import { t } from "./app-i18n.js";
 
 // Navigate the existing title buttons, independently of List bulk selection.
@@ -8,6 +9,8 @@ export function createBoardKeyboardModule(ctx, listModule, {
 } = {}) {
   const { state, elements } = ctx;
   let creationOpening = false;
+  let laneMoveOpening = false;
+  let laneMoveFocus = null;
   let returnTarget = null;
   let originVersion = 0;
   let repaintTarget = null;
@@ -216,10 +219,38 @@ export function createBoardKeyboardModule(ctx, listModule, {
     }
   }
 
+  function restoreLaneMoveFocus() {
+    if (!laneMoveFocus) return;
+    if (!sameContext(laneMoveFocus)) { laneMoveFocus = null; return; }
+    if (elements.editorDialog.open || elements.uxDialog.open || state.boardNavigationLoading) return;
+    const active = document.activeElement;
+    if (active !== document.body && visible(active) && !(isBoardTitle(active) && identity(active) === laneMoveFocus.id)) {
+      laneMoveFocus = null;
+      return;
+    }
+    if (focusTitle(laneMoveFocus.id) || !state.boardKeyboardRenderPending) {
+      if (!isBoardTitle(document.activeElement)) focusFallback();
+      laneMoveFocus = null;
+    }
+  }
+
+  async function moveFromOrigin(element) {
+    if (laneMoveOpening || !state.boardNavigationReady || state.boardNavigationLoading) return;
+    laneMoveOpening = true;
+    const target = { ...context(), id: identity(element) };
+    try {
+      await changeFocusedTicketLane(ctx, target.id, () => sameContext(target), id => {
+        laneMoveFocus = { ...target, id };
+        restoreLaneMoveFocus();
+      });
+    } catch (error) { ctx.showToast(error.message, "error"); }
+    finally { laneMoveOpening = false; }
+  }
+
   function afterRender() {
     const help = state.viewMode === "kanban"
-      ? t("Down: select a ticket. Up/Down: within a lane. Left/Right: between lanes. Enter: open. Escape: return.")
-      : t("Down: select a ticket. Up/Down: previous or next ticket. Enter: open. Escape: return.");
+      ? t("Down: select a ticket. Up/Down: within a lane. Left/Right: between lanes. Enter: open. M: change lane. Escape: return.")
+      : t("Down: select a ticket. Up/Down: previous or next ticket. Enter: open. M: change lane. Escape: return.");
     if (state.viewMode === "group") {
       elements.searchInput.removeAttribute("title");
       elements.searchInput.removeAttribute("aria-description");
@@ -228,6 +259,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
       elements.searchInput.setAttribute("aria-description", help);
     }
     if (elements.editorDialog.open || elements.uxDialog.open) return;
+    restoreLaneMoveFocus();
     if (!state.boardNavigationLoading && !state.boardNavigationReady) searchPending = false;
     if (editorReturnPending) restorePendingOrigin();
     if (searchPending && document.activeElement === elements.searchInput && !state.boardNavigationLoading) {
@@ -301,6 +333,11 @@ export function createBoardKeyboardModule(ctx, listModule, {
       if (["Enter", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].includes(event.key)) event.preventDefault();
       return;
     }
+    if (event.key.toLowerCase() === "m") {
+      event.preventDefault();
+      if (!event.repeat) void moveFromOrigin(event.target);
+      return;
+    }
     if (event.key === "Enter" && event.repeat) {
       event.preventDefault();
       return;
@@ -366,9 +403,11 @@ export function createBoardKeyboardModule(ctx, listModule, {
   elements.searchInput.addEventListener("input", () => { searchPending = false; });
   function describeCreationShortcut(element) {
     if (!describeOrigin(element)) return;
-    element.setAttribute('aria-keyshortcuts', 'n');
-    element.setAttribute('aria-description', t('N: create a ticket.'));
-    element.title = t('N: create a ticket.');
+    const move = isBoardTitle(element);
+    element.setAttribute('aria-keyshortcuts', move ? 'n m' : 'n');
+    const description = t(move ? 'N: create a ticket. M: change lane.' : 'N: create a ticket.');
+    element.setAttribute('aria-description', description);
+    element.title = description;
   }
   document.addEventListener("focusin", (event) => {
     if (event.target !== elements.searchInput) searchPending = false;

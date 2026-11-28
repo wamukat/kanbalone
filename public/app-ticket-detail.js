@@ -328,8 +328,8 @@ export function createTicketDetailModule(ctx) {
       <div class="ticket-detail-body-actions">
         <span class="muted">${t("Ctrl+Enter / Cmd+Enter to save")}</span>
         <div class="editor-actions-right">
-          <button type="button" class="ghost" data-detail-cancel="body">${t("Cancel")}</button>
           <button type="button" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter" data-detail-save-body>${t("Save")}</button>
+          <button type="button" class="ghost" data-detail-cancel="body">${t("Cancel")}</button>
         </div>
       </div>
     `;
