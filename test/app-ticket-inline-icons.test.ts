@@ -10,7 +10,7 @@ test("Repeated ticket SVG stays synchronized with canonical icons", () => {
   execFileSync(process.execPath, ["scripts/generate-ticket-inline-icons.mjs", "--check"]);
   for (const name of [
     "folder-up", "folder-tree", "ticket", "check", "archive", "trash-2",
-    "priority-low", "priority-medium", "priority-high", "circle-alert", "octagon-alert",
+    "priority-low", "priority-medium", "priority-high", "circle-alert", "octagon-alert", "lock", "list-checks",
   ]) {
     const markup = ticketInlineIcon(name);
     assert.match(markup, /class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"/);

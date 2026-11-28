@@ -79,7 +79,7 @@ test("core typography follows the design system scale", async ({ page }) => {
     expect(typography.cardTitle.fontSize).toBe("14px");
     expect(typography.cardTitle.fontWeight).toBe("600");
     expect(typography.laneCount.fontSize).toBe("11px");
-    expect(typography.cardId.fontSize).toBe("11px");
+    expect(typography.cardId.fontSize).toBe("12px");
     expect(typography.tag.fontSize).toBe("12px");
     expect(typography.icon.width).toBe("16px");
     expect(typography.icon.height).toBe("16px");

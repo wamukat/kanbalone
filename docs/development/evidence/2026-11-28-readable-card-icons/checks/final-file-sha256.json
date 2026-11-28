@@ -1,0 +1,12 @@
+{
+  "public/app-card-tooltips.js": "943ccb6cb0698982652c1e4711974a4759c3acdcc498c868c1e1373debdddcc4",
+  "public/app-kanban-lane-window.js": "01c42f7cb85e0b8896f9f099ec31bb3e8138301d04ac53cd23c6cf0cc864bf13",
+  "public/app-kanban-ticket-card.js": "7d733bdfa91360e7f4cd2309e5a647194a0b6474e51d97507ffbdeed76d9e7b0",
+  "public/app-ticket-inline-icons.js": "7ac5e11e697e041eb01dbb851a3b9cc1c257be44b5e411e17fdbfda0455fcf66",
+  "public/app.js": "b80f611b7a6b113175018e2e38797a7ed228058c90c8d9b69879a7df5d006f25",
+  "public/icons.svg": "798f956b8f6d48e13e3e7c0ffcff94e34949fe1d160e746b03983db18375b18e",
+  "public/kanban-card-icons/list-checks.svg": "0a159b7f125a6f8b11d443190c36738ea7c341f754928fdd0514135fadfdad99",
+  "public/kanban-card-icons/lock.svg": "9f174f07915a88db795208c7fc0a73df655f54648f4356a12a391d340765f854",
+  "public/styles/kanban-card-icon-masks.css": "62615fda1f46515401c1771a5e0d64aa94da7d33feb27992437d81bf8f8d03db",
+  "public/styles/ticket-cards.css": "f340fa5912f97806fe2ffeb2eb6cfa25d1390008f13d54a526f542c187ca4611"
+}

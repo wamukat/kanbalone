@@ -110,8 +110,10 @@ for (const locale of ["en", "ja"]) {
       await expect(doneCards.last().locator(".ticket-link")).toBeFocused();
       await page.keyboard.press("ArrowLeft");
       await expect(page.locator(`.lane[data-lane-id="${lanes[1].id}"] .ticket-link:focus`)).toHaveCount(1);
+      await expect(page.locator(".ticket-card-tooltip")).toBeVisible();
       await page.keyboard.press("Escape");
       await expect(search(page)).toBeFocused();
+      await expect(page.locator(".ticket-card-tooltip")).toBeHidden();
       expect(await storedTickets(page, baseUrl, board.id)).toEqual(before);
     } finally { await close(); }
   });

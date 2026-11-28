@@ -1,0 +1,344 @@
+[
+  {
+    "round": 0,
+    "phase": "before",
+    "ready": {
+      "milliseconds": 297,
+      "mounted": 11
+    },
+    "samples": [
+      {
+        "fraction": 0,
+        "mounted": 11,
+        "visible": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "gapAtEnd": -84.03125,
+        "remaining": 99691,
+        "overlaps": false
+      },
+      {
+        "fraction": 0.5,
+        "mounted": 17,
+        "visible": [
+          "493",
+          "494",
+          "495",
+          "496",
+          "497",
+          "498",
+          "499"
+        ],
+        "gapAtEnd": -133.25,
+        "remaining": 50435,
+        "overlaps": false
+      },
+      {
+        "fraction": 1,
+        "mounted": 11,
+        "visible": [
+          "995",
+          "996",
+          "997",
+          "998",
+          "999",
+          "1000"
+        ],
+        "gapAtEnd": 8.109375,
+        "remaining": 0,
+        "overlaps": false
+      }
+    ],
+    "keyboardUp": "999"
+  },
+  {
+    "round": 0,
+    "phase": "after",
+    "ready": {
+      "milliseconds": 369,
+      "mounted": 11
+    },
+    "samples": [
+      {
+        "fraction": 0,
+        "mounted": 11,
+        "visible": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "gapAtEnd": -69.71875,
+        "remaining": 99678,
+        "overlaps": false
+      },
+      {
+        "fraction": 0.5,
+        "mounted": 17,
+        "visible": [
+          "493",
+          "494",
+          "495",
+          "496",
+          "497",
+          "498",
+          "499"
+        ],
+        "gapAtEnd": -129.578125,
+        "remaining": 50385,
+        "overlaps": false
+      },
+      {
+        "fraction": 1,
+        "mounted": 11,
+        "visible": [
+          "995",
+          "996",
+          "997",
+          "998",
+          "999",
+          "1000"
+        ],
+        "gapAtEnd": 8.875,
+        "remaining": 0,
+        "overlaps": false
+      }
+    ],
+    "keyboardUp": "999"
+  },
+  {
+    "round": 1,
+    "phase": "after",
+    "ready": {
+      "milliseconds": 309,
+      "mounted": 11
+    },
+    "samples": [
+      {
+        "fraction": 0,
+        "mounted": 11,
+        "visible": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "gapAtEnd": -69.71875,
+        "remaining": 99678,
+        "overlaps": false
+      },
+      {
+        "fraction": 0.5,
+        "mounted": 17,
+        "visible": [
+          "493",
+          "494",
+          "495",
+          "496",
+          "497",
+          "498",
+          "499"
+        ],
+        "gapAtEnd": -129.578125,
+        "remaining": 50385,
+        "overlaps": false
+      },
+      {
+        "fraction": 1,
+        "mounted": 11,
+        "visible": [
+          "995",
+          "996",
+          "997",
+          "998",
+          "999",
+          "1000"
+        ],
+        "gapAtEnd": 8.875,
+        "remaining": 0,
+        "overlaps": false
+      }
+    ],
+    "keyboardUp": "999"
+  },
+  {
+    "round": 1,
+    "phase": "before",
+    "ready": {
+      "milliseconds": 268,
+      "mounted": 11
+    },
+    "samples": [
+      {
+        "fraction": 0,
+        "mounted": 11,
+        "visible": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "gapAtEnd": -84.03125,
+        "remaining": 99691,
+        "overlaps": false
+      },
+      {
+        "fraction": 0.5,
+        "mounted": 17,
+        "visible": [
+          "493",
+          "494",
+          "495",
+          "496",
+          "497",
+          "498",
+          "499"
+        ],
+        "gapAtEnd": -133.25,
+        "remaining": 50435,
+        "overlaps": false
+      },
+      {
+        "fraction": 1,
+        "mounted": 11,
+        "visible": [
+          "995",
+          "996",
+          "997",
+          "998",
+          "999",
+          "1000"
+        ],
+        "gapAtEnd": 8.109375,
+        "remaining": 0,
+        "overlaps": false
+      }
+    ],
+    "keyboardUp": "999"
+  },
+  {
+    "round": 2,
+    "phase": "before",
+    "ready": {
+      "milliseconds": 335,
+      "mounted": 11
+    },
+    "samples": [
+      {
+        "fraction": 0,
+        "mounted": 11,
+        "visible": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "gapAtEnd": -84.03125,
+        "remaining": 99691,
+        "overlaps": false
+      },
+      {
+        "fraction": 0.5,
+        "mounted": 17,
+        "visible": [
+          "493",
+          "494",
+          "495",
+          "496",
+          "497",
+          "498",
+          "499"
+        ],
+        "gapAtEnd": -133.25,
+        "remaining": 50435,
+        "overlaps": false
+      },
+      {
+        "fraction": 1,
+        "mounted": 11,
+        "visible": [
+          "995",
+          "996",
+          "997",
+          "998",
+          "999",
+          "1000"
+        ],
+        "gapAtEnd": 8.109375,
+        "remaining": 0,
+        "overlaps": false
+      }
+    ],
+    "keyboardUp": "999"
+  },
+  {
+    "round": 2,
+    "phase": "after",
+    "ready": {
+      "milliseconds": 262,
+      "mounted": 11
+    },
+    "samples": [
+      {
+        "fraction": 0,
+        "mounted": 11,
+        "visible": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "gapAtEnd": -69.71875,
+        "remaining": 99678,
+        "overlaps": false
+      },
+      {
+        "fraction": 0.5,
+        "mounted": 17,
+        "visible": [
+          "493",
+          "494",
+          "495",
+          "496",
+          "497",
+          "498",
+          "499"
+        ],
+        "gapAtEnd": -129.578125,
+        "remaining": 50385,
+        "overlaps": false
+      },
+      {
+        "fraction": 1,
+        "mounted": 11,
+        "visible": [
+          "995",
+          "996",
+          "997",
+          "998",
+          "999",
+          "1000"
+        ],
+        "gapAtEnd": 8.875,
+        "remaining": 0,
+        "overlaps": false
+      }
+    ],
+    "keyboardUp": "999"
+  }
+]

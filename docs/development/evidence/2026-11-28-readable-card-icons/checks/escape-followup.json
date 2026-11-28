@@ -1,0 +1,21 @@
+{
+  "productCommit": "b3a591735530cf316af0292f852fe28d386da0e1",
+  "captureCommit": "4c762f71dc1ade3ba62bc6fd40e203d7245f8e47",
+  "change": "Dismiss card tooltip on Escape without consuming board navigation; return focus to search remains unchanged.",
+  "verification": {
+    "publicTypecheck": "passed",
+    "chromiumE2E": {
+      "passed": 21,
+      "failed": 0,
+      "durationSeconds": 55.6,
+      "files": [
+        "card-readable-icons.spec.ts",
+        "keyboard-navigation.spec.ts",
+        "layout-visual-system.spec.ts"
+      ],
+      "assertions": "Tooltip hides and search regains focus in English/Japanese; focusing a title again shows its description; accepted card ID font size is 12px."
+    }
+  },
+  "originalPngHashesUnchanged": true,
+  "recapture": "Not performed: no CSS, markup, icon, layout or color changes; existing captures and scale timings belong to captureCommit."
+}

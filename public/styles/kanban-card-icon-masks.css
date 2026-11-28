@@ -37,3 +37,9 @@
 .kanban-card-icon[data-kanban-card-icon="octagon-alert"] {
   mask-image: url("../kanban-card-icons/octagon-alert.svg");
 }
+.kanban-card-icon[data-kanban-card-icon="lock"] {
+  mask-image: url("../kanban-card-icons/lock.svg");
+}
+.kanban-card-icon[data-kanban-card-icon="list-checks"] {
+  mask-image: url("../kanban-card-icons/list-checks.svg");
+}

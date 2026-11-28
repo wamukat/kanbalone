@@ -1,0 +1,61 @@
+{
+  "boardId": 1,
+  "lanes": [
+    {
+      "isCompletionLane": false,
+      "id": 1,
+      "boardId": 1,
+      "name": "Todo",
+      "position": 0
+    },
+    {
+      "isCompletionLane": false,
+      "id": 2,
+      "boardId": 1,
+      "name": "In progress",
+      "position": 1
+    },
+    {
+      "id": 3,
+      "boardId": 1,
+      "name": "Done",
+      "isCompletionLane": true,
+      "position": 2
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "boardId": 1,
+      "name": "Release",
+      "color": "#147d6b"
+    },
+    {
+      "id": 2,
+      "boardId": 1,
+      "name": "Docs",
+      "color": "#7140a5"
+    },
+    {
+      "id": 3,
+      "boardId": 1,
+      "name": "Keyboard navigation",
+      "color": "#355a99"
+    },
+    {
+      "id": 4,
+      "boardId": 1,
+      "name": "Cross-browser accessibility",
+      "color": "#a14649"
+    }
+  ],
+  "ticketIds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "longId": 123456789
+}

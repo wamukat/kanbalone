@@ -15,6 +15,8 @@ import { createRouterModule } from "./app-router.js";
 import { createAppState } from "./app-state.js";
 import { createUxModule } from "./app-ux.js";
 
+import { initializeCardTooltips } from "./app-card-tooltips.js";
+
 initializeLanguage();
 const state = createAppState();
 
@@ -67,6 +69,7 @@ async function loadAppMeta() {
 }
 
 function bindEvents() {
+  initializeCardTooltips();
   const hasUpdaterDraft = bindOperationUpdaterSettings();
   const languageSelect = document.querySelector("#language-select");
   languageSelect.value = getLocale();

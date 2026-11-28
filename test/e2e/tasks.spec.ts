@@ -44,7 +44,7 @@ test("Task Markdown, filters, counts, attribution and independent completion per
     await expect(first.locator("strong")).toHaveText("release checks");
     await expect.poll(() => first.locator("img").evaluate(element => (element as HTMLImageElement).naturalWidth)).toBe(1);
     await addTask(page, "Release% checklist");
-    await expect(card.locator(".tag-list .ticket-task-count")).toHaveText("0/2 done");
+    await expect(card.locator(".ticket-card-meta-icons .ticket-task-count")).toHaveText("0/2");
 
     const query = page.locator("#ticket-task-query");
     await query.fill("RELEASE%");
@@ -53,7 +53,7 @@ test("Task Markdown, filters, counts, attribution and independent completion per
     await expect(second).toContainText("Release% checklist");
     await second.locator("[data-task-done]").click();
     await expect(second.locator("[data-task-done]")).toBeChecked();
-    await expect(card.locator(".ticket-task-count")).toHaveText("1/2 done");
+    await expect(card.locator(".ticket-task-count")).toHaveText("1/2");
     const onlyOpen = page.locator("#ticket-task-open-only");
     await onlyOpen.click();
     await expect(onlyOpen).toHaveAttribute("aria-pressed", "true");

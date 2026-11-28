@@ -18,6 +18,7 @@
   },
   "include": [
     "public/app-api.js",
+    "public/app-card-tooltips.js",
     "public/app-board-utils.js",
     "public/app-dialogs.js",
     "public/app-preferences.js",
