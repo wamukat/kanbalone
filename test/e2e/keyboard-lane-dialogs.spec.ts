@@ -23,9 +23,9 @@ for (const view of ["kanban", "list"]) {
       await expect(ux(page)).toHaveJSProperty("open", true);
       await destination(page).selectOption(String(lanes[1].id));
       await page.keyboard.press("Tab");
-      await expect(page.locator("#ux-submit-button")).toBeFocused();
-      await page.keyboard.press("Tab");
       await expect(page.locator("#ux-dismiss-button")).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(page.locator("#ux-submit-button")).toBeFocused();
       await page.keyboard.press("Escape");
       await expect(target).toBeFocused();
       expect((await (await page.request.get(`${baseUrl}/api/tickets/${item.id}`)).json()).laneId).toBe(lanes[0].id);
@@ -107,7 +107,7 @@ test("shared confirmations keep safe initial focus, ignore close-only notices, a
     await page.keyboard.press("Escape");
     await openDeletion(lanes[1].id);
     await expect(page.locator("#ux-dismiss-button")).toBeFocused();
-    expect(await page.locator('#ux-submit-button').evaluate(el => !!(el.compareDocumentPosition(document.querySelector('#ux-dismiss-button')!) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+    expect(await page.locator('#ux-dismiss-button').evaluate(el => !!(el.compareDocumentPosition(document.querySelector('#ux-submit-button')!) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
     let requests = 0;
     await page.route(`**/api/lanes/${lanes[1].id}`, async route => {
       if (route.request().method() === 'DELETE') { requests++; await new Promise(resolve => setTimeout(resolve, 120)); }
@@ -121,7 +121,7 @@ test("shared confirmations keep safe initial focus, ignore close-only notices, a
   } finally { await close(); }
 });
 
-test("comment edit uses primary-first keys without submitting another form", async ({ page }) => {
+test("comment edit uses cancel-then-save keys without submitting another form", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Comment keys", laneNames: ["Todo"] });
@@ -133,6 +133,8 @@ test("comment edit uses primary-first keys without submitting another form", asy
     await page.locator(`[data-edit-comment-id="${comment.id}"]`).click();
     const input = page.locator('[data-comment-edit-body]');
     await input.fill('Keyboard revision'); await input.press('Tab');
+    await expect(page.locator('[data-cancel-comment-edit]')).toBeFocused();
+    await page.keyboard.press('Tab');
     await expect(page.locator('[data-save-comment-id]')).toBeFocused();
     await input.focus(); await input.press('Control+Enter');
     await expect(page.locator('.comment-display')).toContainText('Keyboard revision');

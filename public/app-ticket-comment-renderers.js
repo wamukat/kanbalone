@@ -35,8 +35,8 @@ export function createTicketCommentRenderers(ctx, options) {
                 ` : ""}
                 <span class="comment-delete-confirm" data-comment-delete-confirm="${comment.id}" ${localActions && state.confirmingCommentDeleteId === comment.id ? "" : "hidden"}>
                   <span>${t("Delete this comment?")}</span>
-                  <button type="button" class="danger action-with-icon danger-confirm-action" aria-keyshortcuts="Control+Enter Meta+Enter" title="${ctx.escapeHtml(t("{action} (Ctrl/Cmd+Enter)", { action: t("Delete") }))}" data-confirm-comment-delete-id="${comment.id}">${icon("trash-2")}<span>${t("Delete")}</span></button>
                   <button type="button" class="ghost" data-cancel-comment-delete>${t("Cancel")}</button>
+                  <button type="button" class="danger action-with-icon danger-confirm-action" aria-keyshortcuts="Control+Enter Meta+Enter" title="${ctx.escapeHtml(t("{action} (Ctrl/Cmd+Enter)", { action: t("Delete") }))}" data-confirm-comment-delete-id="${comment.id}">${icon("trash-2")}<span>${t("Delete")}</span></button>
                 </span>
               </span>
             </div>
@@ -44,8 +44,8 @@ export function createTicketCommentRenderers(ctx, options) {
             <form class="comment-edit-form" data-comment-edit-form hidden>
               <textarea data-comment-edit-body rows="5" aria-label="${t("Comment")}">${ctx.escapeHtml(comment.bodyMarkdown)}</textarea>
               <div class="comment-edit-actions">
-                <button type="button" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter" title="${t("Save (Ctrl/Cmd+Enter)")}" data-save-comment-id="${comment.id}">${t("Save")}</button>
                 <button type="button" class="ghost" data-cancel-comment-edit>${t("Cancel")}</button>
+                <button type="button" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter" title="${t("Save (Ctrl/Cmd+Enter)")}" data-save-comment-id="${comment.id}">${t("Save")}</button>
               </div>
             </form>
           </article>
