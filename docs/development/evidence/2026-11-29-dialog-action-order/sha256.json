@@ -1,0 +1,17 @@
+{
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/after-en-delete.png": "892e8f1c0876db6992b82e616cc35e402abcc566d313d742d36b01781345fee2",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/after-en-edit.png": "df8bf4d857571db252dcae7eca0cc9428fdf3ac8aca17deaa4b1019f4ff85f24",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/after-ja-delete.png": "456f74c2f7f70820c1a6dcefa3ccaf98d762106fec6dcd8fd2e45ac3682b0e99",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/after-ja-edit.png": "5fdc70dc0fd574f4a8ccb9b84800e9ef7b0539c6a9f2326aa52e9ad39a18a724",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/before-en-delete.png": "071835e17b75ea943f9f663ec0746504fea56547baaee73edd6c2512afdbe160",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/before-en-edit.png": "75e6533da49a8e06f70e1b84d9a6a1c3d5758c6c549443a477dee9641391278d",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/before-ja-delete.png": "d21e5837c6bff0c5f879265ee6ca676337565d19d7928659e57919b8aae36366",
+  "docs/development/evidence/2026-11-29-dialog-action-order/originals/before-ja-edit.png": "7f7c0f9184dddaaf2079fcc9b6520f163a47d390c66dd4da0928469a7b8f1cb5",
+  "public/index.html": "6b9b18661bd484cd5a58902e849241de9b275f4c257dcae71a035ac592d95898",
+  "public/app-ticket-tasks.js": "ef6ee7c7835fd7bc59440d949f337e3ce379dbee8d5b164401b747b27c2407f2",
+  "public/app-ticket-detail.js": "bf2508bb3039ed471b2ad248d3d9662e402cf81da39dad8d31678fbda5337d67",
+  "public/app-ticket-comment-renderers.js": "8bb36793def7e98b7a1b69b70a156e75256e9b05c21c66809dc146849fc30088",
+  "test/e2e/dialog-action-order.spec.ts": "9af44d48facbf410d5178898b631df95d825ab24a2f2d8e63808fe107f780c81",
+  "test/e2e/keyboard-lane-dialogs.spec.ts": "d1274a0e7b1811aea08b7aa69d1105e30b10267bec7cbe61d96c9f4f0feaa33a",
+  "test/e2e/ticket-editor-remote-import.spec.ts": "d3b0df17c5d81cacfae2d0a2f3f5161705ed5e10997b7bba8eaa5b543fac6bd8"
+}

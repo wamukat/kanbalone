@@ -45,8 +45,8 @@ export function createTicketTasks(host, ctx) {
       <label for="ticket-task-body">${esc(t("Task text (Markdown)"))}</label>
       <textarea id="ticket-task-body" class="ticket-detail-body-input" rows="4" required></textarea>
       <div class="editor-actions-right">
-        <button id="ticket-task-save" type="submit" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter">${esc(t("Add"))}</button>
         <button id="ticket-task-cancel" type="button" class="ghost">${esc(t("Cancel"))}</button>
+        <button id="ticket-task-save" type="submit" class="primary-action" aria-keyshortcuts="Control+Enter Meta+Enter">${esc(t("Add"))}</button>
       </div>
     </form>
     <div class="ticket-task-notice">
