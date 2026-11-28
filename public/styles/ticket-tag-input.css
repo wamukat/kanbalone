@@ -55,6 +55,24 @@
   color: var(--text);
 }
 
+.ticket-tag-chip-draft {
+  border-color: var(--accent);
+  border-style: dashed;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface-1));
+  color: var(--text);
+}
+
+.ticket-tag-chip-draft-status {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-weight: var(--font-weight-regular);
+}
+
+.ticket-tag-draft-help {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-label);
+}
+
 .ticket-tag-chip-text {
   min-width: 0;
   overflow: hidden;

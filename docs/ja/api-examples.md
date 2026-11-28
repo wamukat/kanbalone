@@ -481,6 +481,8 @@ curl -sS --fail-with-body -X POST "$BASE/api/boards/$BOARD_ID/tickets" \
 
 `parentTicketId` も指定する場合は、同じ作成bodyで `POST /api/boards/:boardId/tickets/preview` を呼びます。`requiresResolution` がtrueなら、返された候補Groupを選び、作成要求へ `groupResolution:{groupId}` と `expectedToken` を追加します。既存の親子と新規チケットを一括更新します。非null Groupが1種類なら未所属側を自動で揃えます。previewではチケットを作成しません。
 
+チケットの作成・更新bodyに `"newTagNames":["手順確認"]` を含めると、同じ保存処理でタグの作成と関連付けが行われます。名前の前後の空白を除き、同じボード上の既存タグと照合します。完全一致が優先されます。更新で `tagIds` を省略すると既存の関連付けに追加され、指定すると指定IDと新しいタグの組み合わせに置き換わります。保存が失敗した場合は、タグの作成と関連付けも取り消されます。
+
 ### 親子関係の変更を一括保存
 
 編集開始時のeditTokenを保持します。以下は102がすでに101の子であり、303を新たに選択した場合に、101の子の集合を102と303で置き換える例です。新しく選択した子はすべて `expectedSelectedParents` に指定します。他の子がいる場合に、追加だけの要求としてそのまま使わないでください。

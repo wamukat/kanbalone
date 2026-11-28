@@ -416,23 +416,22 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("[data-create-tag-from-query='smoke-tag']")).toBeVisible();
     await page.locator("#ticket-tag-search").press("Enter");
     await expect(page.locator("#ux-dialog")).not.toHaveJSProperty("open", true);
-    await expect(page.locator("#ticket-tag-summary")).toContainText("smoke-tag");
-    await expect(page.locator("#ticket-tag-summary .ticket-tag-chip")).toHaveClass(/tag-no-color/);
-    await expect(page.locator("#ticket-tag-summary .ticket-tag-chip")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    const draftTag = page.locator("[data-remove-tag-draft='smoke-tag']");
+    await expect(draftTag).toContainText("Unsaved");
     await expect(page.locator("#ticket-tag-options [data-tag-id]")).toHaveCount(0);
     const sidebarTagBadge = page.locator("#sidebar-tag-list .sidebar-tag-badge", { hasText: "smoke-tag" });
-    await expect(sidebarTagBadge).toBeVisible();
-    await expect(sidebarTagBadge).toHaveClass(/tag-no-color/);
-    await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Edit tag: smoke-tag");
-    await expect(sidebarTagBadge.locator("use[href='/icons.svg#pencil']")).toHaveCount(1);
-    await expect(page.locator("#sidebar-tag-list .icon-button")).toHaveCount(0);
+    await expect(sidebarTagBadge).toHaveCount(0);
+    const boardTagsUrl = `${baseUrl}/api/boards/${boardPayload.board.id}/tags`;
+    const pendingBoardTags = await page.request.get(boardTagsUrl);
+    expect(pendingBoardTags.ok()).toBe(true);
+    expect((await pendingBoardTags.json()).tags).toEqual([]);
 
-    await page.locator("[data-remove-tag-id]", { hasText: "smoke-tag" }).click();
-    await expect(page.locator("#ticket-tag-summary")).not.toContainText("smoke-tag");
+    await draftTag.click();
+    await expect(draftTag).toHaveCount(0);
 
-    await page.locator("#ticket-tag-search").fill("smoke");
+    await page.locator("#ticket-tag-search").fill("smoke-tag");
     await page.locator("#ticket-tag-search").press("Enter");
-    await expect(page.locator("#ticket-tag-summary")).toContainText("smoke-tag");
+    await expect(draftTag).toContainText("Unsaved");
 
     await page.locator("#ticket-tag-search").fill("smoke");
     await expect(page.locator("#ticket-tag-options")).toBeVisible();
@@ -477,6 +476,18 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-relations")).toContainText("Blocker candidate");
     await expect(page.locator("#ticket-relations")).toContainText("Children");
     await expect(page.locator("#ticket-relations")).toContainText("Child candidate");
+    await expect(sidebarTagBadge).toBeVisible();
+    await expect(sidebarTagBadge).toHaveClass(/tag-no-color/);
+    await expect(sidebarTagBadge).toHaveAttribute("aria-label", "Edit tag: smoke-tag");
+    await expect(sidebarTagBadge.locator("use[href='/icons.svg#pencil']")).toHaveCount(1);
+    await expect(page.locator("#sidebar-tag-list .icon-button")).toHaveCount(0);
+    const savedBoardTags = await page.request.get(boardTagsUrl);
+    expect(savedBoardTags.ok()).toBe(true);
+    const { tags } = await savedBoardTags.json();
+    expect(tags).toEqual([expect.objectContaining({ name: "smoke-tag", color: "" })]);
+    const savedTicket = await page.request.get(`${baseUrl}/api/tickets/${smokeTicket.id}`);
+    expect(savedTicket.ok()).toBe(true);
+    expect((await savedTicket.json()).tags).toEqual(tags);
     await page.keyboard.press("Escape");
     await expect(page.locator("#editor-dialog")).toBeHidden();
     await selectBoardFilter(page, "tag", "smoke-tag");
@@ -489,6 +500,16 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
 
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#editor-form")).toBeVisible();
+    const savedChip = page.locator("[data-remove-tag-id]", { hasText: "smoke-tag" });
+    await expect(savedChip).toHaveClass(/tag-no-color/);
+    await expect(savedChip).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await savedChip.click();
+    await expect(savedChip).toHaveCount(0);
+    await page.locator("#ticket-tag-search").fill("smoke");
+    await expect(page.locator("#ticket-tag-options [data-tag-id]", { hasText: "smoke-tag" })).toBeVisible();
+    await page.locator("#ticket-tag-search").press("Enter");
+    await expect(savedChip).toBeVisible();
+    await expect(draftTag).toHaveCount(0);
 
     await page.locator("#delete-ticket-button").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);

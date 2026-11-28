@@ -45,6 +45,7 @@ export function createAppState() {
     toastTimer: null,
     uxResolver: null,
     editorTagIds: [],
+    editorTagDraftNames: [],
     editorBlockerIds: [],
     editorRelatedIds: [],
     editorChildIds: [],

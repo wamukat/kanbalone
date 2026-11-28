@@ -12,6 +12,13 @@ export function createTicketTagPicker(ctx) {
   const { state, elements } = ctx;
   let activeOptionIndex = 0;
 
+  function renderDraftTagChip(name) {
+    const { label } = formatTagLabel({ name });
+    const fullName = ctx.escapeHtml(name);
+    const removeLabel = ctx.escapeHtml(t("Remove unsaved tag: {name}", { name }));
+    return `<button type="button" class="ticket-tag-chip ticket-tag-chip-draft" data-remove-tag-draft="${fullName}" title="${removeLabel}" aria-label="${removeLabel}"><span class="ticket-tag-chip-text" aria-hidden="true">${ctx.escapeHtml(label)}</span><span class="ticket-tag-chip-draft-status" aria-hidden="true">${t("Unsaved")}</span>${icon("x")}</button>`;
+  }
+
   function syncOptions() {
     if (!state.boardDetail) {
       return;
@@ -19,13 +26,22 @@ export function createTicketTagPicker(ctx) {
     const availableTagIds = new Set(state.boardDetail.tags.map((tag) => tag.id));
     state.editorTagIds = state.editorTagIds.filter((id) => availableTagIds.has(id));
     const selectedTags = state.boardDetail.tags.filter((tag) => state.editorTagIds.includes(tag.id));
-    elements.ticketTagSummary.innerHTML = selectedTags.length
-      ? selectedTags.map((tag) => renderTicketTagChip(tag, ctx.escapeHtml)).join("")
-      : "";
+    const pendingNames = state.editorTagDraftNames;
+    elements.ticketTagSummary.innerHTML = [
+      ...selectedTags.map((tag) => renderTicketTagChip(tag, ctx.escapeHtml)),
+      ...pendingNames.map(renderDraftTagChip),
+    ].join("");
+    elements.ticketTagDraftHelp.hidden = pendingNames.length === 0;
+    if (pendingNames.length) {
+      elements.ticketTagSearch.setAttribute("aria-describedby", elements.ticketTagDraftHelp.id);
+    } else {
+      elements.ticketTagSearch.removeAttribute("aria-describedby");
+    }
 
     const query = state.tagQuery.trim().toLowerCase();
     const createLabel = state.tagQuery.trim();
-    const hasExactMatch = state.boardDetail.tags.some((tag) => tag.name.toLowerCase() === query);
+    const pendingKeys = new Set(pendingNames.map((name) => name.toLowerCase()));
+    const hasExactMatch = pendingKeys.has(query) || state.boardDetail.tags.some((tag) => tag.name.toLowerCase() === query);
 
     if (!createLabel) {
       elements.ticketTagOptions.innerHTML = "";
@@ -34,7 +50,7 @@ export function createTicketTagPicker(ctx) {
     }
 
     const visibleTags = state.boardDetail.tags.filter((tag) => {
-      if (state.editorTagIds.includes(tag.id)) {
+      if (state.editorTagIds.includes(tag.id) || pendingKeys.has(tag.name.toLowerCase())) {
         return false;
       }
       return tag.name.toLowerCase().includes(query);
@@ -80,6 +96,14 @@ export function createTicketTagPicker(ctx) {
   }
 
   function handleFieldClick(event) {
+    const removeDraftButton = event.target.closest("[data-remove-tag-draft]");
+    if (removeDraftButton) {
+      const name = removeDraftButton.dataset.removeTagDraft;
+      state.editorTagDraftNames = state.editorTagDraftNames.filter((draft) => draft !== name);
+      syncOptions();
+      elements.ticketTagSearch.focus();
+      return;
+    }
     const removeButton = event.target.closest("[data-remove-tag-id]");
     if (removeButton) {
       event.preventDefault();
@@ -101,6 +125,13 @@ export function createTicketTagPicker(ctx) {
   }
 
   function handleSearchKeydown(event) {
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Backspace" && !elements.ticketTagSearch.value && state.editorTagDraftNames.length > 0) {
+      event.preventDefault();
+      state.editorTagDraftNames.pop();
+      syncOptions();
+      return;
+    }
     if (event.key === "Backspace" && !elements.ticketTagSearch.value && state.editorTagIds.length > 0) {
       event.preventDefault();
       state.editorTagIds = state.editorTagIds.slice(0, -1);
@@ -167,7 +198,7 @@ export function createTicketTagPicker(ctx) {
       return true;
     }
     if (option.dataset.createTagFromQuery) {
-      createTagByName(option.dataset.createTagFromQuery);
+      stageTagName(option.dataset.createTagFromQuery);
       return true;
     }
     return true;
@@ -179,6 +210,10 @@ export function createTicketTagPicker(ctx) {
     } else {
       state.editorTagIds = [...state.editorTagIds, tagId];
     }
+    finishTagSelection();
+  }
+
+  function finishTagSelection() {
     state.tagQuery = "";
     elements.ticketTagSearch.value = "";
     syncOptions();
@@ -194,13 +229,13 @@ export function createTicketTagPicker(ctx) {
     }
     const createOption = event.target.closest?.("[data-create-tag-from-query]");
     if (createOption && elements.ticketTagOptions.contains(createOption)) {
-      createTagByName(createOption.dataset.createTagFromQuery);
+      stageTagName(createOption.dataset.createTagFromQuery);
       return true;
     }
     return false;
   }
 
-  async function createTagByName(name) {
+  function stageTagName(name) {
     const tagName = String(name ?? "").trim();
     if (!state.activeBoardId || !tagName) {
       return;
@@ -210,17 +245,10 @@ export function createTicketTagPicker(ctx) {
       toggleTag(existingTag.id);
       return;
     }
-    const created = await ctx.sendJson(`/api/boards/${state.activeBoardId}/tags`, {
-      method: "POST",
-      body: { name: tagName, color: "" },
-    });
-    await ctx.refreshBoardDetail();
-    state.editorTagIds = [...new Set([...state.editorTagIds, created.id])];
-    state.tagQuery = "";
-    elements.ticketTagSearch.value = "";
-    syncOptions();
-    closeOptions();
-    ctx.showToast(t("Tag created"));
+    if (!state.editorTagDraftNames.some((draft) => draft.toLowerCase() === tagName.toLowerCase())) {
+      state.editorTagDraftNames.push(tagName);
+    }
+    finishTagSelection();
   }
 
   return {

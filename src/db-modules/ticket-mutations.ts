@@ -14,6 +14,7 @@ import {
   replaceTicketBlockers,
   replaceTicketRelatedLinks,
   replaceTicketTags,
+  resolveTicketTagNames,
   validateParentTicket,
 } from "./ticket-writes.js";
 import { getTicketRemoteLink } from "./remote-tracking.js";
@@ -51,6 +52,7 @@ export type CreateTicketInput = GroupEditFields & {
   priority?: number;
   parentTicketId?: Id | null;
   tagIds?: Id[];
+  newTagNames?: string[];
   blockerIds?: Id[];
   relatedIds?: Id[];
 };
@@ -98,9 +100,9 @@ export function createTicket(
   now: Now,
 ): TicketView {
   const createdAt = now();
-  const position = nextTicketPosition(sqlite, input.laneId);
   const tx = sqlite.transaction(() => {
     const groupPlan = planTicketGroupChange(sqlite, null, input, true);
+    const position = nextTicketPosition(sqlite, input.laneId);
     const result = sqlite
       .prepare(
         `
@@ -126,7 +128,8 @@ export function createTicket(
     const ticketId = Number(result.lastInsertRowid);
     recordTicketContentActivity(sqlite, ticketId, createdAt);
     applyTicketGroupPlan(sqlite, groupPlan, ticketId, now());
-    replaceTicketTags(sqlite, ticketId, input.tagIds ?? []);
+    const newTagIds = resolveTicketTagNames(sqlite, input.boardId, input.newTagNames);
+    replaceTicketTags(sqlite, ticketId, [...(input.tagIds ?? []), ...newTagIds]);
     replaceTicketBlockers(sqlite, ticketId, input.blockerIds ?? [], input.boardId);
     replaceTicketRelatedLinks(sqlite, ticketId, input.relatedIds ?? [], input.boardId);
     addTicketActivity(sqlite, now, input.boardId, ticketId, "ticket_created", "Ticket created");
@@ -157,17 +160,17 @@ export function updateTicket(
       return updateTicket(sqlite, ticketId, { ...fields, bodyMarkdown }, now);
     }).immediate();
   }
-  const current = getTicket(sqlite, ticketId);
-  if (!current) {
-    throw new Error("Ticket not found");
-  }
-  const remoteLink = getTicketRemoteLink(sqlite, ticketId);
-  if (remoteLink && typeof input.title === "string" && input.title !== current.title) {
-    throw new Error("Remote tracked ticket title is read-only");
-  }
-  const nextLaneId = input.laneId ?? current.laneId;
-  const nextBoardId = input.boardId ?? current.boardId;
   const tx = sqlite.transaction(() => {
+    const current = getTicket(sqlite, ticketId);
+    if (!current) {
+      throw new Error("Ticket not found");
+    }
+    const remoteLink = getTicketRemoteLink(sqlite, ticketId);
+    if (remoteLink && typeof input.title === "string" && input.title !== current.title) {
+      throw new Error("Remote tracked ticket title is read-only");
+    }
+    const nextLaneId = input.laneId ?? current.laneId;
+    const nextBoardId = input.boardId ?? current.boardId;
     const groupPlan = planTicketGroupChange(sqlite, ticketId, input, true);
     applyTicketGroupPlan(sqlite, groupPlan, undefined, now());
     const boardChanged = nextBoardId !== current.boardId;
@@ -202,8 +205,10 @@ export function updateTicket(
         ticketId,
       );
     if (bodyChanged) recordTicketContentActivity(sqlite, ticketId, updatedAt);
-    if (input.tagIds) {
-      replaceTicketTags(sqlite, ticketId, input.tagIds);
+    const newTagIds = resolveTicketTagNames(sqlite, nextBoardId, input.newTagNames);
+    if (input.tagIds || newTagIds.length) {
+      const selectedTagIds = input.tagIds ?? (boardChanged ? getTicket(sqlite, ticketId)! : current).tags.map((tag) => tag.id);
+      replaceTicketTags(sqlite, ticketId, [...selectedTagIds, ...newTagIds]);
     }
     if (input.blockerIds) {
       replaceTicketBlockers(sqlite, ticketId, input.blockerIds, nextBoardId);

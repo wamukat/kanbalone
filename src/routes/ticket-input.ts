@@ -10,7 +10,7 @@ export function ticketCreateInput(boardId: number, body: TicketMutationBody): Cr
     parentTicketId: body.parentTicketId ?? null,
     bodyMarkdown: body.bodyMarkdown ?? "",
     isArchived: Boolean(body.isArchived), priority: body.priority ?? 2,
-    tagIds: body.tagIds ?? [], blockerIds: body.blockerIds ?? [], relatedIds: body.relatedIds ?? [],
+    tagIds: body.tagIds ?? [], newTagNames: body.newTagNames, blockerIds: body.blockerIds ?? [], relatedIds: body.relatedIds ?? [],
     groupId: body.groupId, groupResolution: body.groupResolution, expectedToken: body.expectedToken,
   };
 }
@@ -20,7 +20,7 @@ export function ticketUpdateInput(body: TicketMutationBody): UpdateTicketInput {
     laneId: body.laneId, parentTicketId: body.parentTicketId, title: body.title?.trim(),
     bodyMarkdown: body.bodyMarkdown, appendMarkdown: body.appendMarkdown,
     isArchived: body.isArchived, priority: body.priority,
-    tagIds: body.tagIds, blockerIds: body.blockerIds ?? undefined, relatedIds: body.relatedIds ?? undefined,
+    tagIds: body.tagIds, newTagNames: body.newTagNames, blockerIds: body.blockerIds ?? undefined, relatedIds: body.relatedIds ?? undefined,
     childTicketIds: body.childTicketIds, groupResolution: body.groupResolution,
     expectedToken: body.expectedToken, expectedEditToken: body.expectedEditToken,
     expectedSelectedParents: body.expectedSelectedParents,
@@ -76,5 +76,14 @@ export async function rejectCompletionFlags(request: FastifyRequest, reply: Fast
 export async function rejectCompletedQuery(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   if (request.query && typeof request.query === "object" && Object.hasOwn(request.query, "completed")) {
     reply.code(400).send({ error: "The completed filter is not accepted. Use resolved instead." });
+  }
+}
+
+export async function rejectInvalidNewTagNames(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  const body = request.body as { newTagNames?: unknown } | null | undefined;
+  const names = body?.newTagNames;
+  // Reject values that Fastify's schema validation would coerce to strings.
+  if (names !== undefined && (!Array.isArray(names) || names.some((name) => typeof name !== "string" || !name.trim()))) {
+    reply.code(400).send({ error: "newTagNames must be an array of non-blank tag names" });
   }
 }

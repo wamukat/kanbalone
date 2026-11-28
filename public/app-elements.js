@@ -101,6 +101,7 @@ export function getAppElements() {
     ticketPriority: document.querySelector("#ticket-priority"),
     ticketTagToggle: document.querySelector("#ticket-tag-toggle"),
     ticketTagSummary: document.querySelector("#ticket-tag-summary"),
+    ticketTagDraftHelp: document.querySelector("#ticket-tag-draft-help"),
     ticketTagSearch: document.querySelector("#ticket-tag-search"),
     ticketTagOptions: document.querySelector("#ticket-tag-options"),
     ticketBlockerToggle: document.querySelector("#ticket-blocker-toggle"),
