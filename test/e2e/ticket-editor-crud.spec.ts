@@ -71,7 +71,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await page.locator("#header-edit-button").click();
     const archiveResponse = page.waitForResponse(
       (response) =>
-        response.url().endsWith(`/api/tickets/${createdTicket.id}`) &&
+        response.url().endsWith(`/api/tickets/${createdTicket.id}/archive`) &&
         response.request().method() === "PATCH",
     );
     await page.locator("#archive-ticket-button").click();
@@ -92,7 +92,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.locator("#archive-ticket-button")).toContainText("Restore");
     const restoreResponse = page.waitForResponse(
       (response) =>
-        response.url().endsWith(`/api/tickets/${createdTicket.id}`) &&
+        response.url().endsWith(`/api/tickets/${createdTicket.id}/archive`) &&
         response.request().method() === "PATCH",
     );
     await page.locator("#archive-ticket-button").click();

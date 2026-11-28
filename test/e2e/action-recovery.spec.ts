@@ -12,17 +12,18 @@ for (const locale of ["en-US", "ja-JP"]) {
       for (const initial of [false, true]) {
         const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Recover state", isArchived: initial });
         const ticketUrl = `${baseUrl}/api/tickets/${ticket.id}`;
+        const archiveUrl = `${ticketUrl}/archive`;
         await page.goto(`${baseUrl}/tickets/${ticket.id}`);
         await page.locator("#header-edit-button").click();
-        await page.route(ticketUrl, route => route.request().method() === "PATCH"
+        await page.route(archiveUrl, route => route.request().method() === "PATCH"
           ? route.fulfill({ status: 500, json: { error: "Write failed" } }) : route.continue());
         await page.locator("#archive-ticket-button").click();
         await expect(page.locator("#toast")).toHaveText("Write failed");
         await expect(page.locator("#archive-ticket-button")).toBeFocused();
         expect((await (await page.request.get(ticketUrl)).json()).isArchived).toBe(initial);
-        await page.unroute(ticketUrl);
+        await page.unroute(archiveUrl);
         let writes = 0;
-        await page.route(ticketUrl, async route => {
+        await page.route(archiveUrl, async route => {
           if (route.request().method() !== "PATCH") return route.continue();
           const response = await route.fetch(); writes++;
           return route.fulfill({ response });
@@ -42,7 +43,7 @@ for (const locale of ["en-US", "ja-JP"]) {
           ? (locale === "ja-JP" ? "アーカイブ" : "Archive") : (locale === "ja-JP" ? "復元" : "Restore"));
         expect(writes).toBe(1);
         expect((await (await page.request.get(ticketUrl)).json()).isArchived).toBe(!initial);
-        await page.unroute(ticketUrl);
+        await page.unroute(archiveUrl);
       }
     } finally { await close(); await context.close(); }
   });
