@@ -3,6 +3,7 @@ import type Database from "better-sqlite3";
 import { createMigratedCompletionLane } from "./lane-completion.js";
 import { requireValidUpdater } from "../operation-updater.js";
 import type { CreateCommentInput } from "./comments.js";
+import { importTicketTaskState, isTaskBody, isTaskPositiveInteger } from "./ticket-tasks.js";
 
 import { replaceTicketBlockers, replaceTicketRelatedLinks } from "./ticket-writes.js";
 import type {
@@ -11,6 +12,7 @@ import type {
   CommentView,
   Id,
   TagView,
+  TicketTaskState,
   TicketView,
 } from "../types.js";
 
@@ -31,9 +33,9 @@ type ImportBoardOps = {
   getBoardDetail(boardId: Id): BoardDetailView;
 };
 
-export function toBoardExport(detail: BoardDetailView): BoardExport {
+export function toBoardExport(detail: BoardDetailView, taskStates: Map<Id, TicketTaskState>): BoardExport {
   return {
-    formatVersion: 2,
+    formatVersion: taskStates.size > 0 ? 4 : 2,
     groups: (detail.groups ?? []).map(({ id, name, descriptionMarkdown, createdAt, updatedAt }) => ({ id, name, descriptionMarkdown, createdAt, updatedAt })),
     board: detail.board,
     lanes: detail.lanes,
@@ -51,12 +53,39 @@ export function toBoardExport(detail: BoardDetailView): BoardExport {
       shortRef: _shortRef,
       remote: _remote,
       externalReferences: _externalReferences,
+      taskCount: _taskCount,
+      doneTaskCount: _doneTaskCount,
       ...ticket
     }) => ({
       ...ticket,
       comments: ticket.comments.map(({ sync: _sync, ...comment }) => comment),
+      ...(taskStates.has(ticket.id) ? { taskState: taskStates.get(ticket.id)! } : {}),
     })),
   };
+}
+
+export function validateBoardTaskStates(payload: BoardExport): void {
+  let hasTaskState = false;
+  for (const ticket of payload.tickets) {
+    if (!ticket || typeof ticket !== "object") throw new Error("Invalid ticket in board export");
+    if (!Object.hasOwn(ticket, "taskState")) continue;
+    hasTaskState = true;
+    if (payload.formatVersion !== 4) throw new Error("Task data requires board export format 4");
+    const state = ticket.taskState;
+    if (!state || !isTaskPositiveInteger(state.lastNumber) || !Array.isArray(state.tasks)) {
+      throw new Error("Invalid Task numbering state in board export");
+    }
+    const numbers = new Set<number>();
+    for (const task of state.tasks) {
+      if (!task || !isTaskPositiveInteger(task.number) || task.number > state.lastNumber ||
+          !isTaskPositiveInteger(task.revision) || !isTaskBody(task.bodyMarkdown) ||
+          typeof task.done !== "boolean" || numbers.has(task.number)) {
+        throw new Error("Invalid or duplicate Task in board export");
+      }
+      numbers.add(task.number);
+    }
+  }
+  if (payload.formatVersion === 4 && !hasTaskState) throw new Error("Task data missing from board export format 4");
 }
 
 export function importBoardPayload(
@@ -74,9 +103,9 @@ export function importBoardPayload(
       if (!positiveId(ticket.parentTicketId) || !parent || parent.id === ticket.id || parent.parentTicketId != null) groupError("Invalid parent/child relationships in export", "INVALID_EXPORT_FORMAT", 400);
     }
     const version = payload.formatVersion;
-    if (version !== undefined && version !== 2 && version !== 3) groupError("Unsupported board export format", "INVALID_EXPORT_FORMAT", 400);
+    if (version !== undefined && version !== 2 && version !== 3 && version !== 4) groupError("Unsupported board export format", "INVALID_EXPORT_FORMAT", 400);
     if (version === undefined && (Object.hasOwn(payload, "groups") || payload.tickets.some(t => Object.hasOwn(t, "groupId")))) groupError("Group fields require formatVersion 2", "INVALID_EXPORT_FORMAT", 400);
-    if (version === 2 || version === 3) {
+    if (version === 2 || version === 3 || version === 4) {
       if (!Array.isArray(payload.groups) || payload.tickets.some(t => !Object.hasOwn(t, "groupId"))) groupError("Group data missing from board export", "INVALID_EXPORT_FORMAT", 400);
       const validId = (id: unknown) => typeof id === "number" && Number.isSafeInteger(id) && id > 0;
       const validDate = (date: unknown) => typeof date === "string" && Number.isFinite(Date.parse(date));
@@ -161,6 +190,7 @@ export function importBoardPayload(
       sqlite.prepare("UPDATE tickets SET resolved_at = ? WHERE id = ?").run(resolvedAt, createdTicket.id);
       createdTicketIds.set(ticket.id, createdTicket.id);
       if (ticket.groupId != null) sqlite.prepare("UPDATE tickets SET group_id=? WHERE id=?").run(groupById.get(ticket.groupId), createdTicket.id);
+      if (ticket.taskState) importTicketTaskState(sqlite, createdTicket.id, ticket.taskState);
       // Assign fresh IDs in chronological order to retain the source order for tied timestamps.
       const comments = [...ticket.comments].sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt) || a.id - b.id);
       for (const comment of comments) {

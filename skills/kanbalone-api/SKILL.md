@@ -48,6 +48,17 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
 
 Omitting `updater` records `API`. Use up to 80 Unicode characters with at least one non-whitespace character and no control characters. A supplied value is stored as written. `GET /api/tickets/:ticketId/activity` shows who made each recorded change. The `updater` on a comment is its creation value, and edits have separate entries in activity. Historical records without an updater return `null`. See the [API reference](references/api.md#operation-updater) for writes that accept the field.
 
+### Record a Task
+
+Use a Task for an individual correction or check within a ticket.
+
+```bash
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" \
+  POST /api/tickets/"$TICKET_ID"/tasks --body-file check.md
+```
+
+Use the returned Task `number` to identify it and its `revision` as `expectedRevision` when editing or deleting it. On a conflict, fetch the current Task and reconcile the change before retrying. See [Task endpoints](references/api.md#ticket-tasks).
+
 Create a Markdown ticket:
 
 ```bash

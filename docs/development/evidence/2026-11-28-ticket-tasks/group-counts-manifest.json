@@ -1,0 +1,102 @@
+{
+  "captureDate": "2026-11-28 JST",
+  "fixture": "Group Task 検証 / リリース確認",
+  "browser": {
+    "chromiumMajor": 158,
+    "agentBrowser": "0.26.0",
+    "locale": "ja",
+    "viewport": [
+      1440,
+      900
+    ],
+    "deviceScaleFactor": 1
+  },
+  "versions": {
+    "kanbalone": "1.6.0",
+    "node": "26.13.1"
+  },
+  "runtimeFingerprints": {
+    "before": {
+      "baseCommit": "558e4a8c7eae17278a2a2b584f5a67ce346f5298",
+      "fileCount": 240,
+      "sha256": "21fb37eba3a2746ce86807c1b1e817247972f396fa369b7f2d12c89869bae54a"
+    },
+    "after": {
+      "fileCount": 240,
+      "sha256": "98e37c3bc5439ff108ed3cbfe4ef57b5489d0394b218fd6e84d11599ce60883a"
+    }
+  },
+  "fingerprintRecipe": "Hash the LF-terminated lines of individual SHA-256, two spaces and sorted relative path for src/, public/ and package.json.",
+  "verified": {
+    "countsBeforeUpdate": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "zeroTotalHidden": true,
+    "priorGroupFieldsPreserved": true,
+    "sourceDatabaseReused": true,
+    "updatedWithoutReloadInSecondTab": true,
+    "savedUpdate": {
+      "taskNumber": 2,
+      "done": true,
+      "revision": 2,
+      "parentResolved": false,
+      "groupCounts": [
+        [
+          2,
+          2
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ]
+    }
+  },
+  "images": [
+    {
+      "file": "after-ja-dark-group-counts.png",
+      "runtime": "after",
+      "byteSize": 69502,
+      "sha256": "aa4c9afffea8f2c4d3f2f19b53f3c2bb4d2386fade1314f6abb84d366990f9f5"
+    },
+    {
+      "file": "after-ja-light-group-counts-updated.png",
+      "runtime": "after",
+      "byteSize": 71041,
+      "sha256": "5006a01bec7dedac5a0edd0c4f70fe4765d7d829bd677e218e4ef2821be75ae5"
+    },
+    {
+      "file": "after-ja-light-group-counts.png",
+      "runtime": "after",
+      "byteSize": 70297,
+      "sha256": "f4be14a8301794e0ce7d51863b5c6eee6fcc5802fb9a2d248ebb4c669d373b67"
+    },
+    {
+      "file": "before-ja-dark-group-counts.png",
+      "runtime": "before",
+      "byteSize": 67166,
+      "sha256": "390c0f89697301af7e6df952e9f40bbac839e01fbf67d8c4aa5fc160c19878a1"
+    },
+    {
+      "file": "before-ja-light-group-counts.png",
+      "runtime": "before",
+      "byteSize": 67863,
+      "sha256": "ca66533a343dd19e6f27d439c7d200b369ac60b5b5e2c820f3688527c04c629f"
+    }
+  ]
+}

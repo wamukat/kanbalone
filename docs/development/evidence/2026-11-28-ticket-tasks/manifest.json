@@ -1,0 +1,194 @@
+{
+  "captureDate": "2026-11-28 JST",
+  "syntheticFixture": "Release notebook",
+  "browser": {
+    "chromiumMajor": 158,
+    "os": "macOS",
+    "agentBrowser": "0.26.0",
+    "locale": "ja",
+    "deviceScaleFactor": 1,
+    "viewport": [
+      1440,
+      900
+    ]
+  },
+  "versions": {
+    "kanbalone": "1.6.0",
+    "node": "26.13.1"
+  },
+  "baseCommit": "c1162cc49f04210dd83c62af0eb7aa4301340fe2",
+  "runtimeFingerprintRecipe": "Hash the LF-terminated lines of individual SHA-256, two spaces and sorted relative path for src/, public/ and package.json.",
+  "runtimeFingerprints": {
+    "baseline": {
+      "fileCount": 235,
+      "sha256": "9912de914bfd70b9cd16d1aef6d80f1417c8e621a319487fc4cf1b753357eb30"
+    },
+    "lifecycle": {
+      "fileCount": 240,
+      "sha256": "fa5b2074c027b556185cf319711a8e438a1c8d6ce76e7f9099a38c63c556daf2"
+    },
+    "pairedCandidate": {
+      "fileCount": 240,
+      "sha256": "39bb9844037e0defa7b526b75a21bdbf402657950a9199c6d7bfe0b9f40b4ffd"
+    },
+    "finalCandidate": {
+      "fileCount": 240,
+      "sha256": "21fb37eba3a2746ce86807c1b1e817247972f396fa369b7f2d12c89869bae54a"
+    }
+  },
+  "checks": {
+    "migration": {
+      "priorTablesIdentical": 22,
+      "taskCount": 0,
+      "doneTaskCount": 0,
+      "legacyAttachmentSha256": "79bd0e096994c36ffe59cbd7ae9a16444a44bf32a106c04ab4df3221e0e7c2ca"
+    },
+    "taskMutations": {
+      "created": 4,
+      "updated": 4,
+      "deleted": 2,
+      "activeNumbers": [
+        1,
+        3
+      ],
+      "completedNumbers": [
+        1
+      ],
+      "nextNumber": 5,
+      "staleRevisionStatus": 409,
+      "missingRevisionStatus": 428,
+      "peerListCount": [
+        "0/1",
+        "1/2"
+      ]
+    },
+    "transport": {
+      "oldExportVersion": 3,
+      "oldTasksImported": 0,
+      "newExportVersion": 4,
+      "importedActive": [
+        [
+          1,
+          5,
+          true
+        ],
+        [
+          3,
+          1,
+          false
+        ]
+      ],
+      "nextNumber": 5,
+      "importedAfterAllDeletedNumber": 6,
+      "attachmentSha256": [
+        "79bd0e096994c36ffe59cbd7ae9a16444a44bf32a106c04ab4df3221e0e7c2ca",
+        "40992dbc1e470762512cffe725588bdfaf9bf27d06a6620f9b76710df2277332"
+      ],
+      "baselineRejectedV4": 400
+    },
+    "backup": {
+      "historyCount": 12,
+      "activeNumbers": [
+        1,
+        3
+      ],
+      "nextNumber": 5,
+      "attachmentSha256": [
+        "79bd0e096994c36ffe59cbd7ae9a16444a44bf32a106c04ab4df3221e0e7c2ca",
+        "40992dbc1e470762512cffe725588bdfaf9bf27d06a6620f9b76710df2277332"
+      ]
+    }
+  },
+  "images": [
+    {
+      "file": "after-ja-dark-detail.png",
+      "byteSize": 113407,
+      "sha256": "7aa7038db0fca2d0fed404c86d694b2ea725cef094af942e28d659515285d91d",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-dark-kanban.png",
+      "byteSize": 74807,
+      "sha256": "e37f6c81e76c3ff1624f1c380f907c7d389c22ea69acf302f2b736c9ed033747",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-dark-list.png",
+      "byteSize": 71558,
+      "sha256": "4b76330dd827b86ff1ad391a1a80cf74c20cd651bb0fde3959ef6668746f6315",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-light-detail.png",
+      "byteSize": 121165,
+      "sha256": "589e72f98c62ad1cba05dffb4fe015056575e5e2fec95337982ab4df909884ba",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-light-kanban.png",
+      "byteSize": 69841,
+      "sha256": "d1c50f6d4fd862650f3dae8dad0ffa1dd9a4a8a4c451995815dc578d68c558aa",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-light-list.png",
+      "byteSize": 71538,
+      "sha256": "70da5e64d0125e048e7cc9f540e352a72083f5a6be38b7bdc6a75287c9160227",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-light-task-editor.png",
+      "byteSize": 130077,
+      "sha256": "d00603a3b57de916ef8978ed1e1d09ce7f06d17963067a430a7761234daad2da",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-light-task-filter.png",
+      "byteSize": 107657,
+      "sha256": "ed5928bfeed6d62ef7ee914360f8d38f647946abac2978d0f247fa302336b170",
+      "runtime": "pairedCandidate"
+    },
+    {
+      "file": "after-ja-light-task-history.png",
+      "byteSize": 158796,
+      "sha256": "c21b4378464ef9ae9d19559ad23492a3438536a02cc8e2339491ddb853ff99cd",
+      "runtime": "finalCandidate"
+    },
+    {
+      "file": "before-ja-dark-detail.png",
+      "byteSize": 90961,
+      "sha256": "38a22809e830825dcc58797469227bde037c9c70eec7fa36c3aa350ef614b53a",
+      "runtime": "baseline"
+    },
+    {
+      "file": "before-ja-dark-kanban.png",
+      "byteSize": 73781,
+      "sha256": "d50b25b40065641b232495180480b98457aea821443df1c88993f9a6831ebc63",
+      "runtime": "baseline"
+    },
+    {
+      "file": "before-ja-dark-list.png",
+      "byteSize": 70189,
+      "sha256": "4e32dc7df82dae2ad0d060c8cd2e38dbcbccbb93da70d8c0c14fb568d9df59e5",
+      "runtime": "baseline"
+    },
+    {
+      "file": "before-ja-light-detail.png",
+      "byteSize": 101652,
+      "sha256": "14b0ae2a1bb4f976cee7e27a2f61a8640ac96b306f3b94c9d9e93554baf00522",
+      "runtime": "baseline"
+    },
+    {
+      "file": "before-ja-light-kanban.png",
+      "byteSize": 68826,
+      "sha256": "0db311f972b1f833f6d118bef8447fe9af66fa5de3538f1513555a200664dbd6",
+      "runtime": "baseline"
+    },
+    {
+      "file": "before-ja-light-list.png",
+      "byteSize": 70132,
+      "sha256": "5faec6852b5856aea91a5f39ce68c164c39a948536df54eeac4bfebc00842add",
+      "runtime": "baseline"
+    }
+  ]
+}

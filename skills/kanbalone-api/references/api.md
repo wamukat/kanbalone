@@ -14,6 +14,15 @@ Omission records `API`. Supply valid Unicode with 1–80 characters, at least on
 
 Ticket and Group activity return an `updater` on each entry. Comments return the creation updater. Comment edits are independently attributed in ticket activity. `null` means unrecorded. Portable board JSON preserves comment creation updater values and timestamps, while newly generated import activity uses the top-level operation updater.
 
+## Ticket Tasks
+
+- `GET /api/tickets/:ticketId/tasks` returns `{tasks, taskCount, doneTaskCount}` in ascending Task number. Filter by a literal Markdown substring with `q` and by completion with `done=true` or `done=false`. The counts cover the whole ticket. ASCII letter case is ignored and other characters match literally.
+- `POST /api/tickets/:ticketId/tasks` accepts `{bodyMarkdown, done?, updater?}` and returns the new Task. Use nonblank Markdown of up to 100,000 valid Unicode characters. Omitted `done` starts false. Task numbers are assigned within the ticket and retained in numbering history after deletion.
+- `GET /api/tickets/:ticketId/tasks/:taskNumber` returns `{number, bodyMarkdown, bodyHtml, done, revision}`.
+- `PATCH /api/tickets/:ticketId/tasks/:taskNumber` accepts `{expectedRevision, bodyMarkdown?, done?, updater?}`. `DELETE` accepts `{expectedRevision, updater?}` and returns 204. Use the reviewed revision. Omission returns 428 and a conflict returns 409 `STALE_TASK`. Re-read and reconcile before retrying.
+
+Task completion is independent of the ticket's lane. Activity records the number, the change and the updater. Body edits and deletions retain the corresponding Markdown. Ticket detail and summaries include `taskCount` and `doneTaskCount`.
+
 ## System
 
 - `GET /api/health` -> `{ "ok": true }`
@@ -267,7 +276,7 @@ With only one non-null Group, ungrouped parent/child tickets join it automatical
 
 Group-aware errors use `{error,code,details?}`. Input errors return 400, missing resources 404, conflicts 409, and missing required preconditions 428. After a failure, do not infer that a requested change partially succeeded.
 
-Board exports include `groups` and ticket `groupId`, including empty/inactive Groups and archived tickets. Exports that embed or link to a local image use `formatVersion:3` and include the referenced image files. Other exports use `formatVersion:2`. Format 3 requires v1.1.0-rc.1 or a later compatible version. Import remaps IDs into a new board and rejects inconsistent Group references or parent/child membership. Legacy exports without version and without Group fields import as ungrouped. For rollback, restore the pre-upgrade backup with the original release.
+Board exports include `groups` and ticket `groupId`, including empty/inactive Groups and archived tickets. Exports without Task data use format 2, or format 3 when they include referenced local images. A board with any allocated Task numbers uses `formatVersion:4`. Format 4 carries active Tasks, the highest number per ticket and referenced images, including images from Task Markdown. Import into a version that supports the export format. Import remaps IDs into a new board and rejects inconsistent Group references or parent/child membership. Legacy exports without version and without Group fields import as ungrouped. Use a full database and image backup for operation history and restore a pre-upgrade backup with the original release for rollback.
 
 Creation previews use `id: 0, clientRef: "new"` for the proposed ticket, including references in parent changes and candidate changed IDs. Never send 0 as an existing ticket ID. Membership apply returns `{changedTickets,affectedGroups}`. Read Group history with `GET /api/boards/:boardId/group-activity?groupId=7`; history remains after deletion. `POST /api/markdown/preview` with `{bodyMarkdown}` returns sanitized `{bodyHtml}` without writing. Schema validation failures can omit `code`: missing Group PATCH `expectedRevision` returns 400, whereas missing runtime tokens or DELETE `If-Match` return 428.
 

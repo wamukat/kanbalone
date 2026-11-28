@@ -36,7 +36,7 @@ export function createKanbanLaneWindow(list, tickets, createCard, measurements, 
         break;
       }
     }
-    measurements.set(ticket.id, { height, width, revision: ticket.updatedAt });
+    measurements.set(ticket.id, { height, width, revision: ticket.updatedAt, taskCount: ticket.taskCount, doneTaskCount: ticket.doneTaskCount });
   }
 
   function rememberPosition() {
@@ -54,6 +54,7 @@ export function createKanbanLaneWindow(list, tickets, createCard, measurements, 
       const ticket = tickets[i];
       const sample = measurements.get(ticket.id);
       heights[i] = sample?.width === width && sample.revision === ticket.updatedAt
+        && sample.taskCount === ticket.taskCount && sample.doneTaskCount === ticket.doneTaskCount
         ? sample.height : ESTIMATED_CARD_HEIGHT;
     }
     updateOffsets();

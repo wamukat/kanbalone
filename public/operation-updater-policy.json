@@ -20,6 +20,8 @@
     "/api/tickets/:ticketId/tags/:tagId": ["POST", "DELETE"],
     "/api/tickets/:ticketId/external-references/:kind": ["PUT", "DELETE"],
     "/api/tickets/:ticketId/comments": ["POST"],
+    "/api/tickets/:ticketId/tasks": ["POST"],
+    "/api/tickets/:ticketId/tasks/:taskNumber": ["PATCH", "DELETE"],
     "/api/comments/:commentId": ["PATCH", "DELETE"],
     "/api/comments/:commentId/push-remote": ["POST"]
   }

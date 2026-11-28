@@ -5,6 +5,7 @@ import { renderPriorityIcon } from "./app-priority.js";
 import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
 import { renderTicketStatusIcons } from "./app-ticket-status.js";
+import { renderTicketTaskCount } from "./app-ticket-task-count.js";
 
 export function createKanbanTicketCard(ctx, ticket, renderIcon = ticketInlineIcon) {
   const { state } = ctx;
@@ -29,6 +30,7 @@ export function createKanbanTicketCard(ctx, ticket, renderIcon = ticketInlineIco
     ${(ticket.externalReferences ?? []).map((reference) => renderRemoteRefBadge(reference, ctx.escapeHtml, "ticket-external-card-ref")).join("")}
     <div class="tag-list">
       ${ticket.tags.map((tag) => renderTag(tag, ctx.escapeHtml)).join("")}
+      ${renderTicketTaskCount(ticket, ctx.escapeHtml)}
     </div>
   `;
 

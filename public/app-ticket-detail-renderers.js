@@ -140,6 +140,8 @@ export function createTicketDetailRenderers(ctx) {
               <bdi class="record-updater">${ctx.escapeHtml(item.entry.updater ?? t("Unrecorded"))}</bdi>
             </div>
             <div class="activity-message">${ctx.escapeHtml(formatActivityMessage(item.entry))}</div>
+            ${item.entry.action?.startsWith("task_") && typeof item.entry.details?.bodyExcerpt === "string"
+              ? `<div class="activity-meta muted ticket-task-excerpt">${ctx.escapeHtml(item.entry.details.bodyExcerpt)}</div>` : ""}
           </article>
         `;
       })
@@ -147,6 +149,20 @@ export function createTicketDetailRenderers(ctx) {
   }
 
   function formatActivityMessage(entry) {
+    if (typeof entry.details?.taskNumber === "number") {
+      const number = entry.details.taskNumber;
+      if (entry.action === "task_created") return t("Added Task #{number}", { number });
+      if (entry.action === "task_deleted") return t("Deleted Task #{number}", { number });
+      if (entry.action === "task_updated") {
+        if (entry.details.done !== entry.details.previousDone) {
+          if (entry.details.bodyChanged === true) {
+            return t(entry.details.done ? "Completed Task #{number} and updated its text" : "Reopened Task #{number} and updated its text", { number });
+          }
+          return t(entry.details.done ? "Completed Task #{number}" : "Reopened Task #{number}", { number });
+        }
+        return t("Updated Task #{number}", { number });
+      }
+    }
     if (entry.action === "ticket_moved_board" && typeof entry.details?.toBoardName === "string" && typeof entry.details?.toLaneName === "string") {
       return t("Moved to {board} / {lane}", { board: entry.details.toBoardName, lane: entry.details.toLaneName });
     }

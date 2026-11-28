@@ -4,6 +4,7 @@ import { decodePaginationToken, encodePaginationToken } from "./pagination-token
 import { ticketFilterQuery, type ListTicketsFilters } from "./ticket-queries.js";
 import { mapTicketSummaries, listTicketSummaries } from "./ticket-read-model.js";
 import { getBlockerIdsForTicketIds, getTagsForTicketIds } from "./ticket-loaders.js";
+import { getTicketTaskCounts } from "./ticket-tasks.js";
 import type { GroupTicketView, ListTicketReferenceView, TicketRelationCandidateView, TicketRow, TicketSummaryView } from "../types.js";
 
 export type TicketOrder = "id_asc" | "position_asc" | "completed_desc";
@@ -190,13 +191,20 @@ export function listGroupTicketPage(sqlite: Database.Database, boardId: number, 
     EXISTS (SELECT 1 FROM tickets child WHERE child.parent_ticket_id = t.id) AS has_children`;
   return readTicketPage(sqlite, boardId, filtered, { ...options, reuseTotal: true }, order, query, projection,
     (rows: GroupTicketRow[]): GroupTicketView[] => {
-      const tags = getTagsForTicketIds(sqlite, rows.map(row => row.id));
-      return rows.map(row => ({
-        ...mapListTicketReference(row),
-        priority: row.priority,
-        isArchived: Boolean(row.is_archived),
-        hasChildren: Boolean(row.has_children),
-        tags: (tags.get(row.id) ?? []).map(({ id, name, color }) => ({ id, name, color })),
-      }));
+      const ids = rows.map(row => row.id);
+      const tags = getTagsForTicketIds(sqlite, ids);
+      const taskCounts = getTicketTaskCounts(sqlite, ids);
+      return rows.map(row => {
+        const counts = taskCounts.get(row.id);
+        return {
+          ...mapListTicketReference(row),
+          priority: row.priority,
+          isArchived: Boolean(row.is_archived),
+          hasChildren: Boolean(row.has_children),
+          taskCount: counts?.taskCount ?? 0,
+          doneTaskCount: counts?.doneTaskCount ?? 0,
+          tags: (tags.get(row.id) ?? []).map(({ id, name, color }) => ({ id, name, color })),
+        };
+      });
     });
 }

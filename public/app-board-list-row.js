@@ -3,6 +3,7 @@ import { renderTag } from "./app-tags.js";
 import { renderPriorityBadge } from "./app-priority.js";
 import { renderRemoteRefBadge } from "./app-remote-provider.js";
 import { renderTicketHierarchyIcon } from "./app-ticket-hierarchy.js";
+import { renderTicketTaskCount } from "./app-ticket-task-count.js";
 
 export function renderListRow(entry, options) {
   const { ticket, indent } = entry;
@@ -20,15 +21,17 @@ export function renderListRow(entry, options) {
     .join(", ");
   const lane = options.lanes.find((item) => item.id === ticket.laneId);
   const statusIcons = options.renderTicketStatusIcons(ticket);
+  const taskCount = renderTicketTaskCount(ticket, options.escapeHtml);
+  const title = `<button type="button" class="list-ticket-link" data-open-ticket-id="${ticket.id}">
+    <span class="ticket-id">#${ticket.id}</span>
+    <span class="list-ticket-title">${options.escapeHtml(ticket.title)}</span>
+  </button>`;
   return `
     <div class="list-row ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}" style="height:${options.rowHeight}px">
       <input type="checkbox" data-list-ticket-id="${ticket.id}" ${options.selectedTicketIds.includes(ticket.id) ? "checked" : ""} />
       <div class="list-ticket-title-cell indent-${indent}">
         ${options.showHierarchy === false ? "" : renderTicketHierarchyIcon(ticket, options.boardTickets, { selectableParent: true })}
-        <button type="button" class="list-ticket-link" data-open-ticket-id="${ticket.id}">
-          <span class="ticket-id">#${ticket.id}</span>
-          <span class="list-ticket-title">${options.escapeHtml(ticket.title)}</span>
-        </button>
+        ${taskCount ? `<div class="ticket-title-stack">${title}${taskCount}</div>` : title}
       </div>
       <div class="list-cell muted">${blockers || "-"}</div>
       <div class="list-tag-cell">

@@ -17,6 +17,7 @@ import type {
   TicketRelationView,
   TicketRow,
   TicketSummaryView,
+  TicketTaskCounts,
   TicketView,
   CommentRemoteSyncView,
   TicketEventRow,
@@ -24,6 +25,8 @@ import type {
   TicketTagReasonRow,
   TicketTagReasonView,
 } from "../types.js";
+
+const emptyTaskCounts: TicketTaskCounts = { taskCount: 0, doneTaskCount: 0 };
 
 export function mapBoard(row: BoardRow): BoardView {
   return {
@@ -67,6 +70,7 @@ export function mapTicket(
   remote: TicketRemoteLinkView | null,
   externalReferences: TicketExternalReferenceView[],
   groupFields: Pick<TicketView, "groupId" | "group" | "editToken"> = {},
+  taskCounts = emptyTaskCounts,
 ): TicketView {
   return {
     id: row.id,
@@ -98,6 +102,7 @@ export function mapTicket(
     remote,
     externalReferences,
     ...groupFields,
+    ...taskCounts,
   };
 }
 
@@ -112,6 +117,7 @@ export function mapTicketSummary(
   externalReferences: TicketExternalReferenceView[],
   groupFields: Pick<TicketSummaryView, "groupId" | "group"> = {},
   unresolvedBlockerCount = 0,
+  taskCounts = emptyTaskCounts,
 ): TicketSummaryView {
   return {
     id: row.id,
@@ -136,6 +142,7 @@ export function mapTicketSummary(
     remote,
     externalReferences,
     ...groupFields,
+    ...taskCounts,
   };
 }
 

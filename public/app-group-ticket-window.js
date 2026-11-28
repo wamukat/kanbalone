@@ -9,8 +9,8 @@ const overscan = 650;
 
 /** @param {Row} row */
 function estimate(row) {
-  const { title, tags } = row.ticket;
-  return 52 + (row.lastInFamily ? 12 : 0) + (tags.length ? 20 : 0)
+  const { title, tags, taskCount } = row.ticket;
+  return 52 + (row.lastInFamily ? 12 : 0) + (tags.length ? 20 : 0) + (taskCount > 0 ? 20 : 0)
     + Math.max(0, Math.ceil(title.length / 130) - 1) * 20;
 }
 
@@ -106,10 +106,19 @@ export function createGroupTicketWindow(root, section, initial) {
 
   /** @param {Model} next */
   function indexModel(next) {
+    const nextOrder = next.rows.map(row => row.ticket.id);
+    const nextIndices = new Map(nextOrder.map((id, index) => [id, index]));
+    for (const id of measured.keys()) {
+      const previousIndex = indices.get(id);
+      const nextIndex = nextIndices.get(id);
+      if (previousIndex === undefined || nextIndex === undefined
+          || (model.rows[previousIndex].ticket.taskCount > 0) !== (next.rows[nextIndex].ticket.taskCount > 0)) {
+        measured.delete(id);
+      }
+    }
     model = next;
-    order = model.rows.map(row => row.ticket.id);
-    indices = new Map(order.map((id, index) => [id, index]));
-    for (const id of measured.keys()) if (!indices.has(id)) measured.delete(id);
+    order = nextOrder;
+    indices = nextIndices;
     writeOffsets();
   }
 

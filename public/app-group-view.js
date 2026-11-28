@@ -6,6 +6,7 @@ import { ticketInlineIcon } from "./app-ticket-inline-icons.js";
 import { renderTag } from "./app-tags.js";
 import { getListTicketComparator } from "./app-ticket-sort.js";
 import { renderTicketHierarchyIcon, indexTicketHierarchy } from "./app-ticket-hierarchy.js";
+import { renderTicketTaskCount } from "./app-ticket-task-count.js";
 /**
  * @typedef {import("./app-group-types.js").GroupView} GroupView
  * @typedef {import("./app-group-types.js").GroupSummary} GroupSummary
@@ -126,8 +127,9 @@ export function renderGroupViewSections(view, { escapeHtml: esc, lanes, rowIcon 
     const title = context
       ? `<span class="list-ticket-link group-ticket-title" title="${esc(reason)}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}${visibilityNote}</span></span>`
       : `<button class="list-ticket-link group-ticket-title" data-group-ticket="${t.id}"><span class="ticket-ref">#${t.id}</span><span>${esc(t.title)}</span></button>`;
+    const taskCount = renderTicketTaskCount(t, esc);
     return `<div data-group-row-id="${t.id}" class="group-ticket-row ${context ? "group-ticket-context" : ""} ${t.isResolved ? "group-ticket-resolved" : ""} ${t.isArchived ? "group-ticket-archived" : ""}">
-    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: rowIcon })}${title}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: rowIcon })}</span></div>
+    <div class="group-ticket-title-cell">${renderTicketHierarchyIcon(t, tickets, { renderIcon: rowIcon })}${taskCount ? `<div class="ticket-title-stack">${title}${taskCount}</div>` : title}<span class="ticket-status-icons group-ticket-status">${renderTicketStatusIcons(t, { renderIcon: rowIcon })}</span></div>
     <span class="group-ticket-meta">${esc(lanes.find((l) => l.id === t.laneId)?.name || "")}</span>
     ${canRemove ? `<button class="ghost icon-button group-remove-button group-text-action" data-group-remove="${t.id}" title="${tr("Remove {count} ticket(s) from Group", { count: hierarchy().relatedCount(t.id) })}" aria-label="${hierarchy().relatedCount(t.id) > 1 ? tr("Remove {count} tickets from Group", { count: hierarchy().relatedCount(t.id) }) : tr("Remove from Group")}" ${busy ? "disabled" : ""}>${rowIcon("trash-2")}</button>` : ""}
     ${t.tags.length ? `<div class="tag-list group-ticket-tags">${t.tags.map((tag) => renderTag(tag, esc)).join("")}</div>` : ""}

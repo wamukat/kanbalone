@@ -113,7 +113,7 @@ test("paging filters run before LIMIT and normalized conditions bind the cursor"
   } finally { await f.app.close(); f.db.close(); }
 });
 
-test("Group pages keep archived context, child and tag metadata while isolating their cursor", async () => {
+test("Group pages keep archived context, child, tag and Task metadata while isolating their cursor", async () => {
   const f = setup();
   try {
     const boardId = f.board.board.id;
@@ -128,6 +128,10 @@ test("Group pages keep archived context, child and tag metadata while isolating 
     for (const tag of [last, first]) {
       f.db.sqlite.prepare("INSERT INTO ticket_tags VALUES (?, ?)").run(parent, tag.id);
     }
+    for (const done of [false, true]) {
+      const task = await f.app.inject({ method: "POST", url: `/api/tickets/${parent}/tasks`, payload: { bodyMarkdown: "Example Task", done } });
+      assert.equal(task.statusCode, 201);
+    }
 
     const url = `${base}/group-tickets?groupId=${group.id}&limit=1`;
     const response = await f.app.inject(url);
@@ -140,13 +144,16 @@ test("Group pages keep archived context, child and tag metadata while isolating 
     const next = await f.app.inject(`${url}&cursor=${cursor}`);
     assert.equal(next.headers["x-kanbalone-ticket-revision"], revision);
     const full = (await f.app.inject(`${f.url}?groupId=${group.id}&archived=all&order=id_asc`)).json();
-    const expected = full.tickets.map(({ id, title, laneId, parentTicketId, isResolved, isArchived, hasChildren, priority, tags }: TicketSummaryView) => ({
-      id, title, laneId, parentTicketId, isResolved, isArchived, hasChildren, priority,
+    const expected = full.tickets.map(({ id, title, laneId, parentTicketId, isResolved, isArchived, hasChildren, priority, taskCount, doneTaskCount, tags }: TicketSummaryView) => ({
+      id, title, laneId, parentTicketId, isResolved, isArchived, hasChildren, priority, taskCount, doneTaskCount,
       tags: tags.map(({ id, name, color }) => ({ id, name, color })),
     }));
     assert.deepEqual([...result.tickets, ...next.json().tickets], expected);
     assert.equal(expected[1].isArchived, true);
     assert.equal(expected[1].hasChildren, true);
+    assert.equal(expected[1].taskCount, 2);
+    assert.equal(expected[1].doneTaskCount, 1);
+    assert.equal(expected[0].taskCount, 0);
     assert.deepEqual(expected[1].tags.map((tag: { name: string }) => tag.name), ["Alpha", "Zulu"]);
     const ungrouped = (await f.app.inject(`${base}/group-tickets?limit=1`)).json();
     assert.equal(ungrouped.page.total, 63);

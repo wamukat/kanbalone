@@ -1703,6 +1703,123 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/tasks:
+    parameters:
+      - $ref: '#/components/parameters/TicketId'
+    get:
+      summary: List Tasks in ticket-local number order
+      operationId: listTicketTasks
+      parameters:
+        - name: q
+          in: query
+          description: Literal Markdown substring. ASCII letters are case-insensitive. Other characters and whitespace match literally.
+          schema: { type: string }
+        - name: done
+          in: query
+          description: Supply true or false, or omit to list both.
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: Matching Tasks and unfiltered counts for the ticket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketTasks'
+        '400':
+          $ref: '#/components/responses/TaskError'
+        '404':
+          $ref: '#/components/responses/TaskError'
+    post:
+      summary: Create a Task
+      operationId: createTicketTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTicketTask'
+      responses:
+        '201':
+          description: Created Task with its assigned number and revision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketTask'
+        '400':
+          $ref: '#/components/responses/TaskError'
+        '404':
+          $ref: '#/components/responses/TaskError'
+        '409':
+          $ref: '#/components/responses/TaskError'
+
+  /api/tickets/{ticketId}/tasks/{taskNumber}:
+    parameters:
+      - $ref: '#/components/parameters/TicketId'
+      - name: taskNumber
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/TaskPositiveInteger'
+    get:
+      summary: Read a Task by ticket-local number
+      operationId: getTicketTask
+      responses:
+        '200':
+          description: Current Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketTask'
+        '400':
+          $ref: '#/components/responses/TaskError'
+        '404':
+          $ref: '#/components/responses/TaskError'
+    patch:
+      summary: Edit Task Markdown or set its completion
+      operationId: updateTicketTask
+      description: Use the revision from the Task you reviewed. A request that matches the current revision and changes no fields leaves the revision and activity unchanged.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketTask'
+      responses:
+        '200':
+          description: Current Task after the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketTask'
+        '400':
+          $ref: '#/components/responses/TaskError'
+        '404':
+          $ref: '#/components/responses/TaskError'
+        '409':
+          $ref: '#/components/responses/TaskError'
+        '428':
+          $ref: '#/components/responses/TaskError'
+    delete:
+      summary: Delete a Task and retain its activity and allocated number
+      operationId: deleteTicketTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTicketTask'
+      responses:
+        '204':
+          description: Task deleted
+        '400':
+          $ref: '#/components/responses/TaskError'
+        '404':
+          $ref: '#/components/responses/TaskError'
+        '409':
+          $ref: '#/components/responses/TaskError'
+        '428':
+          $ref: '#/components/responses/TaskError'
+
   /api/comments/{commentId}:
     patch:
       summary: Update comment
@@ -2336,6 +2453,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GroupErrorBody'
+    TaskError:
+      description: Invalid Task input, missing Task or ticket, missing revision, or stale revision
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error]
+            properties:
+              error: { type: string }
+              code:
+                type: string
+                description: PRECONDITION_REQUIRED for an omitted revision or STALE_TASK for a conflicting revision. Reload and review the change before retrying a conflict.
   schemas:
     OperationUpdater:
       type: string
@@ -2350,6 +2479,101 @@ components:
     RecordedUpdater:
       type: [string, 'null']
       description: Updater captured when the operation was recorded. Older records without an updater use null.
+    TaskPositiveInteger:
+      type: integer
+      minimum: 1
+      maximum: 9007199254740991
+    TaskMarkdown:
+      type: string
+      minLength: 1
+      maxLength: 100000
+      pattern: '\S'
+      description: Nonblank Task Markdown containing well-formed Unicode. Original spacing and line endings are preserved.
+    TaskTotalCount:
+      type: integer
+      minimum: 0
+      readOnly: true
+      description: Number of existing Tasks on the ticket, independent of filters.
+    TaskDoneCount:
+      type: integer
+      minimum: 0
+      readOnly: true
+      description: Number of done Tasks on the ticket, independent of filters and ticket completion.
+    TicketTaskRecord:
+      type: object
+      required: [number, bodyMarkdown, done, revision]
+      properties:
+        number:
+          $ref: '#/components/schemas/TaskPositiveInteger'
+          description: Server-assigned number unique within this ticket. Deleted numbers are never assigned again.
+        bodyMarkdown:
+          $ref: '#/components/schemas/TaskMarkdown'
+        done: { type: boolean }
+        revision:
+          $ref: '#/components/schemas/TaskPositiveInteger'
+          description: Starts at 1 and advances on a change. Pass it as expectedRevision for mutations of an existing Task.
+    TicketTask:
+      allOf:
+        - $ref: '#/components/schemas/TicketTaskRecord'
+        - type: object
+          required: [bodyHtml]
+          properties:
+            bodyHtml: { type: string, description: Sanitized rendering of the Task Markdown }
+    TicketTasks:
+      type: object
+      required: [tasks, taskCount, doneTaskCount]
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketTask'
+        taskCount:
+          $ref: '#/components/schemas/TaskTotalCount'
+        doneTaskCount:
+          $ref: '#/components/schemas/TaskDoneCount'
+    CreateTicketTask:
+      type: object
+      additionalProperties: false
+      required: [bodyMarkdown]
+      properties:
+        bodyMarkdown:
+          $ref: '#/components/schemas/TaskMarkdown'
+        done: { type: boolean, default: false }
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
+    UpdateTicketTask:
+      type: object
+      additionalProperties: false
+      required: [expectedRevision]
+      properties:
+        expectedRevision:
+          $ref: '#/components/schemas/TaskPositiveInteger'
+        bodyMarkdown:
+          $ref: '#/components/schemas/TaskMarkdown'
+        done: { type: boolean }
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
+    DeleteTicketTask:
+      type: object
+      additionalProperties: false
+      required: [expectedRevision]
+      properties:
+        expectedRevision:
+          $ref: '#/components/schemas/TaskPositiveInteger'
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
+    TicketTaskExportState:
+      type: object
+      description: Portable Task state for one ticket. Kept when every allocated Task has been deleted.
+      required: [lastNumber, tasks]
+      properties:
+        lastNumber:
+          $ref: '#/components/schemas/TaskPositiveInteger'
+          description: Highest Task number ever allocated to this ticket.
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketTaskRecord'
     CustomViewSummary:
       type: object
       required: [id, name, version]
@@ -2796,6 +3020,12 @@ components:
         tickets:
           items:
             type: object
+            not:
+              anyOf:
+                - properties: { groupId: {} }
+                  required: [groupId]
+                - properties: { taskState: {} }
+                  required: [taskState]
           type: array
       required:
       - board
@@ -2824,8 +3054,7 @@ components:
                 groups: {}
               required:
               - groups
-      description: Legacy payloads omit formatVersion and all Group fields, including ticket.groupId. Partial Group payloads and unknown versions
-        are rejected.
+      description: Legacy payloads omit formatVersion and all Group and Task fields. Format 4 carries Task numbers and contents. Partial data and unknown versions are rejected.
     Board:
       type: object
       properties:
@@ -3221,6 +3450,10 @@ components:
     Ticket:
       type: object
       properties:
+        taskCount:
+          $ref: '#/components/schemas/TaskTotalCount'
+        doneTaskCount:
+          $ref: '#/components/schemas/TaskDoneCount'
         id:
           type: integer
         boardId:
@@ -3357,9 +3590,15 @@ components:
       - groupId
       - group
       - editToken
+      - taskCount
+      - doneTaskCount
     TicketSummary:
       type: object
       properties:
+        taskCount:
+          $ref: '#/components/schemas/TaskTotalCount'
+        doneTaskCount:
+          $ref: '#/components/schemas/TaskDoneCount'
         id:
           type: integer
         boardId:
@@ -3455,6 +3694,8 @@ components:
       - tags
       - blockerIds
       - unresolvedBlockerCount
+      - taskCount
+      - doneTaskCount
       - relatedIds
       - ref
       - shortRef
@@ -3487,7 +3728,7 @@ components:
     GroupTicketRow:
       type: object
       additionalProperties: false
-      required: [id, title, laneId, parentTicketId, isResolved, priority, isArchived, hasChildren, tags]
+      required: [id, title, laneId, parentTicketId, isResolved, priority, isArchived, hasChildren, taskCount, doneTaskCount, tags]
       properties:
         id: { type: integer, minimum: 1 }
         title: { type: string }
@@ -3499,6 +3740,14 @@ components:
         hasChildren:
           type: boolean
           description: True if this ticket has a child, including an archived child.
+        taskCount:
+          type: integer
+          minimum: 0
+          description: Total Tasks on this ticket.
+        doneTaskCount:
+          type: integer
+          minimum: 0
+          description: Completed Tasks on this ticket.
         tags:
           type: array
           description: Tags ordered by name, then ID.
@@ -3655,6 +3904,8 @@ components:
           items:
             type: object
             properties:
+              taskState:
+                $ref: '#/components/schemas/TicketTaskExportState'
               resolvedAt:
                 type: [string, 'null']
                 format: date-time
@@ -3676,7 +3927,7 @@ components:
             - groupId
         formatVersion:
           type: integer
-          enum: [2, 3]
+          enum: [2, 3, 4]
         attachments:
           type: array
           items:
@@ -3703,9 +3954,27 @@ components:
         then:
           properties: { attachments: {} }
           required: [attachments]
-        else:
+      - if:
+          properties: { formatVersion: { const: 2 } }
+        then:
           not:
             properties: { attachments: {} }
             required: [attachments]
-      description: Format 2 or 3. Includes all Groups and all tickets, including inactive and archived records. Import remaps IDs and validates parent/child
-        membership.
+      - if:
+          properties: { formatVersion: { const: 4 } }
+        then:
+          properties:
+            tickets:
+              contains:
+                type: object
+                properties: { taskState: {} }
+                required: [taskState]
+        else:
+          properties:
+            tickets:
+              items:
+                type: object
+                not:
+                  properties: { taskState: {} }
+                  required: [taskState]
+      description: Format 2 carries Groups and tickets. Format 3 also embeds referenced local images. Format 4 preserves Task records and the highest allocated Task numbers and embeds local images when referenced. Import remaps ticket IDs and validates parent/child Group membership. Use a database backup to preserve existing activity history.

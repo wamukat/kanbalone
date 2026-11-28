@@ -6,7 +6,8 @@ import { searchGroupCandidates, renderGroupView, renderGroupOptions, renderGroup
 import type { GroupTicket, GroupViewState } from "../public/app-group-types.js";
 
 const ticket = (id:number, parentTicketId:number|null = null, extra:Partial<GroupTicket> = {}):GroupTicket => ({
-  id, parentTicketId, title:`Work ${id}`, priority:2, tags:[], laneId:1, isArchived:false, isResolved:false, hasChildren:false, ...extra,
+  id, parentTicketId, title:`Work ${id}`, priority:2, tags:[], laneId:1, isArchived:false, isResolved:false, hasChildren:false,
+  taskCount:0, doneTaskCount:0, ...extra,
 });
 
 test("hierarchy index preserves source order, missing-parent fallback, and fresh membership", () => {

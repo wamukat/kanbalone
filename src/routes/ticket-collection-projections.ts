@@ -42,6 +42,8 @@ const groupProperties = {
   hasChildren: summary.hasChildren,
   priority: summary.priority,
   isArchived: summary.isArchived,
+  taskCount: summary.taskCount,
+  doneTaskCount: summary.doneTaskCount,
   tags: { type: "array", items: objectSchema(tagProperties) },
 };
 

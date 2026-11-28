@@ -42,6 +42,7 @@ export function createBoardEventsModule(ctx, options) {
     }
     if (elements.editorDialog.open) {
       state.boardRefreshPendingAfterDialog = true;
+      await options.refreshTicketTasks?.();
       return;
     }
     if (state.boardRefreshInFlight) {

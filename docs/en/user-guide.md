@@ -72,6 +72,14 @@ Choose **Lane** in the editor to move within the same board. Use **Move** to sen
 
 ![Editing a ticket](../assets/user-guide/07-ticket-edit-relations.png)
 
+### Work with Tasks
+
+Open a ticket and find **Tasks** between its description and the **Comments** and **Activity** tabs. Use the ticket body for goals, decisions and specifications. Use comments for discussion and reports. Use a Task for a specific correction, review finding or check. Use a child ticket for work that needs a separate lane or priority.
+
+Choose **Add Task** to write Markdown. Use the checkbox on a Task to complete or reopen it. Search its Markdown in **Search Task text**, and switch on **Open only** to see unfinished Tasks. List rows, Kanban cards and Group ticket rows show how many Tasks are done out of the ticket's total. Task completion is independent of the ticket's lane.
+
+Click a Task's text to edit it in place. With the keyboard, focus the Task text and press **Enter** or **Space**. To remove a Task, use the trash icon and confirm. Its number stays in **Activity** and is never assigned again in that ticket. When another edit causes a conflict, choose **Reload Tasks**, review the current Task and then reconcile your draft before saving.
+
 ## 7. Use Comments And Activity
 
 Add comments in ticket details to record progress and notes. While composing a new comment, press **Ctrl+Enter** (**⌘+Enter** on Mac) to post it. The **Activity** tab shows changes to tickets and comments.

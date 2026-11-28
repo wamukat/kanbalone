@@ -1,0 +1,91 @@
+{
+  "captureDate": "2026-11-28 JST",
+  "syntheticFixture": "Task 操作確認 / Task 操作を確認する",
+  "browser": {
+    "chromiumMajor": 158,
+    "agentBrowser": "0.26.0",
+    "locale": "ja",
+    "theme": "light",
+    "viewport": [
+      1440,
+      900
+    ],
+    "deviceScaleFactor": 1
+  },
+  "versions": {
+    "kanbalone": "1.6.0",
+    "node": "26.13.1"
+  },
+  "runtimeFingerprints": {
+    "before": {
+      "baseCommit": "dcf86b4ad1a38e1ce79cca1ad85ae1bb4b10a458",
+      "fileCount": 240,
+      "sha256": "98e37c3bc5439ff108ed3cbfe4ef57b5489d0394b218fd6e84d11599ce60883a"
+    },
+    "after": {
+      "fileCount": 240,
+      "sha256": "52edb11889792d55f6491e6b828a7443387c45605351fdbc5fdb630c8ee5b633"
+    }
+  },
+  "fingerprintRecipe": "Hash the LF-terminated lines of individual SHA-256, two spaces and sorted relative path for src/, public/ and package.json.",
+  "verified": {
+    "nativeMouseOpenInRow": true,
+    "keyboardOpenInRow": true,
+    "reloadedSavedEdit": true,
+    "imageDecoded": [
+      180,
+      60
+    ],
+    "imageClickPreservedViewMode": true,
+    "checkboxPreservedViewMode": true,
+    "deleteConfirmationReturnedFocus": true,
+    "sourceDatabaseReused": true,
+    "saved": {
+      "numbers": [
+        1,
+        2
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "taskCount": 2,
+      "doneTaskCount": 1,
+      "savedEditExact": true,
+      "cancelledDeletionPreservedTask": true,
+      "parentBodyPreserved": true
+    }
+  },
+  "images": [
+    {
+      "file": "before-ja-light-task-inline-editor.png",
+      "runtime": "before",
+      "byteSize": 108171,
+      "sha256": "aa30596d4ac93efd69e3b5fd64ea28e4cb718d3d123818b07c1f94b3822e0a3b"
+    },
+    {
+      "file": "after-ja-light-task-inline-editor.png",
+      "runtime": "after",
+      "byteSize": 104892,
+      "sha256": "d9959237b9c59912a68890cf858a267bd078af197b655a1d2a7ecd17450d04e1"
+    },
+    {
+      "file": "after-ja-light-task-inline-open.png",
+      "runtime": "after",
+      "byteSize": 136362,
+      "sha256": "5797a5f3e6de41b3dcaeba18e65041972f1052f905d47a9952c5e65075adac8c"
+    },
+    {
+      "file": "after-ja-light-task-inline-saved.png",
+      "runtime": "after",
+      "byteSize": 107977,
+      "sha256": "39c7a259a72549c80fceb0ec23d64186b007da0f36942209221c96982f211aef"
+    },
+    {
+      "file": "after-ja-light-task-delete-confirm.png",
+      "runtime": "after",
+      "byteSize": 129979,
+      "sha256": "356eb1dfb4ea40d7a402d7c22f0a250f108a0f1d5f7409d27882ea4a31431b75"
+    }
+  ]
+}
