@@ -36,7 +36,12 @@ export function createKanbanBoardModule(ctx, options) {
   document.querySelector(".toolbar-filters")?.append(scrollControls);
   function syncScrollControls() {
     const board = elements.laneBoard;
-    const maximum = board.scrollWidth - board.clientWidth;
+    // The horizontal board has overflow-y:hidden. Its reserved scrollbar gutter
+    // reduces clientWidth even though that gutter is part of the scroll viewport.
+    const style = getComputedStyle(board);
+    const viewportWidth = board.getBoundingClientRect().width
+      - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth);
+    const maximum = board.scrollWidth - viewportWidth;
     scrollControls.hidden = board.clientWidth === 0 || maximum <= 1;
     scrollButtons[0].disabled = board.scrollLeft <= 1;
     scrollButtons[1].disabled = board.scrollLeft >= maximum - 1;

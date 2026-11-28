@@ -110,6 +110,13 @@
   gap: var(--space-1);
   margin-left: auto;
 }
+.kanban-scroll-controls button:disabled {
+  color: var(--text-muted);
+  border-color: var(--line);
+  background: var(--surface-inset);
+  opacity: 0.45;
+  cursor: default;
+}
 .shell:is(.view-list, .view-group) .kanban-scroll-controls { display: none; }
 .completion-show-more {
   max-width: 100%;

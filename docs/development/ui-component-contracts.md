@@ -68,3 +68,7 @@
 供給元が見つからない名前にはフォールバックが必要です。そのフォールバック内にある `var()` も同じ順序で調べます。エラーには参照元のファイルと行番号が出ます。検査は名前の存在を扱います。セレクターやメディア条件ごとの到達性、循環参照、値の型、最終的な描画は実際の利用先で確認します。[検査の実装](https://github.com/wamukat/kanbalone/blob/33b995856b350c5b17a6150d932cd193308fccc7/scripts/check-css-tokens.mjs)・[回帰テスト](https://github.com/wamukat/kanbalone/blob/33b995856b350c5b17a6150d932cd193308fccc7/test/css-token-guard.test.ts)
 
 チケットの本文差分は、外枠と各行の記号・背景色で変更箇所を示します。行の下辺と記号欄の右辺には追加の線を表示しません。[明暗の変更前後](https://github.com/wamukat/kanbalone/blob/33b995856b350c5b17a6150d932cd193308fccc7/docs/development/evidence/2026-11-24-diff-token-guard/README.md)
+
+### Kanban の左右スクロール
+
+横スクロールが必要な場合のみ既存ツールバーに左右アイコンを表示する。左端は左、右端は右を native disabled にし、淡い色・背景と通常カーソルで非活性を示す。disabled の hover で枠を強調しない。中間では両方向を有効にする。端の判定には、縦スクロールを隠したボードの予約スクロールバー領域も含む実際の表示幅を使う。`kanban-scroll-controls.spec.ts` で明暗の両端・中間、キーボード、幅変更、ボード切替、スクロール不要時を確認する。
