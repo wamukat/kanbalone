@@ -34,6 +34,7 @@ export default {
   "Show body changes": "本文の変更前後を見る",
   "Body edited": "本文を編集",
   "None": "なし",
+  "No color": "色なし",
   "Edited": "編集",
   "Completed": "完了",
   "Done": "完了",

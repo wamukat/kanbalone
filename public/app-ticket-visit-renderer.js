@@ -99,10 +99,15 @@ function renderChanges(before, after, e, label, registerText) {
     ["blockers", "Blockers", true], ["blockedBy", "Blocks", true], ["related", "Related tickets", true]]) {
     const renderRef = record => key === "tags" ? renderTag({ name: record.label,
       color: /^#[a-f0-9]{6}$/i.test(record.color) ? record.color : null }, e) : ref(record, showId);
+    const describeColor = record => renderRef(record) + ' <span class="muted">' +
+      (record.color ? e(record.color) : label("No color")) + '</span>';
     const entries = compareCollection(before[key], after[key], "id",
       record => action("added", "Added") + " " + renderRef(record),
       record => action("removed", "Removed") + " " + renderRef(record),
-      (oldRecord, newRecord) => sameRef(oldRecord, newRecord) ? "" : change(renderRef(oldRecord), renderRef(newRecord)));
+      (oldRecord, newRecord) => {
+        if (key === "tags" && oldRecord.color !== newRecord.color) return change(describeColor(oldRecord), describeColor(newRecord));
+        return sameRef(oldRecord, newRecord) ? "" : change(renderRef(oldRecord), renderRef(newRecord));
+      });
     prop(title, entries.map(entry => '<span class="ticket-visit-value">' + entry + '</span>').join(""));
   }
 
