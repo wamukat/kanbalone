@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+import { markdownTaskOffsets } from "./markdown-checklist.js";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import sanitizeHtml from "sanitize-html";
@@ -23,8 +25,14 @@ marked.setOptions({
   renderer,
 });
 
-export function renderMarkdown(markdown: string, visitUrl?: (url: string) => void): string {
-  const rawHtml = marked.parse(markdown ?? "") as string;
+export function renderMarkdown(markdown: string, visitUrl?: (url: string) => void, editableTasks = false): string {
+  const offsets = editableTasks && /\[[ xX]\]/.test(markdown) ? markdownTaskOffsets(markdown) : [];
+  const marker = `kanbalone-${randomUUID()}`;
+  let taskIndex = 0;
+  const localRenderer = new marked.Renderer();
+  localRenderer.code = renderer.code;
+  localRenderer.checkbox = token => `${renderer.checkbox(token)}${marker}:${taskIndex++}:end`;
+  const rawHtml = marked.parse(markdown ?? "", offsets.length ? { renderer: localRenderer } : {}) as string;
   const sanitizedHtml = sanitizeHtml(rawHtml, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       "h1",
@@ -53,7 +61,13 @@ export function renderMarkdown(markdown: string, visitUrl?: (url: string) => voi
     }),
     allowedSchemes: ["http", "https", "mailto"],
   });
-  return linkifyTicketRefs(sanitizedHtml);
+  const withOffsets = offsets.length ? sanitizedHtml.replace(
+    new RegExp(`(<span class="task-checkbox" role="img" aria-label="[^"]+">[☑☐]</span>) ${marker}:(\\d+):end`, "g"),
+    (_match, span: string, index: string) => offsets[Number(index)] >= 0
+      ? span.replace("<span ", `<span data-task-offset="${offsets[Number(index)]}" `) + " "
+      : span + " ",
+  ) : sanitizedHtml;
+  return linkifyTicketRefs(withOffsets);
 }
 
 function sanitizeClassName(value: string): string {

@@ -80,7 +80,7 @@ export function mapTicket(
     hasChildren: children.length > 0,
     title: row.title,
     bodyMarkdown: row.body_markdown,
-    bodyHtml: renderMarkdown(row.body_markdown),
+    bodyHtml: renderMarkdown(row.body_markdown, undefined, true),
     isResolved: Boolean(row.is_resolved),
     resolvedAt: row.resolved_at ?? null,
     isArchived: Boolean(row.is_archived),
