@@ -551,6 +551,7 @@ const {
 
 const {
   closeBoardEvents,
+  deferBoardUpdatesDuringCreationRefresh,
   flushPendingBoardRefreshAfterDialogClose,
   syncBoardEvents,
 } = createBoardEventsModule(
@@ -568,6 +569,7 @@ const editorModule = createEditorModule({
   captureEditorOrigin: () => customViews.active ? customViews.origin : boardModule.captureEditorOrigin(),
   restoreEditorOrigin: (version) => customViews.active ? Boolean(version?.viewId) : boardModule.restoreEditorOrigin(version),
   onTicketCreated: (boardId) => boardModule.onTicketCreated(boardId),
+  deferBoardUpdatesDuringCreationRefresh,
   openGroup: async (groupId) => {
     if (customViews.active) {
       if (!await confirmDiscardChanges()) return;

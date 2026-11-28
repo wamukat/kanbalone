@@ -70,6 +70,7 @@ export function createTicketActionsModule(ctx, options) {
     const wasInert = elements.editorForm.inert;
     elements.editorForm.inert = true;
     let savedTicket = null;
+    let resumeBoardUpdates;
     try {
       setSaveState("saving", t("Saving..."));
       if (editingTicketId || nextParentTicketId != null || creationGroup) {
@@ -85,6 +86,7 @@ export function createTicketActionsModule(ctx, options) {
         options.setDialogMode("view");
         setSaveState("saved", t("Saved"));
       } else {
+        resumeBoardUpdates = ctx.deferBoardUpdatesDuringCreationRefresh(savedTicket.boardId);
         options.closeEditor();
         ctx.showToast(t("Ticket created"));
       }
@@ -104,6 +106,7 @@ export function createTicketActionsModule(ctx, options) {
     } finally {
       elements.editorForm.inert = wasInert;
       state.editorSaving = false;
+      resumeBoardUpdates?.();
       options.restoreActionFocus?.(elements.editorForm.querySelector("button[type=submit]"));
     }
   }

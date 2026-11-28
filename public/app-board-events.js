@@ -1,5 +1,21 @@
 export function createBoardEventsModule(ctx, options) {
   const { state, elements } = ctx;
+  let ticketCreationRefresh;
+
+  function deferBoardUpdatesDuringCreationRefresh(boardId) {
+    if (state.activeBoardId !== boardId) return;
+    const refresh = { boardId, queued: false };
+    ticketCreationRefresh = refresh;
+    // The save's explicit refresh covers events deferred before the dialog closed.
+    state.boardRefreshPendingAfterDialog = false;
+    return () => {
+      if (ticketCreationRefresh !== refresh) return;
+      ticketCreationRefresh = undefined;
+      if (refresh.queued && state.activeBoardId === boardId) {
+        handleBoardUpdatedEvent().catch((error) => console.error(error));
+      }
+    };
+  }
 
   function closeBoardEvents() {
     if (state.boardEvents) {
@@ -40,6 +56,10 @@ export function createBoardEventsModule(ctx, options) {
     if (!state.activeBoardId) {
       return;
     }
+    if (ticketCreationRefresh?.boardId === state.activeBoardId) {
+      ticketCreationRefresh.queued = true;
+      return;
+    }
     if (elements.editorDialog.open) {
       state.boardRefreshPendingAfterDialog = true;
       options.checkTicketVisitUpdate?.();
@@ -78,6 +98,7 @@ export function createBoardEventsModule(ctx, options) {
 
   return {
     closeBoardEvents,
+    deferBoardUpdatesDuringCreationRefresh,
     flushPendingBoardRefreshAfterDialogClose,
     syncBoardEvents,
   };
