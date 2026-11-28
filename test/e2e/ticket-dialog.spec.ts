@@ -73,6 +73,10 @@ test("long ticket details scroll below the title while the list stays in place",
       title,
       bodyMarkdown: "# Purpose\n\n## Scope\n\n" + Array.from({ length: 80 }, (_, i) => `Paragraph ${i + 1}`).join("\n\n"),
     });
+    const taskResponse = await page.request.post(`${baseUrl}/api/tickets/${ticket.id}/tasks`, {
+      data: { bodyMarkdown: "Verify the release" },
+    });
+    expect(taskResponse.status()).toBe(201);
     for (let i = 0; i < 22; i++) {
       await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: `List context ${i + 1}` });
     }
@@ -95,6 +99,16 @@ test("long ticket details scroll below the title while the list stays in place",
     await scroll.hover();
     await page.mouse.wheel(0, 550);
     await expect.poll(() => scroll.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+    await dialog.locator("[data-task-done]").focus();
+    for (const selector of ["[data-task-edit]", "[data-task-delete]", "#comments-tab-button", "#activity-tab-button", "#comment-compose-toggle"]) {
+      await page.keyboard.press("Tab");
+      await expect(dialog.locator(selector)).toBeFocused();
+      expect((await headerTitle.boundingBox())!.y).toBe(top);
+    }
+    await dialog.getByText("Paragraph 80", { exact: true }).evaluate((element) => {
+      element.scrollIntoView({ block: "center" });
+    });
+    expect((await headerTitle.boundingBox())!.y).toBe(top);
     await scroll.evaluate((element) => { element.scrollTop = element.scrollHeight; });
     await page.mouse.wheel(0, 1200);
     expect((await headerTitle.boundingBox())!.y).toBe(top);
