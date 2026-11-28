@@ -17,8 +17,8 @@
       "publicAndSrcGitBinaryDiffSha256": "5ba9970231054b480d831421e7a3ca7af2a49e2a5c9ea397a07d2d99f3654431"
     },
     "finalRuntime": {
-      "commit": "065fdbe225ec3aa6f248e97ae198b0efb99a00e4",
-      "publicAndSrcGitBinaryDiffSha256": "2e861dfdc4f9cee5e67da66a8f41f21ea5c231a1473e6ce24f14b4bca77760f7",
+      "commit": "77e5ebf65da887fdee9ab934dfa0c24aa38bf515",
+      "publicAndSrcGitBinaryDiffSha256": "6ca9e2e35f02704423c74a893bcdace73c7497e48f895cf7384f5e7cfb0eb180",
       "captureImpact": "The same-tag color value, shared Japanese full-text label, and same-ticket Markdown anchor navigation do not appear in the captured states."
     }
   },

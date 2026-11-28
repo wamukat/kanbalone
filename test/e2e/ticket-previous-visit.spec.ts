@@ -163,3 +163,46 @@ test("a late tab cannot overwrite a newer displayed endpoint", async ({ page, co
     await close();
   }
 });
+
+test("returning to the current ticket ignores a delayed history navigation to another ticket", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  const release = deferred();
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Ticket routes", laneNames: ["Todo"] });
+    const a = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Keep this ticket" });
+    const b = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Delayed response" });
+    const routeA = "/tickets/" + a.id;
+    const routeB = "/tickets/" + b.id;
+    await page.goto(baseUrl + routeA);
+    await expect(changes(page)).toContainText("No previous comparison point");
+    await page.getByRole("tab", { name: "Current ticket" }).click();
+    await page.evaluate(({ routeA, routeB }) => {
+      history.replaceState(null, "", routeB);
+      history.pushState(null, "", routeA);
+    }, { routeA, routeB });
+
+    const captured = deferred();
+    const hrefB = baseUrl + "/api/tickets/" + b.id;
+    await page.route(hrefB, async route => {
+      const response = await route.fetch();
+      captured.resolve();
+      await release.promise;
+      await route.fulfill({ response });
+    });
+    await page.evaluate(() => history.back());
+    await captured.promise;
+    await expect(page).toHaveURL(baseUrl + routeB);
+    await page.evaluate(() => history.forward());
+    await expect(page).toHaveURL(baseUrl + routeA);
+
+    const unexpectedlyOpened = page.waitForRequest(hrefB + "/change-snapshot", { timeout: 1000 });
+    release.resolve();
+    await expect(unexpectedlyOpened).rejects.toThrow(/Timeout/);
+    await expect(page).toHaveURL(baseUrl + routeA);
+    await expect(page.locator("#editor-header-title")).toHaveText("Keep this ticket");
+    await expect(page.getByRole("tab", { name: "Current ticket" })).toHaveAttribute("aria-selected", "true");
+  } finally {
+    release.resolve();
+    await close();
+  }
+});

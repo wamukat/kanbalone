@@ -6,7 +6,7 @@ When a ticket is reopened after another person or tool makes an edit, the compar
 
 Captured on 2026-11-28 JST with Chromium 159.0.8154.6, Playwright 1.65.1, macOS 26.7.3 and Node.js 26.13.1. Baseline main is `de6a37f3cd8ea8cb87166d6496d112f12ac9a2da` and the candidate is `239f5b3c1d00e0c5a2a990837e3a306384259597`. Both use separate copies of one SQLite snapshot seeded through the baseline API. The [manifest](manifest.json) records the unaltered browser PNGs, viewports, and source fingerprints.
 
-Final runtime `065fdbe225ec3aa6f248e97ae198b0efb99a00e4` adds the old and new color values for changes to the same tag, reuses the Japanese label for opening full text, and keeps the selected view when following a Markdown link to a section of the same ticket. The captured states use tag membership changes and short text, without following an in-ticket anchor.
+Final runtime `77e5ebf65da887fdee9ab934dfa0c24aa38bf515` adds the old and new color values for changes to the same tag and reuses the Japanese label for opening full text. It keeps the selected view during same-ticket Markdown navigation and ignores delayed navigation responses after the route changes. The captured states use tag membership changes and short text, without following an anchor or exercising the history race.
 
 The synthetic board **復元確認** contains ticket #1, **復元手順の確認と引き継ぎ**. State A uses the old checklist. Between views, an API caller creates state B by changing the body, lane, tags, parent and blocker, editing a comment, replacing one comment and one Task, and changing Task #1’s body and completion state. While B is displayed, another API update creates C by adding one body line and a comment and reopening Task #1. These are real writes to separate synthetic app databases.
 
