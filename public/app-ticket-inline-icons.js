@@ -3,7 +3,7 @@
 // Icons from Lucide, MIT License: https://lucide.dev/license
 import { icon } from "./icons.js";
 
-export const groupRowIconNames = ["folder-up","folder-tree","ticket","check","archive","trash-2"];
+export const groupRowIconNames = ["folder-up","folder-tree","ticket","check","archive","trash-2","folder-minus"];
 export const kanbanCardIconNames = ["folder-up","folder-tree","ticket","check","archive","priority-low","priority-medium","priority-high","circle-alert","octagon-alert","lock","list-checks"];
 
 /** @type {Record<string, string>} */
@@ -14,6 +14,7 @@ const inlineIcons = {
   "check": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M20 6 9 17l-5-5\" /></svg>",
   "archive": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><rect width=\"20\" height=\"5\" x=\"2\" y=\"3\" rx=\"1\" />\n    <path d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8\" />\n    <path d=\"M10 12h4\" /></svg>",
   "trash-2": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M3 6h18\" />\n    <path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\" />\n    <path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\" />\n    <line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\" />\n    <line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\" /></svg>",
+  "folder-minus": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\" />\n    <path d=\"M9 13h6\" /></svg>",
   "priority-low": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M12 15v3\" /></svg>",
   "priority-medium": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M9 13v5\" />\n    <path d=\"M15 9v9\" /></svg>",
   "priority-high": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M6 15v3\" />\n    <path d=\"M12 11v7\" />\n    <path d=\"M18 6v12\" /></svg>",

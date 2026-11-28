@@ -113,7 +113,11 @@ export function registerBoardRoutes(app: FastifyInstance, ctx: RegisterBoardRout
     if (!name) {
       return reply.code(400).send({ error: "name is required" });
     }
-    const board = db.createBoard({ name, laneNames: sanitizeStringArray(getBodyRecord(request.body).laneNames) });
+    const language = getBodyString(request.body, "defaultLaneLanguage");
+    const board = db.createBoard({
+      name, laneNames: sanitizeStringArray(getBodyRecord(request.body).laneNames),
+      defaultLaneLanguage: language === "ja" || language === "en" ? language : undefined,
+    });
     publishBoardEvent(board.board.id, "board_created");
     return reply.code(201).send(serializeBoardDetail(board));
   });

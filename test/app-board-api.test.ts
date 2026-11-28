@@ -235,3 +235,27 @@ test("board lifecycle, ticket filters, reorder, and export/import", async () => 
 
   await app.close();
 });
+
+test("localized default lanes preserve completion semantics and explicit or legacy names", async () => {
+  const app = buildApp({ dbFile: createDbFile(), staticDir: path.join(process.cwd(), "public") });
+  try {
+    for (const [defaultLaneLanguage, expected] of [
+      ['ja', ['未着手', '進行中', '確認待ち', '完了']],
+      ['en', ['Todo', 'Doing', 'Acceptance', 'Done']],
+      [undefined, ['todo', 'doing', 'Acceptance', 'done']],
+    ] as const) {
+      const response = await app.inject({ method: 'POST', url: '/api/boards', payload: { name: 'Defaults', defaultLaneLanguage } });
+      assert.equal(response.statusCode, 201);
+      const created = response.json();
+      assert.deepEqual(created.lanes.map((lane: { name: string }) => lane.name), expected);
+      assert.deepEqual(created.lanes.map((lane: { isCompletionLane: boolean }) => lane.isCompletionLane), [false, false, false, true]);
+      const stored = (await app.inject({ method: 'GET', url: `/api/boards/${created.board.id}` })).json();
+      assert.deepEqual(stored.lanes, created.lanes);
+    }
+    const custom = await app.inject({ method: 'POST', url: '/api/boards', payload: { name: 'Custom', defaultLaneLanguage: 'ja', laneNames: ['Custom open', 'Custom done'] } });
+    assert.equal(custom.statusCode, 201);
+    assert.deepEqual(custom.json().lanes.map((lane: { name: string }) => lane.name), ['Custom open', 'Custom done']);
+    assert.deepEqual(custom.json().lanes.map((lane: { isCompletionLane: boolean }) => lane.isCompletionLane), [false, false]);
+    assert.equal((await app.inject({ method: 'POST', url: '/api/boards', payload: { name: 'Invalid', defaultLaneLanguage: 'fr' } })).statusCode, 400);
+  } finally { await app.close(); }
+});

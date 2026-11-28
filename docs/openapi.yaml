@@ -383,6 +383,10 @@ paths:
               properties:
                 name:
                   type: string
+                defaultLaneLanguage:
+                  type: string
+                  enum: [en, ja]
+                  description: Language for newly generated default lanes only. Explicit laneNames take precedence; omitted language preserves legacy defaults. The last generated lane remains the completion lane.
                 laneNames:
                   type: array
                   items:

@@ -18,11 +18,16 @@ import type {
 } from "../types.js";
 
 const DEFAULT_LANES = ["todo", "doing", "Acceptance", "done"];
+const LOCALIZED_DEFAULT_LANES = {
+  en: ["Todo", "Doing", "Acceptance", "Done"],
+  ja: ["未着手", "進行中", "確認待ち", "完了"],
+};
 const DEFAULT_TAG_COLOR = "#6b7280";
 
 export type CreateBoardInput = {
   name: string;
   laneNames?: string[];
+  defaultLaneLanguage?: "en" | "ja";
 };
 
 export type CreateLaneInput = {
@@ -55,7 +60,8 @@ export function createBoard(sqlite: Database.Database, input: CreateBoardInput, 
   const tx = sqlite.transaction(() => {
     const result = insertBoard.run(input.name, position, now, now);
     const boardId = Number(result.lastInsertRowid);
-    const laneNames = input.laneNames && input.laneNames.length > 0 ? input.laneNames : DEFAULT_LANES;
+    const defaults = input.defaultLaneLanguage ? LOCALIZED_DEFAULT_LANES[input.defaultLaneLanguage] : DEFAULT_LANES;
+    const laneNames = input.laneNames && input.laneNames.length > 0 ? input.laneNames : defaults;
     laneNames.forEach((laneName, index) => {
       insertLane.run(boardId, laneName, index, !input.laneNames?.length && index === DEFAULT_LANES.length - 1 ? 1 : 0);
     });

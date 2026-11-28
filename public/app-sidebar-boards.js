@@ -1,4 +1,4 @@
-import { t as tr } from "./app-i18n.js";
+import { t as tr, getLocale } from "./app-i18n.js";
 import { readSidebarCollapsed } from "./app-preferences.js";
 import { createInlineTextForm } from "./app-inline-text-form.js";
 
@@ -103,7 +103,7 @@ export function createSidebarBoardsModule(ctx, options) {
     }
     const created = await ctx.sendJson("/api/boards", {
       method: "POST",
-      body: { name },
+      body: { name, defaultLaneLanguage: getLocale() },
     });
     ctx.saveBoardFilters?.();
     ctx.saveBoardFilterExpansion?.();

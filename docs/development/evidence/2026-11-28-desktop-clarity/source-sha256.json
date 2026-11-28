@@ -1,0 +1,22 @@
+{
+  "docs/en/ai-api-guide.md": "92236518823fc7cf5fb4a3f04fb3b6d9145bad869844ffab72ef49264224a6b1",
+  "docs/ja/ai-api-guide.md": "ce51afb0858dc5f1fd3a2e64b4b9d0c2fd6eeb4c1913602a5bd4d37e29c69333",
+  "docs/openapi.yaml": "c0a5e079eb8c8638157aa5a66960d1c754c68c63f46d2ecc44a33d708b29c04e",
+  "public/app-group-view.js": "3b915bb3e3327d30ef7ac52f819f573a7c00306ca598cca388952a6d65cbdf59",
+  "public/app-sidebar-boards.js": "8d16a0a16f7de64b6ecf257cb26a1c2dfcc89ec36425c36add8b5925d5e24d4d",
+  "public/app-ticket-comment-renderers.js": "555de50530c0f44a8aac8b2cf7f31451233675792b2d59d5c2cad0048715ec7b",
+  "public/app-ticket-inline-icons.js": "4f521869de1251cda58d6cfd6d40bb347e7e47b584e47089411413eb3dfa6a16",
+  "public/app-ux-color-field.js": "67d9f50c90987f93e03899065c065c0c5412d749ed5fe98f5b7d1f52aaefed45",
+  "public/icons.svg": "ff758bc3bfe67f7f45298f61610efa52aa30b2d8000919e723cbb96c9554b8e4",
+  "public/locales/ja-board.js": "4150cb2375ecb7e3ae54e24921af8315ab2ba677c77cb73cca5727259b3a23ec",
+  "public/locales/ja-common.js": "2189ebc5261bb406ed5592a3ca5746a1439e05dec716e11f416af7424c8c725d",
+  "public/styles/group-row-icon-masks.css": "674ce230d1ed8feac38491b8bec350b5d341245bf38890b99e2d67f84063140e",
+  "public/styles/groups.css": "85673fe15408f69633ccc1437627a7be67729a2f282ca30f8c80b0809ce580e0",
+  "scripts/generate-ticket-inline-icons.mjs": "80b1f0caecbdce6fe0dd44d0b0860e06cc87a69c7542aa3d51b4defbdc524aad",
+  "src/db-modules/board.ts": "f4aac5ed2e8ec032dbeedf80114661ff81ef949ffb9dc8a5b0f9263e4ef4ae58",
+  "src/routes/boards.ts": "b61c210c9463e279b9ad92df79930b202a85de1c711bf307c346dbd29134a1aa",
+  "src/routes/schemas/board.ts": "158329b7333937ae627b77dcc2ea13a36f09f3e38004fd68f86a7da3fd24cd26",
+  "test/app-board-api.test.ts": "dcc84cfe0b0be545840125bef2c677b0fc4b4893da47ad3641dfaea7451deb9f",
+  "public/group-row-icons/folder-minus.svg": "6020c22ad5dd8294d54d2f7b5b3e3cacc1bf1a1e1d4475e3ecfc17c0355aaf42",
+  "test/e2e/desktop-clarity.spec.ts": "841330eeb6d6df39811978f3ef40dd012656cfc08cd6a368022feb0dce608575"
+}
