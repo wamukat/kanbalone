@@ -14,7 +14,6 @@ export function createListRowWindow({
   let lastTop = viewport.scrollTop;
   let lastAnchor = initialAnchor;
   let pendingAnchor = initialAnchor;
-  let frame = 0;
 
   function writeOffsets(from = 0) {
     for (let index = from; index < entries.length; index++) offsets[index + 1] = offsets[index] + heights[index];
@@ -192,18 +191,15 @@ export function createListRowWindow({
       }
       return row ?? null;
     },
-    schedule() {
+    onScroll() {
       if (pendingAnchor && Math.abs(viewport.scrollTop - lastTop) > 1) pendingAnchor = null;
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        paint();
-        remember();
-      });
+      // A scrollbar jump can leave the last mounted window entirely outside
+      // the viewport. Load the new range in this scroll event, before paint.
+      paint();
+      remember();
     },
     paint,
     dispose() {
-      cancelAnimationFrame(frame);
       observer.disconnect();
       document.fonts?.removeEventListener("loadingdone", onFontsChanged);
     },

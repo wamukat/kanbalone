@@ -273,7 +273,7 @@ export function createListBoardModule(ctx, options) {
 
   function handleListBoardScroll(event) {
     if (event.target?.classList?.contains("list-viewport")) {
-      listWindow?.schedule();
+      listWindow?.onScroll();
     }
   }
 
