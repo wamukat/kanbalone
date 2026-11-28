@@ -433,6 +433,7 @@ export function createEditorModule(ctx) {
     }
     const isBusy = () => onlyIfPristine && (state.dialogMode !== "view" || state.editorSaving
       || commentsModule.isSaving() || tasksModule.isSaving() || hasUnsavedChanges()
+      || elements.ticketView.contains(document.activeElement) || elements.ticketView.querySelector(".inline-action-menu.expanded")
       || elements.editorDialog.contains(document.activeElement) && document.activeElement.matches("input, textarea, select, [contenteditable='true']"));
     if (isBusy()) return null;
     const isCurrent = captureDialogScope();
