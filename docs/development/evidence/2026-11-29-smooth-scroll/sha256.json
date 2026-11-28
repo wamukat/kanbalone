@@ -1,0 +1,10 @@
+{
+  "docs/development/evidence/2026-11-29-smooth-scroll/originals/after-end.png": "d5ac8fd0e5793e3dd238a5893fded068c58eba95693b3353b676f67de48ad7cb",
+  "docs/development/evidence/2026-11-29-smooth-scroll/originals/after-movement.json": "2947ca794a6bd09af34474a7fe56789a069eb830eea1a4052cd1c96f16f23b75",
+  "docs/development/evidence/2026-11-29-smooth-scroll/originals/after-start.png": "5e7ec62832911849f8b8e9843441d359af32f29994ea56961f7a0e6b083228fd",
+  "docs/development/evidence/2026-11-29-smooth-scroll/originals/before-end.png": "378fcab88e63f6cb26138dfc5868b6b264b64368aa268640139479c9f19ff717",
+  "docs/development/evidence/2026-11-29-smooth-scroll/originals/before-movement.json": "4d4b73063376d05e6ede0376eeb8b467b2a2a48c4404ea23715d25d34e412b68",
+  "docs/development/evidence/2026-11-29-smooth-scroll/originals/before-start.png": "5e7ec62832911849f8b8e9843441d359af32f29994ea56961f7a0e6b083228fd",
+  "public/app-kanban-board.js": "1fd2bc4e2cdb8c5f5a956f2b5801441aabf709ecb36480b5b2a824466c34a01a",
+  "test/e2e/kanban-smooth-scroll.spec.ts": "fb8f66e9d43163c76b0180b320a5b4258d7e9706bfde5b5f6e1f844e6c9f24ec"
+}
