@@ -261,6 +261,8 @@ export function createEditorModule(ctx) {
       hydrateEditorForm(state.dialogTicket);
     }
     state.dialogMode = mode;
+    elements.editorDialog.setAttribute("aria-labelledby", mode === "edit" ? "editor-form-purpose" : "editor-header-id editor-header-title");
+    syncCreationContext();
     elements.editorDialog.classList.toggle("editor-create-mode", mode === "edit" && !state.editingTicketId);
     elements.editorDialog.classList.toggle("editor-edit-mode", mode === "edit" && Boolean(state.editingTicketId));
     elements.editorDialog.classList.toggle("editor-view-mode", mode === "view");
@@ -649,11 +651,11 @@ export function createEditorModule(ctx) {
     const creating = !state.editingTicketId;
     if (context) {
       const lane = state.boardDetail?.lanes.find((lane) => lane.id === Number(elements.ticketLane.value));
-      context.hidden = !creating;
-      context.textContent = creating ? [state.boardDetail?.board.name,
-        state.editorCreateGroup ? t('Group: {name}', { name: state.editorCreateGroup.name }) : '',
-        lane?.isCompletionLane ? t('Tickets in this lane are resolved') : '',
-      ].filter(Boolean).join(' · ') : '';
+      context.hidden = false;
+      context.textContent = [t(creating ? "New ticket" : "Edit ticket"), state.boardDetail?.board.name,
+        creating && state.editorCreateGroup ? t('Group: {name}', { name: state.editorCreateGroup.name }) : '',
+        creating && lane?.isCompletionLane ? t('Tickets in this lane are resolved') : '',
+      ].filter(Boolean).join(' · ');
     }
   }
 

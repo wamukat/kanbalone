@@ -73,7 +73,7 @@ export function renderCustomView({ view, display, page, catalog, pageIndex, page
 
   const paging = pageIndex > 0 || Boolean(page.nextCursor);
   return `<header class="cv-header"><div><h2 id="custom-view-heading" tabindex="-1">${esc(view.name)}</h2><p class="cv-context">
-      ${view.scope === "all" ? t("All boards") : t("Selected boards")} · ${completionLabel(view.completion)} · ${t("Archived tickets excluded")}
+      ${view.scope === "all" ? t("All boards; only configured boards match") : t("Selected boards")} · ${completionLabel(view.completion)} · ${t("Archived tickets excluded")}
     </p></div><button type="button" data-view-action="edit">${t("Edit view")}</button></header>
     <div class="cv-toolbar"><strong id="custom-view-total">${esc(countLabel(page.total))}</strong>
       <div class="cv-choices">
