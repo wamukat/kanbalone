@@ -34,6 +34,8 @@ Click **＋** at the bottom of the board, enter a lane name, and press **Enter**
 
 Use the buttons at the top right of each lane to rename or delete it. Choose which lanes mark work as complete under **Completion lanes** in the sidebar gear panel.
 
+A lane can be deleted once every ticket has moved out. Archived tickets still belong to their lane. Turn on **Include archived tickets** to find them and move them to another lane. If a ticket is added after you open the delete confirmation, the lane stays in place.
+
 ![Adding a lane](../assets/user-guide/03-inline-lane-create.png)
 
 ## 4. Create A Ticket

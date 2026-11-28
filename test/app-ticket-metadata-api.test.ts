@@ -234,33 +234,51 @@ test("reciprocal blockers are rejected", async () => {
   await app.close();
 });
 
-test("lane deletion rejects non-empty lane", async () => {
+test("lane deletion counts archived tickets and leaves every ticket in place on rejection", async () => {
   const app = buildApp({
     dbFile: createDbFile(),
     staticDir: path.join(process.cwd(), "public"),
   });
 
-  const createdBoardResponse = await app.inject({
-    method: "POST",
-    url: "/api/boards",
-    payload: { name: "Board" },
-  });
-  const board = createdBoardResponse.json();
-  const todoLane = board.lanes[0];
+  try {
+    const response = await app.inject({ method: "POST", url: "/api/boards", payload: { name: "Board" } });
+    const { board, lanes } = response.json();
+    const [occupied, empty] = lanes;
+    const countsPath = (id: number) => `/api/lanes/${id}/ticket-counts`;
+    const deletePath = (id: number) => `/api/lanes/${id}`;
+    for (const lane of [occupied, empty]) {
+      const counts = await app.inject({ method: "GET", url: countsPath(lane.id) });
+      assert.equal(counts.statusCode, 200);
+      assert.deepEqual(counts.json(), { ticketCount: 0, archivedTicketCount: 0 });
+    }
 
-  await app.inject({
-    method: "POST",
-    url: `/api/boards/${board.board.id}/tickets`,
-    payload: { laneId: todoLane.id, title: "Task" },
-  });
+    const archived = await app.inject({
+      method: "POST", url: `/api/boards/${board.id}/tickets`,
+      payload: { laneId: occupied.id, title: "Archived", isArchived: true },
+    });
+    assert.equal(archived.statusCode, 201);
+    assert.deepEqual((await app.inject(countsPath(occupied.id))).json(), { ticketCount: 1, archivedTicketCount: 1 });
 
-  const deletionResponse = await app.inject({
-    method: "DELETE",
-    url: `/api/lanes/${todoLane.id}`,
-  });
-  assert.equal(deletionResponse.statusCode, 409);
+    const active = await app.inject({
+      method: "POST", url: `/api/boards/${board.id}/tickets`,
+      payload: { laneId: occupied.id, title: "Active" },
+    });
+    assert.equal(active.statusCode, 201);
+    const rejected = await app.inject({ method: "DELETE", url: deletePath(occupied.id) });
+    assert.equal(rejected.statusCode, 409);
+    assert.deepEqual(rejected.json(), { error: "lane is not empty", details: { ticketCount: 2, archivedTicketCount: 1 } });
+    for (const created of [archived, active]) {
+      const ticket = await app.inject(`/api/tickets/${created.json().id}`);
+      assert.equal(ticket.statusCode, 200);
+      assert.equal(ticket.json().laneId, occupied.id);
+    }
 
-  await app.close();
+    assert.equal((await app.inject({ method: "DELETE", url: deletePath(empty.id) })).statusCode, 204);
+    assert.equal((await app.inject(countsPath(empty.id))).statusCode, 404);
+    assert.equal((await app.inject({ method: "DELETE", url: deletePath(empty.id) })).statusCode, 404);
+  } finally {
+    await app.close();
+  }
 });
 
 test("tags can use no color", async () => {

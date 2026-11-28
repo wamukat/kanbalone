@@ -226,9 +226,8 @@ test("kanban lane create rename delete and reorder are wired", async ({ page }) 
     await gammaLane.locator("[data-action='delete-lane']").click();
     await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#ux-title")).toHaveText("Delete Lane");
-    await expect(page.locator("#ux-message")).toContainText('Lane "Gamma"');
-    await expect(page.locator("#ux-message")).toContainText("All tickets, comments, tags, and relations in this lane");
-    await expect(page.locator("#ux-message")).toContainText("Only empty lanes can be deleted.");
+    await expect(page.locator("#ux-message")).toContainText('Delete lane "Gamma"?');
+    await expect(page.locator("#ux-message")).toContainText("This action cannot be undone.");
     const deleteResponse = page.waitForResponse(
       (response) =>
         response.url().includes("/api/lanes/") &&

@@ -49,6 +49,7 @@ export function createKanbanBoardModule(ctx, options) {
   let dragScrollFrame = 0;
   let previousSearch = null;
   let unfilteredPosition = null;
+  let laneDeletionPending = false;
 
   function disposeLaneWindows(retained) {
     const lists = new Set(retained ? [...retained.values()].map(lane => lane.list) : []);
@@ -1156,21 +1157,75 @@ export function createKanbanBoardModule(ctx, options) {
     await ctx.refreshBoardDetail();
   }
 
-  async function deleteLane(lane) {
-    await ctx.confirmAndRun({
-      title: tr("Delete Lane"),
-      message: tr("Delete lane \"{name}\"?", { name: lane.name }),
-      details: [
-        tr("Lane \"{name}\"", { name: lane.name }),
-        tr("All tickets, comments, tags, and relations in this lane"),
-      ],
-      warning: tr("Only empty lanes can be deleted. This action cannot be undone."),
-      submitLabel: tr("Delete"),
-      run: async () => {
-        await ctx.api(`/api/lanes/${lane.id}`, { method: "DELETE" });
+  function laneDeletionNotice(lane, counts, conflict = false) {
+    const { ticketCount, archivedTicketCount } = counts ?? {};
+    const args = { name: lane.name, count: ticketCount, archived: archivedTicketCount };
+    let message = tr("Lane \"{name}\" still contains tickets.", args);
+    if (ticketCount !== undefined) {
+      message = archivedTicketCount
+        ? tr("Lane \"{name}\" still contains tickets ({count} total, including {archived} archived).", args)
+        : tr("Lane \"{name}\" still contains tickets ({count} total).", args);
+    }
+    const help = [tr("Move the tickets to another lane, then delete the empty lane.")];
+    if (archivedTicketCount || ticketCount === undefined) {
+      help.push(tr("Use Include archived tickets to find archived tickets."));
+    }
+    return {
+      title: tr("Cannot delete lane"),
+      message,
+      help,
+      warning: conflict ? tr("A ticket was added after you opened the confirmation. The lane was not deleted.") : "",
+    };
+  }
+
+  async function deleteLane(lane, trigger) {
+    if (laneDeletionPending) return;
+    const originPath = window.location.pathname;
+    const isCurrent = () => state.activeBoardId === lane.boardId
+      && state.viewMode === "kanban" && window.location.pathname === originPath;
+    const dismissStaleDialog = () => {
+      if (window.location.pathname !== originPath) ctx.finishUxDialog(null);
+    };
+    const url = `/api/lanes/${lane.id}`;
+    laneDeletionPending = true;
+    try {
+      const counts = await ctx.api(`${url}/ticket-counts`);
+      if (!isCurrent() || !trigger.isConnected || elements.uxDialog.open || elements.editorDialog.open) return;
+      trigger.focus({ preventScroll: true });
+      window.addEventListener("popstate", dismissStaleDialog);
+      if (counts.ticketCount > 0) {
+        await ctx.openConfirmDialog(laneDeletionNotice(lane, counts));
+        return;
+      }
+
+      const deleted = await ctx.openConfirmDialog({
+        title: tr("Delete Lane"),
+        message: tr("Delete lane \"{name}\"?", { name: lane.name }),
+        warning: tr("This action cannot be undone."),
+        submitLabel: tr("Delete"),
+        onSubmit: async () => {
+          if (!isCurrent()) return;
+          try {
+            await ctx.api(url, { method: "DELETE" });
+          } catch (error) {
+            if (!isCurrent()) return;
+            if (error.status !== 409) throw error;
+            return laneDeletionNotice(lane, error.details, true);
+          }
+        },
+      });
+      if (deleted && isCurrent()) {
         await ctx.refreshBoardDetail();
-      },
-    });
+        if (document.activeElement === document.body) {
+          elements.laneBoard.querySelector("[data-action='toggle-lane-actions'], .add-lane-button")?.focus({ preventScroll: true });
+        }
+      }
+    } catch (error) {
+      if (isCurrent()) ctx.showToast(error.message, "error");
+    } finally {
+      window.removeEventListener("popstate", dismissStaleDialog);
+      laneDeletionPending = false;
+    }
   }
 
   elements.laneBoard.addEventListener("dragstart", beginCardDrag, true);

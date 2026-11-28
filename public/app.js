@@ -432,7 +432,7 @@ const uxModule = createUxModule({
   escapeHtml,
 });
 
-const { confirmAndRun, finishUxDialog, handleUxSubmit, openFormDialog, showToast } = uxModule;
+const { confirmAndRun, finishUxDialog, handleUxSubmit, openFormDialog, openConfirmDialog, showToast } = uxModule;
 
 let routerModule;
 
@@ -675,6 +675,8 @@ const boardModule = createBoardModule({
   confirmAndRun,
   escapeHtml,
   openFormDialog,
+  openConfirmDialog,
+  finishUxDialog,
   openEditor,
   closeEditor,
   refreshBoardDetail,

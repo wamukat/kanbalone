@@ -40,7 +40,7 @@ export function createKanbanLane(ctx, lane, laneTickets, handlers) {
   header.querySelector("[data-action='rename-lane']").addEventListener("click", () => {
     startLaneRename(ctx, header, lane, handlers);
   });
-  header.querySelector("[data-action='delete-lane']").addEventListener("click", () => handlers.deleteLane(lane));
+  header.querySelector("[data-action='delete-lane']").addEventListener("click", (event) => handlers.deleteLane(lane, event.currentTarget));
   header.querySelector("[data-action='toggle-lane-actions']").addEventListener("click", (event) => {
     toggleInlineActionMenu(event.currentTarget);
   });
