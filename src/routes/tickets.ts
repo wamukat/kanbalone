@@ -1,3 +1,4 @@
+import { registerChangeRequestLinkRoutes } from './change-request-links.js';
 import { registerTicketArchiveRoutes } from "./ticket-archive.js";
 import { ticketCreateInput, ticketUpdateInput, ticketSelectionFilters, rejectCompletionFlags, rejectCompletedQuery, rejectInvalidNewTagNames, type TicketSelectionQuery } from "./ticket-input.js";
 import { groupErrorSchema, groupPreviewSchema } from "./schemas/group.js";
@@ -433,4 +434,5 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
   registerTicketReorderRoutes(app, ctx);
   registerTicketTagReasonRoutes(app, ctx);
   registerTicketExternalReferenceRoutes(app, ctx);
+  registerChangeRequestLinkRoutes(app, ctx);
 }

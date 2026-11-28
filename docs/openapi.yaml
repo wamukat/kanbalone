@@ -1641,6 +1641,68 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/change-request-links:
+    post:
+      summary: Add a PR or MR URL without replacing an existing reference
+      operationId: addTicketChangeRequestLink
+      description: Parses an HTTPS GitHub PR or GitLab MR URL locally. Does not fetch the provider or import an Issue. Generates an independent reference kind. Normalized duplicate URLs are rejected atomically with 409. GitHub project paths are case-folded; query, fragment and a trailing slash are ignored. Self-hosted instances must use root-hosted APIs and the same URL patterns.
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [url]
+              properties:
+                url: { type: string, minLength: 1, maxLength: 4096 }
+      responses:
+        "200":
+          description: Updated ticket with the new reference
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Ticket" }
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /api/tickets/{ticketId}/change-request-links/{referenceId}:
+    delete:
+      summary: Unlink exactly the confirmed PR or MR reference
+      operationId: unlinkTicketChangeRequest
+      description: Deletes only the local reference. Requires its current revision; replacement, removal and remove/re-add races are rejected with 409. Existing kind-based PUT and DELETE operations retain their compatibility semantics. No external request is sent.
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - name: referenceId
+          in: path
+          required: true
+          schema: { type: integer, minimum: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [expectedRevision]
+              properties:
+                expectedRevision: { type: integer, minimum: 0 }
+      responses:
+        "200":
+          description: Updated ticket after unlinking
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Ticket" }
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
   /api/tickets/{ticketId}/external-references/{kind}/refresh:
     post:
       summary: Fetch a linked GitHub PR or GitLab MR status
@@ -1681,7 +1743,7 @@ paths:
   /api/tickets/{ticketId}/external-references/{kind}:
     put:
       summary: Set external ticket reference
-      description: Idempotently sets a non-tracking external reference for the ticket. External references do not participate in the one-import-per-remote-issue constraint and do not expose refresh, sync, or push actions.
+      description: Idempotently sets a non-tracking external reference for the ticket. External references do not participate in the one-import-per-remote-issue constraint and do not sync or push Issue content. Supported PR/MR references have an explicit status refresh.
       operationId: setTicketExternalReference
       parameters:
         - $ref: "#/components/parameters/TicketId"
@@ -3689,6 +3751,10 @@ components:
     TicketExternalReference:
       type: object
       properties:
+        revision:
+          type: integer
+          minimum: 0
+          description: Local reference revision for guarded unlink. Incremented by each kind-based replacement, including replacement with identical values.
         id: { type: integer }
         ticketId: { type: integer }
         kind:

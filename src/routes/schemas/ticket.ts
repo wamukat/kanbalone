@@ -90,6 +90,7 @@ export const ticketExternalReferenceSchema = {
     "updatedAt",
   ],
   properties: {
+    revision: {type:"integer",minimum:0},
     id: positiveIntegerSchema,
     ticketId: positiveIntegerSchema,
     kind: { type: "string" },

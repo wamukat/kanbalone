@@ -342,3 +342,7 @@ Groupのエラーコード（スキーマ検証や汎用エラーでは `code` �
 | 428 | `PRECONDITION_REQUIRED` | 必要な編集・preview token、またはIf-Matchを指定する。 |
 
 保存した横断ビューは専用の定義・取得APIを使い、課題の所属やワークフローを変更しません。明示的な空条件、古いページの扱い、保存競合は[横断ビューAPI](./api-examples.md)を参照してください。
+
+### MR/PR URLの追加と安全な解除
+
+URLから既存参照を上書きせず追加するには `POST /api/tickets/:ticketId/change-request-links` に `{ "url": "https://github.com/owner/repo/pull/42" }` を送ります。正規化重複は409、外部通信なし、kindは内部生成です。解除は `DELETE /api/tickets/:ticketId/change-request-links/:referenceId` と `{ "expectedRevision": 0 }`。直前GETで得た参照の `revision` を使います。参照の変更・削除・再追加は409で拒否し、外部MR/PR自体は変更しません。従来のkind指定PUT/DELETEは互換のままで、PUTは同値でもrevisionを増やします。

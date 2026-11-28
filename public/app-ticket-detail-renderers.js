@@ -72,6 +72,7 @@ export function createTicketDetailRenderers(ctx) {
             <span class="ticket-external-reference-kind">${ctx.escapeHtml(formatExternalReferenceKind(reference.kind))}</span>
             ${renderRemoteRefLink(reference, ctx.escapeHtml, "ticket-external-reference-ref")}
             ${isChangeRequest(reference) ? `<button type="button" class="ghost icon-button" data-refresh-external-reference="${ctx.escapeHtml(reference.kind)}" title="${ctx.escapeHtml(t("Refresh change request: {ref}", { ref: reference.displayRef }))}" aria-label="${ctx.escapeHtml(t("Refresh change request: {ref}", { ref: reference.displayRef }))}" ${ctx.isExternalReferenceRefreshing?.(reference.kind) ? 'disabled aria-busy="true"' : ""}>${icon("rotate-ccw")}</button>` : ""}
+            ${isChangeRequest(reference) ? `<button type="button" class="ghost icon-button" data-unlink-change-request="${reference.id}" title="${ctx.escapeHtml(t("Unlink {ref}", {ref:reference.displayRef}))}" aria-label="${ctx.escapeHtml(t("Unlink {ref}", {ref:reference.displayRef}))}">${icon("x")}</button>` : ""}
             ${reference.title ? `<span class="ticket-external-reference-title muted">${ctx.escapeHtml(reference.title)}</span>` : ""}
           </div>
         `).join("")}
@@ -238,6 +239,7 @@ export function createTicketDetailRenderers(ctx) {
   }
 
   function formatExternalReferenceKind(kind) {
+    if (/^(pr|mr)-[0-9a-f]{8}-[0-9a-f-]{27}$/.test(kind)) return kind.slice(0,2).toUpperCase();
     return String(kind || t("reference")).replace(/[-_]+/g, " ");
   }
 

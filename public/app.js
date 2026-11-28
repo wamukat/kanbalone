@@ -593,6 +593,7 @@ const editorModule = createEditorModule({
   confirmAndRun,
   escapeHtml,
   openFormDialog,
+  openConfirmDialog,
   prepareEditorDialogPosition,
   refreshBoardDetail,
   flushPendingBoardRefreshAfterDialogClose: () => customViews.active ? customViews.returned() : flushPendingBoardRefreshAfterDialogClose(),

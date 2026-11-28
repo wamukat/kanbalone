@@ -830,3 +830,7 @@ a.ticket-external-reference-ref:hover {
   width: 0.9rem;
   height: 0.9rem;
 }
+
+.change-request-link-preview { overflow-wrap: anywhere; }
+.ticket-external-reference-row > .ticket-external-reference-ref { min-width: 0; overflow-wrap: anywhere; }
+.ticket-external-reference-row > .ticket-external-reference-title { flex-basis: 100%; overflow-wrap: anywhere; }

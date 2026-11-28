@@ -1,3 +1,4 @@
+import { createChangeRequestLinks } from './app-change-request-links.js';
 import { t } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { createTicketDetailRenderers } from "./app-ticket-detail-renderers.js";
@@ -12,6 +13,11 @@ export function createTicketDetailModule(ctx) {
   const pendingExternalReferences = new Set();
   const renderers = createTicketDetailRenderers({ ...ctx,
     isExternalReferenceRefreshing: kind => pendingExternalReferences.has(`${state.dialogTicket?.id}:${kind}`),
+  });
+  const changeRequestLinks = createChangeRequestLinks(ctx, updated => {
+    // Only update link metadata; preserve inline body/comment/Task drafts.
+    state.dialogTicket = { ...state.dialogTicket, externalReferences: updated.externalReferences };
+    syncRemoteSummary(state.dialogTicket);
   });
   const bodyInput = () => elements.ticketViewBody.querySelector("[data-detail-body-input]");
 
@@ -478,6 +484,9 @@ export function createTicketDetailModule(ctx) {
     }
     const groupLink = target.closest("[data-ticket-group]");
     if (groupLink) { event.preventDefault(); ctx.openGroup?.(Number(groupLink.getAttribute("data-ticket-group"))).catch(error => ctx.showToast(error.message, "error")); return; }
+    if (target.closest('#link-change-request-button')) { await changeRequestLinks.add(); return; }
+    const unlink = target.closest('[data-unlink-change-request]');
+    if (unlink) { await changeRequestLinks.remove(Number(unlink.dataset.unlinkChangeRequest)); return; }
     const externalRefresh = target.closest("[data-refresh-external-reference]");
     if (externalRefresh) { await refreshExternalReference(externalRefresh.dataset.refreshExternalReference); return; }
     const bodyTab = target.closest("[data-ticket-body-tab]");

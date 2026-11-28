@@ -81,15 +81,15 @@ export function createUxModule(ctx) {
     resolver(value);
   }
 
-  function renderConfirmation({ title, message, details = [], warning = "", help = [], submitLabel, cancelLabel, fields = "" }) {
+  function renderConfirmation({ title, message, details = [], warning = "", help = [], submitLabel, cancelLabel, submitIcon = "trash-2", detailsLabel = t("This will delete:"), fields = "" }) {
     elements.uxTitle.textContent = title;
     elements.uxMessage.hidden = !message && details.length === 0 && !warning && help.length === 0;
-    elements.uxMessage.innerHTML = renderConfirmMessage(message, details, warning, help);
+    elements.uxMessage.innerHTML = renderConfirmMessage(message, details, warning, help, detailsLabel);
     elements.uxDismissButton.textContent = cancelLabel ?? t(submitLabel ? "Cancel" : "Close");
     elements.uxSubmitButton.hidden = !submitLabel;
     elements.uxSubmitButton.disabled = !submitLabel;
     if (submitLabel) {
-      elements.uxSubmitButton.innerHTML = `${icon("trash-2")}<span>${ctx.escapeHtml(submitLabel)}</span>`;
+      elements.uxSubmitButton.innerHTML = `${icon(submitIcon)}<span>${ctx.escapeHtml(submitLabel)}</span>`;
     }
     elements.uxSubmitButton.classList.add("danger", "action-with-icon", "danger-confirm-action");
     elements.uxSubmitButton.classList.remove("primary-action");
@@ -137,11 +137,11 @@ export function createUxModule(ctx) {
     });
   }
 
-  function renderConfirmMessage(message, details, warning, help) {
+  function renderConfirmMessage(message, details, warning, help, detailsLabel) {
     return [
       message ? `<span>${ctx.escapeHtml(message)}</span>` : "",
       details.length
-        ? `<span class="ux-confirm-section-label">${t("This will delete:")}</span><ul class="ux-confirm-detail-list">${details.map((item) => `<li>${ctx.escapeHtml(item)}</li>`).join("")}</ul>`
+        ? `<span class="ux-confirm-section-label">${ctx.escapeHtml(detailsLabel)}</span><ul class="ux-confirm-detail-list">${details.map((item) => `<li>${ctx.escapeHtml(item)}</li>`).join("")}</ul>`
         : "",
       warning ? `<strong class="ux-confirm-warning" role="alert">${ctx.escapeHtml(warning)}</strong>` : "",
       ...help.map((text) => `<span class="ux-confirm-help">${ctx.escapeHtml(text)}</span>`),

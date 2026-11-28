@@ -271,6 +271,7 @@ export function createEditorModule(ctx) {
     visitModule.setViewing(mode === "view" && Boolean(state.editingTicketId));
     elements.editorForm.hidden = mode !== "edit";
     elements.headerEditButton.hidden = mode !== "view" || !state.editingTicketId;
+    elements.linkChangeRequestButton.hidden = elements.headerEditButton.hidden;
     elements.editorHeaderTitle.hidden = mode !== "view" || !state.editingTicketId;
     if (mode !== "view") {
       elements.editorHeaderState.hidden = true;

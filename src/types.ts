@@ -105,6 +105,7 @@ export type ChangeRequestStatus = {
 };
 
 export type TicketExternalReferenceRow = {
+  revision: number;
   id: Id;
   ticket_id: Id;
   kind: string;
@@ -331,6 +332,7 @@ export type TicketRemoteLinkView = {
 };
 
 export type TicketExternalReferenceView = {
+  revision?: number;
   id: Id;
   ticketId: Id;
   kind: string;

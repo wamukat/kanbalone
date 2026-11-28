@@ -64,6 +64,7 @@ export function getAppElements() {
     editorSaveState: document.querySelector("#editor-save-state"),
     archiveTicketButton: document.querySelector("#archive-ticket-button"),
     moveTicketButton: document.querySelector("#move-ticket-button"),
+    linkChangeRequestButton: document.querySelector("#link-change-request-button"),
     headerEditButton: document.querySelector("#header-edit-button"),
     ticketView: document.querySelector("#ticket-view"),
     editorDialogResizeHandle: document.querySelector("#editor-dialog-resize-handle"),
