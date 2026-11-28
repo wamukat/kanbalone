@@ -29,7 +29,10 @@ export function createKanbanBoardModule(ctx, options) {
     button.title = tr(direction < 0 ? "Scroll lanes left" : "Scroll lanes right");
     button.setAttribute("aria-label", button.title);
     button.innerHTML = icon(direction < 0 ? "chevron-left" : "chevron-right");
-    button.addEventListener("click", () => elements.laneBoard.scrollBy({ left: direction * elements.laneBoard.clientWidth * 0.8 }));
+    button.addEventListener("click", () => elements.laneBoard.scrollBy({
+      left: direction * elements.laneBoard.clientWidth * 0.8,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    }));
     scrollControls.append(button);
     return button;
   });
