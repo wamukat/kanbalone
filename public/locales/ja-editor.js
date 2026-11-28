@@ -1,5 +1,6 @@
 // UI strings only; user-authored content and API values remain unchanged.
 export default {
+  "Retry": "再試行",
   "Archive notifications": "アーカイブ通知",
   "Dismiss notification": "通知を閉じる",
   "Undo": "元に戻す",

@@ -6,7 +6,7 @@ import { icon } from "./icons.js";
 export function createTicketActionsModule(ctx, options) {
   const { state, elements } = ctx;
   let saveStateTimer = null;
-  const archiveRecovery = createArchiveRecovery(ctx, { review: options.reviewTicket, refresh: options.refreshRecoveredTicket });
+  let archiveRecovery;
 
   function clearSaveState() {
     if (saveStateTimer) {
@@ -133,7 +133,12 @@ export function createTicketActionsModule(ctx, options) {
         method: "PATCH", body: { isArchived: intendedArchive, expectedArchiveVersion, expectedBoardId: boardId },
       });
       saved = true;
-      if (intendedArchive) archiveRecovery.offer(savedTicket);
+      if (intendedArchive) {
+        archiveRecovery ??= (options.createArchiveRecovery ?? createArchiveRecovery)(ctx, {
+          review: options.reviewTicket, refresh: options.refreshRecoveredTicket,
+        });
+        archiveRecovery.offer(savedTicket);
+      }
       if (!scope()) return;
       await ctx.refreshBoardDetail();
       if (!scope()) return;
