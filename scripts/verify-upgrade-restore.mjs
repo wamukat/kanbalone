@@ -33,7 +33,7 @@ export function compareUpgrade(before, after, legacy) {
       for (const row of rows)
         assert.deepEqual(
           actual.find((x) => x.id === row.id),
-          row,
+          { ...row, updater: row.updater ?? null },
           "Old activity changed",
         );
       continue;
@@ -48,6 +48,9 @@ export function compareUpgrade(before, after, legacy) {
     for (const row of rows) {
       const found = actual.find((x) => key(x) === key(row));
       assert.ok(found, `Missing ${name} ${key(row)}`);
+      if (name === "comments" || name === "group_activity_logs") {
+        assert.equal(found.updater, row.updater ?? null, `${name}.updater (${key(row)})`);
+      }
       for (const field of Object.keys(row)) {
         if (
           legacy &&
@@ -131,11 +134,13 @@ export function compareUpgrade(before, after, legacy) {
     newActivity.length,
     legacy ? before.tables.tickets.filter((t) => t.is_resolved).length : 0,
   );
-  for (const activity of newActivity)
+  for (const activity of newActivity) {
+    assert.equal(activity.updater, null);
     assert.equal(
       JSON.parse(activity.details_json).migration,
       "lane_completion",
     );
+  }
   if (!before.tables.groups) assert.deepEqual(after.tables.groups, []);
 }
 

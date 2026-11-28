@@ -1,6 +1,8 @@
 import { createGroup, groupError } from "./groups.js";
 import type Database from "better-sqlite3";
 import { createMigratedCompletionLane } from "./lane-completion.js";
+import { requireValidUpdater } from "../operation-updater.js";
+import type { CreateCommentInput } from "./comments.js";
 
 import { replaceTicketBlockers, replaceTicketRelatedLinks } from "./ticket-writes.js";
 import type {
@@ -13,7 +15,7 @@ import type {
 } from "../types.js";
 
 type ImportBoardOps = {
-  addComment(input: { ticketId: Id; bodyMarkdown: string }): CommentView;
+  addComment(input: CreateCommentInput): CommentView;
   createBoard(input: { name: string; laneNames?: string[] }): BoardDetailView;
   createTag(input: { boardId: Id; name: string; color?: string }): TagView;
   createTicket(input: {
@@ -159,12 +161,19 @@ export function importBoardPayload(
       sqlite.prepare("UPDATE tickets SET resolved_at = ? WHERE id = ?").run(resolvedAt, createdTicket.id);
       createdTicketIds.set(ticket.id, createdTicket.id);
       if (ticket.groupId != null) sqlite.prepare("UPDATE tickets SET group_id=? WHERE id=?").run(groupById.get(ticket.groupId), createdTicket.id);
-      ticket.comments.forEach((comment) => {
+      // Assign fresh IDs in chronological order to retain the source order for tied timestamps.
+      const comments = [...ticket.comments].sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt) || a.id - b.id);
+      for (const comment of comments) {
         ops.addComment({
           ticketId: createdTicket.id,
           bodyMarkdown: comment.bodyMarkdown,
+          historical: {
+            updater: comment.updater == null ? null : requireValidUpdater(comment.updater),
+            createdAt: typeof comment.createdAt === "string" && Number.isFinite(Date.parse(comment.createdAt))
+              ? comment.createdAt : undefined,
+          },
         });
-      });
+      }
     });
 
     sortedTickets.forEach((ticket) => {

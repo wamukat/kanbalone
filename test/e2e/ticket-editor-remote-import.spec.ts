@@ -213,7 +213,7 @@ test("remote import keeps the backlink control inline and submits the selected o
     const imported = await importing;
     expect(imported.status()).toBe(201);
     expect(imported.request().postDataJSON()).toEqual({
-      provider: "github", laneId, url: issueUrl, postBacklinkComment: true, backlinkUrl: kanbaloneUrl,
+      provider: "github", laneId, url: issueUrl, postBacklinkComment: true, backlinkUrl: kanbaloneUrl, updater: "画面",
     });
 
     const ticket = await imported.json();

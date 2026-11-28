@@ -438,7 +438,7 @@ export class KanbanDb {
   }
 
   deleteComment(commentId: Id): { ticketId: Id; boardId: Id } {
-    return deleteComment(this.sqlite, commentId, this.now());
+    return this.sqlite.transaction(() => deleteComment(this.sqlite, commentId, this.now())).immediate();
   }
 
   listActivity(ticketId: Id): ActivityLogView[] {
@@ -458,7 +458,7 @@ export class KanbanDb {
   }
 
   removeTicketTag(ticketId: Id, tagId: Id): { boardId: Id } {
-    return removeTicketTag(this.sqlite, ticketId, tagId, this.now());
+    return this.sqlite.transaction(() => removeTicketTag(this.sqlite, ticketId, tagId, this.now())).immediate();
   }
 
   listTicketTagReasons(ticketId: Id): TicketTagReasonView[] {

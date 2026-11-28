@@ -35,4 +35,8 @@ export default {
   "Urgent": "緊急", "View": "表示", "View mode": "表示形式", "Write details in Markdown": "Markdownで詳細を記入",
   "This will delete:": "削除される内容：", "Use color": "色を使用", "{label} picker": "{label}の選択",
   "Language settings could not be saved. Allow browser storage and try again.": "言語設定を保存できませんでした。ブラウザの保存設定を確認してください。",
+  "Updater": "更新者",
+  "Unrecorded": "未記録",
+  "Used for future changes in this browser.": "このブラウザーで以降の操作に使います。",
+  "Updater could not be saved. Allow browser storage and try again.": "更新者を保存できませんでした。ブラウザの保存設定を確認してください。",
 };

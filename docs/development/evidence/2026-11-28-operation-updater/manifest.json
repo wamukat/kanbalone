@@ -1,0 +1,180 @@
+{
+  "capturedOn": "2026-11-28 Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 158.0.8127.37",
+    "automation": "agent-browser 0.26.0",
+    "os": "macOS",
+    "viewport": [
+      1440,
+      900
+    ],
+    "deviceScaleFactor": 1,
+    "locales": [
+      "en",
+      "ja"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "node": "26.13.1"
+  },
+  "fingerprintMethod": "SHA-256 of lines containing each file's SHA-256, two spaces, relative POSIX path, and LF, sorted by path. Includes src, public, package.json, tsconfig.json and scripts/build-web.mjs.",
+  "builds": {
+    "before": {
+      "commit": "4920daffe31a835a43996bead3a9f62f847d3f21",
+      "displayVersion": "1.6.0",
+      "source": {
+        "files": 234,
+        "sha256": "a35cf8c884515f9c996a2e1def1fa1d27be6283147088fe9f99d75c277d1a142"
+      },
+      "assets": [
+        "app-ZKJFEAFK.js",
+        "styles-QTXME7NL.css"
+      ]
+    },
+    "after": {
+      "baseCommit": "4920daffe31a835a43996bead3a9f62f847d3f21",
+      "displayVersion": "1.6.0",
+      "source": {
+        "files": 237,
+        "sha256": "69f79d1e5905e824c9c721ae1f267dd6fc1817f2149bd4c28699a4e61ca62160"
+      },
+      "assets": [
+        "app-NE47NQP7.js",
+        "styles-DCIJGWV6.css"
+      ]
+    }
+  },
+  "checks": {
+    "backupRestorationOnCaptureBuild": {
+      "legacyTableProjectionsEqual": 23,
+      "legacyActivityCount": 4,
+      "legacyCommentCount": 1,
+      "allLegacyAttributionsNull": true,
+      "legacyApiFieldsEqual": true,
+      "attachmentUnchanged": true,
+      "sqliteIntegrityAndReferentialChecks": true
+    },
+    "restartOnSameBackendBeforeFinalInputStyleChange": {
+      "source": {
+        "files": 237,
+        "sha256": "6a4566c92118f2ff216ee0780ebc5ee957b17b2d692896fdfe64c317ddc2f62b"
+      },
+      "checks": {
+        "legacyTableProjectionsEqual": 23,
+        "legacyActivityCount": 4,
+        "legacyCommentCount": 1,
+        "allLegacyAttributionsNull": true,
+        "legacyApiFieldsEqual": true,
+        "attachmentUnchanged": true,
+        "sqliteIntegrityAndReferentialChecks": true
+      }
+    },
+    "uiAndApi": {
+      "defaultBrowserUpdater": "画面",
+      "configuredBrowserUpdater": "確認担当",
+      "languageAndBoardPrefsUnchanged": true,
+      "darkReloadAndUpdaterPersistence": true,
+      "blankSettingRejectedWithoutStorageChange": true,
+      "legacyHistoryUnmodified": true,
+      "legacyCommentCreationAttributionKeptOnEdit": true,
+      "configuredActorOnUiBodyEdit": true,
+      "japaneseDarkSettingControl": {
+        "height": 35.5625,
+        "parent": 217.8125,
+        "radius": "6px",
+        "width": 217.8125
+      },
+      "legacyApiOmissionRecordedAs": "API",
+      "explicitApiActor": "レビュー担当",
+      "invalidApiValueRejectedWithoutActivity": true,
+      "exportFormatVersion": 3,
+      "historicalCommentAttributionsRetainedOnImport": true,
+      "importOperationSeparateActor": "引き継ぎ担当",
+      "browserErrors": 0
+    }
+  },
+  "screenshots": [
+    {
+      "filename": "after-en-dark-comments-recorded.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "2d2294aed8b4e8d1b2a23dc15d252fb02cef2c7101efa2961b36184bac332dba"
+    },
+    {
+      "filename": "after-en-dark-legacy-comments.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "9537772df9be1ef3eac20abace9dd55ab51643a922cd9a2d5e0bc92ac0530d79"
+    },
+    {
+      "filename": "after-en-light-history-recorded.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "8e44387b1824b84301e4f049af816afdca8c22906d5358e3c234c2a31574d184"
+    },
+    {
+      "filename": "after-en-light-legacy-history.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "252268a9aa08a58f6537ec0e8e12b5df477d04d226e0d00f23c01d45087291be"
+    },
+    {
+      "filename": "after-en-light-settings-saved.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "a6c8d6b6ce56eaad679382a9fef5a11713816f2443d4067e93b58db45d3fad70"
+    },
+    {
+      "filename": "after-en-light-settings.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "09f98a65591753a7de7aa0c1b0fa67fe9ffca64b4ae06f3b82fa37ea465d6661"
+    },
+    {
+      "filename": "after-ja-dark-settings-saved.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "54b16c0fada7746b6f1afe9e07f537af750e81babbe17d10f76e694acce1e7ba"
+    },
+    {
+      "filename": "before-en-dark-legacy-comments.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "7c36e18bf6f7919a529bf69bd2140a9917dcf919cb32a70e93943ab8429e29e8"
+    },
+    {
+      "filename": "before-en-light-legacy-history.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "9f108c11cdcbcd3f72ebbfef194c81a68962a54a3c859ecd877de42feb6708ea"
+    },
+    {
+      "filename": "before-en-light-settings.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "sha256": "517583da96e228c9f3b2599320de6a6439b9a3c1670abe04e1bb540d8de2e619"
+    }
+  ]
+}

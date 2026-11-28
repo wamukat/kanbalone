@@ -76,6 +76,8 @@ Choose **Lane** in the editor to move within the same board. Use **Move** to sen
 
 Add comments in ticket details to record progress and notes. While composing a new comment, press **Ctrl+Enter** (**⌘+Enter** on Mac) to post it. The **Activity** tab shows changes to tickets and comments.
 
+Comments show the updater used at posting time. Check **Activity** for the updater of a later edit. Past operations that have no updater show **Unrecorded**.
+
 ![Comments and history](../assets/user-guide/06-ticket-activity.png)
 
 ## 8. Import Issues From Other Services
@@ -227,6 +229,8 @@ Open the sidebar gear to rename the board, set completion lanes, export or impor
 **Set completion lanes**: under **Completion lanes**, click **Set up** (or **Change**), select lanes, and click **Save**. If ticket completion states will change, review the counts before confirming.
 
 **Language**: choose **日本語** or **English** in the gear panel. Kanbalone initially follows your browser language and remembers your choice in this browser. Board names and ticket content stay as you wrote them.
+
+Under **Updater**, enter a name and click **Save**. This browser uses the name for future operations that record activity. The initial name is `画面`. Historical entries retain the name used when each operation was sent.
 
 ![Board settings](../assets/user-guide/12-board-settings.png)
 

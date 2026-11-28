@@ -912,7 +912,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TicketCreate'
+              allOf:
+                - $ref: '#/components/schemas/TicketCreate'
+              properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
       responses:
         '201':
           description: Created ticket
@@ -1118,7 +1122,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RemoteIssueImport"
+              allOf:
+                - $ref: "#/components/schemas/RemoteIssueImport"
+              properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
       responses:
         "201":
           description: Imported tracked ticket
@@ -1180,6 +1188,8 @@ paths:
                       isCompleted: {}
                     required: [isCompleted]
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 ticketIds:
                   type: array
                   items:
@@ -1207,6 +1217,49 @@ paths:
         "409":
           $ref: "#/components/responses/Error"
 
+  /api/boards/{boardId}/tickets/bulk-archive:
+    post:
+      summary: Archive or restore selected tickets
+      operationId: bulkArchiveTickets
+      parameters:
+        - $ref: '#/components/parameters/BoardId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ticketIds, isArchived]
+              properties:
+                ticketIds:
+                  type: array
+                  items:
+                    type: integer
+                    minimum: 1
+                isArchived:
+                  type: boolean
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
+      responses:
+        '200':
+          description: Updated ticket summaries
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [tickets]
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TicketSummary'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '409':
+          $ref: '#/components/responses/Error'
+
   /api/boards/{boardId}/tickets/bulk-move:
     post:
       summary: Bulk move tickets to another board and lane
@@ -1221,6 +1274,8 @@ paths:
             schema:
               type: object
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 ticketIds:
                   type: array
                   items:
@@ -1334,7 +1389,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TicketUpdate'
+              allOf:
+                - $ref: '#/components/schemas/TicketUpdate'
+              properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
+              not:
+                properties: { updater: {} }
+                required: [updater]
+                maxProperties: 1
       responses:
         '200':
           description: Updated ticket
@@ -1357,9 +1420,13 @@ paths:
       operationId: deleteTicket
       parameters:
       - $ref: '#/components/parameters/TicketId'
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         '204':
           description: Deleted
+        '400':
+          $ref: '#/components/responses/Error'
         '404':
           $ref: '#/components/responses/Error'
 
@@ -1385,6 +1452,8 @@ paths:
                       isCompleted: {}
                     required: [isCompleted]
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 laneName: { type: string }
               required: [laneName]
       responses:
@@ -1415,6 +1484,8 @@ paths:
             schema:
               type: object
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 laneId:
                   type: integer
                 position:
@@ -1462,6 +1533,8 @@ paths:
       operationId: refreshRemoteIssue
       parameters:
         - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "200":
           description: Refreshed tracked ticket
@@ -1505,6 +1578,8 @@ paths:
       parameters:
         - $ref: "#/components/parameters/TicketId"
         - $ref: "#/components/parameters/ExternalReferenceKind"
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "200":
           description: Ticket with updated external references
@@ -1531,6 +1606,8 @@ paths:
             schema:
               type: object
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 boardId:
                   type: integer
                 laneId:
@@ -1609,6 +1686,8 @@ paths:
             schema:
               type: object
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 bodyMarkdown:
                   type: string
               required: [bodyMarkdown]
@@ -1641,6 +1720,8 @@ paths:
             schema:
               type: object
               properties:
+                updater:
+                  $ref: '#/components/schemas/OperationUpdater'
                 bodyMarkdown:
                   type: string
               required: [bodyMarkdown]
@@ -1664,9 +1745,13 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "204":
           description: Deleted
+        "400":
+          $ref: '#/components/responses/Error'
         "404":
           $ref: "#/components/responses/Error"
 
@@ -1681,6 +1766,8 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "200":
           description: Comment with updated remote sync state
@@ -1806,9 +1893,13 @@ paths:
       parameters:
         - $ref: "#/components/parameters/TicketId"
         - $ref: "#/components/parameters/TagId"
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "204":
           description: Removed
+        "400":
+          $ref: '#/components/responses/Error'
         "404":
           $ref: "#/components/responses/Error"
 
@@ -1945,6 +2036,8 @@ paths:
         schema:
           type: string
         description: ETag from the Group GET response.
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         '204':
           description: Deleted
@@ -2117,6 +2210,7 @@ paths:
                       - action
                       - details
                       - createdAt
+                      - updater
                       properties:
                         id:
                           type: integer
@@ -2129,6 +2223,8 @@ paths:
                         details:
                           type: object
                           additionalProperties: true
+                        updater:
+                          $ref: '#/components/schemas/RecordedUpdater'
                         createdAt:
                           type: string
                           format: date-time
@@ -2137,6 +2233,16 @@ paths:
         '404':
           $ref: '#/components/responses/GroupError'
 components:
+  requestBodies:
+    OptionalOperationUpdater:
+      description: Optional metadata for this operation. An omitted body or field defaults to API.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              updater:
+                $ref: '#/components/schemas/OperationUpdater'
   parameters:
     TicketCollectionLimit:
       name: limit
@@ -2231,6 +2337,19 @@ components:
           schema:
             $ref: '#/components/schemas/GroupErrorBody'
   schemas:
+    OperationUpdater:
+      type: string
+      minLength: 1
+      maxLength: 80
+      allOf:
+        - pattern: '\S'
+        - not:
+            pattern: '[\u0000-\u001F\u007F-\u009F]'
+      description: Self-reported name preserved exactly in operation history. Omit for API. Requires valid Unicode, at least one non-whitespace character and no control characters.
+      example: Reviewer
+    RecordedUpdater:
+      type: [string, 'null']
+      description: Updater captured when the operation was recorded. Older records without an updater use null.
     CustomViewSummary:
       type: object
       required: [id, name, version]
@@ -2418,6 +2537,8 @@ components:
     GroupCreate:
       type: object
       properties:
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
         name:
           type: string
           minLength: 1
@@ -2432,6 +2553,8 @@ components:
     GroupUpdate:
       type: object
       properties:
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
         name:
           type: string
           minLength: 1
@@ -2444,7 +2567,9 @@ components:
           minimum: 1
       required:
       - expectedRevision
-      minProperties: 2
+      anyOf:
+      - required: [name]
+      - required: [descriptionMarkdown]
       additionalProperties: false
     GroupResolution:
       type: object
@@ -2474,6 +2599,8 @@ components:
       - $ref: '#/components/schemas/GroupMembershipRequest'
       - type: object
         properties:
+          updater:
+            $ref: '#/components/schemas/OperationUpdater'
           expectedToken:
             type: string
             minLength: 1
@@ -2677,6 +2804,10 @@ components:
       - tickets
       type: object
     BoardImport:
+      type: object
+      properties:
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
       oneOf:
       - $ref: '#/components/schemas/BoardExport'
       - allOf:
@@ -2745,9 +2876,12 @@ components:
         bodyMarkdown: { type: string }
         bodyHtml: { type: string }
         createdAt: { type: string, format: date-time }
+        updater:
+          type: [string, 'null']
+          description: Updater at comment creation. Edits are attributed separately in ticket activity. Null means unrecorded.
         sync:
           $ref: "#/components/schemas/CommentSync"
-      required: [id, ticketId, bodyMarkdown, bodyHtml, createdAt, sync]
+      required: [id, ticketId, bodyMarkdown, bodyHtml, createdAt, updater, sync]
     ActivityLog:
       type: object
       properties:
@@ -2764,7 +2898,9 @@ components:
           type: object
           additionalProperties: true
         createdAt: { type: string, format: date-time }
-      required: [id, boardId, ticketId, subjectTicketId, action, message, details, createdAt]
+        updater:
+          $ref: '#/components/schemas/RecordedUpdater'
+      required: [id, boardId, ticketId, subjectTicketId, action, message, details, createdAt, updater]
     TicketEvent:
       type: object
       properties:
@@ -2842,6 +2978,8 @@ components:
     TicketTagReasonSetBody:
       type: object
       properties:
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
         reason:
           type: [string, "null"]
         details:
@@ -2972,6 +3110,8 @@ components:
     TicketExternalReferenceSet:
       type: object
       properties:
+        updater:
+          $ref: '#/components/schemas/OperationUpdater'
         provider: { type: string }
         instanceUrl: { type: string }
         resourceType:
@@ -3519,6 +3659,14 @@ components:
                 type: [string, 'null']
                 format: date-time
                 description: Completion arrival time, maintained by the server in ordinary ticket APIs. Preserved on import for completed tickets; omitted legacy values are imported as null. Non-null values on unresolved tickets are rejected.
+              comments:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    updater:
+                      type: [string, 'null']
+                      description: Historical comment creation updater. Older exports omit this field and import as unrecorded.
               groupId:
                 type:
                 - integer

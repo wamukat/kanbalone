@@ -1,6 +1,7 @@
 // @ts-check
 import { collectTicketPages } from "./app-ticket-pages.js";
 import { translateError } from "./app-i18n.js";
+import { withOperationUpdater } from "./app-operation-updater.js";
 
 /**
  * @param {string | URL} url
@@ -8,14 +9,15 @@ import { translateError } from "./app-i18n.js";
  * @returns {Promise<unknown>}
  */
 export async function api(url, init = {}) {
-  const parsed = new URL(String(url), "http://kanbalone.invalid");
+  const base = new URL(globalThis.location?.href ?? "http://kanbalone.invalid");
+  const parsed = new URL(String(url), base);
   const relationCandidates = /^\/api\/boards\/\d+\/relation-candidates$/.test(parsed.pathname);
   const ticketList = /^\/api\/boards\/\d+\/tickets$/.test(parsed.pathname);
   if ((init.method ?? "GET").toUpperCase() === "GET" && (ticketList || relationCandidates) && !parsed.searchParams.has("limit") && !parsed.searchParams.has("cursor")) {
     const result = await collectTicketPages(requestJson, url, { init, order: relationCandidates ? "id_asc" : undefined });
     return { tickets: result.tickets };
   }
-  return requestJson(url, init);
+  return requestJson(url, withOperationUpdater(parsed, init, base.origin));
 }
 
 /** @param {string | URL} url @param {RequestInit} [init] @returns {Promise<unknown>} */

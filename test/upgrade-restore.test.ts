@@ -23,7 +23,7 @@ function fixture() {
         },
       ],
       groups: [{ id: 1, name: "Keep Group" }],
-      comments: [{ id: 1, ticket_id: 1, body_markdown: "Keep comment" }],
+      comments: [{ id: 1, ticket_id: 1, body_markdown: "Keep comment", updater: null }],
       activity_logs: [],
     },
   };
@@ -44,6 +44,12 @@ for (const [name, corrupt] of [
     "changed comment",
     (s: any) => {
       s.tables.comments[0].body_markdown = "Lost";
+    },
+  ],
+  [
+    "guessed historical updater",
+    (s: any) => {
+      s.tables.comments[0].updater = "API";
     },
   ],
   [

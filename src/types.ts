@@ -74,6 +74,7 @@ export type CommentRow = {
   ticket_id: Id;
   body_markdown: string;
   created_at: string;
+  updater: string | null;
 };
 
 export type TicketRemoteLinkRow = {
@@ -131,6 +132,7 @@ export type ActivityLogRow = {
   message: string;
   details_json: string;
   created_at: string;
+  updater: string | null;
 };
 
 export type TicketEventRow = {
@@ -270,6 +272,7 @@ export type CommentView = {
   bodyMarkdown: string;
   bodyHtml: string;
   createdAt: string;
+  updater: string | null;
   sync: CommentRemoteSyncView;
 };
 
@@ -327,6 +330,7 @@ export type ActivityLogView = {
   message: string;
   details: Record<string, unknown>;
   createdAt: string;
+  updater: string | null;
 };
 
 export type TicketEventView = {
@@ -382,7 +386,7 @@ export type BoardExport = {
   tickets: Array<
     Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken" | "resolvedAt"> & {
       resolvedAt?: string | null;
-      comments: Array<Omit<CommentView, "sync">>;
+      comments: Array<Omit<CommentView, "sync" | "updater"> & { updater?: string | null }>;
       isCompleted?: boolean;
     }
   >;

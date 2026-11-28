@@ -62,7 +62,8 @@
 }
 
 .sidebar-board-name-form input:where([type="text" i]),
-.sidebar-tag-create-row input:where([type="text" i]) {
+.sidebar-tag-create-row input:where([type="text" i]),
+#operation-updater {
   width: 100%;
   border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
@@ -72,7 +73,10 @@
 }
 
 .sidebar-board-name-form input:where([type="text" i]):focus,
-.sidebar-tag-create-row input:where([type="text" i]):focus {
+.sidebar-tag-create-row input:where([type="text" i]):focus,
+#operation-updater:focus {
   border-color: var(--control-focus-border);
   box-shadow: var(--control-focus-ring);
 }
+
+#operation-updater:focus { outline: none; }

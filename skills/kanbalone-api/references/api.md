@@ -4,6 +4,16 @@ Use these endpoints with a base URL such as `http://127.0.0.1:3000`.
 
 When a user gives a page URL such as `http://127.0.0.1:3000/boards/4`, use `http://127.0.0.1:3000` as the API origin and `4` as the board ID.
 
+## Operation updater
+
+Use the optional top-level JSON `updater` field on operations that write ticket or Group activity. This includes ticket creation, edits, transitions, moves, archival changes, deletion and bulk changes. A position change records activity when it moves a ticket to a different lane. The field also applies to comment creation, edits, push and deletion, tag reason changes, external reference changes, board and remote issue imports, remote issue refresh, and Group creation, edit, deletion and membership changes.
+
+On operations that accept an empty body, supply `{ "updater": "Reviewer" }` as an optional JSON body, including on relevant DELETE requests. Keep the `If-Match` revision header when deleting a Group.
+
+Omission records `API`. Supply valid Unicode with 1–80 characters, at least one non-whitespace character, and no control characters. A supplied `null` or invalid value returns 400. Valid values are preserved exactly. This self-reported name is display metadata.
+
+Ticket and Group activity return an `updater` on each entry. Comments return the creation updater. Comment edits are independently attributed in ticket activity. `null` means unrecorded. Portable board JSON preserves comment creation updater values and timestamps, while newly generated import activity uses the top-level operation updater.
+
 ## System
 
 - `GET /api/health` -> `{ "ok": true }`

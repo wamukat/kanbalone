@@ -1,0 +1,26 @@
+{
+  "maxLength": 80,
+  "defaultBrowserUpdater": "画面",
+  "invalidCharacters": "[\\u0000-\\u001F\\u007F-\\u009F\\uD800-\\uDFFF]",
+  "routes": {
+    "/api/boards/:boardId/tickets": ["POST"],
+    "/api/tickets/:ticketId": ["PATCH", "DELETE"],
+    "/api/tickets/:ticketId/transition": ["PATCH"],
+    "/api/tickets/:ticketId/position": ["PATCH"],
+    "/api/tickets/:ticketId/move": ["POST"],
+    "/api/boards/:boardId/tickets/bulk-transition": ["POST"],
+    "/api/boards/:boardId/tickets/bulk-archive": ["POST"],
+    "/api/boards/:boardId/tickets/bulk-move": ["POST"],
+    "/api/boards/:boardId/groups": ["POST"],
+    "/api/groups/:groupId": ["PATCH", "DELETE"],
+    "/api/boards/:boardId/group-memberships": ["PUT"],
+    "/api/boards/import": ["POST"],
+    "/api/boards/:boardId/remote-import": ["POST"],
+    "/api/tickets/:ticketId/remote-refresh": ["POST"],
+    "/api/tickets/:ticketId/tags/:tagId": ["POST", "DELETE"],
+    "/api/tickets/:ticketId/external-references/:kind": ["PUT", "DELETE"],
+    "/api/tickets/:ticketId/comments": ["POST"],
+    "/api/comments/:commentId": ["PATCH", "DELETE"],
+    "/api/comments/:commentId/push-remote": ["POST"]
+  }
+}

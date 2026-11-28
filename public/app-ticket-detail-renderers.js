@@ -135,7 +135,10 @@ export function createTicketDetailRenderers(ctx) {
         }
         return `
           <article class="activity-item">
-            <div class="activity-meta muted">${new Date(item.entry.createdAt).toLocaleString(getLocale())}</div>
+            <div class="activity-meta activity-operation-meta muted">
+              <time datetime="${ctx.escapeHtml(item.entry.createdAt)}">${new Date(item.entry.createdAt).toLocaleString(getLocale())}</time>
+              <bdi class="record-updater">${ctx.escapeHtml(item.entry.updater ?? t("Unrecorded"))}</bdi>
+            </div>
             <div class="activity-message">${ctx.escapeHtml(formatActivityMessage(item.entry))}</div>
           </article>
         `;

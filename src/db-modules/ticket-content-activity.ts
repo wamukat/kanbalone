@@ -15,7 +15,7 @@ export function migrateTicketContentActivity(sqlite: Database.Database): void {
       UNION ALL
       SELECT t.id, a.created_at
       FROM activity_logs a JOIN tickets t ON t.id = a.subject_ticket_id
-      WHERE a.action = 'comment_added' OR (a.action = 'comment_updated' AND
+      WHERE a.action IN ('comment_added', 'comment_imported') OR (a.action = 'comment_updated' AND
         CASE WHEN json_valid(a.details_json) THEN
           json_type(a.details_json, '$.commentId') = 'integer'
           AND json_extract(a.details_json, '$.commentId') > 0

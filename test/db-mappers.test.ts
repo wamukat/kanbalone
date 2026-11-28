@@ -10,6 +10,7 @@ test("mapComment renders markdown without changing persisted markdown", () => {
     ticket_id: 2,
     body_markdown: "Hello **Kanbalone**",
     created_at: "2026-04-13T00:00:00.000Z",
+    updater: "Author",
   }, {
     commentId: 1,
     status: "local_only",
@@ -23,6 +24,7 @@ test("mapComment renders markdown without changing persisted markdown", () => {
   assert.equal(comment.bodyMarkdown, "Hello **Kanbalone**");
   assert.match(comment.bodyHtml, /<strong>Kanbalone<\/strong>/);
   assert.equal(comment.sync.status, "local_only");
+  assert.equal(comment.updater, "Author");
 });
 
 test("renderMarkdown highlights code blocks and preserves table markup", () => {
@@ -79,11 +81,13 @@ test("mapActivityLog tolerates invalid details json", () => {
     message: "Ticket deleted",
     details_json: "{invalid",
     created_at: "2026-04-13T00:00:00.000Z",
+    updater: null,
   });
 
   assert.deepEqual(activity.details, {});
   assert.equal(activity.ticketId, null);
   assert.equal(activity.subjectTicketId, 3);
+  assert.equal(activity.updater, null);
 });
 
 test("sanitizePriority defaults missing priority and rejects out-of-range values", () => {

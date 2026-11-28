@@ -57,6 +57,16 @@
               <label for="language-select" class="sidebar-setting-label" data-i18n="Language">Language</label>
               <select id="language-select"><option value="ja">日本語</option><option value="en">English</option></select>
             </section>
+            <form id="operation-updater-form" class="sidebar-setting-group">
+              <label for="operation-updater" class="sidebar-setting-label" data-i18n="Updater">Updater</label>
+              <input id="operation-updater" type="text" autocomplete="off" aria-describedby="operation-updater-help operation-updater-error" />
+              <p id="operation-updater-help" class="operation-updater-help" data-i18n="Used for future changes in this browser.">Used for future changes in this browser.</p>
+              <div class="operation-updater-actions">
+                <button type="submit" data-i18n="Save">Save</button>
+                <span id="operation-updater-status" class="muted" role="status"></span>
+              </div>
+              <p id="operation-updater-error" class="completion-error" role="alert" hidden></p>
+            </form>
             <section data-board-setting class="sidebar-setting-group"><h3 class="sidebar-setting-label" data-i18n="Board name">Board name</h3><div id="board-rename-inline-host" class="sidebar-board-name"></div></section>
             <div data-board-setting id="sidebar-lane-settings" class="sidebar-lane-settings sidebar-setting-group"></div>
             <div data-board-setting class="sidebar-board-actions sidebar-setting-group">

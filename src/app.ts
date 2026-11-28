@@ -7,6 +7,7 @@ import { readPackageMeta } from "./app-meta.js";
 import { BoardEventHub } from "./board-event-hub.js";
 import { boardTransferByteLimit } from "./db-modules/attachment-transfer.js";
 import { KanbanDb } from "./db.js";
+import { registerOperationUpdater } from "./operation-updater.js";
 import type { RemoteAdapterRegistry } from "./remote/adapters.js";
 import { getConfiguredCredentialProviders, getConfiguredCredentialScopes, type ConfiguredRemoteCredentialScope } from "./remote/credentials.js";
 import { GithubIssueAdapter } from "./remote/github-adapter.js";
@@ -54,6 +55,7 @@ export function buildApp(options: BuildAppOptions): FastifyInstance {
     }
     parseJson(request, body, done);
   });
+  registerOperationUpdater(app);
   const db = new KanbanDb(options.dbFile);
   const staticDir = options.staticDir ?? path.join(process.cwd(), "public");
   const appMeta = readPackageMeta();

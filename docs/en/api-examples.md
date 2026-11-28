@@ -17,6 +17,20 @@ For reviewed board configuration, prefer the [atomic selection endpoint](#replac
 
 All examples assume `http://127.0.0.1:3000`.
 
+## Record the updater
+
+Include an optional `updater` in the JSON of an operation that writes ticket or Group activity. Omission records `API`. Supply 1–80 valid Unicode characters with at least one non-whitespace character and no control characters. Valid names are recorded as supplied. `null`, an empty string, or any other invalid value returns HTTP 400.
+
+```bash
+curl -fsS -X PATCH http://127.0.0.1:3000/api/tickets/42 \
+  -H 'content-type: application/json' \
+  --data '{"bodyMarkdown":"Reviewed and verified.","updater":"Reviewer"}'
+
+curl -fsS http://127.0.0.1:3000/api/tickets/42/activity
+```
+
+For a history-writing operation that can run without a body, such as deleting a comment or refreshing a remote issue, send an optional JSON object containing just `updater`. Existing parameters and headers still apply. For bulk changes, each resulting activity entry records the same updater. A comment's `updater` records its creation value. The ticket activity records the updater of each edit separately. Historical records without an updater return `null`. See [OpenAPI](https://github.com/wamukat/kanbalone/blob/main/docs/openapi.yaml) for the supported operations.
+
 <a id="paged-ticket-lists"></a>
 ## Paged ticket lists
 

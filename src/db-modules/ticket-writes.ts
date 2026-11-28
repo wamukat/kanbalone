@@ -1,5 +1,6 @@
 import type Database from "better-sqlite3";
 
+import { currentOperationUpdater } from "../operation-updater.js";
 import type { Id } from "../types.js";
 
 export function validateParentTicket(
@@ -48,8 +49,8 @@ export function addActivity(
   sqlite
     .prepare(
       `
-      INSERT INTO activity_logs (board_id, ticket_id, subject_ticket_id, action, message, details_json, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO activity_logs (board_id, ticket_id, subject_ticket_id, action, message, details_json, created_at, updater)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `,
     )
     .run(
@@ -60,6 +61,7 @@ export function addActivity(
       input.message,
       JSON.stringify(input.details ?? {}),
       input.createdAt,
+      currentOperationUpdater(),
     );
 }
 

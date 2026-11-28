@@ -17,7 +17,7 @@ export const commentSyncSchema = {
 
 export const commentViewSchema = {
   type: "object",
-  required: ["id", "ticketId", "bodyMarkdown", "bodyHtml", "createdAt", "sync"],
+  required: ["id", "ticketId", "bodyMarkdown", "bodyHtml", "createdAt", "updater", "sync"],
   additionalProperties: false,
   properties: {
     id: positiveIntegerSchema,
@@ -25,6 +25,7 @@ export const commentViewSchema = {
     bodyMarkdown: { type: "string" },
     bodyHtml: { type: "string" },
     createdAt: { type: "string" },
+    updater: { anyOf: [{ type: "string" }, { type: "null" }] },
     sync: commentSyncSchema,
   },
 } as const;

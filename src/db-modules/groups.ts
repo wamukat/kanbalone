@@ -1,6 +1,7 @@
 import type Database from "better-sqlite3";
 import { createHash } from "node:crypto";
 import { renderMarkdown } from "../markdown.js";
+import { currentOperationUpdater } from "../operation-updater.js";
 import { addActivity } from "./ticket-writes.js";
 import type { GroupView, TicketRow } from "../types.js";
 
@@ -65,8 +66,8 @@ function cleanDescription(value: string): string {
   return value;
 }
 function logGroup(db: Sqlite, boardId: number, groupId: number, action: string, details: unknown, now: string): void {
-  db.prepare("INSERT INTO group_activity_logs(board_id,subject_group_id,action,details_json,created_at) VALUES(?,?,?,?,?)")
-    .run(boardId, groupId, action, JSON.stringify(details), now);
+  db.prepare("INSERT INTO group_activity_logs(board_id,subject_group_id,action,details_json,created_at,updater) VALUES(?,?,?,?,?,?)")
+    .run(boardId, groupId, action, JSON.stringify(details), now, currentOperationUpdater());
   db.prepare("UPDATE boards SET updated_at=? WHERE id=?").run(now, boardId);
 }
 type CountedGroupRow = GroupRow & { total: number; open: number; resolved: number; archived: number };
@@ -124,8 +125,8 @@ export function deleteGroup(db: Sqlite, id: number, expectedRevision: number | u
 }
 export function listGroupActivity(db: Sqlite, boardId: number, groupId?: number) {
   requireBoard(db, boardId);
-  const rows = db.prepare(`SELECT * FROM group_activity_logs WHERE board_id=? ${groupId === undefined ? "" : "AND subject_group_id=?"} ORDER BY id DESC`).all(...(groupId === undefined ? [boardId] : [boardId, groupId])) as Array<{id:number; subject_group_id:number; action:string; details_json:string; created_at:string}>;
-  return rows.map(r => ({ id:r.id, boardId, groupId:r.subject_group_id, action:r.action, details:JSON.parse(r.details_json), createdAt:r.created_at }));
+  const rows = db.prepare(`SELECT * FROM group_activity_logs WHERE board_id=? ${groupId === undefined ? "" : "AND subject_group_id=?"} ORDER BY id DESC`).all(...(groupId === undefined ? [boardId] : [boardId, groupId])) as Array<{id:number; subject_group_id:number; action:string; details_json:string; created_at:string; updater:string|null}>;
+  return rows.map(r => ({ id:r.id, boardId, groupId:r.subject_group_id, action:r.action, details:JSON.parse(r.details_json), createdAt:r.created_at, updater:r.updater }));
 }
 function canonical(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(canonical);

@@ -141,7 +141,10 @@
 .completion-hint-actions { display: flex; flex-shrink: 0; gap: 0.4rem; }
 @media (max-width: 650px) { .completion-hint { align-items: start; flex-direction: column; } }
 
-#language-settings label { display: block; }
+#language-settings label,
+#operation-updater-form label { display: block; }
+.operation-updater-help { margin: 0.3rem 0 0; color: var(--text-muted); font-size: var(--font-size-label); }
+.operation-updater-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; margin-top: 0.5rem; font-size: var(--font-size-label); }
 #language-select {
   width: 100%;
   padding: 0.45rem 0.6rem;

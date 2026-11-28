@@ -17,6 +17,20 @@ curl -s -X PATCH http://127.0.0.1:3000/api/lanes/11 \
 
 すべて `http://127.0.0.1:3000` を前提にしています。
 
+## 更新者を記録する
+
+チケットやグループの履歴を残す操作では、JSONのトップレベルに任意の `updater` を指定できます。省略時は `API` が記録されます。1〜80文字の有効なUnicode文字列を指定してください。入力した表記のまま保存されます。`null`、空文字、空白のみ、制御文字を含む値などはHTTP 400になります。
+
+```bash
+curl -fsS -X PATCH http://127.0.0.1:3000/api/tickets/42 \
+  -H 'content-type: application/json' \
+  --data '{"bodyMarkdown":"レビューと確認が完了しました。","updater":"レビュー担当"}'
+
+curl -fsS http://127.0.0.1:3000/api/tickets/42/activity
+```
+
+コメントの削除や外部Issueの再取得など、本文なしで実行できる操作は、任意で `updater` だけを含むJSONを送れます。既存のパラメーターとヘッダーは引き続き使用します。一括操作で生成される履歴には同じ更新者が記録されます。コメントの `updater` は投稿時の値です。編集時の更新者はチケットの履歴に記録されます。更新者が未記録の過去データでは `null` が返ります。対象操作は [OpenAPI](https://github.com/wamukat/kanbalone/blob/main/docs/openapi.yaml) を参照してください。
+
 <a id="チケット一覧のページング"></a>
 ## チケット一覧のページング
 

@@ -1,5 +1,6 @@
 import type Database from "better-sqlite3";
 
+import { currentOperationUpdater } from "../operation-updater.js";
 import { mapActivityLog, mapComment } from "./mappers.js";
 import { defaultCommentRemoteSync, getCommentRemoteSync, upsertCommentRemoteSync } from "./remote-tracking.js";
 import { addActivity as insertActivity } from "./ticket-writes.js";
@@ -16,6 +17,7 @@ import type {
 export type CreateCommentInput = {
   ticketId: Id;
   bodyMarkdown: string;
+  historical?: { updater: string | null; createdAt?: string };
 };
 
 export type UpdateCommentInput = {
@@ -32,15 +34,17 @@ export function addComment(
   if (!boardId) {
     throw new Error("Ticket not found");
   }
+  const createdAt = input.historical?.createdAt ?? now;
+  const updater = input.historical ? input.historical.updater : currentOperationUpdater();
   const result = sqlite
-    .prepare("INSERT INTO comments (ticket_id, body_markdown, created_at) VALUES (?, ?, ?)")
-    .run(input.ticketId, input.bodyMarkdown, now);
+    .prepare("INSERT INTO comments (ticket_id, body_markdown, created_at, updater) VALUES (?, ?, ?, ?)")
+    .run(input.ticketId, input.bodyMarkdown, createdAt, updater);
   recordTicketContentActivity(sqlite, input.ticketId, now);
   insertActivity(sqlite, {
     boardId,
     ticketId: input.ticketId,
-    action: "comment_added",
-    message: "Comment added",
+    action: input.historical ? "comment_imported" : "comment_added",
+    message: input.historical ? "Comment imported" : "Comment added",
     createdAt: now,
   });
   touchBoard(sqlite, boardId, now);
@@ -52,7 +56,8 @@ export function addComment(
     id: Number(result.lastInsertRowid),
     ticket_id: input.ticketId,
     body_markdown: input.bodyMarkdown,
-    created_at: now,
+    created_at: createdAt,
+    updater,
   }, sync);
 }
 
@@ -134,6 +139,7 @@ export function updateComment(
     ticket_id: current.ticket_id,
     body_markdown: input.bodyMarkdown,
     created_at: current.created_at,
+    updater: current.updater,
   }, nextSync.createdAt ? nextSync : { ...nextSync, createdAt: current.created_at, updatedAt: current.created_at });
 }
 

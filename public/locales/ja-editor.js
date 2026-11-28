@@ -146,6 +146,7 @@ export default {
   "Ticket updated": "チケットを更新しました",
   "Ticket deleted": "チケットを削除しました",
   "Comment added": "コメントを追加しました",
+  "Comment imported": "コメントを取り込みました",
   "Comment updated": "コメントを更新しました",
   "Comment deleted": "コメントを削除しました",
   "Group membership changed": "グループの所属を変更しました",
