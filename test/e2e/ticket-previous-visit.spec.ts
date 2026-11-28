@@ -5,6 +5,12 @@ import { createBoard, createTicket, startTestApp } from "./helpers.js";
 const changes = (page: Page) => page.locator("#ticket-visit-changes");
 const snapshotPath = "**/api/tickets/*/change-snapshot";
 
+function deferred() {
+  let resolve!: () => void;
+  const promise = new Promise<void>(done => { resolve = done; });
+  return { promise, resolve };
+}
+
 async function savedBody(page: Page, id: number) {
   return page.evaluate(ticketId => new Promise<string | undefined>((resolve, reject) => {
     const open = indexedDB.open("kanbalone-previous-visit");
@@ -123,7 +129,7 @@ test("failed reads and writes do not replace the browser comparison point", asyn
 test("a late tab cannot overwrite a newer displayed endpoint", async ({ page, context }) => {
   const { baseUrl, close } = await startTestApp(page);
   const later = await context.newPage();
-  const release = Promise.withResolvers<void>();
+  const release = deferred();
   try {
     const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Two tabs", laneNames: ["Work"] });
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Notes", bodyMarkdown: "First state" });
@@ -132,7 +138,7 @@ test("a late tab cannot overwrite a newer displayed endpoint", async ({ page, co
     await page.goto(url);
     await expect.poll(() => savedBody(page, ticket.id)).toBe("First state");
     await patch("Older tab state");
-    const captured = Promise.withResolvers<void>();
+    const captured = deferred();
     await page.route(snapshotPath, async route => {
       const response = await route.fetch();
       captured.resolve();

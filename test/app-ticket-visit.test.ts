@@ -7,10 +7,11 @@ import test from "node:test";
 
 import type { HTTPMethods } from "fastify";
 import { buildApp } from "../src/app.js";
+// @ts-expect-error The browser renderer is a JavaScript module without declaration output.
 import { renderTicketVisit } from "../public/app-ticket-visit-renderer.js";
 
 function requestWith(app: ReturnType<typeof buildApp>) {
-  return async (method: HTTPMethods, url: string, status: number, payload?: unknown) => {
+  return async (method: HTTPMethods, url: string, status: number, payload?: object) => {
     const result = await app.inject({ method, url, payload });
     assert.equal(result.statusCode, status, `${method} ${url}: ${result.body}`);
     return result.body ? result.json() : null;
