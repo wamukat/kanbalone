@@ -51,11 +51,11 @@ test("archive releases the saving lock after a failed read without writing", asy
 });
 
 for (const change of ["ticket", "close"] as const) {
-  test(`move abandons preflight when the editor changes: ${change}`, async () => {
-    let releaseRead!: (board: { lanes: { id: number; name: string }[] }) => void;
+  test(`move abandons the picker when the editor changes during discard confirmation: ${change}`, async () => {
+    let confirmDiscard!: (confirmed: boolean) => void;
     let markStarted!: () => void;
     const started = new Promise<void>((resolve) => { markStarted = resolve; });
-    const reading = new Promise((resolve) => { releaseRead = resolve; });
+    const confirmation = new Promise<boolean>((resolve) => { confirmDiscard = resolve; });
     const state = {
       editingTicketId: 1, editorSaving: false,
       dialogTicket: { id: 1, boardId: 10, laneId: 100 },
@@ -67,23 +67,26 @@ for (const change of ["ticket", "close"] as const) {
     let writes = 0;
     const actions = createTicketActionsModule({
       state, elements: { editorDialog },
-      api: async () => { markStarted(); return reading; },
       openFormDialog: () => { dialogs++; },
       sendJson: async () => { writes++; },
-    }, { confirmDiscardChanges: async () => true });
+    }, {
+      captureDialogScope: () => () => editorDialog.open && state.editingTicketId === 1,
+      confirmDiscardChanges: () => { markStarted(); return confirmation; },
+    });
     const pending = actions.moveTicketToBoard();
     await started;
     if (change === "ticket") state.editingTicketId = 2;
     else editorDialog.open = false;
-    releaseRead({ lanes: [{ id: 200, name: "Todo" }] });
+    confirmDiscard(true);
     await pending;
     assert.equal(dialogs, 0);
     assert.equal(writes, 0);
   });
 }
 
-test("move rechecks the initiating editor after destination confirmation", async () => {
+test("move rechecks the initiating editor before writing the chosen destination", async () => {
   let confirm!: (value: boolean) => void;
+  let submitMove!: () => Promise<boolean | undefined>;
   let markOpened!: () => void;
   const opened = new Promise<void>((resolve) => { markOpened = resolve; });
   const confirmation = new Promise<boolean>((resolve) => { confirm = resolve; });
@@ -93,26 +96,40 @@ test("move rechecks the initiating editor after destination confirmation", async
     boardDetail: { lanes: [{ id: 100, name: "Todo" }] },
     boards: [{ id: 10, name: "Source" }, { id: 20, name: "Destination" }],
   };
-  const boardSelect = { value: "20", addEventListener: () => {} };
-  const laneSelect = { value: "200", disabled: false };
+  let changeBoard!: () => Promise<void>;
+  const boardSelect = {
+    value: "10", focus: () => {},
+    addEventListener: (_type: string, handler: () => Promise<void>) => { changeBoard = handler; },
+  };
+  const laneSelect = { value: "100", disabled: true, addEventListener: () => {} };
   const submit = { disabled: false };
+  const uxDialog = { open: false };
+  const hint = { textContent: "" };
   let writes = 0;
   const actions = createTicketActionsModule({
     state,
     elements: {
-      editorDialog: { open: true }, uxSubmitButton: submit,
-      uxFields: { querySelector: (selector: string) => selector === "[data-move-board]" ? boardSelect : laneSelect },
+      uxDialog, uxSubmitButton: submit, uxError: { hidden: true }, editorForm: { inert: false },
+      uxFields: { querySelector: (selector: string) => ({ "[data-move-board]": boardSelect, "[data-move-lane]": laneSelect, "[data-move-hint]": hint })[selector] },
     },
     escapeHtml: String,
     api: async () => ({ lanes: [{ id: 200, name: "Todo" }] }),
-    openFormDialog: () => { markOpened(); return confirmation; },
+    openFormDialog: ({ onSubmit }: { onSubmit: typeof submitMove }) => {
+      submitMove = onSubmit;
+      uxDialog.open = true;
+      markOpened();
+      return confirmation;
+    },
     sendJson: async () => { writes++; },
-  }, { confirmDiscardChanges: async () => true });
+  }, { confirmDiscardChanges: async () => true, captureDialogScope: () => () => state.editingTicketId === 1 });
   const pending = actions.moveTicketToBoard();
   await opened;
+  boardSelect.value = "20";
+  await changeBoard();
+  laneSelect.value = "200";
   state.editingTicketId = 2;
-  confirm(true);
+  assert.equal(await submitMove(), false);
+  confirm(false);
   await pending;
   assert.equal(writes, 0);
-  assert.equal(submit.disabled, false);
 });

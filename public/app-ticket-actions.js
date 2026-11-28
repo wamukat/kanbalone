@@ -1,5 +1,6 @@
 import { t } from "./app-i18n.js";
 import { chooseGroupResolution } from "./app-group-conflict.js";
+import { icon } from "./icons.js";
 
 export function createTicketActionsModule(ctx, options) {
   const { state, elements } = ctx;
@@ -178,124 +179,159 @@ export function createTicketActionsModule(ctx, options) {
   }
 
   async function moveTicketToBoard() {
-    if (!state.editingTicketId || !state.dialogTicket || state.editorSaving) {
-      return;
-    }
+    if (!state.editingTicketId || !state.dialogTicket || state.editorSaving) return;
     const ticketId = state.editingTicketId;
-    const sourceBoardId = state.dialogTicket.boardId;
-    const sourceLane = state.boardDetail?.lanes.find((lane) => lane.id === state.dialogTicket.laneId);
-    const isCurrentEditor = () => elements.editorDialog.open && state.editingTicketId === ticketId
-      && state.dialogTicket?.boardId === sourceBoardId && !state.editorSaving;
+    const { boardId: sourceBoardId, laneId: sourceLaneId, boardName: sourceBoardName } = state.dialogTicket;
+    const sourceBoard = state.boards.find(board => board.id === sourceBoardId) ?? { id: sourceBoardId, name: sourceBoardName };
+    const sourceLane = state.boardDetail?.lanes.find(lane => lane.id === sourceLaneId) ?? { id: sourceLaneId, name: `#${sourceLaneId}` };
+    const isCurrentEditor = options.captureDialogScope();
     if (!isCurrentEditor()) return;
-    const targetBoards = state.boards.filter((board) => board.id !== sourceBoardId);
-    if (targetBoards.length === 0) {
+    const targetBoards = state.boards.filter(board => board.id !== sourceBoardId);
+    if (!targetBoards.length) {
       ctx.showToast(t("Create another board before moving tickets"), "error");
       return;
     }
+    if (!await options.confirmDiscardChanges() || !isCurrentEditor() || state.editorSaving || elements.uxDialog.open) return;
 
-    const initialBoardId = targetBoards[0].id;
-    let initialBoard;
-    try {
-      initialBoard = await ctx.api(`/api/boards/${initialBoardId}`);
-    } catch (error) {
-      if (isCurrentEditor()) ctx.showToast(error.message, "error");
-      return;
-    }
-    if (!isCurrentEditor() || !await options.confirmDiscardChanges() || !isCurrentEditor()) return;
-    const initialLaneId = getDefaultTargetLaneId(initialBoard.lanes, sourceLane?.name);
+    const wasInert = elements.editorForm.inert;
+    let moving = false;
+    let moved = null;
+    let laneRequest = null;
+    let loadedBoardId = null;
+    let loadedLanes = [];
+    let dialogOpen = true;
     const dialogPromise = ctx.openFormDialog({
       title: t("Move Ticket"),
-      message: t("Move this ticket to another board. Matching tag names will be kept. Group membership will be cleared. Parent, child, and blocker links outside the destination board will be cleared."),
-      fields: renderMoveFields(state.boards, sourceBoardId, initialBoard.lanes, initialLaneId),
+      fields: renderMoveFields(sourceBoard, sourceLane, targetBoards),
       submitLabel: t("Move"),
+      onSubmit: async () => {
+        if (!canMove()) return false;
+        const boardId = Number(boardSelect.value);
+        const laneId = Number(laneSelect.value);
+        moving = state.editorSaving = true;
+        elements.editorForm.inert = true;
+        boardSelect.disabled = laneSelect.disabled = true;
+        setSaveState("saving", t("Moving..."));
+        try {
+          moved = await ctx.sendJson(`/api/tickets/${ticketId}/move`, { method: "POST", body: { boardId, laneId } });
+        } catch (error) {
+          moving = state.editorSaving = false;
+          elements.editorForm.inert = wasInert;
+          boardSelect.disabled = laneSelect.disabled = false;
+          setSaveState("error", t("Move failed"));
+          throw error;
+        }
+      },
     });
     const boardSelect = elements.uxFields.querySelector("[data-move-board]");
     const laneSelect = elements.uxFields.querySelector("[data-move-lane]");
-    let requestId = 0;
-    let dialogOpen = true;
-    elements.uxSubmitButton.disabled = initialBoard.lanes.length === 0;
-    boardSelect?.addEventListener("change", async () => {
-      const currentRequest = ++requestId;
+    const hint = elements.uxFields.querySelector("[data-move-hint]");
+    const activePicker = () => dialogOpen && elements.uxDialog.open && isCurrentEditor();
+    const canMove = () => activePicker() && !state.editorSaving && !laneSelect.disabled
+      && Number(boardSelect.value) === loadedBoardId && loadedLanes.some(lane => lane.id === Number(laneSelect.value));
+    const setHint = (message) => { hint.textContent = message; };
+    const updateSubmit = () => { elements.uxSubmitButton.disabled = !canMove(); };
+    updateSubmit();
+    boardSelect.focus({ preventScroll: true });
+
+    boardSelect.addEventListener("change", async () => {
+      if (!activePicker() || moving) return;
+      laneRequest?.abort();
+      loadedBoardId = null;
+      loadedLanes = [];
       laneSelect.disabled = true;
-      laneSelect.innerHTML = `<option value="">${t("Loading lanes...")}</option>`;
-      elements.uxSubmitButton.disabled = true;
+      elements.uxError.hidden = true;
+      updateSubmit();
+      const boardId = Number(boardSelect.value);
+      if (boardId === sourceBoardId) {
+        laneSelect.innerHTML = renderLaneOptions([sourceLane], sourceLaneId);
+        setHint(t("Choose another board."));
+        return;
+      }
+
+      const controller = new AbortController();
+      laneRequest = controller;
+      const isCurrentRequest = () => activePicker() && !controller.signal.aborted && Number(boardSelect.value) === boardId;
+      laneSelect.innerHTML = renderMovePlaceholder(t("Loading lanes..."));
+      setHint(t("Loading lanes..."));
       try {
-        const board = await ctx.api(`/api/boards/${Number(boardSelect.value)}`);
-        if (!dialogOpen || currentRequest !== requestId) return;
-        laneSelect.innerHTML = renderLaneOptions(board.lanes, getDefaultTargetLaneId(board.lanes, sourceLane?.name));
-        laneSelect.disabled = board.lanes.length === 0;
-        elements.uxSubmitButton.disabled = board.lanes.length === 0;
-      } catch (error) {
-        if (!dialogOpen || currentRequest !== requestId) return;
-        laneSelect.innerHTML = `<option value="">${t("Could not load lanes")}</option>`;
-        ctx.showToast(error.message, "error");
+        const destination = await ctx.api(`/api/boards/${boardId}`, { signal: controller.signal });
+        if (!isCurrentRequest()) return;
+        loadedBoardId = boardId;
+        loadedLanes = destination.lanes;
+        const hintText = loadedLanes.length ? t("Choose a destination lane.") : t("No lanes — choose another board");
+        laneSelect.innerHTML = renderMovePlaceholder(hintText) + (loadedLanes.length ? renderLaneOptions(loadedLanes) : "");
+        laneSelect.disabled = !loadedLanes.length;
+        setHint(hintText);
+      } catch {
+        if (!isCurrentRequest()) return;
+        laneSelect.innerHTML = renderMovePlaceholder(t("Could not load lanes"));
+        setHint(t("Could not load lanes"));
       }
     });
+    laneSelect.addEventListener("change", () => {
+      if (!activePicker() || moving) return;
+      elements.uxError.hidden = true;
+      setHint(canMove() ? "" : t("Choose a destination lane."));
+      updateSubmit();
+    });
 
-    const confirmed = await dialogPromise;
+    await dialogPromise;
     dialogOpen = false;
-    elements.uxSubmitButton.disabled = false;
-    if (!confirmed || !isCurrentEditor()) {
-      return;
-    }
-
-    const boardId = Number(boardSelect?.value);
-    const laneId = Number(laneSelect?.value);
-    if (!Number.isInteger(boardId) || boardId <= 0 || !Number.isInteger(laneId) || laneId <= 0 || laneSelect.disabled) {
-      ctx.showToast(t("Choose a destination board and lane"), "error");
-      return;
-    }
-
-    let moved = null;
-    state.editorSaving = true;
-    const wasInert = elements.editorForm.inert;
-    elements.editorForm.inert = true;
+    laneRequest?.abort();
     try {
-      setSaveState("saving", t("Moving..."));
-      moved = await ctx.sendJson(`/api/tickets/${ticketId}/move`, {
-        method: "POST",
-        body: { boardId, laneId },
-      });
+      if (!moved || !isCurrentEditor()) return;
       state.activeBoardId = moved.boardId;
+      const isDestinationEditor = options.captureDialogScope();
       await ctx.refreshBoardDetail();
+      if (!isDestinationEditor()) return;
       elements.ticketLane.innerHTML = renderLaneOptions(state.boardDetail.lanes, moved.laneId);
       await options.refreshDialogTicket(moved.id);
+      if (!isDestinationEditor()) return;
       ctx.syncTicketUrl(moved.id);
       setSaveState("saved", t("Moved"));
       ctx.showToast(t("Ticket moved"));
-    } catch (error) {
-      if (moved) {
-        options.closeEditor();
-        ctx.showToast(t("Ticket moved, but the view could not refresh. Reload to continue."), "error");
-      } else {
-        setSaveState("error", t("Move failed"));
-        ctx.showToast(error.message, "error");
-      }
+    } catch {
+      if (state.editingTicketId === ticketId) options.closeEditor();
+      ctx.showToast(t("Ticket moved, but the view could not refresh. Reload to continue."), "error");
     } finally {
-      elements.editorForm.inert = wasInert;
-      state.editorSaving = false;
+      if (moving) {
+        elements.editorForm.inert = wasInert;
+        state.editorSaving = false;
+      }
       options.restoreActionFocus?.(elements.moveTicketButton);
     }
   }
 
-  function renderMoveFields(boards, currentBoardId, lanes, selectedLaneId) {
+  function renderMoveFields(currentBoard, currentLane, targetBoards) {
     return `
-      <label class="editor-field">
-        <span class="editor-field-label">${t("Board")}</span>
-        <select data-move-board>
-          ${boards
-            .filter((board) => board.id !== currentBoardId)
-            .map((board) => `<option value="${board.id}">${ctx.escapeHtml(board.name)}</option>`)
-            .join("")}
-        </select>
-      </label>
-      <label class="editor-field">
-        <span class="editor-field-label">${t("Lane")}</span>
-        <select data-move-lane>
-          ${renderLaneOptions(lanes, selectedLaneId)}
-        </select>
-      </label>
+      <dl class="ticket-move-origin">
+        <dt>${t("Move from")}</dt>
+        <dd data-move-source><span>${ctx.escapeHtml(currentBoard.name)}</span>${icon("chevron-right")}<span>${ctx.escapeHtml(currentLane.name)}</span></dd>
+      </dl>
+      <fieldset class="ticket-move-destination">
+        <legend>${t("Move to")}</legend>
+        <div class="ticket-move-fields">
+          <label class="editor-field">
+            <span class="editor-field-label">${t("Board")}</span>
+            <select data-move-board aria-describedby="ticket-move-hint">
+              <option value="${currentBoard.id}" selected>${ctx.escapeHtml(currentBoard.name)}</option>
+              ${targetBoards.map(board => `<option value="${board.id}">${ctx.escapeHtml(board.name)}</option>`).join("")}
+            </select>
+          </label>
+          <label class="editor-field">
+            <span class="editor-field-label">${t("Lane")}</span>
+            <select data-move-lane aria-describedby="ticket-move-hint" disabled>${renderLaneOptions([currentLane], currentLane.id)}</select>
+          </label>
+        </div>
+      </fieldset>
+      <p id="ticket-move-hint" data-move-hint class="muted" role="status">${t("Choose another board.")}</p>
+      <p class="muted ticket-move-impact">${t("Tags with matching names on the destination board are kept. Group membership and links to parents, children, blockers, and related tickets are cleared.")}</p>
     `;
+  }
+
+  function renderMovePlaceholder(message) {
+    return `<option value="" selected>${ctx.escapeHtml(message)}</option>`;
   }
 
   function renderLaneOptions(lanes, selectedLaneId) {
@@ -303,10 +339,6 @@ export function createTicketActionsModule(ctx, options) {
     return lanes
       .map((lane) => `<option value="${lane.id}" ${lane.id === selectedLaneId ? "selected" : ""}>${ctx.escapeHtml(lane.name)}</option>`)
       .join("");
-  }
-
-  function getDefaultTargetLaneId(lanes, sourceLaneName) {
-    return lanes.find((lane) => lane.name === sourceLaneName)?.id ?? lanes[0]?.id ?? null;
   }
 
   return {

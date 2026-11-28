@@ -70,7 +70,7 @@ Click the pencil icon at the top right of ticket details. Change the body, lane,
 
 If you have unsaved changes, confirm before closing. Choose **Cancel** to keep editing or **Discard changes** to discard them.
 
-Choose **Lane** in the editor to move within the same board. Use **Move** to send a ticket to another board. Moving to another board clears parent-child relationships, blockers, and Group membership. Tags with matching names are kept.
+Choose **Lane** in the editor to move within the same board. For another board, choose **Move**. The dialog starts with the ticket's current board and lane and enables **Move** after you choose a different board and a destination lane. If the move fails, the dialog keeps your selection so you can retry or choose another destination. A successful cross-board move clears Group membership and links to parents, children, blockers and related tickets. Tags with matching names on the destination board are kept.
 
 ![Editing a ticket](../assets/user-guide/07-ticket-edit-relations.png)
 

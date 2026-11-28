@@ -124,6 +124,7 @@ export function createEditorModule(ctx) {
   }
 
   const actionsModule = createTicketActionsModule(ctx, {
+    captureDialogScope,
     confirmDiscardChanges,
     closeEditor,
     getSelectedTagIds,

@@ -282,6 +282,82 @@
   gap: 0.3rem;
 }
 
+.ticket-move-origin {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+  background: var(--surface-2);
+}
+
+.ticket-move-origin dt {
+  color: var(--text-muted);
+  font-size: var(--font-size-meta);
+}
+
+.ticket-move-origin dd {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  overflow-wrap: anywhere;
+}
+
+.ticket-move-destination {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ticket-move-destination legend {
+  margin-block-end: var(--space-1);
+  padding: 0;
+  font-weight: var(--font-weight-semibold);
+}
+
+.ticket-move-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.ticket-move-fields label,
+.ticket-move-fields select {
+  min-width: 0;
+}
+
+.ticket-move-fields select {
+  width: 100%;
+}
+
+#ticket-move-hint,
+.ticket-move-impact {
+  margin: 0;
+  font-size: var(--font-size-meta);
+}
+
+#ticket-move-hint:empty {
+  display: none;
+}
+
+.ticket-move-impact {
+  padding-block-start: var(--space-2);
+  border-block-start: 1px solid var(--border-soft);
+}
+
+@media (max-width: 460px) {
+  .ticket-move-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .editor-title-field {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
