@@ -1,0 +1,255 @@
+{
+  "redmine": {
+    "issues": {
+      "issues": [
+        {
+          "id": 3,
+          "project": {
+            "id": 1,
+            "name": "Collaboration lab"
+          },
+          "tracker": {
+            "id": 2,
+            "name": "Feature"
+          },
+          "status": {
+            "id": 5,
+            "name": "Closed",
+            "is_closed": true
+          },
+          "priority": {
+            "id": 2,
+            "name": "Normal"
+          },
+          "author": {
+            "id": 1,
+            "name": "Redmine Admin"
+          },
+          "fixed_version": {
+            "id": 1,
+            "name": "Notification improvements"
+          },
+          "subject": "Document delivery behavior",
+          "description": null,
+          "start_date": null,
+          "due_date": null,
+          "done_ratio": 0,
+          "is_private": false,
+          "estimated_hours": null,
+          "total_estimated_hours": null,
+          "created_on": "2026-11-22T03:20:04Z",
+          "updated_on": "2026-11-22T03:20:34Z",
+          "closed_on": "2026-11-22T03:20:34Z"
+        },
+        {
+          "id": 2,
+          "project": {
+            "id": 1,
+            "name": "Collaboration lab"
+          },
+          "tracker": {
+            "id": 2,
+            "name": "Feature"
+          },
+          "status": {
+            "id": 5,
+            "name": "Closed",
+            "is_closed": true
+          },
+          "priority": {
+            "id": 2,
+            "name": "Normal"
+          },
+          "author": {
+            "id": 1,
+            "name": "Redmine Admin"
+          },
+          "fixed_version": {
+            "id": 1,
+            "name": "Notification improvements"
+          },
+          "parent": {
+            "id": 1
+          },
+          "subject": "Retry failed deliveries",
+          "description": null,
+          "start_date": null,
+          "due_date": null,
+          "done_ratio": 0,
+          "is_private": false,
+          "estimated_hours": null,
+          "total_estimated_hours": null,
+          "created_on": "2026-11-22T03:20:04Z",
+          "updated_on": "2026-11-22T03:24:30Z",
+          "closed_on": "2026-11-22T03:24:30Z"
+        },
+        {
+          "id": 1,
+          "project": {
+            "id": 1,
+            "name": "Collaboration lab"
+          },
+          "tracker": {
+            "id": 2,
+            "name": "Feature"
+          },
+          "status": {
+            "id": 5,
+            "name": "Closed",
+            "is_closed": true
+          },
+          "priority": {
+            "id": 2,
+            "name": "Normal"
+          },
+          "author": {
+            "id": 1,
+            "name": "Redmine Admin"
+          },
+          "fixed_version": {
+            "id": 1,
+            "name": "Notification improvements"
+          },
+          "subject": "Notification delivery",
+          "description": "Implement retries. Human verifies delivery history.",
+          "start_date": null,
+          "due_date": null,
+          "done_ratio": 100,
+          "is_private": false,
+          "estimated_hours": null,
+          "total_estimated_hours": 0.0,
+          "created_on": "2026-11-22T03:20:04Z",
+          "updated_on": "2026-11-22T03:24:31Z",
+          "closed_on": "2026-11-22T03:24:31Z"
+        }
+      ],
+      "total_count": 3,
+      "offset": 0,
+      "limit": 25
+    },
+    "version": {
+      "version": {
+        "id": 1,
+        "project": {
+          "id": 1,
+          "name": "Collaboration lab"
+        },
+        "name": "Notification improvements",
+        "description": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+        "status": "open",
+        "due_date": null,
+        "sharing": "none",
+        "wiki_page_title": null,
+        "created_on": "2026-11-22T03:20:04Z",
+        "updated_on": "2026-11-22T03:20:04Z"
+      }
+    }
+  },
+  "vikunja": {
+    "id": 2,
+    "title": "Notification improvements",
+    "description": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+    "identifier": "",
+    "hex_color": "",
+    "parent_project_id": 0,
+    "owner": {
+      "id": 1,
+      "name": "",
+      "username": "evaluator",
+      "created": "2026-11-22T03:17:59Z",
+      "updated": "2026-11-22T03:17:59Z"
+    },
+    "is_archived": false,
+    "background_information": null,
+    "background_blur_hash": "",
+    "is_favorite": false,
+    "position": 131072,
+    "views": [
+      {
+        "id": 9,
+        "title": "List",
+        "project_id": 2,
+        "view_kind": "list",
+        "filter": {
+          "s": "",
+          "sort_by": null,
+          "order_by": null,
+          "filter": "done = false",
+          "filter_include_nulls": false
+        },
+        "position": 100,
+        "bucket_configuration_mode": "none",
+        "bucket_configuration": null,
+        "default_bucket_id": 0,
+        "done_bucket_id": 0,
+        "updated": "2026-11-22T03:19:31Z",
+        "created": "2026-11-22T03:19:31Z"
+      },
+      {
+        "id": 10,
+        "title": "Gantt",
+        "project_id": 2,
+        "view_kind": "gantt",
+        "filter": null,
+        "position": 200,
+        "bucket_configuration_mode": "none",
+        "bucket_configuration": null,
+        "default_bucket_id": 0,
+        "done_bucket_id": 0,
+        "updated": "2026-11-22T03:19:31Z",
+        "created": "2026-11-22T03:19:31Z"
+      },
+      {
+        "id": 11,
+        "title": "Table",
+        "project_id": 2,
+        "view_kind": "table",
+        "filter": null,
+        "position": 300,
+        "bucket_configuration_mode": "none",
+        "bucket_configuration": null,
+        "default_bucket_id": 0,
+        "done_bucket_id": 0,
+        "updated": "2026-11-22T03:19:31Z",
+        "created": "2026-11-22T03:19:31Z"
+      },
+      {
+        "id": 12,
+        "title": "Kanban",
+        "project_id": 2,
+        "view_kind": "kanban",
+        "filter": null,
+        "position": 400,
+        "bucket_configuration_mode": "manual",
+        "bucket_configuration": null,
+        "default_bucket_id": 7,
+        "done_bucket_id": 9,
+        "updated": "2026-11-22T03:19:31Z",
+        "created": "2026-11-22T03:19:31Z"
+      }
+    ],
+    "max_permission": null,
+    "created": "2026-11-22T03:19:31Z",
+    "updated": "2026-11-22T03:24:31Z"
+  },
+  "kanboard": [
+    {
+      "id": 1,
+      "name": "Default swimlane",
+      "position": 1,
+      "is_active": 1,
+      "project_id": 1,
+      "description": "",
+      "task_limit": 0
+    },
+    {
+      "id": 2,
+      "name": "Notification improvements",
+      "position": 2,
+      "is_active": 1,
+      "project_id": 1,
+      "description": "Goal: deliver notifications reliably. Acceptance: retry failures and show delivery status.",
+      "task_limit": 0
+    }
+  ]
+}

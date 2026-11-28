@@ -1,0 +1,9 @@
+window.__detailObservation = null;
+document.addEventListener('pointerdown',()=>{
+ sessionStorage.setItem('__detailStart',String(performance.timeOrigin+performance.now()));
+ const observer=new MutationObserver(()=>{
+  const heading=Array.from(document.querySelectorAll('h1,h2,h3,[role="heading"]')).some(x=>x.textContent.includes('Performance task 00042'));
+  if(heading){observer.disconnect();requestAnimationFrame(()=>requestAnimationFrame(()=>{window.__detailObservation={kind:'heading present + two animation frames',ms:performance.timeOrigin+performance.now()-Number(sessionStorage.getItem('__detailStart'))};}));}
+ });observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+},{capture:true,once:true});
+'installed';

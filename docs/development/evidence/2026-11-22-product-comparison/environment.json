@@ -1,0 +1,94 @@
+[
+  {
+    "name": "kanbalone-compare-kanboard",
+    "image": "kanboard/kanboard:v1.2.58",
+    "imageId": "sha256:f93dd2f1aa7a9be896e795e4a61061bcefddbe9e1cbf17969b25eeec015eb6e2",
+    "ports": {
+      "80/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "3570"
+        }
+      ]
+    },
+    "mounts": [
+      {
+        "name": "kanbalone-compare-kanboard-data",
+        "destination": "/var/www/app/data"
+      },
+      {
+        "name": "7a40227a01e40ac2c6bf63cc920ddff41061f86c6170c2a0fb12b98ceb74ea78",
+        "destination": "/etc/nginx/ssl"
+      },
+      {
+        "name": "bffa4fa10fceb403eb85d5b14b691feb53ff18ab8f30d11d3c2ba6c336953f30",
+        "destination": "/var/www/app/plugins"
+      }
+    ]
+  },
+  {
+    "name": "kanbalone-compare-vikunja",
+    "image": "vikunja/vikunja:2.8.0",
+    "imageId": "sha256:a5e3816da40bbb9bab752ff1efc2067008b8d1397238e8f2ffb91170514d7786",
+    "ports": {
+      "3456/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "3571"
+        }
+      ]
+    },
+    "mounts": [
+      {
+        "name": "kanbalone-compare-vikunja-files",
+        "destination": "/app/vikunja/files"
+      },
+      {
+        "name": "kanbalone-compare-vikunja-db",
+        "destination": "/db"
+      }
+    ]
+  },
+  {
+    "name": "kanbalone-compare-redmine",
+    "image": "redmine:7.0.3",
+    "imageId": "sha256:88fb28e659ea497bd58088046fbcc1559b704aab0a718e61eeaf0cedbfc0de9e",
+    "ports": {
+      "3000/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "3572"
+        }
+      ]
+    },
+    "mounts": [
+      {
+        "name": "kanbalone-compare-redmine-db",
+        "destination": "/usr/src/redmine/sqlite"
+      },
+      {
+        "name": "kanbalone-compare-redmine-files",
+        "destination": "/usr/src/redmine/files"
+      }
+    ]
+  },
+  {
+    "name": "kanbalone-compare-self",
+    "image": "ghcr.io/wamukat/kanbalone:v1.0.0@sha256:5f1d75f439d78af5e24560a5fe34ae98180880ced329ba09b3fa359f2188d0e0",
+    "imageId": "sha256:8163d85c1795160188a6cc6a7f24eb784ebc8a64fbf4dd2e5185c39059470f37",
+    "ports": {
+      "3000/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "3573"
+        }
+      ]
+    },
+    "mounts": [
+      {
+        "name": "kanbalone-compare-self-data",
+        "destination": "/app/data"
+      }
+    ]
+  }
+]

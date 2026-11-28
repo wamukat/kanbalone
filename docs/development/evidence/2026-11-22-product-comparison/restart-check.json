@@ -1,0 +1,1269 @@
+{
+  "method": "GET before restart; docker restart only isolated comparison containers; GET after startup; JSON object equality",
+  "results": {
+    "kanboard": {
+      "equal": true,
+      "before": {
+        "tasks": [
+          {
+            "id": 2,
+            "title": "Document delivery behavior",
+            "description": "",
+            "date_creation": 1795317581,
+            "color_id": "yellow",
+            "project_id": 1,
+            "column_id": 4,
+            "owner_id": 0,
+            "position": 1,
+            "is_active": 1,
+            "date_completed": null,
+            "score": 0,
+            "date_due": 0,
+            "category_id": 0,
+            "creator_id": 0,
+            "date_modification": 1795317581,
+            "reference": "",
+            "date_started": 0,
+            "time_spent": null,
+            "time_estimated": null,
+            "swimlane_id": 2,
+            "date_moved": 1795317581,
+            "recurrence_status": 0,
+            "recurrence_trigger": 0,
+            "recurrence_factor": 0,
+            "recurrence_timeframe": 0,
+            "recurrence_basedate": 0,
+            "recurrence_parent": null,
+            "recurrence_child": null,
+            "priority": 0,
+            "external_provider": null,
+            "external_uri": null,
+            "url": "http://localhost/task/2",
+            "color": {
+              "name": "Yellow",
+              "background": "rgb(245, 247, 196)",
+              "border": "rgb(223, 227, 45)"
+            }
+          }
+        ],
+        "closed": [
+          {
+            "id": 1,
+            "title": "Notification delivery",
+            "description": "Implement retries. Human verifies delivery history.",
+            "date_creation": 1795317581,
+            "color_id": "yellow",
+            "project_id": 1,
+            "column_id": 3,
+            "owner_id": 0,
+            "position": 1,
+            "is_active": 0,
+            "date_completed": 1795317731,
+            "score": 0,
+            "date_due": 0,
+            "category_id": 0,
+            "creator_id": 0,
+            "date_modification": 1795317731,
+            "reference": "",
+            "date_started": 0,
+            "time_spent": 0,
+            "time_estimated": 0,
+            "swimlane_id": 2,
+            "date_moved": 1795317581,
+            "recurrence_status": 0,
+            "recurrence_trigger": 0,
+            "recurrence_factor": 0,
+            "recurrence_timeframe": 0,
+            "recurrence_basedate": 0,
+            "recurrence_parent": null,
+            "recurrence_child": null,
+            "priority": 0,
+            "external_provider": null,
+            "external_uri": null,
+            "url": "http://localhost/task/1",
+            "color": {
+              "name": "Yellow",
+              "background": "rgb(245, 247, 196)",
+              "border": "rgb(223, 227, 45)"
+            }
+          }
+        ],
+        "comments": [
+          {
+            "id": 1,
+            "date_creation": 1795317634,
+            "date_modification": 1795317634,
+            "task_id": 1,
+            "user_id": 1,
+            "comment": "AI handoff: retries implemented. Please verify delivery history.",
+            "visibility": "app-user",
+            "username": "admin",
+            "name": null,
+            "email": null,
+            "avatar_path": null
+          },
+          {
+            "id": 2,
+            "date_creation": 1795317697,
+            "date_modification": 1795317697,
+            "task_id": 1,
+            "user_id": 1,
+            "comment": "Human review: delivery history checked; retry remains open.",
+            "visibility": "app-user",
+            "username": "admin",
+            "name": null,
+            "email": null,
+            "avatar_path": null
+          }
+        ],
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Retry failed deliveries",
+            "status": 2,
+            "time_estimated": 0,
+            "time_spent": 0,
+            "task_id": 1,
+            "user_id": 0,
+            "position": 1,
+            "username": null,
+            "name": null,
+            "timer_start_date": 0,
+            "status_name": "Done",
+            "is_timer_started": false
+          }
+        ]
+      },
+      "after": {
+        "tasks": [
+          {
+            "id": 2,
+            "title": "Document delivery behavior",
+            "description": "",
+            "date_creation": 1795317581,
+            "color_id": "yellow",
+            "project_id": 1,
+            "column_id": 4,
+            "owner_id": 0,
+            "position": 1,
+            "is_active": 1,
+            "date_completed": null,
+            "score": 0,
+            "date_due": 0,
+            "category_id": 0,
+            "creator_id": 0,
+            "date_modification": 1795317581,
+            "reference": "",
+            "date_started": 0,
+            "time_spent": null,
+            "time_estimated": null,
+            "swimlane_id": 2,
+            "date_moved": 1795317581,
+            "recurrence_status": 0,
+            "recurrence_trigger": 0,
+            "recurrence_factor": 0,
+            "recurrence_timeframe": 0,
+            "recurrence_basedate": 0,
+            "recurrence_parent": null,
+            "recurrence_child": null,
+            "priority": 0,
+            "external_provider": null,
+            "external_uri": null,
+            "url": "http://localhost/task/2",
+            "color": {
+              "name": "Yellow",
+              "background": "rgb(245, 247, 196)",
+              "border": "rgb(223, 227, 45)"
+            }
+          }
+        ],
+        "closed": [
+          {
+            "id": 1,
+            "title": "Notification delivery",
+            "description": "Implement retries. Human verifies delivery history.",
+            "date_creation": 1795317581,
+            "color_id": "yellow",
+            "project_id": 1,
+            "column_id": 3,
+            "owner_id": 0,
+            "position": 1,
+            "is_active": 0,
+            "date_completed": 1795317731,
+            "score": 0,
+            "date_due": 0,
+            "category_id": 0,
+            "creator_id": 0,
+            "date_modification": 1795317731,
+            "reference": "",
+            "date_started": 0,
+            "time_spent": 0,
+            "time_estimated": 0,
+            "swimlane_id": 2,
+            "date_moved": 1795317581,
+            "recurrence_status": 0,
+            "recurrence_trigger": 0,
+            "recurrence_factor": 0,
+            "recurrence_timeframe": 0,
+            "recurrence_basedate": 0,
+            "recurrence_parent": null,
+            "recurrence_child": null,
+            "priority": 0,
+            "external_provider": null,
+            "external_uri": null,
+            "url": "http://localhost/task/1",
+            "color": {
+              "name": "Yellow",
+              "background": "rgb(245, 247, 196)",
+              "border": "rgb(223, 227, 45)"
+            }
+          }
+        ],
+        "comments": [
+          {
+            "id": 1,
+            "date_creation": 1795317634,
+            "date_modification": 1795317634,
+            "task_id": 1,
+            "user_id": 1,
+            "comment": "AI handoff: retries implemented. Please verify delivery history.",
+            "visibility": "app-user",
+            "username": "admin",
+            "name": null,
+            "email": null,
+            "avatar_path": null
+          },
+          {
+            "id": 2,
+            "date_creation": 1795317697,
+            "date_modification": 1795317697,
+            "task_id": 1,
+            "user_id": 1,
+            "comment": "Human review: delivery history checked; retry remains open.",
+            "visibility": "app-user",
+            "username": "admin",
+            "name": null,
+            "email": null,
+            "avatar_path": null
+          }
+        ],
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Retry failed deliveries",
+            "status": 2,
+            "time_estimated": 0,
+            "time_spent": 0,
+            "task_id": 1,
+            "user_id": 0,
+            "position": 1,
+            "username": null,
+            "name": null,
+            "timer_start_date": 0,
+            "status_name": "Done",
+            "is_timer_started": false
+          }
+        ]
+      }
+    },
+    "vikunja": {
+      "equal": true,
+      "before": {
+        "tasks": [
+          {
+            "id": 1,
+            "title": "Notification delivery",
+            "description": "",
+            "project_id": 2,
+            "done": true,
+            "done_at": "2026-11-22T03:22:11Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "#1",
+            "index": 1,
+            "related_tasks": {
+              "subtask": [
+                {
+                  "id": 2,
+                  "title": "Retry failed deliveries",
+                  "description": "",
+                  "project_id": 2,
+                  "done": false,
+                  "done_at": "0001-01-01T00:00:00Z",
+                  "due_date": "0001-01-01T00:00:00Z",
+                  "reminders": null,
+                  "repeat_after": 0,
+                  "repeat_mode": 0,
+                  "priority": 0,
+                  "start_date": "0001-01-01T00:00:00Z",
+                  "end_date": "0001-01-01T00:00:00Z",
+                  "assignees": null,
+                  "labels": null,
+                  "hex_color": "",
+                  "percent_done": 0,
+                  "identifier": "",
+                  "index": 4,
+                  "related_tasks": null,
+                  "attachments": null,
+                  "cover_image_attachment_id": 0,
+                  "is_favorite": false,
+                  "created": "2026-11-22T03:19:31Z",
+                  "updated": "2026-11-22T03:22:11Z",
+                  "bucket_id": 0,
+                  "position": 0,
+                  "reactions": null,
+                  "created_by": null
+                }
+              ]
+            },
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "subscription": {
+              "id": 1,
+              "entity": "task",
+              "entity_id": 1,
+              "created": "2026-11-22T03:19:31Z"
+            },
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:22:11Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            }
+          },
+          {
+            "id": 2,
+            "title": "Retry failed deliveries",
+            "description": "",
+            "project_id": 2,
+            "done": false,
+            "done_at": "0001-01-01T00:00:00Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "#4",
+            "index": 4,
+            "related_tasks": {
+              "parenttask": [
+                {
+                  "id": 1,
+                  "title": "Notification delivery",
+                  "description": "",
+                  "project_id": 2,
+                  "done": true,
+                  "done_at": "2026-11-22T03:22:11Z",
+                  "due_date": "0001-01-01T00:00:00Z",
+                  "reminders": null,
+                  "repeat_after": 0,
+                  "repeat_mode": 0,
+                  "priority": 0,
+                  "start_date": "0001-01-01T00:00:00Z",
+                  "end_date": "0001-01-01T00:00:00Z",
+                  "assignees": null,
+                  "labels": null,
+                  "hex_color": "",
+                  "percent_done": 0,
+                  "identifier": "",
+                  "index": 1,
+                  "related_tasks": null,
+                  "attachments": null,
+                  "cover_image_attachment_id": 0,
+                  "is_favorite": false,
+                  "created": "2026-11-22T03:19:31Z",
+                  "updated": "2026-11-22T03:22:11Z",
+                  "bucket_id": 0,
+                  "position": 0,
+                  "reactions": null,
+                  "created_by": null
+                }
+              ]
+            },
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "subscription": {
+              "id": 2,
+              "entity": "task",
+              "entity_id": 2,
+              "created": "2026-11-22T03:19:31Z"
+            },
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:22:11Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            }
+          },
+          {
+            "id": 3,
+            "title": "Document delivery behavior",
+            "description": "",
+            "project_id": 2,
+            "done": true,
+            "done_at": "0001-01-01T00:00:00Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "#3",
+            "index": 3,
+            "related_tasks": {},
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "subscription": {
+              "id": 3,
+              "entity": "task",
+              "entity_id": 3,
+              "created": "2026-11-22T03:19:31Z"
+            },
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:19:31Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            }
+          }
+        ],
+        "comments": [
+          {
+            "id": 1,
+            "comment": "AI handoff: retries implemented. Please verify delivery history.",
+            "author": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            },
+            "reactions": null,
+            "created": "2026-11-22T03:20:34Z",
+            "updated": "2026-11-22T03:20:34Z"
+          },
+          {
+            "id": 2,
+            "comment": "<p>Human review: delivery history checked; retry remains open.</p>",
+            "author": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            },
+            "reactions": null,
+            "created": "2026-11-22T03:21:38Z",
+            "updated": "2026-11-22T03:21:38Z"
+          }
+        ]
+      },
+      "after": {
+        "tasks": [
+          {
+            "id": 1,
+            "title": "Notification delivery",
+            "description": "",
+            "project_id": 2,
+            "done": true,
+            "done_at": "2026-11-22T03:22:11Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "#1",
+            "index": 1,
+            "related_tasks": {
+              "subtask": [
+                {
+                  "id": 2,
+                  "title": "Retry failed deliveries",
+                  "description": "",
+                  "project_id": 2,
+                  "done": false,
+                  "done_at": "0001-01-01T00:00:00Z",
+                  "due_date": "0001-01-01T00:00:00Z",
+                  "reminders": null,
+                  "repeat_after": 0,
+                  "repeat_mode": 0,
+                  "priority": 0,
+                  "start_date": "0001-01-01T00:00:00Z",
+                  "end_date": "0001-01-01T00:00:00Z",
+                  "assignees": null,
+                  "labels": null,
+                  "hex_color": "",
+                  "percent_done": 0,
+                  "identifier": "",
+                  "index": 4,
+                  "related_tasks": null,
+                  "attachments": null,
+                  "cover_image_attachment_id": 0,
+                  "is_favorite": false,
+                  "created": "2026-11-22T03:19:31Z",
+                  "updated": "2026-11-22T03:22:11Z",
+                  "bucket_id": 0,
+                  "position": 0,
+                  "reactions": null,
+                  "created_by": null
+                }
+              ]
+            },
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "subscription": {
+              "id": 1,
+              "entity": "task",
+              "entity_id": 1,
+              "created": "2026-11-22T03:19:31Z"
+            },
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:22:11Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            }
+          },
+          {
+            "id": 2,
+            "title": "Retry failed deliveries",
+            "description": "",
+            "project_id": 2,
+            "done": false,
+            "done_at": "0001-01-01T00:00:00Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "#4",
+            "index": 4,
+            "related_tasks": {
+              "parenttask": [
+                {
+                  "id": 1,
+                  "title": "Notification delivery",
+                  "description": "",
+                  "project_id": 2,
+                  "done": true,
+                  "done_at": "2026-11-22T03:22:11Z",
+                  "due_date": "0001-01-01T00:00:00Z",
+                  "reminders": null,
+                  "repeat_after": 0,
+                  "repeat_mode": 0,
+                  "priority": 0,
+                  "start_date": "0001-01-01T00:00:00Z",
+                  "end_date": "0001-01-01T00:00:00Z",
+                  "assignees": null,
+                  "labels": null,
+                  "hex_color": "",
+                  "percent_done": 0,
+                  "identifier": "",
+                  "index": 1,
+                  "related_tasks": null,
+                  "attachments": null,
+                  "cover_image_attachment_id": 0,
+                  "is_favorite": false,
+                  "created": "2026-11-22T03:19:31Z",
+                  "updated": "2026-11-22T03:22:11Z",
+                  "bucket_id": 0,
+                  "position": 0,
+                  "reactions": null,
+                  "created_by": null
+                }
+              ]
+            },
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "subscription": {
+              "id": 2,
+              "entity": "task",
+              "entity_id": 2,
+              "created": "2026-11-22T03:19:31Z"
+            },
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:22:11Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            }
+          },
+          {
+            "id": 3,
+            "title": "Document delivery behavior",
+            "description": "",
+            "project_id": 2,
+            "done": true,
+            "done_at": "0001-01-01T00:00:00Z",
+            "due_date": "0001-01-01T00:00:00Z",
+            "reminders": null,
+            "repeat_after": 0,
+            "repeat_mode": 0,
+            "priority": 0,
+            "start_date": "0001-01-01T00:00:00Z",
+            "end_date": "0001-01-01T00:00:00Z",
+            "assignees": null,
+            "labels": null,
+            "hex_color": "",
+            "percent_done": 0,
+            "identifier": "#3",
+            "index": 3,
+            "related_tasks": {},
+            "attachments": null,
+            "cover_image_attachment_id": 0,
+            "is_favorite": false,
+            "subscription": {
+              "id": 3,
+              "entity": "task",
+              "entity_id": 3,
+              "created": "2026-11-22T03:19:31Z"
+            },
+            "created": "2026-11-22T03:19:31Z",
+            "updated": "2026-11-22T03:19:31Z",
+            "bucket_id": 0,
+            "position": 0,
+            "reactions": null,
+            "created_by": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            }
+          }
+        ],
+        "comments": [
+          {
+            "id": 1,
+            "comment": "AI handoff: retries implemented. Please verify delivery history.",
+            "author": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            },
+            "reactions": null,
+            "created": "2026-11-22T03:20:34Z",
+            "updated": "2026-11-22T03:20:34Z"
+          },
+          {
+            "id": 2,
+            "comment": "<p>Human review: delivery history checked; retry remains open.</p>",
+            "author": {
+              "id": 1,
+              "name": "",
+              "username": "evaluator",
+              "created": "2026-11-22T03:17:59Z",
+              "updated": "2026-11-22T03:17:59Z"
+            },
+            "reactions": null,
+            "created": "2026-11-22T03:21:38Z",
+            "updated": "2026-11-22T03:21:38Z"
+          }
+        ]
+      }
+    },
+    "redmine": {
+      "equal": true,
+      "before": {
+        "issues": [
+          {
+            "id": 3,
+            "project": {
+              "id": 1,
+              "name": "Collaboration lab"
+            },
+            "tracker": {
+              "id": 2,
+              "name": "Feature"
+            },
+            "status": {
+              "id": 5,
+              "name": "Closed",
+              "is_closed": true
+            },
+            "priority": {
+              "id": 2,
+              "name": "Normal"
+            },
+            "author": {
+              "id": 1,
+              "name": "Redmine Admin"
+            },
+            "fixed_version": {
+              "id": 1,
+              "name": "Notification improvements"
+            },
+            "subject": "Document delivery behavior",
+            "description": null,
+            "start_date": null,
+            "due_date": null,
+            "done_ratio": 0,
+            "is_private": false,
+            "estimated_hours": null,
+            "total_estimated_hours": null,
+            "created_on": "2026-11-22T03:20:04Z",
+            "updated_on": "2026-11-22T03:20:34Z",
+            "closed_on": "2026-11-22T03:20:34Z"
+          },
+          {
+            "id": 2,
+            "project": {
+              "id": 1,
+              "name": "Collaboration lab"
+            },
+            "tracker": {
+              "id": 2,
+              "name": "Feature"
+            },
+            "status": {
+              "id": 1,
+              "name": "New",
+              "is_closed": false
+            },
+            "priority": {
+              "id": 2,
+              "name": "Normal"
+            },
+            "author": {
+              "id": 1,
+              "name": "Redmine Admin"
+            },
+            "fixed_version": {
+              "id": 1,
+              "name": "Notification improvements"
+            },
+            "parent": {
+              "id": 1
+            },
+            "subject": "Retry failed deliveries",
+            "description": null,
+            "start_date": null,
+            "due_date": null,
+            "done_ratio": 0,
+            "is_private": false,
+            "estimated_hours": null,
+            "total_estimated_hours": null,
+            "created_on": "2026-11-22T03:20:04Z",
+            "updated_on": "2026-11-22T03:22:11Z",
+            "closed_on": null
+          },
+          {
+            "id": 1,
+            "project": {
+              "id": 1,
+              "name": "Collaboration lab"
+            },
+            "tracker": {
+              "id": 2,
+              "name": "Feature"
+            },
+            "status": {
+              "id": 3,
+              "name": "Resolved",
+              "is_closed": false
+            },
+            "priority": {
+              "id": 2,
+              "name": "Normal"
+            },
+            "author": {
+              "id": 1,
+              "name": "Redmine Admin"
+            },
+            "fixed_version": {
+              "id": 1,
+              "name": "Notification improvements"
+            },
+            "subject": "Notification delivery",
+            "description": "Implement retries. Human verifies delivery history.",
+            "start_date": null,
+            "due_date": null,
+            "done_ratio": 0,
+            "is_private": false,
+            "estimated_hours": null,
+            "total_estimated_hours": 0.0,
+            "created_on": "2026-11-22T03:20:04Z",
+            "updated_on": "2026-11-22T03:21:13Z",
+            "closed_on": null
+          }
+        ],
+        "total_count": 3,
+        "offset": 0,
+        "limit": 25
+      },
+      "after": {
+        "issues": [
+          {
+            "id": 3,
+            "project": {
+              "id": 1,
+              "name": "Collaboration lab"
+            },
+            "tracker": {
+              "id": 2,
+              "name": "Feature"
+            },
+            "status": {
+              "id": 5,
+              "name": "Closed",
+              "is_closed": true
+            },
+            "priority": {
+              "id": 2,
+              "name": "Normal"
+            },
+            "author": {
+              "id": 1,
+              "name": "Redmine Admin"
+            },
+            "fixed_version": {
+              "id": 1,
+              "name": "Notification improvements"
+            },
+            "subject": "Document delivery behavior",
+            "description": null,
+            "start_date": null,
+            "due_date": null,
+            "done_ratio": 0,
+            "is_private": false,
+            "estimated_hours": null,
+            "total_estimated_hours": null,
+            "created_on": "2026-11-22T03:20:04Z",
+            "updated_on": "2026-11-22T03:20:34Z",
+            "closed_on": "2026-11-22T03:20:34Z"
+          },
+          {
+            "id": 2,
+            "project": {
+              "id": 1,
+              "name": "Collaboration lab"
+            },
+            "tracker": {
+              "id": 2,
+              "name": "Feature"
+            },
+            "status": {
+              "id": 1,
+              "name": "New",
+              "is_closed": false
+            },
+            "priority": {
+              "id": 2,
+              "name": "Normal"
+            },
+            "author": {
+              "id": 1,
+              "name": "Redmine Admin"
+            },
+            "fixed_version": {
+              "id": 1,
+              "name": "Notification improvements"
+            },
+            "parent": {
+              "id": 1
+            },
+            "subject": "Retry failed deliveries",
+            "description": null,
+            "start_date": null,
+            "due_date": null,
+            "done_ratio": 0,
+            "is_private": false,
+            "estimated_hours": null,
+            "total_estimated_hours": null,
+            "created_on": "2026-11-22T03:20:04Z",
+            "updated_on": "2026-11-22T03:22:11Z",
+            "closed_on": null
+          },
+          {
+            "id": 1,
+            "project": {
+              "id": 1,
+              "name": "Collaboration lab"
+            },
+            "tracker": {
+              "id": 2,
+              "name": "Feature"
+            },
+            "status": {
+              "id": 3,
+              "name": "Resolved",
+              "is_closed": false
+            },
+            "priority": {
+              "id": 2,
+              "name": "Normal"
+            },
+            "author": {
+              "id": 1,
+              "name": "Redmine Admin"
+            },
+            "fixed_version": {
+              "id": 1,
+              "name": "Notification improvements"
+            },
+            "subject": "Notification delivery",
+            "description": "Implement retries. Human verifies delivery history.",
+            "start_date": null,
+            "due_date": null,
+            "done_ratio": 0,
+            "is_private": false,
+            "estimated_hours": null,
+            "total_estimated_hours": 0.0,
+            "created_on": "2026-11-22T03:20:04Z",
+            "updated_on": "2026-11-22T03:21:13Z",
+            "closed_on": null
+          }
+        ],
+        "total_count": 3,
+        "offset": 0,
+        "limit": 25
+      }
+    },
+    "kanbalone": {
+      "equal": true,
+      "before": {
+        "formatVersion": 2,
+        "groups": [
+          {
+            "id": 1,
+            "name": "Notification improvements",
+            "descriptionMarkdown": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+            "createdAt": "2026-11-22T03:19:31.195Z",
+            "updatedAt": "2026-11-22T03:19:31.195Z"
+          },
+          {
+            "id": 2,
+            "name": "Reporting improvements",
+            "descriptionMarkdown": "",
+            "createdAt": "2026-11-22T03:21:54.036Z",
+            "updatedAt": "2026-11-22T03:21:54.036Z"
+          }
+        ],
+        "board": {
+          "id": 1,
+          "name": "Collaboration lab",
+          "position": 0,
+          "createdAt": "2026-11-22T03:18:58.602Z",
+          "updatedAt": "2026-11-22T03:23:15.536Z"
+        },
+        "lanes": [
+          {
+            "isCompletionLane": false,
+            "id": 1,
+            "boardId": 1,
+            "name": "todo",
+            "position": 0
+          },
+          {
+            "isCompletionLane": false,
+            "id": 2,
+            "boardId": 1,
+            "name": "doing",
+            "position": 1
+          },
+          {
+            "isCompletionLane": false,
+            "id": 3,
+            "boardId": 1,
+            "name": "Acceptance",
+            "position": 2
+          },
+          {
+            "isCompletionLane": true,
+            "id": 4,
+            "boardId": 1,
+            "name": "done",
+            "position": 3
+          }
+        ],
+        "tags": [],
+        "tickets": [
+          {
+            "id": 2,
+            "boardId": 1,
+            "laneId": 1,
+            "parentTicketId": 1,
+            "hasChildren": false,
+            "title": "Retry failed deliveries",
+            "bodyMarkdown": "",
+            "isResolved": false,
+            "resolvedAt": null,
+            "isArchived": false,
+            "priority": 2,
+            "position": 0,
+            "createdAt": "2026-11-22T03:19:42.058Z",
+            "updatedAt": "2026-11-22T03:23:15.536Z",
+            "tags": [],
+            "comments": [],
+            "blockerIds": [],
+            "relatedIds": [],
+            "groupId": 1
+          },
+          {
+            "id": 1,
+            "boardId": 1,
+            "laneId": 4,
+            "parentTicketId": null,
+            "hasChildren": true,
+            "title": "Notification delivery",
+            "bodyMarkdown": "",
+            "isResolved": true,
+            "resolvedAt": "2026-11-22T03:22:11.962Z",
+            "isArchived": false,
+            "priority": 2,
+            "position": 0,
+            "createdAt": "2026-11-22T03:19:42.005Z",
+            "updatedAt": "2026-11-22T03:23:15.467Z",
+            "tags": [],
+            "comments": [
+              {
+                "id": 2,
+                "ticketId": 1,
+                "bodyMarkdown": "Human review: delivery history checked; retry remains open.",
+                "bodyHtml": "<p>Human review: delivery history checked; retry remains open.</p>\n",
+                "createdAt": "2026-11-22T03:21:00.844Z"
+              },
+              {
+                "id": 1,
+                "ticketId": 1,
+                "bodyMarkdown": "AI handoff: retries implemented. Please verify delivery history.",
+                "bodyHtml": "<p>AI handoff: retries implemented. Please verify delivery history.</p>\n",
+                "createdAt": "2026-11-22T03:20:34.676Z"
+              }
+            ],
+            "blockerIds": [],
+            "relatedIds": [],
+            "groupId": 1
+          },
+          {
+            "id": 3,
+            "boardId": 1,
+            "laneId": 4,
+            "parentTicketId": null,
+            "hasChildren": false,
+            "title": "Document delivery behavior",
+            "bodyMarkdown": "",
+            "isResolved": true,
+            "resolvedAt": "2026-11-22T03:19:42.086Z",
+            "isArchived": true,
+            "priority": 2,
+            "position": 1,
+            "createdAt": "2026-11-22T03:19:42.077Z",
+            "updatedAt": "2026-11-22T03:23:15.484Z",
+            "tags": [],
+            "comments": [],
+            "blockerIds": [],
+            "relatedIds": [],
+            "groupId": 1
+          }
+        ]
+      },
+      "after": {
+        "formatVersion": 2,
+        "groups": [
+          {
+            "id": 1,
+            "name": "Notification improvements",
+            "descriptionMarkdown": "Goal: reliable delivery. Acceptance: retries and visible delivery status.",
+            "createdAt": "2026-11-22T03:19:31.195Z",
+            "updatedAt": "2026-11-22T03:19:31.195Z"
+          },
+          {
+            "id": 2,
+            "name": "Reporting improvements",
+            "descriptionMarkdown": "",
+            "createdAt": "2026-11-22T03:21:54.036Z",
+            "updatedAt": "2026-11-22T03:21:54.036Z"
+          }
+        ],
+        "board": {
+          "id": 1,
+          "name": "Collaboration lab",
+          "position": 0,
+          "createdAt": "2026-11-22T03:18:58.602Z",
+          "updatedAt": "2026-11-22T03:23:15.536Z"
+        },
+        "lanes": [
+          {
+            "isCompletionLane": false,
+            "id": 1,
+            "boardId": 1,
+            "name": "todo",
+            "position": 0
+          },
+          {
+            "isCompletionLane": false,
+            "id": 2,
+            "boardId": 1,
+            "name": "doing",
+            "position": 1
+          },
+          {
+            "isCompletionLane": false,
+            "id": 3,
+            "boardId": 1,
+            "name": "Acceptance",
+            "position": 2
+          },
+          {
+            "isCompletionLane": true,
+            "id": 4,
+            "boardId": 1,
+            "name": "done",
+            "position": 3
+          }
+        ],
+        "tags": [],
+        "tickets": [
+          {
+            "id": 2,
+            "boardId": 1,
+            "laneId": 1,
+            "parentTicketId": 1,
+            "hasChildren": false,
+            "title": "Retry failed deliveries",
+            "bodyMarkdown": "",
+            "isResolved": false,
+            "resolvedAt": null,
+            "isArchived": false,
+            "priority": 2,
+            "position": 0,
+            "createdAt": "2026-11-22T03:19:42.058Z",
+            "updatedAt": "2026-11-22T03:23:15.536Z",
+            "tags": [],
+            "comments": [],
+            "blockerIds": [],
+            "relatedIds": [],
+            "groupId": 1
+          },
+          {
+            "id": 1,
+            "boardId": 1,
+            "laneId": 4,
+            "parentTicketId": null,
+            "hasChildren": true,
+            "title": "Notification delivery",
+            "bodyMarkdown": "",
+            "isResolved": true,
+            "resolvedAt": "2026-11-22T03:22:11.962Z",
+            "isArchived": false,
+            "priority": 2,
+            "position": 0,
+            "createdAt": "2026-11-22T03:19:42.005Z",
+            "updatedAt": "2026-11-22T03:23:15.467Z",
+            "tags": [],
+            "comments": [
+              {
+                "id": 2,
+                "ticketId": 1,
+                "bodyMarkdown": "Human review: delivery history checked; retry remains open.",
+                "bodyHtml": "<p>Human review: delivery history checked; retry remains open.</p>\n",
+                "createdAt": "2026-11-22T03:21:00.844Z"
+              },
+              {
+                "id": 1,
+                "ticketId": 1,
+                "bodyMarkdown": "AI handoff: retries implemented. Please verify delivery history.",
+                "bodyHtml": "<p>AI handoff: retries implemented. Please verify delivery history.</p>\n",
+                "createdAt": "2026-11-22T03:20:34.676Z"
+              }
+            ],
+            "blockerIds": [],
+            "relatedIds": [],
+            "groupId": 1
+          },
+          {
+            "id": 3,
+            "boardId": 1,
+            "laneId": 4,
+            "parentTicketId": null,
+            "hasChildren": false,
+            "title": "Document delivery behavior",
+            "bodyMarkdown": "",
+            "isResolved": true,
+            "resolvedAt": "2026-11-22T03:19:42.086Z",
+            "isArchived": true,
+            "priority": 2,
+            "position": 1,
+            "createdAt": "2026-11-22T03:19:42.077Z",
+            "updatedAt": "2026-11-22T03:23:15.484Z",
+            "tags": [],
+            "comments": [],
+            "blockerIds": [],
+            "relatedIds": [],
+            "groupId": 1
+          }
+        ]
+      }
+    }
+  }
+}

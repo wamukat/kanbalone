@@ -1,0 +1,54 @@
+import sys,json,time,statistics,math,urllib.request,base64,re,pathlib
+from api import kb,vk,kn,ROOT
+OUT=pathlib.Path('docs/development/evidence/2026-11-22-api-ui-performance');OUT.mkdir(parents=True,exist_ok=True)
+idsfile=ROOT/'perf-fixtures.json'
+if not idsfile.exists():
+ k=kb('createProject',name='Performance lab');v=vk('PUT','/projects',{'title':'Performance lab'})['id'];n=kn('POST','/boards',{'name':'Performance lab'})
+ ids={'kanboard':{'project':k,'tasks':[]},'vikunja':{'project':v,'tasks':[]},'kanbalone':{'project':n['board']['id'],'lane':n['lanes'][0]['id'],'tasks':[]}}
+ body='Synthetic evaluation. Goal: reliable notifications. Verify retry and delivery history.\n'*6
+ for i in range(100):
+  title=f'Performance task {i:05d}'
+  ids['kanboard']['tasks'].append(kb('createTask',project_id=k,title=title,description=body))
+  ids['vikunja']['tasks'].append(vk('PUT',f'/projects/{v}/tasks',{'title':title,'description':body})['id'])
+  ids['kanbalone']['tasks'].append(kn('POST',f'/boards/{n["board"]["id"]}/tickets',{'title':title,'laneId':n['lanes'][0]['id'],'bodyMarkdown':body,'priority':2})['id'])
+ idsfile.write_text(json.dumps(ids));print('Seeded 100 tasks per product',flush=True)
+ids=json.loads(idsfile.read_text());token=re.search(r'API token:\s*(\w+)',(ROOT/'kanboard-api-private.txt').read_text())[1]
+auth={'kanboard':'Basic '+base64.b64encode(('jsonrpc:'+token).encode()).decode(),'vikunja':'Bearer '+json.loads((ROOT/'vikunja-auth-private.json').read_text())['token'],'kanbalone':None}
+vk_full=vk('GET',f'/tasks/{ids["vikunja"]["tasks"][42]}')
+def spec(product,op,iteration):
+ p=ids[product]['project'];t=ids[product]['tasks'][42];title=f'Performance task 00042 bench{iteration%2}'
+ if product=='kanboard':
+  method,params={'list':('getAllTasks',{'project_id':p,'status_id':1}),'detail':('getTask',{'task_id':t}),'search':('searchTasks',{'project_id':p,'query':'"Performance task 00042"'}),'write':('updateTask',{'id':t,'title':title})}[op]
+  return 'http://127.0.0.1:3570/jsonrpc.php','POST',{'jsonrpc':'2.0','id':1,'method':method,'params':params}
+ if product=='vikunja':return 'http://127.0.0.1:3571/api/v1'+{'list':f'/projects/{p}/tasks?per_page=100','detail':f'/tasks/{t}','search':f'/projects/{p}/tasks?s=00042&per_page=100','write':f'/tasks/{t}'}[op],('POST' if op=='write' else 'GET'),(dict(vk_full,title=title) if op=='write' else None)
+ return 'http://127.0.0.1:3573/api'+{'list':f'/boards/{p}/tickets','detail':f'/tickets/{t}','search':f'/boards/{p}/tickets?q=00042','write':f'/tickets/{t}'}[op],('PATCH' if op=='write' else 'GET'),({'title':title} if op=='write' else None)
+rows=[]
+for op in ['list','detail','search','write']:
+ for i in range(33):
+  products=['kanboard','vikunja','kanbalone'];products=products[i%3:]+products[:i%3]
+  for product in products:
+   url,method,data=spec(product,op,i);h={'Content-Type':'application/json'}
+   if auth[product]:h['Authorization']=auth[product]
+   req=urllib.request.Request(url,headers=h,method=method,data=json.dumps(data).encode() if data else None)
+   start=time.perf_counter()
+   with urllib.request.urlopen(req,timeout=20) as res:raw=res.read();status=res.status
+   if product=='vikunja' and op=='list':
+    req2=urllib.request.Request(url+'&page=2',headers=h)
+    with urllib.request.urlopen(req2,timeout=20) as res2:raw2=res2.read()
+    elapsed=(time.perf_counter()-start)*1000;x=json.loads(raw)+json.loads(raw2);byte_count=len(raw)+len(raw2)
+   else:elapsed=(time.perf_counter()-start)*1000;x=json.loads(raw);byte_count=len(raw)
+   if product=='kanboard':
+    assert 'error' not in x,x
+    x=x['result']
+   count=len(x if isinstance(x,list) else x.get('tickets',[])) if isinstance(x,(list,dict)) and op in ['list','search'] else None
+   if op=='list':assert count==100,(product,count)
+   if op=='search':assert count==1,(product,count)
+   if i>=3:rows.append({'product':product,'operation':op,'iteration':i-3,'ms':elapsed,'bytes':byte_count,'status':status,'count':count})
+ print('Completed',op,flush=True)
+summary=[]
+for product in ['kanboard','vikunja','kanbalone']:
+ for op in ['list','detail','search','write']:
+  rr=[x for x in rows if x['product']==product and x['operation']==op];ms=sorted(x['ms'] for x in rr)
+  summary.append({'product':product,'operation':op,'n':len(ms),'p50_ms':round(statistics.median(ms),2),'p95_ms':round(ms[math.ceil(len(ms)*.95)-1],2),'max_ms':round(max(ms),2),'response_bytes':rr[-1]['bytes'],'count':rr[-1]['count']})
+(OUT/'api-benchmark.json').write_text(json.dumps({'fixtures':ids,'method':'localhost HTTP complete response body; new urllib connection per request; warmup 3, measured 30 per product/operation; rotated product order; no concurrency; JSON parse outside timer; Vikunja list follows default 50 cap with two sequential pages to retrieve 100','summary':summary,'samples':rows},indent=2))
+print(json.dumps(summary,indent=2))
