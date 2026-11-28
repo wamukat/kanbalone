@@ -1,0 +1,122 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 159.0.8154.6",
+    "automation": "Playwright 1.65.1",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "devicePixelRatio": 1
+  },
+  "sources": {
+    "before": {
+      "commit": "78dce9fb4964bed2d7b1cccd663484c6f3dc6e49"
+    },
+    "after": {
+      "commit": "0971403a3fc7bca27d25f3a8a81a141bdcde2dce",
+      "publicAndSrcGitBinaryDiffSha256": "11a5f2f03c6a7e3bcdba71cec5a0dd56c9c0a68b2ae35111907350a24a0c8e2f"
+    }
+  },
+  "files": {
+    "after-en-dark-archived-only.png": {
+      "source": "after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "5a50601d9cdfb0f86ecb7ef0dd28bc33497366f2ba04db22977e8e62b34fdf6c"
+    },
+    "after-ja-light-empty-confirm.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "92e300c7ea365063d12cd520ada946d4aeb0da6ae590fcf2fe30d0ae57b11d53"
+    },
+    "after-ja-light-empty-deleted.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "46fecc71f001bbd3ab722b496712b28400a20a736731c4aeb23eff1e535a85ab"
+    },
+    "after-ja-light-populated.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "088b3647b06cae995d668f0d3186dc46ebb3cac93fe4de471d776119f02112f3"
+    },
+    "after-ja-light-race-rejected.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e30f511c76fdd88d93b961def8fa0702c5e14da04a34ed4e46e01901c21a673c"
+    },
+    "before-en-dark-archived-only.png": {
+      "source": "before",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "12be1b450e97cb6ea8f6cc46982189447dc489878021801ede4fe160d991daec"
+    },
+    "before-ja-light-empty-confirm.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "22020a8cb227f970866fe0d8ff844e098bd2485f67fa7d511cda763c341e1c71"
+    },
+    "before-ja-light-populated-rejected.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "53a20df6392f19c0de2bf10b5aaa479a8fe2df4f3f3af6796ba72b0f1f86de75"
+    },
+    "before-ja-light-populated.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "86c828ccb9d23a44c4721185eec382454c2e091c30b24a85b98a7b254eb72fc6"
+    },
+    "before-ja-light-race-rejected.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "16e7a4317f002fb5914d7d7187cb258b1a8a8c1eab4dbddfa5d02f170719fa9c"
+    }
+  }
+}
