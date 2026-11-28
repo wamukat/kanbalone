@@ -1,0 +1,272 @@
+{
+  "date": "2026-11-28 JST",
+  "before": "82ca2a660a9780eaea6e8d64bab740184874f906",
+  "release": "4920daffe31a835a43996bead3a9f62f847d3f21",
+  "environment": {
+    "node": "26.13.1",
+    "browser": "HeadlessChrome158.0.0.0",
+    "agentBrowser": "0.26.0",
+    "os": "macOS26.7.3"
+  },
+  "fixture": {
+    "board": "Release desk",
+    "tickets": 5,
+    "laneIds": {
+      "Todo": 1,
+      "In progress": 2,
+      "Done": 3
+    },
+    "ticket1BlockerIds": [
+      2,
+      3,
+      4
+    ]
+  },
+  "operations": {
+    "before_M": "no dialog; ticket1 lane1",
+    "after_M": "lane selector focused; current lane disabled; CtrlEnter no-op while unchanged",
+    "cancel": "Esc restored same title; no mutation",
+    "tab": "lane selector Tab -> ux-submit-button (before ux-dismiss-button)",
+    "ctrlEnter": "ticket1 lane1 -> lane2; API GET lane2,isResolvedfalse; browser reload shows in In progress",
+    "metaEnter": "ticket1 lane2 -> lane3; API GET lane3,isResolvedtrue",
+    "relation": "ticket1 blockers[2,3,4] and ticket2 blockedBy[1] unchanged; Japanese labels clarified",
+    "deleteConfirm": "after initial focus ux-dismiss-button; footerDelete thenCancel; Esc retainedticket2",
+    "narrow": "ENdark390x844 ListM dialog rect x20..370 y256.39..587.61; Esc restores title",
+    "finalRelationMenu": "1440JA/light all4 visible;390JA/light all4 within x96..317 andy612..707, opacity1. Closed controls hidden from Tab; authorE2E checks Tab+selection."
+  },
+  "limitations": [
+    "Browser failure routing did not intercept; MetaEnter actually succeeded. No browser failure screenshot or claim. Author E2E covers injected failure/retry.",
+    "Baseline main narrowKanban fresh reload rendered lane counts but empty card containers in this session; narrow QA used List. No claim that this preexisting Kanban limitation was fixed.",
+    "No actual screen-reader/device/browser matrix.",
+    "Snapshots do not independently prove race behavior; author/reviewer tests supplement."
+  ],
+  "images": [
+    {
+      "file": "originals/after-bulk-move.png",
+      "sha256": "b9d9969135def3ddc8d5dae79c2a1ced9278d3090885c8e42db07591ab6baca7",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-delete-confirm.png",
+      "sha256": "0a1334daa6dc692bee019a60780c7b8a3c350b8b7f4c4b0c79dea4a6e09987ac",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-editor-actions.png",
+      "sha256": "6513ad97061916d658bba170a16d6f27153a5f914825909e291ec1a1e739fbce",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-m-key.png",
+      "sha256": "5770ab27da2587a686c85a992091a9e019d2a1e9d0568ca50e37d662d00b2e4d",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-move-narrow-dark-en.png",
+      "sha256": "a28954a72fd4feb7273236a5d22d5cb24bf8a46ec5a37dd3448af83d86f0d360",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "file": "originals/after-move-reloaded.png",
+      "sha256": "c767013042f4dce055c47856d622b2efa6d9ca1799bda9a4b44c7cfe77c013ca",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-relation-add-narrow-ja.png",
+      "sha256": "27a466c9e5a781042f500c0a1c7950d0979677c153560ce14d2f2242fe49e3b1",
+      "revision": "98fb2cf96a04e7c3a459f4505d0c1c346d76cb41",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-relation-add.png",
+      "sha256": "1a95b0158f6bf353624e177820deeb0519b265e2c230da84235ee313a3256aea",
+      "revision": "98fb2cf96a04e7c3a459f4505d0c1c346d76cb41",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-relations-incoming.png",
+      "sha256": "e18d12949463ac8bf21a21640e85e8604c39b53dcb6996eca785e3e33e2b893b",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/after-relations-outgoing.png",
+      "sha256": "7c10f9382c604739a667f2645b0ee59a66bd8dabe1050efe566277922960f868",
+      "revision": "a3d383a26133d43c749395b7d2758d056ed79918",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-bulk-move.png",
+      "sha256": "b7368a9f886d01ce866c0507083d2fbcbfbe98b4c8ca9955051ebff6e0e60121",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-delete-confirm.png",
+      "sha256": "96cbc5e3bd6051a629e51eb8a97e093b8ac7836195cf5e5b41872b0ccafaef58",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-editor-actions.png",
+      "sha256": "269e95a891192d661dc39199553fbd3667caede855cb020df093066c173d5fa5",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-m-key.png",
+      "sha256": "060c605cda9ed1bf389acdd8d6d62cba8cd4145dbe1ef61cd382813829134479",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-relation-add.png",
+      "sha256": "017c7c69f0cb60b8bca24daf37e82d6b6762959d9f25655299f54c2e0b4b286d",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-relations-incoming.png",
+      "sha256": "3f7787060b5683763b75b76cc0d1b5e7f2d6bc55a74ed45db3cd595bf7f805aa",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/before-relations-outgoing.png",
+      "sha256": "0f2ce8c9e875b8456ddf2a771dd26d38ee1dc698ee3e24fee2d4d2aeed12fbba",
+      "revision": "82ca2a660a9780eaea6e8d64bab740184874f906",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/release-m-key.png",
+      "sha256": "f5f18382df1bfb2bd8302cf478df8a2c5b912a17451bfa2d537d053cae1596a3",
+      "revision": "4920daffe31a835a43996bead3a9f62f847d3f21",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/release-relations-incoming.png",
+      "sha256": "195ad6403eb1d10f008e971594a62af67eb56a5cc65c4cc92e23e10df0a0ecfc",
+      "revision": "4920daffe31a835a43996bead3a9f62f847d3f21",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    },
+    {
+      "file": "originals/release-relations-outgoing.png",
+      "sha256": "395ed20c81386560d3c684f0305e7a29793fe883d1cda02a8ee374973404a762",
+      "revision": "4920daffe31a835a43996bead3a9f62f847d3f21",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "theme": "light"
+    }
+  ],
+  "after_initial": "a3d383a26133d43c749395b7d2758d056ed79918",
+  "after_final": "98fb2cf96a04e7c3a459f4505d0c1c346d76cb41",
+  "product_change_after_initial": [
+    "public/styles/editor-fields.css"
+  ],
+  "runtime_product_files_compared": 250,
+  "runtime_product_matches_final": true
+}
