@@ -1,5 +1,6 @@
 // Application-owned labels only. User content is never passed through this catalog.
 export default {
+  "Enter a name.": "名前を入力してください。",
   "{action} (Ctrl/Cmd+Enter)": "{action}（Ctrl/Cmd+Enter）",
   "Import (Ctrl/Cmd+Enter)": "取り込み（Ctrl/Cmd+Enter）",
   "Change language?": "言語を変更しますか？",

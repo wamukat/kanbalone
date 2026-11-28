@@ -49,6 +49,7 @@ export function createSidebarBoardsModule(ctx, options) {
       className: "board-create-row",
       html: `<input type="text" data-board-create-input aria-label="${tr("Board name")}" placeholder="${tr("Board name")}" autocomplete="off" />`,
       inputSelector: "[data-board-create-input]",
+    requiredMessage: tr("Enter a name."),
       onSubmit: submitBoardCreate,
       onCancel: cancelBoardCreate,
     });

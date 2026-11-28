@@ -5,6 +5,7 @@ export function createInlineTextForm({
   onSubmit,
   onCancel,
   cancelOnFocusOut = "empty",
+  requiredMessage = "",
 }) {
   const form = document.createElement("form");
   form.className = className;
@@ -12,7 +13,16 @@ export function createInlineTextForm({
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    await onSubmit(form.querySelector(inputSelector));
+    const input = form.querySelector(inputSelector);
+    if (requiredMessage && !input.value.trim()) {
+      input.setCustomValidity(requiredMessage);
+      input.reportValidity();
+      return;
+    }
+    await onSubmit(input);
+  });
+  form.addEventListener("input", () => {
+    if (requiredMessage) form.querySelector(inputSelector).setCustomValidity("");
   });
   form.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") {

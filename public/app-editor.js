@@ -65,6 +65,7 @@ export function createEditorModule(ctx) {
       title: t("Discard changes?"),
       message: t("Your unsaved changes will be lost."),
       submitLabel: t("Discard changes"),
+      cancelLabel: t("Continue editing"),
       run: async () => {},
     });
     try {

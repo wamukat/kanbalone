@@ -81,11 +81,11 @@ export function createUxModule(ctx) {
     resolver(value);
   }
 
-  function renderConfirmation({ title, message, details = [], warning = "", help = [], submitLabel }) {
+  function renderConfirmation({ title, message, details = [], warning = "", help = [], submitLabel, cancelLabel }) {
     elements.uxTitle.textContent = title;
     elements.uxMessage.hidden = !message && details.length === 0 && !warning && help.length === 0;
     elements.uxMessage.innerHTML = renderConfirmMessage(message, details, warning, help);
-    elements.uxDismissButton.textContent = t(submitLabel ? "Cancel" : "Close");
+    elements.uxDismissButton.textContent = cancelLabel ?? t(submitLabel ? "Cancel" : "Close");
     elements.uxSubmitButton.hidden = !submitLabel;
     elements.uxSubmitButton.disabled = !submitLabel;
     if (submitLabel) {
@@ -148,8 +148,8 @@ export function createUxModule(ctx) {
     ].filter(Boolean).join("");
   }
 
-  async function confirmAndRun({ title, message, details = [], warning = "", submitLabel, run }) {
-    const confirmed = await openConfirmDialog({ title, message, details, warning, submitLabel });
+  async function confirmAndRun({ title, message, details = [], warning = "", submitLabel, cancelLabel, run }) {
+    const confirmed = await openConfirmDialog({ title, message, details, warning, submitLabel, cancelLabel });
     if (!confirmed) {
       return false;
     }
