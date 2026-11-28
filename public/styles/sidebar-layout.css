@@ -12,11 +12,12 @@
 }
 
 .board-title-row {
-  display: none;
+  display: flex;
   align-items: center;
   gap: 0.6rem;
   min-width: 0;
-  flex: 0 0 auto;
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 .shell.sidebar-collapsed .board-title-row {
@@ -24,8 +25,8 @@
 }
 
 .collapsed-board-title {
-  display: none;
-  max-width: 8rem;
+  display: block;
+  max-width: 100%;
   margin: 0;
   overflow: hidden;
   font-size: var(--font-size-section-title);

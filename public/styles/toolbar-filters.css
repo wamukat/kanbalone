@@ -10,10 +10,11 @@
 }
 
 .toolbar {
+  flex-wrap: wrap;
   min-height: var(--shared-toolbar-height, 0px);
   display: flex;
   align-items: flex-start;
-  gap: var(--space-4);
+  gap: var(--space-2);
   justify-content: space-between;
   flex: 0 0 auto;
   padding: 0 0 0.85rem;

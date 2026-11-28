@@ -7,6 +7,7 @@ export function createBoardSettingsModule(ctx) {
   const { state, elements } = ctx;
   const completionSettings = createCompletionSettingsModule(ctx);
   let hintBoardId = null;
+  let deletionPreviewPending = false;
   const hintSeen = new Set();
 
   function renderBoardNameControl() {
@@ -88,23 +89,47 @@ export function createBoardSettingsModule(ctx) {
   }
 
   async function deleteBoard() {
-    if (!state.boardDetail) {
+    if (!state.boardDetail || deletionPreviewPending) {
       return;
     }
-    const board = state.boardDetail.board;
+    const boardId = state.activeBoardId;
+    let detail, count;
+    deletionPreviewPending = true;
+    try {
+      [detail, count] = await Promise.all([
+        ctx.api(`/api/boards/${boardId}`),
+        ctx.api(`/api/boards/${boardId}/tickets?limit=1&archived=all`),
+      ]);
+    } catch (error) {
+      ctx.showToast(error.message, "error");
+      return;
+    } finally {
+      deletionPreviewPending = false;
+    }
+    if (state.activeBoardId !== boardId) return;
+    const board = detail.board;
     const nextBoard = state.boards.find((entry) => entry.id !== board.id) ?? null;
-    await ctx.confirmAndRun({
+    await ctx.openConfirmDialog({
       title: tr("Delete Board"),
       message: tr("Delete board \"{name}\"?", { name: board.name }),
       details: [
         tr("Board \"{name}\"", { name: board.name }),
-        tr("All lanes in this board"),
+        tr("Tickets including archived: {count}", { count: count.page.total }),
+        tr("Lanes: {count}; tags: {tags}", { count: detail.lanes.length, tags: detail.tags.length }),
         tr("All tickets, comments, tags, and relations in this board"),
-        tr("Board activity history"),
+        tr("All Groups and board activity history"),
       ],
       warning: tr("This action cannot be undone."),
       submitLabel: tr("Delete"),
-      run: async () => {
+      fields: `<label for="confirm-board-name">${ctx.escapeHtml(tr("Type the board name to confirm"))}</label><input id="confirm-board-name" type="text" required autocomplete="off" spellcheck="false" />`,
+      onSubmit: async () => {
+        if (document.querySelector("#confirm-board-name").value !== board.name) {
+          throw new Error(tr("The board name does not match."));
+        }
+        const current = await ctx.api(`/api/boards/${board.id}`);
+        if (state.activeBoardId !== boardId || current.board.name !== board.name) {
+          throw new Error(tr("The board changed. Close this dialog and review it again."));
+        }
         await ctx.api(`/api/boards/${board.id}`, { method: "DELETE" });
         delete state.filtersByBoardId[String(board.id)];
         delete state.viewModeByBoardId[String(board.id)];
@@ -113,8 +138,13 @@ export function createBoardSettingsModule(ctx) {
         ctx.restoreBoardViewMode?.(state.activeBoardId);
         ctx.restoreBoardFilters?.(state.activeBoardId);
         ctx.restoreBoardFilterExpansion?.(state.activeBoardId);
-        await ctx.refreshBoards();
         ctx.syncBoardUrl();
+        try {
+          await ctx.refreshBoards();
+        } catch (error) {
+          // Deletion already succeeded; close confirmation instead of offering it again.
+          ctx.showToast(error.message, "error");
+        }
       },
     });
   }

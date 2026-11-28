@@ -125,6 +125,7 @@ test("sidebar board settings actions are wired", async ({ page }) => {
     await expect(page.locator("#ux-message")).toContainText("All tickets, comments, tags, and relations in this board");
     await expect(page.locator("#ux-message")).toContainText("This action cannot be undone.");
     await expect(page.locator("#ux-submit-button")).toHaveText("Delete");
+    await page.locator("#confirm-board-name").fill("Operations Renamed");
     const deleteResponse = page.waitForResponse(
       (response) =>
         response.url().endsWith(`/api/boards/${primaryPayload.board.id}`) &&
