@@ -6,7 +6,8 @@
 
 - Before: main `f8e8afb8053be69c4b35c09ebe33221a7681b67e` (port 3731).
 - Reported release reproduced separately: `v1.6.0`, `4920daffe31a835a43996bead3a9f62f847d3f21` (port 3732).
-- After: product commit `4c762f71dc1ade3ba62bc6fd40e203d7245f8e47` (port 3733). Changed public-file fingerprints are in `checks/candidate-file-sha256.json`.
+- After captures and scale measurement: product commit `4c762f71dc1ade3ba62bc6fd40e203d7245f8e47` (port 3733). Captured public-file fingerprints remain in `checks/candidate-file-sha256.json`.
+- Final product: `b3a591735530cf316af0292f852fe28d386da0e1`, with `checks/final-file-sha256.json`. The Escape follow-up below changes event propagation only; the original captures remain unaltered.
 - Node 26.13.1, agent-browser 0.26.0, headless Chrome 158.0.8127.89, macOS. Browser UI captures use agent-browser; the separate scale measurement uses Playwright Chromium.
 - `fixture.sqlite.gz` is a closed, synthetic database. Each version starts from its own copy. `fixture.json` maps board 1, three lanes, seven tickets. It includes urgent with/without blockers, all priorities, standalone/parent/child, resolved child, independent Task counts, and a long title/multiple tags/high ID `123456789`. The high ID is deliberately seeded through the synthetic SQLite sequence; all ticket content and relationships are created through application APIs.
 - Main/release/after desktop comparisons: Japanese, light or dark, 1440×900, sidebar open, no active filters or selection. Narrow pair: English UI, dark, 390×844, sidebar collapsed, initial board scroll. Ticket titles are the same fixture text in both languages.
@@ -29,6 +30,14 @@
 4. At English dark 390×844, focus the last Todo title. Native scrolling leaves its description visible: [focus](originals/after-en-dark-narrow-focus.png). At 1440×360, scroll In progress to its final card and hover its blocker: [short viewport](originals/after-en-dark-bottom-edge-tooltip.png). Bounds/visibility are recorded in the matching JSON files. These are additional interaction states, not paired baseline screenshots; the baseline used native title tooltips, and the clipping observation came from the design mock.
 
 Initial QA found focus-triggered automatic scrolling could hide the description. The final implementation was corrected and these final captures were repeated. The independent reviewer also checked focus/Escape, pointer travel into the tooltip, scroll and DOM-removal cleanup. This does not claim an actual screen-reader usability study.
+
+## Escape follow-up after initial CI
+
+CI run 46140772849 found that the tooltip's Escape capture consumed the existing action that returns focus from a card to search (English and Japanese). Product commit `b3a591735530cf316af0292f852fe28d386da0e1` removes only `preventDefault` / `stopPropagation` from this handler while retaining tooltip dismissal. A separate stale typography assertion was updated from 11px to the user-approved 12px.
+
+Public JavaScript type checking and all 21 Chromium cases in `card-readable-icons.spec.ts`, `keyboard-navigation.spec.ts` and `layout-visual-system.spec.ts` passed. Added assertions cover visible description → Escape → hidden description and search focus, plus showing the description again on renewed title focus. See `checks/escape-followup.json`.
+
+No CSS, markup, icon, layout or color changed in this follow-up. Original PNG hashes were reverified unchanged; images and scale measurements were not recaptured and continue to describe the capture commit above. This distinguishes the final interaction verification from the earlier visual and performance observations.
 
 ## Stored result and reload
 
