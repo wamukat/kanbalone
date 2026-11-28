@@ -18,3 +18,5 @@ Counts are a fresh preflight snapshot, not an atomic deletion revision guard. Th
 CI also identified two old title-placement expectations and a filter wrapping regression: the new title row gives filters more width, bypassing the previous fixed collapse threshold. Priority now collapses when the actual visible control widths plus gaps exceed the container. Tests retain one-row assertions at 980px with the sidebar closed and compact-reset assertions at 1100px with the sidebar open. Both focused cases pass, as do the updated title alignment and UI smoke tests. The original 1440px evidence remains representative.
 
 The existing combined-filter and UI smoke sequences now reopen collapsed priority controls before their next selection. Both targeted tests passed; all query, result-count and persistence assertions remain.
+
+A later CI run passed 319/320 cases; the existing Group-conflict test pressed Enter before its asynchronous child candidate appeared. It now waits for the correct candidate ID, and the targeted atomic-cancel/save test passed.

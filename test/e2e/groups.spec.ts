@@ -165,6 +165,7 @@ test("editor Group conflicts cancel atomically and select a Group for all affect
     await page.locator("#ticket-relation-add-button").click();
     await page.locator('[data-relation-add-type="child"]').click();
     await page.locator("#ticket-child-search").fill("Child B");
+    await expect(page.locator(`#ticket-child-options [data-child-id="${child.id}"]`)).toBeVisible();
     await page.locator("#ticket-child-search").press("Enter");
     await page.locator("#save-ticket-button").click();
     await expect(page.locator("#ux-title")).toContainText("Which Group");
