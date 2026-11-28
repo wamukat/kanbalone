@@ -1,0 +1,65 @@
+{
+  "product": "f725bad6395ea00a166816dae0c9f819b8034bd9",
+  "storedResults": {
+    "final-restored-api.json": {
+      "isArchived": false,
+      "archiveVersion": 14,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "アーカイブと復元の評価用チケットです。"
+    },
+    "final-archived-api.json": {
+      "isArchived": true,
+      "archiveVersion": 13,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "アーカイブと復元の評価用チケットです。"
+    },
+    "final-fixture-reset-api.json": {
+      "isArchived": false,
+      "archiveVersion": 12,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "アーカイブと復元の評価用チケットです。"
+    },
+    "final-draft-save-api.json": {
+      "isArchived": false,
+      "archiveVersion": 16,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "復元後も続けて保存する下書き。"
+    },
+    "final-draft-save-en-keyboard-api.json": {
+      "isArchived": false,
+      "archiveVersion": 18,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "English narrow draft survives Undo and Save."
+    },
+    "final-draft-save-en-api.json": {
+      "isArchived": false,
+      "archiveVersion": 18,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "復元後も続けて保存する下書き。"
+    },
+    "final-error-recovery-save-api.json": {
+      "isArchived": false,
+      "archiveVersion": 20,
+      "laneId": 6,
+      "title": "配布手順の確認",
+      "bodyMarkdown": "Error toast retains this unsaved draft."
+    }
+  },
+  "geometry": {
+    "noticeBottom": 758.203125,
+    "saveTop": 766.203125,
+    "ordinaryToastTop": 14,
+    "ordinaryToastBottom": 58.671875
+  },
+  "knownBaselineOverflow": {
+    "saveLeft": 348.984375,
+    "saveRight": 407.921875,
+    "viewportWidth": 390
+  }
+}

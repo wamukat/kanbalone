@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "previousVersion": "v1.6.0 / 4920daffe31a835a43996bead3a9f62f847d3f21",
+  "checks": [
+    "all existing stored fields preserved on migration",
+    "integrity and foreign keys",
+    "legacy rows generation zero",
+    "archive restore generations increment",
+    "generation persists across reopen",
+    "backup restored and reopened with previous release"
+  ],
+  "syntheticOnly": true
+}
