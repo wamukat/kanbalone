@@ -3,6 +3,7 @@ const DEFAULT_REMOTE_PROVIDER_ORDER = ["github", "gitlab", "redmine"];
 
 export function createEditorRemoteImportModule(ctx, options = {}) {
   const { state, elements } = ctx;
+  let pendingPreviewRequestId = null;
 
   function syncSheet() {
     const open = state.editorRemoteImportOpen && state.dialogMode === "edit" && !state.editingTicketId;
@@ -14,6 +15,7 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
     elements.editorForm.setAttribute("aria-hidden", String(open));
     elements.remoteImportCreateButton.setAttribute("aria-pressed", String(open));
     if (!open) {
+      state.editorRemoteImportPreviewRequestId = (state.editorRemoteImportPreviewRequestId ?? 0) + 1;
       elements.editorRemoteImportError.hidden = true;
       elements.editorRemoteImportError.textContent = "";
       clearPreview();
@@ -31,8 +33,11 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
     const hasPreview = Boolean(state.editorRemoteImportPreview);
     const hasDuplicate = Boolean(state.editorRemoteImportPreview?.duplicate);
     const hasProvider = hasEnabledProvider();
-    elements.editorRemoteImportPreviewButton.disabled = !hasProvider;
-    elements.editorRemoteImportSubmitButton.disabled = !hasProvider || !hasPreview || hasDuplicate;
+    const pending = pendingPreviewRequestId !== null && pendingPreviewRequestId === state.editorRemoteImportPreviewRequestId;
+    elements.editorRemoteImportPreviewButton.disabled = !hasProvider || pending;
+    elements.editorRemoteImportPreviewButton.textContent = t(pending ? "Loading..." : "Preview");
+    elements.editorRemoteImportPreviewButton.setAttribute("aria-busy", String(pending));
+    elements.editorRemoteImportSubmitButton.disabled = !hasProvider || !hasPreview || hasDuplicate || pending;
   }
 
   function syncProviderSwitch() {
@@ -178,6 +183,7 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
   }
 
   async function preview() {
+    if (pendingPreviewRequestId !== null && pendingPreviewRequestId === state.editorRemoteImportPreviewRequestId) return;
     if (!state.activeBoardId) {
       return;
     }
@@ -191,10 +197,10 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
     }
     state.editorRemoteImportPreviewRequestId = (state.editorRemoteImportPreviewRequestId ?? 0) + 1;
     const requestId = state.editorRemoteImportPreviewRequestId;
+    pendingPreviewRequestId = requestId;
     elements.editorRemoteImportError.hidden = true;
     elements.editorRemoteImportError.textContent = "";
-    elements.editorRemoteImportPreviewButton.disabled = true;
-    elements.editorRemoteImportSubmitButton.disabled = true;
+    syncActions();
     try {
       const remotePreview = await ctx.sendJson(`/api/boards/${state.activeBoardId}/remote-import/preview`, {
         method: "POST",
@@ -210,6 +216,7 @@ export function createEditorRemoteImportModule(ctx, options = {}) {
         elements.editorRemoteImportError.textContent = error.message;
       }
     } finally {
+      if (pendingPreviewRequestId === requestId) pendingPreviewRequestId = null;
       syncActions();
     }
   }
