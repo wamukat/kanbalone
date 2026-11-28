@@ -340,6 +340,12 @@ curl -s http://127.0.0.1:3000/api/tickets/6/activity
 
 一覧から大きい本文を省くには `GET /api/tickets/6/activity?compact=true` を使います。`details.bodyDetailsDeferred` がtrueなら、返された履歴IDを指定した `GET /api/tickets/6/activity/:activityId` で全文を取得できます。
 
+### チケットの表示時点を比較する
+
+`GET /api/tickets/6/change-snapshot` は、比較対象の値と確定済みの履歴境界 `activityThrough` を同じ SQLite 読み取りトランザクションから返します。前回取得した値を保存し、同じ `series` の `state` を比較します。同じ系列では `revision` と `activityThrough` の組で取得状態を順序付けられます。`?metadataOnly=true` では更新の照合に必要な系列とチケットの指紋だけが返ります。
+
+`GET /api/tickets/6/activity?compact=true&after=20&through=34` は `20 < id <= 34` の操作を履歴IDの降順で返します。取得した `series` が比較する状態と一致することを確認します。`historyPossiblyIncomplete` が true の場合は、削除済み履歴が期間に含まれる可能性があります。両端の値が同じでも途中に操作がある場合や、旧履歴で操作の詳細が欠けている場合があります。省略された本文を個別取得するときは `?series=...` を指定すると別系列を拒否できます。
+
 ## Relations の取得
 
 ```bash

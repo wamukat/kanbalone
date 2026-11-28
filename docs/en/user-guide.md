@@ -60,7 +60,11 @@ Check or change **Lane** before saving. A ticket created in a completion lane is
 
 ## 5. Read A Ticket
 
-Click a ticket to read its body, related tickets, and comments. Scroll inside the details to keep the ticket number, title, and edit pencil in view. Open the **Activity** tab to see its history. To close the details, click outside them or press **Esc**. Your focus returns to the ticket you opened.
+Click a ticket to open **Changes since last view**. Switch to **Current ticket** to read the body, related tickets, Tasks and comments. Scroll inside the details to keep the ticket number, title and edit pencil in view. To close the details, click outside them or press **Esc**. Your focus returns to the ticket you opened.
+
+The comparison stays fixed while the ticket is open. If another update arrives, reopen the ticket to compare it with the state you just viewed. Switching tabs keeps the same comparison. An opening that successfully displays the state sets the next comparison point, even if you close the ticket before reading it. Your first opening has no previous comparison point. If changes cannot be loaded, your previous point is retained. A storage warning means this browser could not keep the displayed state.
+
+**Open activity** from the comparison shows recorded operations within its two endpoints. An edit that was later reverted can appear there even when the two displayed states match. **Show all activity** returns to the entire history. The browser keeps one comparison state per opened ticket in IndexedDB, subject to the browser's storage limits. Clearing site storage or using another browser starts with no previous point. A restored or replaced database can invalidate an existing point.
 
 ![Ticket details](../assets/user-guide/05-ticket-detail-comments.png)
 

@@ -281,6 +281,8 @@ To return to the old version, **reverting the image alone is insufficient**.
 5. Start the recorded old image or source with its settings and the restored database path. Verify health, database integrity, agreement with pre-migration data, and image downloads if the backup includes attachments.
 6. Resume usage only after recovery is verified. JSON Import or manually reversing ticket moves is not a substitute for DB restoration.
 
+The previous-view comparison adds its clock and history-removal tracking on startup. The app creates a `.visit-id` sidecar next to each database to identify that file across restarts. Official backups retain ticket content, activity and attachment files. Restoring to a new data directory generates a new comparison series and invalidates browser points from the original database. Keep the `.visit-id` from the active database with that installation. Replacing the contents of the same physical file together with its sidecar outside the restore procedure may preserve an old identity. Use a new data directory for restores.
+
 ## 10. AI Completion Report
 
 Report measured values and unresolved work using this structure. `null` means unverified, not passed. Exclude secrets and ticket bodies.

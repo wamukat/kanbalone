@@ -340,6 +340,12 @@ The list is newest first, with higher activity IDs first when timestamps match. 
 
 Use `GET /api/tickets/6/activity?compact=true` to omit large recorded text from the list. When `details.bodyDetailsDeferred` is true, read the full entry from `GET /api/tickets/6/activity/:activityId` using its returned ID.
 
+### Compare ticket views
+
+`GET /api/tickets/6/change-snapshot` returns comparable field values and the committed `activityThrough` watermark from the same SQLite read transaction. Keep a prior snapshot to compare the values in `state`. Compare snapshots within the same `series`. The pair `revision`, `activityThrough` orders observations within that series. `?metadataOnly=true` returns only the series and the ticket's fingerprint for an update check.
+
+`GET /api/tickets/6/activity?compact=true&after=20&through=34` returns recorded operations where `20 < id <= 34`, in descending ID order. Check that its series matches your snapshots before using the records. `historyPossiblyIncomplete` warns that a deleted operation may overlap the interval. Equal endpoint values can have operations between them, and old operations may have missing details. For a deferred bounded entry, include `?series=...` on the single-entry GET to reject data from a different series.
+
 ## Get Relations
 
 ```bash
