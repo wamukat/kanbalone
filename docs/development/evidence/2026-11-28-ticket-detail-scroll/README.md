@@ -47,4 +47,6 @@ The final fix clips overflow at the outer form and keeps the inner scroller acti
 
 The top and wheel comparisons use the earlier candidate identified in the manifest, with fixed viewport sizes. The next snapshot removed two overscroll rules and was used to recheck the scroll limits and draft confirmation. Commit `a52814cc2328bfb6f0471f604607f92a97feac47` followed with the default-width adjustment and was used for the inline save. The final saved frame and focus check use `c9f2ba9992dd5bb3fa79457d58a5fb9ccf175c2b`, which adds the outer-form overflow fix.
 
+The [final header frame](final-ja-light-detail-top.png) uses commit `64372fe1bc99436a874d4f1dc006eeeb9660c6fc`, which restores the board viewport width by removing the root scrollbar gutter and keeps the detail gutter inside the modal.
+
 The documented interaction checks use a synthetic local board in desktop Chrome. The image check covers the existing embedded PNG. The nested discard confirmation is the top-layer interaction exercised in the capture sequence. The Playwright suite covers additional keyboard, drag and remote import cases.

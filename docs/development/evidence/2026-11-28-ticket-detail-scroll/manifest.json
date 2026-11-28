@@ -29,6 +29,10 @@
     "width-adjusted-candidate": {
       "commit": "a52814cc2328bfb6f0471f604607f92a97feac47",
       "publicGitBinaryDiffSha256": "cd4b9176dd3b9502165795cf5b61807da0fea7533f010cb6dcdd43ba7709d859"
+    },
+    "toolbar-width-candidate": {
+      "commit": "64372fe1bc99436a874d4f1dc006eeeb9660c6fc",
+      "publicGitBinaryDiffSha256": "0c7d9d4722362f4b141c47d6e400e2d1a98ec7393afa0a499daa2c53ec114c7f"
     }
   },
   "fixture": {
@@ -234,6 +238,17 @@
       "theme": "light",
       "state": "Intermediate candidate after the saved paragraph was centered, with the header clipped",
       "source": "width-adjusted-candidate"
+    },
+    "final-ja-light-detail-top.png": {
+      "sha256": "1215f896a4ff5f0919896c18cfeaa1f83b2d1d98fe47293539de7dc07c1d0317",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Detail opened from List at the start of the body after the root gutter adjustment",
+      "source": "toolbar-width-candidate"
     }
   },
   "headerFocusRegression": {
