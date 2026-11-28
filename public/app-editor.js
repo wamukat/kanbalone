@@ -310,6 +310,8 @@ export function createEditorModule(ctx) {
   async function handleEditorDialogClose() {
     if (elements.editorDialog.open) return;
     const originVersion = editorOriginVersion;
+    // A new ticket save restores focus after its explicit board refresh.
+    const restoreAfterSave = state.editorSaving && state.editingTicketId === null;
     const shouldSync = !state.skipDialogCloseSync && window.location.pathname.startsWith("/tickets/");
     resetDialogState();
     state.skipDialogCloseSync = false;
@@ -318,7 +320,7 @@ export function createEditorModule(ctx) {
     }
     try { await ctx.flushPendingBoardRefreshAfterDialogClose?.(); }
     catch (error) { console.error(error); }
-    ctx.restoreEditorOrigin?.(originVersion);
+    if (!restoreAfterSave) ctx.restoreEditorOrigin?.(originVersion);
   }
 
   function closeEditor() {
