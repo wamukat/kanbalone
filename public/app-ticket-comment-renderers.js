@@ -17,7 +17,7 @@ export function createTicketCommentRenderers(ctx, options) {
           const localActions = !isPushed && !isPushing;
           const remoteSync = canPushRemote ? renderRemoteSync(comment) : "";
           return `
-          <article class="comment-item" data-comment-id="${comment.id}">
+          <article class="comment-item" data-comment-id="${comment.id}" tabindex="-1">
             <div class="comment-meta muted">
               <span class="comment-meta-main">
                 <span>#${comment.id}</span>

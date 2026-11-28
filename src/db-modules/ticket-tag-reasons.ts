@@ -2,6 +2,7 @@ import type Database from "better-sqlite3";
 
 import { mapTicketTagReason } from "./mappers.js";
 import { addActivity } from "./ticket-writes.js";
+import { historyDetails, readTicketHistory, ticketChanges } from "./ticket-history.js";
 import type { Id, TagRow, TicketTagReasonRow, TicketTagReasonView } from "../types.js";
 
 export type SetTicketTagReasonInput = {
@@ -39,6 +40,7 @@ export function setTicketTagReason(
   }
 
   const tx = sqlite.transaction(() => {
+    const before = readTicketHistory(sqlite, [input.ticketId], { tags: true }).get(input.ticketId);
     sqlite
       .prepare("INSERT OR IGNORE INTO ticket_tags (ticket_id, tag_id) VALUES (?, ?)")
       .run(input.ticketId, input.tagId);
@@ -71,6 +73,7 @@ export function setTicketTagReason(
       details: {
         tagId: input.tagId,
         reason: normalizeOptionalText(input.reason),
+        ...historyDetails(ticketChanges(before, readTicketHistory(sqlite, [input.ticketId], { tags: true }).get(input.ticketId))),
       },
       createdAt: now,
     });
@@ -92,6 +95,7 @@ export function removeTicketTag(
   if (!ticket) {
     throw new Error("Ticket not found");
   }
+  const before = readTicketHistory(sqlite, [ticketId], { tags: true }).get(ticketId);
   const result = sqlite.prepare("DELETE FROM ticket_tags WHERE ticket_id = ? AND tag_id = ?").run(ticketId, tagId);
   sqlite.prepare("DELETE FROM ticket_tag_reasons WHERE ticket_id = ? AND tag_id = ?").run(ticketId, tagId);
   if (result.changes > 0) {
@@ -100,7 +104,7 @@ export function removeTicketTag(
       ticketId,
       action: "ticket_tag_removed",
       message: "Ticket tag removed",
-      details: { tagId },
+      details: { tagId, ...historyDetails(ticketChanges(before, readTicketHistory(sqlite, [ticketId], { tags: true }).get(ticketId))) },
       createdAt: now,
     });
     touchBoard(sqlite, ticket.board_id, now);

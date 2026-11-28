@@ -3,6 +3,8 @@
   "defaultBrowserUpdater": "画面",
   "invalidCharacters": "[\\u0000-\\u001F\\u007F-\\u009F\\uD800-\\uDFFF]",
   "routes": {
+    "/api/boards/:boardId": ["DELETE"],
+    "/api/tags/:tagId": ["DELETE"],
     "/api/boards/:boardId/tickets": ["POST"],
     "/api/tickets/:ticketId": ["PATCH", "DELETE"],
     "/api/tickets/:ticketId/transition": ["PATCH"],

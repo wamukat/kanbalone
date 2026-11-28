@@ -14,6 +14,7 @@ import {
 } from "./ticket-mutation-shared.js";
 import type { PositionTicketInput } from "./ticket-mutations.js";
 import type { Id, LaneRow, TicketView } from "../types.js";
+import { historyDetails, readTicketHistory, ticketChanges } from "./ticket-history.js";
 
 function positionConflict(): never {
   throw Object.assign(new Error("Ticket position changed; refresh the board"), { statusCode: 409 });
@@ -79,6 +80,7 @@ export function positionTicket(
         .all(current.laneId, ticketId) as Array<{ id: Id }>;
     const updateStmt = sqlite.prepare("UPDATE tickets SET lane_id = ?, position = ?, updated_at = ? WHERE id = ?");
     const updatedAt = now();
+    const historyBefore = current.laneId !== input.laneId ? readTicketHistory(sqlite, [ticketId]).get(ticketId) : undefined;
     if (current.laneId !== input.laneId) {
       sourceRows.forEach((row, index) => updateStmt.run(current.laneId, index, updatedAt, row.id));
     }
@@ -96,6 +98,7 @@ export function positionTicket(
         {
           fromLaneId: current.laneId,
           toLaneId: input.laneId,
+          ...historyDetails(ticketChanges(historyBefore, readTicketHistory(sqlite, [ticketId]).get(ticketId))),
         },
       );
     }

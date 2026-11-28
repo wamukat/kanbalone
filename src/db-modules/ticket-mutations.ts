@@ -20,6 +20,13 @@ import {
 import { getTicketRemoteLink } from "./remote-tracking.js";
 import { recordTicketContentActivity } from "./ticket-content-activity.js";
 import {
+  historyDetails,
+  readTicketHistory,
+  recordTicketPeerHistory,
+  ticketChanges,
+  ticketHistoryPeerIds,
+} from "./ticket-history.js";
+import {
   addBoardMoveActivity,
   addTicketActivity,
   cleanupTicketForBoardMove,
@@ -94,6 +101,33 @@ export type BulkArchiveTicketsInput = {
   isArchived: boolean;
 };
 
+function affectedEditTickets(
+  input: CreateTicketInput | UpdateTicketInput,
+  plan: ReturnType<typeof planTicketGroupChange>,
+  current?: TicketView,
+): Id[] {
+  const ids = new Set<Id>(current ? [current.id] : []);
+  for (const change of plan.preview.parentChanges) {
+    for (const id of [change.ticketId, change.fromParentTicketId, change.toParentTicketId]) {
+      if (id != null && id > 0) ids.add(id);
+    }
+  }
+  for (const id of changedIds(current?.blockers.map(({ id }) => id) ?? [], input.blockerIds?.filter(id => id !== current?.id))) ids.add(id);
+  for (const id of changedIds(current?.related.map(({ id }) => id) ?? [], input.relatedIds?.filter(id => id !== current?.id))) ids.add(id);
+  if (current && input.boardId != null && input.boardId !== current.boardId) {
+    if (current.parentTicketId != null) ids.add(current.parentTicketId);
+    for (const relation of [...current.children, ...current.blockers, ...current.blockedBy, ...current.related]) ids.add(relation.id);
+  }
+  return [...ids];
+}
+
+function changedIds(before: Id[], after: Id[] | undefined): Id[] {
+  if (after === undefined) return [];
+  const previous = new Set(before);
+  const next = new Set(after);
+  return [...before.filter(id => !next.has(id)), ...[...next].filter(id => !previous.has(id))];
+}
+
 export function createTicket(
   sqlite: Database.Database,
   input: CreateTicketInput,
@@ -102,6 +136,8 @@ export function createTicket(
   const createdAt = now();
   const tx = sqlite.transaction(() => {
     const groupPlan = planTicketGroupChange(sqlite, null, input, true);
+    const knownPeers = affectedEditTickets(input, groupPlan);
+    const peerBefore = readTicketHistory(sqlite, knownPeers, { relations: true });
     const position = nextTicketPosition(sqlite, input.laneId);
     const result = sqlite
       .prepare(
@@ -132,7 +168,12 @@ export function createTicket(
     replaceTicketTags(sqlite, ticketId, [...(input.tagIds ?? []), ...newTagIds]);
     replaceTicketBlockers(sqlite, ticketId, input.blockerIds ?? [], input.boardId);
     replaceTicketRelatedLinks(sqlite, ticketId, input.relatedIds ?? [], input.boardId);
-    addTicketActivity(sqlite, now, input.boardId, ticketId, "ticket_created", "Ticket created");
+    const after = readTicketHistory(sqlite, [ticketId, ...knownPeers], { tags: true, relations: true });
+    const empty = { boardId: input.boardId, values: { lane: null, tags: [], parent: null, blockers: [], related: [] } };
+    addTicketActivity(sqlite, now, input.boardId, ticketId, "ticket_created", "Ticket created", {
+      title: input.title, ...historyDetails(ticketChanges(empty, after.get(ticketId))),
+    });
+    recordTicketPeerHistory(sqlite, peerBefore, after, new Set(), createdAt);
     touchBoard(sqlite, input.boardId, now());
     return ticketId;
   });
@@ -172,8 +213,15 @@ export function updateTicket(
     const nextLaneId = input.laneId ?? current.laneId;
     const nextBoardId = input.boardId ?? current.boardId;
     const groupPlan = planTicketGroupChange(sqlite, ticketId, input, true);
-    applyTicketGroupPlan(sqlite, groupPlan, undefined, now());
     const boardChanged = nextBoardId !== current.boardId;
+    const affectedIds = affectedEditTickets(input, groupPlan, current);
+    const historyOptions = {
+      tags: boardChanged || changedIds(current.tags.map(({ id }) => id), input.tagIds).length > 0
+        || Boolean(input.newTagNames?.length),
+      relations: boardChanged || affectedIds.length > 1,
+    };
+    const before = readTicketHistory(sqlite, affectedIds, historyOptions);
+    applyTicketGroupPlan(sqlite, groupPlan, undefined, now());
     if (boardChanged) { clearGroupForBoardMove(sqlite, ticketId, current.boardId, now()); cleanupTicketForBoardMove(sqlite, ticketId, nextBoardId); }
     const updatedAt = now();
     const bodyChanged = input.bodyMarkdown != null && sqlite.prepare("SELECT body_markdown IS NOT ? FROM tickets WHERE id = ?")
@@ -245,7 +293,11 @@ export function updateTicket(
       : input.laneId != null && input.laneId !== current.laneId
         ? "ticket_transitioned"
         : "ticket_updated";
-    addTicketActivity(sqlite, now, nextBoardId, ticketId, action, message);
+    const after = readTicketHistory(sqlite, affectedIds, historyOptions);
+    const changes = ticketChanges(before.get(ticketId), after.get(ticketId));
+    if (bodyChanged) changes.bodyMarkdown = { before: current.bodyMarkdown, after: input.bodyMarkdown! };
+    addTicketActivity(sqlite, now, nextBoardId, ticketId, action, message, historyDetails(changes));
+    recordTicketPeerHistory(sqlite, before, after, new Set([ticketId]), updatedAt);
     touchBoard(sqlite, nextBoardId, now());
     if (boardChanged) touchBoard(sqlite, current.boardId, now());
   });
@@ -259,16 +311,18 @@ export function moveTicket(
   input: MoveTicketInput,
   now: Now,
 ): TicketView {
-  const current = getTicket(sqlite, ticketId);
-  if (!current) {
-    throw new Error("Ticket not found");
-  }
-  const { targetBoard, targetLane } = getMoveDestination(sqlite, input);
-  const sourceBoardName = getBoardName(sqlite, current.boardId);
-  const boardChanged = current.boardId !== input.boardId;
-  const updatedAt = now();
-  const nextPosition = current.laneId === input.laneId ? current.position : nextTicketPosition(sqlite, input.laneId);
   const tx = sqlite.transaction(() => {
+    const current = getTicket(sqlite, ticketId);
+    if (!current) throw new Error("Ticket not found");
+    const { targetBoard, targetLane } = getMoveDestination(sqlite, input);
+    const sourceBoardName = getBoardName(sqlite, current.boardId);
+    const boardChanged = current.boardId !== input.boardId;
+    const updatedAt = now();
+    const nextPosition = current.laneId === input.laneId ? current.position : nextTicketPosition(sqlite, input.laneId);
+    const options = { tags: boardChanged, relations: boardChanged };
+    const subject = readTicketHistory(sqlite, [ticketId], options);
+    const peers = ticketHistoryPeerIds(subject.values());
+    const before = readTicketHistory(sqlite, peers, options);
     if (boardChanged) clearGroupForBoardMove(sqlite, ticketId, current.boardId, updatedAt);
     sqlite
       .prepare(
@@ -286,6 +340,7 @@ export function moveTicket(
 
     normalizeVisibleAndArchivedTicketPositions(sqlite, current.laneId);
     normalizeVisibleAndArchivedTicketPositions(sqlite, input.laneId);
+    const after = readTicketHistory(sqlite, [ticketId, ...peers], options);
     addBoardMoveActivity(sqlite, now, {
       ticketId,
       fromBoardId: current.boardId,
@@ -294,22 +349,24 @@ export function moveTicket(
       targetBoard,
       targetLane,
       relationsCleared: boardChanged,
-    });
+    }, ticketChanges(subject.get(ticketId), after.get(ticketId)));
+    recordTicketPeerHistory(sqlite, before, after, new Set([ticketId]), updatedAt);
     touchBoard(sqlite, current.boardId, now());
     if (boardChanged) {
       touchBoard(sqlite, input.boardId, now());
     }
   });
-  tx();
+  tx.immediate();
   return getTicket(sqlite, ticketId)!;
 }
 
 export function deleteTicket(sqlite: Database.Database, ticketId: Id, now: Now): void {
-  const ticket = getTicket(sqlite, ticketId);
-  if (!ticket) {
-    throw new Error("Ticket not found");
-  }
   const tx = sqlite.transaction(() => {
+    const ticket = getTicket(sqlite, ticketId);
+    if (!ticket) throw new Error("Ticket not found");
+    const subject = readTicketHistory(sqlite, [ticketId], { relations: true });
+    const peers = ticketHistoryPeerIds(subject.values());
+    const before = readTicketHistory(sqlite, peers, { relations: true });
     addTicketActivity(sqlite, now, ticket.boardId, ticketId, "ticket_deleted", "Ticket deleted", {
       title: ticket.title,
       laneId: ticket.laneId,
@@ -318,10 +375,11 @@ export function deleteTicket(sqlite: Database.Database, ticketId: Id, now: Now):
     });
     sqlite.prepare("UPDATE tickets SET parent_ticket_id = NULL WHERE parent_ticket_id = ?").run(ticketId);
     sqlite.prepare("DELETE FROM tickets WHERE id = ?").run(ticketId);
+    recordTicketPeerHistory(sqlite, before, readTicketHistory(sqlite, peers, { relations: true }), new Set([ticketId]), now());
     normalizeVisibleAndArchivedTicketPositions(sqlite, ticket.laneId);
     touchBoard(sqlite, ticket.boardId, now());
   });
-  tx();
+  tx.immediate();
 }
 
 export function transitionTicket(

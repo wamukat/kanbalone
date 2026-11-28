@@ -336,6 +336,10 @@ curl -s http://127.0.0.1:3000/api/tickets/6/comments
 curl -s http://127.0.0.1:3000/api/tickets/6/activity
 ```
 
+新しい操作が先に並びます。同時刻では履歴IDの大きい順です。新しいチケット編集では `details.changeVersion: 1` と、変更した項目ごとの `details.changes` の `before` / `after` が保存されます。配列内の所属はIDで比較でき、名前は操作時点のものです。旧履歴では項目が欠けている場合があります。明示的なnullや空の値は記録済みです。
+
+一覧から大きい本文を省くには `GET /api/tickets/6/activity?compact=true` を使います。`details.bodyDetailsDeferred` がtrueなら、返された履歴IDを指定した `GET /api/tickets/6/activity/:activityId` で全文を取得できます。
+
 ## Relations の取得
 
 ```bash

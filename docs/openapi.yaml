@@ -471,6 +471,8 @@ paths:
       operationId: deleteBoard
       parameters:
         - $ref: "#/components/parameters/BoardId"
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "204":
           description: Deleted
@@ -793,6 +795,8 @@ paths:
       operationId: deleteTag
       parameters:
         - $ref: "#/components/parameters/TagId"
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalOperationUpdater'
       responses:
         "204":
           description: Deleted
@@ -1934,10 +1938,16 @@ paths:
   /api/tickets/{ticketId}/activity:
     get:
       summary: List ticket activity
-      description: Returns activity entries with the newest entry first.
+      description: Returns activity in descending creation time and then descending activity ID. The default includes complete stored details.
       operationId: listTicketActivity
       parameters:
         - $ref: "#/components/parameters/TicketId"
+        - name: compact
+          in: query
+          description: Omit recorded Markdown in the list and flag deferred text. Fetch one matching activity entry to read its full details.
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: Activity list
@@ -1951,6 +1961,29 @@ paths:
                     items:
                       $ref: "#/components/schemas/ActivityLog"
                 required: [activity]
+        "404":
+          $ref: "#/components/responses/Error"
+
+  /api/tickets/{ticketId}/activity/{activityId}:
+    get:
+      summary: Read one recorded ticket activity entry
+      description: Returns the full stored details, including any Markdown deferred by the compact list. The activity must belong to the specified subject ticket. Retained records can be read after ticket removal.
+      operationId: getTicketActivity
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: Recorded activity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActivityLog"
         "404":
           $ref: "#/components/responses/Error"
 
@@ -3170,10 +3203,61 @@ components:
         details:
           type: object
           additionalProperties: true
+          description: Operation-specific details. Historical fields may be absent. An explicit null, empty string or empty array is a recorded value.
+          properties:
+            changeVersion:
+              type: integer
+              enum: [1]
+              description: Format version for the typed ticket changes.
+            changes:
+              type: object
+              description: >
+                Changed ticket fields using the keys board, lane, title, bodyMarkdown, priority, isArchived, tags,
+                parent, children, blockers, blockedBy and related. An empty object denotes a recorded operation
+                with no tracked field changes. Each populated field contains before and after values.
+              properties:
+                bodyMarkdown:
+                  oneOf:
+                    - $ref: '#/components/schemas/ActivityChange'
+                    - type: object
+                      maxProperties: 0
+                  description: Stored before and after text. An empty object in a compact record indicates deferred text.
+              additionalProperties:
+                $ref: '#/components/schemas/ActivityChange'
+            commentId:
+              type: integer
+              minimum: 1
+              description: Recorded comment target. Older comment-addition entries may omit it.
+            bodyDetailsDeferred:
+              type: boolean
+              description: Stored text was omitted from this compact entry and can be fetched by activity ID.
         createdAt: { type: string, format: date-time }
         updater:
           $ref: '#/components/schemas/RecordedUpdater'
       required: [id, boardId, ticketId, subjectTicketId, action, message, details, createdAt, updater]
+    ActivityChange:
+      type: object
+      required: [before, after]
+      properties:
+        before: { $ref: '#/components/schemas/ActivityValue' }
+        after: { $ref: '#/components/schemas/ActivityValue' }
+    ActivityValue:
+      oneOf:
+        - type: [string, number, boolean, 'null']
+        - $ref: '#/components/schemas/ActivityReference'
+        - type: array
+          items: { $ref: '#/components/schemas/ActivityReference' }
+    ActivityReference:
+      type: object
+      required: [id, label]
+      properties:
+        id: { type: integer, minimum: 1 }
+        label:
+          type: string
+          description: Display name recorded at the time of the operation.
+        color:
+          type: string
+          description: Recorded tag color, if applicable.
     TicketEvent:
       type: object
       properties:

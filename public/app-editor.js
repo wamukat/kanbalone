@@ -165,8 +165,8 @@ export function createEditorModule(ctx) {
       const request = ++activityRequest;
       await Promise.all([
         ctx.refreshBoardDetail(),
-        ctx.api(`/api/tickets/${ticketId}/activity`).then((payload) => {
-          if (isCurrent() && request === activityRequest) detailModule.syncActivity(payload.activity ?? []);
+        ctx.api(`/api/tickets/${ticketId}/activity?compact=true`).catch(() => ({ activity: null })).then((payload) => {
+          if (isCurrent() && request === activityRequest) detailModule.syncActivity(payload.activity ?? null);
         }),
       ]);
     },
@@ -407,7 +407,7 @@ export function createEditorModule(ctx) {
     const request = ++activityRequest;
     const [ticket, activityPayload, eventsPayload] = await Promise.all([
       savedTicket ?? ctx.api(`/api/tickets/${ticketId}`),
-      ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
+      ctx.api(`/api/tickets/${ticketId}/activity?compact=true`).catch(() => ({ activity: null })),
       ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
     ]);
     if (!isCurrent()) return null;
@@ -421,7 +421,7 @@ export function createEditorModule(ctx) {
       state.boardDetail.tags = [...tagsById.values()];
     }
     dialogBoardId = ticket.boardId;
-    const activity = request === activityRequest ? activityPayload.activity ?? [] : state.dialogActivity;
+    const activity = request === activityRequest ? activityPayload.activity ?? null : state.dialogActivity;
     hydrateDialogTicket(ticket, activity, eventsPayload.events ?? []);
     ctx.syncDialogScrollLock?.();
     return ticket;
@@ -469,7 +469,7 @@ export function createEditorModule(ctx) {
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
         ctx.api(`/api/tickets/${ticketId}`),
-        ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
+        ctx.api(`/api/tickets/${ticketId}/activity?compact=true`).catch(() => ({ activity: null })),
         ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
       ])
       : [null, { activity: [] }, { events: [] }];
@@ -487,7 +487,7 @@ export function createEditorModule(ctx) {
     state.editorCreateGroup = ticketId ? null : creationGroup;
     relationsModule.resetCandidates(ticket);
 
-    const activity = activityPayload.activity ?? [];
+    const activity = activityPayload.activity ?? null;
     const events = eventsPayload.events ?? [];
     state.dialogTicket = ticket;
     state.dialogActivity = activity;
