@@ -38,6 +38,16 @@ python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" PO
 
 ## Quick Recipes
 
+### Attribute an operation
+
+On versions that support operation attribution, include an optional top-level `updater` string in the JSON for history-writing operations. For example, use the name the user gave you when posting a comment.
+
+```bash
+python3 ~/.codex/skills/kanbalone-api/scripts/kanbalone_api.py --base "$BASE" POST /api/tickets/"$TICKET_ID"/comments '{"bodyMarkdown":"Reviewed the change.","updater":"Reviewer"}'
+```
+
+Omitting `updater` records `API`. Use up to 80 Unicode characters with at least one non-whitespace character and no control characters. A supplied value is stored as written. `GET /api/tickets/:ticketId/activity` shows who made each recorded change. The `updater` on a comment is its creation value, and edits have separate entries in activity. Historical records without an updater return `null`. See the [API reference](references/api.md#operation-updater) for writes that accept the field.
+
 Create a Markdown ticket:
 
 ```bash

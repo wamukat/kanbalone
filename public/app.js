@@ -7,6 +7,7 @@ import { createBoardModule } from "./app-board.js";
 import { createCustomViews } from "./app-custom-views.js";
 import { createDialogModule } from "./app-dialogs.js";
 import { getAppElements } from "./app-elements.js";
+import { bindOperationUpdaterSettings } from "./app-operation-updater.js";
 import { createEditorModule } from "./app-editor.js";
 import { createFiltersModule } from "./app-filters.js";
 import { createUiPreferencesController, saveEditorDialogSize } from "./app-preferences.js";
@@ -66,6 +67,7 @@ async function loadAppMeta() {
 }
 
 function bindEvents() {
+  const hasUpdaterDraft = bindOperationUpdaterSettings();
   const languageSelect = document.querySelector("#language-select");
   languageSelect.value = getLocale();
   languageSelect.addEventListener("change", async () => {
@@ -79,7 +81,7 @@ function bindEvents() {
     // Inline board/Group forms are outside the ticket dialog. Reloading must not
     // silently lose these drafts (including selections without a text field).
     const inlineEditing = [...document.querySelectorAll(".sidebar form, .main form, .completion-options")]
-      .some((element) => element.getClientRects().length > 0);
+      .some((element) => element.getClientRects().length > 0 && (element.id !== "operation-updater-form" || hasUpdaterDraft()));
     if (inlineEditing && !await openFormDialog({
       title: t("Change language?"),
       message: t("Changing language reloads the page. Unsaved edits will be discarded."),

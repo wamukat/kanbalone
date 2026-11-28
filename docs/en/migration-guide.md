@@ -413,3 +413,13 @@ Startup adds content-activity storage and update tracking without changing ticke
 Past body-edit times cannot be reconstructed. Initial content activity uses ticket creation, comment creation and reliably recorded comment-content edit times. It does not use the current migration time or unrelated ticket edits. Future actual body changes and comment posts/edits update this record atomically. Deleted comments do not erase the last recorded activity. Full database backups retain these timestamps; single-board JSON export/import does not transfer the added history. Import creates new tickets and comments, so their activity starts at import time; use a full database restore to retain the original activity times.
 
 Back up the database and attachments before upgrading and retain that backup with the previous image. For rollback, restore it rather than opening new lane-filter definitions with an old binary that does not understand them. Discard stored custom-view cursors after upgrade or restore and query from the first page.
+
+## Operation updater
+
+The first startup adds a nullable updater field to ticket and Group history and comments. Existing records display **Unrecorded** and return `null` through the API. Their stored contents, timestamps and order are preserved. Editing an old comment records the new edit separately. Restoring an older database backup into the new version applies the same migration.
+
+Existing API clients and old browser tabs still work. Their new operations record `API` until the client supplies an updater or the tab loads the new interface. Save any in-progress edits before reloading. The new interface starts with `画面` when this browser has no saved updater. Clearing browser storage or using another browser gets that default again. The updater setting lives in browser storage. Database backups restore history and comments, while browser settings are managed separately.
+
+Board JSON exports retain their current formats and scope. Imported comments retain a supplied creation updater and timestamp. Older exports with no updater import as unrecorded. The JSON import operation's updater is recorded separately from the imported comments' creation updaters. Use a full database and attachment backup to preserve all activity.
+
+Before upgrading, [back up the database and attachments together](#database-and-image-backup). To roll back, restore that backup and run the previous version. Changes made after the backup need to be reconciled separately.

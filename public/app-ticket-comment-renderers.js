@@ -20,7 +20,9 @@ export function createTicketCommentRenderers(ctx, options) {
           <article class="comment-item" data-comment-id="${comment.id}">
             <div class="comment-meta muted">
               <span class="comment-meta-main">
-                <span>#${comment.id} ${new Date(comment.createdAt).toLocaleString(getLocale())}</span>
+                <span>#${comment.id}</span>
+                <time datetime="${ctx.escapeHtml(comment.createdAt)}">${new Date(comment.createdAt).toLocaleString(getLocale())}</time>
+                <bdi class="record-updater">${ctx.escapeHtml(comment.updater ?? t("Unrecorded"))}</bdi>
                 ${remoteSync}
               </span>
               <span class="comment-actions">

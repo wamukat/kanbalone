@@ -146,6 +146,7 @@ export function mapComment(row: CommentRow, sync: CommentRemoteSyncView): Commen
     bodyMarkdown: row.body_markdown,
     bodyHtml: renderMarkdown(row.body_markdown),
     createdAt: row.created_at,
+    updater: row.updater,
     sync,
   };
 }
@@ -169,6 +170,7 @@ export function mapActivityLog(row: ActivityLogRow): ActivityLogView {
     message: row.message,
     details,
     createdAt: row.created_at,
+    updater: row.updater,
   };
 }
 

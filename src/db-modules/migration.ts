@@ -298,9 +298,15 @@ export function migrate(sqlite: Database.Database): void {
 
   ensureTicketRemoteLinksShape(sqlite);
   ensureCommentRemoteSyncShape(sqlite);
+  migrateGroups(sqlite);
+  for (const table of ["activity_logs", "comments", "group_activity_logs"]) {
+    const columns = sqlite.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>;
+    if (!columns.some(column => column.name === "updater")) {
+      sqlite.exec(`ALTER TABLE ${table} ADD COLUMN updater TEXT`);
+    }
+  }
   migrateLaneCompletion(sqlite);
   migrateCompletionTime(sqlite);
-  migrateGroups(sqlite);
   migrateTicketPagination(sqlite);
   migrateCustomViews(sqlite);
   migrateTicketContentActivity(sqlite);

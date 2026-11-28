@@ -2,7 +2,7 @@ import { positiveIntegerSchema } from "./common.js";
 
 export const activityLogViewSchema = {
   type: "object",
-  required: ["id", "boardId", "ticketId", "subjectTicketId", "action", "message", "details", "createdAt"],
+  required: ["id", "boardId", "ticketId", "subjectTicketId", "action", "message", "details", "createdAt", "updater"],
   additionalProperties: false,
   properties: {
     id: positiveIntegerSchema,
@@ -13,6 +13,7 @@ export const activityLogViewSchema = {
     message: { type: "string" },
     details: { type: "object", additionalProperties: true },
     createdAt: { type: "string" },
+    updater: { anyOf: [{ type: "string" }, { type: "null" }] },
   },
 } as const;
 
