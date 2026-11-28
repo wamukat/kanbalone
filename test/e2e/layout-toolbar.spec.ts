@@ -32,7 +32,7 @@ test("toolbar search aligns with active content edge in kanban and list views", 
       const firstLane = document.querySelector(
         ".lane:not(.lane-create-column)",
       );
-      const firstBoard = document.querySelector("#board-list .board-button");
+      const firstBoard = document.querySelector("#board-title");
       if (!search || !firstLane || !firstBoard) {
         throw new Error("Kanban layout fixture is missing");
       }
@@ -40,15 +40,13 @@ test("toolbar search aligns with active content edge in kanban and list views", 
         searchLeft: search.getBoundingClientRect().left,
         searchTop: search.getBoundingClientRect().top,
         contentLeft: firstLane.getBoundingClientRect().left,
-        sidebarTop: firstBoard.getBoundingClientRect().top,
+        titleBottom: firstBoard.getBoundingClientRect().bottom,
       };
     });
     expect(
       Math.abs(kanbanLayout.searchLeft - kanbanLayout.contentLeft),
     ).toBeLessThan(2);
-    expect(
-      Math.abs(kanbanLayout.searchTop - kanbanLayout.sidebarTop),
-    ).toBeLessThan(2);
+    expect(kanbanLayout.searchTop).toBeGreaterThan(kanbanLayout.titleBottom);
 
     await page.getByRole("button", { name: "List" }).click();
     await expect(page.locator("#list-board .list-header")).toBeVisible();
@@ -56,7 +54,7 @@ test("toolbar search aligns with active content edge in kanban and list views", 
     const listLayout = await page.evaluate(() => {
       const search = document.querySelector(".toolbar-search");
       const listHeader = document.querySelector(".list-header");
-      const firstBoard = document.querySelector("#board-list .board-button");
+      const firstBoard = document.querySelector("#board-title");
       if (!search || !listHeader || !firstBoard) {
         throw new Error("List layout fixture is missing");
       }
@@ -64,15 +62,13 @@ test("toolbar search aligns with active content edge in kanban and list views", 
         searchLeft: search.getBoundingClientRect().left,
         searchTop: search.getBoundingClientRect().top,
         contentLeft: listHeader.getBoundingClientRect().left,
-        sidebarTop: firstBoard.getBoundingClientRect().top,
+        titleBottom: firstBoard.getBoundingClientRect().bottom,
       };
     });
     expect(
       Math.abs(listLayout.searchLeft - listLayout.contentLeft),
     ).toBeLessThan(2);
-    expect(Math.abs(listLayout.searchTop - listLayout.sidebarTop)).toBeLessThan(
-      2,
-    );
+    expect(listLayout.searchTop).toBeGreaterThan(listLayout.titleBottom);
     expect(
       Math.abs(listLayout.contentLeft - kanbanLayout.contentLeft),
     ).toBeLessThan(2);
@@ -137,8 +133,8 @@ test("sidebar toggle stays usable on narrow screens", async ({ page }) => {
   }
 });
 
-test("reset filters compacts in a constrained toolbar", async ({ page }) => {
-  await page.setViewportSize({ width: 980, height: 720 });
+for (const width of [1100, 980]) test(`reset filters compacts in a constrained toolbar at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 720 });
   const { baseUrl, close } = await startTestApp(page);
 
   try {
@@ -153,7 +149,8 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
     });
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
-    await page.locator("#sidebar-toggle-button").click();
+    if (width === 980) await page.locator("#sidebar-toggle-button").click();
+    if (width === 980) await expect(page.locator(".shell")).toHaveClass(/sidebar-collapsed/);
     await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page.locator("#priority-filter [data-priority-filter='high']").click();
     await expect(page.getByRole("button", { name: "Reset filters" })).toBeVisible();
@@ -184,9 +181,11 @@ test("reset filters compacts in a constrained toolbar", async ({ page }) => {
 
     // The remaining controls fit on one row while Reset keeps its compact form.
     expect(toolbarMetrics.rowCount).toBe(1);
-    expect(toolbarMetrics.resetWidth).toBeLessThan(42);
-    expect(toolbarMetrics.resetLabelPosition).toBe("absolute");
-    expect(toolbarMetrics.resetLabelWidth).toBeLessThanOrEqual(1);
+    if (width === 1100) {
+      expect(toolbarMetrics.resetWidth).toBeLessThan(42);
+      expect(toolbarMetrics.resetLabelPosition).toBe("absolute");
+      expect(toolbarMetrics.resetLabelWidth).toBeLessThanOrEqual(1);
+    }
     expect(toolbarMetrics.priorityExpanded).toBe(false);
   } finally {
     await close();

@@ -301,9 +301,13 @@ export function createFiltersModule(ctx, options) {
 
   function collapsePriorityWhenToolbarIsTight() {
     const toolbarFilters = elements.priorityFilter.closest(".toolbar-filters");
-    if (!toolbarFilters || toolbarFilters.getBoundingClientRect().width > 620) {
-      return;
-    }
+    if (!toolbarFilters) return;
+    const width = toolbarFilters.getBoundingClientRect().width;
+    const controls = [...toolbarFilters.children].filter(control => control.getBoundingClientRect().width > 0);
+    const gap = parseFloat(getComputedStyle(toolbarFilters).columnGap) || 0;
+    const requiredWidth = controls.reduce((total, control) => total + control.getBoundingClientRect().width, 0)
+      + gap * Math.max(0, controls.length - 1);
+    if (width > 620 && requiredWidth <= width + 1) return;
     syncPriorityExpansion(false);
     saveBoardFilterExpansion();
   }

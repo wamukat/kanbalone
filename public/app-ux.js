@@ -81,7 +81,7 @@ export function createUxModule(ctx) {
     resolver(value);
   }
 
-  function renderConfirmation({ title, message, details = [], warning = "", help = [], submitLabel, cancelLabel }) {
+  function renderConfirmation({ title, message, details = [], warning = "", help = [], submitLabel, cancelLabel, fields = "" }) {
     elements.uxTitle.textContent = title;
     elements.uxMessage.hidden = !message && details.length === 0 && !warning && help.length === 0;
     elements.uxMessage.innerHTML = renderConfirmMessage(message, details, warning, help);
@@ -94,7 +94,7 @@ export function createUxModule(ctx) {
     elements.uxSubmitButton.classList.add("danger", "action-with-icon", "danger-confirm-action");
     elements.uxSubmitButton.classList.remove("primary-action");
     elements.uxError.hidden = true;
-    elements.uxFields.innerHTML = "";
+    elements.uxFields.innerHTML = fields;
     describeSubmitShortcut();
   }
 

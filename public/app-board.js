@@ -56,6 +56,7 @@ export function createBoardModule(ctx) {
     const detail = state.boardDetail;
     if (!detail) {
       elements.boardTitle.textContent = tr("No board selected");
+      elements.boardTitle.removeAttribute("title");
       elements.sidebarTagSection.hidden = true;
       elements.sidebarBoardSection.hidden = false;
       state.isRenamingBoard = false;
@@ -84,6 +85,7 @@ export function createBoardModule(ctx) {
     }
 
     elements.boardTitle.textContent = detail.board.name;
+    elements.boardTitle.title = detail.board.name;
     elements.sidebarTagSection.hidden = false;
     elements.sidebarBoardSection.hidden = false;
     boardSettingsModule.syncBoardSettingsPanel();

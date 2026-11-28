@@ -97,6 +97,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
 
     const priorityLabelResponse = waitForTicketQuery({ priority: "3" });
     await page.locator("#priority-filter .filter-menu-edge-toggle").click();
+    if (!await page.locator("#priority-filter [data-priority-filter='high']").isVisible()) await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page
       .locator("#priority-filter [data-priority-filter='high']")
       .click();
@@ -108,6 +109,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     await expect(page.locator(".ticket-card")).toContainText(["Focus open", "Focus resolved"]);
 
     const priorityUrgentResponse = waitForTicketQuery({ priority: "3,4" });
+    if (!await page.locator("#priority-filter [data-priority-filter='urgent']").isVisible()) await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page
       .locator("#priority-filter [data-priority-filter='urgent']")
       .click();
@@ -117,12 +119,14 @@ test("ticket filters combine results and active styling", async ({ page }) => {
     await expect(page.locator("#lane-board")).toContainText("Plain open");
 
     const priorityHighOnlyResponse = waitForTicketQuery({ priority: "3" });
+    if (!await page.locator("#priority-filter [data-priority-filter='urgent']").isVisible()) await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page
       .locator("#priority-filter [data-priority-filter='urgent']")
       .click();
     await priorityHighOnlyResponse;
 
     const priorityClearResponse = waitForTicketQuery({ priority: null });
+    if (!await page.locator("#priority-filter [data-priority-clear]").isVisible()) await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page.locator("#priority-filter [data-priority-clear]").click();
     await priorityClearResponse;
     await expect(page.locator("#priority-filter")).not.toHaveClass(
@@ -138,6 +142,7 @@ test("ticket filters combine results and active styling", async ({ page }) => {
 
     const priorityHighResponse = waitForTicketQuery({ priority: "3" });
     await page.locator("#priority-filter .filter-menu-edge-toggle").click();
+    if (!await page.locator("#priority-filter [data-priority-filter='high']").isVisible()) await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page
       .locator("#priority-filter [data-priority-filter='high']")
       .click();
@@ -283,6 +288,7 @@ test("ticket filters are preserved per board during the session", async ({ page 
 
     await page.locator("#search-input").fill("Alpha");
     await page.locator("#priority-filter .filter-menu-edge-toggle").click();
+    if (!await page.locator("#priority-filter [data-priority-filter='high']").isVisible()) await page.locator("#priority-filter .filter-menu-edge-toggle").click();
     await page.locator("#priority-filter [data-priority-filter='high']").click();
     await selectBoardFilter(page, "tag", "focus");
     await expect(page.locator(".ticket-card")).toHaveCount(2);

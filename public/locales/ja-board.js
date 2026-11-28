@@ -1,4 +1,10 @@
 export default {
+  "The board changed. Close this dialog and review it again.": "ボードが変更されました。この画面を閉じて内容を確認してください。",
+  "Tickets including archived: {count}": "チケット（アーカイブ済みを含む）: {count}件",
+  "Lanes: {count}; tags: {tags}": "レーン: {count}件・タグ: {tags}件",
+  "All Groups and board activity history": "すべてのグループとボードの操作履歴",
+  "Type the board name to confirm": "確認のためボード名を入力",
+  "The board name does not match.": "ボード名が一致しません。",
   "Scroll lanes left": "レーンを左へスクロール",
   "Scroll lanes right": "レーンを右へスクロール",
   "Add tickets": "チケットを追加",
