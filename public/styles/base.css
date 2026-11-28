@@ -4,7 +4,6 @@
 
 html {
   font-size: var(--font-size-body);
-  scrollbar-gutter: stable;
 }
 
 [hidden] {
