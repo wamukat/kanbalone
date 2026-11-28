@@ -1,0 +1,297 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Chrome 158.0.8127.89",
+    "os": "macOS 26.7.3",
+    "browserCli": "agent-browser 0.26.0",
+    "node": "26.13.1",
+    "appVersion": "1.6.0",
+    "devicePixelRatio": 1,
+    "reducedMotion": true
+  },
+  "sources": {
+    "baseline": {
+      "commit": "d8fe04952e139f83cd3cfeeedbcb624f89cde02c"
+    },
+    "comparison-candidate": {
+      "baseCommit": "d8fe04952e139f83cd3cfeeedbcb624f89cde02c",
+      "publicGitBinaryDiffSha256": "df859f7499441c4873f0a956dba9e1ad58ed18a092a43c12e3d70b54386408ec"
+    },
+    "wheel-and-edit-check": {
+      "baseCommit": "d8fe04952e139f83cd3cfeeedbcb624f89cde02c",
+      "publicGitBinaryDiffSha256": "6a133adddf1e16aaa64829a0dfd4958444f1e6839d1c6c43caefa95682e323df"
+    },
+    "final-candidate": {
+      "commit": "c9f2ba9992dd5bb3fa79457d58a5fb9ccf175c2b",
+      "publicGitBinaryDiffSha256": "6a7baaadea311c96e08c9d4310f644c354d003f97386213c143566dd77c8512d"
+    },
+    "width-adjusted-candidate": {
+      "commit": "a52814cc2328bfb6f0471f604607f92a97feac47",
+      "publicGitBinaryDiffSha256": "cd4b9176dd3b9502165795cf5b61807da0fea7533f010cb6dcdd43ba7709d859"
+    },
+    "toolbar-width-candidate": {
+      "commit": "64372fe1bc99436a874d4f1dc006eeeb9660c6fc",
+      "publicGitBinaryDiffSha256": "0c7d9d4722362f4b141c47d6e400e2d1a98ec7393afa0a499daa2c53ec114c7f"
+    }
+  },
+  "fixture": {
+    "board": "Operations desk",
+    "ticketNumber": 7,
+    "taskCount": 3,
+    "commentCount": 2,
+    "listScrollTop": 164,
+    "backupDatabaseSha256": "b0ba7a48a9ce8da3302f3b4fc2b41955d541775dd5551ac5a9990c914ccab2ae",
+    "attachmentSha256": "fd131a0bcd40e596842ce56bf92f224fb1267abd836556ece22944783af28c63"
+  },
+  "scrollCssPixels": {
+    "beforeOpen": {
+      "document": 0,
+      "list": 164,
+      "detail": null
+    },
+    "beforeWheel": {
+      "document": 600,
+      "list": 164,
+      "detail": null
+    },
+    "candidateTopAfterExtraWheel": {
+      "document": 0,
+      "list": 164,
+      "detail": 0
+    },
+    "candidateWheel": {
+      "document": 0,
+      "list": 164,
+      "detail": 600
+    },
+    "candidateBottomAfterExtraWheel": {
+      "document": 0,
+      "list": 164,
+      "detail": 1964
+    }
+  },
+  "draftGuards": {
+    "full": {
+      "focused": true,
+      "open": true,
+      "selection": [
+        26,
+        27
+      ],
+      "unchanged": true
+    },
+    "task": {
+      "focused": true,
+      "open": true,
+      "selection": [
+        28,
+        28
+      ],
+      "unchanged": true
+    },
+    "inline": {
+      "focused": true,
+      "open": true,
+      "selection": [
+        1360,
+        1360
+      ],
+      "unchanged": true
+    }
+  },
+  "independentCommentCheck": "Playwright confirmed a new comment draft survives canceled backdrop and Escape dismissal from a fresh ticket and after a Task draft discard.",
+  "savedBody": {
+    "bodyMarkdownSha256": "2f1090c3c163fcf6d0c1345a28a44d604b92c1b684324dc9db0a73c4b798e270",
+    "visibleAfterReload": true,
+    "tasksAndCommentsEqualBaseline": true
+  },
+  "images": {
+    "after-en-dark-detail-top.png": {
+      "sha256": "e813c5bd2f4a024aede50ea9130fa6eb98c75676ff31f9d90bb94300c35226bd",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "en",
+      "theme": "dark",
+      "state": "Detail opened from List at the start of the body",
+      "source": "comparison-candidate"
+    },
+    "after-ja-light-detail-bottom.png": {
+      "sha256": "c7e3b5edc7378088ab8d42248c69a63c11cd17c6fc67f60b8a8340711ef59194",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Bottom of the detail with Tasks and comments visible",
+      "source": "comparison-candidate"
+    },
+    "after-ja-light-detail-top.png": {
+      "sha256": "bd51f2f6f5134179d545a1a9053401e17f2d71775451d32a0e16e7f7372d3b67",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Detail opened from List at the start of the body",
+      "source": "comparison-candidate"
+    },
+    "after-ja-light-detail-wheel.png": {
+      "sha256": "ace58dec1f5b477231f8047a0cbc6e6e9ebd19c3a094613e6f7382e887596469",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "After a 600 CSS pixel wheel input",
+      "source": "comparison-candidate"
+    },
+    "after-ja-light-dirty-confirm.png": {
+      "sha256": "67c5bcf2e1b65964c7d937cb9cdaac98744c61254e8a1048d061be4d10991da9",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Full-editor discard confirmation over the ticket modal",
+      "source": "wheel-and-edit-check"
+    },
+    "after-ja-light-saved-body-reload.png": {
+      "sha256": "b8a407981d49ded174e145b5ee74ec3843de8430b74494f80a829d3a6f4ecafe",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Saved paragraph after reload and centering, with the header fixed",
+      "source": "final-candidate"
+    },
+    "after-ja-narrow-detail-top.png": {
+      "sha256": "d02b847a59f65699b515ee95db05d58a45af89114c035a18b0ae58f8cce33b36",
+      "dimensions": [
+        390,
+        844
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Detail opened from List at the start of the body",
+      "source": "comparison-candidate"
+    },
+    "before-en-dark-detail-top.png": {
+      "sha256": "34a6dc33860911494a4ba2051bb1ea75a59618e8ce8072c7c85185acd669fe54",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "en",
+      "theme": "dark",
+      "state": "Detail opened from List at the start of the body",
+      "source": "baseline"
+    },
+    "before-ja-light-detail-top.png": {
+      "sha256": "b48dbd22cfd8b45146d20c2f8e2eadb5ca1c0de24126c6bb9a3aa2acb81585ff",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Detail opened from List at the start of the body",
+      "source": "baseline"
+    },
+    "before-ja-light-detail-wheel.png": {
+      "sha256": "6430b18e391bd39ed5426bf23003eb7ab849dc36535d89e5063816322de8c8b3",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "After a 600 CSS pixel wheel input",
+      "source": "baseline"
+    },
+    "before-ja-narrow-detail-top.png": {
+      "sha256": "0001ba70b06fcc7d9345398e921e9f3c0584a027b3c135d249005b4c59dc16db",
+      "dimensions": [
+        390,
+        844
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Detail opened from List at the start of the body",
+      "source": "baseline"
+    },
+    "diagnostic-a52814c-scroll-into-view.png": {
+      "sha256": "5f09792d654f14bd61a0a5f0a16fca9603bed096a3373f5da07413e3f29cbfb5",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Intermediate candidate after the saved paragraph was centered, with the header clipped",
+      "source": "width-adjusted-candidate"
+    },
+    "final-ja-light-detail-top.png": {
+      "sha256": "1215f896a4ff5f0919896c18cfeaa1f83b2d1d98fe47293539de7dc07c1d0317",
+      "dimensions": [
+        1024,
+        768
+      ],
+      "language": "ja",
+      "theme": "light",
+      "state": "Detail opened from List at the start of the body after the root gutter adjustment",
+      "source": "toolbar-width-candidate"
+    }
+  },
+  "headerFocusRegression": {
+    "intermediateCenter": {
+      "documentScrollTop": 0,
+      "outerFormScrollTop": 54,
+      "innerScrollTop": 1553,
+      "headerTop": -5,
+      "pencilTop": 7,
+      "savedParagraphVisible": true
+    },
+    "intermediateWheel": {
+      "documentScrollTop": 0,
+      "outerFormScrollTop": 0,
+      "innerScrollTop": 1582,
+      "headerTop": 49,
+      "pencilTop": 61,
+      "savedParagraphVisible": true
+    },
+    "intermediateKeyboardTaskEdit": {
+      "documentScrollTop": 0,
+      "outerFormScrollTop": 1558,
+      "innerScrollTop": 1597,
+      "headerTop": -1509,
+      "pencilTop": -1497,
+      "savedParagraphVisible": true
+    },
+    "finalCenter": {
+      "documentScrollTop": 0,
+      "outerFormScrollTop": 0,
+      "innerScrollTop": 1553,
+      "headerTop": 49,
+      "pencilTop": 61,
+      "savedParagraphVisible": true
+    },
+    "finalKeyboardTaskEdit": {
+      "documentScrollTop": 0,
+      "outerFormScrollTop": 0,
+      "innerScrollTop": 1597,
+      "headerTop": 49,
+      "pencilTop": 61,
+      "savedParagraphVisible": true
+    },
+    "savedTicketAndTasksMatchPriorResponses": true
+  }
+}

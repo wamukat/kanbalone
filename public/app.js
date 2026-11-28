@@ -28,7 +28,7 @@ const {
 const elements = getAppElements();
 
 const {
-  ensureEditorDialogPosition,
+  fitEditorDialogToViewport,
   handleEditorDialogResizePointerDown,
   handleEditorDialogResizePointerMove,
   handleEditorDialogResizePointerUp,
@@ -159,20 +159,22 @@ function bindEvents() {
   elements.archiveTicketButton.addEventListener("click", toggleTicketArchive);
   elements.moveTicketButton.addEventListener("click", moveTicketToBoard);
   elements.headerEditButton.addEventListener("click", async () => {
-    if (await confirmDiscardChanges()) setDialogMode("edit");
+    if (!await confirmDiscardChanges()) return;
+    setDialogMode("edit");
+    elements.editorDialog.querySelector(".editor-scroll").scrollTop = 0;
+    const field = elements.ticketTitle.disabled ? elements.ticketBody : elements.ticketTitle;
+    field.focus({ preventScroll: true });
   });
   elements.cancelEditButton.addEventListener("click", cancelEditorEdit);
-  elements.editorDialog.addEventListener("cancel", (event) => {
-    event.preventDefault();
-    requestCloseEditor();
-  });
   elements.editorDialog.addEventListener("close", () => {
+    if (elements.editorDialog.open) return;
+    state.editorDialogDrag = null;
     state.editorDialogResize = null;
-    elements.editorDialog.classList.remove("resizing");
+    elements.editorDialog.classList.remove("dragging", "resizing");
     handleEditorDialogClose();
     syncDialogScrollLock();
   });
-  elements.editorDialog.addEventListener("click", handleDialogBackdropClick);
+  bindEditorBackdrop();
   elements.uxCancelButton.addEventListener("click", () => finishUxDialog(null));
   elements.uxDismissButton.addEventListener("click", () => finishUxDialog(null));
   elements.uxDialog.addEventListener("close", () => {
@@ -202,55 +204,47 @@ function bindEvents() {
   });
   window.addEventListener("pointermove", handleEditorHeaderPointerMove);
   window.addEventListener("pointerup", handleEditorHeaderPointerUp);
+  window.addEventListener("pointercancel", handleEditorHeaderPointerUp);
   window.addEventListener("pointermove", handleEditorDialogResizePointerMove);
   window.addEventListener("pointerup", handleEditorDialogResizePointerUp);
+  window.addEventListener("pointercancel", handleEditorDialogResizePointerUp);
+  window.addEventListener("resize", fitEditorDialogToViewport);
   window.addEventListener("pointermove", handleUxHeaderPointerMove);
   window.addEventListener("pointerup", handleUxHeaderPointerUp);
-  document.addEventListener("click", (event) => {
-    if ((!hasUnsavedChanges() && !state.editorSaving) || elements.uxDialog.open || !(event.target instanceof Node)
-        || elements.editorDialog.contains(event.target)) return;
-    event.preventDefault();
-    event.stopPropagation();
-    requestCloseEditor();
-  }, true);
   document.addEventListener("click", handleDocumentClick);
-  document.addEventListener("keydown", handleDocumentKeydown);
+}
+
+function isDialogBackdrop(event, dialog) {
+  if (event.target !== dialog) return false;
+  const rect = dialog.getBoundingClientRect();
+  return event.clientX < rect.left || event.clientX >= rect.right
+    || event.clientY < rect.top || event.clientY >= rect.bottom;
+}
+
+function bindEditorBackdrop() {
+  const dialog = elements.editorDialog;
+  let backdropPointer = null;
+  dialog.addEventListener("pointerdown", (event) => {
+    backdropPointer = event.isPrimary && event.button === 0 && isDialogBackdrop(event, dialog) ? event.pointerId : null;
+    // Preserve the current field and selection for the discard confirmation.
+    if (backdropPointer !== null) event.preventDefault();
+  });
+  dialog.addEventListener("pointerup", (event) => {
+    if (event.pointerId === backdropPointer && !isDialogBackdrop(event, dialog)) backdropPointer = null;
+  });
+  dialog.addEventListener("pointercancel", () => { backdropPointer = null; });
+  dialog.addEventListener("close", () => { backdropPointer = null; });
+  dialog.addEventListener("click", (event) => {
+    const startedOutside = backdropPointer !== null;
+    backdropPointer = null;
+    if (!startedOutside || !event.detail || !isDialogBackdrop(event, dialog) || elements.uxDialog.open) return;
+    if (state.editorRemoteImportOpen) closeRemoteImportSheet();
+    else requestCloseEditor();
+  });
 }
 
 function handleDialogBackdropClick(event) {
-  const dialog = event.currentTarget;
-  if (!(dialog instanceof HTMLDialogElement) || event.target !== dialog) {
-    return;
-  }
-  const rect = dialog.getBoundingClientRect();
-  const isInside =
-    event.clientX >= rect.left &&
-    event.clientX <= rect.right &&
-    event.clientY >= rect.top &&
-    event.clientY <= rect.bottom;
-  if (isInside) {
-    return;
-  }
-  if (dialog === elements.editorDialog) {
-    requestCloseEditor();
-    return;
-  }
-  finishUxDialog(null);
-}
-
-function handleDocumentKeydown(event) {
-  if (event.key !== "Escape" || event.defaultPrevented || event.isComposing) {
-    return;
-  }
-  if (elements.uxDialog.open || !elements.editorDialog.open) {
-    return;
-  }
-  event.preventDefault();
-  if (state.editorRemoteImportOpen) {
-    closeRemoteImportSheet();
-    return;
-  }
-  requestCloseEditor();
+  if (isDialogBackdrop(event, elements.uxDialog)) finishUxDialog(null);
 }
 
 async function refreshBoards({ refreshDetail = true } = {}) {
@@ -588,7 +582,6 @@ const editorModule = createEditorModule({
   api,
   confirmAndRun,
   escapeHtml,
-  ensureEditorDialogPosition,
   openFormDialog,
   prepareEditorDialogPosition,
   refreshBoardDetail,

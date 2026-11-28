@@ -32,9 +32,10 @@
 }
 
 .ticket-inline-title-button {
+  display: flex;
   width: 100%;
   max-width: 100%;
-  padding: 0.12rem 0.28rem;
+  padding: 0;
   color: var(--text);
 }
 
@@ -45,7 +46,7 @@
 
 .ticket-inline-title-static {
   width: 100%;
-  padding: 0.12rem 0.28rem;
+  padding: 0;
   color: var(--text);
   cursor: default;
   overflow-wrap: anywhere;
@@ -453,6 +454,22 @@ a.ticket-external-reference-ref:hover {
 
 .ticket-view-body {
   line-height: var(--line-height-body);
+}
+
+.ticket-view-body :is(h1, h2, h3, h4, h5, h6) {
+  line-height: var(--line-height-tight);
+}
+
+.ticket-view-body h1 {
+  font-size: var(--font-size-app-title);
+}
+
+.ticket-view-body h2 {
+  font-size: var(--font-size-section-title);
+}
+
+.ticket-view-body :is(h3, h4, h5, h6) {
+  font-size: var(--font-size-body);
 }
 
 .ticket-view-body.ticket-detail-body-editing {

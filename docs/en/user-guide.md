@@ -58,7 +58,7 @@ Check or change **Lane** before saving. A ticket created in a completion lane is
 
 ## 5. Read A Ticket
 
-Click a ticket to read its body, related tickets, and comments. Open the **Activity** tab to see its history.
+Click a ticket to read its body, related tickets, and comments. Scroll inside the details to keep the ticket number, title, and edit pencil in view. Open the **Activity** tab to see its history. To close the details, click outside them or press **Esc**. Your focus returns to the ticket you opened.
 
 ![Ticket details](../assets/user-guide/05-ticket-detail-comments.png)
 

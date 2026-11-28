@@ -371,7 +371,8 @@ export function createTicketDetailModule(ctx) {
     if (!(target instanceof HTMLElement) || state.dialogMode !== "view") {
       return;
     }
-    if (event.key === "Escape" && (activeInlineEdit || expandedStateAction)) {
+    if (event.key === "Escape" && !ctx.isComposing(event)
+        && (activeInlineEdit === "title" || activeInlineEdit === "priority" || expandedStateAction)) {
       event.preventDefault();
       expandedStateAction = null;
       cancelInlineEdit();

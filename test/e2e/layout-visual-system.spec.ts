@@ -201,35 +201,17 @@ test("editor form focus and detail header badges use the shared visual language"
       page.locator("#editor-header-priority .ticket-priority-badge"),
     ).toHaveClass(/ticket-priority-high/);
 
-    const detailTitleOffset = await page.evaluate(() => {
-      const dialog = document.querySelector("#editor-dialog");
-      const title = document.querySelector("#editor-header-title");
-      if (!dialog || !title) {
-        throw new Error("Ticket detail title fixture is missing");
-      }
-      return (
-        title.getBoundingClientRect().top -
-        dialog.getBoundingClientRect().top
-      );
-    });
-    expect(detailTitleOffset).toBeGreaterThanOrEqual(31);
+    const id = (await page.locator("#editor-header-id").boundingBox())!;
+    const title = (await page.locator("#editor-header-title").boundingBox())!;
+    const edit = (await page.locator("#header-edit-button").boundingBox())!;
+    expect(id.x + id.width).toBeLessThan(title.x);
+    expect(id.y).toBeLessThan(title.y + title.height);
+    expect(id.y + id.height).toBeGreaterThan(title.y);
+    expect(title.x + title.width).toBeLessThan(edit.x);
 
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#editor-form")).toBeVisible();
-    const editTitleOffset = await page.evaluate(() => {
-      const dialog = document.querySelector("#editor-dialog");
-      const title = document.querySelector("#ticket-title");
-      if (!dialog || !title) {
-        throw new Error("Ticket editor title fixture is missing");
-      }
-      return (
-        title.getBoundingClientRect().top -
-        dialog.getBoundingClientRect().top
-      );
-    });
-    expect(Math.abs(editTitleOffset - detailTitleOffset)).toBeLessThanOrEqual(
-      8,
-    );
+    await expect(page.locator("#ticket-title")).toBeFocused();
   } finally {
     await close();
   }

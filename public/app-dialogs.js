@@ -3,6 +3,8 @@
 const EDITOR_DIALOG_WIDTH = 720;
 const EDITOR_DIALOG_MIN_WIDTH = 520;
 const EDITOR_DIALOG_MIN_HEIGHT = 360;
+const EDITOR_DIALOG_EDGE = 12;
+const EDITOR_DIALOG_TOP = 48;
 
 /**
  * @typedef {{ left: number; top: number }} DialogPosition
@@ -21,6 +23,7 @@ const EDITOR_DIALOG_MIN_HEIGHT = 360;
  *   editorDialog: HTMLDialogElement;
  *   editorDialogResizeHandle: HTMLElement;
  *   uxDialog: HTMLDialogElement;
+ *   toast: HTMLElement;
  * }} DialogElements
  * @typedef {{
  *   state: DialogState;
@@ -41,81 +44,57 @@ export function createDialogModule(ctx, options) {
   /** @param {number} left @param {number} top @returns {DialogPosition} */
   function clampEditorDialogPosition(left, top) {
     const rect = elements.editorDialog.getBoundingClientRect();
-    const maxLeft = Math.max(12, window.innerWidth - rect.width - 12);
-    const minTop = window.scrollY + 12;
+    const maxLeft = window.innerWidth - rect.width - EDITOR_DIALOG_EDGE;
+    const maxTop = window.innerHeight - rect.height - EDITOR_DIALOG_EDGE;
     return {
-      left: Math.min(Math.max(12, left), maxLeft),
-      top: Math.max(minTop, top),
+      left: Math.max(EDITOR_DIALOG_EDGE, Math.min(left, maxLeft)),
+      top: Math.max(EDITOR_DIALOG_EDGE, Math.min(top, maxTop)),
     };
   }
 
-  /** @param {number} width @param {number} height @returns {DialogSize} */
-  function clampEditorDialogSize(width, height) {
-    const rect = elements.editorDialog.getBoundingClientRect();
-    const maxWidth = Math.max(EDITOR_DIALOG_MIN_WIDTH, window.innerWidth - rect.left - 12);
-    const viewportBottom = window.scrollY + window.innerHeight - 12;
-    const dialogTop = window.scrollY + rect.top;
-    const maxHeight = Math.max(EDITOR_DIALOG_MIN_HEIGHT, viewportBottom - dialogTop);
-    return {
+  /** @param {DialogSize} size @param {{ persist?: boolean }} [settings] */
+  function applyEditorDialogSize({ width, height }, { persist = false } = {}) {
+    const { left, top } = state.editorDialogPosition ?? { left: EDITOR_DIALOG_EDGE, top: EDITOR_DIALOG_TOP };
+    const maxWidth = window.innerWidth - left - EDITOR_DIALOG_EDGE;
+    const maxHeight = window.innerHeight - top - EDITOR_DIALOG_EDGE;
+    const clamped = {
       width: Math.min(Math.max(EDITOR_DIALOG_MIN_WIDTH, width), maxWidth),
       height: Math.min(Math.max(EDITOR_DIALOG_MIN_HEIGHT, height), maxHeight),
     };
-  }
-
-  /** @param {DialogSize | null} size @param {{ persist?: boolean }} [options] */
-  function applyEditorDialogSize(size, { persist = false } = {}) {
-    if (!size) {
-      return;
-    }
-    const clamped = clampEditorDialogSize(size.width, size.height);
-    state.editorDialogSize = clamped;
     elements.editorDialog.style.width = `${clamped.width}px`;
     elements.editorDialog.style.height = `${clamped.height}px`;
     if (persist) {
+      state.editorDialogSize = clamped;
       options.saveEditorDialogSize(clamped);
     }
-    syncEditorDialogScrollSpace();
   }
 
-  /** @param {DialogPosition | null} position */
-  function applyEditorDialogPosition(position) {
-    if (!position) {
-      return;
-    }
-    const clamped = clampEditorDialogPosition(position.left, position.top);
+  /** @param {DialogPosition} position */
+  function applyEditorDialogPosition({ left, top }) {
+    const clamped = clampEditorDialogPosition(left, top);
     state.editorDialogPosition = clamped;
     elements.editorDialog.style.left = `${clamped.left}px`;
     elements.editorDialog.style.top = `${clamped.top}px`;
+    elements.editorDialog.style.setProperty("--editor-top", `${clamped.top}px`);
   }
 
-  /** @param {number} [scrollY] */
-  function prepareEditorDialogPosition(scrollY = window.scrollY) {
-    if (state.editorDialogSize) {
-      applyEditorDialogSize(state.editorDialogSize);
-    } else {
-      elements.editorDialog.style.width = "";
-      elements.editorDialog.style.height = "";
-    }
-    const closedWidth = state.editorDialogSize?.width ?? Math.min(EDITOR_DIALOG_WIDTH, Math.max(0, window.innerWidth - 32));
-    const position = {
-      left: Math.max(12, (window.innerWidth - closedWidth) / 2),
-      top: scrollY + 48,
-    };
-    state.editorDialogPosition = position;
-    elements.editorDialog.style.left = `${position.left}px`;
-    elements.editorDialog.style.top = `${position.top}px`;
+  function prepareEditorDialogPosition() {
+    const maxWidth = document.documentElement.clientWidth - 2 * EDITOR_DIALOG_EDGE;
+    const width = Math.min(state.editorDialogSize?.width ?? EDITOR_DIALOG_WIDTH, maxWidth);
+    const left = (document.documentElement.clientWidth - width) / 2;
+    state.editorDialogPosition = { left, top: EDITOR_DIALOG_TOP };
+    elements.editorDialog.style.left = `${left}px`;
+    elements.editorDialog.style.top = `${EDITOR_DIALOG_TOP}px`;
+    elements.editorDialog.style.setProperty("--editor-top", `${EDITOR_DIALOG_TOP}px`);
+    elements.editorDialog.style.width = "";
+    elements.editorDialog.style.height = "";
+    if (state.editorDialogSize) applyEditorDialogSize(state.editorDialogSize);
   }
 
-  function ensureEditorDialogPosition() {
-    if (state.editorDialogPosition) {
-      applyEditorDialogPosition(state.editorDialogPosition);
-      return;
-    }
-    const rect = elements.editorDialog.getBoundingClientRect();
-    applyEditorDialogPosition({
-      left: Math.max(12, (window.innerWidth - rect.width) / 2),
-      top: window.scrollY + 48,
-    });
+  function fitEditorDialogToViewport() {
+    if (!elements.editorDialog.open) return;
+    const { left, top } = elements.editorDialog.getBoundingClientRect();
+    applyEditorDialogPosition({ left, top });
   }
 
   /** @param {PointerEvent} event */
@@ -147,7 +126,7 @@ export function createDialogModule(ctx, options) {
     }
     applyEditorDialogPosition({
       left: drag.left + (event.clientX - drag.startX),
-      top: window.scrollY + drag.top + (event.clientY - drag.startY),
+      top: drag.top + (event.clientY - drag.startY),
     });
   }
 
@@ -199,9 +178,12 @@ export function createDialogModule(ctx, options) {
     }
     state.editorDialogResize = null;
     elements.editorDialog.classList.remove("resizing");
-    elements.editorDialogResizeHandle.releasePointerCapture?.(event.pointerId);
-    if (state.editorDialogSize) {
-      applyEditorDialogSize(state.editorDialogSize, { persist: true });
+    if (elements.editorDialogResizeHandle.hasPointerCapture(event.pointerId)) {
+      elements.editorDialogResizeHandle.releasePointerCapture(event.pointerId);
+    }
+    if (event.type === "pointerup") {
+      const { width, height } = elements.editorDialog.getBoundingClientRect();
+      applyEditorDialogSize({ width, height }, { persist: true });
     }
   }
 
@@ -276,26 +258,15 @@ export function createDialogModule(ctx, options) {
     elements.uxDialog.classList.remove("dragging");
   }
 
-  function syncEditorDialogScrollSpace() {
-    if (!elements.editorDialog.open) {
-      document.body.style.minHeight = "";
-      return;
-    }
-    const rect = elements.editorDialog.getBoundingClientRect();
-    const dialogBottom = window.scrollY + rect.bottom;
-    document.body.style.minHeight = `${Math.ceil(dialogBottom + 32)}px`;
-  }
-
   function syncDialogScrollLock() {
-    const shouldLockScroll = elements.uxDialog.open;
-    document.documentElement.classList.toggle("dialog-scroll-locked", shouldLockScroll);
-    document.body.classList.toggle("dialog-scroll-locked", shouldLockScroll);
-    document.body.classList.toggle("editor-dialog-open", elements.editorDialog.open);
-    syncEditorDialogScrollSpace();
+    const modal = elements.uxDialog.open ? elements.uxDialog : elements.editorDialog.open ? elements.editorDialog : null;
+    document.documentElement.classList.toggle("dialog-scroll-locked", Boolean(modal));
+    const toastParent = modal ?? document.body;
+    if (elements.toast.parentNode !== toastParent) toastParent.append(elements.toast);
   }
 
   return {
-    ensureEditorDialogPosition,
+    fitEditorDialogToViewport,
     handleEditorDialogResizePointerDown,
     handleEditorDialogResizePointerMove,
     handleEditorDialogResizePointerUp,

@@ -527,17 +527,12 @@ export function createEditorModule(ctx) {
     savedForm = formSnapshot();
     detailModule.setDetailTab("comments");
     detailModule.setBodyTab("local");
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
-    ctx.prepareEditorDialogPosition?.(scrollY);
-    state.editorIgnoreOutsideClickUntil = performance.now() + 100;
+    ctx.prepareEditorDialogPosition?.();
     if (!elements.editorDialog.open) {
-      elements.editorDialog.show();
+      elements.editorDialog.showModal();
     }
-    window.scrollTo(scrollX, scrollY);
     ctx.syncDialogScrollLock?.();
-    ctx.ensureEditorDialogPosition?.();
-    ctx.syncDialogScrollLock?.();
+    elements.editorDialog.querySelector(".editor-scroll").scrollTop = 0;
     if (ticketId && mode === "view") {
       tasksModule.open(ticketId);
       queueMicrotask(() => elements.headerEditButton.focus({ preventScroll: true }));
@@ -565,6 +560,12 @@ export function createEditorModule(ctx) {
   }
 
   elements.ticketLane.addEventListener('change', syncCreationContext);
+  elements.editorDialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    if (compositionTarget) return;
+    if (state.editorRemoteImportOpen) closeRemoteImportSheet();
+    else requestCloseEditor();
+  });
   elements.editorDialog.addEventListener("compositionstart", (event) => { compositionTarget = event.target; });
   function clearComposition(event) {
     if (event.target === compositionTarget) compositionTarget = null;
@@ -594,12 +595,6 @@ export function createEditorModule(ctx) {
   function handleDocumentClick(event) {
     if (!elements.editorDialog.open) {
       return;
-    }
-    if (state.editorIgnoreOutsideClickUntil) {
-      if (event.timeStamp <= state.editorIgnoreOutsideClickUntil) {
-        return;
-      }
-      state.editorIgnoreOutsideClickUntil = 0;
     }
     const target = event.target;
     if (!(target instanceof Node)) {
@@ -633,9 +628,6 @@ export function createEditorModule(ctx) {
     ) {
       closeRemoteImportSheet();
       return;
-    }
-    if (!elements.uxDialog.open && !elements.editorDialog.contains(target) && !eventPath.includes(elements.editorDialog)) {
-      requestCloseEditor();
     }
   }
 

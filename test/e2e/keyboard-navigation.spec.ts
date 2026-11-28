@@ -186,17 +186,22 @@ test("keyboard-opened detail retains a cancelled body draft and restores navigat
     await page.locator('[data-detail-edit="body"]').click();
     const input = page.locator("[data-detail-body-input]");
     await input.fill("Unsaved keyboard draft");
-    await input.press("Escape");
-    await expect(page.locator("#ux-dialog")).toHaveJSProperty("open", true);
-    await page.locator("#ux-cancel-button").click();
-    await expect(input).toHaveValue("Unsaved keyboard draft");
-    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
-    await input.press("ArrowDown");
-    await expect(input).toBeFocused();
-    await input.press("Escape");
-    await page.locator("#ux-submit-button").click();
-    await expect(input).toHaveCount(0);
+    await input.evaluate((element: HTMLTextAreaElement) => element.setSelectionRange(2, 11, "backward"));
+    await page.mouse.click(8, 8);
+    const confirmation = page.locator("#ux-dialog:modal");
+    await expect(confirmation).toBeVisible();
     await page.keyboard.press("Escape");
+    await expect(confirmation).toHaveCount(0);
+    await expect(input).toBeFocused();
+    await expect(input).toHaveValue("Unsaved keyboard draft");
+    expect(await input.evaluate((element: HTMLTextAreaElement) => [
+      element.selectionStart, element.selectionEnd, element.selectionDirection,
+    ])).toEqual([2, 11, "backward"]);
+    await expect(page.locator("#editor-dialog:modal")).toBeVisible();
+    await input.press("Escape");
+    await expect(confirmation).toBeVisible();
+    await page.locator("#ux-submit-button").click();
+    await expect(page.locator("#editor-dialog:modal")).toHaveCount(0);
     await expect(title(page, ticket.id)).toBeFocused();
     expect((await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json()).bodyMarkdown).toBe("Original");
   } finally { await close(); }

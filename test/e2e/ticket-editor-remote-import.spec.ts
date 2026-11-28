@@ -106,6 +106,7 @@ test("ticket editor remote import lists configured providers only", async ({ pag
 });
 
 test("remote import keeps the backlink control inline and submits the selected option", async ({ page }) => {
+  await page.setViewportSize({ width: 1120, height: 560 });
   const issueUrl = "https://github.com/acme/kanbalone/issues/42";
   const kanbaloneUrl = "https://kanbalone.example.test/boards/1";
   const title = "Imported issue with backlink";
