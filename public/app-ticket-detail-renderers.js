@@ -115,14 +115,15 @@ export function createTicketDetailRenderers(ctx) {
     return `<a class="ticket-tag-chip ticket-ref-chip ticket-relation-chip ticket-relation-chip-${kind}" href="/tickets/${ticket.id}"><span class="ticket-ref-chip-id${ticket.isResolved ? " ticket-ref-resolved" : ""}">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span></a>`;
   }
 
-  function renderActivity(activity, events = [], comments = []) {
+  function renderActivity(activity, events = [], comments = [], preserveOrder = false) {
     const currentComments = new Set(comments.map((comment) => comment.id));
     const failure = activity === null
       ? `<p class="muted" role="status">${t("Could not load activity. Reopen the ticket to retry.")}</p>` : "";
     const timeline = [
       ...(activity ?? []).map((entry) => ({ type: "activity", createdAt: entry.createdAt, entry })),
       ...events.map((entry) => ({ type: "event", createdAt: entry.createdAt, entry })),
-    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    ];
+    if (!preserveOrder) timeline.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       || (a.type === b.type ? (b.entry.id ?? 0) - (a.entry.id ?? 0) : a.type === "activity" ? -1 : 1));
     if (!timeline.length) {
       return failure || `<p class="muted">${t("No activity yet.")}</p>`;

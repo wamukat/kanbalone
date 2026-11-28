@@ -1,5 +1,5 @@
 import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
-import { startTestApp, updateTicket } from "./helpers.js";
+import { startTestApp, updateTicket, showCurrentTicket } from "./helpers.js";
 
 const createdAt = "2026-01-24T00:00:00.000Z";
 const heading = (page: Page) => page.locator(".group-detail-heading");
@@ -179,6 +179,7 @@ test("completing tickets updates focus, No Group remains selected when filtered 
     await page.locator("#header-edit-button").click();
     await page.locator("#ticket-lane").selectOption(String(board.doneLane));
     await page.locator("#save-ticket-button").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Lane: Accepted");
     await expect(page.locator("#editor-form")).toHaveJSProperty("inert", false);
     await page.keyboard.press("Escape");

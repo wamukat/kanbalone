@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { closeTestApp, buildApp, createDbFile, getFreePort, path, selectBoardFilter } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path, selectBoardFilter, showCurrentTicket } from "./helpers.js";
 
 test.setTimeout(60_000);
 
@@ -302,6 +302,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.locator("#header-edit-button").focus();
     await expect(page.locator("#header-edit-button")).toHaveCSS("outline-style", "none");
     await expect(page.locator("#header-edit-button")).not.toHaveCSS("box-shadow", "none");
+    await showCurrentTicket(page);
     await expect(page.locator("#comment-form")).toBeHidden();
     await expect(page.locator("#comment-compose-toggle")).toHaveAttribute("aria-expanded", "false");
     await page.locator("#comment-compose-toggle").click();
@@ -331,6 +332,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await page.getByRole("button", { name: "Smoke ticket" }).click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
 
+    await showCurrentTicket(page);
     await expect(page.locator("[data-edit-comment-id]")).toBeHidden();
     await page.locator("[data-toggle-comment-actions]").click();
     await expect(page.locator("[data-toggle-comment-actions]")).toHaveAttribute("aria-expanded", "true");
@@ -467,6 +469,7 @@ test("board renders and ticket dialog actions are wired", async ({ page }) => {
     await expect(page.locator("#ticket-child-summary")).toContainText("Child candidate");
 
     await page.locator("#save-ticket-button").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     await expect(page.locator("#editor-save-state")).toHaveText("Saved");
     await expect(page.locator("#editor-save-state")).toBeVisible();

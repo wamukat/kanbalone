@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { closeTestApp, buildApp, createDbFile, getFreePort, path, startTestApp, createBoard, createTicket, updateTicket } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path, startTestApp, createBoard, createTicket, updateTicket, showCurrentTicket } from "./helpers.js";
 
 test("ticket detail dialog closes with Escape and backdrop click", async ({ page }) => {
   const app = buildApp({
@@ -93,6 +93,7 @@ test("long ticket details scroll below the title while the list stays in place",
     const edit = dialog.getByRole("button", { name: "Edit ticket", exact: true });
     await expect(headerTitle).toHaveText(title);
     await expect(dialog.locator("#editor-header-id")).toHaveText(`#${ticket.id}`);
+    await showCurrentTicket(page);
     await expect(dialog.getByRole("heading", { name: "Purpose" })).toBeVisible();
     const top = (await headerTitle.boundingBox())!.y;
     const editBox = (await edit.boundingBox())!;
@@ -159,8 +160,9 @@ test("ticket detail dialog can be resized and keeps markdown tables and code rea
     const dialog = page.locator("#editor-dialog:modal");
     await expect(dialog).toBeVisible();
     expect((await dialog.boundingBox())!.width).toBeLessThan(390);
-    await page.setViewportSize({ width: 1280, height: 1000 });
+    await page.setViewportSize({ width: 1280, height: 1100 });
     await expect.poll(async () => (await dialog.boundingBox())!.width).toBe(720);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-body table")).toBeVisible();
     await expect(page.locator("#ticket-view-body code.hljs.language-js")).toBeVisible();
 
@@ -269,6 +271,7 @@ test("remote refresh button updates the open ticket detail", async ({ page }) =>
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
     await expect(page.locator("#editor-header-title")).toHaveText("Initial remote title");
 
+    await showCurrentTicket(page);
     await page.getByRole("button", { name: "Refresh", exact: true }).click();
     await expect(page.locator("#editor-header-title")).toHaveText("Refreshed remote title");
     await expect(page.getByText("Remote snapshot refreshed")).toBeVisible();
@@ -309,6 +312,7 @@ test("ticket detail and cards render non-tracking external references", async ({
 
     await page.getByRole("button", { name: "Generated implementation" }).click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await showCurrentTicket(page);
     await expect(page.locator(".ticket-external-reference-kind")).toHaveText("source");
     await expect(page.locator(".ticket-external-reference-ref", { hasText: "acme/a2o#454" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Refresh", exact: true })).toBeHidden();
@@ -381,6 +385,7 @@ test("multiple background updates are reflected after closing ticket detail dial
     await expect(page.getByRole("button", { name: "Burst title 2" })).toBeVisible();
 
     await page.getByRole("button", { name: "Burst title 2" }).click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toContainText("Body after burst");
   } finally {
     await close();

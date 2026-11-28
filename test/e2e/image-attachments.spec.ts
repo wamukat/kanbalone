@@ -1,5 +1,5 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 const PNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aUa8AAAAASUVORK5CYII=";
 const imageUrl = /\/api\/attachments\/[a-f0-9]{64}/;
@@ -85,6 +85,7 @@ test("ticket creation and full edit persist PNGs at the original selection", asy
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     const persisted = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
     expect(persisted.bodyMarkdown).toBe(createdMarkdown);
+    await showCurrentTicket(page);
     const body = page.locator("#ticket-view-body");
     await expectLoaded(body.locator("img"));
     await expect(body.locator("img")).toHaveAttribute("alt", "first[1](a) .png");
@@ -101,6 +102,7 @@ test("ticket creation and full edit persist PNGs at the original selection", asy
     const stored = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
     expect(stored.bodyMarkdown).toBe(`![full-edit.png](${src})${createdMarkdown}`);
     await page.reload();
+    await showCurrentTicket(page);
     await expectLoaded(body.locator('img[alt="full-edit.png"]'));
   } finally {
     upload.release();
@@ -122,6 +124,7 @@ test("inline body drop keeps file order across reversed responses and a comment 
       await route.fulfill({ response });
     });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator('[data-detail-edit="body"]').click();
     const input = page.locator("[data-detail-body-input]");
     const secondResponse = page.waitForResponse(response => response.url().endsWith("/api/attachments"));
@@ -157,6 +160,7 @@ test("comment composer and inline editor keep uploads with the correct draft", a
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Comment images" });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     const composer = page.locator("#comment-body");
+    await showCurrentTicket(page);
     await page.locator("#comment-compose-toggle").click();
     const composerPadding = await composer.evaluate(element => getComputedStyle(element).padding);
     await composer.fill("A Z");
@@ -224,6 +228,7 @@ test("comment composer and inline editor keep uploads with the correct draft", a
       const saved = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
       expect(saved.comments[0].bodyMarkdown).toMatch(/^!\[edited.png\]\([^)]*\)A !\[comment.png\]\([^)]*\)Z$/);
       await page.reload();
+      await showCurrentTicket(page);
       await expectLoaded(item.locator('img[alt="edited.png"]'));
     } finally {
       delayed.release();
@@ -275,6 +280,7 @@ test("a discarded upload cannot change the next board's comment draft", async ({
     await page.goto(`${baseUrl}/boards/${first.board.id}`);
     await page.getByRole("button", { name: "First ticket", exact: true }).click();
     const composer = page.locator("#comment-body");
+    await showCurrentTicket(page);
     await page.locator("#comment-compose-toggle").click();
     await composer.fill("First draft");
     await transfer(composer, "paste", [{ name: "old.png" }], 0);
@@ -286,6 +292,7 @@ test("a discarded upload cannot change the next board's comment draft", async ({
 
     await page.getByRole("button", { name: "Second board", exact: true }).click();
     await page.getByRole("button", { name: "Second ticket", exact: true }).click();
+    await showCurrentTicket(page);
     await page.locator("#comment-compose-toggle").click();
     await composer.fill("Second draft");
     upload.release();

@@ -1,0 +1,193 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 159.0.8154.6",
+    "automation": "Playwright 1.65.1",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "devicePixelRatio": 1
+  },
+  "sources": {
+    "before": {
+      "commit": "de6a37f3cd8ea8cb87166d6496d112f12ac9a2da"
+    },
+    "after": {
+      "commit": "239f5b3c1d00e0c5a2a990837e3a306384259597",
+      "publicAndSrcGitBinaryDiffSha256": "5ba9970231054b480d831421e7a3ca7af2a49e2a5c9ea397a07d2d99f3654431"
+    },
+    "finalRuntime": {
+      "commit": "bd54ddd9b0fa43d21f79d37f6b3c5ed26b526937",
+      "publicAndSrcGitBinaryDiffSha256": "35eb79e46eb2d4d9bebe346d3ffcab62ab17bb31e5469067f392cef19a41bf95",
+      "captureImpact": "Same-tag color changes, shared full-text wording, in-ticket navigation and active-content background update checks are outside the captured states."
+    }
+  },
+  "fixture": {
+    "initialSQLiteSha256": "b4302e1818d549fb46c0be4b18ebb49a669b78ce3f922bf89f16748119675add"
+  },
+  "files": {
+    "before-ja-light-first-open.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "719433659af1798f1e22a7f2f07b6a6b84c4d65075c1e3e2b50fe3c48dcbb852"
+    },
+    "after-ja-light-first-open.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "d8ef3a7af5f8da62f9f8d7e9306ae84ca149d458092ab5d75098d9f087ea590c"
+    },
+    "before-ja-light-reopened.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "0ee01d21036d55a7c25e0f57a1d89d7966e22e9f4c9835792880cc47cbed430f"
+    },
+    "after-ja-light-reopened.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "d7fe410331d39c88e0b2564a953dac8012accb0eb05dff4ffc5c2d277c5175ff"
+    },
+    "before-en-dark-reopened-narrow.png": {
+      "source": "before",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "e56f9bc9ac411f5753c2aefdda177724cacbdefb4c3557c2860ef9a26de88fc0"
+    },
+    "after-en-dark-reopened-narrow.png": {
+      "source": "after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "0bbd7ada1df745592a2fc87a98d9e9ec72c05c5c79bfb3754063ef91bb863016"
+    },
+    "after-en-dark-comment-details.png": {
+      "source": "after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "22f031ef3808358e69ebf82f5a7a1998634efddb3c76293c570a621b2b6d00f7"
+    },
+    "after-en-dark-task-details.png": {
+      "source": "after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "c51e2767ccdd391bef9cb694896e0332bbe9ce5c0aac272f850098f6373c29f0"
+    },
+    "after-ja-light-normal-while-open.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e86576948629964dcfa830045a373967140c91c1cb48582fb822ec93625a5bd9"
+    },
+    "after-ja-light-comparison-stays-a-b.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "905c035e92d3fcf07ccbdcae71e27b1f060d87c0277a3462b2abb5f9ecf6de93"
+    },
+    "after-ja-light-reopened-b-c.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "c67dbf7d3b6d0163e443dccd595677a914e645675e5b5f2ac94508b728ba6567"
+    },
+    "after-ja-light-no-change.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "a2e5876c972be735f833cccc4de84ea66c56a64590c9c0b023accc2fecf1432a"
+    },
+    "after-ja-light-retrieval-failure.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "6fe6ac250c7ffed6c0233809d4a9ea3b317a688b6e5eca0a7f49814728220456",
+      "testOverride": "The browser returned HTTP 503 for the comparison snapshot GET only."
+    },
+    "after-ja-light-storage-failure.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "fa965ae76bca179465580282f15f11533276c73aed90b2f0f0eed2a53522baa0",
+      "testOverride": "The browser aborted the comparison IndexedDB write transaction only."
+    },
+    "after-ja-light-invalid-baseline.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "0b830a150e457c723c915ba67a3b2ab4de2884c11705acc0b1ecba112bae245a",
+      "testOverride": "The browser stored an obsolete comparison-series ID for the synthetic ticket."
+    },
+    "after-ja-light-custom-view-update.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e58ded934fbefe61a4b59f226205aebab4f2f3e3221b6bdded4bebb5bfccebe5"
+    }
+  }
+}

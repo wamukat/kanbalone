@@ -643,3 +643,174 @@ a.ticket-external-reference-ref:hover {
 .list-row.archived {
   opacity: 0.74;
 }
+
+.ticket-visit-tabs {
+  flex: none;
+  flex-wrap: wrap;
+  margin-inline: var(--space-3);
+}
+
+.ticket-visit-changes {
+  min-width: 0;
+  padding-block: 0.45rem;
+  overflow-wrap: anywhere;
+}
+
+.ticket-visit-range,
+.ticket-visit-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+}
+
+.ticket-visit-range {
+  justify-content: space-between;
+}
+
+.ticket-visit-range time {
+  font-variant-numeric: tabular-nums;
+}
+
+.ticket-visit-range .muted,
+.ticket-visit-guidance,
+.ticket-visit-action {
+  font-size: var(--font-size-label);
+}
+
+.ticket-visit-link.ghost {
+  min-height: 0;
+  padding: 0.1rem 0;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.ticket-visit-changes :is(p, h3, ul, dl, dd) {
+  margin: 0;
+}
+
+.ticket-visit-guidance {
+  padding-block: 0.2rem 0.35rem;
+}
+
+.ticket-visit-notice {
+  margin-block: 0.35rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-control);
+  background: var(--surface-inset);
+}
+
+.ticket-visit-notice p {
+  padding-block-start: 0.15rem;
+}
+
+.ticket-visit-warning {
+  border-inline-start: 3px solid var(--danger);
+}
+
+.ticket-visit-section {
+  display: grid;
+  gap: 0.3rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.ticket-visit-section h3 {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ticket-visit-diff,
+.ticket-visit-list {
+  display: grid;
+  gap: 0.22rem;
+  padding: 0;
+  list-style: none;
+}
+
+.ticket-visit-line {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--radius-control);
+}
+
+.ticket-visit-line span {
+  min-width: 4em;
+  color: var(--muted);
+  font-size: var(--font-size-label);
+  white-space: nowrap;
+}
+
+.ticket-visit-line p,
+.ticket-visit-pair p {
+  white-space: pre-wrap;
+}
+
+.ticket-visit-line.removed {
+  background: color-mix(in srgb, var(--danger) 9%, transparent);
+}
+
+.ticket-visit-line.added {
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+}
+
+.ticket-visit-action.removed {
+  color: var(--danger);
+}
+
+.ticket-visit-action.added,
+.ticket-visit-expand summary {
+  color: var(--accent);
+}
+
+.ticket-visit-list .ticket-visit-value,
+.ticket-visit-expand {
+  display: inline;
+}
+
+.ticket-visit-expand summary {
+  display: inline-block;
+  text-decoration: underline;
+}
+
+.ticket-visit-attributes {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.2rem 0.8rem;
+}
+
+.ticket-visit-attributes dt {
+  color: var(--muted);
+}
+
+.ticket-visit-attributes dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+  min-width: 0;
+}
+
+.ticket-visit-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: 0.4rem;
+  margin-block: 0.2rem;
+}
+
+.ticket-visit-pair > div {
+  min-width: 0;
+  padding: 0.4rem 0.55rem;
+  background: var(--surface-inset);
+  border-radius: var(--radius-control);
+}
+
+.ticket-visit-activity-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}

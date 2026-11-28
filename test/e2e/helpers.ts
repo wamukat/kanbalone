@@ -94,6 +94,11 @@ export async function createCompletionLane(request: APIRequestContext, baseUrl: 
   return response.json();
 }
 
+export async function showCurrentTicket(page: Page) {
+  const current = page.locator("#ticket-visit-normal-tab");
+  if (await current.getAttribute("aria-selected") !== "true") await current.click();
+}
+
 export async function selectBoardFilter(page: Page, kind: "lane" | "tag", name: string | null) {
   await page.locator(`#${kind}-filter-button`).click();
   const panel = page.locator(`#${kind}-filter-options`);

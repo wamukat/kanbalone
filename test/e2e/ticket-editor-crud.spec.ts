@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { createBoard, createTag, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTag, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 async function addRelation(page: Page, type: "blocker" | "related" | "parent" | "child") {
   await page.locator("#ticket-relation-add-button").click();
@@ -48,6 +48,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
 
     await page.getByRole("button", { name: "Created from editor" }).click();
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toContainText("Created with Markdown");
     await page.locator("#header-edit-button").click();
     await page.locator("#ticket-title").fill("Updated from editor");
@@ -85,6 +86,7 @@ test("ticket editor creates updates archives restores and deletes tickets", asyn
     await expect(page.locator("#editor-header-state .ticket-state-pill-archived use[href='/icons.svg#archive']")).toHaveCount(1);
     await expect(page.locator("#editor-header-id")).toHaveText(`#${createdTicket.id}`);
     await expect(page.locator("#editor-header-priority")).toContainText("High");
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta .ticket-archived-label")).toHaveCount(0);
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#archive-ticket-button")).toContainText("Restore");

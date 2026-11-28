@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { createBoard, createCompletionLane, createTag, createTicket, startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createCompletionLane, createTag, createTicket, startTestApp, updateTicket, showCurrentTicket } from "./helpers.js";
 
 const views = "/api/custom-views";
 const edit = '[data-view-action="edit"]';
@@ -230,6 +230,7 @@ test("moves live rows across the activity-order page boundary only for real cont
 
     async function postComment(ticket: number, body: string) {
       await writer.goto(`${baseUrl}/tickets/${ticket}`);
+      await showCurrentTicket(writer);
       await writer.locator("#comment-compose-toggle").click();
       await writer.locator("#comment-body").fill(body);
       const posted = writer.waitForResponse(response => response.request().method() === "POST" &&

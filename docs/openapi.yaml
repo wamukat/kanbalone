@@ -1935,10 +1935,35 @@ paths:
         "409":
           $ref: "#/components/responses/Error"
 
+  /api/tickets/{ticketId}/change-snapshot:
+    get:
+      summary: Read a consistent ticket comparison endpoint
+      description: Returns the endpoint values and committed activity watermark from one SQLite read transaction. Series identifies the database generation. Revision and activityThrough order observations inside that generation. Timestamps are display metadata and are not used as boundaries.
+      operationId: getTicketChangeSnapshot
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - name: metadataOnly
+          in: query
+          description: Return only the series and subject fingerprint to check for updates while the detail is open.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Snapshot or update metadata, with Cache-Control no-store
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TicketChangeSnapshot"
+                  - $ref: "#/components/schemas/TicketChangeSnapshotMetadata"
+        "404":
+          $ref: "#/components/responses/Error"
+
   /api/tickets/{ticketId}/activity:
     get:
       summary: List ticket activity
-      description: Returns activity in descending creation time and then descending activity ID. The default includes complete stored details.
+      description: The default returns complete stored details ordered by creation time and activity ID descending. A bounded request uses activity ID descending. Both bounds are required for a bounded request, and the after bound is exclusive.
       operationId: listTicketActivity
       parameters:
         - $ref: "#/components/parameters/TicketId"
@@ -1948,6 +1973,20 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: after
+          in: query
+          description: Exclusive activity watermark of the previous snapshot.
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 9007199254740991
+        - name: through
+          in: query
+          description: Inclusive activity watermark of the current snapshot.
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 9007199254740991
       responses:
         "200":
           description: Activity list
@@ -1960,7 +1999,15 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/ActivityLog"
+                  series:
+                    type: string
+                    description: Present only for bounded requests. Compare this with the snapshot series before using the records.
+                  historyPossiblyIncomplete:
+                    type: boolean
+                    description: Present only for bounded requests. True when deletion of this subject's history after the lower bound may overlap the requested interval.
                 required: [activity]
+        "400":
+          $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
 
@@ -1977,6 +2024,12 @@ paths:
           schema:
             type: integer
             minimum: 1
+        - name: series
+          in: query
+          description: Require the current database series when expanding a bounded activity entry.
+          schema:
+            type: string
+            maxLength: 128
       responses:
         "200":
           description: Recorded activity
@@ -1985,6 +2038,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/ActivityLog"
         "404":
+          $ref: "#/components/responses/Error"
+        "409":
           $ref: "#/components/responses/Error"
 
   /api/tickets/{ticketId}/events:
@@ -3188,6 +3243,98 @@ components:
         sync:
           $ref: "#/components/schemas/CommentSync"
       required: [id, ticketId, bodyMarkdown, bodyHtml, createdAt, updater, sync]
+    TicketChangeSnapshotMetadata:
+      type: object
+      additionalProperties: false
+      required: [series, fingerprint]
+      properties:
+        series:
+          type: string
+        fingerprint:
+          type: string
+          description: Opaque fingerprint of the ticket state and its latest recorded operation. Unrelated ticket updates do not change it.
+
+    TicketChangeSnapshot:
+      type: object
+      additionalProperties: false
+      required: [ticketId, series, revision, activityThrough, stateFingerprint, fingerprint, state]
+      properties:
+        ticketId:
+          type: integer
+        series:
+          type: string
+        revision:
+          type: integer
+          minimum: 0
+        activityThrough:
+          type: integer
+          minimum: 0
+        stateFingerprint:
+          type: string
+          description: Opaque fingerprint of only the endpoint values.
+        fingerprint:
+          type: string
+          description: Opaque fingerprint of the ticket state and its latest recorded operation.
+        state:
+          type: object
+          required: [board, lane, group, title, priority, isArchived, bodyMarkdown, tags, parent, children, blockers, blockedBy, related, comments, tasks]
+          properties:
+            board: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            lane: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            group:
+              anyOf:
+                - $ref: "#/components/schemas/TicketChangeSnapshotReference"
+                - type: "null"
+            title: { type: string }
+            priority: { type: integer }
+            isArchived: { type: boolean }
+            bodyMarkdown: { type: string }
+            tags:
+              type: array
+              items: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            parent:
+              anyOf:
+                - $ref: "#/components/schemas/TicketChangeSnapshotReference"
+                - type: "null"
+            children:
+              type: array
+              items: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            blockers:
+              type: array
+              items: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            blockedBy:
+              type: array
+              items: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            related:
+              type: array
+              items: { $ref: "#/components/schemas/TicketChangeSnapshotReference" }
+            comments:
+              type: array
+              items:
+                type: object
+                required: [id, bodyMarkdown, updater]
+                properties:
+                  id: { type: integer }
+                  bodyMarkdown: { type: string }
+                  updater: { type: [string, "null"] }
+            tasks:
+              type: array
+              items:
+                type: object
+                required: [number, bodyMarkdown, done]
+                properties:
+                  number: { type: integer }
+                  bodyMarkdown: { type: string }
+                  done: { type: boolean }
+
+    TicketChangeSnapshotReference:
+      type: object
+      required: [id, label]
+      properties:
+        id: { type: integer }
+        label: { type: string }
+        color: { type: string }
+
     ActivityLog:
       type: object
       properties:

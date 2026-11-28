@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 for (const destination of ["home", "kanban", "list", "group", "ticket", "missing-board", "missing-ticket"]) {
   test(`startup resolves ${destination} before fetching one board detail`, async ({ page }) => {
@@ -80,6 +80,7 @@ test("opening a Group from a ticket starts one Group collection", async ({ page 
     const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, groupId: group.id, title: "Deliver" });
     await page.goto(`${baseUrl}/boards/${board.id}/list`);
     await page.locator(`.list-ticket-link[data-open-ticket-id="${ticket.id}"]`).click();
+    await showCurrentTicket(page);
     const link = page.locator(`[data-ticket-group="${group.id}"]`);
     await expect(link).toBeVisible();
 

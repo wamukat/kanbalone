@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createCompletionLane, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createCompletionLane, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 test("Group keeps completed work visible and aligns completion and archive markers in both languages", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 844 });
@@ -143,6 +143,7 @@ test("Group creates tickets through existing editor and opens from ticket detail
     await expect(page.locator("#editor-dialog")).not.toBeVisible();
     await expect(page.locator(".group-ticket-title")).toContainText("Created in Beta");
     await page.locator("[data-group-ticket]").click();
+    await showCurrentTicket(page);
     await expect(page.locator("[data-ticket-group]")).toHaveText("Beta");
     await page.locator("[data-ticket-group]").click();
     await expect(page.locator("#editor-dialog")).not.toBeVisible();
@@ -172,6 +173,7 @@ test("editor Group conflicts cancel atomically and select a Group for all affect
     expect(saved.title).toBe("Parent A"); expect(saved.children).toEqual([]);
     await page.locator("#save-ticket-button").click();
     await page.locator(`[data-resolve-group="${b.id}"]`).click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta [data-ticket-group]")).toHaveText("Group B");
     saved = await (await page.request.get(`${baseUrl}/api/tickets/${parent.id}`)).json();
     expect(saved.title).toBe("Parent changed atomically"); expect(saved.children.map((t: {id: number}) => t.id)).toEqual([child.id]); expect(saved.groupId).toBe(b.id);
@@ -191,6 +193,7 @@ test("inactive Group detail links reveal All and duplicate names stay editable",
     await page.getByRole("button", { name: "Show all Groups", exact: true }).click();
     await expect(page.locator(".group-choice")).toHaveCount(1);
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator("[data-ticket-group]").click();
     await expect(page.getByRole("button", { name: "All", exact: true })).toHaveClass("active");
     await expect(page.locator(".group-name")).toHaveText("Old work");

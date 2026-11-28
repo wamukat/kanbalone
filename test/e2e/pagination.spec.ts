@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { createBoard, createTicket, startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, updateTicket, showCurrentTicket } from "./helpers.js";
 
 async function seed(page: Page, baseUrl: string, openCount = 140) {
   const boundaryChildId = openCount + 65;
@@ -211,6 +211,7 @@ test("saving a List ticket comment keeps its archived blocker label with lightwe
     await page.locator(`.list-ticket-link[data-open-ticket-id="${ticket.id}"]`).click();
     const blockerLink = page.locator(`.list-relation-ticket-link[data-open-ticket-id="${blocker.id}"]`);
     await expect(blockerLink).toHaveAttribute("title", "Archived blocker (Open, Archived)");
+    await showCurrentTicket(page);
     await page.locator("#comment-compose-toggle").click();
     await page.locator("#comment-body").fill("Comment refresh check");
 

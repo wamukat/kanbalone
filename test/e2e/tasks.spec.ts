@@ -1,6 +1,6 @@
 import { expect, test, type APIResponse, type Page } from "@playwright/test";
 
-import { createBoard, createCompletionLane, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createCompletionLane, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 const png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aUa8AAAAASUVORK5CYII=";
 const taskBody = (page: Page) => page.locator("#ticket-task-body");
@@ -25,6 +25,7 @@ test("Task Markdown, filters, counts, attribution and independent completion per
 
     const card = boardPage.locator(`.ticket-card[data-ticket-id="${ticket.id}"]`);
     await expect(card).toBeVisible();
+    await showCurrentTicket(page);
     await expect(card.locator(".ticket-task-count")).toHaveCount(0);
 
     await page.locator("#ticket-task-add").click();
@@ -77,6 +78,7 @@ test("Task Markdown, filters, counts, attribution and independent completion per
     const stack = boardPage.locator("#list-board .ticket-title-stack").filter({ hasText: ticket.title });
     await expect(stack.locator(".list-ticket-link + .ticket-task-count")).toHaveText("0/2 done");
     await page.reload();
+    await showCurrentTicket(page);
     await expect(taskRow(page, 3)).toContainText("Verify delivery");
     await expect(first.locator("img")).toBeVisible();
     const stored = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}/tasks`)).json();
@@ -99,6 +101,7 @@ test("concurrent Task edits retain the draft through a done toggle and explicit 
     expect(create.status()).toBe(201);
     const task = await create.json();
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     const row = taskRow(page, 1);
     await row.locator("[data-task-edit-content]").click();
     const body = taskBody(page);
@@ -177,6 +180,7 @@ test("Task body opens its inline editor without intercepting Markdown content or
     const markdown = `Click this plain paragraph to edit.\n\n[Tasks heading](#ticket-tasks-heading)\n\n![Example](${url})\n\n\`Copy this code\``;
     expect((await page.request.post(tasks, { data: { bodyMarkdown: markdown } })).status()).toBe(201);
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     const row = taskRow(page, 1);
     const preview = row.locator("[data-task-edit-content]");
     const edit = row.getByRole("button", { name: "Edit Task #1", exact: true });
@@ -227,6 +231,7 @@ test("Task body opens its inline editor without intercepting Markdown content or
     await expect(trash).toBeFocused();
     await expect(preview).toHaveText("Saved in the same row");
     await page.reload();
+    await showCurrentTicket(page);
     await expect(preview).toHaveText("Saved in the same row");
   } finally {
     await close();
@@ -260,6 +265,7 @@ test("a delayed Task list stays scoped to the ticket that requested it", async (
     await page.keyboard.press("Escape");
     await expect(page.locator("#editor-dialog")).toBeHidden();
     await page.getByRole("button", { name: "Second ticket", exact: true }).click();
+    await showCurrentTicket(page);
     await expect(taskRow(page, 1)).toContainText("Second task body");
     await page.locator("#ticket-task-query").fill("Second task");
     const delayed = page.waitForResponse(response => response.url() === firstTasks);
@@ -296,6 +302,7 @@ test("Task activity identifies text edits made with completion or reopening", as
     expect(reopened.status()).toBe(200);
     await page.addInitScript(() => localStorage.setItem("kanbalone:language", "ja"));
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator("#activity-tab-button").click();
     const activity = page.locator("#ticket-activity");
     await expect(activity.getByText("Task #1 を完了し、本文を更新", { exact: true })).toBeVisible();

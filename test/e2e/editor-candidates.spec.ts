@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, updateTicket, showCurrentTicket } from "./helpers.js";
 import type { Page } from "@playwright/test";
 
 async function fixture(page: Page, many = false) {
@@ -49,6 +49,7 @@ test("new and detail open without collecting candidates; selected relations surv
     await page.keyboard.press("Escape");
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", false);
     await openDetail(page, f.subject.id);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toContainText(f.blocked.title);
     await expect(page.locator("#ticket-view")).toContainText(f.archived.title);
     await page.locator("#header-edit-button").click();
@@ -195,6 +196,7 @@ test("removing a selected archived relation before fetching candidates persists"
     await page.locator(`[data-remove-related-id="${f.archived.id}"]`).click();
     expect(requests).toEqual([]);
     await page.locator('#editor-form button[type="submit"]').click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     const saved = await (await page.request.get(`${f.baseUrl}/api/tickets/${f.subject.id}`)).json();
     expect(saved.relatedIds).toEqual([]);
@@ -211,6 +213,7 @@ test("save and re-edit invalidates candidates and keeps selected relations", asy
     await expect(page.locator(`[data-related-id="${f.candidate.id}"]`)).toBeVisible();
     await page.locator(`[data-related-id="${f.candidate.id}"]`).click();
     await page.locator('#editor-form button[type="submit"]').click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     await expect(page.locator("#editor-form")).toHaveJSProperty("inert", false);
     await page.waitForLoadState("networkidle");
@@ -279,6 +282,7 @@ test("child candidates retain hierarchy exclusions, archived children, ordering 
     await expect(page.locator("#ticket-child-summary")).toContainText(high.title);
     await expect(page.locator("#ticket-child-summary")).toContainText(f.child.title);
     await page.locator('#editor-form button[type="submit"]').click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     expect((await (await page.request.get(`${f.baseUrl}/api/tickets/${high.id}`)).json()).parentTicketId).toBe(f.subject.id);
     await page.reload(); await page.locator("#header-edit-button").click();
@@ -335,6 +339,7 @@ test("all relation pickers preserve priority order and selections across a compl
     expect(await page.locator("#ticket-related-summary [data-remove-related-id]").evaluateAll(es => es.map(e => Number(e.getAttribute("data-remove-related-id"))))).toEqual([high.id, low.id]);
     expect(requests).toHaveLength(2);
     await page.locator('#editor-form button[type="submit"]').click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     const saved = await (await page.request.get(`${baseUrl}/api/tickets/${subject.id}`)).json();
     expect([...saved.relatedIds].sort((a: number, b: number) => a-b)).toEqual([low.id, high.id]);

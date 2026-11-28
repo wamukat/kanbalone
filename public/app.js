@@ -192,6 +192,10 @@ function bindEvents() {
     if (hasUnsavedChanges() || state.editorSaving || customViews.isDirty()) { event.preventDefault(); event.returnValue = ""; }
   });
   window.addEventListener("popstate", async () => {
+    // A Markdown fragment within the displayed ticket only moves its scroll
+    // position. It does not leave that visit or reset its selected view.
+    if (elements.editorDialog.open && state.editingTicketId && state.dialogTicket?.boardId === state.activeBoardId &&
+        location.pathname.replace(/\/$/, "") === `/tickets/${state.editingTicketId}`) return;
     if (!await confirmDiscardChanges() || !await customViews.mayLeave()) {
       if (state.editingTicketId) syncTicketUrl(state.editingTicketId, { replace: true });
       else syncBoardUrl(true);
@@ -494,7 +498,7 @@ async function applyRouteFromLocation(options) {
   }
   customViews.leave();
   const generation = ++routeGeneration;
-  return routerModule.applyRouteFromLocation({ ...options, isCurrent: () => generation === routeGeneration });
+  return routerModule.applyRouteFromLocation({ ...options, isCurrent: () => generation === routeGeneration && location.pathname === path });
 }
 
 function syncBoardUrl(replace = false) {
@@ -554,6 +558,7 @@ const {
   {
     refreshBoardDetail,
     refreshTicketTasks: () => editorModule.refreshTicketTasks(),
+    checkTicketVisitUpdate: () => editorModule.checkTicketVisitUpdate(),
   },
 );
 
@@ -714,6 +719,7 @@ const {
 } = boardModule;
 
 const customViews = createCustomViews({
+  checkTicketVisitUpdate: () => editorModule.checkTicketVisitUpdate(),
   api, sendJson, escapeHtml, elements, state, showToast, confirmAndRun,
   beginBoardOverride, endBoardOverride, returnToBoard, requestCloseEditor, confirmDiscardChanges,
   openEditor: (ticketId, isCurrent) => openEditor(ticketId, "view", null, null, isCurrent),

@@ -203,20 +203,19 @@ const compactActivityDetails = `
   ELSE details_json END
 `;
 
-export function listActivity(sqlite: Database.Database, ticketId: Id, compact = false): ActivityLogView[] {
+export function listActivity(sqlite: Database.Database, ticketId: Id, compact = false, interval?: { after: number; through: number }): ActivityLogView[] {
   const hasActivity = sqlite
     .prepare("SELECT 1 FROM activity_logs WHERE subject_ticket_id = ? LIMIT 1")
     .get(ticketId) != null;
   if (!hasTicket(sqlite, ticketId) && !hasActivity) {
     throw new Error("Ticket not found");
   }
-  const rows = sqlite
-    .prepare(compact
-      ? `SELECT id, board_id, ticket_id, subject_ticket_id, action, message, updater, created_at,
-          ${compactActivityDetails} AS details_json
-          FROM activity_logs WHERE subject_ticket_id = ? ORDER BY created_at DESC, id DESC`
-      : "SELECT * FROM activity_logs WHERE subject_ticket_id = ? ORDER BY created_at DESC, id DESC")
-    .all(ticketId) as ActivityLogRow[];
+  const fields = compact ? `id, board_id, ticket_id, subject_ticket_id, action, message,
+    updater, created_at, ${compactActivityDetails} AS details_json` : "*";
+  const rows = sqlite.prepare(`
+    SELECT ${fields} FROM activity_logs WHERE subject_ticket_id = ?
+    ${interval ? "AND id > ? AND id <= ? ORDER BY id DESC" : "ORDER BY created_at DESC, id DESC"}
+  `).all(...(interval ? [ticketId, interval.after, interval.through] : [ticketId])) as ActivityLogRow[];
   return rows.map(mapActivityLog);
 }
 

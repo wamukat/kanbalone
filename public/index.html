@@ -233,8 +233,23 @@
           </div>
         </div>
 
+        <div id="ticket-visit-tabs" class="detail-tabs ticket-visit-tabs" role="tablist" aria-label="Ticket display" data-i18n-aria-label="Ticket display" hidden>
+          <button type="button" id="ticket-visit-normal-tab" class="detail-tab" data-visit-tab="normal" role="tab" aria-controls="ticket-view" aria-selected="false" tabindex="-1" data-i18n="Current ticket">Current ticket</button>
+          <button type="button" id="ticket-visit-changes-tab" class="detail-tab active" data-visit-tab="changes" role="tab" aria-controls="ticket-visit-changes" aria-selected="true" data-i18n="Changes since last view">Changes since last view</button>
+        </div>
         <div class="editor-scroll" tabindex="0" role="region" aria-label="Ticket details" data-i18n-aria-label="Ticket details">
-        <section id="ticket-view" class="ticket-view" hidden>
+        <section id="ticket-visit-changes" class="ticket-visit-changes" role="tabpanel" aria-labelledby="ticket-visit-changes-tab" hidden>
+          <div id="ticket-visit-update" class="ticket-visit-notice" role="status" hidden>
+            <strong data-i18n="Updated while open">Updated while open</strong>
+            <p data-i18n="This comparison stays fixed. Reopen the ticket to see the update.">This comparison stays fixed. Reopen the ticket to see the update.</p>
+          </div>
+          <div id="ticket-visit-storage" class="ticket-visit-notice ticket-visit-warning" role="status" hidden>
+            <strong data-i18n="Could not save the comparison point">Could not save the comparison point</strong>
+            <p data-i18n="You can read this comparison, but the same changes may appear the next time you open this ticket.">You can read this comparison, but the same changes may appear the next time you open this ticket.</p>
+          </div>
+          <div id="ticket-visit-content"></div>
+        </section>
+        <section id="ticket-view" class="ticket-view" role="tabpanel" aria-labelledby="ticket-visit-normal-tab" hidden>
           <div id="ticket-view-meta" class="ticket-view-meta"></div>
           <section id="ticket-remote-summary" class="ticket-remote-summary" hidden></section>
           <div id="ticket-body-tabs" class="detail-tabs ticket-body-tabs" role="tablist" aria-label="Ticket body" data-i18n-aria-label="Ticket body" hidden>
