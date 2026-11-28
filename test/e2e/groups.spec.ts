@@ -168,6 +168,9 @@ test("editor Group conflicts cancel atomically and select a Group for all affect
     await page.locator("#ticket-child-search").press("Enter");
     await page.locator("#save-ticket-button").click();
     await expect(page.locator("#ux-title")).toContainText("Which Group");
+    await page.keyboard.press("Control+Enter");
+    await expect(page.locator("#ux-dialog")).toBeVisible();
+    await expect(page.locator("#ux-submit-button")).toBeHidden();
     await page.locator("#ux-cancel-button").click();
     let saved = await (await page.request.get(`${baseUrl}/api/tickets/${parent.id}`)).json();
     expect(saved.title).toBe("Parent A"); expect(saved.children).toEqual([]);

@@ -210,7 +210,10 @@ test("remote import keeps the backlink control inline and submits the selected o
     await expect(checkbox).toBeChecked();
     await backlinkUrl.fill(kanbaloneUrl);
     const importing = page.waitForResponse(response => response.url() === importPath && response.request().method() === "POST");
-    await submit.click();
+    await backlinkUrl.press("Tab");
+    await expect(submit).toBeFocused();
+    await backlinkUrl.focus();
+    await backlinkUrl.press("Control+Enter");
     const imported = await importing;
     expect(imported.status()).toBe(201);
     expect(imported.request().postDataJSON()).toEqual({

@@ -88,7 +88,7 @@ Click a Task's text to edit it in place. With the keyboard, focus the Task text 
 
 ## 7. Use Comments And Activity
 
-Add comments in ticket details to record progress and notes. While composing a new comment, press **Ctrl+Enter** (**⌘+Enter** on Mac) to post it. The **Activity** tab shows changes to tickets and comments.
+Add comments in ticket details to record progress and notes. Press **Ctrl+Enter** (**⌘+Enter** on Mac) to post a new comment or save edits to an existing comment. The **Activity** tab shows changes to tickets and comments.
 
 Comments show the updater used at posting time. Check **Activity** for the updater of a later edit. Past operations that have no updater show **Unrecorded**.
 
@@ -179,6 +179,7 @@ In Kanban or List, press **↓** in the search field to select a displayed ticke
 - **List**: use ↑↓ to move between tickets.
 - **Kanban**: use ↑↓ within a lane and ←→ between lanes. Lanes with no matching tickets are skipped.
 - **Enter**: open the selected ticket.
+- **M**: choose another lane in the same board for the focused ticket. Select a lane and press **Ctrl+Enter** (**⌘+Enter** on Mac), or Tab to **Move**. **Esc** cancels. This does not move the other selected List tickets.
 - **Esc**: close the detail and return to the same ticket and scroll position. Press it again on the ticket to return to search.
 
 Your filters stay in place, so you can continue to the next ticket. If the original ticket is no longer displayed, focus returns to search. Use **Show more** to reveal more tickets in a completion lane.
