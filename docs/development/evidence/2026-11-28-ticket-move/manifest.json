@@ -1,0 +1,173 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "os": "macOS 26.7.3",
+    "agent-browser": "0.26.0, Google Chrome 158.0.8127.89",
+    "playwright": "Chromium headless shell 159.0.8154.6",
+    "node": "26.13.1",
+    "appVersion": "1.6.0",
+    "devicePixelRatio": 1
+  },
+  "sources": {
+    "baseline": {
+      "commit": "78dce9fb4964bed2d7b1cccd663484c6f3dc6e49"
+    },
+    "candidate": {
+      "commit": "74175ee45fe621704a44f9135e720679048317cb",
+      "publicGitBinaryDiffSha256": "267c54e5ef0f115f391110795b4915f131dfef45037593bd5a0b85bcb3f05aef"
+    }
+  },
+  "fixture": {
+    "startingView": "List",
+    "sourceBoard": "Operations desk",
+    "sourceLane": "Review",
+    "destinationBoard": "Release review",
+    "destinationLane": "Review",
+    "ticketTitle": "Verify restore instructions and handoff"
+  },
+  "observations": {
+    "baselineInitial": "Destination board and same-named lane preselected, Move enabled",
+    "candidateInitial": "Source board and lane shown, Move disabled",
+    "candidateBoardOnly": "Lane placeholder selected, Move disabled",
+    "candidateBoardAndLane": "Move enabled",
+    "cancelReturnsFocusToMove": true,
+    "narrowDialog": {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "outerWidth": 350,
+      "contentScrollWidth": 348
+    }
+  },
+  "persistedChecks": {
+    "failure": {
+      "http": 400,
+      "verifySourceUnchanged": true,
+      "keptSelection": true
+    },
+    "success": {
+      "http": 200,
+      "board": "Release review",
+      "lane": "Review",
+      "sameTitleBodyPriority": true,
+      "mappedTag": "handoff",
+      "clearedGroupParentRelated": true,
+      "activity": "ticket_moved_board",
+      "browserReloaded": true
+    }
+  },
+  "images": [
+    {
+      "file": "after-en-dark-initial.png",
+      "source": "candidate",
+      "locale": "en",
+      "theme": "dark",
+      "state": "initial",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "agent-browser",
+      "sha256": "daf28092960ee30be432038d509591696994495ad1626dfb36b56c8e7f6da1cc",
+      "bytes": 104819
+    },
+    {
+      "file": "after-ja-light-board-chosen.png",
+      "source": "candidate",
+      "locale": "ja",
+      "theme": "light",
+      "state": "board-chosen",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "agent-browser",
+      "sha256": "4180e299a792a27caef13c298df82c418db134608791b970695fe989f7339fc9",
+      "bytes": 134623
+    },
+    {
+      "file": "after-ja-light-destination-chosen.png",
+      "source": "candidate",
+      "locale": "ja",
+      "theme": "light",
+      "state": "destination-chosen",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "agent-browser",
+      "sha256": "66690279994b60471ffc4a71b7d25a982183e741050d2b55f29ac5b45d44e55b",
+      "bytes": 128187
+    },
+    {
+      "file": "after-ja-light-initial.png",
+      "source": "candidate",
+      "locale": "ja",
+      "theme": "light",
+      "state": "initial",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "agent-browser",
+      "sha256": "9c5afed58915f1028f345f8a0695d8480cd814a4bcf38ea230e819a58b7f3ef7",
+      "bytes": 132451
+    },
+    {
+      "file": "after-ja-light-moved-reopened.png",
+      "source": "candidate",
+      "locale": "ja",
+      "theme": "light",
+      "state": "moved-reopened",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "playwright",
+      "sha256": "688a2f0347917ee119d04efb93ff893f8b6a3571966bc291f9cde1d6bfb1ddf7",
+      "bytes": 83776
+    },
+    {
+      "file": "after-ja-light-write-failure.png",
+      "source": "candidate",
+      "locale": "ja",
+      "theme": "light",
+      "state": "write-failure",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "playwright",
+      "sha256": "eb73256214baabff3ab25562a35e35e61f1b5d0bf8d85d434a3049f5b8c2262e",
+      "bytes": 134715
+    },
+    {
+      "file": "before-en-dark-initial.png",
+      "source": "baseline",
+      "locale": "en",
+      "theme": "dark",
+      "state": "initial",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "agent-browser",
+      "sha256": "517386584cffd6484e493d1660754b409e39695928340abef2e5eebaf5ccb303",
+      "bytes": 94068
+    },
+    {
+      "file": "before-ja-light-initial.png",
+      "source": "baseline",
+      "locale": "ja",
+      "theme": "light",
+      "state": "initial",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "browser": "agent-browser",
+      "sha256": "e41b51159b11ea8b78aadb639128841b9bda8c36d7aa9adf40f0726d90ddf293",
+      "bytes": 126951
+    }
+  ]
+}
