@@ -8,7 +8,7 @@ export function createArchiveRecovery(ctx, options) {
   region.className = "archive-recovery-region";
   region.setAttribute("aria-label", t("Archive notifications"));
   const announcement = document.createElement("span");
-  announcement.className = "sr-only";
+  announcement.className = "visually-hidden";
   announcement.setAttribute("role", "status");
   region.append(announcement);
   document.body.append(region);
