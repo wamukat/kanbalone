@@ -1,11 +1,12 @@
 import { t as tr } from "./app-i18n.js";
 import { icon } from "./icons.js";
 
-export function renderListActions(tickets, selectedTicketIds, hasMoveTarget = false) {
+export function renderListActions(tickets, selectedTicketIds, hasMoveTarget = false, showTotal = false) {
+  const total = showTotal ? `<span class="list-result-count" role="status">${tr(tickets.length === 1 ? "1 ticket" : "{count} tickets", { count: tickets.length })}</span>` : "";
   const selectedIds = new Set(selectedTicketIds);
   const selectedTickets = tickets.filter((ticket) => selectedIds.has(ticket.id));
   if (selectedTickets.length === 0) {
-    return `<div class="list-actions list-actions-empty"><span>${tr("Select tickets to edit in bulk")}</span></div>`;
+    return `<div class="list-actions list-actions-empty">${total}<span>${tr("Select tickets to edit in bulk")}</span></div>`;
   }
   const buttons = [];
   if (hasMoveTarget) {
@@ -20,6 +21,7 @@ export function renderListActions(tickets, selectedTicketIds, hasMoveTarget = fa
   buttons.push(`<button type="button" class="list-action-button action-with-icon danger" data-bulk-delete="true">${icon("trash-2")}<span>${tr("Delete")}</span></button>`);
   return `
       <div class="list-actions">
+        ${total}
         <span class="list-selection-count">${tr("{count} selected", { count: selectedTickets.length })}</span>
         ${buttons.join("")}
       </div>

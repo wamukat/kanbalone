@@ -7,8 +7,9 @@ import { renderTicketTaskCount } from "./app-ticket-task-count.js";
 
 export function renderListRow(entry, options) {
   const { ticket, indent } = entry;
+  const escape = options.escapeHtml;
   const tags = ticket.tags
-    .map((tag) => renderTag(tag, options.escapeHtml))
+    .map((tag) => renderTag(tag, escape, { maxLength: Infinity }))
     .join("");
   const remoteReferences = [
     ticket.remote ? renderRemoteRefBadge(ticket.remote, options.escapeHtml, "list-ticket-remote-ref") : "",
@@ -19,26 +20,31 @@ export function renderListRow(entry, options) {
   const lane = options.lanes.find((item) => item.id === ticket.laneId);
   const statusIcons = options.renderTicketStatusIcons(ticket);
   const taskCount = renderTicketTaskCount(ticket, options.escapeHtml);
+  const isSelected = options.selectedTicketIds instanceof Set
+    ? options.selectedTicketIds.has(ticket.id) : options.selectedTicketIds.includes(ticket.id);
+  const checkbox = escape(tr("Select ticket #{id} {title}", { id: ticket.id, title: ticket.title }));
+  const compactLabel = label => `<span class="list-compact-label" aria-hidden="true">${tr(label)}</span>`;
   const title = `<button type="button" class="list-ticket-link" data-open-ticket-id="${ticket.id}">
     <span class="ticket-id">#${ticket.id}</span>
     <span class="list-ticket-title">${options.escapeHtml(ticket.title)}</span>
   </button>`;
   return `
-    <div class="list-row ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}" data-list-row-ticket-id="${ticket.id}" style="height:${options.rowHeight}px">
-      <input type="checkbox" data-list-ticket-id="${ticket.id}" ${options.selectedTicketIds.includes(ticket.id) ? "checked" : ""} />
-      <div class="list-ticket-title-cell indent-${indent}">
+    <div class="list-row ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}" role="row" data-list-row-ticket-id="${ticket.id}">
+      <div class="list-checkbox-cell" role="cell"><input type="checkbox" data-list-ticket-id="${ticket.id}" aria-label="${checkbox}" ${isSelected ? "checked" : ""} /></div>
+      <div class="list-ticket-title-cell indent-${indent}" role="cell">
         ${options.showHierarchy === false ? "" : renderTicketHierarchyIcon(ticket, options.boardTickets, { selectableParent: true })}
         ${taskCount ? `<div class="ticket-title-stack">${title}${taskCount}</div>` : title}
       </div>
-      <div class="list-cell muted list-blocker-cell">${blockers}</div>
-      <div class="list-tag-cell">
+      <div class="list-cell muted list-blocker-cell" role="cell">${compactLabel("Blockers")}${blockers}</div>
+      <div class="list-tag-cell" role="cell">
+        ${compactLabel("Tags")}
         ${tags ? `<div class="tag-list list-tag-row">${tags}</div>` : ""}
         ${remoteReferences ? `<div class="list-remote-ref-row">${remoteReferences}</div>` : ""}
         ${!tags && !remoteReferences ? '<span class="muted">-</span>' : ""}
       </div>
-      <div class="list-cell list-priority-cell">${renderPriorityBadge(ticket.priority) || '<span class="muted">-</span>'}</div>
-      <div class="list-cell muted">${options.escapeHtml(lane?.name || tr("Open"))}</div>
-      <div class="list-cell list-status-cell">${statusIcons || '<span class="muted">-</span>'}</div>
+      <div class="list-cell list-priority-cell" role="cell">${compactLabel("Priority")}${renderPriorityBadge(ticket.priority) || '<span class="muted">-</span>'}</div>
+      <div class="list-cell muted list-lane-cell" role="cell">${compactLabel("Lane")}${escape(lane?.name || tr("Open"))}</div>
+      <div class="list-cell list-status-cell" role="cell">${compactLabel("Status")}${statusIcons || '<span class="muted">-</span>'}</div>
     </div>
   `;
 }

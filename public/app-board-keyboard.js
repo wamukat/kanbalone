@@ -30,7 +30,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
     if (elements.listBoard.contains(element) && element.matches(".list-relation-ticket-link[data-open-ticket-id]")) {
       const rowId = Number(element.closest(".list-row")?.dataset.listRowTicketId);
       const blockerId = identity(element);
-      return { query: `.list-row[data-list-row-ticket-id="${rowId}"] .list-relation-ticket-link[data-open-ticket-id="${blockerId}"]` };
+      return { listRowId: rowId, query: `.list-relation-ticket-link[data-open-ticket-id="${blockerId}"]` };
     }
     if (elements.groupBoard.contains(element)) {
       if (element.matches('[data-group-ticket]')) return { groupTicketId: Number(element.dataset.groupTicket), query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
@@ -44,11 +44,27 @@ export function createBoardKeyboardModule(ctx, listModule, {
     return null;
   }
 
+  function describeListRepaintFocus(element) {
+    if (state.viewMode !== "list" || !elements.listBoard.contains(element)) return null;
+    if (element.matches("#list-select-all")) return { query: "#list-select-all" };
+    if (element.matches("[data-list-sort-key]")) return { query: `[data-list-sort-key="${element.dataset.listSortKey}"]` };
+    const row = element.closest(".list-row");
+    if (!row) return null;
+    const listRowId = Number(row.dataset.listRowTicketId);
+    if (element.matches("[data-list-ticket-id]")) return { listRowId, query: "[data-list-ticket-id]" };
+    if (element.matches("[data-select-family-ticket-id]")) return { listRowId, query: "[data-select-family-ticket-id]" };
+    if (element.matches(".list-ticket-remote-ref, .list-ticket-external-ref")) {
+      return { listRowId, query: `a[href="${CSS.escape(element.getAttribute("href"))}"]` };
+    }
+    return null;
+  }
+
   function focusOrigin(target) {
     if (target.view === "group" && target.groupTicketId != null && focusGroupEditorTicket?.(target.scroll.groupFocus)) return true;
     if (target.id != null) return focusTitle(target.id, false);
-    const host = target.view === 'group' ? elements.groupBoard : target.view === 'list' ? elements.listBoard : elements.laneBoard;
-    const element = host.querySelector(target.query);
+    const host = target.listRowId != null ? listModule.revealTicket(target.listRowId) :
+      target.view === 'group' ? elements.groupBoard : target.view === 'list' ? elements.listBoard : elements.laneBoard;
+    const element = host?.querySelector(target.query);
     if (!visible(element)) return false;
     element.focus({ preventScroll: true });
     return true;
@@ -87,6 +103,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
       boardTop: elements.laneBoard.scrollTop,
       listLeft: elements.listBoard.scrollLeft,
       listTop: elements.listBoard.querySelector(".list-viewport")?.scrollTop ?? 0,
+      listAnchor: state.viewMode === "list" ? listModule.captureAnchor() : null,
       lanes: [...elements.laneBoard.querySelectorAll(".ticket-list[data-lane-id]")]
         .map((list) => [list.dataset.laneId, list.scrollTop, captureKanbanAnchor?.(list)]),
     };
@@ -101,7 +118,8 @@ export function createBoardKeyboardModule(ctx, listModule, {
     elements.laneBoard.scrollTop = scroll.boardTop;
     elements.listBoard.scrollLeft = scroll.listLeft;
     const viewport = elements.listBoard.querySelector(".list-viewport");
-    if (viewport) viewport.scrollTop = scroll.listTop;
+    if (scroll.listAnchor && state.viewMode === "list") listModule.restoreAnchor(scroll.listAnchor);
+    else if (viewport) viewport.scrollTop = scroll.listTop;
     for (const [id, top, anchor] of scroll.lanes) {
       const list = elements.laneBoard.querySelector(`.ticket-list[data-lane-id="${id}"]`);
       if (list && !restoreKanbanAnchor?.(list, anchor)) list.scrollTop = top;
@@ -172,7 +190,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
     // A user who already moved elsewhere while a refresh was pending keeps control.
     const active = document.activeElement;
     const current = active === document.body && sameContext(repaintTarget) ? repaintTarget : describeOrigin(active);
-    const moved = current && (current.id !== target.id || current.query !== target.query);
+    const moved = current && (current.id !== target.id || current.query !== target.query || current.listRowId !== target.listRowId);
     if (moved || (!current && active !== document.body && visible(active))) {
       returnTarget = null;
       editorReturnPending = false;
@@ -192,7 +210,7 @@ export function createBoardKeyboardModule(ctx, listModule, {
 
   function beforeRender() {
     const active = document.activeElement;
-    const origin = describeOrigin(active);
+    const origin = describeOrigin(active) ?? describeListRepaintFocus(active);
     if (origin && !elements.editorDialog.open) {
       repaintTarget = { ...context(), ...origin, scroll: scrollSnapshot() };
     }

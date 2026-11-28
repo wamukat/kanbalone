@@ -97,11 +97,17 @@ export function renderListActions<T extends ListActionTicket>(
   tickets: T[],
   selectedTicketIds: number[],
   hasMoveTarget?: boolean,
+  showTotal?: boolean,
 ): string;
+
+type ListAnchor = { id: number; index: number; offset: number; top: boolean; bottom: boolean };
 
 export function createListBoardModule(ctx: ListBoardContext, options: ListBoardOptions): {
   getOrderedTicketIds(): number[];
   focusTicket(ticketId: number, options?: { scroll?: boolean }): boolean;
+  revealTicket(ticketId: number, scroll?: boolean): HTMLElement | null;
+  captureAnchor(): ListAnchor | null;
+  restoreAnchor(anchor: ListAnchor): void;
   handleListBoardChange(event: Event): void;
   handleListBoardClick(event: Event): void;
   handleListBoardScroll(event: Event): void;
