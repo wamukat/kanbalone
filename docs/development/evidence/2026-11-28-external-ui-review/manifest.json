@@ -1,0 +1,555 @@
+{
+  "source_archive_sha256": "bcaab6514fb5e35cd828b497c315bd95f867811f77966a8f04d7a345323a9324",
+  "images": [
+    {
+      "file": "shots/03-new-board.png",
+      "sha256": "279d780607d2d086d5572398950125232bef18efc99429a8ea027492f0517aef",
+      "bytes": 206518,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/04-empty-enter.png",
+      "sha256": "3a3f9897206a5f705269c5b80b58bac67c97182168dd133c8c28110ad59d2816",
+      "bytes": 20033,
+      "width": 500,
+      "height": 200
+    },
+    {
+      "file": "shots/05-new-board.png",
+      "sha256": "4097a770504bec472b14f17d15d61f85f730c7cda153d13efbbd09022bfb566f",
+      "bytes": 58895,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/06-add-ticket.png",
+      "sha256": "449e29b84aa21b2715d5dabecb29ae6c94c75cd0e1bdb453e5a09e2b92fad484",
+      "bytes": 91874,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/08-esc-dirty.png",
+      "sha256": "2731117c4af70c911c0c951c61fe573526d7eab45883ddb5d5a35f1f2370ca23",
+      "bytes": 105584,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/10-kanban-seeded.png",
+      "sha256": "da5d8dda1a4bdfc175ad61a1293a72c47539efa8110363a76e99bd695081c304",
+      "bytes": 190328,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/11-card-zoom.png",
+      "sha256": "cdd65f1375607eeb85ae852a5237a80bcde953f68888a2bc771c1abd61f359fb",
+      "bytes": 21426,
+      "width": 300,
+      "height": 350
+    },
+    {
+      "file": "shots/11-card-zoom2x.png",
+      "sha256": "3cbd4be8a32a223c4e9bb21e27988afd34ff6b828b825a9d825413494135b662",
+      "bytes": 49847,
+      "width": 600,
+      "height": 700
+    },
+    {
+      "file": "shots/12-detail.png",
+      "sha256": "e1c1ccad0c01691c266a284d78e505de5ebccebd636c9af6391c20b41ac116bb",
+      "bytes": 148749,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/13-detail-bottom.png",
+      "sha256": "f222005029f8e8b97dd457e7d26927166c814185f6aeae5252f9139edfafd6d8",
+      "bytes": 119745,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/14-detail-wheel.png",
+      "sha256": "f222005029f8e8b97dd457e7d26927166c814185f6aeae5252f9139edfafd6d8",
+      "bytes": 119745,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/15-edit.png",
+      "sha256": "bd9337a470934556dc11626e6c739e044fa4996c9aa51d583f826d0c1dea4e1f",
+      "bytes": 169359,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/16-relation-add.png",
+      "sha256": "9b95c497193922e53b3baba43ecb8a4319c40b0e8a3db98c94cc6308c0e7aea3",
+      "bytes": 172513,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/18-tag-new.png",
+      "sha256": "317c59487931689f21c99ff6e78a2435a8507244216a6981cdb20c00f00bbb7a",
+      "bytes": 168475,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/19-tag-enter.png",
+      "sha256": "a981d6ef56ca637e6564a0c3f5990882b3bed1e4056f106ea4f79381a4b199b5",
+      "bytes": 177527,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/21-tag-arrow.png",
+      "sha256": "c04112937870b20522db5a15217118b94363106895d2a777faa2d4c786487d21",
+      "bytes": 26298,
+      "width": 720,
+      "height": 250
+    },
+    {
+      "file": "shots/22-cancel-edit.png",
+      "sha256": "8f7b278b647a4653ad933079f6c1ebd9dfeeeef1de5c9395c286fdfb077a0b10",
+      "bytes": 181201,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/23-tab-focus.png",
+      "sha256": "2f71123f8c90a1b47ddbf7bb3879d84af9b206cd75fef6c92078bec011f7945c",
+      "bytes": 192576,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/24-tab-focus2.png",
+      "sha256": "52e330aa7e287e3c2b83954865c6164790c6cb62e9f92513dd0e1a62f086e2b7",
+      "bytes": 192805,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/25-help.png",
+      "sha256": "5d71a662b186685e41c3201ecc1a407cf7617f656e479e5d1df7d7a29203da2e",
+      "bytes": 192283,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/28-to-done.png",
+      "sha256": "132e5b1dce240cb3ba4876f45c3af7052f3e3625a33bdf476b803a0914eb63f3",
+      "bytes": 189613,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/29-scrolled-right.png",
+      "sha256": "ee405d831d66075e446662170320c4446a4bf57b1e40236da1c222993e7baee6",
+      "bytes": 170553,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/30-lane-menu.png",
+      "sha256": "07b871d2ef38e26853b728a87f23f7dde25cc2345c7d698cdf97d5c037967365",
+      "bytes": 22088,
+      "width": 440,
+      "height": 400
+    },
+    {
+      "file": "shots/31-lane-delete.png",
+      "sha256": "cbf2367ffd488f999f482801f23d57c033b97ea1faa8246ef950b9d6fc6e81c7",
+      "bytes": 177878,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/32-lane-delete-result.png",
+      "sha256": "6aa6b1be03a707bf4839ba4bebe7c38e855f6685770e581d90e0bb66c46a7ea9",
+      "bytes": 176617,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/34-lane-add.png",
+      "sha256": "1402eba365a41e276b777216e33f013e3b70aee5563e9e00b8f398812660dbe5",
+      "bytes": 142500,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/36-search.png",
+      "sha256": "57e2b28f801ccacaaee21a2efb0ad2fde47241f34b3ad40b9201013f5a1a2c16",
+      "bytes": 79013,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/38-search-none.png",
+      "sha256": "a298611c6f78a38369dd115e37a60a09337dec2adc6f5428e03f8cf69318f2d8",
+      "bytes": 74204,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/39-priority-filter.png",
+      "sha256": "dc9309cff7fcd3722bef21d63cebf01e54aae97ed8ad13bf860abc1680f4816a",
+      "bytes": 60210,
+      "width": 900,
+      "height": 400
+    },
+    {
+      "file": "shots/40-tag-filter.png",
+      "sha256": "ec72b33147ec0f3b96af666ef1d3fe85487587a5f084ccf56fbe4e7c08cc59e8",
+      "bytes": 91820,
+      "width": 900,
+      "height": 500
+    },
+    {
+      "file": "shots/41-tag-filtered.png",
+      "sha256": "3c0466809a9f556f44e20c65f5f5dd888b7f8de9098efb5cb0ed9d9f0e774915",
+      "bytes": 53042,
+      "width": 1160,
+      "height": 400
+    },
+    {
+      "file": "shots/42-sidebar-tag-click.png",
+      "sha256": "a5730c50d8881f44346c175a01f14cc28f26d733b4a6ecc115c376f4a0a1da6f",
+      "bytes": 196858,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/43-list.png",
+      "sha256": "36dfa0703cce010e0ab75f1a30e8a811f431784373aead541a9725dcdf2f51b3",
+      "bytes": 147288,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/44-list-selected.png",
+      "sha256": "35d71ef4f053f6883d3862dba4fe4fed3d59975ef6888f4c2d37b31f962800f2",
+      "bytes": 47639,
+      "width": 1160,
+      "height": 300
+    },
+    {
+      "file": "shots/45-list-bottom.png",
+      "sha256": "c963bd60072380eef74afe75d136801033aed5b1b3302d0d07d5918947f9dc83",
+      "bytes": 143342,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/46-list-blocker.png",
+      "sha256": "ff44b4ab456adeceb9ab525f86bb9cbbce08dc8edcb6391e11ad6a2c66255f13",
+      "bytes": 29788,
+      "width": 1160,
+      "height": 260
+    },
+    {
+      "file": "shots/47-list-tags.png",
+      "sha256": "36a1878e960b7e3df8c150f1855fbf09802c6d0a4dbb47db6bbcfbb4e7170057",
+      "bytes": 23901,
+      "width": 1160,
+      "height": 160
+    },
+    {
+      "file": "shots/49-group.png",
+      "sha256": "1f9259677207240a05039dfe5abe967ea6420f88f1633c3aed81adc5abcc522d",
+      "bytes": 83313,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/50-group-add-existing.png",
+      "sha256": "b2e9825ef8a4cb4001801a3b8dd04ea10b1f3573eb85e6141dee32f255297e54",
+      "bytes": 102935,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/52-group-picked.png",
+      "sha256": "14d92f24a20012093389300ad8d31bd9b51f22439c7c15a75b52e98a1e7e3693",
+      "bytes": 32481,
+      "width": 880,
+      "height": 300
+    },
+    {
+      "file": "shots/53-settings.png",
+      "sha256": "aaa325d2160bc7fde423b5e086adc48a90339a73be628e54b99840e558749759",
+      "bytes": 87584,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/54-settings-bottom.png",
+      "sha256": "ece5ad8e776ad6b85242fd3cc7961e93efc00b67aa5c3182178ca844b297fe7d",
+      "bytes": 36844,
+      "width": 290,
+      "height": 900
+    },
+    {
+      "file": "shots/55-board-delete.png",
+      "sha256": "0f1e5303a7b7414dfade6bdbb35ef2bd807d5dead7927c65741b7862e3f9ae72",
+      "bytes": 113358,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/57-custom-view.png",
+      "sha256": "673a1009229dc5ceb8daf85b17700b7997da315f97532c5b3fb69dbe0dd71966",
+      "bytes": 80406,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/58-custom-view-show.png",
+      "sha256": "7604de789470a8f4b10244e9cdb6b71da17e894b3f120c5033e3d1a09bfc12a9",
+      "bytes": 184368,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/59-custom-view-newboard.png",
+      "sha256": "a7af566e683e4b9cc01ea11be16b4dfd7f08758a5e452c25a338bd26fb35d4f0",
+      "bytes": 189696,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/60-dark-kanban.png",
+      "sha256": "4bc8ad750e3fd2c25956539cf93d5110122c626e58ef6e373678bf6c8ef369e9",
+      "bytes": 183176,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/61-dark-detail.png",
+      "sha256": "7eaeeff214f336987e6babec2b965a70260375075cc73b7d8638b0db456b0c1c",
+      "bytes": 136205,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/62-mobile-kanban.png",
+      "sha256": "f9ff281c777dfa850ca77d14b3ceb63455c9db0d4e2ab9e7efcf160efa9fc310",
+      "bytes": 161357,
+      "width": 780,
+      "height": 1688
+    },
+    {
+      "file": "shots/63-mobile-detail.png",
+      "sha256": "a93e30a0d58d3a870a34ff8f59fb93ae1a4112768437da6eb08b72210266d684",
+      "bytes": 124855,
+      "width": 780,
+      "height": 1688
+    },
+    {
+      "file": "shots/64-tablet-list.png",
+      "sha256": "34ec23640a20a6c59d7f91cfe4ad812f67c222bdd83aef97084f74f3a1bb8763",
+      "bytes": 101555,
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "file": "shots/67-comment-list.png",
+      "sha256": "b67f0229c7bab5e94690a77b88dfb388e1f59556883ab19cddef2894ae98c726",
+      "bytes": 77545,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/68-history.png",
+      "sha256": "61d86c47abf8b5064da057d60f1107a539294b99fbd63492778012f609d9741e",
+      "bytes": 66930,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/69-move.png",
+      "sha256": "a12ac4405c766fd0a1490103fe1b361f799ab314c3591888c585b2b9fb341315",
+      "bytes": 123481,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/70-archived.png",
+      "sha256": "eebbf5b3798cce0a60eeb71248e57be6d989504666f39a8c45ea850b7f165611",
+      "bytes": 87738,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "shots/71-include-archived.png",
+      "sha256": "bd7b3bb37eec2a386357b5ae078a8337932de105d730f1597655255412338177",
+      "bytes": 70695,
+      "width": 640,
+      "height": 500
+    }
+  ],
+  "mapping": {
+    "mapping": {
+      "H1": [
+        "12-detail",
+        "13-detail-bottom",
+        "14-detail-wheel",
+        "68-history",
+        "63-mobile-detail"
+      ],
+      "H2": [
+        "43-list",
+        "46-list-blocker"
+      ],
+      "H3": [
+        "30-lane-menu",
+        "31-lane-delete",
+        "32-lane-delete-result"
+      ],
+      "H4": [
+        "15-edit",
+        "69-move"
+      ],
+      "H5": [
+        "18-tag-new",
+        "19-tag-enter",
+        "22-cancel-edit",
+        "23-tab-focus"
+      ],
+      "M1": [
+        "10-kanban-seeded",
+        "11-card-zoom",
+        "11-card-zoom2x"
+      ],
+      "M2": [
+        "10-kanban-seeded",
+        "11-card-zoom",
+        "60-dark-kanban"
+      ],
+      "M3": [
+        "23-tab-focus",
+        "24-tab-focus2",
+        "25-help"
+      ],
+      "M4": [
+        "12-detail",
+        "61-dark-detail"
+      ],
+      "M5": [
+        "12-detail",
+        "63-mobile-detail"
+      ],
+      "M6": [
+        "43-list",
+        "44-list-selected",
+        "45-list-bottom",
+        "47-list-tags",
+        "64-tablet-list"
+      ],
+      "M7": [
+        "42-sidebar-tag-click"
+      ],
+      "M8": [
+        "57-custom-view",
+        "58-custom-view-show",
+        "59-custom-view-newboard"
+      ],
+      "M9": [
+        "49-group",
+        "50-group-add-existing",
+        "52-group-picked"
+      ],
+      "M10": [
+        "36-search",
+        "38-search-none",
+        "39-priority-filter",
+        "40-tag-filter",
+        "41-tag-filtered"
+      ],
+      "M11": [
+        "68-history"
+      ],
+      "M12": [
+        "53-settings",
+        "54-settings-bottom",
+        "55-board-delete"
+      ],
+      "M13": [
+        "28-to-done",
+        "70-archived",
+        "71-include-archived"
+      ],
+      "L1": [
+        "05-new-board"
+      ],
+      "L2": [
+        "10-kanban-seeded",
+        "43-list",
+        "49-group"
+      ],
+      "L3": [
+        "10-kanban-seeded",
+        "11-card-zoom",
+        "60-dark-kanban"
+      ],
+      "L4": [
+        "10-kanban-seeded",
+        "29-scrolled-right",
+        "30-lane-menu"
+      ],
+      "L5": [
+        "06-add-ticket",
+        "15-edit",
+        "16-relation-add",
+        "21-tag-arrow"
+      ],
+      "L6": [
+        "08-esc-dirty",
+        "22-cancel-edit"
+      ],
+      "L7": [
+        "13-detail-bottom",
+        "67-comment-list"
+      ],
+      "L8": [
+        "42-sidebar-tag-click"
+      ],
+      "L9": [
+        "16-relation-add"
+      ],
+      "L10": [
+        "62-mobile-kanban"
+      ],
+      "L11": [
+        "03-new-board",
+        "04-empty-enter",
+        "34-lane-add"
+      ]
+    },
+    "limitations": {
+      "H1": "スクロール前後・履歴・スマホ幅の見た目。静止画だけではfocus trapや背景スクロールの操作結果は確定しない。",
+      "H2": "通常一覧と「ブロック」検索時の列表示。参照先APIレスポンス/保存状態は画像のみでは検証できない。",
+      "H3": "レーンメニュー→削除確認→エラートースト。HTTP 409は資料の報告であり画像だけで応答コードは確認できない。",
+      "H4": "編集画面と移動ダイアログの初期選択。実際の移動や保存は未検証。",
+      "H5": "タグ入力→Enter後→破棄確認→閉じた後のボード。22は破棄確認中、23は後続画面として補足。APIでの残存確認は未実施。",
+      "M3": "フォーカス表示・ヘルプを試した画面の参考画像。キー移動不可やTab回数を静止画だけで証明しない。",
+      "M5": "チェックリストの描画を示す参考画像。クリック時の動作/保存は未検証。Task機能とは別。",
+      "M6": "行/タグ/選択/1024pxの表示。アクセシブル名の有無は画像だけでは検証できない。",
+      "M8": "原画像にある既存ボードの表示もそのまま保持。新規ボード条件と抜粋・用語・フォームの確認用。",
+      "M10": "消去ボタン・0件・フィルタの見た目。URL保持、Esc、開閉時の位置変化は別途操作検証が必要。",
+      "M13": "完了移動後・アーカイブ通知・アーカイブを含む表示。取消不能や復元の保存結果を静止画だけで断定しない。",
+      "L3": "IDの見た目の参考。3.07:1という比率は資料の報告であり、画像から再計測した結果ではない。",
+      "L7": "コメント見出しの番号・日時を示す参考画像。",
+      "L8": "画像には「色」という見出しがありますが、トグル自体の用途表示と16進入力のアクセシブル名は別に確認が必要です。aria-labelの有無は静止画では検証できません。",
+      "L9": "関連の追加メニューを示す参考画像。文言と方向の問題は本文の報告も参照。",
+      "L10": "390pxのフィルタの表示。タッチDnDは資料でも未確認。",
+      "L11": "ボード作成入力と空確定後、およびレーン名入力の参考画像。レーン名の空確定後画像は資料に見当たらず、キー操作/保存は未検証。"
+    }
+  }
+}
