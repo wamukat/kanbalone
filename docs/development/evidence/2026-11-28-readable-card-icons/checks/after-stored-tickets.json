@@ -1,0 +1,267 @@
+{
+  "tickets": [
+    {
+      "taskCount": 4,
+      "doneTaskCount": 1,
+      "id": 1,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "リリース前の動作確認と修正内容の最終チェック",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 4,
+      "position": 0,
+      "createdAt": "2026-11-28T11:23:11.494Z",
+      "updatedAt": "2026-11-28T11:23:11.593Z",
+      "tags": [
+        {
+          "id": 1,
+          "boardId": 1,
+          "name": "Release",
+          "color": "#147d6b"
+        }
+      ],
+      "unresolvedBlockerCount": 2,
+      "blockerIds": [
+        2,
+        4
+      ],
+      "relatedIds": [],
+      "ref": "Release desk#1",
+      "shortRef": "#1",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    },
+    {
+      "taskCount": 3,
+      "doneTaskCount": 1,
+      "id": 2,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "リリースノートを公開する",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 4,
+      "position": 1,
+      "createdAt": "2026-11-28T11:23:11.557Z",
+      "updatedAt": "2026-11-28T11:23:11.557Z",
+      "tags": [
+        {
+          "id": 2,
+          "boardId": 1,
+          "name": "Docs",
+          "color": "#7140a5"
+        }
+      ],
+      "unresolvedBlockerCount": 0,
+      "blockerIds": [],
+      "relatedIds": [],
+      "ref": "Release desk#2",
+      "shortRef": "#2",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    },
+    {
+      "taskCount": 0,
+      "doneTaskCount": 0,
+      "id": 3,
+      "boardId": 1,
+      "laneId": 1,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "セットアップ手順を整理する",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 1,
+      "position": 2,
+      "createdAt": "2026-11-28T11:23:11.564Z",
+      "updatedAt": "2026-11-28T11:23:11.564Z",
+      "tags": [
+        {
+          "id": 2,
+          "boardId": 1,
+          "name": "Docs",
+          "color": "#7140a5"
+        }
+      ],
+      "unresolvedBlockerCount": 0,
+      "blockerIds": [],
+      "relatedIds": [],
+      "ref": "Release desk#3",
+      "shortRef": "#3",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    },
+    {
+      "taskCount": 3,
+      "doneTaskCount": 2,
+      "id": 4,
+      "boardId": 1,
+      "laneId": 2,
+      "parentTicketId": null,
+      "hasChildren": true,
+      "title": "リリース準備を進める",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 3,
+      "position": 0,
+      "createdAt": "2026-11-28T11:23:11.569Z",
+      "updatedAt": "2026-11-28T11:23:11.569Z",
+      "tags": [
+        {
+          "id": 1,
+          "boardId": 1,
+          "name": "Release",
+          "color": "#147d6b"
+        }
+      ],
+      "unresolvedBlockerCount": 0,
+      "blockerIds": [],
+      "relatedIds": [],
+      "ref": "Release desk#4",
+      "shortRef": "#4",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    },
+    {
+      "taskCount": 2,
+      "doneTaskCount": 0,
+      "id": 5,
+      "boardId": 1,
+      "laneId": 2,
+      "parentTicketId": 4,
+      "hasChildren": false,
+      "title": "利用手順をレビューする",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 2,
+      "position": 1,
+      "createdAt": "2026-11-28T11:23:11.576Z",
+      "updatedAt": "2026-11-28T11:23:11.610Z",
+      "tags": [
+        {
+          "id": 2,
+          "boardId": 1,
+          "name": "Docs",
+          "color": "#7140a5"
+        }
+      ],
+      "unresolvedBlockerCount": 1,
+      "blockerIds": [
+        3
+      ],
+      "relatedIds": [],
+      "ref": "Release desk#5",
+      "shortRef": "#5",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    },
+    {
+      "taskCount": 1,
+      "doneTaskCount": 0,
+      "id": 123456789,
+      "boardId": 1,
+      "laneId": 2,
+      "parentTicketId": null,
+      "hasChildren": false,
+      "title": "Narrow card and long ticket reference: verify keyboard focus, metadata wrapping, and lower-edge tooltip visibility",
+      "isResolved": false,
+      "resolvedAt": null,
+      "isArchived": false,
+      "priority": 4,
+      "position": 2,
+      "createdAt": "2026-11-28T11:23:11.631Z",
+      "updatedAt": "2026-11-28T11:23:11.631Z",
+      "tags": [
+        {
+          "id": 4,
+          "boardId": 1,
+          "name": "Cross-browser accessibility",
+          "color": "#a14649"
+        },
+        {
+          "id": 2,
+          "boardId": 1,
+          "name": "Docs",
+          "color": "#7140a5"
+        },
+        {
+          "id": 3,
+          "boardId": 1,
+          "name": "Keyboard navigation",
+          "color": "#355a99"
+        },
+        {
+          "id": 1,
+          "boardId": 1,
+          "name": "Release",
+          "color": "#147d6b"
+        }
+      ],
+      "unresolvedBlockerCount": 1,
+      "blockerIds": [
+        2
+      ],
+      "relatedIds": [],
+      "ref": "Release desk#123456789",
+      "shortRef": "#123456789",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    },
+    {
+      "taskCount": 2,
+      "doneTaskCount": 2,
+      "id": 6,
+      "boardId": 1,
+      "laneId": 3,
+      "parentTicketId": 4,
+      "hasChildren": false,
+      "title": "更新内容を検証する",
+      "isResolved": true,
+      "resolvedAt": "2026-11-28T11:23:11.583Z",
+      "isArchived": false,
+      "priority": 2,
+      "position": 0,
+      "createdAt": "2026-11-28T11:23:11.582Z",
+      "updatedAt": "2026-11-28T11:23:11.605Z",
+      "tags": [
+        {
+          "id": 1,
+          "boardId": 1,
+          "name": "Release",
+          "color": "#147d6b"
+        }
+      ],
+      "unresolvedBlockerCount": 0,
+      "blockerIds": [],
+      "relatedIds": [],
+      "ref": "Release desk#6",
+      "shortRef": "#6",
+      "remote": null,
+      "externalReferences": [],
+      "groupId": null,
+      "group": null
+    }
+  ]
+}
