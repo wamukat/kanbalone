@@ -1,0 +1,187 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "captureBrowser": "Headless Chromium 158 / agent-browser 0.26.0",
+    "timingBrowser": "Playwright Chromium 159.0.8154.6",
+    "devicePixelRatio": 1
+  },
+  "sources": {
+    "before": {
+      "commit": "f69930244d1b850fc60fb98e79ed9109bd1ff13d"
+    },
+    "after": {
+      "commit": "992dae29c69d8ea5fadb15332b99e2180d44be12",
+      "publicAndSrcGitBinaryDiffSha256": "5baf5092e5b084e216b5ef017869d73fcd283d3160409e101124d157908d0fa1"
+    },
+    "finalProduct": {
+      "commit": "dccae5697f5a8fcc3dac2287c12931a25bd8de65",
+      "publicAndSrcGitBinaryDiffSha256": "e3d525938393673da4d8af17e16e1392462705b1541c531d4c8b37b4aa43b539",
+      "subsequentChange": "List scroll events mount new rows synchronously. Rendering and previously captured steady states are unchanged."
+    }
+  },
+  "fixtures": {
+    "visual": {
+      "board": "Release desk",
+      "tickets": 5,
+      "initialSQLiteSha256": "b06dd90b475f28b35ecb7810169e909ae842b7ef19995be8df1224e7bfc095e5"
+    },
+    "scale": {
+      "source": "Historical synthetic fixture from 2026-11-22-group-inline-icons, board 2",
+      "sourceSQLiteSha256": "55729e4b4b6e50c871def0143128a653110d588bcc440f746d6a2214f65f73fb",
+      "enrichedSQLiteSha256": "51f100626b3a0d66bce7c27fd1b16767c545affe1a3ed1f4ba7fb866c6bd0bac",
+      "total": 10005,
+      "unarchived": 9995,
+      "enrichedRows": 113
+    }
+  },
+  "reports": {
+    "interaction": "interaction-verification.json",
+    "pairedScale": "scale-matched.json",
+    "finalJump": "scale-final-jump.json"
+  },
+  "files": {
+    "after-en-dark-list.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "30cddd8c739c8fef8c9ecd739f5f21ab6a7ff1ce79749a1bab16e09b55b0c18d"
+    },
+    "after-en-dark-search.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "23df895c6a85f7bf6d476982a95c8e38adb5c8f1d630f555bb2ffb95f4bf96ce"
+    },
+    "after-en-dark-sidebar-tag-edit.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "27f46e276ad92ee51fa61029eca89ef5da960165cd540ed7f101e7c6a997265b"
+    },
+    "after-en-light-no-matches.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "en",
+      "appearance": "light",
+      "sha256": "eace1d653a65a3b1171b3d7ab5b473839db4e38992e8046a972bd94dfc17d24d"
+    },
+    "after-en-light-tag-saved-reloaded.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "en",
+      "appearance": "light",
+      "sha256": "12de618e76df2d8d69b66773e42f867570caeffaa3fb98e4cdc864c746969f92"
+    },
+    "after-ja-light-list.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "32deadbef4bfb7e5dcffa790423edfa3f08601daa05533442c6f90d1b2767ce6"
+    },
+    "after-ja-light-search.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "d625c35c17d3dc3816bd87701832c3a24a3d2c1ed0dc267870028f8151b03f4e"
+    },
+    "after-ja-light-sidebar-tag-edit.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "5f92638a1193dbad07bcbfd60e2ce45d092676957a3fef44a68228252bcb3fea"
+    },
+    "before-en-dark-list.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "f7bfeb4d2b43cd293ca61fd72583fec52ae7e46ee5fdd1c9bf3eb177f376d90f"
+    },
+    "before-en-dark-search.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "b23aa819d3004f504add096bf1832f6c4857167404878b00c466b8868572b8d4"
+    },
+    "before-en-dark-sidebar-tag-edit.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "97345f292d3437b96150895f08e652db186446379bce344a6478a7226ca43e6f"
+    },
+    "before-ja-light-list.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "d4cd08be1229dc6ffaaab5754f29af3c16cb5f8a2d2a12df18d662dc78709357"
+    },
+    "before-ja-light-search.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e7e31ee60943f6dc866f985b697a8f0ebc1b8043ca15fd79ed30c54143f6e72a"
+    },
+    "before-ja-light-sidebar-tag-edit.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "094b8f6a42f3761e5f57a9573bd749d4f972040c30cbccade25e37d8bdbeedac"
+    }
+  }
+}
