@@ -211,17 +211,17 @@
       </main>
     </div>
 
-    <dialog id="editor-dialog" class="editor-dialog">
+    <dialog id="editor-dialog" class="editor-dialog" aria-labelledby="editor-header-id editor-header-title" aria-label="Ticket details" data-i18n-aria-label="Ticket details">
       <div class="editor-form">
         <div class="editor-header">
-            <div class="editor-dialog-heading">
-              <div class="editor-dialog-heading-top">
-              <span id="editor-header-id" class="muted"></span>
+          <div class="editor-dialog-heading">
+            <div class="editor-title-row">
+              <span id="editor-header-id" class="editor-header-id"></span>
+              <h2 id="editor-header-title" class="editor-header-title" hidden></h2>
+            </div>
+            <div class="editor-dialog-heading-top">
               <span id="editor-header-state" class="ticket-state-pills" hidden></span>
               <span id="editor-header-priority" hidden></span>
-            </div>
-            <div class="editor-title-row">
-              <h2 id="editor-header-title" class="editor-header-title" hidden></h2>
             </div>
           </div>
           <div class="editor-header-actions">
@@ -233,6 +233,7 @@
           </div>
         </div>
 
+        <div class="editor-scroll" tabindex="0" role="region" aria-label="Ticket details" data-i18n-aria-label="Ticket details">
         <section id="ticket-view" class="ticket-view" hidden>
           <div id="ticket-view-meta" class="ticket-view-meta"></div>
           <section id="ticket-remote-summary" class="ticket-remote-summary" hidden></section>
@@ -418,6 +419,7 @@
             </div>
           </div>
         </form>
+        </div>
         <aside id="editor-remote-import-sheet" class="editor-remote-import-sheet" hidden inert aria-hidden="true">
           <div class="editor-remote-import-sheet-head">
             <div>

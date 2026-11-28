@@ -15,11 +15,13 @@
 }
 
 .editor-dialog {
-  position: absolute;
+  position: fixed;
+  inset: auto;
   margin: 0;
-  width: min(720px, calc(100vw - var(--space-5) - var(--space-5)));
-  min-width: min(520px, calc(100vw - var(--space-5) - var(--space-5)));
-  min-height: 360px;
+  width: min(720px, calc(100% - 24px));
+  max-width: calc(100% - 24px);
+  min-height: min(360px, calc(100dvh - 60px));
+  max-height: calc(100dvh - var(--editor-top, 48px) - 12px);
   border: 1px solid color-mix(in srgb, var(--text-muted) 16%, transparent);
   border-radius: var(--radius-surface);
   padding: 0;
@@ -27,8 +29,15 @@
   color: var(--text);
   box-shadow: var(--shadow-dialog);
   overflow: visible;
-  z-index: 10;
   transition: box-shadow var(--motion-normal) var(--ease-standard);
+}
+
+.editor-dialog[open] {
+  display: flex;
+}
+
+.editor-dialog::backdrop {
+  background: var(--overlay-bg);
 }
 
 .editor-dialog-resize-handle {
@@ -139,6 +148,12 @@
   cursor: pointer;
 }
 
+.editor-form > .editor-header {
+  flex: none;
+  align-items: start;
+  padding: var(--space-3);
+}
+
 .editor-dialog.dragging {
   box-shadow: var(--shadow-dialog), var(--drag-ring);
 }
@@ -170,26 +185,32 @@
 
 .editor-title-row {
   display: flex;
-  align-items: center;
-  gap: 0.45rem;
+  align-items: baseline;
+  gap: var(--space-2);
   min-width: 0;
-  width: 100%;
-  flex-wrap: wrap;
-  padding-top: 0.1rem;
+}
+
+.editor-header-id {
+  color: var(--muted);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.editor-header-id:empty {
+  display: none;
 }
 
 .editor-header-title {
   flex: 1 1 auto;
+  min-width: 0;
+  max-height: min(40dvh, 12rem);
   margin: 0;
-  width: 100%;
-  max-width: none;
-  min-width: min(28rem, 100%);
+  overflow: auto;
   overflow-wrap: anywhere;
-  color: var(--text);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-semibold);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-strong);
   line-height: var(--line-height-tight);
-  transform: translateY(0.25rem);
 }
 
 .editor-save-state {
@@ -218,6 +239,14 @@
   align-items: center;
   gap: 0.45rem;
   flex-wrap: wrap;
+}
+
+.editor-dialog-heading-top:has(> :not([hidden])) {
+  margin-top: 0.15rem;
+}
+
+.editor-dialog-heading-top:not(:has(> :not([hidden]))) {
+  display: none;
 }
 
 .editor-dialog-heading-top .ticket-priority-badge,

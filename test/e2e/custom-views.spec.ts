@@ -238,7 +238,7 @@ test("preserves detail ownership, cancelled drafts, and focus when a ticket leav
     await expect(draft).toHaveValue("Unsubmitted draft");
     await expect(draft).toBeFocused();
     expect(await draft.evaluate(element => (element as HTMLTextAreaElement).selectionStart)).toBe(selection);
-    await draft.press("Escape");
+    await page.locator('[data-detail-cancel="body"]').click();
     await page.locator("#ux-submit-button").click();
     await expect(draft).toHaveCount(0);
 

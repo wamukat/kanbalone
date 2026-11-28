@@ -10,6 +10,7 @@
   color: var(--on-accent);
   box-shadow: var(--shadow-popover);
   z-index: 40;
+  pointer-events: none;
 }
 
 .toast[data-kind="error"] {

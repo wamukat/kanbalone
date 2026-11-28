@@ -35,26 +35,91 @@ test("ticket detail dialog closes with Escape and backdrop click", async ({ page
     await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
 
     await page.goto(`${baseUrl}/boards/${boardPayload.board.id}`);
-    await page.getByRole("button", { name: "Dialog close ticket" }).click();
-    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
-    await page.locator("#editor-dialog").evaluate((dialog) => {
-      const rect = dialog.getBoundingClientRect();
-      dialog.dispatchEvent(new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        clientX: rect.left - 8,
-        clientY: rect.top - 8,
-      }));
-    });
-    await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
+    const origin = page.getByRole("button", { name: "Dialog close ticket" });
+    await origin.click();
+    const dialog = page.locator("#editor-dialog:modal");
+    await expect(dialog).toBeVisible();
+    const box = (await dialog.boundingBox())!;
+    const inside = { x: box.x + 16, y: box.y + 140 };
+    await page.mouse.click(inside.x, inside.y);
+    await page.mouse.move(inside.x, inside.y);
+    await page.mouse.down();
+    await page.mouse.move(8, 8);
+    await page.mouse.up();
+    await expect(dialog).toBeVisible();
+    await page.mouse.move(8, 8);
+    await page.mouse.down();
+    await page.mouse.move(inside.x, inside.y);
+    await page.mouse.up();
+    await expect(dialog).toBeVisible();
+    await page.mouse.click(8, 8);
+    await expect(dialog).toHaveCount(0);
+    await expect(origin).toBeFocused();
   } finally {
     await page.close();
     await closeTestApp(app);
   }
 });
 
+test("long ticket details scroll below the title while the list stays in place", async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const { baseUrl, close } = await startTestApp(page);
+
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Long Details", laneNames: ["Todo"] });
+    const title = "Keep the long ticket title and its editing controls available while reading the entire description";
+    const ticket = await createTicket(page.request, baseUrl, board.id, {
+      laneId: lanes[0].id,
+      title,
+      bodyMarkdown: "# Purpose\n\n## Scope\n\n" + Array.from({ length: 80 }, (_, i) => `Paragraph ${i + 1}`).join("\n\n"),
+    });
+    for (let i = 0; i < 22; i++) {
+      await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: `List context ${i + 1}` });
+    }
+    await page.goto(`${baseUrl}/boards/${board.id}/list`);
+    const origin = page.getByRole("button", { name: title });
+    await origin.scrollIntoViewIfNeeded();
+    await origin.focus();
+    const listScroll = await page.evaluate(() => window.scrollY);
+    await origin.press("Enter");
+
+    const dialog = page.locator("#editor-dialog:modal");
+    const scroll = dialog.locator(".editor-scroll");
+    const headerTitle = dialog.locator("#editor-header-title");
+    const edit = dialog.getByRole("button", { name: "Edit ticket", exact: true });
+    await expect(headerTitle).toHaveText(title);
+    await expect(dialog.locator("#editor-header-id")).toHaveText(`#${ticket.id}`);
+    await expect(dialog.getByRole("heading", { name: "Purpose" })).toBeVisible();
+    const top = (await headerTitle.boundingBox())!.y;
+    const editBox = (await edit.boundingBox())!;
+    await scroll.hover();
+    await page.mouse.wheel(0, 550);
+    await expect.poll(() => scroll.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+    await scroll.evaluate((element) => { element.scrollTop = element.scrollHeight; });
+    await page.mouse.wheel(0, 1200);
+    expect((await headerTitle.boundingBox())!.y).toBe(top);
+    expect(await edit.boundingBox()).toEqual(editBox);
+    expect(await page.evaluate(() => window.scrollY)).toBe(listScroll);
+    await edit.click();
+    const titleField = dialog.locator("#ticket-title");
+    await expect(titleField).toHaveValue(title);
+    await expect(titleField).toBeInViewport();
+    await expect(titleField).toBeFocused();
+    await titleField.dispatchEvent("compositionstart");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeVisible();
+    await titleField.dispatchEvent("compositionend");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+    await expect(origin).toBeFocused();
+    expect(await page.evaluate(() => window.scrollY)).toBe(listScroll);
+  } finally {
+    await close();
+  }
+});
+
 test("ticket detail dialog can be resized and keeps markdown tables and code readable", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.setViewportSize({ width: 390, height: 844 });
   const { baseUrl, close } = await startTestApp(page);
 
   try {
@@ -77,7 +142,11 @@ test("ticket detail dialog can be resized and keeps markdown tables and code rea
     });
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
-    await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    const dialog = page.locator("#editor-dialog:modal");
+    await expect(dialog).toBeVisible();
+    expect((await dialog.boundingBox())!.width).toBeLessThan(390);
+    await page.setViewportSize({ width: 1280, height: 1000 });
+    await expect.poll(async () => (await dialog.boundingBox())!.width).toBe(720);
     await expect(page.locator("#ticket-view-body table")).toBeVisible();
     await expect(page.locator("#ticket-view-body code.hljs.language-js")).toBeVisible();
 
@@ -95,6 +164,21 @@ test("ticket detail dialog can be resized and keeps markdown tables and code rea
     expect(after).not.toBeNull();
     expect(after!.width).toBeGreaterThan(before!.width + 80);
     expect(after!.height).toBeGreaterThan(before!.height + 50);
+
+    await page.reload();
+    await expect(page.locator("#editor-dialog:modal")).toBeVisible();
+    const restored = (await page.locator("#editor-dialog").boundingBox())!;
+    expect(restored.width).toBeCloseTo(after!.width);
+    expect(restored.height).toBeCloseTo(after!.height);
+
+    const drag = (await page.locator(".editor-header").first().boundingBox())!;
+    await page.mouse.move(drag.x + 2, drag.y + 2);
+    await page.mouse.down();
+    await page.mouse.move(drag.x + 42, drag.y - 22);
+    await page.mouse.up();
+    const moved = (await page.locator("#editor-dialog").boundingBox())!;
+    expect(moved.x).toBeCloseTo(restored.x + 40);
+    expect(moved.y).toBeCloseTo(restored.y - 24);
   } finally {
     await close();
   }

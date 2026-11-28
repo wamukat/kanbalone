@@ -4,6 +4,7 @@
 
 html {
   font-size: var(--font-size-body);
+  scrollbar-gutter: stable;
 }
 
 [hidden] {
@@ -34,19 +35,6 @@ body {
 
 html.dialog-scroll-locked {
   overflow: hidden;
-}
-
-body.dialog-scroll-locked {
-  overflow: hidden;
-}
-
-body.editor-dialog-open::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: var(--overlay-bg);
-  pointer-events: auto;
-  z-index: 9;
 }
 
 input {

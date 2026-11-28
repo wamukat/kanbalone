@@ -8,18 +8,21 @@ test("inline body Escape keeps changes until explicit discard", async ({ page })
     const ticket = await createTicket(page.request, baseUrl, board.board.id, { laneId: board.lanes[0].id, title: "Draft", bodyMarkdown: "Original" });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await page.locator('[data-detail-edit="body"]').click();
-    await page.locator('[data-detail-body-input]').fill("Unsaved body");
+    const draft = page.locator('[data-detail-body-input]');
+    await draft.fill("Unsaved body");
     await page.keyboard.press("Escape");
     await expect(page.locator('#ux-title')).toHaveText("Discard changes?");
     await page.locator('#ux-cancel-button').click();
-    await expect(page.locator('[data-detail-body-input]')).toHaveValue("Unsaved body");
-    await page.locator('[data-detail-body-input]').press("Escape");
+    await expect(draft).toBeFocused();
+    await expect(draft).toHaveValue("Unsaved body");
+    await draft.press("Escape");
     await page.locator('#ux-submit-button').click();
-    await expect(page.locator('[data-detail-body-input]')).toHaveCount(0);
-    await expect(page.locator('#ticket-view-body')).toContainText("Original");
-    await expect(page.locator('#editor-dialog')).toHaveJSProperty('open', true);
-    await page.keyboard.press("Escape");
     await expect(page.locator('#editor-dialog')).toHaveJSProperty('open', false);
+    expect((await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json()).bodyMarkdown).toBe("Original");
+
+    await page.getByRole('button', { name: 'Draft', exact: true }).click();
+    await expect(page.locator('#ticket-view-body')).toContainText("Original");
+    await expect(draft).toHaveCount(0);
   } finally { await close(); }
 });
 
@@ -32,7 +35,7 @@ test("full editor protects changes on outside click and Back, saved edits close 
     await page.getByRole('button', { name: 'Draft', exact: true }).click();
     await page.locator('#header-edit-button').click();
     await page.locator('#ticket-body').fill('Keep this');
-    await page.locator('body').click({ position: { x: 5, y: 5 } });
+    await page.mouse.click(5, 5);
     await expect(page.locator('#ux-title')).toHaveText('Discard changes?');
     await page.locator('#ux-cancel-button').click();
     await expect(page.locator('#ticket-body')).toHaveValue('Keep this');
