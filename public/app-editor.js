@@ -431,10 +431,17 @@ export function createEditorModule(ctx) {
     if (!ticketId || ticketId !== state.editingTicketId) {
       return null;
     }
-    const isBusy = () => onlyIfPristine && (state.dialogMode !== "view" || state.editorSaving
-      || commentsModule.isSaving() || tasksModule.isSaving() || hasUnsavedChanges()
-      || elements.ticketView.contains(document.activeElement) || elements.ticketView.querySelector(".inline-action-menu.expanded")
-      || elements.editorDialog.contains(document.activeElement) && document.activeElement.matches("input, textarea, select, [contenteditable='true']"));
+    const isBusy = () => {
+      if (!onlyIfPristine) return false;
+      const active = document.activeElement;
+      const selection = document.getSelection();
+      const selecting = selection && !selection.isCollapsed &&
+        (elements.ticketView.contains(selection.anchorNode) || elements.ticketView.contains(selection.focusNode));
+      return state.dialogMode !== "view" || state.editorSaving || commentsModule.isSaving() || tasksModule.isSaving()
+        || hasUnsavedChanges() || selecting || elements.ticketView.contains(active)
+        || elements.ticketView.querySelector(".inline-action-menu.expanded")
+        || elements.editorDialog.contains(active) && active.matches("input, textarea, select, [contenteditable='true']");
+    };
     if (isBusy()) return null;
     const isCurrent = captureDialogScope();
     const request = ++activityRequest;
