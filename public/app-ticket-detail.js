@@ -362,6 +362,54 @@ export function createTicketDetailModule(ctx) {
         ${icon("pencil")}<span>${t("Edit local body")}</span>
       </button>
     `;
+    for (const marker of elements.ticketViewBody.querySelectorAll(".task-checkbox[data-task-offset]")) {
+      const offset = Number(marker.dataset.taskOffset);
+      if (!Number.isSafeInteger(offset) || !/^[ xX]$/.test(ticket.bodyMarkdown[offset] ?? "")) continue;
+      const label = marker.closest("li")?.cloneNode(true);
+      label?.querySelectorAll("ul, ol, .task-checkbox").forEach(node => node.remove());
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.className = "task-checkbox";
+      input.dataset.detailChecklistOffset = String(offset);
+      input.checked = ticket.bodyMarkdown[offset].toLowerCase() === "x";
+      input.setAttribute("aria-label", t("Checklist: {text}", { text: label?.textContent?.trim() || String(offset) }));
+      marker.replaceWith(input);
+    }
+  }
+
+  async function toggleBodyChecklist(input) {
+    const ticket = state.dialogTicket;
+    if (!ticket || state.editorSaving || !ticket.editToken) return;
+    const offset = Number(input.dataset.detailChecklistOffset);
+    const body = ticket.bodyMarkdown;
+    if (!Number.isSafeInteger(offset) || !/^[ xX]$/.test(body[offset] ?? "") || body[offset - 1] !== "[" || body[offset + 1] !== "]") return;
+    const checked = input.checked;
+    input.checked = body[offset].toLowerCase() === "x";
+    const isCurrent = ctx.captureDialogScope();
+    const controls = [...elements.ticketViewBody.querySelectorAll("[data-detail-checklist-offset]")];
+    state.editorSaving = true;
+    const wasInert = elements.ticketViewBody.inert;
+    elements.ticketViewBody.inert = true;
+    controls.forEach(control => { control.disabled = true; });
+    elements.ticketViewBody.setAttribute("aria-busy", "true");
+    let saved = false;
+    try {
+      const updated = await ctx.sendJson(`/api/tickets/${ticket.id}`, { method: "PATCH", body: {
+        bodyMarkdown: body.slice(0, offset) + (checked ? "x" : " ") + body.slice(offset + 1),
+        expectedEditToken: ticket.editToken,
+      } });
+      saved = true;
+      if (isCurrent()) await ctx.refreshDialogTicket(ticket.id, updated);
+      await ctx.refreshBoardDetail();
+    } catch (error) {
+      if (isCurrent()) ctx.showToast(saved ? t("Ticket saved, but the view could not refresh. Reload to continue.") : error.message, "error");
+    } finally {
+      state.editorSaving = false;
+      elements.ticketViewBody.inert = wasInert;
+      controls.forEach(control => { control.disabled = false; });
+      elements.ticketViewBody.removeAttribute("aria-busy");
+      if (isCurrent()) elements.ticketViewBody.querySelector(`[data-detail-checklist-offset="${offset}"]`)?.focus();
+    }
   }
 
   async function refreshRemoteTicket() {
@@ -441,6 +489,10 @@ export function createTicketDetailModule(ctx) {
 
   function handleDetailChange(event) {
     const target = event.target;
+    if (target instanceof HTMLInputElement && target.matches("[data-detail-checklist-offset]") && state.dialogMode === "view") {
+      toggleBodyChecklist(target);
+      return;
+    }
     if (!(target instanceof HTMLSelectElement) || state.dialogMode !== "view") {
       return;
     }

@@ -103,6 +103,7 @@ export function createEditorModule(ctx) {
     confirmDiscardChanges,
     refreshDialogTicket,
     updateDialogTicket,
+    captureDialogScope,
     imageAttachments,
     isDialogCurrent,
     isComposing,

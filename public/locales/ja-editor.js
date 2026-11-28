@@ -216,6 +216,7 @@ export default {
   "Ctrl+Enter / Cmd+Enter to save": "Ctrl+Enter / Cmd+Enterで保存",
   "Read-only remote Markdown snapshot": "取り込んだリモートのMarkdown（読み取り専用）",
   "No description": "説明はありません",
+  "Checklist: {text}": "チェックリスト: {text}",
   "Edit local body": "本文を編集",
   "Remote snapshot refreshed": "リモートの内容を更新しました",
   "No matching tags": "該当するタグはありません",
