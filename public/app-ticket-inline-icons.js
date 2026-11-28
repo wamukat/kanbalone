@@ -4,7 +4,7 @@
 import { icon } from "./icons.js";
 
 export const groupRowIconNames = ["folder-up","folder-tree","ticket","check","archive","trash-2"];
-export const kanbanCardIconNames = ["folder-up","folder-tree","ticket","check","archive","priority-low","priority-medium","priority-high","circle-alert","octagon-alert"];
+export const kanbanCardIconNames = ["folder-up","folder-tree","ticket","check","archive","priority-low","priority-medium","priority-high","circle-alert","octagon-alert","lock","list-checks"];
 
 /** @type {Record<string, string>} */
 const inlineIcons = {
@@ -19,6 +19,8 @@ const inlineIcons = {
   "priority-high": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M6 15v3\" />\n    <path d=\"M12 11v7\" />\n    <path d=\"M18 6v12\" /></svg>",
   "circle-alert": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\" />\n    <line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\" />\n    <line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\" /></svg>",
   "octagon-alert": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"M12 16h.01\" />\n    <path d=\"M12 8v4\" />\n    <path d=\"M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z\" /></svg>",
+  "lock": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" />\n    <path d=\"M7 11V7a5 5 0 0 1 10 0v4\" /></svg>",
+  "list-checks": "<svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\" viewBox=\"0 0 24 24\"><path d=\"m3 6 2 2 4-4M13 6h8M3 16l2 2 4-4M13 16h8\" /></svg>",
 };
 
 /** Inline repeated Group row and Kanban card icons to avoid SVG use layout overhead.
