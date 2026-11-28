@@ -1,0 +1,158 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 159.0.8154.6",
+    "automation": "Playwright 1.65.1",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "devicePixelRatio": 1
+  },
+  "sources": {
+    "release": {
+      "commit": "4920daffe31a835a43996bead3a9f62f847d3f21",
+      "version": "1.6.0"
+    },
+    "before": {
+      "commit": "15e9888fdc3858a9cf972e9792d0dc4ca31b0196"
+    },
+    "after": {
+      "commit": "7cab9b732cf7cb1713e35cefa28afd99519e9368",
+      "publicAndSrcGitBinaryDiffSha256": "3b171218c2d9f4eb0f548aa8b5157be6381d8ccb4d8ae99759c65200ae0f6279"
+    },
+    "afterAvailabilityFix": {
+      "commit": "fb90d8391f33695abfabc9dc59a32a8967664940",
+      "publicAndSrcGitBinaryDiffSha256": "d1e97707fa80fb0eb04462a3adbaa6b5a6cff23241f124b7ea6f9aefe17ff807"
+    }
+  },
+  "fixture": {
+    "initialSQLiteSha256": "744db947b45bbb6d720aced508f84804377f40879a296ab41d2b28ff4cfa2ecb"
+  },
+  "files": {
+    "before-ja-light-history.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "87a429ab13f8cefe66ca5b84d333203224a31f79665e26ca9be8c00f13ff4cd0",
+      "modalScrollTop": 225
+    },
+    "after-ja-light-history.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "21fa605248a58bb4c5fcb27916fb3fefc8dcc453f04934526750e1d880e2af5c",
+      "modalScrollTop": 225
+    },
+    "before-en-dark-comments.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "f27cb0dd2d66207ef44bab910527904e51240fabcf6f0cdb46ff73b589c7bbd9",
+      "modalScrollTop": 225
+    },
+    "after-en-dark-comments.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "3672854b0c3a2a414106a75386f26c925f5cc43551d94ce31cbd4544ffc16859",
+      "modalScrollTop": 225
+    },
+    "release-ja-light-history.png": {
+      "source": "release",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "a0b5b9d302d5c89789aae7ed16298eb848f0fe8204691e8293ab40fa6de9fb63"
+    },
+    "after-ja-light-body-expanded.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "972a41867aae6148bd7054002e64085595ca0fddfee473550c51f2bf1ee00a67"
+    },
+    "after-en-dark-recorded-comment.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "8ffee02c76f198f97e23a5d764cd2942f148458f4de22236fd3b4ece16fc4f41"
+    },
+    "after-en-dark-current-comment.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "cff0f29626424a1dcd0a50be07999a680cf319862cc2e8698964e6e733e5d6ba"
+    },
+    "after-en-dark-deleted-comment.png": {
+      "source": "after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "dd6306f7e6ac3d2be6d262a5f1227471092b9a5f7a116114d43e10754a2274dc"
+    },
+    "after-ja-light-unrecorded.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "3d8f2074a4b54f9878469d5b00f546839b3edcc3323a2df3ef2fe110cae26623"
+    },
+    "after-ja-light-saved-reload.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e10fdb36513a309142656e060b50fd45c531b93bcc3e9c20ab0f7fefcb841c16"
+    },
+    "after-ja-light-activity-unavailable.png": {
+      "source": "afterAvailabilityFix",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "57fe5ddebd1d51cbbf7655154baaa6380cf6dfc3d10c18df00ad584280533c72",
+      "browserResponseOverride": "HTTP 503 for the ticket's compact Activity GET only. The structured events GET was live."
+    }
+  }
+}
