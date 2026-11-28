@@ -27,6 +27,11 @@ export function createBoardKeyboardModule(ctx, listModule, {
   function describeOrigin(element) {
     if (!(element instanceof HTMLElement) || !visible(element)) return null;
     if (isBoardTitle(element)) return { id: identity(element) };
+    if (elements.listBoard.contains(element) && element.matches(".list-relation-ticket-link[data-open-ticket-id]")) {
+      const rowId = Number(element.closest(".list-row")?.dataset.listRowTicketId);
+      const blockerId = identity(element);
+      return { query: `.list-row[data-list-row-ticket-id="${rowId}"] .list-relation-ticket-link[data-open-ticket-id="${blockerId}"]` };
+    }
     if (elements.groupBoard.contains(element)) {
       if (element.matches('[data-group-ticket]')) return { groupTicketId: Number(element.dataset.groupTicket), query: `[data-group-ticket="${Number(element.dataset.groupTicket)}"]` };
       if (element.matches('[data-select-group][aria-current="true"]')) return { query: `[data-select-group="${CSS.escape(element.dataset.selectGroup)}"]` };

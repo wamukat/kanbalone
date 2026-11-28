@@ -16,6 +16,7 @@ type ListRowTicket = {
   hasChildren?: boolean;
   title: string;
   blockerIds: number[];
+  blockerReferences?: import("../src/types.js").TicketBlockerReferenceView[];
   relatedIds: number[];
   tags: ListRowTag[];
   remote?: ListRowRemoteReference | null;

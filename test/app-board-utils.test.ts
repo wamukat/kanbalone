@@ -175,7 +175,7 @@ test("renderListRow places remote references after normal tags in the Tags colum
     },
   );
 
-  const titleCell = html.slice(html.indexOf("list-ticket-title-cell"), html.indexOf('<div class="list-cell muted">'));
+  const titleCell = html.slice(html.indexOf("list-ticket-title-cell"), html.indexOf("list-blocker-cell"));
   assert.doesNotMatch(titleCell, /owner\/repo#123/);
   assert.doesNotMatch(titleCell, /source\/repo#456/);
 
@@ -188,6 +188,25 @@ test("renderListRow places remote references after normal tags in the Tags colum
   assert.match(html, /owner\/repo#123/);
   assert.match(html, /list-ticket-external-ref/);
   assert.match(html, /source\/repo#456/);
+});
+
+test("renderListRow gives unresolved references an accessible, non-interactive parenthesized ID", () => {
+  const html = renderListRow({
+    indent: 0,
+    ticket: {
+      id: 1, laneId: 2, title: "Dependent", blockerIds: [7, 10], relatedIds: [], tags: [],
+      priority: 2, isResolved: false, isArchived: false,
+      blockerReferences: [{ id: 7, title: '<Batch "seven">', isResolved: true, isArchived: true }],
+    },
+  }, {
+    boardTickets: [], escapeHtml, lanes: [{ id: 2, name: "Todo" }],
+    renderTicketStatusIcons: () => "", rowHeight: 64, selectedTicketIds: [],
+  });
+
+  assert.match(html, /ticket-ref-resolved" data-open-ticket-id="7" title="&lt;Batch &quot;seven&quot;&gt; \(Resolved, Archived\)"/);
+  assert.match(html, /class="list-blocker-unavailable" title="Blocker #10: status unavailable"/);
+  assert.match(html, /<span aria-hidden="true">\(#10\)<\/span><span class="visually-hidden">Blocker #10: status unavailable<\/span>/);
+  assert.doesNotMatch(html, /data-open-ticket-id="10"/);
 });
 
 test("renderListRow can hide hierarchy affordances for sorted list rows", () => {

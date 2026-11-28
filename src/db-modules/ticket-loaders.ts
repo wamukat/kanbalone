@@ -13,8 +13,10 @@ import type {
   TagView,
   TicketRemoteLinkRow,
   TicketRemoteLinkView,
+  TicketBlockerReferenceView,
   TicketBlockerView,
   TicketRelationView,
+  TicketRow,
 } from "../types.js";
 
 type TicketRelationRow = {
@@ -171,6 +173,29 @@ export function getBlockerIdsForTicketIds(sqlite: Database.Database, ticketIds: 
     blockerIdsByTicket.set(row.ticket_id, entry);
   });
   return blockerIdsByTicket;
+}
+
+export function getBlockerReferencesForTicketIds(
+  sqlite: Database.Database,
+  boardId: Id,
+  ticketIds: Id[],
+): Map<Id, TicketBlockerReferenceView[]> {
+  const referencesByTicket = new Map<Id, TicketBlockerReferenceView[]>();
+  if (ticketIds.length === 0) return referencesByTicket;
+  const placeholders = ticketIds.map(() => "?").join(", ");
+  const rows = sqlite.prepare(`
+    SELECT tb.ticket_id, blocker.id, blocker.title, blocker.is_resolved, blocker.is_archived
+    FROM ticket_blockers tb
+    JOIN tickets blocker ON blocker.id = tb.blocker_ticket_id
+    WHERE tb.ticket_id IN (${placeholders}) AND blocker.board_id = ?
+    ORDER BY tb.ticket_id, tb.blocker_ticket_id
+  `).all(...ticketIds, boardId) as Array<Pick<TicketRow, "id" | "title" | "is_resolved" | "is_archived"> & { ticket_id: Id }>;
+  for (const row of rows) {
+    const references = referencesByTicket.get(row.ticket_id) ?? [];
+    references.push({ id: row.id, title: row.title, isResolved: Boolean(row.is_resolved), isArchived: Boolean(row.is_archived) });
+    referencesByTicket.set(row.ticket_id, references);
+  }
+  return referencesByTicket;
 }
 
 export function getBlockedTicketsForTicketIds(sqlite: Database.Database, ticketIds: Id[]): Map<Id, TicketRelationView[]> {

@@ -42,12 +42,14 @@ export async function loadKanbanTicketCollections(api, lanes, url, options) {
 
 /**
  * Priority used to filter only visible rows. Keep the complete priority-independent
- * reference set for blocker labels and selecting a parent's children.
+ * reference set for selecting a parent's children. Display pages carry their own blocker references.
  * A board refreshed with its editor open uses references across every filter.
  * @param {FetchPage} api @param {string} url @param {LoadOptions & { allReferences?: () => boolean }} options
  */
 export async function loadListTicketCollection(api, url, options) {
   const referenceUrl = new URL(url, "http://kanbalone.invalid");
+  const displayUrl = new URL(referenceUrl);
+  displayUrl.searchParams.set("include_blocker_references", "true");
   const priority = referenceUrl.searchParams.get("priority");
   const selected = new Set(priority?.split(","));
   referenceUrl.searchParams.delete("priority");
@@ -56,7 +58,7 @@ export async function loadListTicketCollection(api, url, options) {
   const referenceOptions = { isCurrent: options.isCurrent, init: { signal: options.signal }, followPageLimit: true };
   for (let attempt = 0; ; attempt += 1) {
     const [display, filteredReferences] = await Promise.all([
-      collectTicketPages(api, url, { isCurrent: options.isCurrent, init: { signal: options.signal } }),
+      collectTicketPages(api, displayUrl.pathname + displayUrl.search, { isCurrent: options.isCurrent, init: { signal: options.signal } }),
       needsReferences ? collectTicketPages(api, referenceUrl.pathname + referenceUrl.search, referenceOptions) : null,
     ]);
     if (filteredReferences && display.ticketRevision !== filteredReferences.ticketRevision) {

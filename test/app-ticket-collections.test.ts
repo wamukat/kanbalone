@@ -39,6 +39,7 @@ test("List keeps lower priority references while filtering display tickets on th
     const { pathname, searchParams: query } = new URL(url,"http://localhost");
     assert.equal(query.get("tag"),"release");
     assert.equal(pathname, query.has("priority") ? "/api/boards/1/tickets" : "/api/boards/1/list-ticket-references");
+    assert.equal(query.get("include_blocker_references"), query.has("priority") ? "true" : null);
     return page(query.has("priority") ? [{id:1}] : [{id:1},{id:2}],"1");
   },"/api/boards/1/tickets?priority=4&tag=release",{isCurrent:()=>true});
   assert.deepEqual(result.tickets,[{id:1}]);
@@ -52,7 +53,9 @@ test("List reuses the displayed collection when all four priorities are selected
     return page([{id:1},{id:2}], "1");
   }, "/api/boards/1/tickets?priority=4,1,2,4,3", {isCurrent:()=>true});
   assert.equal(seen.length, 1);
-  assert.equal(new URL(seen[0]!, "http://localhost").searchParams.get("priority"), "4,1,2,4,3");
+  const query = new URL(seen[0]!, "http://localhost").searchParams;
+  assert.equal(query.get("priority"), "4,1,2,4,3");
+  assert.equal(query.get("include_blocker_references"), "true");
   assert.equal(result.referenceTickets, result.tickets);
 });
 
@@ -78,7 +81,7 @@ test("List refresh behind an editor keeps archived and filtered-out references",
     searchParams.delete("order");
     searchParams.delete("limit");
     if (pathname.endsWith("/tickets")) {
-      assert.equal(pathname + "?" + searchParams.toString(), display);
+      assert.equal(pathname + "?" + searchParams.toString(), `${display}&include_blocker_references=true`);
       editorOpen = true;
       return page([{id:1}], "1");
     }
