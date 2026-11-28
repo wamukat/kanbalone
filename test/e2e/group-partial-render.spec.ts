@@ -59,7 +59,7 @@ test("Group controls and description changes retain ticket nodes and save descri
     await search.fill("candidate");
     await search.evaluate((input: HTMLInputElement) => input.setSelectionRange(2, 5));
     const removeIcon = page.locator("[data-group-remove] .icon").first();
-    await expect(removeIcon).toHaveCSS("mask-image", /trash-2\.svg/);
+    await expect(removeIcon).toHaveCSS("mask-image", /folder-minus\.svg/);
     const boardScroll = page.locator("#group-board");
     const scrollPosition = await boardScroll.evaluate(element => {
       element.scrollTop = 40;
@@ -69,9 +69,9 @@ test("Group controls and description changes retain ticket nodes and save descri
     for (const forcedColors of ["active", "none"] as const) {
       await page.emulateMedia({ forcedColors });
       if (forcedColors === "active") {
-        await expect(page.locator("[data-group-remove] svg path").first()).toHaveAttribute("d", "M3 6h18");
+        await expect(page.locator("[data-group-remove]").first().locator("svg path").last()).toHaveAttribute("d", "M9 13h6");
       } else {
-        await expect(removeIcon).toHaveCSS("mask-image", /trash-2\.svg/);
+        await expect(removeIcon).toHaveCSS("mask-image", /folder-minus\.svg/);
       }
       expect(await rowsRetained(page)).toBe(true);
       await expect(search).toBeFocused();

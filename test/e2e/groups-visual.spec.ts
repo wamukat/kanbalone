@@ -49,7 +49,7 @@ test("Group keeps the List alignment and shows both ticket actions at the top le
     const lanePositions = await page.locator(".group-ticket-meta").evaluateAll(es => es.map(e => e.getBoundingClientRect().left));
     expect(Math.max(...lanePositions) - Math.min(...lanePositions)).toBeLessThanOrEqual(1);
     const removeIcon = page.locator('[data-group-remove] .group-row-icon');
-    await expect(removeIcon).toHaveCSS("mask-image", /\/group-row-icons\/trash-2\.svg/);
+    await expect(removeIcon).toHaveCSS("mask-image", /\/group-row-icons\/folder-minus\.svg/);
     await expect(removeIcon).toHaveAttribute("aria-hidden", "true");
     const add = page.getByRole("button", { name: "Add existing tickets", exact: true });
     const create = page.getByRole("button", { name: "Create ticket", exact: true });
