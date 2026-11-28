@@ -1,7 +1,7 @@
 import { t, getLocale } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { renderPriorityBadge } from "./app-priority.js";
-import { renderRemoteProviderBadge, renderRemoteRefLink } from "./app-remote-provider.js";
+import { renderRemoteProviderBadge, renderRemoteRefLink, isChangeRequest } from "./app-remote-provider.js";
 import { renderTag } from "./app-tags.js";
 import { historyMessage, renderHistoryDetails } from "./app-ticket-history.js";
 
@@ -71,6 +71,7 @@ export function createTicketDetailRenderers(ctx) {
           <div class="ticket-external-reference-row">
             <span class="ticket-external-reference-kind">${ctx.escapeHtml(formatExternalReferenceKind(reference.kind))}</span>
             ${renderRemoteRefLink(reference, ctx.escapeHtml, "ticket-external-reference-ref")}
+            ${isChangeRequest(reference) ? `<button type="button" class="ghost icon-button" data-refresh-external-reference="${ctx.escapeHtml(reference.kind)}" title="${ctx.escapeHtml(t("Refresh change request: {ref}", { ref: reference.displayRef }))}" aria-label="${ctx.escapeHtml(t("Refresh change request: {ref}", { ref: reference.displayRef }))}" ${ctx.isExternalReferenceRefreshing?.(reference.kind) ? 'disabled aria-busy="true"' : ""}>${icon("rotate-ccw")}</button>` : ""}
             ${reference.title ? `<span class="ticket-external-reference-title muted">${ctx.escapeHtml(reference.title)}</span>` : ""}
           </div>
         `).join("")}

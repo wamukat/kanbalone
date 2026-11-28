@@ -819,3 +819,14 @@ a.ticket-external-reference-ref:hover {
 @media (max-width: 600px) {
   :lang(ja) .ticket-relation-row { grid-template-columns: minmax(0, 1fr); }
 }
+
+.change-request-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.change-request-status .icon {
+  width: 0.9rem;
+  height: 0.9rem;
+}

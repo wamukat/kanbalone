@@ -1,5 +1,6 @@
 // @ts-check
 
+import { t, getLocale, translateError } from "./app-i18n.js";
 import { icon } from "./icons.js";
 
 /** @type {Record<string, { label: string; iconName?: string; shortLabel: string }>} */
@@ -15,8 +16,31 @@ const PROVIDER_META = {
  *   provider: string;
  *   displayRef: string;
  *   url: string;
+ *   resourceType?: string;
+ *   changeRequestStatus?: {state: string | null; isDraft: boolean; fetchedAt: string | null; attemptedAt: string; error: string | null} | null;
  * }} RemoteRefLike
  */
+
+/** @param {RemoteRefLike} reference */
+export function isChangeRequest(reference) {
+  return reference.provider === "github" && reference.resourceType === "pull_request"
+    || reference.provider === "gitlab" && reference.resourceType === "merge_request";
+}
+
+/** @param {RemoteRefLike} reference @param {(value: unknown) => string} escapeHtml */
+function renderChangeRequestStatus(reference, escapeHtml) {
+  if (!isChangeRequest(reference)) return "";
+  const status = reference.changeRequestStatus;
+  const state = status?.state ?? "unknown";
+  const draft = state === "open" && status?.isDraft;
+  const label = draft ? t("Change request: Draft") : state === "merged" ? t("Change request: Merged")
+    : state === "closed" ? t("Change request: Closed") : state === "open" ? t("Change request: Open") : t("Change request: Not fetched");
+  const stale = status?.fetchedAt && Date.now() - Date.parse(status.fetchedAt) > 15 * 60 * 1000;
+  const title = [label, status?.fetchedAt ? t("Last checked: {time}", { time: new Date(status.fetchedAt).toLocaleString(getLocale()) }) : "",
+    stale ? t("Possibly stale") : "", status?.error ? t("Last attempt: {time}", { time: new Date(status.attemptedAt).toLocaleString(getLocale()) }) : "", status?.error ? translateError(status.error) : ""].filter(Boolean).join(" · ");
+  const glyph = draft ? "pencil" : state === "merged" ? "git-merge" : state === "closed" ? "x" : state === "open" ? "git-pull-request" : "circle";
+  return `<span class="change-request-status" data-change-request-state="${state}" role="img" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">${icon(glyph)}${stale || status?.error ? icon("circle-alert") : ""}</span>`;
+}
 
 /** @param {string} provider */
 export function remoteProviderLabel(provider) {
@@ -57,6 +81,7 @@ export function renderRemoteRefBadge(remote, escapeHtml, className = "ticket-rem
   return `
     <span class="${className} remote-ref-badge" title="${escapeHtml(remoteProviderLabel(remote.provider))}: ${escapeHtml(remote.displayRef)}">
       ${renderRemoteProviderIcon(remote.provider, escapeHtml)}
+      ${renderChangeRequestStatus(remote, escapeHtml)}
       <span>${escapeHtml(remote.displayRef)}</span>
     </span>
   `;
@@ -70,6 +95,7 @@ export function renderRemoteRefLink(remote, escapeHtml, className = "ticket-remo
   return `
     <a class="${className} remote-ref-badge" href="${escapeHtml(remote.url)}" target="_blank" rel="noreferrer" title="${escapeHtml(remoteProviderLabel(remote.provider))}: ${escapeHtml(remote.displayRef)}">
       ${renderRemoteProviderIcon(remote.provider, escapeHtml)}
+      ${renderChangeRequestStatus(remote, escapeHtml)}
       <span>${escapeHtml(remote.displayRef)}</span>
     </a>
   `;

@@ -100,6 +100,12 @@ export const ticketExternalReferenceSchema = {
     issueKey: { type: "string" },
     displayRef: { type: "string" },
     url: { type: "string" },
+    changeRequestStatus: { anyOf: [{ type: "null" }, { type: "object", additionalProperties: false,
+      required: ["state", "isDraft", "fetchedAt", "attemptedAt", "error"], properties: {
+        state: { anyOf: [{ type: "string", enum: ["open", "closed", "merged"] }, { type: "null" }] },
+        isDraft: { type: "boolean" }, fetchedAt: { anyOf: [{ type: "string" }, { type: "null" }] },
+        attemptedAt: { type: "string" }, error: { anyOf: [{ type: "string" }, { type: "null" }] },
+      } }] },
     title: { anyOf: [{ type: "string" }, { type: "null" }] },
     createdAt: { type: "string" },
     updatedAt: { type: "string" },

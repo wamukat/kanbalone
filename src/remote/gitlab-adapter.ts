@@ -1,5 +1,5 @@
-import type { TicketRemoteLinkView } from "../types.js";
-import type { RemoteCommentPushResult, RemoteIssueAdapter, RemoteIssueLookup, RemoteIssueSnapshot } from "./adapters.js";
+import type { TicketRemoteLinkView, TicketExternalReferenceView } from "../types.js";
+import type { ChangeRequestSnapshot, RemoteCommentPushResult, RemoteIssueAdapter, RemoteIssueLookup, RemoteIssueSnapshot } from "./adapters.js";
 import { EnvRemoteCredentialResolver, type RemoteCredentialResolver } from "./credentials.js";
 import { fetchRemoteJson } from "./http.js";
 
@@ -45,6 +45,16 @@ export class GitlabIssueAdapter implements RemoteIssueAdapter {
       state: issue.state,
       updatedAt: issue.updated_at,
     };
+  }
+
+  async fetchChangeRequest(reference: TicketExternalReferenceView): Promise<ChangeRequestSnapshot> {
+    if (!reference.projectKey || !/^[1-9]\d*$/.test(reference.issueKey)) throw new Error("Invalid merge request reference");
+    const result = await this.fetchJson<{ state: string; draft?: boolean; work_in_progress?: boolean }>(
+      `${normalizeGitlabApiBase(reference.instanceUrl)}/projects/${encodeURIComponent(reference.projectKey)}/merge_requests/${reference.issueKey}`,
+      reference.instanceUrl, { redirect: "error" }, { maxRetries: 0 });
+    if (!["opened", "closed", "merged", "locked"].includes(result.state)) throw new Error("Invalid merge request response");
+    return { state: result.state === "opened" || result.state === "locked" ? "open" : result.state as "closed" | "merged",
+      isDraft: result.draft === true || result.work_in_progress === true };
   }
 
   refreshIssue(link: TicketRemoteLinkView): Promise<RemoteIssueSnapshot> {
