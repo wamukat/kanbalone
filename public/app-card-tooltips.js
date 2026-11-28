@@ -117,8 +117,8 @@ export function initializeCardTooltips() {
     if (event.key !== "Escape" || tooltip.hidden) return;
     dismissed = source;
     hide();
-    event.preventDefault();
-    event.stopPropagation();
+    // Dismiss the description without consuming the board's Escape action
+    // (returning from a card title to the search field).
   }, true);
   document.addEventListener("pointerdown", event => {
     if (!(event.target instanceof Node && tooltip.contains(event.target))) hide();

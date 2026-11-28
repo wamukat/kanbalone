@@ -97,5 +97,10 @@ test("keyboard descriptions remain visible after native lane scrolling", async (
     const box = (await page.locator('.ticket-card-tooltip').boundingBox())!;
     expect(box.y).toBeGreaterThanOrEqual(8);
     expect(box.y + box.height).toBeLessThanOrEqual(472);
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.ticket-card-tooltip')).toBeHidden();
+    await expect(page.locator('#search-input')).toBeFocused();
+    await page.getByRole('button', { name: 'Card 8', exact: true }).focus();
+    await expect(page.locator('.ticket-card-tooltip')).toBeVisible();
   } finally { await close(); }
 });
