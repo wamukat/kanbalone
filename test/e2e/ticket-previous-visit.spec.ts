@@ -43,7 +43,19 @@ test("the displayed comparison stays fixed while the current ticket updates", as
     await expect(page.getByRole("tab", { name: "Changes since last view" })).toHaveAttribute("aria-selected", "true");
     await expect(changes(page)).toContainText("No previous comparison point");
     await expect.poll(() => savedBody(page, ticket.id)).toBe("Revision A");
+    await page.getByRole("tab", { name: "Current ticket" }).click();
+    await page.locator("#ticket-view-body .ticket-detail-body-content p").evaluate(node => {
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const selected = document.getSelection()!;
+      selected.removeAllRanges();
+      selected.addRange(range);
+    });
     await patch("Revision B");
+    await expect(page.locator("#ticket-visit-update")).toHaveJSProperty("hidden", false);
+    await expect(page.locator("#ticket-view-body")).toContainText("Revision A");
+    expect(await page.evaluate(() => document.getSelection()?.toString())).toBe("Revision A");
+    await page.getByRole("tab", { name: "Changes since last view" }).click();
     await expect(changes(page)).toContainText("Updated while open");
     await page.reload();
     await expect(changes(page)).toContainText("Revision A");
