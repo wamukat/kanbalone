@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 for (const succeeds of [true, false]) {
   test(`full editor blocks typing while saving and unlocks after ${succeeds ? "success" : "failure"}`, async ({ page }) => {
@@ -30,6 +30,7 @@ for (const succeeds of [true, false]) {
       release?.();
       await expect(page.locator("#editor-form")).toHaveJSProperty("inert", false);
       if (succeeds) {
+        await showCurrentTicket(page);
         await expect(page.locator("#ticket-view")).toBeVisible();
         await expect(page.locator("#ticket-view")).toContainText("Submitted draft");
       } else {

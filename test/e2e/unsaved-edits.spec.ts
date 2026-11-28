@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { startTestApp, createBoard, createTicket } from "./helpers.js";
+import { startTestApp, createBoard, createTicket, showCurrentTicket } from "./helpers.js";
 
 test("inline body Escape keeps changes until explicit discard", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -7,6 +7,7 @@ test("inline body Escape keeps changes until explicit discard", async ({ page })
     const board = await createBoard(page.request, baseUrl, { name: "Draft safety", laneNames: ["Todo"] });
     const ticket = await createTicket(page.request, baseUrl, board.board.id, { laneId: board.lanes[0].id, title: "Draft", bodyMarkdown: "Original" });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator('[data-detail-edit="body"]').click();
     const draft = page.locator('[data-detail-body-input]');
     await draft.fill("Unsaved body");
@@ -21,6 +22,7 @@ test("inline body Escape keeps changes until explicit discard", async ({ page })
     expect((await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json()).bodyMarkdown).toBe("Original");
 
     await page.getByRole('button', { name: 'Draft', exact: true }).click();
+    await showCurrentTicket(page);
     await expect(page.locator('#ticket-view-body')).toContainText("Original");
     await expect(draft).toHaveCount(0);
   } finally { await close(); }
@@ -46,6 +48,7 @@ test("full editor protects changes on outside click and Back, saved edits close 
     await expect(page).toHaveURL(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator('#ticket-body')).toHaveValue('Keep this');
     await page.locator('#editor-form').getByRole('button', {name:'Save',exact:true}).click();
+    await showCurrentTicket(page);
     await expect(page.locator('#ticket-view-body')).toContainText('Keep this');
     // The detail updates before the post-save board refresh releases the saving guard.
     await expect(page.locator('#editor-form')).toHaveJSProperty('inert', false);
@@ -61,6 +64,7 @@ test("failed inline save and comment refresh preserve the body draft", async ({ 
     const board = await createBoard(page.request, baseUrl, { name: "Failed save", laneNames: ["Todo"] });
     const ticket = await createTicket(page.request, baseUrl, board.board.id, { laneId: board.lanes[0].id, title: "Draft", bodyMarkdown: "Original" });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator('[data-detail-edit="body"]').click();
     await page.locator('[data-detail-body-input]').fill('Recoverable draft');
     await page.route(`**/api/tickets/${ticket.id}`, async route => {
@@ -93,6 +97,7 @@ test("inline body is readonly during save, preventing a later draft from being l
     const board = await createBoard(page.request, baseUrl, { name: 'Slow save', laneNames: ['Todo'] });
     const ticket = await createTicket(page.request, baseUrl, board.board.id, {laneId:board.lanes[0].id,title:'Slow',bodyMarkdown:'Original'});
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator('[data-detail-edit="body"]').click();
     await page.locator('[data-detail-body-input]').fill('Submitted draft');
     await page.route(`**/api/tickets/${ticket.id}`, async route => {

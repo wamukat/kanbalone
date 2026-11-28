@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 for (const locale of ["ja-JP", "en-US", "fr-FR"]) {
   test(`initial language follows ${locale}, and a manual choice survives reload and another board`, async ({ browser }) => {
@@ -102,6 +102,7 @@ for (const locale of ["en-US", "ja-JP"]) {
       await expect(page.locator(".group-name")).toHaveText(group.name);
       await expect(page.locator(".group-ticket-title")).toContainText(ticket.title);
       await page.locator(`[data-group-ticket="${ticket.id}"]`).click();
+      await showCurrentTicket(page);
       await expect(page.locator(".ticket-lane-meta")).toHaveText(`${japanese ? "レーン：" : "Lane:"} ${lanes[0].name}`);
       await expect(page.locator("#ticket-view")).toContainText("Save / 保存");
       await page.locator("#header-edit-button").click();

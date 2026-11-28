@@ -1,7 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 async function postComment(page: Page, text: string) {
+  await showCurrentTicket(page);
   const toggle = page.locator("#comment-compose-toggle");
   if (await toggle.getAttribute("aria-expanded") !== "true") await toggle.click();
   await page.locator("#comment-body").fill(text);
@@ -56,6 +57,7 @@ test("the browser records the configured updater without overwriting existing at
     expect(comments.map((comment: { updater: string }) => comment.updater)).toEqual([name, "画面"]);
 
     await reader.reload();
+    await showCurrentTicket(reader);
     await expect(second.locator(".record-updater")).toHaveText(name);
     await reader.locator("#activity-tab-button").click();
     await expect(reader.locator("#ticket-activity .record-updater")).toHaveText([name, "画面", "API"]);

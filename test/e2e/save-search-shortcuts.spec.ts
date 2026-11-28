@@ -1,5 +1,5 @@
 import { expect, test, type Locator } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 function holdResponse() {
   let release!: () => void;
@@ -54,6 +54,7 @@ test("the full ticket editor saves once via the shortcut and persists the title 
     expect(saves).toBe(1);
     expect(await (await page.request.get(url)).json()).toMatchObject({ title: "Changed title", bodyMarkdown: "Changed **body**" });
     await page.reload();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-body")).toContainText("Changed body");
   } finally {
     responseGate.release();
@@ -77,6 +78,7 @@ test("the comment composer ignores empty and guarded submissions and posts once 
       await route.continue();
     });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator("#comment-compose-toggle").click();
     const input = page.locator("#comment-body");
     await expect(page.locator("#save-comment-button")).toHaveAttribute("aria-keyshortcuts", "Control+Enter Meta+Enter");
@@ -103,6 +105,7 @@ test("the comment composer ignores empty and guarded submissions and posts once 
     expect(comments).toHaveLength(1);
     expect(comments[0].bodyMarkdown).toBe("Posted **with the keyboard**");
     await page.reload();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-comments")).toContainText("Posted with the keyboard");
   } finally {
     responseGate.release();

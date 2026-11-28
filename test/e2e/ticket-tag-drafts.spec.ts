@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { createBoard, createTag, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTag, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 test("the ticket editor discards only draft tags and keeps them on failed save", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -30,6 +30,7 @@ test("the ticket editor discards only draft tags and keeps them on failed save",
     await expect(draft).toContainText("Review notes");
     await page.locator("#cancel-edit-button").click();
     await page.locator("#ux-submit-button").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Shared tag");
     expect((await (await page.request.get(ticketUrl)).json()).tags).toEqual([shared]);
     expect((await (await page.request.get(tagUrl)).json()).tags).toEqual([shared]);
@@ -56,6 +57,7 @@ test("the ticket editor discards only draft tags and keeps them on failed save",
     await expect(page.locator("#ticket-view-meta")).toContainText("Review notes");
     await expect(page.locator("#sidebar-tag-list")).toContainText("Review notes");
     await page.reload();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Review notes");
     await page.locator("#header-edit-button").click();
     await expect(draft).toHaveCount(0);

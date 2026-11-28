@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { createBoard, createTicket, startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, updateTicket, showCurrentTicket } from "./helpers.js";
 
 test("activity shows recorded changes, opens the current comment and preserves Unicode text boundaries", async ({ page }) => {
   const { baseUrl, close } = await startTestApp(page);
@@ -21,6 +21,7 @@ test("activity shows recorded changes, opens the current comment and preserves U
       if (/\/activity\/\d+$/.test(new URL(request.url()).pathname)) detailsRequests.push(request.url());
     });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator("#activity-tab-button").click();
     const timeline = page.locator("#ticket-activity");
     const edit = timeline.locator(".activity-item", { hasText: "Operator" });
@@ -56,6 +57,7 @@ test("a failed activity list is distinct from an empty history", async ({ page }
     await page.route(`${ticketApi}/activity?compact=true`, (route) =>
       route.fulfill({ status: 503, json: { error: "Simulated activity failure" } }));
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.locator("#activity-tab-button").click();
     const activity = page.locator("#ticket-activity");
     await expect(activity.getByRole("status")).toContainText("Could not load activity");
@@ -83,6 +85,7 @@ test("late text for a closed ticket cannot appear in another ticket's activity",
 
     await page.goto(`${baseUrl}/boards/${board.id}/list`);
     await page.locator("#list-board").getByRole("button", { name: /First history/ }).click();
+    await showCurrentTicket(page);
     await page.locator("#activity-tab-button").click();
     const requested = page.waitForRequest(detailUrl);
     await page.locator("#ticket-activity").getByText("Show text change", { exact: true }).click();
@@ -91,6 +94,7 @@ test("late text for a closed ticket cannot appear in another ticket's activity",
     await page.keyboard.press("Escape");
     await expect(page.locator("#editor-dialog")).not.toHaveJSProperty("open", true);
     await page.locator("#list-board").getByRole("button", { name: /Second history/ }).click();
+    await showCurrentTicket(page);
     await page.locator("#activity-tab-button").click();
     await expect(page.locator("#editor-header-id")).toHaveText(`#${second.id}`);
     const response = page.waitForResponse(detailUrl);

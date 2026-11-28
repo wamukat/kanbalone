@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { closeTestApp, buildApp, createDbFile, getFreePort, path } from "./helpers.js";
+import { closeTestApp, buildApp, createDbFile, getFreePort, path, showCurrentTicket } from "./helpers.js";
 
 test("sidebar tag create and edit stay inline", async ({ page }) => {
   const app = buildApp({
@@ -221,6 +221,7 @@ test("long tag labels are constrained across ticket surfaces", async ({ page }) 
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await showCurrentTicket(page);
     await expect(page.locator(".ticket-meta-row .tag [aria-hidden='true']")).toHaveText("very-long-tag-name-withou...");
     await expect(page.locator(".ticket-meta-row .tag")).toHaveAttribute("title", longTagName);
     await page.locator("#header-edit-button").click();
@@ -331,6 +332,7 @@ test("long tag labels remain safe without Intl.Segmenter", async ({ page }) => {
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await showCurrentTicket(page);
     await expect(page.locator(".ticket-meta-row .tag [aria-hidden='true']")).toHaveText("🇯🇵🇺🇸very-long-tag-name-with...");
     await expect(page.locator(".ticket-meta-row .tag")).toHaveAttribute("title", longTagName);
     await page.locator("#header-edit-button").click();

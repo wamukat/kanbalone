@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { createBoard, createTag, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTag, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 async function addRelation(page: Page, type: "blocker" | "related" | "parent" | "child") {
   await page.locator("#ticket-relation-add-button").click();
@@ -27,6 +27,7 @@ test("ticket detail supports focused inline updates", async ({ page }) => {
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
 
     await page.locator("[data-detail-edit='title']").click();
@@ -124,6 +125,7 @@ test("ticket activity tab renders structured events once", async ({ page }) => {
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     await expect(page.locator("#editor-dialog")).toHaveJSProperty("open", true);
+    await showCurrentTicket(page);
     await page.locator("#activity-tab-button").click();
     await expect(page.locator("#ticket-activity")).toContainText("Branch pushed");
     await expect(page.locator("#ticket-activity")).toContainText("Task branch is ready");

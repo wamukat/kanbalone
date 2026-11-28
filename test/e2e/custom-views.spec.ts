@@ -1,6 +1,6 @@
 import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
 
-import { createBoard, createCompletionLane, createTag, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createCompletionLane, createTag, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 const viewApi = "/api/custom-views";
 const heading = "#custom-view-heading";
@@ -225,6 +225,7 @@ test("preserves detail ownership, cancelled drafts, and focus when a ticket leav
 
     await ticketLink(page, data.third.id).press("Enter");
     await expect(page).toHaveURL(`${baseUrl}/tickets/${data.third.id}`);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Lane: Release review");
     const draft = page.locator("[data-detail-body-input]");
     await page.locator('[data-detail-edit="body"]').click();
@@ -261,6 +262,7 @@ test("preserves detail ownership, cancelled drafts, and focus when a ticket leav
     await expect(lanes).toHaveText(["Release review", "Accepted"]);
     await page.locator("#ticket-lane").selectOption(String(data.completed.id));
     await page.locator("#save-ticket-button").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Lane: Accepted");
     await expect(page.locator("#editor-form")).toHaveJSProperty("inert", false);
     await page.keyboard.press("Escape");
@@ -315,6 +317,7 @@ test("keeps the selected result page when changing display options and focuses t
     await page.locator("#header-edit-button").click();
     await page.locator("#ticket-lane").selectOption(String(completed.id));
     await page.locator("#save-ticket-button").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Lane: Accepted");
     await expect(page.locator("#editor-form")).toHaveJSProperty("inert", false);
     await page.keyboard.press("Escape");
@@ -341,6 +344,7 @@ test("reconciles another tab's comments and board order without replacing a newe
     await expect(page.locator(total)).toContainText(/\b3\b/);
     writer = await browser.newPage();
     await writer.goto(`${baseUrl}/tickets/${data.third.id}`);
+    await showCurrentTicket(writer);
     await writer.locator("#comment-compose-toggle").click();
     await writer.locator("#comment-body").fill("Update from another tab.");
     const newComment = writer.waitForResponse(response => response.request().method() === "POST" &&
@@ -401,6 +405,7 @@ test("returns to a directly opened custom view after cancelling Back with a comm
     await page.goto(viewUrl);
     await ticketLink(page, data.third.id).press("Enter");
     await expect(page).toHaveURL(ticketUrl);
+    await showCurrentTicket(page);
     await page.locator("#comment-compose-toggle").click();
     const draft = page.locator("#comment-body");
     await draft.fill("Keep the comment draft");

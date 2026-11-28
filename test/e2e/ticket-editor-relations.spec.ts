@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { createBoard, createTag, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTag, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 async function addRelation(page: Page, type: "blocker" | "related" | "parent" | "child") {
   await page.locator("#ticket-relation-add-button").click();
@@ -82,6 +82,7 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     await page.locator("#cancel-edit-button").click();
     await expect(page.locator("#ux-title")).toHaveText("Discard changes?");
     await page.locator("#ux-submit-button").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view-meta")).toContainText("Cancel tag");
     await page.locator("#header-edit-button").click();
     await expect(page.locator("#ticket-tag-summary")).toContainText("Cancel tag");
@@ -133,6 +134,7 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     );
     await page.locator("#save-ticket-button").click();
     expect((await parentSaveResponse).status()).toBe(200);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     await expect(page.locator("#ticket-relations")).toContainText("Parent");
     await expect(page.locator("#ticket-relations")).toContainText("Parent relation candidate");
@@ -195,6 +197,7 @@ test("ticket editor manages parent blocker and child relations", async ({ page }
     );
     await page.locator("#save-ticket-button").click();
     expect((await relationSaveResponse).status()).toBe(200);
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     await expect(page.locator("#ticket-relations")).not.toContainText("Parent relation candidate");
     await expect(page.locator("#ticket-relations")).toContainText("Blocked By");

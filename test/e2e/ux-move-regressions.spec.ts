@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createBoard, createTicket, startTestApp } from "./helpers.js";
+import { createBoard, createTicket, startTestApp, showCurrentTicket } from "./helpers.js";
 
 function deferred() {
   let resolve!: () => void;
@@ -64,8 +64,10 @@ test("moving to another board refreshes editor lanes before the next save", asyn
     await expect(page.locator("#ticket-lane")).not.toContainText("Source only");
     await page.locator("#ticket-body").fill("Edited after moving");
     await page.locator("#editor-form button[type='submit']").click();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toBeVisible();
     await page.reload();
+    await showCurrentTicket(page);
     await expect(page.locator("#ticket-view")).toContainText("Edited after moving");
     const saved = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
     expect(saved.boardId).toBe(target.board.id);

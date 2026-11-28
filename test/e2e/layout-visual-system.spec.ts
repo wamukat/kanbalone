@@ -5,6 +5,7 @@ import {
   createTag,
   createTicket,
   startTestApp,
+  showCurrentTicket,
 } from "./helpers.js";
 
 test("core typography follows the design system scale", async ({ page }) => {
@@ -317,6 +318,7 @@ test("ticket activity uses the dark theme foreground and keeps timestamps muted"
     });
 
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     await page.getByRole("tab", { name: "Activity" }).click();
     const activity = page.locator("#ticket-activity .activity-item").first();
     await expect(activity.locator(".activity-message")).toBeVisible();
@@ -346,6 +348,7 @@ test("ticket Markdown links use theme colors and expose keyboard focus", async (
       bodyMarkdown: `[External reference](${href}) and #${target.id}`,
     });
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    await showCurrentTicket(page);
     const body = page.locator("#ticket-view-body");
     const external = body.getByRole("link", { name: "External reference" });
     const internal = body.getByRole("link", { name: `#${target.id}`, exact: true });

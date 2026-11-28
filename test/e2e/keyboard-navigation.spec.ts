@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { createBoard, createCompletionLane, createTicket, startTestApp, updateTicket } from "./helpers.js";
+import { createBoard, createCompletionLane, createTicket, startTestApp, updateTicket, showCurrentTicket } from "./helpers.js";
 
 const search = (page: Page) => page.locator("#search-input");
 const title = (page: Page, id: number) => page.locator(`.list-ticket-link[data-open-ticket-id="${id}"]`);
@@ -183,6 +183,7 @@ test("keyboard-opened detail retains a cancelled body draft and restores navigat
     await search(page).focus();
     await search(page).press("ArrowDown");
     await page.keyboard.press("Enter");
+    await showCurrentTicket(page);
     await page.locator('[data-detail-edit="body"]').click();
     const input = page.locator("[data-detail-body-input]");
     await input.fill("Unsaved keyboard draft");
