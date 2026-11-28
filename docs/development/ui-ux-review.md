@@ -8,6 +8,7 @@ Kanbalone is a small personal work board shared by a person and their AI tools. 
 - Reuse the existing white panels, subdued borders, green selection/action color, semantic warning colors, typography, icons, and spacing tokens. Do not introduce a second visual system.
 - Use existing metadata rows for lane, Group, priority, and dependency information. Add controls only when they enable a necessary action.
 - Keep frequent actions close to their content. Board configuration stays in the gear area; lane names remain editable on the lane.
+- Before designing a new action, check how users perform the same action in the existing UI. Match the interaction as well as the component, including direct inline editing and the trash icon for row deletion where those patterns apply. Explain any necessary difference and agree on it with the user before implementing it.
 - Preserve action positions when selection, archive visibility, loading, or filter state changes. Measure the whole control and adjacent controls, not only its label.
 - Keep icon meanings consistent and provide accessible names and tooltips. Sort controls retain direction arrows.
 - A ticket belongs to at most one Group. Related parent/child tickets share membership. Moving between Groups uses remove, then add. Do not add a one-off Undo or Group search without a separate product decision.

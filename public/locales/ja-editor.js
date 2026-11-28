@@ -9,6 +9,7 @@ export default {
   "Complete Task #{number}": "Task #{number} を完了",
   "Reopen Task #{number}": "Task #{number} を再開",
   "Edit Task #{number}": "Task #{number} を編集",
+  "Current saved Task": "保存済みのTask",
   "Delete Task #{number}": "Task #{number} を削除",
   "Delete Task #{number}?": "Task #{number} を削除しますか？",
   "This Task will be removed. Its number will not be reused.": "このTaskを削除します。番号は再利用されません。",

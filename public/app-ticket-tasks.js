@@ -67,6 +67,7 @@ export function createTicketTasks(host, ctx) {
   const reload = /** @type {HTMLButtonElement} */ (host.querySelector("#ticket-task-reload"));
   const error = /** @type {HTMLElement} */ (host.querySelector("#ticket-task-error"));
   const status = /** @type {HTMLElement} */ (host.querySelector("#ticket-task-status"));
+  const notice = /** @type {HTMLElement} */ (host.querySelector(".ticket-task-notice"));
   const list = /** @type {HTMLElement} */ (host.querySelector("#ticket-task-list"));
   const empty = /** @type {HTMLElement} */ (host.querySelector("#ticket-task-empty"));
 
@@ -101,39 +102,80 @@ export function createTicketTasks(host, ctx) {
     status.hidden = !session.status;
   }
 
+  const doneLabel = /** @param {TicketTask} task */ (task) => t(task.done ? "Reopen Task #{number}" : "Complete Task #{number}", { number: task.number });
+
+  /** @param {TicketTask} task @param {boolean} busy */
+  function renderTaskRow(task, busy) {
+    const disabled = busy ? "disabled" : "";
+    const deleteLabel = esc(t("Delete Task #{number}", { number: task.number }));
+    return `
+      <li class="ticket-task-item" data-task-number="${task.number}">
+        <input type="checkbox" data-task-done ${task.done ? "checked" : ""} ${disabled}
+          aria-label="${esc(doneLabel(task))}" />
+        <div class="ticket-task-content">
+          <span class="ticket-task-number" data-task-edit-number>${esc(t("Task #{number}", { number: task.number }))}</span>
+          <div class="ticket-task-current-label muted" hidden>${esc(t("Current saved Task"))}</div>
+          <button type="button" class="visually-hidden ticket-task-edit-trigger" data-task-edit aria-controls="ticket-task-form"
+            ${disabled} aria-label="${esc(t("Edit Task #{number}", { number: task.number }))}"></button>
+          <div class="markdown ticket-task-markdown" data-task-edit-content>${task.bodyHtml}</div>
+        </div>
+        <button type="button" class="ghost icon-button danger ticket-task-delete" data-task-delete ${disabled}
+          title="${deleteLabel}" aria-label="${deleteLabel}">${icon("trash-2")}</button>
+      </li>
+    `;
+  }
+
+  /** @param {TaskSession} session @param {Element} row */
+  function syncInlineEditor(session, row) {
+    const draft = session.draft;
+    const task = session.tasks.find(item => item.number === draft?.number);
+    const input = /** @type {HTMLInputElement} */ (row.querySelector("[data-task-done]"));
+    const edit = /** @type {HTMLButtonElement} */ (row.querySelector("[data-task-edit]"));
+    const remove = /** @type {HTMLButtonElement} */ (row.querySelector("[data-task-delete]"));
+    const preview = /** @type {HTMLElement} */ (row.querySelector("[data-task-edit-content]"));
+    const currentLabel = /** @type {HTMLElement} */ (row.querySelector(".ticket-task-current-label"));
+    input.disabled = remove.disabled = session.busy || !task;
+    if (task) {
+      input.checked = task.done;
+      input.setAttribute("aria-label", doneLabel(task));
+    }
+    edit.hidden = true;
+    preview.hidden = currentLabel.hidden = !task || task.bodyMarkdown === draft?.originalBody;
+    if (task && !preview.hidden && preview.innerHTML !== task.bodyHtml) preview.innerHTML = task.bodyHtml;
+    if (!row.contains(form)) preview.after(form, notice);
+  }
+
   /** @param {TaskSession} session */
   function renderList(session) {
     const needle = foldAscii(query.value);
     const onlyOpen = openOnly.getAttribute("aria-pressed") === "true";
-    const visible = session.tasks.filter(task => (!onlyOpen || !task.done) && foldAscii(task.bodyMarkdown).includes(needle));
-    let focus = null;
-    if (document.activeElement instanceof HTMLElement && list.contains(document.activeElement)) {
-      focus = {
-        number: document.activeElement.closest("[data-task-number]")?.getAttribute("data-task-number"),
-        action: ["done", "edit", "delete"].find(action => document.activeElement?.hasAttribute(`data-task-${action}`)),
-      };
+    const editingNumber = session.draft?.number ?? null;
+    const visible = session.tasks.filter(task => task.number === editingNumber
+      || ((!onlyOpen || !task.done) && foldAscii(task.bodyMarkdown).includes(needle)));
+    const editingRow = form.closest("[data-task-number]");
+    const focused = document.activeElement;
+    const focusedNumber = focused?.closest("[data-task-number]")?.getAttribute("data-task-number");
+    const focusedAction = ["done", "edit", "delete"].find(action => focused?.hasAttribute(`data-task-${action}`));
+    const markup = (/** @type {TicketTask[]} */ rows) => rows.map(task => renderTaskRow(task, session.busy)).join("");
+    if (editingRow && editingNumber !== null) {
+      // Keep the live editor mounted through filters, SSE and conflict reloads.
+      for (const row of [...list.children]) {
+        if (row !== editingRow) row.remove();
+      }
+      editingRow.insertAdjacentHTML("beforebegin", markup(visible.filter(task => task.number < editingNumber)));
+      editingRow.insertAdjacentHTML("afterend", markup(visible.filter(task => task.number > editingNumber)));
+      syncInlineEditor(session, editingRow);
+    } else {
+      list.innerHTML = markup(visible);
+      const editRow = list.querySelector(`[data-task-number="${editingNumber}"]`);
+      if (editRow) syncInlineEditor(session, editRow);
     }
-    const disabled = session.busy ? "disabled" : "";
-    list.innerHTML = visible.map(task => `
-      <li class="ticket-task-item" data-task-number="${task.number}">
-        <input type="checkbox" data-task-done ${task.done ? "checked" : ""} ${disabled}
-          aria-label="${esc(t(task.done ? "Reopen Task #{number}" : "Complete Task #{number}", { number: task.number }))}" />
-        <div class="ticket-task-content">
-          <span class="ticket-task-number">${esc(t("Task #{number}", { number: task.number }))}</span>
-          <div class="markdown ticket-task-markdown">${task.bodyHtml}</div>
-        </div>
-        <div class="ticket-task-actions">
-          <button type="button" class="ghost" data-task-edit ${disabled} aria-label="${esc(t("Edit Task #{number}", { number: task.number }))}">${esc(t("Edit"))}</button>
-          <button type="button" class="danger" data-task-delete ${disabled} aria-label="${esc(t("Delete Task #{number}", { number: task.number }))}">${esc(t("Delete"))}</button>
-        </div>
-      </li>
-    `).join("");
-    list.hidden = visible.length === 0;
-    empty.hidden = visible.length > 0 || (!session.loaded && !session.loading);
+    list.hidden = list.childElementCount === 0;
+    empty.hidden = !list.hidden || (!session.loaded && !session.loading);
     empty.textContent = t(!session.loaded ? "Loading Tasks…" : session.tasks.length ? "No matching Tasks." : "No Tasks yet.");
-    if (focus?.number && focus.action) {
-      const selector = `[data-task-${focus.action}]`;
-      const next = list.querySelector(`[data-task-number="${focus.number}"] ${selector}`) ?? list.querySelector(selector) ?? add;
+    if (focusedNumber && focusedAction && focused !== document.activeElement) {
+      const selector = `[data-task-${focusedAction}]:not([hidden]):not(:disabled)`;
+      const next = list.querySelector(`[data-task-number="${focusedNumber}"] ${selector}`) ?? list.querySelector(selector) ?? add;
       if (next instanceof HTMLElement) next.focus({ preventScroll: true });
     }
   }
@@ -200,6 +242,7 @@ export function createTicketTasks(host, ctx) {
 
   function reset() {
     active = null;
+    if (list.contains(form)) list.before(form, notice);
     imageAttachments.reset(body);
     body.value = "";
     query.value = "";
@@ -220,6 +263,7 @@ export function createTicketTasks(host, ctx) {
 
   /** @param {TaskSession} session */
   function clearDraft(session) {
+    if (list.contains(form)) list.before(form, notice);
     imageAttachments.reset(body);
     body.value = "";
     session.draft = null;
@@ -245,13 +289,16 @@ export function createTicketTasks(host, ctx) {
 
   /** @param {TaskSession} session @param {TicketTask | null} task */
   async function startDraft(session, task) {
+    if (task && session.draft?.number === task.number) return;
     if (!await mayDiscard(session)) return;
+    if (task && !session.tasks.some(item => item.number === task.number)) return;
     clearDraft(session);
     const originalBody = task?.bodyMarkdown ?? "";
     session.draft = { number: task?.number ?? null, originalBody, revision: task?.revision ?? null, removed: false };
     body.value = originalBody;
     session.status = "";
     renderControls(session);
+    renderList(session);
     body.focus();
   }
 
@@ -267,7 +314,7 @@ export function createTicketTasks(host, ctx) {
     session.status = "";
     renderControls(session);
     // Keep the initiating DOM control mounted until the request finishes.
-    list.querySelectorAll("input, button").forEach(control => control.setAttribute("disabled", ""));
+    list.querySelectorAll("[data-task-done], [data-task-edit], [data-task-delete]").forEach(control => control.setAttribute("disabled", ""));
     try {
       const task = /** @type {TicketTask | null} */ (await ctx.sendJson(endpoint(session, number), { method, body: payload }));
       if (!current(session)) return;
@@ -303,7 +350,8 @@ export function createTicketTasks(host, ctx) {
           const same = list.querySelector(`[data-task-number="${number}"] [data-task-${action}]`);
           (same instanceof HTMLElement ? same : add).focus({ preventScroll: true });
         } else if (savedDraft && !session.draft && document.activeElement === document.body) {
-          add.focus({ preventScroll: true });
+          const trigger = list.querySelector(`[data-task-number="${number}"] [data-task-edit]`);
+          (trigger instanceof HTMLButtonElement ? trigger : add).focus({ preventScroll: true });
         }
         flushQueuedRefresh(session);
       }
@@ -326,6 +374,7 @@ export function createTicketTasks(host, ctx) {
     if (session && await mayDiscard(session)) {
       const number = session.draft?.number;
       clearDraft(session);
+      renderList(session);
       const edit = number == null ? null : list.querySelector(`[data-task-number="${number}"] [data-task-edit]`);
       (edit instanceof HTMLElement ? edit : add).focus({ preventScroll: true });
     }
@@ -362,14 +411,19 @@ export function createTicketTasks(host, ctx) {
     void mutate(session, "PATCH", number, { done, expectedRevision: task.revision }, false, input);
   });
   list.addEventListener("click", event => {
-    if (!(event.target instanceof Element)) return;
-    const button = event.target.closest("button[data-task-edit], button[data-task-delete]");
-    if (!(button instanceof HTMLButtonElement)) return;
+    if (event.defaultPrevented || !(event.target instanceof Element)) return;
+    const control = event.target.closest("[data-task-edit-content], [data-task-edit-number], button[data-task-edit], button[data-task-delete]");
+    if (!control) return;
     const session = active;
-    const number = Number(button.closest("[data-task-number]")?.getAttribute("data-task-number"));
+    const number = Number(control.closest("[data-task-number]")?.getAttribute("data-task-number"));
     const task = session?.tasks.find(row => row.number === number);
-    if (!session || !task || !current(session)) return;
-    if (button.hasAttribute("data-task-edit")) {
+    if (!session || !task || !current(session) || session.busy) return;
+    if (!control.hasAttribute("data-task-delete")) {
+      if (!control.hasAttribute("data-task-edit")) {
+        if (event.target.closest("a, img, button, input, select, textarea, summary")) return;
+        const selection = window.getSelection();
+        if (selection && !selection.isCollapsed && selection.containsNode(control, true)) return;
+      }
       void startDraft(session, task);
       return;
     }
@@ -377,7 +431,8 @@ export function createTicketTasks(host, ctx) {
       title: t("Delete Task #{number}?", { number }),
       message: t("This Task will be removed. Its number will not be reused."),
       submitLabel: t("Delete"),
-      run: () => mutate(session, "DELETE", number, { expectedRevision: task.revision }, false, button),
+      run: () => mutate(session, "DELETE", number, { expectedRevision: task.revision }, false,
+        control instanceof HTMLElement ? control : null),
     });
   });
 

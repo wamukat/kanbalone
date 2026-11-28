@@ -78,7 +78,7 @@ Open a ticket and find **Tasks** between its description and the **Comments** an
 
 Choose **Add Task** to write Markdown. Use the checkbox on a Task to complete or reopen it. Search its Markdown in **Search Task text**, and switch on **Open only** to see unfinished Tasks. List rows, Kanban cards and Group ticket rows show how many Tasks are done out of the ticket's total. Task completion is independent of the ticket's lane.
 
-Use **Edit** to change a Task or **Delete** and confirm to remove it. Its number stays in **Activity** and is never assigned again in that ticket. When another edit causes a conflict, choose **Reload Tasks**, review the current Task and then reconcile your draft before saving.
+Click a Task's text to edit it in place. With the keyboard, focus the Task text and press **Enter** or **Space**. To remove a Task, use the trash icon and confirm. Its number stays in **Activity** and is never assigned again in that ticket. When another edit causes a conflict, choose **Reload Tasks**, review the current Task and then reconcile your draft before saving.
 
 ## 7. Use Comments And Activity
 

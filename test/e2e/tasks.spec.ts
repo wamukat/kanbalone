@@ -100,13 +100,20 @@ test("concurrent Task edits retain the draft through a done toggle and explicit 
     const task = await create.json();
     await page.goto(`${baseUrl}/tickets/${ticket.id}`);
     const row = taskRow(page, 1);
-    await row.locator("[data-task-edit]").click();
+    await row.locator("[data-task-edit-content]").click();
     const body = taskBody(page);
     await body.fill("My unsaved draft");
+    await body.evaluate(element => (element as HTMLTextAreaElement).setSelectionRange(3, 10));
+    const originalEditor = await body.elementHandle();
 
     const remote = await page.request.patch(`${endpoint}/1`, { data: { expectedRevision: task.revision, bodyMarkdown: "Other editor text" } });
     expect(remote.status()).toBe(200);
     await expect(row).toContainText("Other editor text");
+    await expect(body).toBeFocused();
+    expect(await originalEditor!.evaluate(element => {
+      const input = element as HTMLTextAreaElement;
+      return [input.isConnected, input.selectionStart, input.selectionEnd];
+    })).toEqual([true, 3, 10]);
     await row.locator("[data-task-done]").click();
     await expect(row.locator("[data-task-done]")).toBeChecked();
     await body.press("Control+Enter");
@@ -124,7 +131,7 @@ test("concurrent Task edits retain the draft through a done toggle and explicit 
     const saved = await (await page.request.get(`${endpoint}/1`)).json();
     expect(saved).toMatchObject({ bodyMarkdown: "My unsaved draft", done: true });
 
-    await row.locator("[data-task-edit]").click();
+    await row.locator("[data-task-edit-content]").click();
     await body.fill("Keep this next draft");
     await page.route(`${endpoint}/1`, route => {
       const { expectedRevision: _expectedRevision, ...data } = route.request().postDataJSON();
@@ -140,7 +147,8 @@ test("concurrent Task edits retain the draft through a done toggle and explicit 
 
     const removed = await page.request.delete(`${endpoint}/1`, { data: { expectedRevision: saved.revision } });
     expect(removed.status()).toBe(204);
-    await expect(row).toHaveCount(0);
+    await expect(row.locator("[data-task-done]")).toBeDisabled();
+    await expect(row.locator("#ticket-task-body")).toHaveValue("Keep this next draft");
     await body.press("Control+Enter");
     await expect(page.locator("#ticket-task-reload")).toBeVisible();
     await page.locator("#ticket-task-reload").click();
@@ -150,6 +158,76 @@ test("concurrent Task edits retain the draft through a done toggle and explicit 
     await page.locator("#ticket-task-cancel").click();
     await page.locator("#ux-dismiss-button").click();
     await expect(body).toHaveValue("Keep this next draft");
+  } finally {
+    await close();
+  }
+});
+
+test("Task body opens its inline editor without intercepting Markdown content or deletion", async ({ page }) => {
+  const { baseUrl, close } = await startTestApp(page);
+  try {
+    const { board, lanes } = await createBoard(page.request, baseUrl, { name: "Task inline", laneNames: ["Todo"] });
+    const ticket = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: "Review an inline change" });
+    const upload = await page.request.post(`${baseUrl}/api/attachments`, {
+      data: Buffer.from(png, "base64"), headers: { "content-type": "image/png" },
+    });
+    expect(upload.status()).toBe(201);
+    const { url } = await upload.json();
+    const tasks = `${baseUrl}/api/tickets/${ticket.id}/tasks`;
+    const markdown = `Click this plain paragraph to edit.\n\n[Tasks heading](#ticket-tasks-heading)\n\n![Example](${url})\n\n\`Copy this code\``;
+    expect((await page.request.post(tasks, { data: { bodyMarkdown: markdown } })).status()).toBe(201);
+    await page.goto(`${baseUrl}/tickets/${ticket.id}`);
+    const row = taskRow(page, 1);
+    const preview = row.locator("[data-task-edit-content]");
+    const edit = row.getByRole("button", { name: "Edit Task #1", exact: true });
+    const trash = row.getByRole("button", { name: "Delete Task #1", exact: true });
+    const inlineBody = row.locator("#ticket-task-body");
+
+    await preview.getByRole("link", { name: "Tasks heading" }).click();
+    await expect(page).toHaveURL(/#ticket-tasks-heading$/);
+    await preview.getByRole("img", { name: "Example" }).click();
+    await expect(inlineBody).toHaveCount(0);
+    const plain = preview.getByText("Click this plain paragraph to edit.", { exact: true });
+    const box = (await plain.boundingBox())!;
+    await page.mouse.move(box.x + 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 110, box.y + box.height / 2, { steps: 10 });
+    await page.mouse.up();
+    expect(await page.evaluate(() => window.getSelection()?.toString())).toContain("plain");
+    await expect(inlineBody).toHaveCount(0);
+    await page.evaluate(() => window.getSelection()?.removeAllRanges());
+    await preview.locator("code").click();
+    await expect(inlineBody).toBeFocused();
+    await row.getByRole("button", { name: "Cancel", exact: true }).click();
+
+    await plain.click();
+    await expect(inlineBody).toBeFocused();
+    await expect(inlineBody).toHaveValue(markdown);
+    await row.getByRole("button", { name: "Cancel", exact: true }).click();
+    await expect(edit).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(inlineBody).toBeFocused();
+    await row.getByRole("button", { name: "Cancel", exact: true }).click();
+    await expect(edit).toBeFocused();
+    await row.getByRole("checkbox").focus();
+    await page.keyboard.press("Tab");
+    await expect(edit).toBeFocused();
+    await expect(preview).toHaveCSS("outline-style", "solid");
+    await page.keyboard.press("Enter");
+    await inlineBody.fill("Saved in the same row");
+    await inlineBody.press("Control+Enter");
+    await expect(preview).toHaveText("Saved in the same row");
+    await expect(edit).toBeFocused();
+
+    await expect(trash).toHaveAttribute("title", "Delete Task #1");
+    await expect(trash.locator("use")).toHaveAttribute("href", /#trash-2$/);
+    await expect(trash).toHaveText("");
+    await trash.click();
+    await page.locator("#ux-dismiss-button").click();
+    await expect(trash).toBeFocused();
+    await expect(preview).toHaveText("Saved in the same row");
+    await page.reload();
+    await expect(preview).toHaveText("Saved in the same row");
   } finally {
     await close();
   }
