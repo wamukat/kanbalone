@@ -23,6 +23,7 @@ export function createBoardSettingsModule(ctx) {
         className: "sidebar-board-name-form",
         html: `<input id="board-rename-input" data-board-rename-input type="text" value="${ctx.escapeHtml(board.name)}" aria-label="${tr("Board name")}" autocomplete="off" />`,
         inputSelector: "[data-board-rename-input]",
+        requiredMessage: tr("Enter a name."),
         onSubmit: submitBoardRename,
         onCancel: cancelBoardRename,
         cancelOnFocusOut: "always",

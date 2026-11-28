@@ -58,6 +58,7 @@ export function createKanbanLaneInputColumn(onSubmit, onCancel) {
       <input id="lane-create-input" type="text" data-lane-create-input aria-label="${tr("Lane name")}" placeholder="${tr("Lane name")}" autocomplete="off" />
     `,
     inputSelector: "[data-lane-create-input]",
+    requiredMessage: tr("Enter a name."),
     onSubmit,
     onCancel,
   });
@@ -88,6 +89,7 @@ function startLaneRename(ctx, header, lane, handlers) {
       <input class="lane-title-edit-input" type="text" data-lane-rename-input aria-label="${tr("Lane name")}" value="${ctx.escapeHtml(lane.name)}" autocomplete="off" />
     `,
     inputSelector: "[data-lane-rename-input]",
+    requiredMessage: tr("Enter a name."),
     onSubmit: async (input) => {
       const name = input?.value.trim() ?? "";
       if (!name || name === lane.name) {

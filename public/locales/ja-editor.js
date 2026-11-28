@@ -170,6 +170,7 @@ export default {
   "Please wait until saving finishes": "保存が完了するまでお待ちください",
   "Discard changes?": "変更を破棄しますか？",
   "Your unsaved changes will be lost.": "保存していない変更は失われます。",
+  "Continue editing": "編集を続ける",
   "Discard changes": "変更を破棄",
   "Remote Title": "リモートのタイトル",
   "Ticket created": "チケットを作成しました",
