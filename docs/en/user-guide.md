@@ -88,6 +88,8 @@ Add comments in ticket details to record progress and notes. While composing a n
 
 Comments show the updater used at posting time. Check **Activity** for the updater of a later edit. Past operations that have no updater show **Unrecorded**.
 
+Activity shows changes to the lane, tags, Group and ticket links when those details were recorded. Expand a text change to read the before and after text. From a comment entry, open the current comment if it still exists, or expand the recorded text from the operation. Earlier entries with missing details show **Not recorded**.
+
 ![Comments and history](../assets/user-guide/06-ticket-activity.png)
 
 ## 8. Import Issues From Other Services

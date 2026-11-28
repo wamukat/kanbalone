@@ -3,6 +3,7 @@ import { icon } from "./icons.js";
 import { renderPriorityBadge } from "./app-priority.js";
 import { renderRemoteProviderBadge, renderRemoteRefLink } from "./app-remote-provider.js";
 import { renderTag } from "./app-tags.js";
+import { historyMessage, renderHistoryDetails } from "./app-ticket-history.js";
 
 const REMOTE_STALE_THRESHOLD_MS = 24 * 60 * 60 * 1000;
 const MAX_BODY_DIFF_CELLS = 40000;
@@ -114,11 +115,13 @@ export function createTicketDetailRenderers(ctx) {
     return `<a class="ticket-tag-chip ticket-ref-chip ticket-relation-chip ticket-relation-chip-${kind}" href="/tickets/${ticket.id}"><span class="ticket-ref-chip-id${ticket.isResolved ? " ticket-ref-resolved" : ""}">#${ticket.id}</span><span class="ticket-ref-chip-text">${ctx.escapeHtml(ticket.title)}</span></a>`;
   }
 
-  function renderActivity(activity, events = []) {
+  function renderActivity(activity, events = [], comments = []) {
+    const currentComments = new Set(comments.map((comment) => comment.id));
     const timeline = [
       ...activity.map((entry) => ({ type: "activity", createdAt: entry.createdAt, entry })),
       ...events.map((entry) => ({ type: "event", createdAt: entry.createdAt, entry })),
-    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      || (a.type === b.type ? (b.entry.id ?? 0) - (a.entry.id ?? 0) : a.type === "activity" ? -1 : 1));
     if (!timeline.length) {
       return `<p class="muted">${t("No activity yet.")}</p>`;
     }
@@ -139,9 +142,8 @@ export function createTicketDetailRenderers(ctx) {
               <time datetime="${ctx.escapeHtml(item.entry.createdAt)}">${new Date(item.entry.createdAt).toLocaleString(getLocale())}</time>
               <bdi class="record-updater">${ctx.escapeHtml(item.entry.updater ?? t("Unrecorded"))}</bdi>
             </div>
-            <div class="activity-message">${ctx.escapeHtml(formatActivityMessage(item.entry))}</div>
-            ${item.entry.action?.startsWith("task_") && typeof item.entry.details?.bodyExcerpt === "string"
-              ? `<div class="activity-meta muted ticket-task-excerpt">${ctx.escapeHtml(item.entry.details.bodyExcerpt)}</div>` : ""}
+            <div class="activity-message">${ctx.escapeHtml(historyMessage(item.entry, formatActivityMessage(item.entry)))}</div>
+            ${renderHistoryDetails(item.entry, currentComments, ctx.escapeHtml)}
           </article>
         `;
       })
@@ -154,7 +156,8 @@ export function createTicketDetailRenderers(ctx) {
       if (entry.action === "task_created") return t("Added Task #{number}", { number });
       if (entry.action === "task_deleted") return t("Deleted Task #{number}", { number });
       if (entry.action === "task_updated") {
-        if (entry.details.done !== entry.details.previousDone) {
+        if (typeof entry.details.done === "boolean" && typeof entry.details.previousDone === "boolean"
+            && entry.details.done !== entry.details.previousDone) {
           if (entry.details.bodyChanged === true) {
             return t(entry.details.done ? "Completed Task #{number} and updated its text" : "Reopened Task #{number} and updated its text", { number });
           }

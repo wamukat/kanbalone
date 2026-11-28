@@ -1,6 +1,7 @@
 import { t } from "./app-i18n.js";
 import { icon } from "./icons.js";
 import { createTicketDetailRenderers } from "./app-ticket-detail-renderers.js";
+import { readRecordedText, renderRecordedText } from "./app-ticket-history.js";
 
 export { buildBodyDiffRows, getRemoteSnapshotFreshness } from "./app-ticket-detail-renderers.js";
 
@@ -67,8 +68,43 @@ export function createTicketDetailModule(ctx) {
   function syncActivity(activity, events = state.dialogEvents) {
     state.dialogActivity = activity;
     state.dialogEvents = events;
-    elements.ticketActivity.innerHTML = renderers.renderActivity(activity, events);
+    elements.ticketActivity.innerHTML = renderers.renderActivity(activity, events, state.dialogTicket?.comments ?? []);
   }
+
+  elements.ticketActivity.addEventListener("click", (event) => {
+    const link = event.target instanceof Element ? event.target.closest("[data-activity-comment-id]") : null;
+    if (!link || !ctx.isDialogCurrent()) return;
+    const id = Number(link.getAttribute("data-activity-comment-id"));
+    if (!state.dialogTicket?.comments?.some((comment) => comment.id === id)) return;
+    const target = elements.ticketComments.querySelector(`[data-comment-id="${id}"]`);
+    if (!(target instanceof HTMLElement)) return;
+    setDetailTab("comments");
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: "nearest" });
+  });
+
+  elements.ticketActivity.addEventListener("toggle", async (event) => {
+    const disclosure = event.target;
+    if (!(disclosure instanceof HTMLDetailsElement) || !disclosure.open || disclosure.dataset.activityDetailState) return;
+    const activityId = Number(disclosure.dataset.activityDetailId);
+    const ticketId = state.dialogTicket?.id;
+    const panel = disclosure.querySelector("[data-activity-detail-content]");
+    if (!ticketId || !Number.isSafeInteger(activityId) || activityId <= 0 || !panel || !ctx.isDialogCurrent()) return;
+    const isCurrent = () => disclosure.isConnected && state.dialogTicket?.id === ticketId && ctx.isDialogCurrent();
+    disclosure.dataset.activityDetailState = "loading";
+    panel.textContent = t("Loading recorded text...");
+    try {
+      const entry = await ctx.api(`/api/tickets/${ticketId}/activity/${activityId}`);
+      if (!isCurrent()) return;
+      if (entry.id !== activityId || entry.subjectTicketId !== ticketId) throw new Error("Unexpected activity");
+      panel.innerHTML = renderRecordedText(readRecordedText(entry), ctx.escapeHtml);
+      disclosure.dataset.activityDetailState = "loaded";
+    } catch {
+      if (!isCurrent()) return;
+      panel.textContent = t("Could not load recorded text. Close and reopen to retry.");
+      delete disclosure.dataset.activityDetailState;
+    }
+  }, true);
 
   function syncEditorHeader(ticket) {
     if (!ticket) {

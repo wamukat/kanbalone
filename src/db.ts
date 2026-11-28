@@ -31,6 +31,7 @@ import {
 } from "./db-modules/board.js";
 import {
   addComment,
+  getActivity,
   getComment,
   deleteComment,
   listActivity,
@@ -76,6 +77,7 @@ import {
   type UpsertTicketExternalReferenceInput,
 } from "./db-modules/ticket-external-references.js";
 import { addActivity } from "./db-modules/ticket-writes.js";
+import { historyDetails, readTicketHistory, recordTicketPeerHistory, ticketChanges } from "./db-modules/ticket-history.js";
 import {
   getCommentRemoteSync,
   findTicketIdByRemoteIdentity,
@@ -186,7 +188,17 @@ export class KanbanDb {
   }
 
   deleteBoard(boardId: Id): void {
-    deleteBoardRecord(this.sqlite, boardId);
+    this.sqlite.transaction(() => {
+      const peers = this.sqlite.prepare(`
+        WITH removed(id) AS (SELECT id FROM tickets WHERE board_id = ?)
+        SELECT ticket_id AS id FROM ticket_blockers WHERE blocker_ticket_id IN removed AND ticket_id NOT IN removed
+        UNION SELECT blocker_ticket_id AS id FROM ticket_blockers WHERE ticket_id IN removed AND blocker_ticket_id NOT IN removed
+      `).all(boardId) as { id: Id }[];
+      const ids = peers.map(({ id }) => id);
+      const before = readTicketHistory(this.sqlite, ids, { relations: true });
+      deleteBoardRecord(this.sqlite, boardId);
+      recordTicketPeerHistory(this.sqlite, before, readTicketHistory(this.sqlite, ids, { relations: true }), new Set(), this.now());
+    }).immediate();
   }
 
   listLanes(boardId: Id): LaneView[] {
@@ -243,7 +255,20 @@ export class KanbanDb {
   }
 
   deleteTag(tagId: Id): void {
-    deleteTagRecord(this.sqlite, tagId);
+    this.sqlite.transaction(() => {
+      const assigned = this.sqlite.prepare("SELECT ticket_id FROM ticket_tags WHERE tag_id = ?")
+        .all(tagId) as { ticket_id: Id }[];
+      const ids = assigned.map(({ ticket_id }) => ticket_id);
+      const before = readTicketHistory(this.sqlite, ids, { tags: true });
+      deleteTagRecord(this.sqlite, tagId);
+      const after = readTicketHistory(this.sqlite, ids, { tags: true });
+      for (const [ticketId, state] of before) {
+        this.addTicketActivity({
+          boardId: state.boardId, ticketId, action: "ticket_tag_removed", message: "Ticket tag removed",
+          details: { tagId, ...historyDetails(ticketChanges(state, after.get(ticketId))) },
+        });
+      }
+    }).immediate();
   }
 
   listGroups(boardId: Id, options: Parameters<typeof groups.listGroups>[2] = {}) { return groups.listGroups(this.sqlite, boardId, options); }
@@ -448,8 +473,12 @@ export class KanbanDb {
     return this.sqlite.transaction(() => deleteComment(this.sqlite, commentId, this.now())).immediate();
   }
 
-  listActivity(ticketId: Id): ActivityLogView[] {
-    return listActivity(this.sqlite, ticketId);
+  listActivity(ticketId: Id, compact = false): ActivityLogView[] {
+    return listActivity(this.sqlite, ticketId, compact);
+  }
+
+  getActivity(ticketId: Id, activityId: Id): ActivityLogView | null {
+    return getActivity(this.sqlite, ticketId, activityId);
   }
 
   addTicketEvent(input: CreateTicketEventInput): TicketEventView {
@@ -461,7 +490,7 @@ export class KanbanDb {
   }
 
   setTicketTagReason(input: SetTicketTagReasonInput): TicketTagReasonView {
-    return setTicketTagReason(this.sqlite, input, this.now());
+    return this.sqlite.transaction(() => setTicketTagReason(this.sqlite, input, this.now())).immediate();
   }
 
   removeTicketTag(ticketId: Id, tagId: Id): { boardId: Id } {

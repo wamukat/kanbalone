@@ -336,6 +336,10 @@ curl -s http://127.0.0.1:3000/api/tickets/6/comments
 curl -s http://127.0.0.1:3000/api/tickets/6/activity
 ```
 
+The list is newest first, with higher activity IDs first when timestamps match. New ticket edits store `details.changeVersion: 1` and changed fields in `details.changes`. Each recorded field has `before` and `after` values. Read array membership by ID. A label is the name at the time of the operation. Earlier activity can lack fields, while an explicit null or empty value is known.
+
+Use `GET /api/tickets/6/activity?compact=true` to omit large recorded text from the list. When `details.bodyDetailsDeferred` is true, read the full entry from `GET /api/tickets/6/activity/:activityId` using its returned ID.
+
 ## Get Relations
 
 ```bash

@@ -165,7 +165,7 @@ export function createEditorModule(ctx) {
       const request = ++activityRequest;
       await Promise.all([
         ctx.refreshBoardDetail(),
-        ctx.api(`/api/tickets/${ticketId}/activity`).then((payload) => {
+        ctx.api(`/api/tickets/${ticketId}/activity?compact=true`).then((payload) => {
           if (isCurrent() && request === activityRequest) detailModule.syncActivity(payload.activity ?? []);
         }),
       ]);
@@ -407,7 +407,7 @@ export function createEditorModule(ctx) {
     const request = ++activityRequest;
     const [ticket, activityPayload, eventsPayload] = await Promise.all([
       savedTicket ?? ctx.api(`/api/tickets/${ticketId}`),
-      ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
+      ctx.api(`/api/tickets/${ticketId}/activity?compact=true`).catch(() => ({ activity: [] })),
       ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
     ]);
     if (!isCurrent()) return null;
@@ -469,7 +469,7 @@ export function createEditorModule(ctx) {
     const [ticket, activityPayload, eventsPayload] = ticketId
       ? await Promise.all([
         ctx.api(`/api/tickets/${ticketId}`),
-        ctx.api(`/api/tickets/${ticketId}/activity`).catch(() => ({ activity: [] })),
+        ctx.api(`/api/tickets/${ticketId}/activity?compact=true`).catch(() => ({ activity: [] })),
         ctx.api(`/api/tickets/${ticketId}/events`).catch(() => ({ events: [] })),
       ])
       : [null, { activity: [] }, { events: [] }];

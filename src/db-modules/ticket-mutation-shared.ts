@@ -3,6 +3,7 @@ import type Database from "better-sqlite3";
 import { replaceTicketTags } from "./ticket-writes.js";
 import { addActivity as insertActivity } from "./ticket-writes.js";
 import type { MoveTicketInput } from "./ticket-mutations.js";
+import { historyDetails, type TicketChanges } from "./ticket-history.js";
 import type { Id, LaneRow, TicketRow } from "../types.js";
 
 export type Now = () => string;
@@ -77,6 +78,7 @@ export function addBoardMoveActivity(
     targetLane: LaneRow;
     relationsCleared: boolean;
   },
+  changes: TicketChanges,
 ): void {
   addTicketActivity(
     sqlite,
@@ -94,6 +96,7 @@ export function addBoardMoveActivity(
       toLaneId: input.targetLane.id,
       toLaneName: input.targetLane.name,
       relationsCleared: input.relationsCleared,
+      ...historyDetails(changes),
     },
   );
 }

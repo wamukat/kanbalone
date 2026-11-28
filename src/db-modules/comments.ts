@@ -39,21 +39,23 @@ export function addComment(
   const result = sqlite
     .prepare("INSERT INTO comments (ticket_id, body_markdown, created_at, updater) VALUES (?, ?, ?, ?)")
     .run(input.ticketId, input.bodyMarkdown, createdAt, updater);
+  const commentId = Number(result.lastInsertRowid);
   recordTicketContentActivity(sqlite, input.ticketId, now);
   insertActivity(sqlite, {
     boardId,
     ticketId: input.ticketId,
     action: input.historical ? "comment_imported" : "comment_added",
     message: input.historical ? "Comment imported" : "Comment added",
+    details: { commentId, bodyMarkdown: input.bodyMarkdown },
     createdAt: now,
   });
   touchBoard(sqlite, boardId, now);
   const sync = upsertCommentRemoteSync(sqlite, {
-    commentId: Number(result.lastInsertRowid),
+    commentId,
     status: "local_only",
   }, now);
   return mapComment({
-    id: Number(result.lastInsertRowid),
+    id: commentId,
     ticket_id: input.ticketId,
     body_markdown: input.bodyMarkdown,
     created_at: createdAt,
@@ -180,7 +182,28 @@ export function deleteComment(sqlite: Database.Database, commentId: Id, now: str
   return { ticketId: current.ticket_id, boardId: current.board_id };
 }
 
-export function listActivity(sqlite: Database.Database, ticketId: Id): ActivityLogView[] {
+// Remove large Markdown values before they cross the SQLite/Node boundary.
+// The ordinary Activity API still returns the complete stored details.
+const compactActivityDetails = `
+  CASE WHEN json_valid(details_json) THEN
+    CASE WHEN (json_extract(details_json, '$.changeVersion') = 1 AND json_type(details_json, '$.changes.bodyMarkdown') = 'object')
+      OR (action IN ('comment_added', 'comment_imported', 'comment_updated', 'comment_deleted', 'task_updated', 'task_deleted')
+          AND 'text' IN (json_type(details_json, '$.bodyMarkdown'), json_type(details_json, '$.oldBodyMarkdown'),
+            json_type(details_json, '$.newBodyMarkdown'), json_type(details_json, '$.deletedBodyMarkdown')))
+    THEN json_set(
+      json_remove(details_json, '$.changes.bodyMarkdown.before', '$.changes.bodyMarkdown.after',
+        '$.bodyMarkdown', '$.oldBodyMarkdown', '$.newBodyMarkdown', '$.deletedBodyMarkdown'),
+      CASE WHEN action = 'comment_updated' AND
+        json_extract(details_json, '$.oldBodyMarkdown') = json_extract(details_json, '$.newBodyMarkdown')
+        THEN '$.bodyUnchanged' ELSE '$.bodyDetailsDeferred' END, json('true'),
+      '$.bodyExcerpt', coalesce(json_extract(details_json, '$.bodyExcerpt'),
+        substr(coalesce(json_extract(details_json, '$.bodyMarkdown'), json_extract(details_json, '$.newBodyMarkdown'),
+          json_extract(details_json, '$.deletedBodyMarkdown')), 1, 160)))
+    ELSE details_json END
+  ELSE details_json END
+`;
+
+export function listActivity(sqlite: Database.Database, ticketId: Id, compact = false): ActivityLogView[] {
   const hasActivity = sqlite
     .prepare("SELECT 1 FROM activity_logs WHERE subject_ticket_id = ? LIMIT 1")
     .get(ticketId) != null;
@@ -188,9 +211,19 @@ export function listActivity(sqlite: Database.Database, ticketId: Id): ActivityL
     throw new Error("Ticket not found");
   }
   const rows = sqlite
-    .prepare("SELECT * FROM activity_logs WHERE subject_ticket_id = ? ORDER BY created_at DESC, id DESC")
+    .prepare(compact
+      ? `SELECT id, board_id, ticket_id, subject_ticket_id, action, message, updater, created_at,
+          ${compactActivityDetails} AS details_json
+          FROM activity_logs WHERE subject_ticket_id = ? ORDER BY created_at DESC, id DESC`
+      : "SELECT * FROM activity_logs WHERE subject_ticket_id = ? ORDER BY created_at DESC, id DESC")
     .all(ticketId) as ActivityLogRow[];
   return rows.map(mapActivityLog);
+}
+
+export function getActivity(sqlite: Database.Database, ticketId: Id, activityId: Id): ActivityLogView | null {
+  const row = sqlite.prepare("SELECT * FROM activity_logs WHERE subject_ticket_id = ? AND id = ?")
+    .get(ticketId, activityId) as ActivityLogRow | undefined;
+  return row ? mapActivityLog(row) : null;
 }
 
 function hasTicket(sqlite: Database.Database, ticketId: Id): boolean {
