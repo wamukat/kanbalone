@@ -51,8 +51,6 @@ export function createTicketDetailModule(ctx) {
   }
 
   function syncTicketDetail(ticket, activity = [], events = []) {
-    state.dialogActivity = activity;
-    state.dialogEvents = events;
     syncEditorHeader(ticket);
     elements.ticketViewMeta.innerHTML = renderers.renderTicketMeta(ticket);
     syncRemoteSummary(ticket);
@@ -63,6 +61,12 @@ export function createTicketDetailModule(ctx) {
     } else {
       renderBodyDisplay(ticket);
     }
+    syncActivity(activity, events);
+  }
+
+  function syncActivity(activity, events = state.dialogEvents) {
+    state.dialogActivity = activity;
+    state.dialogEvents = events;
     elements.ticketActivity.innerHTML = renderers.renderActivity(activity, events);
   }
 
@@ -407,6 +411,7 @@ export function createTicketDetailModule(ctx) {
     handleDetailClick,
     handleDetailFocusout,
     handleDetailKeydown,
+    syncActivity,
     syncEditorHeader,
     syncTicketDetail,
   };

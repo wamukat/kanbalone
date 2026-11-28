@@ -67,7 +67,7 @@ import {
   type UpdateTicketInput,
 } from "./db-modules/ticket-mutations.js";
 import { exportBoardImages, importBoardImages } from "./db-modules/attachment-transfer.js";
-import { importBoardPayload, toBoardExport } from "./db-modules/board-transfer.js";
+import { importBoardPayload, toBoardExport, validateBoardTaskStates } from "./db-modules/board-transfer.js";
 import { migrate } from "./db-modules/migration.js";
 import {
   getTicketExternalReferences,
@@ -92,6 +92,7 @@ import {
   upsertTicketExternalReferenceWithActivity,
 } from "./db-modules/remote-workflows.js";
 import { type ListTicketsFilters } from "./db-modules/ticket-queries.js";
+import { exportTicketTaskStates } from "./db-modules/ticket-tasks.js";
 import {
   getTicket as getTicketRecord,
   getTicketRelations as getTicketRelationRecords,
@@ -482,10 +483,12 @@ export class KanbanDb {
   }
 
   exportBoard(boardId: Id): BoardExport {
-    return exportBoardImages(toBoardExport(this.getBoardDetail(boardId)), this.attachments);
+    const payload = this.sqlite.transaction(() => toBoardExport(this.getBoardDetail(boardId), exportTicketTaskStates(this.sqlite, boardId)))();
+    return exportBoardImages(payload, this.attachments);
   }
 
   importBoard(payload: BoardExport): BoardDetailView {
+    validateBoardTaskStates(payload);
     return importBoardImages(payload, this.attachments, () => importBoardPayload(this.sqlite, payload, {
       addComment: this.addComment.bind(this),
       createBoard: this.createBoard.bind(this),

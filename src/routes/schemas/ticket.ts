@@ -4,6 +4,11 @@ import { tagViewSchema } from "./tag.js";
 import { commentViewSchema } from "./ticket-comment.js";
 import { ticketRelationSchema } from "./ticket-relation.js";
 
+export const taskCountProperties = {
+  taskCount: { type: "integer", minimum: 0 },
+  doneTaskCount: { type: "integer", minimum: 0 },
+} as const;
+
 export const ticketRemoteSummarySchema = {
   anyOf: [
     { type: "null" },
@@ -133,8 +138,11 @@ export const ticketSchema = {
     "shortRef",
     "remote",
     "externalReferences",
+    "taskCount",
+    "doneTaskCount",
   ],
   properties: {
+    ...taskCountProperties,
     groupId: nullableGroupIdSchema,
     group: groupReferenceSchema,
     editToken: { type: "string" },
@@ -223,8 +231,11 @@ export const ticketSummarySchema = {
     "shortRef",
     "remote",
     "externalReferences",
+    "taskCount",
+    "doneTaskCount",
   ],
   properties: {
+    ...taskCountProperties,
     groupId: nullableGroupIdSchema,
     group: groupReferenceSchema,
     id: positiveIntegerSchema,

@@ -101,6 +101,19 @@ The selection and all affected ticket states update in one transaction. Invalid 
 - Remote tracked tickets add `sync` metadata to comments.
 - Use `POST /api/comments/:commentId/push-remote` to post a local comment to the remote issue.
 
+### Ticket Tasks
+
+Use Tasks for individual review findings, corrections and checks within a ticket. Each Task has its own Markdown and completion flag. The server assigns a strictly increasing number scoped to the ticket. Ticket completion still follows the lane. Use a child ticket for work that needs its own lane or priority.
+
+- List or create Tasks at `/api/tickets/:ticketId/tasks`. The list returns `{tasks, taskCount, doneTaskCount}`, with totals for the whole ticket. Use `q` for a literal Markdown substring and `done=true` or `done=false` for the completion filter. Matching ignores ASCII letter case. Other characters and whitespace match exactly.
+- Read, patch or delete a Task at `/api/tickets/:ticketId/tasks/:taskNumber`. Create with `bodyMarkdown` and optional `done`, which defaults to false. Markdown must contain non-whitespace text and fit within 100,000 valid Unicode characters. The response also includes sanitized `bodyHtml` and `revision`.
+- Send `expectedRevision` in the JSON for PATCH and DELETE. An omitted revision returns 428. A stale revision returns 409 with `STALE_TASK`. Read the current Task and reconcile the edit before retrying.
+- Read `task_created`, `task_updated` and `task_deleted` in ticket activity. Each entry records the number, excerpt, completion state and updater. Body edits retain the previous and new Markdown. Deletions retain the deleted Markdown. A matching no-op PATCH leaves activity, revision and board notifications untouched.
+
+Ticket detail and ticket summaries include `taskCount` and `doneTaskCount`. Task changes refresh these counts without changing the ticket's update timestamp or its body-and-comment activity sort. Tasks follow the ticket on moves and remain available when it is archived. Deleting the ticket removes its Tasks. Activity from before a move follows the originating board's existing history retention rules.
+
+See [working examples](./api-examples.md#ticket-tasks) and [backup and transfer compatibility](./migration-guide.md#ticket-task-migration).
+
 ### 6. Archive State Is Separate From Completion
 
 - `isArchived` is independent from `isResolved`.

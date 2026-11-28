@@ -194,7 +194,19 @@ export type TicketRelationsView = {
   related: TicketRelationView[];
 };
 
-export type TicketView = {
+export type TicketTaskCounts = { taskCount: number; doneTaskCount: number };
+
+export type TicketTaskRecord = {
+  number: number;
+  bodyMarkdown: string;
+  done: boolean;
+  revision: number;
+};
+
+export type TicketTask = TicketTaskRecord & { bodyHtml: string };
+export type TicketTaskState = { lastNumber: number; tasks: TicketTaskRecord[] };
+
+export type TicketView = TicketTaskCounts & {
   groupId?: Id | null;
   group?: { id: Id; name: string } | null;
   editToken?: string;
@@ -228,7 +240,7 @@ export type TicketView = {
   externalReferences: TicketExternalReferenceView[];
 };
 
-export type TicketSummaryView = {
+export type TicketSummaryView = TicketTaskCounts & {
   groupId?: Id | null;
   group?: { id: Id; name: string } | null;
   id: Id;
@@ -384,8 +396,9 @@ export type BoardExport = {
   lanes: LaneView[];
   tags: TagView[];
   tickets: Array<
-    Omit<TicketView, "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken" | "resolvedAt"> & {
+    Omit<TicketView, keyof TicketTaskCounts | "bodyHtml" | "blockers" | "blockedBy" | "related" | "parent" | "children" | "ref" | "shortRef" | "remote" | "externalReferences" | "comments" | "group" | "editToken" | "resolvedAt"> & {
       resolvedAt?: string | null;
+      taskState?: TicketTaskState;
       comments: Array<Omit<CommentView, "sync" | "updater"> & { updater?: string | null }>;
       isCompleted?: boolean;
     }

@@ -69,6 +69,7 @@ export function getAppElements() {
     ticketViewMeta: document.querySelector("#ticket-view-meta"),
     ticketRemoteSummary: document.querySelector("#ticket-remote-summary"),
     ticketRelations: document.querySelector("#ticket-relations"),
+    ticketTasks: document.querySelector("#ticket-tasks"),
     ticketBodyTabs: document.querySelector("#ticket-body-tabs"),
     ticketLocalBodyTabButton: document.querySelector("#ticket-local-body-tab-button"),
     ticketRemoteBodyTabButton: document.querySelector("#ticket-remote-body-tab-button"),

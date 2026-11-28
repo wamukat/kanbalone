@@ -31,6 +31,30 @@ curl -fsS http://127.0.0.1:3000/api/tickets/42/activity
 
 コメントの削除や外部Issueの再取得など、本文なしで実行できる操作は、任意で `updater` だけを含むJSONを送れます。既存のパラメーターとヘッダーは引き続き使用します。一括操作で生成される履歴には同じ更新者が記録されます。コメントの `updater` は投稿時の値です。編集時の更新者はチケットの履歴に記録されます。更新者が未記録の過去データでは `null` が返ります。対象操作は [OpenAPI](https://github.com/wamukat/kanbalone/blob/main/docs/openapi.yaml) を参照してください。
 
+<a id="ticket-tasks"></a>
+## チケット内のTask
+
+チケット内にTaskを追加し、そのチケットの未完了Taskを検索します。応答にはTask番号とrevisionが含まれます。例では採番された番号が1です。
+
+```bash
+TASKS=http://127.0.0.1:3000/api/tickets/42/tasks
+curl -fsS -X POST "$TASKS" -H 'content-type: application/json' \
+  --data '{"bodyMarkdown":"確認: **復元**手順を試す","updater":"レビュー担当"}'
+curl -fsS --get "$TASKS" --data-urlencode 'q=確認:' --data-urlencode 'done=false'
+```
+
+確認時のrevisionを指定してTaskを完了します。変更後のTaskを確認し、削除する場合は新しいrevisionを使います。
+
+```bash
+curl -fsS -X PATCH "$TASKS/1" -H 'content-type: application/json' \
+  --data '{"expectedRevision":1,"done":true,"updater":"レビュー担当"}'
+curl -fsS -X DELETE "$TASKS/1" -H 'content-type: application/json' \
+  --data '{"expectedRevision":2,"updater":"レビュー担当"}'
+curl -fsS http://127.0.0.1:3000/api/tickets/42/activity
+```
+
+409の場合は `"$TASKS/1"` を取得して、現在の本文・完了状態と変更内容を照合します。
+
 <a id="チケット一覧のページング"></a>
 ## チケット一覧のページング
 

@@ -102,6 +102,19 @@ Codex は Kanbalone container の外側で動くため、skill はホスト側�
 - remote tracked ticket では comment に `sync` metadata が付きます。
 - `POST /api/comments/:commentId/push-remote` で remote issue に comment を反映できます。
 
+### チケット内のTask
+
+チケット内の修正・指摘・確認を個別に記録するときはTaskを使います。TaskにはMarkdown本文と完了状態があり、番号はチケット内で自動採番します。チケットの完了は引き続きレーンで決まります。レーンや優先度を別々に管理する作業には子チケットを使います。
+
+- `/api/tickets/:ticketId/tasks` で一覧取得・作成します。応答の `{tasks, taskCount, doneTaskCount}` の件数は絞り込み前の合計です。`q` はMarkdownの部分一致、`done=true` または `done=false` は完了状態での絞り込みです。検索ではASCII英字の大文字と小文字を区別せず、その他の文字と空白はそのまま照合します。
+- `/api/tickets/:ticketId/tasks/:taskNumber` で個別取得・編集・削除します。作成時に `bodyMarkdown` と任意の `done`（省略するとfalse）を送ります。本文には空白以外の文字が必要で、有効なUnicode文字10万文字までです。応答にサニタイズ済みの `bodyHtml` と `revision` が含まれます。
+- PATCHとDELETEのJSONに `expectedRevision` を送ります。省略すると428、古いrevisionでは `STALE_TASK` と409を返します。競合時は現状を取得し、編集や削除の意図を照合してから再試行します。
+- チケット履歴の `task_created`、`task_updated`、`task_deleted` で番号・抜粋・完了状態・更新者を確認できます。本文変更では前後のMarkdown、削除時は削除されたMarkdownも記録します。revisionが一致し値が同じPATCHでは、履歴・revision・ボード通知は更新しません。
+
+チケット詳細と一覧のサマリーは `taskCount`、`doneTaskCount` を返します。Taskを変更してもチケットの更新日時や本文・コメントの最終活動順は変わりません。Taskはチケットと一緒に移動し、アーカイブ後も参照できます。チケットを削除するとTaskも削除されます。移動前の履歴の保存期間は、他の操作と同じく記録元ボードの扱いに従います。
+
+[APIの使用例](./api-examples.md#ticket-tasks) と [バックアップ・移行の互換性](./migration-guide.md#ticket-task-migration) を参照してください。
+
 ### 6. Archive はResolved 状態と独立
 
 - `isArchived` は `isResolved` と独立です。

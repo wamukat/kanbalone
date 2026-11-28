@@ -1,4 +1,5 @@
 import { migrateTicketPagination } from "./ticket-pagination-revision.js";
+import { migrateTicketTasks } from "./ticket-tasks.js";
 import { migrateCustomViews } from "./custom-views.js";
 import { migrateTicketContentActivity } from "./ticket-content-activity.js";
 import { migrateGroups } from "./groups.js";
@@ -307,6 +308,7 @@ export function migrate(sqlite: Database.Database): void {
   }
   migrateLaneCompletion(sqlite);
   migrateCompletionTime(sqlite);
+  migrateTicketTasks(sqlite);
   migrateTicketPagination(sqlite);
   migrateCustomViews(sqlite);
   migrateTicketContentActivity(sqlite);

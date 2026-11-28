@@ -26,6 +26,7 @@
     "public/app-tags.js",
     "public/app-group-*.js",
     "public/app-ticket-sort.js",
+    "public/app-ticket-tasks.js",
     "public/app-ticket-hierarchy.js",
     "public/app-ticket-inline-icons.js",
     "public/app-ticket-pages.js",

@@ -18,6 +18,7 @@ function referencedImages(board: BoardExport): Set<string> {
   for (const ticket of board.tickets) {
     visit(ticket.bodyMarkdown);
     for (const comment of ticket.comments) visit(comment.bodyMarkdown);
+    for (const task of ticket.taskState?.tasks ?? []) visit(task.bodyMarkdown);
   }
   for (const group of board.groups ?? []) visit(group.descriptionMarkdown);
   return ids;
@@ -25,14 +26,19 @@ function referencedImages(board: BoardExport): Set<string> {
 
 export function exportBoardImages(board: BoardExport, store: AttachmentStore): BoardExport {
   const ids = referencedImages(board);
-  if (!ids.size) return board;
+  if (!ids.size) {
+    if (board.formatVersion === 4 && Buffer.byteLength(JSON.stringify(board, null, 2)) > boardTransferByteLimit) {
+      throw Object.assign(new Error("Board export exceeds 64 MiB. Use a database and attachments backup."), { statusCode: 413 });
+    }
+    return board;
+  }
   const images = [...ids].map(id => {
     const image = store.metadata(id);
     if (!image) throw Object.assign(new Error("Board references a missing attachment: " + id), { statusCode: 409 });
     return image;
   });
   const output = {
-    ...board, formatVersion: 3,
+    ...board, formatVersion: board.formatVersion === 4 ? 4 : 3,
     attachments: images.map(({ id, mediaType }) => ({ id, mediaType, dataBase64: "" })),
   };
   // Include the indentation used by the board download so that the saved file also fits a raw API import.
@@ -48,12 +54,13 @@ export function exportBoardImages(board: BoardExport, store: AttachmentStore): B
 }
 
 export function importBoardImages<T>(board: BoardExport, store: AttachmentStore, importBoard: () => T): T {
-  if (board.formatVersion !== 3) {
-    if (Object.hasOwn(board, "attachments")) throw new Error("Attachment files require board export format 3");
+  const hasManifest = Object.hasOwn(board, "attachments");
+  if (board.formatVersion !== 3 && !(board.formatVersion === 4 && hasManifest)) {
+    if (hasManifest) throw new Error("Attachment files require board export format 3 or 4");
     if (referencedImages(board).size) throw new Error("Board references attachments without a portable image manifest");
     return importBoard();
   }
-  if (!Array.isArray(board.attachments)) throw new Error("Board export format 3 requires an attachment manifest");
+  if (!Array.isArray(board.attachments)) throw new Error("Invalid board export attachment manifest");
   const remaining = referencedImages(board);
   const images = board.attachments.map(entry => {
     if (!entry || typeof entry.id !== "string" || !attachmentIdPattern.test(entry.id) || !remaining.delete(entry.id)) {

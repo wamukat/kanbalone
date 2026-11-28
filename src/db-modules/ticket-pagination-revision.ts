@@ -63,4 +63,5 @@ export function migrateTicketPagination(sqlite: Database.Database): void {
     install(table, p => affectedTickets(`${p}.ticket_id`), true);
   install("ticket_blockers", p => affectedTickets(`${p}.ticket_id, ${p}.blocker_ticket_id`), true);
   install("ticket_related_links", p => affectedTickets(`${p}.ticket_id, ${p}.related_ticket_id`), true);
+  install("ticket_tasks", p => `SELECT board_id FROM tickets WHERE id = ${p}.ticket_id`);
 }

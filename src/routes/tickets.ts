@@ -12,6 +12,7 @@ import { registerTicketExternalReferenceRoutes } from "./ticket-external-referen
 import { registerTicketRelationRoutes } from "./ticket-relations.js";
 import { registerTicketReorderRoutes } from "./ticket-reorder.js";
 import { registerTicketTagReasonRoutes } from "./ticket-tag-reasons.js";
+import { registerTicketTaskRoutes } from "./ticket-tasks.js";
 import { sanitizeRemoteRefreshError } from "../remote/errors.js";
 import type {
   RegisterTicketRoutesContext,
@@ -419,6 +420,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
   registerTicketCommentRoutes(app, ctx);
   registerTicketEventRoutes(app, ctx);
   registerTicketActivityRoutes(app, ctx);
+  registerTicketTaskRoutes(app, ctx);
   registerTicketRelationRoutes(app, ctx);
   registerTicketReorderRoutes(app, ctx);
   registerTicketTagReasonRoutes(app, ctx);

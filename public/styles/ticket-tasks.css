@@ -1,0 +1,163 @@
+.ticket-tasks {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  border-top: 1px solid var(--border-soft);
+  padding-block-start: var(--space-2);
+}
+
+.ticket-task-heading,
+.ticket-task-controls,
+.ticket-task-form .editor-actions-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ticket-task-heading {
+  justify-content: space-between;
+}
+
+.ticket-task-heading h3 {
+  margin: 0;
+  font-size: var(--font-size-body);
+}
+
+.ticket-task-controls input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--text);
+}
+
+.ticket-task-controls input:focus {
+  border-color: var(--control-focus-border);
+  box-shadow: var(--control-focus-ring);
+}
+
+.ticket-task-controls .ticket-task-open-only {
+  border-color: var(--line);
+}
+
+.ticket-task-controls .ticket-task-open-only:hover {
+  border-color: var(--accent);
+}
+
+.ticket-task-form {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-surface);
+  background: var(--surface-2);
+}
+
+.ticket-task-form .editor-actions-right {
+  justify-content: end;
+}
+
+.ticket-task-notice {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ticket-task-notice:not(:has(> :not([hidden]))) {
+  display: none;
+}
+
+.ticket-task-notice p,
+#ticket-task-empty {
+  margin: 0;
+}
+
+.ticket-task-list {
+  margin: 0;
+  padding: 0 var(--space-3);
+  list-style: none;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-surface);
+  background: var(--surface-1);
+}
+
+.ticket-task-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+}
+
+.ticket-task-item + .ticket-task-item {
+  border-top: 1px solid var(--border-soft);
+}
+
+.ticket-task-item input[type="checkbox"] {
+  margin: var(--space-1) 0 0;
+  accent-color: var(--accent);
+}
+
+.ticket-task-content {
+  min-width: 0;
+}
+
+.ticket-task-number,
+.ticket-task-count {
+  color: var(--text-muted);
+  font-size: var(--font-size-meta);
+}
+
+.ticket-task-count {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.ticket-task-markdown,
+.ticket-task-excerpt {
+  overflow-wrap: anywhere;
+}
+
+.ticket-task-markdown > :first-child {
+  margin-block-start: 0;
+}
+
+.ticket-task-markdown > :last-child {
+  margin-block-end: 0;
+}
+
+.ticket-task-actions {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.ticket-task-actions button {
+  font-size: var(--font-size-meta);
+}
+
+.list-ticket-title-stack {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.list-ticket-title-stack .list-ticket-link {
+  max-width: 100%;
+}
+
+@media (max-width: 500px) {
+  .ticket-task-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .ticket-task-actions {
+    grid-column: 2;
+  }
+}

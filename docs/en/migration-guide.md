@@ -396,7 +396,7 @@ Startup adds ticket-list revision and cursor-signing tables, triggers and indexe
 
 ## Portable board exports with images (v1.1.0-rc.1)
 
-An export uses format 3 when a ticket body, comment or Group description embeds or links to a locally uploaded image. It includes the referenced files in the JSON. Boards without these references continue to use format 2. Import format 3 into v1.1.0-rc.1 or later. If a referenced file is missing or the portable JSON exceeds 64 MiB, export fails.
+An export for a board without Task data uses format 3 when a ticket body, comment or Group description embeds or links to a locally uploaded image. It includes the referenced files in the JSON. Boards without these references use format 2. Import format 3 into v1.1.0-rc.1 or later. If a referenced file is missing or the portable JSON exceeds 64 MiB, export fails.
 
 For full instance recovery or data larger than the portable JSON limit, use the [database and image backup](#database-and-image-backup). To return to v1.0.0, restore the pre-upgrade backup with the v1.0.0 image.
 
@@ -420,6 +420,15 @@ The first startup adds a nullable updater field to ticket and Group history and 
 
 Existing API clients and old browser tabs still work. Their new operations record `API` until the client supplies an updater or the tab loads the new interface. Save any in-progress edits before reloading. The new interface starts with `画面` when this browser has no saved updater. Clearing browser storage or using another browser gets that default again. The updater setting lives in browser storage. Database backups restore history and comments, while browser settings are managed separately.
 
-Board JSON exports retain their current formats and scope. Imported comments retain a supplied creation updater and timestamp. Older exports with no updater import as unrecorded. The JSON import operation's updater is recorded separately from the imported comments' creation updaters. Use a full database and attachment backup to preserve all activity.
+Imported comments retain a supplied creation updater and timestamp. Older exports with no updater import as unrecorded. The JSON import operation's updater is recorded separately from the imported comments' creation updaters. Use a full database and attachment backup to preserve all activity.
 
 Before upgrading, [back up the database and attachments together](#database-and-image-backup). To roll back, restore that backup and run the previous version. Changes made after the backup need to be reconciled separately.
+
+<a id="ticket-task-migration"></a>
+## Ticket Tasks
+
+Startup adds Task and numbering tables without changing existing ticket contents, timestamps, lane completion, comments or activity. Existing tickets start with zero Tasks. Existing ticket APIs keep working and include the new read-only Task counts in ticket detail and summaries.
+
+A board with Task data exports as format 4. An allocated number counts as Task data even after every Task on its ticket is deleted. The export carries live Tasks, their revisions and each ticket's highest allocated number. It embeds referenced local images, including those used only in Task Markdown. Versions that do not support format 4 reject the export. Use the matching or a later compatible version to import it. Earlier export formats continue to import.
+
+Portable JSON transfers current Task content and numbering. For Task history, including deleted Markdown and the recorded updater, use a full [database and attachment backup](#database-and-image-backup). Restore the pre-upgrade backup with the prior version for rollback. Keep a current backup if you need to recover Tasks recorded after the upgrade.

@@ -31,6 +31,30 @@ curl -fsS http://127.0.0.1:3000/api/tickets/42/activity
 
 For a history-writing operation that can run without a body, such as deleting a comment or refreshing a remote issue, send an optional JSON object containing just `updater`. Existing parameters and headers still apply. For bulk changes, each resulting activity entry records the same updater. A comment's `updater` records its creation value. The ticket activity records the updater of each edit separately. Historical records without an updater return `null`. See [OpenAPI](https://github.com/wamukat/kanbalone/blob/main/docs/openapi.yaml) for the supported operations.
 
+<a id="ticket-tasks"></a>
+## Ticket Tasks
+
+Create a Task under a ticket, then search that ticket's unfinished Tasks. The response includes the Task number and revision. The example uses a Task that was assigned number 1.
+
+```bash
+TASKS=http://127.0.0.1:3000/api/tickets/42/tasks
+curl -fsS -X POST "$TASKS" -H 'content-type: application/json' \
+  --data '{"bodyMarkdown":"Verify: run the **restore** rehearsal.","updater":"Reviewer"}'
+curl -fsS --get "$TASKS" --data-urlencode 'q=Verify:' --data-urlencode 'done=false'
+```
+
+Use the revision you reviewed to mark the Task done. After reviewing the new Task state and confirming the deletion, use its new revision to delete it.
+
+```bash
+curl -fsS -X PATCH "$TASKS/1" -H 'content-type: application/json' \
+  --data '{"expectedRevision":1,"done":true,"updater":"Reviewer"}'
+curl -fsS -X DELETE "$TASKS/1" -H 'content-type: application/json' \
+  --data '{"expectedRevision":2,"updater":"Reviewer"}'
+curl -fsS http://127.0.0.1:3000/api/tickets/42/activity
+```
+
+A 409 means the Task changed. Fetch `"$TASKS/1"` and review its current body and completion before making another change.
+
 <a id="paged-ticket-lists"></a>
 ## Paged ticket lists
 

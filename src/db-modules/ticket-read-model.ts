@@ -4,6 +4,7 @@ import type Database from "better-sqlite3";
 import { getBoard } from "./board.js";
 import { mapTicket, mapTicketSummary } from "./mappers.js";
 import { getExternalReferencesForTicketIds } from "./ticket-external-references.js";
+import { getTicketTaskCounts } from "./ticket-tasks.js";
 import {
   getBlockedTicketsForTicketIds,
   getBlockerIdsForTicketIds,
@@ -54,6 +55,7 @@ export function listTickets(
   const relatedByTicket = getRelatedTicketsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, ticketIds);
+  const taskCounts = getTicketTaskCounts(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   return rows.map((row) =>
     mapTicket(
@@ -69,6 +71,7 @@ export function listTickets(
       remoteByTicket.get(row.id) ?? null,
       externalReferencesByTicket.get(row.id) ?? [],
       ticketGroupFields(sqlite, row),
+      taskCounts.get(row.id),
     ),
   );
 }
@@ -101,6 +104,7 @@ export function getTicket(sqlite: Database.Database, ticketId: Id): TicketView |
     remoteByTicket.get(ticketId) ?? null,
     externalReferencesByTicket.get(ticketId) ?? [],
     ticketGroupFields(sqlite, row, true),
+    getTicketTaskCounts(sqlite, [ticketId]).get(ticketId),
   );
 }
 
@@ -148,6 +152,7 @@ export function mapTicketSummaries(
   const relatedIdsByTicket = getRelatedIdsForTicketIds(sqlite, ticketIds);
   const remoteByTicket = getRemoteLinksForTicketIds(sqlite, ticketIds);
   const externalReferencesByTicket = getExternalReferencesForTicketIds(sqlite, ticketIds);
+  const taskCounts = getTicketTaskCounts(sqlite, ticketIds);
   const board = getBoard(sqlite, boardId);
   // Reuse Group lookups only within this collection. A later page/request must
   // see renames and membership changes rather than a process-wide cached value.
@@ -176,6 +181,7 @@ export function mapTicketSummaries(
       externalReferencesByTicket.get(row.id) ?? [],
       groupFields(row),
       unresolvedBlockerCounts.get(row.id) ?? 0,
+      taskCounts.get(row.id),
     ),
   );
 }

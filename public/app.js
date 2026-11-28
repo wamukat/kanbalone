@@ -559,6 +559,7 @@ const {
   { state, elements },
   {
     refreshBoardDetail,
+    refreshTicketTasks: () => editorModule.refreshTicketTasks(),
   },
 );
 
