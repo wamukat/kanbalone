@@ -877,6 +877,12 @@ paths:
           type: string
           minLength: 1
           maxLength: 4096
+      - name: include_blocker_references
+        in: query
+        description: Include the existing blockers of tickets on this page, regardless of filters. When true, requires limit.
+        schema:
+          type: boolean
+          default: false
       - name: order
         in: query
         description: Explicit order. Paged default is id_asc; unpaged default retains legacy lane/archive/position/id order. completed_desc matches completion-lane UI (completion time descending, position ascending, ID descending). Works without pagination too.
@@ -3692,6 +3698,24 @@ components:
           type: array
           items:
             type: integer
+        blockerReferences:
+          type: array
+          readOnly: true
+          description: Present when include_blocker_references is true. Missing references are omitted here and their IDs remain in blockerIds.
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, title, isResolved, isArchived]
+            properties:
+              id:
+                type: integer
+                minimum: 1
+              title:
+                type: string
+              isResolved:
+                type: boolean
+              isArchived:
+                type: boolean
         relatedIds:
           type: array
           items:

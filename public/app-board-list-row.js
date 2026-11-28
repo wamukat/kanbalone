@@ -15,10 +15,7 @@ export function renderListRow(entry, options) {
     ...(ticket.externalReferences ?? [])
       .map((reference) => renderRemoteRefBadge(reference, options.escapeHtml, "list-ticket-external-ref")),
   ].filter(Boolean).join("");
-  const blockers = options.boardTickets
-    .filter((candidate) => ticket.blockerIds.includes(candidate.id))
-    .map((blocker) => renderInlineTicketLink(blocker, options.escapeHtml))
-    .join(", ");
+  const blockers = renderBlockerReferences(ticket, options);
   const lane = options.lanes.find((item) => item.id === ticket.laneId);
   const statusIcons = options.renderTicketStatusIcons(ticket);
   const taskCount = renderTicketTaskCount(ticket, options.escapeHtml);
@@ -27,13 +24,13 @@ export function renderListRow(entry, options) {
     <span class="list-ticket-title">${options.escapeHtml(ticket.title)}</span>
   </button>`;
   return `
-    <div class="list-row ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}" style="height:${options.rowHeight}px">
+    <div class="list-row ${ticket.isResolved ? "resolved" : ""} ${ticket.isArchived ? "archived" : ""}" data-list-row-ticket-id="${ticket.id}" style="height:${options.rowHeight}px">
       <input type="checkbox" data-list-ticket-id="${ticket.id}" ${options.selectedTicketIds.includes(ticket.id) ? "checked" : ""} />
       <div class="list-ticket-title-cell indent-${indent}">
         ${options.showHierarchy === false ? "" : renderTicketHierarchyIcon(ticket, options.boardTickets, { selectableParent: true })}
         ${taskCount ? `<div class="ticket-title-stack">${title}${taskCount}</div>` : title}
       </div>
-      <div class="list-cell muted">${blockers || "-"}</div>
+      <div class="list-cell muted list-blocker-cell">${blockers}</div>
       <div class="list-tag-cell">
         ${tags ? `<div class="tag-list list-tag-row">${tags}</div>` : ""}
         ${remoteReferences ? `<div class="list-remote-ref-row">${remoteReferences}</div>` : ""}
@@ -46,6 +43,19 @@ export function renderListRow(entry, options) {
   `;
 }
 
-function renderInlineTicketLink(ticket, escapeHtml) {
-  return `<button type="button" class="ticket-ref-inline list-relation-ticket-link${ticket.isResolved ? " ticket-ref-resolved" : ""}" data-open-ticket-id="${ticket.id}" title="${escapeHtml(ticket.title)}">#${ticket.id}</button>`;
+function renderBlockerReferences(ticket, { boardTickets, escapeHtml }) {
+  if (!ticket.blockerIds.length) return `<span aria-hidden="true">-</span><span class="visually-hidden">${tr("No blockers")}</span>`;
+  const references = ticket.blockerReferences ?? boardTickets.filter(candidate => ticket.blockerIds.includes(candidate.id));
+  const byId = new Map(references.map(reference => [reference.id, reference]));
+  return ticket.blockerIds.map(id => {
+    const reference = byId.get(id);
+    if (!reference) {
+      const unavailable = escapeHtml(tr("Blocker #{id}: status unavailable", { id }));
+      return `<span class="list-blocker-unavailable" title="${unavailable}"><span aria-hidden="true">(#${id})</span><span class="visually-hidden">${unavailable}</span></span>`;
+    }
+    const state = tr(reference.isResolved ? "Resolved" : "Open");
+    const status = reference.isArchived ? tr("{state}, {archived}", { state, archived: tr("Archived") }) : state;
+    const tooltip = escapeHtml(tr("{title} ({status})", { title: reference.title, status }));
+    return `<button type="button" class="ticket-ref-inline list-relation-ticket-link${reference.isResolved ? " ticket-ref-resolved" : ""}" data-open-ticket-id="${id}" title="${tooltip}" aria-label="#${id} ${tooltip}">#${id}</button>`;
+  }).join(", ");
 }

@@ -260,6 +260,20 @@ export const ticketSummarySchema = {
       type: "array",
       items: positiveIntegerSchema,
     },
+    blockerReferences: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["id", "title", "isResolved", "isArchived"],
+        properties: {
+          id: positiveIntegerSchema,
+          title: { type: "string" },
+          isResolved: { type: "boolean" },
+          isArchived: { type: "boolean" },
+        },
+      },
+    },
     relatedIds: {
       type: "array",
       items: positiveIntegerSchema,

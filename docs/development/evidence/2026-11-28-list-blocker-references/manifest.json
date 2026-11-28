@@ -1,0 +1,128 @@
+{
+  "captureDate": "2026-11-28",
+  "timeZone": "Asia/Tokyo",
+  "environment": {
+    "browser": "Chromium 159.0.8154.6",
+    "automation": "Playwright 1.65.1",
+    "os": "macOS 26.7.3",
+    "node": "26.13.1",
+    "devicePixelRatio": 1
+  },
+  "sources": {
+    "before": {
+      "commit": "68468dc81b7263244b57e3cca58217a5dd1a0b57",
+      "version": "1.6.0"
+    },
+    "after": {
+      "commit": "d99b0ab2346fde85e4587c998097da3f9fa8468e",
+      "version": "1.6.0",
+      "publicAndSrcGitBinaryDiffSha256": "10c784ea631fd6267093453655762262937f269dafbf89dc85d733962968db53"
+    }
+  },
+  "fixture": {
+    "initialSQLiteSha256": "edf0584272c544e85372a567ce0b49cc6dbd71a0630bdff5e54ee1c32c0287b1"
+  },
+  "files": {
+    "after-en-dark-archived-blocker.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "787df7346a94a4b5f19200f1bb48aedf249519471aaf5064ed685780726a67f6"
+    },
+    "after-en-dark-narrow-blocker.png": {
+      "source": "after",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "538292895409b6eb0ef9790c3ec7015a0b45e6e94994808265e9b3b9995d7a0c"
+    },
+    "after-ja-light-list.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "97fdaafd75a12b7bc3be16765022a9c61b24d7d730548f931b0d0b8a8fd617a3"
+    },
+    "after-ja-light-open-blocker.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "69870a8cbf61dc143391ff90d055d967b5a7cce1ee622209d7e482f3c73376aa"
+    },
+    "after-ja-light-saved-reload.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "c46ccbeb23829286335f50e56feaf75a3157b8b631aeadec16a7d26847bfe3dd"
+    },
+    "after-ja-light-search.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e909c34d7cc558779a361d015269e9f6b01cd99748799865c0ca5d3abbae975e"
+    },
+    "after-ja-light-unavailable-injected.png": {
+      "source": "after",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "f68f8c6d92ae47337b8d99264b9babc76152a65fc1009d82fea9be0534d9a43c",
+      "browserResponseOverride": "Omit reference metadata for blocker #10 only, retaining the stored blocker ID."
+    },
+    "before-en-dark-archived-blocker.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "appearance": "dark",
+      "sha256": "d51724cb35d80ef47d8454414d9981435aa19086ba71240c5931110ff39baedf"
+    },
+    "before-ja-light-list.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "e03a7f6e1be592b9aa6bfd23ee88d7d95159da086fdd37d4d2bbfa21fe088aeb"
+    },
+    "before-ja-light-search.png": {
+      "source": "before",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "ja",
+      "appearance": "light",
+      "sha256": "51274c208b0b73d75949fdc6fdee99d8b1ff90288619cfd3c6f389f91886fdd8"
+    }
+  }
+}

@@ -190,6 +190,8 @@ Add tags to classify tickets by type or purpose. Open the **Tag** filter in Kanb
 
 Open **List** in the sidebar to see ticket priorities and resolved or archived states in a table.
 
+The **Blockers** column keeps showing a blocker when filters hide its row. Select its ID to open the ticket. A crossed-out ID marks a resolved blocker. The tooltip shows its title and status, including when it is archived. If the blocker details are unavailable, the known ID appears in parentheses, for example `(#10)`.
+
 Open **Lane** and select one or more lanes. A ticket must be in a selected lane and have any selected tag when both filters are active.
 
 An empty selection includes all lanes or tags. Use **Clear selection** inside a filter to clear that selection, or **Reset filters** in the toolbar to clear all conditions. Selections are saved per board in this browser. If a selected lane or tag is deleted, its choice is removed and any other choices stay selected.

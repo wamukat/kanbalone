@@ -3,12 +3,12 @@ import type Database from "better-sqlite3";
 import { decodePaginationToken, encodePaginationToken } from "./pagination-token.js";
 import { ticketFilterQuery, type ListTicketsFilters } from "./ticket-queries.js";
 import { mapTicketSummaries, listTicketSummaries } from "./ticket-read-model.js";
-import { getBlockerIdsForTicketIds, getTagsForTicketIds } from "./ticket-loaders.js";
+import { getBlockerIdsForTicketIds, getBlockerReferencesForTicketIds, getTagsForTicketIds } from "./ticket-loaders.js";
 import { getTicketTaskCounts } from "./ticket-tasks.js";
 import type { GroupTicketView, ListTicketReferenceView, TicketRelationCandidateView, TicketRow, TicketSummaryView } from "../types.js";
 
 export type TicketOrder = "id_asc" | "position_asc" | "completed_desc";
-export type TicketPageOptions = { limit?: number; cursor?: string; order?: TicketOrder };
+export type TicketPageOptions = { limit?: number; cursor?: string; order?: TicketOrder; includeBlockerReferences?: boolean };
 export type PageOptions = { limit: number; cursor?: string };
 export const ticketProjectionPageLimit = 800;
 type TicketPage<View> = {
@@ -114,8 +114,9 @@ function fixedPositionKeys(filters: ListTicketsFilters): string[] {
 }
 
 export function listTicketPage(sqlite: Database.Database, boardId: number, filters: ListTicketsFilters, options: TicketPageOptions): TicketListResult {
-  const { limit, cursor } = options;
+  const { limit, cursor, includeBlockerReferences } = options;
   if (cursor !== undefined && limit === undefined) fail("cursor requires limit");
+  if (includeBlockerReferences && limit === undefined) fail("include_blocker_references requires limit");
   if (limit !== undefined) validateLimit(limit);
   if (limit === undefined && options.order === undefined) {
     // Preserve the legacy full-list query and mapping without paging overhead.
@@ -134,7 +135,12 @@ export function listTicketPage(sqlite: Database.Database, boardId: number, filte
   const query = createHash("sha256").update(JSON.stringify([filtered.sql, filtered.params, order])).digest("hex");
   const fixed = order === "position_asc" ? fixedPositionKeys(filters) : undefined;
   return readTicketPage(sqlite, boardId, filtered, { limit, cursor, fixedPositionKeys: fixed }, order, query, "t.*",
-    (rows: TicketRow[]) => mapTicketSummaries(sqlite, boardId, rows));
+    (rows: TicketRow[]) => {
+      const tickets = mapTicketSummaries(sqlite, boardId, rows);
+      if (!includeBlockerReferences) return tickets;
+      const references = getBlockerReferencesForTicketIds(sqlite, boardId, rows.map(row => row.id));
+      return tickets.map(ticket => ({ ...ticket, blockerReferences: references.get(ticket.id) ?? [] }));
+    });
 }
 
 export function listTicketRelationCandidatePage(sqlite: Database.Database, boardId: number, options: PageOptions) {

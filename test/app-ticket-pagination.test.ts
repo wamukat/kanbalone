@@ -236,6 +236,77 @@ test("List references keep position order and the priority-independent filter in
   } finally { await f.app.close(); f.db.close(); }
 });
 
+test("optional blocker references follow paged tickets independently of display filters", async () => {
+  const f = setup();
+  try {
+    const boardId = f.board.board.id;
+    const [todo, done] = f.board.lanes;
+    const dependencies = f.db.createLane({ boardId, name: "Dependencies" });
+    const tag = f.db.createTag({ boardId, name: "Dependent", color: "" });
+    const open = f.db.createTicket({ boardId, laneId: dependencies.id, title: "Open dependency" });
+    const archived = f.db.createTicket({ boardId, laneId: done!.id, title: "Archived dependency", isArchived: true });
+    const createTarget = (title: string, blockerIds: number[]) => f.db.createTicket({
+      boardId, laneId: todo!.id, title, blockerIds, tagIds: [tag.id],
+    });
+    const first = createTarget("Affected first", [archived.id, open.id]);
+    const next = createTarget("Affected next", [open.id]);
+    const independent = createTarget("Affected independent", []);
+    const url = `${f.url}?q=Affected&lane_ids=${todo!.id}&tag_ids=${tag.id}&archived=false&limit=1`;
+    const optIn = `${url}&include_blocker_references=true`;
+    const legacy = await f.app.inject(url);
+    const response = await f.app.inject(optIn);
+    assert.equal(response.statusCode, 200, response.body);
+    const { page, tickets } = response.json();
+    assert.deepEqual(page, legacy.json().page);
+    assert.equal(page.total, 3);
+    assert.equal(response.headers["x-kanbalone-ticket-revision"], legacy.headers["x-kanbalone-ticket-revision"]);
+    const { blockerReferences, ...summary } = tickets[0];
+    assert.deepEqual([summary], legacy.json().tickets);
+    assert.equal(summary.id, first.id);
+    assert.deepEqual(summary.blockerIds, [open.id, archived.id]);
+    assert.deepEqual(blockerReferences, [
+      { id: open.id, title: open.title, isResolved: false, isArchived: false },
+      { id: archived.id, title: archived.title, isResolved: true, isArchived: true },
+    ]);
+
+    const continuation = `${optIn.replace("limit=1", "limit=2")}&cursor=${encodeURIComponent(page.nextCursor)}`;
+    const rest = await f.app.inject(continuation);
+    assert.equal(rest.statusCode, 200, rest.body);
+    assert.deepEqual(rest.json().tickets.map((ticket: TicketSummaryView) => [ticket.id, ticket.blockerReferences]), [
+      [next.id, [blockerReferences[0]]], [independent.id, []],
+    ]);
+    assert.deepEqual((await f.app.inject(`${url}&include_blocker_references=false`)).json(), legacy.json());
+    assert.equal((await f.app.inject(`${f.url}?include_blocker_references=true`)).statusCode, 400);
+    assert.equal((await f.app.inject(`${url}&include_blocker_references=invalid`)).statusCode, 400);
+
+    f.db.updateTicket(open.id, { laneId: done!.id, title: "Completed dependency" });
+    assert.equal((await f.app.inject(continuation)).statusCode, 409);
+    const refreshed = (await f.app.inject(optIn)).json().tickets[0];
+    assert.deepEqual(refreshed.blockerReferences[0], {
+      id: open.id, title: "Completed dependency", isResolved: true, isArchived: false,
+    });
+  } finally { await f.app.close(); f.db.close(); }
+});
+
+test("optional blocker references preserve IDs whose target is unavailable", async () => {
+  const f = setup();
+  try {
+    const missingId = 999;
+    f.db.sqlite.pragma("foreign_keys = OFF");
+    try {
+      f.db.sqlite.prepare("INSERT INTO ticket_blockers VALUES (?, ?)").run(f.ids[0], missingId);
+    } finally {
+      f.db.sqlite.pragma("foreign_keys = ON");
+    }
+    const response = await f.app.inject(`${f.url}?limit=1&include_blocker_references=true`);
+    assert.equal(response.statusCode, 200, response.body);
+    const [summary] = response.json().tickets;
+    assert.equal(summary.id, f.ids[0]);
+    assert.deepEqual(summary.blockerIds, [missingId]);
+    assert.deepEqual(summary.blockerReferences, []);
+  } finally { await f.app.close(); f.db.close(); }
+});
+
 test("lane and tag selections filter summaries and List references before counting and paging", async () => {
   const f = setup();
   try {

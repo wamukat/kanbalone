@@ -144,6 +144,7 @@ export const ticketListQuerySchema = {
   properties: {
     limit: { type: "integer", minimum: 1, maximum: 200 },
     cursor: { type: "string", minLength: 1, maxLength: 4096 },
+    include_blocker_references: { type: "string", enum: ["true", "false"] },
     order: { type: "string", enum: ["id_asc", "position_asc", "completed_desc"] },
     priority: { type: "string", pattern: "^[1-4](,[1-4])*$", maxLength: 127 },
     groupId: positiveIntegerSchema,

@@ -240,6 +240,13 @@ export type TicketView = TicketTaskCounts & {
   externalReferences: TicketExternalReferenceView[];
 };
 
+export type TicketBlockerReferenceView = {
+  id: Id;
+  title: string;
+  isResolved: boolean;
+  isArchived: boolean;
+};
+
 export type TicketSummaryView = TicketTaskCounts & {
   groupId?: Id | null;
   group?: { id: Id; name: string } | null;
@@ -258,6 +265,7 @@ export type TicketSummaryView = TicketTaskCounts & {
   updatedAt: string;
   tags: TagView[];
   blockerIds: Id[];
+  blockerReferences?: TicketBlockerReferenceView[];
   unresolvedBlockerCount: number;
   relatedIds: Id[];
   ref: string;

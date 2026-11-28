@@ -56,6 +56,7 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
     const query = request.query as TicketSelectionQuery & {
       limit?: number;
       cursor?: string;
+      include_blocker_references?: "true" | "false";
       order?: "id_asc" | "position_asc" | "completed_desc";
       priority?: string;
       parent?: string;
@@ -90,7 +91,12 @@ export function registerTicketRoutes(app: FastifyInstance, ctx: RegisterTicketRo
       includeArchived: query.archived === "all" || (query.archived === undefined && query.includeArchived === "true"),
       q: query.q?.trim() || undefined,
     };
-    const result = db.listTicketPage(boardId, filters, { limit: query.limit, cursor: query.cursor, order: query.order });
+    const result = db.listTicketPage(boardId, filters, {
+      limit: query.limit,
+      cursor: query.cursor,
+      order: query.order,
+      includeBlockerReferences: query.include_blocker_references === "true",
+    });
     if (result.page) reply.header("X-Kanbalone-Ticket-Revision", String(result.revision));
     return { tickets: serializeTicketSummaries(result.tickets), ...(result.page ? { page: result.page } : {}) };
   });

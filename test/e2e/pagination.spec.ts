@@ -189,7 +189,7 @@ test("priority-filtered List preserves the label and link of a blocker outside t
     expect(referenceRequests.map(url => url.searchParams.get("limit"))).toEqual(["200", "800"]);
     expect(referenceRequests[1]!.searchParams.has("cursor")).toBe(true);
     await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveText("#240");
-    await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveAttribute("title", "Ticket 240");
+    await expect(page.locator('.list-row [data-open-ticket-id="240"]')).toHaveAttribute("title", "Ticket 240 (Resolved)");
     await page.locator('.list-row [data-open-ticket-id="240"]').click();
     await expect(page.locator("#editor-header-title")).toHaveText("Ticket 240");
     await page.keyboard.press("Escape");
@@ -210,7 +210,7 @@ test("saving a List ticket comment keeps its archived blocker label with lightwe
     await page.goto(`${baseUrl}/boards/${board.id}/list`);
     await page.locator(`.list-ticket-link[data-open-ticket-id="${ticket.id}"]`).click();
     const blockerLink = page.locator(`.list-relation-ticket-link[data-open-ticket-id="${blocker.id}"]`);
-    await expect(blockerLink).toHaveCount(0);
+    await expect(blockerLink).toHaveAttribute("title", "Archived blocker (Open, Archived)");
     await page.locator("#comment-compose-toggle").click();
     await page.locator("#comment-body").fill("Comment refresh check");
 
@@ -224,7 +224,7 @@ test("saving a List ticket comment keeps its archived blocker label with lightwe
     await page.locator("#save-comment-button").click();
     await expect(page.locator("#comment-save-state")).toHaveText("Comment saved");
     await expect(page.locator("#ticket-comments")).toContainText("Comment refresh check");
-    await expect(blockerLink).toHaveAttribute("title", "Archived blocker");
+    await expect(blockerLink).toHaveAttribute("title", "Archived blocker (Open, Archived)");
     expect(archiveReads).toEqual([`/api/boards/${board.id}/list-ticket-references`]);
     const persisted = await (await page.request.get(`${baseUrl}/api/tickets/${ticket.id}`)).json();
     expect(persisted.comments.map((comment: { bodyMarkdown: string }) => comment.bodyMarkdown)).toContain("Comment refresh check");

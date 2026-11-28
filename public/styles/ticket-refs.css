@@ -22,7 +22,12 @@
   text-decoration: underline;
 }
 
+.list-relation-ticket-link.ticket-ref-resolved {
+  text-decoration: line-through;
+}
+
 .ticket-card .ticket-link:focus-visible,
+.list-row .list-relation-ticket-link:focus-visible,
 .list-row .list-ticket-link:focus-visible {
   outline: 2px solid var(--accent);
 }
@@ -34,6 +39,7 @@
 
 @media (forced-colors: active) {
   .ticket-card .ticket-link:focus-visible,
+  .list-row .list-relation-ticket-link:focus-visible,
   .list-row .list-ticket-link:focus-visible {
     outline-color: Highlight;
   }
