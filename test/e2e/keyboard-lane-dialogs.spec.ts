@@ -197,3 +197,42 @@ test("keyboard move reveals its focused ticket at the end of a virtual destinati
     await expect(focused).toHaveText('Virtual moved with late update'); await expect(focused).toBeFocused();
   } finally { await close(); }
 });
+
+for (const locale of ['ja', 'en']) {
+  for (const width of [1440, 390]) {
+    test(`all relation types fit and remain keyboard reachable (${locale}, ${width})`, async ({ page }) => {
+      const { baseUrl, close } = await startTestApp(page);
+      try {
+        await page.setViewportSize({ width, height: 900 });
+        await page.addInitScript(language => localStorage.setItem('kanbalone:language', language), locale);
+        const { board, lanes } = await createBoard(page.request, baseUrl, { name: 'Relation menu', laneNames: ['Todo'] });
+        const item = await createTicket(page.request, baseUrl, board.id, { laneId: lanes[0].id, title: 'Relations' });
+        await page.goto(`${baseUrl}/tickets/${item.id}`);
+        await page.locator('#header-edit-button').click();
+        const add = page.locator('#ticket-relation-add-button');
+        await add.click();
+        const options = page.locator('#ticket-relation-add-options');
+        await expect(options).toBeVisible();
+        // Inspect full rectangles, not just visibility of the clipped element.
+        await expect.poll(() => options.evaluate(element => {
+          const optionBox = element.getBoundingClientRect();
+          const parentBox = element.parentElement!.getBoundingClientRect();
+          return [...element.querySelectorAll('button')].every(button => {
+            const b = button.getBoundingClientRect();
+            return b.width > 0 && b.left >= Math.max(optionBox.left, parentBox.left) - 1
+              && b.right <= Math.min(optionBox.right, parentBox.right, innerWidth) + 1
+              && b.top >= optionBox.top - 1 && b.bottom <= optionBox.bottom + 1;
+          });
+        })).toBe(true);
+        await add.focus();
+        for (const kind of ['blocker', 'related', 'parent', 'child']) {
+          await page.keyboard.press('Tab');
+          await expect(page.locator(`[data-relation-add-type="${kind}"]`)).toBeFocused();
+        }
+        await page.keyboard.press('Enter');
+        await expect(page.locator('#ticket-child-search')).toBeFocused();
+        await expect(options).toBeHidden();
+      } finally { await close(); }
+    });
+  }
+}
