@@ -15,7 +15,7 @@ export function createUxModule(ctx) {
 
   async function handleUxSubmit(event) {
     event.preventDefault();
-    if (submitting || elements.uxSubmitButton.hidden || elements.uxSubmitButton.disabled) return;
+    if (submitting || elements.uxSubmitButton.disabled) return;
     if (!onSubmit) {
       finishUxDialog(true);
       return;
@@ -69,6 +69,7 @@ export function createUxModule(ctx) {
     elements.uxMessage.innerHTML = renderConfirmMessage(message, details, warning, help);
     elements.uxDismissButton.textContent = t(submitLabel ? "Cancel" : "Close");
     elements.uxSubmitButton.hidden = !submitLabel;
+    elements.uxSubmitButton.disabled = !submitLabel;
     if (submitLabel) {
       elements.uxSubmitButton.innerHTML = `${icon("trash-2")}<span>${ctx.escapeHtml(submitLabel)}</span>`;
     }

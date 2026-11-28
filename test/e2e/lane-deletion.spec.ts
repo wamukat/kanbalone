@@ -34,6 +34,8 @@ test("lane deletion preflight counts filtered and archived tickets without attem
     await expect(page.locator("#ux-message")).toContainText('Lane "Review" still contains tickets (1 total).');
     await expect(page.locator("#ux-message")).toContainText("Move the tickets to another lane");
     await expect(page.locator("#ux-submit-button")).toBeHidden();
+    await page.locator("#ux-form").evaluate((form: HTMLFormElement) => form.requestSubmit());
+    await expect(page.getByRole("dialog", { name: "Cannot delete lane" })).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(trigger).toBeFocused();
 
