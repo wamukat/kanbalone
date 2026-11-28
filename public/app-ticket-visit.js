@@ -12,7 +12,8 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
   const tabButtons = [...tabs.querySelectorAll("button")];
   const store = createTicketVisitStore();
   let viewing = false;
-  let mode = "changes";
+  let mode = "normal";
+  let hasBaseline = false;
   let session;
   let fullText = [];
   let scrollTops = { normal: 0, changes: 0 };
@@ -22,6 +23,7 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
     changes.hidden = !viewing || mode !== "changes";
     tabs.hidden = !viewing;
     for (const button of tabButtons) {
+      button.hidden = button.dataset.visitTab === "changes" && !hasBaseline;
       const selected = button.dataset.visitTab === mode;
       button.classList.toggle("active", selected);
       button.setAttribute("aria-selected", String(selected));
@@ -30,7 +32,7 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
   }
 
   function switchMode(next) {
-    if (next === mode) return;
+    if (next === mode || (next === "changes" && !hasBaseline)) return;
     scrollTops[mode] = scroll.scrollTop;
     mode = next;
     applyMode();
@@ -63,7 +65,8 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
       session.controller.abort();
     }
     session = undefined;
-    mode = "changes";
+    mode = "normal";
+    hasBaseline = false;
     scrollTops = { normal: 0, changes: 0 };
     render({ kind: "loading" });
     updateNotice.hidden = true;
@@ -73,8 +76,9 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
 
   function render(result) {
     fullText = [];
+    storageNotice.hidden = hasBaseline || !result.saveError;
     content.innerHTML = renderTicketVisit(result, escapeHtml, values => fullText.push(values) - 1);
-    const notices = content.querySelector("[data-visit-notices]") ?? changes;
+    const notices = hasBaseline ? content.querySelector("[data-visit-notices]") ?? changes : normal;
     notices.append(updateNotice, storageNotice);
   }
 
@@ -116,14 +120,20 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
       view.stored = stored;
       view.allowRollback = valid && stored.series === current.series && order < 0;
       view.result = { before, current, kind: stored && !before ? "expired" : "ready", saveError };
+      hasBaseline = Boolean(before);
+      mode = hasBaseline ? "changes" : "normal";
       render(view.result);
+      applyMode();
       writeOutcome(view);
       if (view.checkQueued) scheduleUpdateCheck();
     } catch {
       if (!isCurrent()) return;
       const before = isTicketVisit(stored, ticketId) ? stored : undefined;
       view.result = { before, kind: "error" };
+      hasBaseline = Boolean(before);
+      mode = hasBaseline ? "changes" : "normal";
       render(view.result);
+      applyMode();
     }
   }
 
@@ -159,8 +169,9 @@ export function createTicketVisitModule({ dialog, normal, api, escapeHtml, showA
     button.addEventListener("keydown", event => {
       if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
-      const next = event.key === "Home" ? tabButtons[0] : event.key === "End" ? tabButtons[1] :
-        tabButtons.find(other => other !== button);
+      const available = tabButtons.filter(tab => !tab.hidden);
+      const next = event.key === "Home" ? available[0] : event.key === "End" ? available.at(-1) :
+        available.find(other => other !== button) ?? button;
       switchMode(next.dataset.visitTab);
       next.focus({ preventScroll: true });
     });

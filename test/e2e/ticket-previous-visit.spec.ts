@@ -40,8 +40,8 @@ test("the displayed comparison stays fixed while the current ticket updates", as
     expect(task.status()).toBe(201);
 
     await page.goto(baseUrl + "/tickets/" + ticket.id);
-    await expect(page.getByRole("tab", { name: "Changes since last view" })).toHaveAttribute("aria-selected", "true");
-    await expect(changes(page)).toContainText("No previous comparison point");
+    await expect(page.locator("#ticket-visit-changes-tab")).toBeHidden();
+    await expect(page.locator("#ticket-view-body")).toContainText("Revision A");
     await expect.poll(() => savedBody(page, ticket.id)).toBe("Revision A");
     await page.getByRole("tab", { name: "Current ticket" }).click();
     await page.locator("#ticket-view-body .ticket-detail-body-content p").evaluate(node => {
@@ -55,8 +55,7 @@ test("the displayed comparison stays fixed while the current ticket updates", as
     await expect(page.locator("#ticket-visit-update")).toHaveJSProperty("hidden", false);
     await expect(page.locator("#ticket-view-body")).toContainText("Revision A");
     expect(await page.evaluate(() => document.getSelection()?.toString())).toBe("Revision A");
-    await page.getByRole("tab", { name: "Changes since last view" }).click();
-    await expect(changes(page)).toContainText("Updated while open");
+    await expect(page.locator("#ticket-visit-update")).toBeVisible();
     await page.reload();
     await expect(changes(page)).toContainText("Revision A");
     await expect(changes(page)).toContainText("Revision B");
@@ -186,7 +185,7 @@ test("returning to the current ticket ignores a delayed history navigation to an
     const routeA = "/tickets/" + a.id;
     const routeB = "/tickets/" + b.id;
     await page.goto(baseUrl + routeA);
-    await expect(changes(page)).toContainText("No previous comparison point");
+    await expect(page.locator("#ticket-visit-changes-tab")).toBeHidden();
     await page.getByRole("tab", { name: "Current ticket" }).click();
     await page.evaluate(({ routeA, routeB }) => {
       history.replaceState(null, "", routeB);

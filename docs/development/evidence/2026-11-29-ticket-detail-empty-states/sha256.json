@@ -1,0 +1,12 @@
+{
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/after-first-visit.png": "d80ba1f8d2c50fcfb6da65f38f009ddfc1e0cd6fb81ff4f536ae9e830bec3362",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/after-measurements.json": "574e00194eb6f1afe7db23343f8e808699e3960e38893f63e83118ab7570d003",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/after-relations-closed.png": "dd1beb0e7bdaa3be5c610022ad70f9caa381ae34ea49ee520a3ec96ac42ee8c3",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/after-relations-open.png": "11192155aa4fd041a7fd753de971de8510927a82bf37d681436c4c831403cd22",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/before-first-visit.png": "90a3ab5c5bd61588d4b6444692c31e6ea37001dc927734d876f2a649b4463e9b",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/before-measurements.json": "0abe019e95a16b17af5d8504a59c2e154ed02cb9131aff39ecd21cefea439acc",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/before-relations-closed.png": "cb9ce7abf0173826ff6abcfc6f74c03504eea5b66265bfa4dc1cfc227bffe59a",
+  "docs/development/evidence/2026-11-29-ticket-detail-empty-states/originals/before-relations-open.png": "11192155aa4fd041a7fd753de971de8510927a82bf37d681436c4c831403cd22",
+  "public/app-ticket-visit.js": "00941348a8c70edcec703617ea7df322a932b755d52853d698bfc5bb8e83ab6e",
+  "public/styles/editor-fields.css": "7b63dc408178ab2d66fc647d24d1379bccb9b3c37eaf4560f5b0dbade2131231"
+}

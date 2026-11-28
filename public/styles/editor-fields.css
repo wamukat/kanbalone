@@ -31,17 +31,12 @@
 }
 
 .editor-relation-add-options {
-  display: inline-flex;
+  display: none;
   flex-wrap: wrap;
   min-width: 0;
-  visibility: hidden;
   overflow: hidden;
-  max-width: 0;
   align-items: center;
   gap: 0.4rem;
-  opacity: 0;
-  transform: translateX(-0.45rem);
-  transition: max-width 160ms ease, opacity 130ms ease, transform 160ms ease;
   white-space: nowrap;
 }
 
@@ -53,11 +48,9 @@
 }
 
 .editor-relation-add.is-open .editor-relation-add-options {
+  display: inline-flex;
   flex: 1 1 18rem;
   max-width: 100%;
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(0);
 }
 
 .editor-relation-type-button {
