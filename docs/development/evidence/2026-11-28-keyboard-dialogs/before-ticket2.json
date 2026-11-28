@@ -1,0 +1,11 @@
+{
+  "id": 2,
+  "laneId": 1,
+  "isResolved": false,
+  "position": 1,
+  "blockerIds": [],
+  "blockers": [],
+  "blockedBy": [
+    1
+  ]
+}

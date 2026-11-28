@@ -1,5 +1,7 @@
 // Application-owned labels only. User content is never passed through this catalog.
 export default {
+  "{action} (Ctrl/Cmd+Enter)": "{action}（Ctrl/Cmd+Enter）",
+  "Import (Ctrl/Cmd+Enter)": "取り込み（Ctrl/Cmd+Enter）",
   "Change language?": "言語を変更しますか？",
   "Changing language reloads the page. Unsaved edits will be discarded.": "画面を再読み込みします。保存していない変更は破棄されます。",
   "Change language": "言語を変更",
@@ -9,7 +11,7 @@ export default {
   "Add related tickets by ID or title": "番号・タイトルで関連チケットを追加",
   "Add relation": "関連を追加", "Add tags": "タグを追加", "All lanes": "すべてのレーン",
   "All tags": "すべてのタグ", "Any": "指定なし", "Archive": "アーカイブ", "Archived": "アーカイブ済み",
-  "Blocked by": "ブロック元", "Board name": "ボード名", "Board settings": "ボード設定",
+  "Blocked by": "このチケットをブロックする", "Board name": "ボード名", "Board settings": "ボード設定",
   "Cancel": "キャンセル", "Child": "子チケット", "Children": "子チケット",
   "Clear priority filter": "優先度の絞り込みを解除", "Clear search": "検索をクリア",
   "Clear status filter": "状態の絞り込みを解除", "Close": "閉じる", "Close dialog": "ダイアログを閉じる",

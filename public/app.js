@@ -675,6 +675,7 @@ routerModule = createRouterModule(
 );
 
 const boardModule = createBoardModule({
+  deferBoardUpdatesDuringCreationRefresh,
   hasActiveTicketFilters,
   loadMoreCompletionTickets,
   collapseCompletionTickets,

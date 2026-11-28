@@ -8,6 +8,24 @@ export function createUxModule(ctx) {
 
   let onSubmit = null;
   let submitting = false;
+  let compositionTarget = null;
+  elements.uxDialog.addEventListener("compositionstart", event => { compositionTarget = event.target; });
+  const clearComposition = event => { if (event.target === compositionTarget) compositionTarget = null; };
+  elements.uxDialog.addEventListener("compositionend", clearComposition);
+  elements.uxDialog.addEventListener("focusout", clearComposition);
+  elements.uxDialog.addEventListener("keydown", event => {
+    if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || event.target === compositionTarget
+        || event.key !== "Enter" || !(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.repeat || submitting || elements.uxSubmitButton.hidden || elements.uxSubmitButton.disabled) return;
+    elements.uxForm.requestSubmit(elements.uxSubmitButton);
+  });
+
+  function describeSubmitShortcut() {
+    elements.uxSubmitButton.setAttribute("aria-keyshortcuts", "Control+Enter Meta+Enter");
+    elements.uxSubmitButton.title = t("{action} (Ctrl/Cmd+Enter)", { action: elements.uxSubmitButton.textContent.trim() });
+  }
 
   elements.uxDialog.addEventListener("cancel", (event) => {
     if (submitting) event.preventDefault();
@@ -77,6 +95,7 @@ export function createUxModule(ctx) {
     elements.uxSubmitButton.classList.remove("primary-action");
     elements.uxError.hidden = true;
     elements.uxFields.innerHTML = "";
+    describeSubmitShortcut();
   }
 
   function openConfirmDialog({ onSubmit: handler = null, ...content }) {
@@ -88,7 +107,7 @@ export function createUxModule(ctx) {
       elements.uxDialog.showModal();
       ctx.prepareUxDialogPosition?.();
       ctx.syncDialogScrollLock?.();
-      if (!content.submitLabel || handler) elements.uxDismissButton.focus();
+      elements.uxDismissButton.focus();
     });
   }
 
@@ -109,9 +128,12 @@ export function createUxModule(ctx) {
       elements.uxSubmitButton.classList.add("primary-action");
       elements.uxError.hidden = true;
       elements.uxFields.innerHTML = fields;
+      describeSubmitShortcut();
       elements.uxDialog.showModal();
       ctx.prepareUxDialogPosition?.();
       ctx.syncDialogScrollLock?.();
+      const first = [...elements.uxFields.querySelectorAll("input:not([type=hidden]):not(:disabled), select:not(:disabled), textarea:not(:disabled), button:not(:disabled)")].find(element => !element.closest("[hidden], [inert]") && element.getClientRects().length);
+      (first ?? elements.uxDismissButton).focus();
     });
   }
 
