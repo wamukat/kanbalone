@@ -135,7 +135,7 @@ export function createTicketActionsModule(ctx, options) {
       saved = true;
       if (intendedArchive) {
         archiveRecovery ??= (options.createArchiveRecovery ?? createArchiveRecovery)(ctx, {
-          review: options.reviewTicket, refresh: options.refreshRecoveredTicket,
+          review: options.reviewTicket, refresh: options.refreshRecoveredTicket, reconcile: options.reconcileRecoveredTicket,
         });
         archiveRecovery.offer(savedTicket);
       }

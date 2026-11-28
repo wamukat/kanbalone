@@ -166,6 +166,17 @@ export function createEditorModule(ctx) {
         elements.editorForm.inert = wasInert;
       }
     },
+    reconcileRecoveredTicket: (ticket) => {
+      if (!elements.editorDialog.open || state.editingTicketId !== ticket.id || state.dialogTicket?.boardId !== ticket.boardId) return;
+      if (state.dialogTicket.archiveVersion > ticket.archiveVersion) return;
+      // Rebase only when the exact pre-mutation editor fields still match.
+      // Concurrent changes retain the old token and normal conflict protection.
+      if (ticket.previousEditToken && state.editorEditToken === ticket.previousEditToken) state.editorEditToken = ticket.editToken;
+      state.dialogTicket = { ...state.dialogTicket, isArchived: ticket.isArchived, archiveVersion: ticket.archiveVersion,
+        ...(ticket.previousEditToken && state.dialogTicket.editToken === ticket.previousEditToken ? { editToken: ticket.editToken } : {}),
+      };
+      detailModule.syncArchiveState(state.dialogTicket);
+    },
     refreshRecoveredTicket: (id) => refreshDialogTicket(id, null, { onlyIfPristine: true }),
     confirmDiscardChanges,
     closeEditor,

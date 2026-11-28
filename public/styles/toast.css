@@ -26,7 +26,8 @@
   display: grid;
   gap: 0.5rem;
   width: min(480px, calc(100vw - 2rem));
-  pointer-events: none;
+  pointer-events: auto;
+  overflow-y: auto;
 }
 .archive-recovery-region[hidden] { display: none; }
 .archive-recovery {

@@ -1507,7 +1507,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Ticket'
+                allOf:
+                  - $ref: '#/components/schemas/Ticket'
+                  - type: object
+                    properties:
+                      previousEditToken:
+                        type: string
+                        description: Atomic pre-mutation editor token. Only an equal draft baseline may adopt the returned editToken without reloading.
         '400':
           $ref: '#/components/responses/Error'
         '404':

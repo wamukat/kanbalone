@@ -175,9 +175,7 @@ export function createTicketDetailModule(ctx) {
       elements.archiveTicketButton.hidden = true;
       return;
     }
-    const statePills = renderHeaderStatePills(ticket);
-    elements.editorHeaderState.hidden = state.dialogMode !== "view" || !statePills;
-    elements.editorHeaderState.innerHTML = statePills;
+    syncArchiveState(ticket);
     elements.editorHeaderId.textContent = `#${ticket.id}`;
     renderHeaderTitle(ticket);
     elements.editorHeaderTitle.hidden = state.dialogMode !== "view";
@@ -185,6 +183,12 @@ export function createTicketDetailModule(ctx) {
     const headerPriority = elements.editorHeaderPriority.innerHTML;
     elements.editorHeaderPriority.hidden = state.dialogMode !== "view" || !headerPriority;
     elements.headerEditButton.hidden = state.dialogMode !== "view";
+  }
+
+  function syncArchiveState(ticket) {
+    const statePills = renderHeaderStatePills(ticket);
+    elements.editorHeaderState.hidden = state.dialogMode !== "view" || !statePills;
+    elements.editorHeaderState.innerHTML = statePills;
     elements.archiveTicketButton.hidden = state.dialogMode !== "edit";
     const archiveIcon = ticket.isArchived ? "rotate-ccw" : "archive";
     const archiveLabel = ticket.isArchived ? t("Restore") : t("Archive");
@@ -509,6 +513,7 @@ export function createTicketDetailModule(ctx) {
     handleDetailKeydown,
     syncActivity,
     syncEditorHeader,
+    syncArchiveState,
     syncTicketDetail,
   };
 }

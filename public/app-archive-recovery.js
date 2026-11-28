@@ -38,6 +38,15 @@ export function createArchiveRecovery(ctx, options) {
     const host = elements.editorDialog.open ? elements.editorDialog : document.body;
     if (region.parentElement !== host) host.append(region);
     region.hidden = blocked || entries.length === 0;
+    const footer = elements.editorDialog.open ? elements.editorForm.querySelector(".editor-actions") : null;
+    const rect = footer?.getBoundingClientRect();
+    if (rect?.height && rect.top < innerHeight) {
+      region.style.bottom = `max(var(--space-4), calc(${Math.max(0, innerHeight - rect.top)}px + var(--space-2)))`;
+      region.style.maxHeight = `max(0px, calc(${Math.max(0, rect.top)}px - var(--space-4) - var(--space-2)))`;
+    } else {
+      region.style.removeProperty("bottom");
+      region.style.removeProperty("max-height");
+    }
     document.body.classList.toggle("has-archive-recovery", entries.length > 0 && !blocked);
     return blocked;
   }
@@ -73,8 +82,9 @@ export function createArchiveRecovery(ctx, options) {
     const sameView = () => context() === origin;
     const release = ctx.deferBoardUpdatesDuringCreationRefresh?.(boardId);
     let restored = false;
+    let savedTicket;
     try {
-      await ctx.sendJson(`/api/tickets/${entry.id}/archive`, { method: "PATCH", body: {
+      savedTicket = await ctx.sendJson(`/api/tickets/${entry.id}/archive`, { method: "PATCH", body: {
         isArchived: false, expectedArchiveVersion: entry.version, expectedBoardId: entry.boardId,
       } });
       restored = true;
@@ -93,6 +103,7 @@ export function createArchiveRecovery(ctx, options) {
       entry.remaining = Infinity;
     }
     if (restored) {
+      if (savedTicket) options.reconcile?.(savedTicket);
       entry.kind = "restored";
       entry.remaining = 3500;
       try {
